@@ -1,7 +1,18 @@
-name: Build the latest beta APK
+name: Build the android APK
+on:
+    push:
+        branches:
+            - main
+            - prod
+        paths-ignore:
+            - "README.md"
+    workflow_dispatch:
+
+concurrency:
+    group: cancel-on-new-run
+    cancel-in-progress: true
 
 env:
-    # The name of the main module repository
     main_project_module: app
 
     app_name: Uhimi Music
@@ -10,28 +21,8 @@ env:
 
     original_apk: app-arm64-v8a-release-unsigned.apk
 
-on:
-    workflow_dispatch:
-    push:
-        branches: ["main"]
-        paths-ignore:
-            - "README.md"
-            - ".github/**/*.md"
-            - ".github/ISSUE_TEMPLATE/**"
-
-    pull_request:
-        branches: ["main"]
-        paths-ignore:
-            - "README.md"
-            - ".github/**/*.md"
-            - ".github/ISSUE_TEMPLATE/**"
-
-concurrency:
-    group: cancel-on-new-run
-    cancel-in-progress: true
-
 jobs:
-    build-apk:
+    build-android-apk:
         runs-on: ubuntu-latest
 
         steps:
@@ -73,3 +64,35 @@ jobs:
                   path: /${{env.apk_file_name}}.apk
                   overwrite: true
                   if-no-files-found: error
+    publish-github-release:
+        permissions:
+            packages: write
+            contents: write
+        if: github.ref_name == 'prod'
+        needs:
+            - build-android-apk
+        runs-on: ubuntu-latest
+        name: Publish the GitHub release
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Download artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: ./artifacts
+            # todo get from the right file
+            - name: Extract version
+              id: get_version
+              run: |
+                  version=$(grep -E '^version:' /${{ env.main_project_module }}/pubspec.yaml | sed 's/version:[[:space:]]*//')
+                  echo "version=$version"
+                  echo "version=$version" >> $GITHUB_OUTPUT
+            - name: Create a Release
+              uses: ncipollo/release-action@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag: v${{ steps.get_version.outputs.version }}
+                  artifacts: ./artifacts/**/*.apk
+                  generateReleaseNotes: true
+                  draft: true
