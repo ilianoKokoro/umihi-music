@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import ca.ilianokokoro.umihi.music.ui.screens.ProfileScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +15,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UmihiMusicTheme {
-                ProfileScreen()
+                NavigationRoot(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
             }
         }
     }
