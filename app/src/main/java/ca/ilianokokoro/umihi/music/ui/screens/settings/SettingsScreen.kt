@@ -1,13 +1,13 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package ca.ilianokokoro.umihi.music.ui.screens
+package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,21 +27,24 @@ import ca.ilianokokoro.umihi.music.R
 fun SettingsScreen(onBack: () -> Unit) {
     val isLoggedIn = false
 
-    Scaffold(topBar = {
-        TopAppBar(
-            navigationIcon = {
-                IconButton(onClick = { onBack() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_description)
-                    )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.back_description)
+                        )
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.settings))
                 }
-            },
-            title = {
-                Text(stringResource(R.string.settings))
-            }
-        )
-    }, modifier = Modifier.fillMaxSize()) { innerPadding ->
+            )
+        }, modifier = Modifier
+            .fillMaxSize()
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

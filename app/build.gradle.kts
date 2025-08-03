@@ -48,7 +48,6 @@ android {
 
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -69,9 +68,6 @@ dependencies {
     implementation(libs.nav3.runtime)
     implementation(libs.nav3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.nav3)
-    // Material 3 navigation - adaptive
-    implementation(libs.androidx.compose.material3.windowsizeclass)
-    implementation(libs.androidx.material3.adaptive)
 
     // Serialization
     implementation(libs.kotlinx.serialization.core)

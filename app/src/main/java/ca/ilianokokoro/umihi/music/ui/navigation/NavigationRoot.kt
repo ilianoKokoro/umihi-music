@@ -12,8 +12,8 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
-import ca.ilianokokoro.umihi.music.ui.screens.PlaylistsScreen
-import ca.ilianokokoro.umihi.music.ui.screens.SettingsScreen
+import ca.ilianokokoro.umihi.music.ui.screens.playlists.PlaylistsScreen
+import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
