@@ -8,4 +8,4 @@ A simple Youtube Music player for Android
 
 [![Build the latest beta APK](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
 
-<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip?h=eedd08dda56357eaba3122852be183718182da9a"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip?h=22cd009524d495173c1da7d2bf7b98161dc2f34a"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
