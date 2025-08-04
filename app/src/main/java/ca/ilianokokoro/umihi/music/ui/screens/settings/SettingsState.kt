@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 data class SettingsState(
-    val screenState: ScreenState = ScreenState.Success() // TODO start as loading
+    val screenState: ScreenState = ScreenState.Loading
 )
 
 sealed class ScreenState {

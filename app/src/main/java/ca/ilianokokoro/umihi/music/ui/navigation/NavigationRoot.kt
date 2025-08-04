@@ -20,22 +20,25 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlists.PlaylistsScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object PlaylistsScreen : NavKey
+data object PlaylistsScreenKey : NavKey
+
 
 @Serializable
-data object SettingsScreen : NavKey
+data object SettingsScreenKey : NavKey
 
 @Serializable
-data class PlaylistScreen(val id: Int) : NavKey
+data class PlaylistScreenKey(val playlist: Playlist) : NavKey
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
-    val backStack = rememberNavBackStack(PlaylistsScreen) // Start screen
+    val backStack = rememberNavBackStack(PlaylistsScreenKey) // Start screen
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -88,15 +91,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             }, entryProvider = { key ->
 
                 when (key) {
-                    is PlaylistsScreen -> {
+                    is PlaylistsScreenKey -> {
                         NavEntry(key = key) {
                             PlaylistsScreen(onSettingsButtonPress = {
-                                backStack.add(SettingsScreen)
+                                backStack.add(SettingsScreenKey)
+                            }, onPlaylistPressed = { playlist ->
+                                backStack.add(PlaylistScreenKey(playlist = playlist))
                             })
                         }
                     }
 
-                    is SettingsScreen -> {
+                    is SettingsScreenKey -> {
                         NavEntry(key = key) {
                             SettingsScreen(onBack = {
                                 backStack.removeLastOrNull()
@@ -104,9 +109,11 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         }
                     }
 
-                    is PlaylistScreen -> {
+                    is PlaylistScreenKey -> {
                         NavEntry(key = key) {
-                            //PlaylistScreen()
+                            PlaylistScreen(playlist = key.playlist, onBack = {
+                                backStack.removeLastOrNull()
+                            })
                         }
                     }
 

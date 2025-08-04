@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 
 @Composable
@@ -81,12 +82,15 @@ fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = vi
                 }
 
                 ScreenState.Loading -> LoadingAnimation()
-                is ScreenState.Error -> TODO()
+                is ScreenState.Error -> ErrorMessage(
+                    ex = uiState.screenState.exception,
+                    onRetry = { settingsViewModel.getLoginState() })
             }
-
         }
+
     }
 }
+
 
 @Composable
 fun SettingCard(text: String, buttonText: String, onButtonPress: () -> Unit) {

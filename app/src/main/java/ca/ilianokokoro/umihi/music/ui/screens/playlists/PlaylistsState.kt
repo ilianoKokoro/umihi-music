@@ -8,9 +8,13 @@ data class PlaylistsState(
 )
 
 sealed class ScreenState {
-    data class Success(
+    data class LoggedIn(
         val playlists: List<Playlist>
     ) : ScreenState()
+
+
+    data object LoggedOut
+        : ScreenState()
 
     data object Loading : ScreenState()
     data class Error(val exception: Exception) : ScreenState()
