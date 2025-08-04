@@ -74,7 +74,11 @@ fun PlaylistsScreen(
                         Text(stringResource(R.string.no_playlists), textAlign = TextAlign.Center)
                     } else {
                         LazyVerticalGrid(
-                            columns = GridCells.Fixed(2) // TODO adaptive
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Adaptive(minSize = 150.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+
                         ) {
                             items(playlists) { playlist ->
                                 PlaylistCard(playlist = playlist, onClicked = {
