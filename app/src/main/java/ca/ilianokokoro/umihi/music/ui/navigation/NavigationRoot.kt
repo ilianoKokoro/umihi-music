@@ -1,7 +1,8 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ data class PlaylistScreen(val id: Int) : NavKey
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(PlaylistsScreen) // Start screen
+    val zoomDuration = 200
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
@@ -36,19 +38,21 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             rememberViewModelStoreNavEntryDecorator(),
             rememberSceneSetupNavEntryDecorator()
         ), transitionSpec = {
-            // Slide in from right when navigating forward
-            slideInHorizontally(initialOffsetX = { it }) togetherWith
-                    slideOutHorizontally(targetOffsetX = { -it })
+            // Zoom in when navigating forward
+            scaleIn(animationSpec = tween(zoomDuration), initialScale = 0.85f) togetherWith
+                    scaleOut(animationSpec = tween(zoomDuration), targetScale = 1.1f)
         },
+
         popTransitionSpec = {
-            // Slide in from left when navigating back
-            slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                    slideOutHorizontally(targetOffsetX = { it })
+            // Zoom out when navigating back
+            scaleIn(animationSpec = tween(zoomDuration), initialScale = 1.1f) togetherWith
+                    scaleOut(animationSpec = tween(zoomDuration), targetScale = 0.85f)
         },
+
         predictivePopTransitionSpec = {
-            // Slide in from left when navigating back
-            slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                    slideOutHorizontally(targetOffsetX = { it })
+            // Optional: match pop transition
+            scaleIn(animationSpec = tween(zoomDuration), initialScale = 1.1f) togetherWith
+                    scaleOut(animationSpec = tween(zoomDuration), targetScale = 0.85f)
         }, entryProvider = { key ->
 
             when (key) {

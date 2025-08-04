@@ -1,3 +1,8 @@
 package ca.ilianokokoro.umihi.music.models
 
-data class Playlist(val title: String, val id: String)
+data class Playlist(
+    val id: String,
+    val title: String,
+    val coverHref: String,
+    val songs: List<Song> = emptyList()
+)

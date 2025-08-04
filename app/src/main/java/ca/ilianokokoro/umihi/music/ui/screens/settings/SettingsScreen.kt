@@ -21,11 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 
 @Composable
-fun SettingsScreen(onBack: () -> Unit) {
-    val isLoggedIn = false
+fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = viewModel()) {
+    val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
+
 
     Scaffold(
         topBar = {
@@ -56,17 +59,29 @@ fun SettingsScreen(onBack: () -> Unit) {
             )
 
         ) {
-            if (isLoggedIn) {
-                SettingCard("You are logged in to your YouTube account", "Log Out", {})
-            } else {
-                SettingCard("You are currently not logged in", "Log In", {})
+            when (uiState.screenState) {
+                is ScreenState.Success -> {
+                    if (uiState.screenState.isLoggedIn) {
+                        SettingCard(
+                            "You are logged in to your YouTube account",
+                            "Log Out"
+                        ) { settingsViewModel.logOut() }
+                    } else {
+                        SettingCard(
+                            "You are currently not logged in",
+                            "Log In"
+                        ) { settingsViewModel.logIn() }
+                    }
+
+                    SettingCard(
+                        "Press this button to remove all downloaded songs",
+                        "Delete downloads"
+                    ) { settingsViewModel.clearDownloads() }
+                }
+
+                ScreenState.Loading -> TODO()
+                is ScreenState.Error -> TODO()
             }
-
-
-            SettingCard(
-                "Press this button to remove all downloaded songs",
-                "Delete downloads",
-                {})
 
         }
     }

@@ -1,3 +1,7 @@
 package ca.ilianokokoro.umihi.music.models
 
-data class Song(val title: String, val artist: String, val id: String)
+data class Song(
+    val id: String,
+    val title: String,
+    val artist: String,
+)
