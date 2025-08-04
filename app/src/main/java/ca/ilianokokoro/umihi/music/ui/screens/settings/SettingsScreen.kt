@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 
 @Composable
 fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = viewModel()) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
-
 
     Scaffold(
         topBar = {
@@ -50,6 +50,7 @@ fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = vi
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .padding(8.dp)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,7 +80,7 @@ fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = vi
                     ) { settingsViewModel.clearDownloads() }
                 }
 
-                ScreenState.Loading -> TODO()
+                ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> TODO()
             }
 
