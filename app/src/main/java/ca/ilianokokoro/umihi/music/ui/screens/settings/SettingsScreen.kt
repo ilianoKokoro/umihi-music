@@ -2,6 +2,7 @@
 
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +16,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
@@ -30,10 +35,23 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingCard
 fun SettingsScreen(
     onBack: () -> Unit,
     openAuthScreen: () -> Unit,
-    settingsViewModel: SettingsViewModel = viewModel()
+    application: Application,
+    settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
 ) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
 
+    // Refresh when returning to the screen
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                settingsViewModel.getLoginState()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -75,7 +93,9 @@ fun SettingsScreen(
                         SettingCard(
                             "You are currently not logged in",
                             "Log In"
-                        ) { settingsViewModel.logIn(openAuthScreen) }
+                        ) {
+                            openAuthScreen()
+                        }
                     }
 
                     SettingCard(

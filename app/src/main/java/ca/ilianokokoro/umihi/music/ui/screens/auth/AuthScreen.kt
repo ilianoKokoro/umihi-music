@@ -3,6 +3,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.auth
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +28,11 @@ import ca.ilianokokoro.umihi.music.core.Constants
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun AuthScreen(onBack: () -> Unit, authViewModel: AuthViewModel = viewModel()) {
+fun AuthScreen(
+    onBack: () -> Unit,
+    application: Application,
+    authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory(application))
+) {
     val uiState = authViewModel.uiState.collectAsStateWithLifecycle().value
 
     if (uiState.isLoggedIn) {

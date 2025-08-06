@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
+import android.app.Application
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -42,6 +44,9 @@ data object AuthScreenKey : NavKey
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(PlaylistsScreenKey) // Start screen
+
+    val app = LocalContext.current.applicationContext as Application
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -110,7 +115,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 backStack.removeLastOrNull()
                             }, openAuthScreen = {
                                 backStack.add(AuthScreenKey)
-                            })
+                            }, application = app)
                         }
                     }
 
@@ -126,7 +131,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             AuthScreen(onBack = {
                                 backStack.removeLastOrNull()
-                            })
+                            }, application = app)
                         }
                     }
 
