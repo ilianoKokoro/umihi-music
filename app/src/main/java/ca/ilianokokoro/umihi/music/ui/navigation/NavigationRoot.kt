@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -21,6 +22,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlists.PlaylistsScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
@@ -29,12 +31,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object PlaylistsScreenKey : NavKey
 
-
 @Serializable
 data object SettingsScreenKey : NavKey
 
 @Serializable
 data class PlaylistScreenKey(val playlist: Playlist) : NavKey
+
+@Serializable
+data object AuthScreenKey : NavKey
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
@@ -53,41 +57,41 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 rememberSceneSetupNavEntryDecorator()
             ), transitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.TRANSITION_DURATION),
+                    animationSpec = tween(Constants.Transition.DURATION),
                     initialScale = 0.85f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.TRANSITION_DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.TRANSITION_DURATION),
+                            animationSpec = tween(Constants.Transition.DURATION),
                             targetScale = 1.1f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.TRANSITION_DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
             },
 
             popTransitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.TRANSITION_DURATION),
+                    animationSpec = tween(Constants.Transition.DURATION),
                     initialScale = 1.1f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.TRANSITION_DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.TRANSITION_DURATION),
+                            animationSpec = tween(Constants.Transition.DURATION),
                             targetScale = 0.85f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.TRANSITION_DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
             },
 
             predictivePopTransitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.TRANSITION_DURATION),
+                    animationSpec = tween(Constants.Transition.DURATION),
                     initialScale = 1.1f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.TRANSITION_DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.TRANSITION_DURATION),
+                            animationSpec = tween(Constants.Transition.DURATION),
                             targetScale = 0.85f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.TRANSITION_DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
             }, entryProvider = { key ->
 
                 when (key) {
@@ -105,6 +109,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             SettingsScreen(onBack = {
                                 backStack.removeLastOrNull()
+                            }, openAuthScreen = {
+                                backStack.add(AuthScreenKey)
                             })
                         }
                     }
@@ -116,6 +122,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             })
                         }
                     }
+
+                    is AuthScreenKey -> {
+                        NavEntry(key = key) {
+                            AuthScreen(onBack = {
+                                Log.d("AuthScreenKey", "executing on back")
+                                backStack.removeLastOrNull()
+                            })
+                        }
+                    }
+
 
                     else -> throw RuntimeException("Invalid NavKey : $key")
                 }

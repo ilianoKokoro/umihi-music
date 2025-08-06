@@ -18,16 +18,11 @@ class SettingsViewModel() : ViewModel() {
     }
 
 
-    fun logIn() {
+    fun logIn(openAuthScreen: () -> Unit) {
         // TODO
-        viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    screenState = ScreenState.Success(isLoggedIn = true)
-                )
-            }
+        openAuthScreen()
 
-        }
+   
     }
 
     fun logOut() {

@@ -24,53 +24,13 @@ class PlaylistsViewModel() : ViewModel() {
             _uiState.update {
                 _uiState.value.copy(
                     screenState = ScreenState.LoggedIn(
-                        playlists = listOf(
+                        playlists = List(12) { index ->
                             Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title looooong",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title looooong",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title looooong looooong",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title looooong looooong looooong",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
-                            ), Playlist(
-                                "",
-                                "Playlist title looooonglooooong looooonglooooonglooooonglooooonglooooonglooooong",
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
+                                id = "",
+                                title = "Playlist #${index + 1} " + "🎵".repeat((index % 3) + 1),
+                                coverHref = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Test.svg/1280px-Test.svg.png"
                             )
-                        )
+                        }
                     ) // TODO
                 )
             }

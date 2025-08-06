@@ -31,8 +31,8 @@ fun PlaylistCard(onClicked: () -> Unit, playlist: Playlist) {
                     .fillMaxWidth()
                     .padding(top = 8.dp)
                     .basicMarquee(
-                        repeatDelayMillis = Constants.MARQUEE_DELAY_MS,
-                        initialDelayMillis = Constants.MARQUEE_DELAY_MS,
+                        repeatDelayMillis = Constants.Marquee.DELAY,
+                        initialDelayMillis = Constants.Marquee.DELAY,
                     ),
                 textAlign = TextAlign.Center
 

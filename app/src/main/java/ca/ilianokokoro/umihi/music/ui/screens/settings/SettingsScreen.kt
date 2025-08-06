@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,9 +24,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingCard
 
 @Composable
-fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = viewModel()) {
+fun SettingsScreen(
+    onBack: () -> Unit,
+    openAuthScreen: () -> Unit,
+    settingsViewModel: SettingsViewModel = viewModel()
+) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
 
     Scaffold(
@@ -72,7 +75,7 @@ fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = vi
                         SettingCard(
                             "You are currently not logged in",
                             "Log In"
-                        ) { settingsViewModel.logIn() }
+                        ) { settingsViewModel.logIn(openAuthScreen) }
                     }
 
                     SettingCard(
@@ -92,18 +95,3 @@ fun SettingsScreen(onBack: () -> Unit, settingsViewModel: SettingsViewModel = vi
 }
 
 
-@Composable
-fun SettingCard(text: String, buttonText: String, onButtonPress: () -> Unit) {
-    Card {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text)
-            Button(onClick = onButtonPress) {
-                Text(buttonText)
-            }
-        }
-    }
-
-}
