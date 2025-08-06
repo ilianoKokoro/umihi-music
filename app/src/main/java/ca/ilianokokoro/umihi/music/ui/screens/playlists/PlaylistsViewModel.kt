@@ -15,7 +15,7 @@ class PlaylistsViewModel() : ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     init {
-        Log.d("PlaylistsViewModel", "init")
+        Log.d("CustomLog", "init PlaylistsViewModel")
         getPlaylists()
     }
 

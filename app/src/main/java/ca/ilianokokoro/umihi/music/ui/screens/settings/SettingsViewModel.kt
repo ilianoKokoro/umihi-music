@@ -13,7 +13,7 @@ class SettingsViewModel() : ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     init {
-        Log.d("SettingsViewModel", "init")
+        Log.d("CustomLog", "init SettingsViewModel")
         getLoginState()
     }
 
@@ -22,7 +22,7 @@ class SettingsViewModel() : ViewModel() {
         // TODO
         openAuthScreen()
 
-   
+
     }
 
     fun logOut() {

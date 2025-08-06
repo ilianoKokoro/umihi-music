@@ -23,7 +23,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -33,7 +34,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-
     }
     kotlin {
         compilerOptions {
@@ -86,4 +86,11 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.ui.compose)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Fuel (HTTP)
+    implementation(libs.fuel.android)
+    implementation(libs.fuel.json)
 }

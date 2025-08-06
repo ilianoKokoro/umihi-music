@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -126,7 +125,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     is AuthScreenKey -> {
                         NavEntry(key = key) {
                             AuthScreen(onBack = {
-                                Log.d("AuthScreenKey", "executing on back")
                                 backStack.removeLastOrNull()
                             })
                         }

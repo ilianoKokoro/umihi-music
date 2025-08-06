@@ -22,6 +22,6 @@ class AuthViewModel : ViewModel() {
 
     private fun saveCookies(cookies: String) {
         // TODO: Persist cookies securely (DataStore, EncryptedSharedPreferences, etc.)
-        Log.d("AuthViewModel", "Cookies: $cookies")
+        Log.d("CustomLog", "Got cookies: $cookies")
     }
 }

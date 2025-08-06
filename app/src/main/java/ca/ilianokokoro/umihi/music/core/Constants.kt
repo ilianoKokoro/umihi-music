@@ -15,7 +15,10 @@ object Constants {
             "https://accounts.google.com/AccountChooser?service=youtube&continue=https://music.youtube.com/feed/library"
         const val END_URL =
             "https://music.youtube.com/"
-
     }
 
+    object Datastore {
+        const val NAME = "umihi-mobile"
+        const val COOKIES_KEY = "cookies"
+    }
 }
