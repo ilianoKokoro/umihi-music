@@ -4,11 +4,13 @@
 
 A simple Material YouTube Music player for Android made in Kotlin and Jetpack Compose
 
-### Download
+## Download
 
-<a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+**⚠️The app is still in development and does not have a release build yet⚠️**
 
-### Beta build
+<!-- <a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a> -->
+
+## Beta build
 
 Download the latest Beta APK
 
@@ -16,4 +18,10 @@ Download the latest Beta APK
 
 [![Beta APK Build](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
 
-<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip?h=22cd009524d495173c1da7d2bf7b98161dc2f34a"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+
+## Credits
+
+### App logo
+
+Made by [Frittusk](https://www.twitch.tv/frittusk)
