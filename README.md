@@ -1,11 +1,19 @@
 # Umihi Music
 
-A simple Youtube Music player for Android
+<img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" height="72">
 
-### Beta download
+A simple Material YouTube Music player for Android made in Kotlin and Jetpack Compose
+
+### Download
+
+<a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+
+### Beta build
+
+Download the latest Beta APK
 
 **⚠️ This build may not be stable as it is not a release ⚠️**
 
-[![Build the latest beta APK](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
+[![Beta APK Build](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
 
 <a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip?h=22cd009524d495173c1da7d2bf7b98161dc2f34a"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
