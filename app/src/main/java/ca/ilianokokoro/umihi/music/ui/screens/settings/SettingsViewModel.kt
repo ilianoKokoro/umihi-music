@@ -17,12 +17,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val _uiState = MutableStateFlow(SettingsState())
     val uiState = _uiState.asStateFlow()
     private val datastoreRepository = DatastoreRepository(application)
-
-    init {
-        Log.d("CustomLog", "init SettingsViewModel")
-        getLoginState()
-    }
-
+    
     fun logOut() {
         viewModelScope.launch {
             datastoreRepository.saveCookies(String())
@@ -31,6 +26,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getLoginState() {
+        Log.d("CustomLog", "getLoginState")
         viewModelScope.launch {
             val savedCookies = datastoreRepository.getCookies()
             _uiState.update {
