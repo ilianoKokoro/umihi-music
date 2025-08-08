@@ -2,6 +2,7 @@
 
 package ca.ilianokokoro.umihi.music.ui.screens.playlists
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,11 +36,14 @@ import ca.ilianokokoro.umihi.music.ui.components.PlaylistCard
 fun PlaylistsScreen(
     onSettingsButtonPress: () -> Unit,
     onPlaylistPressed: (playlist: Playlist) -> Unit,
-    playlistsViewModel: PlaylistsViewModel = viewModel()
+    application: Application,
+    playlistsViewModel: PlaylistsViewModel = viewModel(
+        factory =
+            PlaylistsViewModel.Factory(application = application)
+    )
 
 ) {
     val uiState = playlistsViewModel.uiState.collectAsStateWithLifecycle().value
-
 
     Scaffold(
         topBar = {

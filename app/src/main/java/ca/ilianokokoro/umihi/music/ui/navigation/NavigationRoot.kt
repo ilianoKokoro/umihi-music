@@ -105,7 +105,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 backStack.add(SettingsScreenKey)
                             }, onPlaylistPressed = { playlist ->
                                 backStack.add(PlaylistScreenKey(playlist = playlist))
-                            })
+                            }, application = app)
                         }
                     }
 

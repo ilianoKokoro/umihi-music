@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,12 +24,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun onPageFinished(url: String?) {
         if (url?.contains(Constants.Auth.END_URL) == true && !_uiState.value.isLoggedIn) {
             val cookies = CookieManager.getInstance().getCookie(url).orEmpty()
-            saveCookies(cookies)
+            saveCookies(Cookies(cookies))
             _uiState.update { it.copy(isLoggedIn = true) }
         }
     }
 
-    private fun saveCookies(cookies: String) {
+    private fun saveCookies(cookies: Cookies) {
         Log.d("CustomLog", "Got cookies: $cookies")
         viewModelScope.launch {
             datastoreRepository.saveCookies(cookies)

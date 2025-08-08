@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
+import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -25,16 +26,16 @@ class DatastoreRepository(private val context: Context) {
 
     }
 
-    suspend fun saveCookies(cookies: String) {
+    suspend fun saveCookies(cookies: Cookies) {
         context.dataStore.edit {
-            it[COOKIES] = cookies
+            it[COOKIES] = cookies.toRawCookie()
         }
     }
 
 
-    fun getCookies(): String {
+    fun getCookies(): Cookies {
         return runBlocking {
-            return@runBlocking cookies.first()
+            return@runBlocking Cookies(cookies.first())
         }
     }
 
