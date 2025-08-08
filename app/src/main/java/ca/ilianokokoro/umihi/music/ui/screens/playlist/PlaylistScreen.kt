@@ -3,6 +3,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -71,9 +72,15 @@ fun PlaylistScreen(
                 onRefresh = { playlistViewModel.getPlaylistInfo() }
             ) {
                 when (uiState.screenState) {
-                    is ScreenState.Success -> LazyColumn {
+                    is ScreenState.Success -> LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(
+                            10.dp
+                        )
+                    ) {
                         items(uiState.screenState.playlist.songs) { song ->
-                            SongRow(song)
+                            SongRow(song, onPress = {
+                                // TODO
+                            })
                         }
 
                     }
