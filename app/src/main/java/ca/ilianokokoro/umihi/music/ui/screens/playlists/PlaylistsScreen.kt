@@ -90,7 +90,7 @@ fun PlaylistsScreen(
         ) {
             PullToRefreshBox(
                 isRefreshing = uiState.isRefreshing,
-                onRefresh = { playlistsViewModel.getPlaylists() }
+                onRefresh = { playlistsViewModel.refreshPlaylists() }
             ) {
                 when (uiState.screenState) {
                     is ScreenState.LoggedIn -> {

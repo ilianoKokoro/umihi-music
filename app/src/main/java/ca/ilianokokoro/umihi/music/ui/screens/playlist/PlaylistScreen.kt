@@ -69,7 +69,7 @@ fun PlaylistScreen(
         ) {
             PullToRefreshBox(
                 isRefreshing = uiState.isRefreshing,
-                onRefresh = { playlistViewModel.getPlaylistInfo() }
+                onRefresh = { playlistViewModel.refreshPlaylistInfo() }
             ) {
                 when (uiState.screenState) {
                     is ScreenState.Success -> LazyColumn(

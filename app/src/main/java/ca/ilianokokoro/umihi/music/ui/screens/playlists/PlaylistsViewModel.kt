@@ -29,47 +29,53 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
 //        getPlaylists()
 //    }
 
-    fun getPlaylists() {
-        Log.d("CustomLog", "getting playlists getPlaylists")
 
+    fun getPlaylists() {
+        viewModelScope.launch {
+            getPlaylistsSuspend()
+        }
+    }
+
+    fun refreshPlaylists() {
         viewModelScope.launch {
             _uiState.update { screenState ->
                 _uiState.value.copy(
                     isRefreshing = true
                 )
             }
-
-            val cookies = datastoreRepository.getCookies()
-            if (!cookies.isEmpty()) {
-                playlistRepository.retrieveAll(cookies).collect { apiResult ->
-                    _uiState.update { screenState ->
-                        _uiState.value.copy(
-                            screenState = when (apiResult) {
-                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                                ApiResult.Loading -> ScreenState.Loading
-                                is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
-                            }
-                        )
-                    }
-                }
-
-            } else {
-                _uiState.update { screenState ->
-                    _uiState.value.copy(
-                        screenState =
-                            ScreenState.LoggedOut
-                    )
-
-                }
-            }
-
-
+            getPlaylistsSuspend()
             _uiState.update { screenState ->
                 _uiState.value.copy(
                     isRefreshing = false
                 )
             }
+        }
+    }
 
+    suspend fun getPlaylistsSuspend() {
+        Log.d("CustomLog", "getting playlists getPlaylists")
+
+        val cookies = datastoreRepository.getCookies()
+        if (!cookies.isEmpty()) {
+            playlistRepository.retrieveAll(cookies).collect { apiResult ->
+                _uiState.update { screenState ->
+                    _uiState.value.copy(
+                        screenState = when (apiResult) {
+                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                            ApiResult.Loading -> ScreenState.Loading
+                            is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
+                        }
+                    )
+                }
+            }
+
+        } else {
+            _uiState.update { screenState ->
+                _uiState.value.copy(
+                    screenState =
+                        ScreenState.LoggedOut
+                )
+            }
         }
     }
 

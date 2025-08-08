@@ -32,40 +32,48 @@ class PlaylistViewModel(playlist: Playlist, application: Application) :
         getPlaylistInfo()
     }
 
-    fun getPlaylistInfo() {
+    fun refreshPlaylistInfo() {
         viewModelScope.launch {
             _uiState.update { screenState ->
                 _uiState.value.copy(
                     isRefreshing = true
                 )
             }
-
-            val cookies = datastoreRepository.getCookies()
-            if (!cookies.isEmpty()) {
-                playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
-                    _uiState.update { screenState ->
-                        _uiState.value.copy(
-                            screenState = when (apiResult) {
-                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                                ApiResult.Loading -> ScreenState.Loading
-                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
-                            }
-                        )
-                    }
-                }
-            } else {
-                _uiState.update { screenState ->
-                    _uiState.value.copy(
-                        screenState =
-                            ScreenState.Error(Exception("Failed to get to login cookies"))
-                    )
-                }
-            }
-
-
+            getPlaylistInfoAsync()
             _uiState.update { screenState ->
                 _uiState.value.copy(
                     isRefreshing = false
+                )
+            }
+        }
+
+    }
+
+    fun getPlaylistInfo() {
+        viewModelScope.launch {
+            getPlaylistInfoAsync()
+        }
+    }
+
+    private suspend fun getPlaylistInfoAsync() {
+        val cookies = datastoreRepository.getCookies()
+        if (!cookies.isEmpty()) {
+            playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
+                _uiState.update { screenState ->
+                    _uiState.value.copy(
+                        screenState = when (apiResult) {
+                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                            ApiResult.Loading -> ScreenState.Loading
+                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                        }
+                    )
+                }
+            }
+        } else {
+            _uiState.update { screenState ->
+                _uiState.value.copy(
+                    screenState =
+                        ScreenState.Error(Exception("Failed to get to login cookies"))
                 )
             }
         }
