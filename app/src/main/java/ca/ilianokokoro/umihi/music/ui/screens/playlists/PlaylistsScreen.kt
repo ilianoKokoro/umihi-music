@@ -86,7 +86,6 @@ fun PlaylistsScreen(
                                 textAlign = TextAlign.Center
                             )
                         } else {
-
                             LazyVerticalGrid(
                                 modifier = Modifier.fillMaxSize(),
                                 columns = GridCells.Adaptive(minSize = 150.dp),
@@ -94,7 +93,9 @@ fun PlaylistsScreen(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
 
                             ) {
-                                items(playlists) { playlist ->
+                                items(items = playlists, key = {
+                                    it.id
+                                }) { playlist ->
                                     PlaylistCard(playlist = playlist, onClicked = {
                                         onPlaylistPressed(playlist)
                                     })

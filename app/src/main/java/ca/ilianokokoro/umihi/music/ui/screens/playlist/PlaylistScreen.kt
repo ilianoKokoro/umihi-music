@@ -77,7 +77,9 @@ fun PlaylistScreen(
                             10.dp
                         )
                     ) {
-                        items(uiState.screenState.playlist.songs) { song ->
+                        items(items = uiState.screenState.playlist.songs, key = {
+                            it.id
+                        }) { song ->
                             SongRow(song, onPress = {
                                 // TODO
                             })
