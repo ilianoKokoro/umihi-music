@@ -41,27 +41,32 @@ class PlaylistViewModel(playlist: Playlist, application: Application) :
             }
 
             val cookies = datastoreRepository.getCookies()
-            if (cookies.isEmpty()) {
+            if (!cookies.isEmpty()) {
+                playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
+                    _uiState.update { screenState ->
+                        _uiState.value.copy(
+                            screenState = when (apiResult) {
+                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                                ApiResult.Loading -> ScreenState.Loading
+                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                            }
+                        )
+                    }
+                }
+            } else {
                 _uiState.update { screenState ->
                     _uiState.value.copy(
                         screenState =
                             ScreenState.Error(Exception("Failed to get to login cookies"))
                     )
-
                 }
-                return@launch
             }
 
-            playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
-                _uiState.update { screenState ->
-                    _uiState.value.copy(
-                        screenState = when (apiResult) {
-                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                            ApiResult.Loading -> ScreenState.Loading
-                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
-                        }, isRefreshing = false
-                    )
-                }
+
+            _uiState.update { screenState ->
+                _uiState.value.copy(
+                    isRefreshing = false
+                )
             }
         }
     }

@@ -24,12 +24,14 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     private val datastoreRepository = DatastoreRepository(application)
 
 
-    init {
-        Log.d("CustomLog", "init PlaylistsViewModel")
-        getPlaylists()
-    }
+//    init {
+//        Log.d("CustomLog", "init PlaylistsViewModel")
+//        getPlaylists()
+//    }
 
     fun getPlaylists() {
+        Log.d("CustomLog", "getting playlists getPlaylists")
+
         viewModelScope.launch {
             _uiState.update { screenState ->
                 _uiState.value.copy(
@@ -38,7 +40,20 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
             val cookies = datastoreRepository.getCookies()
-            if (cookies.isEmpty()) {
+            if (!cookies.isEmpty()) {
+                playlistRepository.retrieveAll(cookies).collect { apiResult ->
+                    _uiState.update { screenState ->
+                        _uiState.value.copy(
+                            screenState = when (apiResult) {
+                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                                ApiResult.Loading -> ScreenState.Loading
+                                is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
+                            }
+                        )
+                    }
+                }
+
+            } else {
                 _uiState.update { screenState ->
                     _uiState.value.copy(
                         screenState =
@@ -46,20 +61,15 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
                     )
 
                 }
-                return@launch
             }
 
-            playlistRepository.retrieveAll(cookies).collect { apiResult ->
-                _uiState.update { screenState ->
-                    _uiState.value.copy(
-                        screenState = when (apiResult) {
-                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                            ApiResult.Loading -> ScreenState.Loading
-                            is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
-                        }, isRefreshing = false
-                    )
-                }
+
+            _uiState.update { screenState ->
+                _uiState.value.copy(
+                    isRefreshing = false
+                )
             }
+
         }
     }
 
