@@ -123,7 +123,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             PlaylistScreen(playlist = key.playlist, onBack = {
                                 backStack.removeLastOrNull()
-                            })
+                            }, application = app)
                         }
                     }
 

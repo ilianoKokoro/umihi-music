@@ -1,15 +1,12 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.AuthHelper
+import ca.ilianokokoro.umihi.music.core.helpers.SongInfoType
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
+import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
-import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.github.kittinunf.fuel.httpPost
-import com.github.kittinunf.fuel.json.responseJson
-import com.github.kittinunf.result.Result
-import kotlinx.serialization.Serializable
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
@@ -18,45 +15,27 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 class PlaylistDataSource {
-    private val json = Json {
-        ignoreUnknownKeys = true
-    }
-
     fun retrieveAll(cookies: Cookies): List<Playlist> {
-        val url = "${Constants.YoutubeApi.Browse.URL}?alt=json&key=${Constants.YoutubeApi.KEY}"
-
-        val body = json.encodeToString(
-            BrowseBody(
-                context = Context(
-                    client = Client(
-                        clientName = "WEB_REMIX", clientVersion = "1.20250212.01.00"
-                    )
-
-                ),
-                browseId = Constants.YoutubeApi.Browse.PLAYLIST_ID
+        return extractPlaylistsFromJson(
+            YoutubeRequestHelper.browse(
+                Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
+                cookies
             )
         )
-        // TODO
-
-        val headers = AuthHelper.getHeaders(cookies)
-        val (_, _, result) = url.httpPost().jsonBody(body)
-            .header(
-                headers
-            )
-            .responseJson()
-
-        return when (result) {
-            is Result.Success -> {
-                extractPlaylistsFromRawJson(result.value.content)
-            }
-
-            is Result.Failure -> {
-                throw result.error.exception
-            }
-        }
     }
 
-    private fun extractPlaylistsFromRawJson(jsonString: String): List<Playlist> {
+    fun retrieveOne(playlist: Playlist, cookies: Cookies): Playlist {
+        return playlist.copy(
+            songs = extractSongListFromJson(
+                YoutubeRequestHelper.browse(
+                    playlist.id,
+                    cookies
+                )
+            )
+        )
+    }
+
+    private fun extractPlaylistsFromJson(jsonString: String): List<Playlist> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val tabs = json["contents"]
@@ -115,22 +94,51 @@ class PlaylistDataSource {
         return playlists
     }
 
+
+    private fun extractSongListFromJson(jsonString: String): List<Song> {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+
+        val contents = json["contents"]
+            ?.jsonObject?.get("twoColumnBrowseResultsRenderer")
+            ?.jsonObject?.get("secondaryContents")
+            ?.jsonObject?.get("sectionListRenderer")
+            ?.jsonObject?.get("contents")
+            ?.jsonArray?.getOrNull(0)
+            ?.jsonObject?.get("musicPlaylistShelfRenderer")
+            ?.jsonObject?.get("contents")
+            ?.jsonArray
+
+        val songs = mutableListOf<Song>()
+
+        if (contents == null) {
+            return listOf()
+        }
+
+        for (shelf in contents) {
+            val songContent =
+                shelf.jsonObject["musicResponsiveListItemRenderer"]?.jsonObject ?: continue
+
+            val thumbnailUrl = YoutubeHelper.getBestThumbnailUrl(
+                songContent["thumbnail"] ?: continue
+            )
+
+            val title = YoutubeHelper.getSongInfo(songContent, SongInfoType.TITLE)
+            val artist = YoutubeHelper.getSongInfo(songContent, SongInfoType.ARTIST)
+
+            val videoId = songContent["playlistItemData"]
+                ?.jsonObject?.get("videoId")
+                ?.jsonPrimitive?.contentOrNull ?: continue
+
+            songs.add(
+                Song(
+                    id = videoId,
+                    title = title,
+                    artist = artist,
+                    lowQualityCoverHref = thumbnailUrl
+                )
+            )
+        }
+
+        return songs
+    }
 }
-
-
-@Serializable
-data class BrowseBody(
-    val context: Context,
-    val browseId: String
-)
-
-@Serializable
-data class Context(
-    val client: Client
-)
-
-@Serializable
-data class Client(
-    val clientName: String,
-    val clientVersion: String
-)

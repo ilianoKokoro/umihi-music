@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +46,7 @@ fun PlaylistsScreen(
 ) {
     val uiState = playlistsViewModel.uiState.collectAsStateWithLifecycle().value
 
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -70,40 +72,48 @@ fun PlaylistsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            when (uiState.screenState) {
-                is ScreenState.LoggedIn -> {
-                    val playlists = uiState.screenState.playlists
+            PullToRefreshBox(
+                isRefreshing = uiState.isRefreshing,
+                onRefresh = { playlistsViewModel.getPlaylists() }
+            ) {
+                when (uiState.screenState) {
+                    is ScreenState.LoggedIn -> {
+                        val playlists = uiState.screenState.playlists
 
-                    if (playlists.isEmpty()) {
-                        Text(stringResource(R.string.no_playlists), textAlign = TextAlign.Center)
-                    } else {
-                        LazyVerticalGrid(
-                            modifier = Modifier.fillMaxSize(),
-                            columns = GridCells.Adaptive(minSize = 150.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        if (playlists.isEmpty()) {
+                            Text(
+                                stringResource(R.string.no_playlists),
+                                textAlign = TextAlign.Center
+                            )
+                        } else {
 
-                        ) {
-                            items(playlists) { playlist ->
-                                PlaylistCard(playlist = playlist, onClicked = {
-                                    onPlaylistPressed(playlist)
-                                })
+                            LazyVerticalGrid(
+                                modifier = Modifier.fillMaxSize(),
+                                columns = GridCells.Adaptive(minSize = 150.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+
+                            ) {
+                                items(playlists) { playlist ->
+                                    PlaylistCard(playlist = playlist, onClicked = {
+                                        onPlaylistPressed(playlist)
+                                    })
+                                }
                             }
                         }
-
                     }
+
+                    ScreenState.LoggedOut -> Text(
+                        stringResource(R.string.log_in_message),
+                        textAlign = TextAlign.Center
+                    )
+
+                    ScreenState.Loading -> LoadingAnimation()
+                    is ScreenState.Error -> ErrorMessage(
+                        ex = uiState.screenState.exception,
+                        onRetry = { playlistsViewModel.getPlaylists() })
+
                 }
-
-                ScreenState.LoggedOut -> Text(
-                    stringResource(R.string.log_in_message),
-                    textAlign = TextAlign.Center
-                )
-
-                ScreenState.Loading -> LoadingAnimation()
-                is ScreenState.Error -> ErrorMessage(
-                    ex = uiState.screenState.exception,
-                    onRetry = { playlistsViewModel.getPlaylists() })
-
             }
         }
     }

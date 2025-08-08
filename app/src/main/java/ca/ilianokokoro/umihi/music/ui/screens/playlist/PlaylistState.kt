@@ -1,21 +1,17 @@
-package ca.ilianokokoro.umihi.music.ui.screens.playlists
+package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import ca.ilianokokoro.umihi.music.models.Playlist
 
 
-data class PlaylistsState(
+data class PlaylistState(
     val screenState: ScreenState = ScreenState.Loading,
     val isRefreshing: Boolean = false
 )
 
 sealed class ScreenState {
-    data class LoggedIn(
-        val playlists: List<Playlist>
+    data class Success(
+        val playlist: Playlist
     ) : ScreenState()
-
-
-    data object LoggedOut
-        : ScreenState()
 
     data object Loading : ScreenState()
     data class Error(val exception: Exception) : ScreenState()

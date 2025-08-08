@@ -5,7 +5,7 @@ import ca.ilianokokoro.umihi.music.models.Cookies
 import java.security.MessageDigest
 import kotlin.text.Charsets.UTF_8
 
-object AuthHelper {
+object YoutubeAuthHelper {
     fun getHeaders(cookies: Cookies): Map<String, String> {
         val timestamp = System.currentTimeMillis() / 1000
 
@@ -24,7 +24,7 @@ object AuthHelper {
         )
     }
 
-    fun generateSapisidHash(sapisid: String, origin: String, timestamp: Long): String {
+    private fun generateSapisidHash(sapisid: String, origin: String, timestamp: Long): String {
         val input = "$timestamp $sapisid $origin"
         val sha1 = MessageDigest.getInstance("SHA-1")
         val hashBytes = sha1.digest(input.toByteArray(UTF_8))

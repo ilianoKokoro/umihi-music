@@ -1,5 +1,8 @@
 package ca.ilianokokoro.umihi.music.core
 
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+
 object Constants {
     object Marquee {
         const val DELAY = 2000
@@ -27,15 +30,19 @@ object Constants {
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
 
         const val ORIGIN = "https://music.youtube.com"
-        const val KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
+        const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
 
         object Browse {
-            const val URL = "${ORIGIN}/youtubei/v1/browse"
-            const val PLAYLIST_ID = "FEmusic_liked_playlists"
+            const val URL = "${ORIGIN}/youtubei/v1/browse?alt=json&key=${API_KEY}"
+            const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
         }
 
-        val CONTEXT = mapOf(
-            "client" to mapOf("clientName" to "WEB_REMIX", "clientVersion" to "1.20250212.01.00")
-        )
+        val CONTEXT =
+            buildJsonObject {
+                put("client", buildJsonObject {
+                    put("clientName", JsonPrimitive("WEB_REMIX"))
+                    put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                })
+            }
     }
 }

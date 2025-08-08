@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.screens.playlists
+package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 
 import android.app.Application
@@ -11,25 +11,28 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
+import ca.ilianokokoro.umihi.music.models.Playlist
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlaylistsViewModel(application: Application) : AndroidViewModel(application) {
-    private val _uiState = MutableStateFlow(PlaylistsState())
+class PlaylistViewModel(playlist: Playlist, application: Application) :
+    AndroidViewModel(application) {
+    private val _uiState = MutableStateFlow(PlaylistState())
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
     private val datastoreRepository = DatastoreRepository(application)
+    val lightPlaylist = playlist
 
 
     init {
-        Log.d("CustomLog", "init PlaylistsViewModel")
-        getPlaylists()
+        Log.d("CustomLog", "init PlaylistViewModel")
+        getPlaylistInfo()
     }
 
-    fun getPlaylists() {
+    fun getPlaylistInfo() {
         viewModelScope.launch {
             _uiState.update { screenState ->
                 _uiState.value.copy(
@@ -42,20 +45,20 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
                 _uiState.update { screenState ->
                     _uiState.value.copy(
                         screenState =
-                            ScreenState.LoggedOut
+                            ScreenState.Error(Exception("Failed to get to login cookies"))
                     )
 
                 }
                 return@launch
             }
 
-            playlistRepository.retrieveAll(cookies).collect { apiResult ->
+            playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
                 _uiState.update { screenState ->
                     _uiState.value.copy(
                         screenState = when (apiResult) {
                             is ApiResult.Error -> ScreenState.Error(apiResult.exception)
                             ApiResult.Loading -> ScreenState.Loading
-                            is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
+                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
                         }, isRefreshing = false
                     )
                 }
@@ -65,10 +68,11 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     companion object {
-        fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlaylistsViewModel(application)
+        fun Factory(playlist: Playlist, application: Application): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    PlaylistViewModel(playlist, application)
+                }
             }
-        }
     }
 }

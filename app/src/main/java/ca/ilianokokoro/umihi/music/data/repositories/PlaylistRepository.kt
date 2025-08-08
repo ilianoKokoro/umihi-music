@@ -22,5 +22,14 @@ class PlaylistRepository {
         }.flowOn(Dispatchers.IO)
     }
 
-
+    fun retrieveOne(playlist: Playlist, cookies: Cookies): Flow<ApiResult<Playlist>> {
+        return flow {
+            try {
+                emit(ApiResult.Loading)
+                emit(ApiResult.Success(playlistDataSource.retrieveOne(playlist, cookies)))
+            } catch (e: Exception) {
+                emit(ApiResult.Error(e))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }
