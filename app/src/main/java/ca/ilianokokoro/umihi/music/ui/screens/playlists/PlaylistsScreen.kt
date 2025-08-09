@@ -55,7 +55,7 @@ fun PlaylistsScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
+            if (event == Lifecycle.Event.ON_RESUME && uiState.screenState is ScreenState.LoggedOut) {
                 playlistsViewModel.getPlaylists()
             }
         }
@@ -92,15 +92,15 @@ fun PlaylistsScreen(
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = { playlistsViewModel.refreshPlaylists() }
             ) {
-                when (uiState.screenState) {
-                    is ScreenState.LoggedIn -> {
-                        val playlists = uiState.screenState.playlists
+                    when (uiState.screenState) {
+                        is ScreenState.LoggedIn -> {
+                            val playlists = uiState.screenState.playlists
 
-                        if (playlists.isEmpty()) {
-                            Text(
-                                stringResource(R.string.no_playlists),
+                            if (playlists.isEmpty()) {
+                                    Text(
+                                        stringResource(R.string.no_playlists),
                                 textAlign = TextAlign.Center
-                            )
+                                        )
                         } else {
                             LazyVerticalGrid(
                                 modifier = Modifier.fillMaxSize(),
@@ -121,14 +121,14 @@ fun PlaylistsScreen(
                     }
 
                     ScreenState.LoggedOut -> Text(
-                        stringResource(R.string.log_in_message),
+                                    stringResource(R.string.log_in_message),
                         textAlign = TextAlign.Center
-                    )
+                                    )
 
                     ScreenState.Loading -> LoadingAnimation()
                     is ScreenState.Error -> ErrorMessage(
-                        ex = uiState.screenState.exception,
-                        onRetry = { playlistsViewModel.getPlaylists() })
+                                ex = uiState.screenState.exception,
+                                onRetry = { playlistsViewModel.getPlaylists() })
 
                 }
             }

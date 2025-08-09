@@ -24,10 +24,10 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     private val datastoreRepository = DatastoreRepository(application)
 
 
-//    init {
-//        Log.d("CustomLog", "init PlaylistsViewModel")
-//        getPlaylists()
-//    }
+    init {
+        Log.d("CustomLog", "init PlaylistsViewModel")
+        getPlaylists()
+    }
 
 
     fun getPlaylists() {
