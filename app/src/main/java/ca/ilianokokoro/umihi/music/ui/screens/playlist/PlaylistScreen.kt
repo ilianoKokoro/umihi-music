@@ -26,13 +26,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.SongRow
 
 @Composable
 fun PlaylistScreen(
-    playlist: Playlist, onBack: () -> Unit, modifier: Modifier = Modifier,
+    playlist: Playlist,
+    onSongPressed: (song: Song) -> Unit,
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier,
 
     application: Application,
     playlistViewModel: PlaylistViewModel = viewModel(
@@ -81,7 +85,7 @@ fun PlaylistScreen(
                             it.id
                         }) { song ->
                             SongRow(song, onPress = {
-                                // TODO
+                                onSongPressed(song)
                             })
                         }
 

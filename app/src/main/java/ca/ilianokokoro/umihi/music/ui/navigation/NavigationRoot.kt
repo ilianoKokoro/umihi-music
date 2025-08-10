@@ -23,7 +23,9 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
+import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlists.PlaylistsScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
@@ -40,6 +42,10 @@ data class PlaylistScreenKey(val playlist: Playlist) : NavKey
 
 @Serializable
 data object AuthScreenKey : NavKey
+
+@Serializable
+data class PlayerScreenKey(val song: Song) : NavKey
+
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
@@ -121,9 +127,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
                     is PlaylistScreenKey -> {
                         NavEntry(key = key) {
-                            PlaylistScreen(playlist = key.playlist, onBack = {
+                            PlaylistScreen(
+                                playlist = key.playlist, onBack = {
                                 backStack.removeLastOrNull()
-                            }, application = app)
+                            },
+                                onSongPressed = { song ->
+                                    backStack.add(PlayerScreenKey(song))
+                                }, application = app)
                         }
                     }
 
@@ -135,6 +145,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         }
                     }
 
+                    is PlayerScreenKey -> {
+                        NavEntry(key = key) {
+                            PlayerScreen(song = key.song, onBack = {
+                                backStack.removeLastOrNull()
+                            }, application = app)
+                        }
+                    }
 
                     else -> throw RuntimeException("Invalid NavKey : $key")
                 }
