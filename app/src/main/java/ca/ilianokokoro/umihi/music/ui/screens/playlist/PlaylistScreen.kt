@@ -21,6 +21,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -71,32 +72,49 @@ fun PlaylistScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            PullToRefreshBox(
-                isRefreshing = uiState.isRefreshing,
-                onRefresh = { playlistViewModel.refreshPlaylistInfo() }
-            ) {
-                when (uiState.screenState) {
-                    is ScreenState.Success -> LazyColumn(
+
+            when (uiState.screenState) {
+
+                is ScreenState.Success -> PullToRefreshBox(
+                    isRefreshing = uiState.isRefreshing,
+                    onRefresh = { playlistViewModel.refreshPlaylistInfo() }, modifier = modifier
+                        .fillMaxSize()
+                ) {
+                    LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(
                             10.dp
-                        )
+                        ), modifier = modifier
+                            .fillMaxSize()
                     ) {
-                        items(items = uiState.screenState.playlist.songs, key = {
-                            it.id
-                        }) { song ->
-                            SongRow(song, onPress = {
-                                onSongPressed(song)
-                            })
+                        val songs = uiState.screenState.playlist.songs
+
+                        if (songs.isEmpty()) {
+                            item {
+                                Text(
+                                    stringResource(R.string.empty_playlist), // TODO : make the text vertically centered
+                                    textAlign = TextAlign.Center,
+                                    modifier = modifier
+                                        .fillMaxSize()
+                                )
+                            }
+                        } else {
+                            items(items = songs, key = {
+                                it.id
+                            }) { song ->
+                                SongRow(song, onPress = {
+                                    onSongPressed(song)
+                                })
+                            }
                         }
 
                     }
-
-                    ScreenState.Loading -> LoadingAnimation()
-                    is ScreenState.Error -> ErrorMessage(
-                        ex = uiState.screenState.exception,
-                        onRetry = { playlistViewModel.getPlaylistInfo() })
-
                 }
+
+                ScreenState.Loading -> LoadingAnimation()
+                is ScreenState.Error -> ErrorMessage(
+                    ex = uiState.screenState.exception,
+                    onRetry = { playlistViewModel.getPlaylistInfo() })
+
 
             }
 

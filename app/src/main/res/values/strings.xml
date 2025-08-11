@@ -3,8 +3,9 @@
     <string name="playlists">Playlists</string>
     <string name="settings">Settings</string>
     <string name="back_description">Previous screen</string>
-    <string name="no_playlists">No playlists</string>
+    <string name="no_playlists">No playlists found</string>
     <string name="log_in_message">Please Log in to your YouTube account to use the app</string>
     <string name="playlist_cover">Playlist cover</string>
     <string name="log_in">Log In</string>
+    <string name="empty_playlist">No songs in the playlist</string>
 </resources>

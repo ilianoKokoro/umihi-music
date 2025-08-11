@@ -20,6 +20,6 @@ fun SquareImage(url: String, cornerRadius: Dp = 12.dp) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .aspectRatio(1f)
-            .clip(RoundedCornerShape(cornerRadius))
+            .clip(RoundedCornerShape(cornerRadius)),
     )
 }
