@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -48,7 +49,7 @@ data class PlayerScreenKey(val song: Song) : NavKey
 
 
 @Composable
-fun NavigationRoot(modifier: Modifier = Modifier) {
+fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(PlaylistsScreenKey) // Start screen
 
     val app = LocalContext.current.applicationContext as Application
@@ -129,11 +130,12 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             PlaylistScreen(
                                 playlist = key.playlist, onBack = {
-                                backStack.removeLastOrNull()
-                            },
+                                    backStack.removeLastOrNull()
+                                },
                                 onSongPressed = { song ->
                                     backStack.add(PlayerScreenKey(song))
-                                }, application = app)
+                                }, application = app
+                            )
                         }
                     }
 
@@ -149,7 +151,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             PlayerScreen(song = key.song, onBack = {
                                 backStack.removeLastOrNull()
-                            }, application = app)
+                            }, application = app, player = player)
                         }
                     }
 

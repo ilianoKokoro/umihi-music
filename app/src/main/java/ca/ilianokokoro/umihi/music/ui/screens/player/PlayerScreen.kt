@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 
@@ -28,9 +29,10 @@ fun PlayerScreen(
     song: Song, onBack: () -> Unit, modifier: Modifier = Modifier,
 
     application: Application,
+    player: Player,
     playlistViewModel: PlayerViewModel = viewModel(
         factory =
-            PlayerViewModel.Factory(song = song, application = application)
+            PlayerViewModel.Factory(song = song, application = application, player = player)
     )
 
 ) {

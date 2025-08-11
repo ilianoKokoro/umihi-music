@@ -9,20 +9,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.MediaItem
-import ca.ilianokokoro.umihi.music.PlayerApp
+import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(song: Song, application: Application) :
+class PlayerViewModel(song: Song, application: Application, player: Player) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState(song))
     val uiState = _uiState.asStateFlow()
 
-    private val app = application as PlayerApp
-    val player = app.player
-
+    private val _player = player
 
     init {
         Log.d("CustomLog", "init PlayerViewModel")
@@ -30,19 +28,23 @@ class PlayerViewModel(song: Song, application: Application) :
     }
 
     companion object {
-        fun Factory(song: Song, application: Application): ViewModelProvider.Factory =
+        fun Factory(
+            song: Song,
+            application: Application,
+            player: Player
+        ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlayerViewModel(song, application)
+                    PlayerViewModel(song, application, player)
                 }
             }
     }
 
     fun playTrack(url: String) {
         viewModelScope.launch {
-            player.setMediaItem(MediaItem.fromUri(url))
-            player.prepare()
-            player.play()
+            _player.setMediaItem(MediaItem.fromUri(url))
+            _player.prepare()
+            _player.play()
         }
     }
 }
