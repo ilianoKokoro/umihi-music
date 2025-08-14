@@ -10,6 +10,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,12 +22,36 @@ class PlayerViewModel(song: Song, application: Application, player: Player) :
     private val _uiState = MutableStateFlow(PlayerState(song))
     val uiState = _uiState.asStateFlow()
 
+    private val songRepository = SongRepository()
+
+    private val _song = song
+
     private val _player = player
 
     init {
         Log.d("CustomLog", "init PlayerViewModel")
-        playTrack("https://storage.googleapis.com/exoplayer-test-media-0/play.mp3")
+        viewModelScope.launch {
+            songRepository.getStreamUrlFromId(_song).collect { result ->
+                when (result) {
+                    is ApiResult.Error -> {
+
+                    }
+
+                    ApiResult.Loading -> {
+
+                    }
+
+                    is ApiResult.Success -> {
+                        Log.d("CustomLog", result.data)
+                        playTrack(result.data)
+                    }
+                }
+
+            }
+        }
+
     }
+
 
     companion object {
         fun Factory(
