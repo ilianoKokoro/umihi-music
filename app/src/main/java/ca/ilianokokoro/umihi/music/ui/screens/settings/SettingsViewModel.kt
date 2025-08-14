@@ -39,7 +39,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
 
     fun clearDownloads() {
-        // TODO
+        // TODO after downloads are implemented
     }
 
 
