@@ -4,8 +4,10 @@ package ca.ilianokokoro.umihi.music.ui.screens.auth
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.view.ContextThemeWrapper
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -59,12 +61,21 @@ fun AuthScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
+        val isDarkMode = isSystemInDarkTheme()
+
         AndroidView(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            factory = { context ->
-                WebView(context).apply {
+            factory = { ctx ->
+
+                val themedContext = ContextThemeWrapper(
+                    ctx,
+                    if (isDarkMode) R.style.Theme_WebView_Dark
+                    else R.style.Theme_WebView_Light
+                )
+
+                WebView(themedContext).apply {
                     settings.javaScriptEnabled = true
 
                     if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {

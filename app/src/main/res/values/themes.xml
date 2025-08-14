@@ -4,4 +4,5 @@
     <style name="Theme.UmihiMusic" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/lightUmihi</item>
     </style>
+    
 </resources>
