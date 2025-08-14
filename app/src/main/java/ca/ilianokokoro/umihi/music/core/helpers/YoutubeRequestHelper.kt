@@ -13,7 +13,7 @@ object YoutubeRequestHelper {
     fun browse(browseId: String, cookies: Cookies): String {
         val body =
             buildJsonObject {
-                put("context", Constants.YoutubeApi.CONTEXT)
+                put("context", Constants.YoutubeApi.Browse.CONTEXT)
                 put("browseId", browseId)
             }
 
@@ -23,6 +23,29 @@ object YoutubeRequestHelper {
             .header(
                 headers
             )
+            .responseJson()
+
+        return when (result) {
+            is Result.Success -> {
+                result.value.content
+            }
+
+            is Result.Failure -> {
+                throw result.error.exception
+            }
+        }
+    }
+
+
+    fun getPlayer(videoId: String): String {
+        val body =
+            buildJsonObject {
+                put("context", Constants.YoutubeApi.Player.CONTEXT)
+                put("videoId", videoId)
+            }
+
+
+        val (_, _, result) = Constants.YoutubeApi.Player.URL.httpPost().jsonBody(body.toString())
             .responseJson()
 
         return when (result) {

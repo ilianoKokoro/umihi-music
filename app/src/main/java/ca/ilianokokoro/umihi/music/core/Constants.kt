@@ -35,14 +35,36 @@ object Constants {
         object Browse {
             const val URL = "${ORIGIN}/youtubei/v1/browse?alt=json&key=${API_KEY}"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
+            val CONTEXT =
+                buildJsonObject {
+                    put("client", buildJsonObject {
+                        put("clientName", JsonPrimitive("WEB_REMIX"))
+                        put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                    })
+                }
+
         }
 
-        val CONTEXT =
-            buildJsonObject {
-                put("client", buildJsonObject {
-                    put("clientName", JsonPrimitive("WEB_REMIX"))
-                    put("clientVersion", JsonPrimitive("1.20250212.01.00"))
-                })
-            }
+        object Player {
+            const val URL = "${ORIGIN}/youtubei/v1/player?key=${API_KEY}"
+
+            val CONTEXT =
+                buildJsonObject {
+                    put("client", buildJsonObject {
+                        put("clientName", JsonPrimitive("WEB_REMIX"))
+                        put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                        put("androidSdkVersion", JsonPrimitive(31))
+                        put(
+                            "userAgent",
+                            JsonPrimitive("com.google.android.youtube/19.29.1  (Linux; U; Android 11) gzip")
+                        )
+                        put("hl", JsonPrimitive("en"))
+                        put("timeZone", JsonPrimitive("UTC"))
+                        put("utcOffsetMinutes", JsonPrimitive(0))
+                    })
+                }
+        }
+
+
     }
 }
