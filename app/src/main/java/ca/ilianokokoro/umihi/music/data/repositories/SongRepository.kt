@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.datasources.SongDataSource
+import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,11 +12,11 @@ import kotlinx.coroutines.flow.flowOn
 class SongRepository {
     private val songDataSource = SongDataSource()
 
-    fun getStreamUrlFromId(song: Song): Flow<ApiResult<String>> {
+    fun getStreamUrlFromId(song: Song, cookies: Cookies): Flow<ApiResult<String>> {
         return flow {
             try {
                 emit(ApiResult.Loading)
-                emit(ApiResult.Success(songDataSource.getStreamUrlFromId(song)))
+                emit(ApiResult.Success(songDataSource.getStreamUrlFromId(song, cookies)))
             } catch (e: Exception) {
                 emit(ApiResult.Error(e))
             }

@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,8 @@ class PlayerViewModel(song: Song, application: Application, player: Player) :
     val uiState = _uiState.asStateFlow()
 
     private val songRepository = SongRepository()
+    private val datastoreRepository = DatastoreRepository(application)
+
 
     private val _song = song
 
@@ -31,7 +34,9 @@ class PlayerViewModel(song: Song, application: Application, player: Player) :
     init {
         Log.d("CustomLog", "init PlayerViewModel")
         viewModelScope.launch {
-            songRepository.getStreamUrlFromId(_song).collect { result ->
+            val cookies = datastoreRepository.getCookies()
+
+            songRepository.getStreamUrlFromId(_song, cookies).collect { result ->
                 when (result) {
                     is ApiResult.Error -> {
 

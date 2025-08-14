@@ -46,23 +46,18 @@ object Constants {
         }
 
         object Player {
-            const val URL = "${ORIGIN}/youtubei/v1/player?key=${API_KEY}"
+            const val URL = "${ORIGIN}/youtubei/v1/player"
 
-            val CONTEXT =
-                buildJsonObject {
-                    put("client", buildJsonObject {
-                        put("clientName", JsonPrimitive("WEB_REMIX"))
-                        put("clientVersion", JsonPrimitive("1.20250212.01.00"))
-                        put("androidSdkVersion", JsonPrimitive(31))
-                        put(
-                            "userAgent",
-                            JsonPrimitive("com.google.android.youtube/19.29.1  (Linux; U; Android 11) gzip")
-                        )
-                        put("hl", JsonPrimitive("en"))
-                        put("timeZone", JsonPrimitive("UTC"))
-                        put("utcOffsetMinutes", JsonPrimitive(0))
-                    })
-                }
+            val CONTEXT = buildJsonObject {
+                put("client", buildJsonObject {
+                    put("clientName", JsonPrimitive("WEB_CREATOR"))
+                    put("clientVersion", JsonPrimitive("1.20240723.03.00"))
+                    put("hl", JsonPrimitive("en"))
+                    put("timeZone", JsonPrimitive("UTC"))
+                    put("utcOffsetMinutes", JsonPrimitive(0))
+                })
+            }
+
         }
 
 
