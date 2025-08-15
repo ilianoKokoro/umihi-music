@@ -2,7 +2,6 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,72 +9,73 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import ca.ilianokokoro.umihi.music.core.ApiResult
-import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
-import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(song: Song, application: Application, player: Player) :
+class PlayerViewModel(player: Player, application: Application) :
     AndroidViewModel(application) {
-    private val _uiState = MutableStateFlow(PlayerState(song))
+    private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
-
-    private val songRepository = SongRepository()
-    private val datastoreRepository = DatastoreRepository(application)
-
-
-    private val _song = song
-
     private val _player = player
 
     init {
-        Log.d("CustomLog", "init PlayerViewModel")
-        viewModelScope.launch {
-            val cookies = datastoreRepository.getCookies()
-
-            songRepository.getStreamUrlFromId(_song, cookies).collect { result ->
-                when (result) {
-                    is ApiResult.Error -> {
-
-                    }
-
-                    ApiResult.Loading -> {
-
-                    }
-
-                    is ApiResult.Success -> {
-                        Log.d("CustomLog", result.data)
-                        playTrack(result.data)
-                    }
-                }
-
+        _player.addListener(object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                updateCurrentSong()
             }
-        }
 
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                _uiState.update {
+                    _uiState.value.copy(
+                        isPlaying = _player.isPlaying // TODO : Add loading indicator
+                    )
+                }
+            }
+        })
+
+
+        startProgressUpdate()
+        updateCurrentSong()
     }
 
+    private fun updateCurrentSong() {
+        val currentItem = _player.currentMediaItem?.mediaMetadata
+        val currentSong =
+            Song("", currentItem?.title.toString(), currentItem?.artist.toString(), "")
+        _uiState.update {
+            _uiState.value.copy(
+                currentSong = currentSong
+            )
+        }
+    }
+
+    private fun startProgressUpdate() {
+        viewModelScope.launch {
+            while (true) {
+                _uiState.update {
+                    _uiState.value.copy(
+                        progressMs = _player.currentPosition
+                    )
+                }
+                delay(Constants.Player.PROGRESS_UPDATE_DELAY)
+            }
+        }
+    }
 
     companion object {
         fun Factory(
-            song: Song,
+            player: Player,
             application: Application,
-            player: Player
         ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlayerViewModel(song, application, player)
+                    PlayerViewModel(player, application)
                 }
             }
-    }
-
-    fun playTrack(url: String) {
-        viewModelScope.launch {
-            _player.setMediaItem(MediaItem.fromUri(url))
-            _player.prepare()
-            _player.play()
-        }
     }
 }

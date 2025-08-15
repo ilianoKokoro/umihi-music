@@ -8,24 +8,28 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
+import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlaylistViewModel(playlist: Playlist, application: Application) :
+class PlaylistViewModel(playlist: Playlist, player: Player, application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlaylistState())
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
     private val datastoreRepository = DatastoreRepository(application)
-    val lightPlaylist = playlist
+    private val _playlist = playlist
 
+    private val _player = player
 
     init {
         Log.d("CustomLog", "init PlaylistViewModel")
@@ -55,10 +59,14 @@ class PlaylistViewModel(playlist: Playlist, application: Application) :
         }
     }
 
+    fun playSong(song: Song) {
+        _player.playSong(song)
+    }
+
     private suspend fun getPlaylistInfoAsync() {
         val cookies = datastoreRepository.getCookies()
         if (!cookies.isEmpty()) {
-            playlistRepository.retrieveOne(lightPlaylist, cookies).collect { apiResult ->
+            playlistRepository.retrieveOne(_playlist, cookies).collect { apiResult ->
                 _uiState.update { screenState ->
                     _uiState.value.copy(
                         screenState = when (apiResult) {
@@ -81,10 +89,14 @@ class PlaylistViewModel(playlist: Playlist, application: Application) :
 
 
     companion object {
-        fun Factory(playlist: Playlist, application: Application): ViewModelProvider.Factory =
+        fun Factory(
+            playlist: Playlist,
+            player: Player,
+            application: Application
+        ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlaylistViewModel(playlist, application)
+                    PlaylistViewModel(playlist, player, application)
                 }
             }
     }

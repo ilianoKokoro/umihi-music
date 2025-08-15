@@ -24,7 +24,6 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
-import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
@@ -45,7 +44,7 @@ data class PlaylistScreenKey(val playlist: Playlist) : NavKey
 data object AuthScreenKey : NavKey
 
 @Serializable
-data class PlayerScreenKey(val song: Song) : NavKey
+data object PlayerScreenKey : NavKey
 
 
 @Composable
@@ -133,8 +132,8 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                                     backStack.removeLastOrNull()
                                 },
                                 onSongPressed = { song ->
-                                    backStack.add(PlayerScreenKey(song))
-                                }, application = app
+                                    backStack.add(PlayerScreenKey)
+                                }, player = player, application = app
                             )
                         }
                     }
@@ -149,9 +148,13 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
 
                     is PlayerScreenKey -> {
                         NavEntry(key = key) {
-                            PlayerScreen(song = key.song, onBack = {
-                                backStack.removeLastOrNull()
-                            }, application = app, player = player)
+                            PlayerScreen(
+                                onBack = {
+                                    backStack.removeLastOrNull()
+                                },
+                                player = player,
+                                application = app
+                            )
                         }
                     }
 

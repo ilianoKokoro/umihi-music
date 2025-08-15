@@ -22,17 +22,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.models.Song
 
 @Composable
 fun PlayerScreen(
-    song: Song, onBack: () -> Unit, modifier: Modifier = Modifier,
-
-    application: Application,
+    onBack: () -> Unit,
     player: Player,
+    modifier: Modifier = Modifier,
+    application: Application,
     playlistViewModel: PlayerViewModel = viewModel(
         factory =
-            PlayerViewModel.Factory(song = song, application = application, player = player)
+            PlayerViewModel.Factory(player = player, application = application)
     )
 
 ) {
@@ -62,11 +61,19 @@ fun PlayerScreen(
                 .padding(innerPadding)
         ) {
             Text(
-                uiState.song.title
+                uiState.currentSong.title
             )
             Text(
-                uiState.song.artist
+                uiState.currentSong.artist
+            )
+            Text(
+                uiState.progressMs.toString()
+            )
+            Text(
+                uiState.isPlaying.toString()
             )
         }
+
+
     }
 }

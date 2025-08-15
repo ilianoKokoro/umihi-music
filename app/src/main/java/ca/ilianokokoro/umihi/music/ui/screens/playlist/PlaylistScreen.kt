@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
@@ -37,12 +38,16 @@ fun PlaylistScreen(
     playlist: Playlist,
     onSongPressed: (song: Song) -> Unit,
     onBack: () -> Unit,
+    player: Player,
     modifier: Modifier = Modifier,
-
     application: Application,
     playlistViewModel: PlaylistViewModel = viewModel(
         factory =
-            PlaylistViewModel.Factory(playlist = playlist, application = application)
+            PlaylistViewModel.Factory(
+                playlist = playlist,
+                player = player,
+                application = application
+            )
     )
 
 ) {
@@ -103,6 +108,7 @@ fun PlaylistScreen(
                             }) { song ->
                                 SongRow(song, onPress = {
                                     onSongPressed(song)
+                                    playlistViewModel.playSong(song)
                                 })
                             }
                         }

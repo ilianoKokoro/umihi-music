@@ -25,6 +25,10 @@ object Constants {
         const val COOKIES_KEY = "cookies"
     }
 
+    object Player {
+        const val PROGRESS_UPDATE_DELAY = 1000L
+    }
+
     object YoutubeApi {
         const val USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
