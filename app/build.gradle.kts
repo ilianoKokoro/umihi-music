@@ -94,4 +94,7 @@ dependencies {
 
     // WebKit
     implementation(libs.androidx.webkit)
+
+    // Icons
+    implementation(libs.androidx.material.icons.extended)
 }

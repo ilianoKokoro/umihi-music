@@ -5,6 +5,9 @@ import ca.ilianokokoro.umihi.music.models.Song
 
 data class PlayerState(
     val currentSong: Song = Song("", "", "", ""),
-    val progressMs: Long = 0,
-    val isPlaying: Boolean = false
+    val progressMs: Float = 0f,
+    val durationMs: Float = 0f,
+    val isPlaying: Boolean = false,
+    val isLoading: Boolean = true,
+    val isSeekBarHeld: Boolean = false,
 )

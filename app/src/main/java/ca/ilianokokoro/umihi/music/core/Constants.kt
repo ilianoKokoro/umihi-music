@@ -26,7 +26,7 @@ object Constants {
     }
 
     object Player {
-        const val PROGRESS_UPDATE_DELAY = 1000L
+        const val PROGRESS_UPDATE_DELAY = 500L
     }
 
     object YoutubeApi {

@@ -22,3 +22,12 @@ fun Player.playSong(song: Song) {
     prepare()
     play()
 }
+
+
+fun Player.getCurrentSong(): Song {
+    val currentItem = currentMediaItem?.mediaMetadata
+    return Song(
+        "", currentItem?.title.toString(), currentItem?.artist.toString(),
+        currentItem?.artworkUri.toString()
+    )
+}
