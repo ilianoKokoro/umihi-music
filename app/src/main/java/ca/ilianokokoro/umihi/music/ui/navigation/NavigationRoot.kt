@@ -117,20 +117,20 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
 
                     is SettingsScreenKey -> {
                         NavEntry(key = key) {
-                            SettingsScreen(onBack = {
-                                backStack.removeLastOrNull()
-                            }, openAuthScreen = {
-                                backStack.add(AuthScreenKey)
-                            }, application = app)
+                            SettingsScreen(
+                                onBack = backStack::removeLastOrNull,
+                                openAuthScreen = {
+                                    backStack.add(AuthScreenKey)
+                                }, application = app
+                            )
                         }
                     }
 
                     is PlaylistScreenKey -> {
                         NavEntry(key = key) {
                             PlaylistScreen(
-                                playlist = key.playlist, onBack = {
-                                    backStack.removeLastOrNull()
-                                },
+                                playlist = key.playlist,
+                                onBack = backStack::removeLastOrNull,
                                 onSongPressed = { song ->
                                     backStack.add(PlayerScreenKey)
                                 }, player = player, application = app
@@ -140,18 +140,17 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
 
                     is AuthScreenKey -> {
                         NavEntry(key = key) {
-                            AuthScreen(onBack = {
-                                backStack.removeLastOrNull()
-                            }, application = app)
+                            AuthScreen(
+                                onBack = backStack::removeLastOrNull,
+                                application = app
+                            )
                         }
                     }
 
                     is PlayerScreenKey -> {
                         NavEntry(key = key) {
                             PlayerScreen(
-                                onBack = {
-                                    backStack.removeLastOrNull()
-                                },
+                                onBack = backStack::removeLastOrNull,
                                 player = player,
                                 application = app
                             )

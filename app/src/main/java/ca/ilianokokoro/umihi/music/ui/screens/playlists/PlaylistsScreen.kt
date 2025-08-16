@@ -71,7 +71,7 @@ fun PlaylistsScreen(
                 title = {
                     Text(stringResource(R.string.playlists))
                 }, actions = {
-                    IconButton(onClick = { onSettingsButtonPress() }) {
+                    IconButton(onClick = onSettingsButtonPress) {
                         Icon(
                             imageVector = Icons.Rounded.Settings,
                             contentDescription = stringResource(R.string.back_description)
@@ -103,7 +103,7 @@ fun PlaylistsScreen(
                     } else {
                         PullToRefreshBox(
                             isRefreshing = uiState.isRefreshing,
-                            onRefresh = { playlistsViewModel.refreshPlaylists() }
+                            onRefresh = playlistsViewModel::refreshPlaylists
                         ) {
                             LazyVerticalGrid(
                                 modifier = Modifier.fillMaxSize(),
@@ -115,9 +115,10 @@ fun PlaylistsScreen(
                                 items(items = playlists, key = {
                                     it.id
                                 }) { playlist ->
-                                    PlaylistCard(playlist = playlist, onClicked = {
-                                        onPlaylistPressed(playlist)
-                                    })
+                                    PlaylistCard(
+                                        playlist = playlist, onClicked =
+                                            { onPlaylistPressed(playlist) }
+                                    )
                                 }
                             }
                         }
@@ -132,7 +133,8 @@ fun PlaylistsScreen(
                 ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> ErrorMessage(
                     ex = uiState.screenState.exception,
-                    onRetry = { playlistsViewModel.getPlaylists() })
+                    onRetry = playlistsViewModel::getPlaylists
+                )
 
             }
         }

@@ -60,7 +60,7 @@ fun PlaylistScreen(
                     Text(playlist.title)
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }) {
+                    IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = stringResource(R.string.back_description)
@@ -82,7 +82,8 @@ fun PlaylistScreen(
 
                 is ScreenState.Success -> PullToRefreshBox(
                     isRefreshing = uiState.isRefreshing,
-                    onRefresh = { playlistViewModel.refreshPlaylistInfo() }, modifier = modifier
+                    onRefresh = playlistViewModel::refreshPlaylistInfo,
+                    modifier = modifier
                         .fillMaxSize()
                 ) {
                     LazyColumn(
@@ -119,7 +120,8 @@ fun PlaylistScreen(
                 ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> ErrorMessage(
                     ex = uiState.screenState.exception,
-                    onRetry = { playlistViewModel.getPlaylistInfo() })
+                    onRetry = playlistViewModel::getPlaylistInfo
+                )
 
 
             }

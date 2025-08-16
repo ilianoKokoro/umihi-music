@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
@@ -60,9 +61,12 @@ fun PlayerControls(
         ) {
             IconButton(onClick = {
                 // TODO
-
             }) {
-                Icon(Icons.Rounded.SkipPrevious, contentDescription = "Previous")
+                Icon(
+                    Icons.Rounded.SkipPrevious,
+                    contentDescription = "Previous",
+                    modifier = modifier.size(45.dp)
+                )
             }
 
             PlayPauseButton(
@@ -80,7 +84,11 @@ fun PlayerControls(
             IconButton(onClick = {
                 // TODO
             }) {
-                Icon(Icons.Rounded.SkipNext, contentDescription = "Next")
+                Icon(
+                    Icons.Rounded.SkipNext,
+                    contentDescription = "Next",
+                    modifier = modifier.size(45.dp)
+                )
             }
         }
     }

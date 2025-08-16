@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,9 +53,9 @@ fun PlayerScreen(
                 title = {
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }) {
+                    IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
                             contentDescription = stringResource(R.string.back_description)
                         )
                     }
@@ -75,7 +75,7 @@ fun PlayerScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .weight(2f)
+                    .weight(3f)
                     .padding(horizontal = 20.dp)
             ) {
                 SquareImage(url = uiState.currentSong.lowQualityCoverHref)
@@ -84,7 +84,7 @@ fun PlayerScreen(
             // Song Info + Controls
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(2f)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 horizontalAlignment = Alignment.Start
@@ -123,7 +123,6 @@ fun PlayerScreen(
 
             // Queue Button
             IconButton(
-                modifier = Modifier.weight(1f),
                 onClick = {
                     // TODO
                 }
