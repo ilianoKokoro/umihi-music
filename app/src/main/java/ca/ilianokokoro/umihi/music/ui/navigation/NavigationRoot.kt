@@ -67,41 +67,41 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 rememberSceneSetupNavEntryDecorator()
             ), transitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.Transition.DURATION),
+                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                     initialScale = 0.85f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.Transition.DURATION),
+                            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                             targetScale = 1.1f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
             },
 
             popTransitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.Transition.DURATION),
+                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                     initialScale = 1.1f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.Transition.DURATION),
+                            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                             targetScale = 0.85f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
             },
 
             predictivePopTransitionSpec = {
                 (scaleIn(
-                    animationSpec = tween(Constants.Transition.DURATION),
+                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                     initialScale = 1.1f
                 ) +
-                        fadeIn(animationSpec = tween(Constants.Transition.DURATION))) togetherWith
+                        fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION))) togetherWith
                         (scaleOut(
-                            animationSpec = tween(Constants.Transition.DURATION),
+                            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                             targetScale = 0.85f
                         ) +
-                                fadeOut(animationSpec = tween(Constants.Transition.DURATION)))
+                                fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
             }, entryProvider = { key ->
 
                 when (key) {

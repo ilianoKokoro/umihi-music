@@ -8,9 +8,9 @@ object Constants {
         const val DELAY = 2000
     }
 
-    object Transition {
-        const val DURATION = 200
-
+    object Animation {
+        const val NAVIGATION_DURATION = 200
+        const val IMAGE_FADE_DURATION = 200
     }
 
     object Auth {

@@ -3,7 +3,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
@@ -31,7 +29,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.components.SongRow
+import ca.ilianokokoro.umihi.music.ui.components.SongListItem
 
 @Composable
 fun PlaylistScreen(
@@ -73,7 +71,6 @@ fun PlaylistScreen(
     ) { innerPadding ->
         Column(
             modifier = modifier
-                .padding(8.dp)
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
@@ -87,9 +84,7 @@ fun PlaylistScreen(
                         .fillMaxSize()
                 ) {
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(
-                            10.dp
-                        ), modifier = modifier
+                        modifier = modifier
                             .fillMaxSize()
                     ) {
                         val songs = uiState.screenState.playlist.songs
@@ -107,7 +102,7 @@ fun PlaylistScreen(
                             items(items = songs, key = {
                                 it.id
                             }) { song ->
-                                SongRow(song, onPress = {
+                                SongListItem(song, onPress = {
                                     onSongPressed(song)
                                     playlistViewModel.playPlaylist(song)
                                 })
