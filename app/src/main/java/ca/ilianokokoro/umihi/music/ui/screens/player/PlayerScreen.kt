@@ -117,6 +117,8 @@ fun PlayerScreen(
                     onPause = playlistViewModel::pause,
                     onSeek = playlistViewModel::seek,
                     onSeekPlayer = playlistViewModel::seekPlayer,
+                    onSeekToNext = playlistViewModel::seekToNext,
+                    onSeekToPrevious = playlistViewModel::seekToPrevious,
                     onUpdateSeekBarHeldState = playlistViewModel::updateSeekBarHeldState
                 )
             }

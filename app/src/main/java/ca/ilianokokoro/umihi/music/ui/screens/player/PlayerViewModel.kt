@@ -81,6 +81,15 @@ class PlayerViewModel(player: Player, application: Application) :
         _player.play()
     }
 
+
+    fun seekToNext() {
+        _player.seekToNext()
+    }
+
+    fun seekToPrevious() {
+        _player.seekToPrevious()
+    }
+
     private fun updateCurrentSong() {
         _uiState.update {
             _uiState.value.copy(

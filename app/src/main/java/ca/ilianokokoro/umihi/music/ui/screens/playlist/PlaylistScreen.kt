@@ -109,7 +109,7 @@ fun PlaylistScreen(
                             }) { song ->
                                 SongRow(song, onPress = {
                                     onSongPressed(song)
-                                    playlistViewModel.playSong(song)
+                                    playlistViewModel.playPlaylist(song)
                                 })
                             }
                         }

@@ -28,6 +28,8 @@ fun PlayerControls(
     onSeek: (location: Float) -> Unit,
     onPause: () -> Unit,
     onPlay: () -> Unit,
+    onSeekToNext: () -> Unit,
+    onSeekToPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -59,9 +61,7 @@ fun PlayerControls(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
-            IconButton(onClick = {
-                // TODO
-            }) {
+            IconButton(onClick = onSeekToPrevious) {
                 Icon(
                     Icons.Rounded.SkipPrevious,
                     contentDescription = "Previous",
@@ -81,9 +81,7 @@ fun PlayerControls(
                 }
             )
 
-            IconButton(onClick = {
-                // TODO
-            }) {
+            IconButton(onClick = onSeekToNext) {
                 Icon(
                     Icons.Rounded.SkipNext,
                     contentDescription = "Next",

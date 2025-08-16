@@ -12,7 +12,8 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
-import ca.ilianokokoro.umihi.music.extensions.playSong
+import ca.ilianokokoro.umihi.music.extensions.playPlaylist
+import ca.ilianokokoro.umihi.music.extensions.shufflePlaylist
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,8 +60,14 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
         }
     }
 
-    fun playSong(song: Song) {
-        _player.playSong(song)
+    fun playPlaylist(startingSong: Song) {
+        val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
+        _player.playPlaylist(playlist, playlist.songs.indexOf(startingSong))
+
+    }
+
+    fun shufflePlaylist() {
+        _player.shufflePlaylist((_uiState.value.screenState as ScreenState.Success).playlist)
     }
 
     private suspend fun getPlaylistInfoAsync() {

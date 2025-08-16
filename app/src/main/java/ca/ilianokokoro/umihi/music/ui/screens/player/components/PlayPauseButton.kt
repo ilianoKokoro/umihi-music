@@ -23,7 +23,7 @@ fun PlayPauseButton(
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
-                strokeWidth = 2.dp
+                strokeWidth = 4.dp
             )
         } else {
             Icon(
