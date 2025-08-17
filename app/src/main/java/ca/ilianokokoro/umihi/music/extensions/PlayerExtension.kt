@@ -8,7 +8,7 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 
-suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
+fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     val mediaItems = mutableListOf<MediaItem>()
     for (song in playlist.songs) {
         val mediaItem = MediaItem.Builder()
@@ -29,12 +29,8 @@ suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
                     .build()
             )
             .build()
-
         mediaItems.add(mediaItem)
-
-
     }
-
 
     setMediaItems(mediaItems)
     seekTo(index, C.TIME_UNSET)
@@ -42,7 +38,7 @@ suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     play()
 }
 
-suspend fun Player.shufflePlaylist(playlist: Playlist) {
+fun Player.shufflePlaylist(playlist: Playlist) {
     val songs = playlist.songs
     val shuffledPlaylist = playlist.copy(songs = songs.shuffled())
     this.playPlaylist(shuffledPlaylist)
@@ -52,7 +48,9 @@ suspend fun Player.shufflePlaylist(playlist: Playlist) {
 fun Player.getCurrentSong(): Song {
     val currentItem = currentMediaItem?.mediaMetadata
     return Song(
-        "", currentItem?.title.toString(), currentItem?.artist.toString(),
+        currentMediaItem?.mediaId ?: "",
+        currentItem?.title.toString(),
+        currentItem?.artist.toString(),
         currentItem?.artworkUri.toString()
     )
 }

@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 
 class PlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
+    private lateinit var player: Player
     private val songRepository = SongRepository()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -24,61 +25,15 @@ class PlaybackService : MediaSessionService() {
     override fun onCreate() {
         super.onCreate()
 
-        val player = ExoPlayer.Builder(this).build()
+        player = ExoPlayer.Builder(this).build()
 
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(
                 mediaItem: MediaItem?,
                 reason: Int
-            ) { // Load the full res image when a new song is player
-                if (mediaItem != null) {
-                    Log.d(
-                        "CustomLog",
-                        "Trying to get full res thumbnail for ${mediaItem.mediaId}"
-                    )
-                    try {
-
-                        serviceScope.launch {
-                            songRepository.getSongThumbnail(mediaItem.mediaId).collect { result ->
-                                when (result) {
-                                    is ApiResult.Success -> {
-                                        Log.d(
-                                            "CustomLog",
-                                            "Updating thumbnail success for ${mediaItem.mediaId}"
-                                        )
-                                        val updated = mediaItem.buildUpon()
-                                            .setMediaMetadata(
-                                                mediaItem.mediaMetadata.buildUpon()
-                                                    .setArtworkUri(result.data.toUri())
-                                                    .build()
-                                            )
-                                            .build()
-
-                                        withContext(Dispatchers.Main) {
-                                            if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
-                                                player.replaceMediaItem(
-                                                    player.currentMediaItemIndex,
-                                                    updated
-                                                )
-                                            }
-
-                                        }
-                                    }
-
-                                    else -> Unit
-                                }
-                            }
-                        }
-                    } catch (ex: Exception) {
-                        Log.e(
-                            "CustomLog",
-                            "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}"
-                        )
-
-                    }
-
-
-                }
+            ) {
+                // Load the full res image when a new song is played
+                updateCurrentMediaItemThumbnail(mediaItem)
             }
         })
 
@@ -97,5 +52,46 @@ class PlaybackService : MediaSessionService() {
             mediaSession = null
         }
         super.onDestroy()
+    }
+
+    private fun updateCurrentMediaItemThumbnail(mediaItem: MediaItem?) {
+        if (mediaItem != null) {
+            try {
+                serviceScope.launch {
+                    songRepository.getSongThumbnail(mediaItem.mediaId).collect { result ->
+                        when (result) {
+                            is ApiResult.Success -> {
+                                val updated = mediaItem.buildUpon()
+                                    .setMediaMetadata(
+                                        mediaItem.mediaMetadata.buildUpon()
+                                            .setArtworkUri(result.data.toUri())
+                                            .build()
+                                    )
+                                    .build()
+
+                                withContext(Dispatchers.Main) {
+                                    if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
+                                        player.replaceMediaItem(
+                                            player.currentMediaItemIndex,
+                                            updated
+                                        )
+                                    }
+
+                                }
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+            } catch (ex: Exception) {
+                Log.e(
+                    "CustomLog",
+                    "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}"
+                )
+
+            }
+        }
+
     }
 }

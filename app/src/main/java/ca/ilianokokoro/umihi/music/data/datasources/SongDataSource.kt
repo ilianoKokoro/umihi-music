@@ -3,12 +3,10 @@ package ca.ilianokokoro.umihi.music.data.datasources
 import android.util.Log
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
-import ca.ilianokokoro.umihi.music.models.Song
 
 class SongDataSource {
-    fun getStreamUrlFromId(song: Song): String {
-// TODO : REmove cookies ?
-        val result = YoutubeRequestHelper.getPlayerInfo(song.id)
+    fun getStreamUrlFromId(songId: String): String {
+        val result = YoutubeRequestHelper.getPlayerInfo(songId)
         Log.d("CustomLog", result)
 
         // Hard stream
@@ -16,13 +14,14 @@ class SongDataSource {
 
         // Easy stream
         return listOf(
-            "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3?_=1"
+            "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3?_=1",
+            "https://drive.usercontent.google.com/download?id=1c6J-XHa1PilDFgOegKPjQeHhqYG9_LeA&export=download&authuser=0"
         ).random()
     }
 
-    fun getSongThumbnail(id: String): String {
+    fun getSongThumbnail(songId: String): String {
         return YoutubeHelper.extractHighQualityThumbnail(
-            YoutubeRequestHelper.getPlayerInfo(id)
+            YoutubeRequestHelper.getPlayerInfo(songId)
         )
     }
 }
