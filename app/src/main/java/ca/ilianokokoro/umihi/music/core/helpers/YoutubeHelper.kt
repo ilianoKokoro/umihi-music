@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
-import android.util.Log
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.serialization.json.Json
@@ -130,7 +129,7 @@ object YoutubeHelper {
                     id = videoId,
                     title = title,
                     artist = artist,
-                    lowQualityCoverHref = thumbnailUrl
+                    thumbnail = thumbnailUrl
                 )
             )
         }
@@ -140,8 +139,15 @@ object YoutubeHelper {
 
 
     fun extractHighQualityThumbnail(jsonString: String): String {
-        Log.d("CustomLog", jsonString)
-        return ""
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+        val url = json["videoDetails"]
+            ?.jsonObject?.get("thumbnail")
+            ?.jsonObject?.get("thumbnails")
+            ?.jsonArray?.last()
+            ?.jsonObject?.get("url")
+            ?.jsonPrimitive?.contentOrNull
+
+        return url ?: ""
     }
 
 

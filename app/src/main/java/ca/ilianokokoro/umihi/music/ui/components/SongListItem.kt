@@ -23,7 +23,7 @@ fun SongListItem(song: Song, onPress: () -> Unit, modifier: Modifier = Modifier)
                     .size(60.dp)        // match the row height
                     .aspectRatio(1f)        // force square
             ) {
-                SquareImage(song.lowQualityCoverHref, modifier = modifier.matchParentSize())
+                SquareImage(song.thumbnail, modifier = modifier.matchParentSize())
             }
         },
         headlineContent = { Text(song.title, modifier = modifier.basicMarquee()) },

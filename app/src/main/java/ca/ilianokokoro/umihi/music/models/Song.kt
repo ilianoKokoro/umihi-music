@@ -9,6 +9,5 @@ data class Song(
     val id: String,
     val title: String,
     val artist: String,
-    val lowQualityCoverHref: String,
-    val highQualityCoverHref: String? = null
+    val thumbnail: String,
 )

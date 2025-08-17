@@ -3,11 +3,10 @@ package ca.ilianokokoro.umihi.music.data.datasources
 import android.util.Log
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
-import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Song
 
 class SongDataSource {
-    fun getStreamUrlFromId(song: Song, cookies: Cookies): String {
+    fun getStreamUrlFromId(song: Song): String {
 // TODO : REmove cookies ?
         val result = YoutubeRequestHelper.getPlayerInfo(song.id)
         Log.d("CustomLog", result)
@@ -21,11 +20,9 @@ class SongDataSource {
         ).random()
     }
 
-    fun getFullSongInfo(song: Song): Song {
-        return song.copy(
-            highQualityCoverHref = YoutubeHelper.extractHighQualityThumbnail(
-                YoutubeRequestHelper.getPlayerInfo(song.id)
-            )
+    fun getSongThumbnail(id: String): String {
+        return YoutubeHelper.extractHighQualityThumbnail(
+            YoutubeRequestHelper.getPlayerInfo(id)
         )
     }
 }

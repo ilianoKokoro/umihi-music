@@ -78,7 +78,7 @@ fun PlayerScreen(
                     .weight(3f)
                     .padding(horizontal = 20.dp)
             ) {
-                SquareImage(url = uiState.currentSong.lowQualityCoverHref)
+                SquareImage(url = uiState.currentSong.thumbnail)
             }
 
             // Song Info + Controls

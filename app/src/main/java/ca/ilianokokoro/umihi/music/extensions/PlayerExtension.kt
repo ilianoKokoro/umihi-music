@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.extensions
 
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -12,7 +11,6 @@ import ca.ilianokokoro.umihi.music.models.Song
 suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     val mediaItems = mutableListOf<MediaItem>()
     for (song in playlist.songs) {
-        Log.d("CustomLog", "Getting full song info for ${song.title}")
         val mediaItem = MediaItem.Builder()
             .setUri(
                 listOf(
@@ -26,9 +24,7 @@ suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
                     .setTitle(song.title)
                     .setArtist(song.artist)
                     .setArtworkUri(
-                        "https://i.ytimg.com/vi/${song.id}/maxresdefault.jpg".toUri() // temp wont work with every song
-                        //  (fullSong.highQualityCoverHref
-                        //    ?: fullSong.lowQualityCoverHref).toUri()
+                        song.thumbnail.toUri()
                     )
                     .build()
             )
@@ -60,3 +56,4 @@ fun Player.getCurrentSong(): Song {
         currentItem?.artworkUri.toString()
     )
 }
+
