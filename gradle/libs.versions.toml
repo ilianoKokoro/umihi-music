@@ -1,6 +1,6 @@
 [versions]
 agp = "8.12.0"
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -12,7 +12,7 @@ composeBom = "2025.08.00"
 # Added librairies
 nav3Core = "1.0.0-alpha07"
 nav3Lifecycle = "1.0.0-alpha04"
-kotlinSerialization = "2.2.0"
+kotlinSerialization = "2.2.10"
 kotlinxSerializationCore = "1.9.0"
 coil = "3.3.0"
 media3Exoplayer = "1.8.0"
