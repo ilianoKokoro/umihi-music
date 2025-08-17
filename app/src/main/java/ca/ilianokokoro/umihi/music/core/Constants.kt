@@ -37,7 +37,7 @@ object Constants {
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
 
         object Browse {
-            const val URL = "${ORIGIN}/youtubei/v1/browse?alt=json&key=${API_KEY}"
+            const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
             val CONTEXT =
                 buildJsonObject {
@@ -49,18 +49,27 @@ object Constants {
 
         }
 
-        object Player {
-            const val URL = "${ORIGIN}/youtubei/v1/player"
+        object PlayerInfo {
+
+            const val URL =
+                "https://www.youtube.com/youtubei/v1/player"
 
             val CONTEXT = buildJsonObject {
                 put("client", buildJsonObject {
-                    put("clientName", JsonPrimitive("WEB_CREATOR"))
-                    put("clientVersion", JsonPrimitive("1.20240723.03.00"))
+                    put("clientName", JsonPrimitive("WEB"))
+                    put("clientVersion", JsonPrimitive("2.20250312.04.00"))
+                    put(
+                        "userAgent",
+                        JsonPrimitive(
+                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15,gzip(gfe)"
+                        )
+                    )
                     put("hl", JsonPrimitive("en"))
                     put("timeZone", JsonPrimitive("UTC"))
                     put("utcOffsetMinutes", JsonPrimitive(0))
                 })
             }
+
 
         }
 

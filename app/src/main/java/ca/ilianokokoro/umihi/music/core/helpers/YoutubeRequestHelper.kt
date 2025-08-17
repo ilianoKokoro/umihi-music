@@ -37,19 +37,16 @@ object YoutubeRequestHelper {
     }
 
 
-    fun getPlayer(videoId: String, cookies: Cookies): String {
+    fun getPlayerInfo(videoId: String): String {
         val body =
             buildJsonObject {
-                put("context", Constants.YoutubeApi.Player.CONTEXT)
+                put("context", Constants.YoutubeApi.PlayerInfo.CONTEXT)
                 put("videoId", videoId)
             }
 
 
-        val headers = YoutubeAuthHelper.getHeaders(cookies)
-        val (_, _, result) = Constants.YoutubeApi.Player.URL.httpPost().jsonBody(body.toString())
-            .header(
-                headers
-            )
+        val (_, _, result) = Constants.YoutubeApi.PlayerInfo.URL.httpPost()
+            .jsonBody(body.toString())
             .responseJson()
 
         return when (result) {

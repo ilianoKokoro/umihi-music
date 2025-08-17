@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.extensions
 
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -8,23 +9,34 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 
-fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
-
+suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     val mediaItems = mutableListOf<MediaItem>()
-
     for (song in playlist.songs) {
+        Log.d("CustomLog", "Getting full song info for ${song.title}")
         val mediaItem = MediaItem.Builder()
-            .setUri("https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3?_=1") // TODO : actual url
+            .setUri(
+                listOf(
+                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3?_=1",
+                    "https://drive.usercontent.google.com/download?id=1c6J-XHa1PilDFgOegKPjQeHhqYG9_LeA&export=download&authuser=0"
+                ).random()
+            )
+            .setMediaId(song.id)
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(song.title)
                     .setArtist(song.artist)
-                    .setArtworkUri(song.lowQualityCoverHref.toUri()) // TODO : High quality
+                    .setArtworkUri(
+                        "https://i.ytimg.com/vi/${song.id}/maxresdefault.jpg".toUri() // temp wont work with every song
+                        //  (fullSong.highQualityCoverHref
+                        //    ?: fullSong.lowQualityCoverHref).toUri()
+                    )
                     .build()
             )
             .build()
 
         mediaItems.add(mediaItem)
+
+
     }
 
 
@@ -34,10 +46,10 @@ fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     play()
 }
 
-fun Player.shufflePlaylist(playlist: Playlist) {
+suspend fun Player.shufflePlaylist(playlist: Playlist) {
     val songs = playlist.songs
     val shuffledPlaylist = playlist.copy(songs = songs.shuffled())
-    playPlaylist(shuffledPlaylist)
+    this.playPlaylist(shuffledPlaylist)
 }
 
 

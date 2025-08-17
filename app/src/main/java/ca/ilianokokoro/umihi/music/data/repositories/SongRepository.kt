@@ -22,4 +22,15 @@ class SongRepository {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getFullSongInfo(song: Song): Flow<ApiResult<Song>> {
+        return flow {
+            try {
+                emit(ApiResult.Loading)
+                emit(ApiResult.Success(songDataSource.getFullSongInfo(song)))
+            } catch (e: Exception) {
+                emit(ApiResult.Error(e))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }
