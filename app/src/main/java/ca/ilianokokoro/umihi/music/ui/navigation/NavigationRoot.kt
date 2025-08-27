@@ -131,7 +131,7 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                             PlaylistScreen(
                                 playlist = key.playlist,
                                 onBack = backStack::removeLastOrNull,
-                                onSongPressed = { song ->
+                                onOpenPlayer = {
                                     backStack.add(PlayerScreenKey)
                                 }, player = player, application = app
                             )

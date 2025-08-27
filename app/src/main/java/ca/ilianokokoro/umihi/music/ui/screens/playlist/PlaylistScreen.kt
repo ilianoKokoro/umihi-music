@@ -21,20 +21,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
-import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.SongListItem
+import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.ActionButtons
 
 @Composable
 fun PlaylistScreen(
     playlist: Playlist,
-    onSongPressed: (song: Song) -> Unit,
+    onOpenPlayer: () -> Unit,
     onBack: () -> Unit,
     player: Player,
     modifier: Modifier = Modifier,
@@ -83,11 +85,29 @@ fun PlaylistScreen(
                     modifier = modifier
                         .fillMaxSize()
                 ) {
+
                     LazyColumn(
                         modifier = modifier
                             .fillMaxSize()
                     ) {
-                        val songs = uiState.screenState.playlist.songs
+                        val fullPlaylist = uiState.screenState.playlist
+                        val songs = fullPlaylist.songs
+                        item {
+                            Column(modifier = modifier.padding(horizontal = 16.dp)) {
+                                PlaylistInfo(fullPlaylist)
+                                ActionButtons(
+                                    onPlayClicked = {
+                                        onOpenPlayer()
+                                        playlistViewModel.playPlaylist()
+                                    },
+                                    onShuffleClicked = {
+                                        onOpenPlayer()
+                                        playlistViewModel.shufflePlaylist()
+                                    }
+                                )
+                            }
+                        }
+
 
                         if (songs.isEmpty()) {
                             item {
@@ -103,7 +123,7 @@ fun PlaylistScreen(
                                 it.id
                             }) { song ->
                                 SongListItem(song, onPress = {
-                                    onSongPressed(song)
+                                    onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
                                 })
                             }

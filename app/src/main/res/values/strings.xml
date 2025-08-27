@@ -8,4 +8,7 @@
     <string name="playlist_cover">Playlist cover</string>
     <string name="log_in">Log In</string>
     <string name="empty_playlist">No songs in the playlist</string>
+    <string name="play">Play</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="songs">%1$d songs</string>
 </resources>

@@ -60,10 +60,12 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
         }
     }
 
-    fun playPlaylist(startingSong: Song) {
+    fun playPlaylist(startingSong: Song? = null) {
         val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
-        _player.playPlaylist(playlist, playlist.songs.indexOf(startingSong))
-
+        _player.playPlaylist(
+            playlist,
+            startingSong?.let { playlist.songs.indexOf(it) } ?: 0
+        )
     }
 
     fun shufflePlaylist() {
