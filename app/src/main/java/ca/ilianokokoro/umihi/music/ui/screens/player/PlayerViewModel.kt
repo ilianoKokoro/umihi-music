@@ -31,10 +31,12 @@ class PlayerViewModel(player: Player, application: Application) :
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                _uiState.update {
-                    _uiState.value.copy(
-                        isPlaying = _player.isPlaying
-                    )
+                viewModelScope.launch {
+                    _uiState.update {
+                        _uiState.value.copy(
+                            isPlaying = _player.isPlaying
+                        )
+                    }
                 }
             }
 
@@ -53,23 +55,27 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     fun seek(location: Float) {
-        _uiState.update {
-            _uiState.value.copy(
-                progressMs = location,
-            )
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    progressMs = location,
+                )
+            }
         }
     }
 
     fun updateSeekBarHeldState(isHeld: Boolean) {
-        if (_uiState.value.isSeekBarHeld == isHeld) {
-            return
-        }
+        viewModelScope.launch {
+            if (_uiState.value.isSeekBarHeld == isHeld) {
+                return@launch
+            }
 
 
-        _uiState.update {
-            _uiState.value.copy(
-                isSeekBarHeld = isHeld,
-            )
+            _uiState.update {
+                _uiState.value.copy(
+                    isSeekBarHeld = isHeld,
+                )
+            }
         }
     }
 
@@ -91,10 +97,12 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun updateCurrentSong() {
-        _uiState.update {
-            _uiState.value.copy(
-                currentSong = _player.getCurrentSong(),
-            )
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    currentSong = _player.getCurrentSong(),
+                )
+            }
         }
 
     }
@@ -115,17 +123,20 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun updateSongInfo() {
-        var songDuration = _player.duration
+        viewModelScope.launch {
 
-        if (songDuration == C.TIME_UNSET) {
-            songDuration = 0
-        }
+            var songDuration = _player.duration
 
-        _uiState.update {
-            _uiState.value.copy(
-                durationMs = songDuration.toFloat(),
-                isLoading = _player.isLoading
-            )
+            if (songDuration == C.TIME_UNSET) {
+                songDuration = 0
+            }
+
+            _uiState.update {
+                _uiState.value.copy(
+                    durationMs = songDuration.toFloat(),
+                    isLoading = _player.isLoading
+                )
+            }
         }
     }
 

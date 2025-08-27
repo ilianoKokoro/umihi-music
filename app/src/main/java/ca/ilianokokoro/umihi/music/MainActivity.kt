@@ -14,6 +14,8 @@ import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import io.github.shalva97.initNewPipe
+
 
 class MainActivity : ComponentActivity() {
     private var controllerFuture: ListenableFuture<MediaController>? = null
@@ -21,6 +23,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initNewPipe()
 
         initExoplayer { readyPlayer ->
             player = readyPlayer

@@ -10,17 +10,6 @@ import kotlinx.coroutines.flow.flowOn
 class SongRepository {
     private val songDataSource = SongDataSource()
 
-    fun getStreamUrlFromId(songId: String): Flow<ApiResult<String>> {
-        return flow {
-            try {
-                emit(ApiResult.Loading)
-                emit(ApiResult.Success(songDataSource.getStreamUrlFromId(songId)))
-            } catch (e: Exception) {
-                emit(ApiResult.Error(e))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
     fun getSongThumbnail(songId: String): Flow<ApiResult<String>> {
         return flow {
             try {

@@ -1,7 +1,10 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.booleanOrNull
@@ -9,6 +12,7 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import org.schabi.newpipe.extractor.ServiceList
 
 object YoutubeHelper {
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
@@ -148,6 +152,17 @@ object YoutubeHelper {
             ?.jsonPrimitive?.contentOrNull
 
         return url ?: ""
+    }
+
+    suspend fun getSongPlayerUrl(song: Song): String {
+        val service = ServiceList.YouTube
+        val extractor = withContext(Dispatchers.IO) {
+            val extractor =
+                service.getStreamExtractor("${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${song.id}")
+            extractor.fetchPage()
+            return@withContext extractor
+        }
+        return extractor.audioStreams.maxBy { it.averageBitrate }.content
     }
 
 

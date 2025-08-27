@@ -1,10 +1,15 @@
 package ca.ilianokokoro.umihi.music
 
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -22,10 +27,18 @@ class PlaybackService : MediaSessionService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 
+    @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
+        
+        val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+            .setUserAgent(Util.getUserAgent(this, this.packageName))
 
-        player = ExoPlayer.Builder(this).build()
+        player = ExoPlayer.Builder(this)
+            .setMediaSourceFactory(
+                DefaultMediaSourceFactory(httpDataSourceFactory)
+            )
+            .build()
 
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(
