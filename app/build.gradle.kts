@@ -84,6 +84,11 @@ dependencies {
     // Exoplayer
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.session)
+    // Additional playback support
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.exoplayer.rtsp)
+    implementation(libs.androidx.media3.exoplayer.hls)
+    // implementation("androidx.media3:media3-ui:1.8.0")
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
@@ -97,4 +102,5 @@ dependencies {
 
     // Icons
     implementation(libs.androidx.material.icons.extended)
+
 }
