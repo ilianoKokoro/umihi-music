@@ -12,7 +12,8 @@ import ca.ilianokokoro.umihi.music.models.Song
 suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     val mediaItems =
         playlist.songs.map { song ->
-            val uri = YoutubeHelper.getSongPlayerUrl(song)
+            val uri = YoutubeHelper.getSongPlayerUrl(playlist.songs[0])
+            
             MediaItem.Builder()
                 .setUri(uri)
                 .setMediaId(song.id)
@@ -42,8 +43,8 @@ fun Player.getCurrentSong(): Song {
     val currentItem = currentMediaItem?.mediaMetadata
     return Song(
         currentMediaItem?.mediaId ?: "",
-        currentItem?.title.toString(),
-        currentItem?.artist.toString(),
+        currentItem?.title.toStringOrEmpty(),
+        currentItem?.artist.toStringOrEmpty(),
         currentItem?.artworkUri.toString()
     )
 }

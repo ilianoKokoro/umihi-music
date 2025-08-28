@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -30,7 +31,9 @@ class PlayerViewModel(player: Player, application: Application) :
                 updateCurrentSong()
             }
 
+
             override fun onIsPlayingChanged(isPlaying: Boolean) {
+                Log.d("CustomLog", "onIsPlayingChanged isPlaying $isPlaying")
                 viewModelScope.launch {
                     _uiState.update {
                         _uiState.value.copy(
@@ -40,8 +43,43 @@ class PlayerViewModel(player: Player, application: Application) :
                 }
             }
 
-            override fun onIsLoadingChanged(isLoading: Boolean) {
-                updateSongInfo() // TODO : Add loading indicator
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                viewModelScope.launch {
+                    when (playbackState) {
+                        Player.STATE_BUFFERING -> {
+                            Log.d("CustomLog", "Player.STATE_BUFFERING")
+                            _uiState.update {
+                                _uiState.value.copy(
+                                    isLoading = true
+                                )
+                            }
+                        }
+
+                        Player.STATE_READY -> {
+                            Log.d("CustomLog", "Player.STATE_READY")
+                            updateSongDuration()
+                            _uiState.update {
+                                _uiState.value.copy(
+                                    isLoading = false
+                                )
+                            }
+                        }
+
+//                        Player.STATE_ENDED -> {
+//                            Log.d("CustomLog", "Player.STATE_ENDED")
+//                        }
+
+//                        Player.STATE_IDLE -> {
+//                            Log.d("CustomLog", "Player.STATE_IDLE")
+//                        }
+
+
+                        else -> {
+                            // Do nothing
+                        }
+                    }
+                }
             }
         })
 
@@ -97,6 +135,9 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun updateCurrentSong() {
+        Log.d("CustomLog", "updateCurrentSong ${_player.getCurrentSong()}")
+        resetState()
+
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
@@ -104,10 +145,10 @@ class PlayerViewModel(player: Player, application: Application) :
                 )
             }
         }
-
     }
 
     private fun startProgressUpdate() {
+        Log.d("CustomLog", "startProgressUpdate progressMs ${_player.currentPosition.toFloat()}")
         viewModelScope.launch {
             while (true) {
                 if (!_uiState.value.isSeekBarHeld) {
@@ -122,7 +163,11 @@ class PlayerViewModel(player: Player, application: Application) :
         }
     }
 
-    private fun updateSongInfo() {
+    private fun updateSongDuration() {
+        if (_uiState.value.durationMs != 0f) {
+            return
+        }
+
         viewModelScope.launch {
 
             var songDuration = _player.duration
@@ -131,15 +176,31 @@ class PlayerViewModel(player: Player, application: Application) :
                 songDuration = 0
             }
 
+
+            Log.d(
+                "CustomLog",
+                "updateSongInfo durationMs $songDuration"
+            )
+
             _uiState.update {
                 _uiState.value.copy(
                     durationMs = songDuration.toFloat(),
-                    isLoading = _player.isLoading
                 )
             }
         }
     }
 
+
+    private fun resetState() {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    durationMs = 0f,
+                    progressMs = 0f,
+                )
+            }
+        }
+    }
 
     companion object {
         fun Factory(
