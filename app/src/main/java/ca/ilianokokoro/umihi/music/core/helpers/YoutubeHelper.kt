@@ -154,11 +154,11 @@ object YoutubeHelper {
         return url ?: ""
     }
 
-    suspend fun getSongPlayerUrl(song: Song): String {
+    suspend fun getSongPlayerUrl(songId: String): String {
         val service = ServiceList.YouTube
         val extractor = withContext(Dispatchers.IO) {
             val extractor =
-                service.getStreamExtractor("${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${song.id}")
+                service.getStreamExtractor("${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${songId}")
             extractor.fetchPage()
             return@withContext extractor
         }

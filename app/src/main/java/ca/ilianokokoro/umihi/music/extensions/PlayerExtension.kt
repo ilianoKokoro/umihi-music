@@ -12,8 +12,8 @@ import ca.ilianokokoro.umihi.music.models.Song
 suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
     val mediaItems =
         playlist.songs.map { song ->
-            val uri = YoutubeHelper.getSongPlayerUrl(playlist.songs[0])
-            
+            val uri = YoutubeHelper.getSongPlayerUrl(song.id)
+
             MediaItem.Builder()
                 .setUri(uri)
                 .setMediaId(song.id)
