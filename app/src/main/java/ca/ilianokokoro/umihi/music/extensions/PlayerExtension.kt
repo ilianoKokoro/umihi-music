@@ -1,33 +1,18 @@
 package ca.ilianokokoro.umihi.music.extensions
 
-import androidx.core.net.toUri
 import androidx.media3.common.C
-import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
-import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 
 suspend fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
-    val mediaItems =
-        playlist.songs.map { song ->
-            val uri = YoutubeHelper.getSongPlayerUrl(song.id)
+    // Put placeholder data
+    var mediaItems = playlist.getMediaItems()
+    setMediaItems(mediaItems, index, C.TIME_UNSET)
+    prepare()
 
-            MediaItem.Builder()
-                .setUri(uri)
-                .setMediaId(song.id)
-                .setMediaMetadata(
-                    MediaMetadata.Builder()
-                        .setTitle(song.title)
-                        .setArtist(song.artist)
-                        .setArtworkUri(song.thumbnail.toUri())
-                        .build()
-                )
-                .build()
-
-        }
-
+    // Put placeholder data
+    mediaItems = playlist.getMediaItems(true)
     setMediaItems(mediaItems, index, C.TIME_UNSET)
     prepare()
     play()
@@ -48,4 +33,3 @@ fun Player.getCurrentSong(): Song {
         currentItem?.artworkUri.toString()
     )
 }
-

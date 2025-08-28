@@ -148,7 +148,7 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun startProgressUpdate() {
-        Log.d("CustomLog", "startProgressUpdate progressMs ${_player.currentPosition.toFloat()}")
+        Log.d("CustomLog", "startProgressUpdate")
         viewModelScope.launch {
             while (true) {
                 if (!_uiState.value.isSeekBarHeld) {
