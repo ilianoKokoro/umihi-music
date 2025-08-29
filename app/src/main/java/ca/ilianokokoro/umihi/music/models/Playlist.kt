@@ -4,7 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
-import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,16 +14,10 @@ data class Playlist(
     val coverHref: String,
     val songs: List<Song> = emptyList()
 ) {
-    suspend fun getMediaItems(getUri: Boolean = false): List<MediaItem> {
+    fun getMediaItems(): List<MediaItem> {
         return songs.map { song ->
-            val uri = if (getUri) {
-                YoutubeHelper.getSongPlayerUrl(song.id)
-            } else {
-                ""
-            }
-
             MediaItem.Builder()
-                .setUri(uri)
+                .setUri(song.id)
                 .setMediaId(song.id)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
