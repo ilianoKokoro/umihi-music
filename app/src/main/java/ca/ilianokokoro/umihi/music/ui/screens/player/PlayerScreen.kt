@@ -3,6 +3,11 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player
 
 import android.app.Application
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 
@@ -76,9 +82,23 @@ fun PlayerScreen(
             Box(
                 modifier = Modifier
                     .weight(3f)
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 20.dp),
             ) {
-                SquareImage(url = uiState.currentSong.thumbnail)
+                AnimatedContent(
+                    targetState = uiState.currentSong.thumbnail,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
+                            fadeOut(
+                                animationSpec = tween(
+                                    Constants.Player.IMAGE_TRANSITION_DELAY
+                                )
+                            )
+                        )
+                    }
+                ) { targetState ->
+                    SquareImage(url = targetState)
+                }
+
             }
 
             // Song Info + Controls

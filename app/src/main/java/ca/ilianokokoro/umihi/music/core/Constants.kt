@@ -27,6 +27,7 @@ object Constants {
 
     object Player {
         const val PROGRESS_UPDATE_DELAY = 500L
+        const val IMAGE_TRANSITION_DELAY = 200
     }
 
     object YoutubeApi {
