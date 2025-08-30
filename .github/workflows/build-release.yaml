@@ -83,9 +83,15 @@ jobs:
             - name: Extract version
               id: get_version
               run: |
-                  version=$(grep -oP 'versionName\s*=\s*"\K[0-9A-Za-z\.-]+' ${{ env.main_project_module }}/build.gradle.kts)
+                  versionMajor=$(grep -oP 'val\s+versionMajor\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
+                  versionMinor=$(grep -oP 'val\s+versionMinor\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
+                  versionPatch=$(grep -oP 'val\s+versionPatch\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
+
+                  version="${versionMajor}.${versionMinor}.${versionPatch}"
+
                   echo "version=$version"
                   echo "version=$version" >> $GITHUB_OUTPUT
+
             - name: Create a Release
               uses: ncipollo/release-action@v1
               env:
