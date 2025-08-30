@@ -119,7 +119,6 @@ object YoutubeHelper {
             ?.jsonObject?.get("musicPlaylistShelfRenderer")
             ?.jsonObject?.get("contents")
             ?.jsonArray
-
         return parseSongsFromContents(contents, cookies)
     }
 

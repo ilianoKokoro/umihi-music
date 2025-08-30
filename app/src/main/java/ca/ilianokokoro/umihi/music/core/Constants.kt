@@ -55,24 +55,7 @@ object Constants {
 
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player"
-
-            val CONTEXT = buildJsonObject {
-                put("client", buildJsonObject {
-                    put("clientName", JsonPrimitive("WEB"))
-                    put("clientVersion", JsonPrimitive("2.20250312.04.00"))
-                    put(
-                        "userAgent",
-                        JsonPrimitive(
-                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15,gzip(gfe)"
-                        )
-                    )
-                    put("hl", JsonPrimitive("en"))
-                    put("timeZone", JsonPrimitive("UTC"))
-                    put("utcOffsetMinutes", JsonPrimitive(0))
-                })
-            }
-
-
+            
         }
 
 
