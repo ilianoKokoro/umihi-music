@@ -27,10 +27,10 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 ## Screenshots 🖼️
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/home.png" width="225" />
-  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/playlist.png" width="225" />
-  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/player.png" width="225" />
-    <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/settings.png" width="225" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/home.png" width="200" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/playlist.png" width="200" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/player.png" width="200" />
+    <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/settings.png" width="200" />
 </p>
 
 ## Download 📥

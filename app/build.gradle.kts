@@ -1,5 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+val versionMajor = 1
+val versionMinor = 0
+val versionPatch = 0
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,8 +19,8 @@ android {
         applicationId = "ca.ilianokokoro.umihi.music"
         minSdk = 27
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.0.1"
+        versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
