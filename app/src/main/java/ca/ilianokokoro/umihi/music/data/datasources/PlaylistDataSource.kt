@@ -22,7 +22,7 @@ class PlaylistDataSource {
                 YoutubeRequestHelper.browse(
                     playlist.id,
                     cookies
-                )
+                ), cookies
             )
         )
     }

@@ -56,7 +56,7 @@ fun SettingsScreen(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }) {
+                    IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = stringResource(R.string.back_description)
@@ -86,29 +86,31 @@ fun SettingsScreen(
                 is ScreenState.Success -> {
                     if (uiState.screenState.isLoggedIn) {
                         SettingCard(
-                            "You are logged in to your YouTube account",
-                            "Log Out"
-                        ) { settingsViewModel.logOut() }
+                            text = "You are logged in to your YouTube account",
+                            buttonText = "Log Out",
+                            onButtonPress = settingsViewModel::logOut
+                        )
                     } else {
                         SettingCard(
-                            "You are currently not logged in",
-                            "Log In"
-                        ) {
-                            openAuthScreen()
-                        }
+                            text = "You are currently not logged in",
+                            buttonText = "Log In",
+                            onButtonPress = openAuthScreen
+                        )
                     }
 
 // TODO : Uncomment when downloads are implemented
 //                    SettingCard(
-//                        "Press this button to remove all downloaded songs",
-//                        "Delete downloads"
-//                    ) { settingsViewModel.clearDownloads() }
+//                        text = "Press this button to remove all downloaded songs",
+//                        buttonText = "Delete downloads",
+//                        onButtonPress = settingsViewModel::clearDownloads
+//                    )
                 }
 
                 ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> ErrorMessage(
                     ex = uiState.screenState.exception,
-                    onRetry = { settingsViewModel.getLoginState() })
+                    onRetry = settingsViewModel::getLoginState
+                )
             }
         }
 

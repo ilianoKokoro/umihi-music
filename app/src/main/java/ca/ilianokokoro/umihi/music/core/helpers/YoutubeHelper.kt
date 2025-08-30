@@ -1,11 +1,13 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
@@ -93,8 +95,19 @@ object YoutubeHelper {
         return playlists
     }
 
+    fun extractHighQualityThumbnail(jsonString: String): String {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+        val url = json["videoDetails"]
+            ?.jsonObject?.get("thumbnail")
+            ?.jsonObject?.get("thumbnails")
+            ?.jsonArray?.last()
+            ?.jsonObject?.get("url")
+            ?.jsonPrimitive?.contentOrNull
 
-    fun extractSongList(jsonString: String): List<Song> {
+        return url ?: ""
+    }
+
+    fun extractSongList(jsonString: String, cookies: Cookies): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["contents"]
@@ -107,19 +120,46 @@ object YoutubeHelper {
             ?.jsonObject?.get("contents")
             ?.jsonArray
 
-        val songs = mutableListOf<Song>()
+        return parseSongsFromContents(contents, cookies)
+    }
 
-        if (contents == null) {
-            return listOf()
-        }
+    fun extractContinuationSongs(jsonString: String, cookies: Cookies): List<Song> {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+
+        val contents = json["onResponseReceivedActions"]
+            ?.jsonArray?.getOrNull(0)
+            ?.jsonObject?.get("appendContinuationItemsAction")
+            ?.jsonObject?.get("continuationItems")
+            ?.jsonArray
+
+        return parseSongsFromContents(contents, cookies)
+    }
+
+    private fun parseSongsFromContents(contents: JsonArray?, cookies: Cookies): List<Song> {
+        val songs = mutableListOf<Song>()
+        if (contents == null) return songs
 
         for (shelf in contents) {
+            val continuationContent = shelf.jsonObject["continuationItemRenderer"]
+
+            if (continuationContent != null) {
+                val token = continuationContent.jsonObject["continuationEndpoint"]
+                    ?.jsonObject?.get("continuationCommand")
+                    ?.jsonObject?.get("token")
+                    ?.jsonPrimitive?.contentOrNull ?: ""
+                val otherSongs = extractContinuationSongs(
+                    YoutubeRequestHelper.requestContinuation(
+                        continuationToken = token,
+                        cookies = cookies
+                    ), cookies
+                )
+                songs.addAll(otherSongs)
+                continue
+            }
+
             val songContent =
                 shelf.jsonObject["musicResponsiveListItemRenderer"]?.jsonObject ?: continue
-
-            val thumbnailUrl = getBestThumbnailUrl(
-                songContent["thumbnail"] ?: continue
-            )
+            val thumbnailUrl = getBestThumbnailUrl(songContent["thumbnail"] ?: continue)
 
             val title = getSongInfo(songContent, SongInfoType.TITLE)
             val artist = getSongInfo(songContent, SongInfoType.ARTIST)
@@ -141,18 +181,6 @@ object YoutubeHelper {
         return songs
     }
 
-
-    fun extractHighQualityThumbnail(jsonString: String): String {
-        val json = Json.parseToJsonElement(jsonString).jsonObject
-        val url = json["videoDetails"]
-            ?.jsonObject?.get("thumbnail")
-            ?.jsonObject?.get("thumbnails")
-            ?.jsonArray?.last()
-            ?.jsonObject?.get("url")
-            ?.jsonPrimitive?.contentOrNull
-
-        return url ?: ""
-    }
 
     suspend fun getSongPlayerUrl(songId: String): String {
         val service = ServiceList.YouTube

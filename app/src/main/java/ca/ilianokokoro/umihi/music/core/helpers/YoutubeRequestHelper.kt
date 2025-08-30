@@ -11,42 +11,55 @@ import kotlinx.serialization.json.put
 
 object YoutubeRequestHelper {
     fun browse(browseId: String, cookies: Cookies): String {
-        val body =
-            buildJsonObject {
-                put("context", Constants.YoutubeApi.Browse.CONTEXT)
-                put("browseId", browseId)
-            }
+        return requestWithContext(
+            url = Constants.YoutubeApi.Browse.URL,
+            idName = "browseId",
+            id = browseId,
+            cookies = cookies
+        )
+    }
 
-
-        val headers = YoutubeAuthHelper.getHeaders(cookies)
-        val (_, _, result) = Constants.YoutubeApi.Browse.URL.httpPost().jsonBody(body.toString())
-            .header(
-                headers
-            )
-            .responseJson()
-
-        return when (result) {
-            is Result.Success -> {
-                result.value.content
-            }
-
-            is Result.Failure -> {
-                throw result.error.exception
-            }
-        }
+    fun requestContinuation(continuationToken: String, cookies: Cookies): String {
+        return requestWithContext(
+            url = Constants.YoutubeApi.Browse.URL,
+            idName = "continuation",
+            id = continuationToken,
+            cookies = cookies
+        )
     }
 
 
     fun getPlayerInfo(videoId: String): String {
+        return requestWithContext(
+            url = Constants.YoutubeApi.PlayerInfo.URL,
+            idName = "videoId",
+            id = videoId
+        )
+    }
+
+    private fun requestWithContext(
+        url: String,
+        idName: String,
+        id: String,
+        cookies: Cookies? = null
+    ): String {
         val body =
             buildJsonObject {
-                put("context", Constants.YoutubeApi.PlayerInfo.CONTEXT)
-                put("videoId", videoId)
+                put("context", Constants.YoutubeApi.Browse.CONTEXT)
+                put(idName, id)
             }
 
 
-        val (_, _, result) = Constants.YoutubeApi.PlayerInfo.URL.httpPost()
-            .jsonBody(body.toString())
+        val headers = if (cookies != null) {
+            YoutubeAuthHelper.getHeaders(cookies)
+        } else {
+            mapOf()
+        }
+
+        val (_, _, result) = url.httpPost().jsonBody(body.toString())
+            .header(
+                headers
+            )
             .responseJson()
 
         return when (result) {
