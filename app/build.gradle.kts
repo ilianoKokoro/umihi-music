@@ -12,12 +12,13 @@ plugins {
 }
 
 android {
+
     namespace = "ca.ilianokokoro.umihi.music"
     compileSdk = 36
 
     defaultConfig {
         applicationId = "ca.ilianokokoro.umihi.music"
-        minSdk = 27
+        minSdk = 23
         targetSdk = 36
         versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -35,13 +36,23 @@ android {
             )
         }
     }
+
+    // Universal APK only
+    splits {
+        abi {
+            isEnable = false
+            isUniversalApk = true
+        }
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
+            jvmTarget = JvmTarget.JVM_24
         }
     }
 
@@ -59,7 +70,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,7 +78,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.material3)
+
+    // Desugaring
+    coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
 
     // Navigation 3
     implementation(libs.nav3.runtime)

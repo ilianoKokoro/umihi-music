@@ -19,7 +19,7 @@ env:
 
     apk_file_name: UmihiMusic
 
-    original_apk: app-arm64-v8a-release-unsigned.apk
+    original_apk: app-release-unsigned.apk
 
 jobs:
     build-android-apk:
@@ -32,7 +32,7 @@ jobs:
               uses: actions/setup-java@v4
               with:
                   distribution: "temurin"
-                  java-version: 21
+                  java-version: 24
                   cache: "gradle"
 
             - name: Change wrapper permissions
