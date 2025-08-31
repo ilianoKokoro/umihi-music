@@ -38,6 +38,7 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 **Click here to download the latest version :**
 
 <a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+<a href="https://apt.izzysoft.de/packages/ca.ilianokokoro.umihi.music"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80" alt="Get it at IzzyOnDroid"></a>
 
 ### Beta build
 
