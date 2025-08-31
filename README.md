@@ -33,19 +33,22 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
     <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/assets/settings.png" width="200" />
 </p>
 
-## Download 📥
+## Downloads 📥
 
-**Click here to download the latest version :**
+<a href="https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music">
+  <img src="https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music" alt="RB Status">
+</a>
 
+<p float="left">
+<a href="https://apt.izzysoft.de/packages/ca.ilianokokoro.umihi.music"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80"></a>
 <a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+</p>
 
 ### Beta build
 
 **⚠️ This build may not be stable as it is not a release ⚠️**
 
 [![Beta APK Build](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
-
-**Click here to download the latest Beta version:**
 
 <a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
 
