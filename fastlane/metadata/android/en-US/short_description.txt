@@ -1,1 +1,1 @@
-simple Material YouTube Music player
+A simple Material YouTube Music player
