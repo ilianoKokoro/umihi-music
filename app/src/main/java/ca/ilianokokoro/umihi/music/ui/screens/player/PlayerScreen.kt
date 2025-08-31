@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,12 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -52,6 +55,8 @@ fun PlayerScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+
+    val queueSheetState = rememberModalBottomSheetState()
 
     Scaffold(
         topBar = {
@@ -85,7 +90,7 @@ fun PlayerScreen(
                     .padding(horizontal = 20.dp),
             ) {
                 AnimatedContent(
-                    targetState = uiState.currentSong.thumbnail,
+                    targetState = playlistViewModel.currentSong.thumbnail,
                     transitionSpec = {
                         fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
                             fadeOut(
@@ -114,12 +119,12 @@ fun PlayerScreen(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = uiState.currentSong.title,
+                        text = playlistViewModel.currentSong.title,
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         modifier = modifier.basicMarquee()
                     )
                     Text(
-                        text = uiState.currentSong.artist,
+                        text = playlistViewModel.currentSong.artist,
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.Bold
@@ -146,7 +151,7 @@ fun PlayerScreen(
             // Queue Button
             IconButton(
                 onClick = {
-                    // TODO
+                    playlistViewModel.setQueueVisibility(true)
                 }
             ) {
                 Icon(
@@ -154,6 +159,17 @@ fun PlayerScreen(
                     contentDescription = "Show Queue"
                 )
             }
+
+            // Queue
+            if (uiState.isQueueModalShown) {
+                QueueBottomSheet(
+                    changeVisibility = { playlistViewModel.setQueueVisibility(it) },
+                    scope = playlistViewModel.viewModelScope,
+                    sheetState = queueSheetState,
+                    songs = uiState.queue
+                )
+            }
         }
     }
 }
+

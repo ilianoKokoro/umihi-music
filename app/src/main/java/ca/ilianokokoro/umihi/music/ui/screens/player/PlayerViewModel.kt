@@ -11,7 +11,8 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.extensions.getCurrentSong
+import ca.ilianokokoro.umihi.music.extensions.getQueue
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -87,6 +88,9 @@ class PlayerViewModel(player: Player, application: Application) :
         updateCurrentSong()
     }
 
+    val currentSong: Song
+        get() = _uiState.value.queue[_uiState.value.currentIndex]
+
     fun seekPlayer() {
         _player.seekTo(_uiState.value.progressMs.toLong())
     }
@@ -133,14 +137,25 @@ class PlayerViewModel(player: Player, application: Application) :
         _player.seekToPrevious()
     }
 
-    private fun updateCurrentSong() {
-//        Log.d("CustomLog", "updateCurrentSong ${_player.getCurrentSong()}")
-        resetState()
-
+    fun setQueueVisibility(show: Boolean) {
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    currentSong = _player.getCurrentSong(),
+                    isQueueModalShown = show
+                )
+            }
+        }
+    }
+
+    private fun updateCurrentSong() {
+        viewModelScope.launch {
+//        Log.d("CustomLog", "updateCurrentSong ${_player.getCurrentSong()}")
+            resetState()
+            
+            _uiState.update {
+                _uiState.value.copy(
+                    currentIndex = _player.currentMediaItemIndex,
+                    queue = _player.getQueue()
                 )
             }
         }
@@ -200,6 +215,7 @@ class PlayerViewModel(player: Player, application: Application) :
             }
         }
     }
+
 
     companion object {
         fun Factory(

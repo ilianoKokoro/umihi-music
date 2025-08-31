@@ -21,6 +21,7 @@ fuel = "2.3.1"
 webkit = "1.14.0"
 materialIconsExtended = "1.7.8"
 newvalve = "1.5"
+material3 = "1.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,7 @@ fuel-android = { module = "com.github.kittinunf.fuel:fuel-android", version.ref 
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 newvalve = { module = "com.github.shalva97:NewValve", version.ref = "newvalve" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

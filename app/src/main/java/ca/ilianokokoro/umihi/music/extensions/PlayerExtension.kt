@@ -17,12 +17,16 @@ fun Player.shufflePlaylist(playlist: Playlist) {
     this.playPlaylist(shuffledPlaylist)
 }
 
+
+fun Player.getQueue(): List<Song> {
+    val queue = mutableListOf<Song>()
+    for (i in 0 until mediaItemCount) {
+        val mediaItem = getMediaItemAt(i)
+        queue.add(mediaItem.toSong())
+    }
+    return queue
+}
+
 fun Player.getCurrentSong(): Song {
-    val currentItem = currentMediaItem?.mediaMetadata
-    return Song(
-        currentMediaItem?.mediaId ?: "",
-        currentItem?.title.toStringOrEmpty(),
-        currentItem?.artist.toStringOrEmpty(),
-        currentItem?.artworkUri.toString()
-    )
+    return currentMediaItem.toSong()
 }
