@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
@@ -185,7 +184,7 @@ object YoutubeHelper {
         val service = ServiceList.YouTube
         val extractor = withContext(Dispatchers.IO) {
             val extractor =
-                service.getStreamExtractor("${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${songId}")
+                service.getStreamExtractor(Song(songId, "", "", "").uri)
             extractor.fetchPage()
             return@withContext extractor
         }

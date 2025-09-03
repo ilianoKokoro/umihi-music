@@ -14,8 +14,9 @@ data class Playlist(
     val coverHref: String,
     val songs: List<Song> = emptyList()
 ) {
-    fun getMediaItems(): List<MediaItem> {
-        return songs.map { song ->
+
+    val mediaItems: List<MediaItem>
+        get() = songs.map { song ->
             MediaItem.Builder()
                 .setUri(song.id)
                 .setMediaId(song.id)
@@ -29,6 +30,5 @@ data class Playlist(
                 .build()
 
         }
-    }
 
 }

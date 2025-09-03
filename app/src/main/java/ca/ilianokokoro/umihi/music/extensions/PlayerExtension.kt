@@ -6,7 +6,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 
 fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
-    setMediaItems(playlist.getMediaItems(), index, C.TIME_UNSET)
+    setMediaItems(playlist.mediaItems, index, C.TIME_UNSET)
     prepare()
     play()
 }

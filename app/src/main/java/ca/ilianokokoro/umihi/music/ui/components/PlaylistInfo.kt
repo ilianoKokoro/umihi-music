@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +22,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 
 @Composable
-fun PlaylistInfo(playlist: Playlist, modifier: Modifier = Modifier) {
+fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .height(150.dp)
@@ -27,13 +31,23 @@ fun PlaylistInfo(playlist: Playlist, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SquareImage(playlist.coverHref)
-        Column {
-            Text(
-                modifier = modifier.fillMaxWidth(),
-                text = playlist.title,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(stringResource(R.string.songs, playlist.songs.count()))
+        Column(verticalArrangement = Arrangement.SpaceEvenly) {
+            Column {
+                Text(
+                    modifier = modifier.fillMaxWidth(),
+                    text = playlist.title,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+                Text(stringResource(R.string.songs, playlist.songs.count()))
+            }
+
+            IconButton(onClick = onDownloadPressed) {
+                Icon(
+                    Icons.Rounded.Download,
+                    contentDescription = Icons.Rounded.Download.toString(),
+                )
+            }
+
         }
 
     }

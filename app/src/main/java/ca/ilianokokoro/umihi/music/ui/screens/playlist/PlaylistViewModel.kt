@@ -77,6 +77,13 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
         }
     }
 
+    fun downloadPlaylist() {
+        viewModelScope.launch {
+            val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
+            playlist
+        }
+    }
+
     private suspend fun getPlaylistInfoAsync() {
         val cookies = datastoreRepository.getCookies()
         if (!cookies.isEmpty()) {

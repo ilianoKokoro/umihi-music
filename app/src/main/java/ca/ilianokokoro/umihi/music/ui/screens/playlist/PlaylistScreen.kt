@@ -94,7 +94,10 @@ fun PlaylistScreen(
                         val songs = fullPlaylist.songs
                         item {
                             Column(modifier = modifier.padding(horizontal = 16.dp)) {
-                                PlaylistInfo(fullPlaylist)
+                                PlaylistInfo(
+                                    playlist = fullPlaylist,
+                                    onDownloadPressed = playlistViewModel::downloadPlaylist
+                                )
                                 ActionButtons(
                                     onPlayClicked = {
                                         onOpenPlayer()
