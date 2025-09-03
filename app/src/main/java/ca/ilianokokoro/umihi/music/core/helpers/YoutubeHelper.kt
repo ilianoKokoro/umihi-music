@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
+import android.app.Application
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
@@ -13,9 +15,13 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
 
 object YoutubeHelper {
+    private val client = OkHttpClient()
+
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
         val url =
             thumbnailElement.jsonObject["musicThumbnailRenderer"]?.jsonObject?.get("thumbnail")?.jsonObject?.get(
@@ -180,17 +186,52 @@ object YoutubeHelper {
     }
 
 
-    suspend fun getSongPlayerUrl(songId: String): String {
+    suspend fun getSongPlayerUrl(application: Application, songId: String): String {
+        val localSongRepository = AppDatabase.getInstance(application).songRepository()
+
+        val savedSong = localSongRepository.getSongById(songId)
+        if (savedSong != null && savedSong.streamUrl != null) {
+            if (isYoutubeUrlValid(savedSong.streamUrl)) {
+                // Log.d("CustomLog", "$songId : Got url from saved")
+                return savedSong.streamUrl
+            }
+            // Log.d("CustomLog", "$songId : Saved url was invalid")
+            localSongRepository.delete(savedSong)
+        }
+
+        val newUri = getSongUrlFromYoutube(songId)
+        val newSong = Song(songId, "", "", "", newUri)
+        localSongRepository.create(newSong)
+        // Log.d("CustomLog", "$songId : Got url from YouTube")
+        return newUri
+    }
+
+    private suspend fun getSongUrlFromYoutube(songId: String): String {
         val service = ServiceList.YouTube
         val extractor = withContext(Dispatchers.IO) {
             val extractor =
-                service.getStreamExtractor(Song(songId, "", "", "").uri)
+                service.getStreamExtractor(Song(songId, "", "", "").youtubeUrl)
             extractor.fetchPage()
             return@withContext extractor
         }
         return extractor.audioStreams.maxBy { it.averageBitrate }.content
     }
 
+
+    private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val request = Request.Builder()
+                .url(url)
+                .head()
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                return@withContext response.isSuccessful
+            }
+        } catch (e: Exception) {
+            return@withContext false
+        }
+    }
 
 }
 

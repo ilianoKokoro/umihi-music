@@ -98,12 +98,11 @@ fun SettingsScreen(
                         )
                     }
 
-// TODO : Uncomment when downloads are implemented
-//                    SettingCard(
-//                        text = "Press this button to remove all downloaded songs",
-//                        buttonText = "Delete downloads",
-//                        onButtonPress = settingsViewModel::clearDownloads
-//                    )
+                    SettingCard(
+                        text = "Press this button to remove all downloaded songs",
+                        buttonText = "Delete downloads",
+                        onButtonPress = settingsViewModel::clearDownloads
+                    )
                 }
 
                 ScreenState.Loading -> LoadingAnimation()

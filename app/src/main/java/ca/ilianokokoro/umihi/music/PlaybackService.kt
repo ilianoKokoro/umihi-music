@@ -36,7 +36,7 @@ class PlaybackService : MediaSessionService() {
 
         player = ExoPlayer.Builder(this)
             .setMediaSourceFactory(
-                YoutubeMediaSourceFactory(httpDataSourceFactory)
+                YoutubeMediaSourceFactory(application, httpDataSourceFactory)
             )
             .build()
 

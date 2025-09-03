@@ -25,6 +25,12 @@ object Constants {
         const val COOKIES_KEY = "cookies"
     }
 
+    object Database {
+        const val NAME = "umihi-music"
+        const val VERSION = 1
+        const val SONGS_TABLE = "songs"
+    }
+
     object Player {
         const val PROGRESS_UPDATE_DELAY = 500L
         const val IMAGE_TRANSITION_DELAY = 200
@@ -55,7 +61,7 @@ object Constants {
 
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player"
-            
+
         }
 
 

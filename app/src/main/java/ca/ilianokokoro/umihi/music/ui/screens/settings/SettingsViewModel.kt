@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val _uiState = MutableStateFlow(SettingsState())
     val uiState = _uiState.asStateFlow()
     private val datastoreRepository = DatastoreRepository(application)
-
+    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     fun logOut() {
         viewModelScope.launch {
             datastoreRepository.saveCookies(Cookies(""))
@@ -26,7 +27,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getLoginState() {
-        // Log.d("CustomLog", "getLoginState")
         viewModelScope.launch {
             val savedCookies = datastoreRepository.getCookies()
             _uiState.update {
@@ -39,7 +39,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
 
     fun clearDownloads() {
-        // TODO after downloads are implemented
+        viewModelScope.launch {
+            localSongRepository.deleteAll()
+            // TODO : Delete files
+        }
     }
 
 
