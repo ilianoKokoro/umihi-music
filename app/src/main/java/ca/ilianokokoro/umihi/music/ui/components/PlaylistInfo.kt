@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,13 +36,13 @@ fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Mo
                 )
                 Text(stringResource(R.string.songs, playlist.songs.count()))
             }
-
-            IconButton(onClick = onDownloadPressed) {
-                Icon(
-                    Icons.Rounded.Download,
-                    contentDescription = Icons.Rounded.Download.toString(),
-                )
-            }
+// TODO : Enable when download is actually implemented
+//            IconButton(onClick = onDownloadPressed) {
+//                Icon(
+//                    Icons.Rounded.Download,
+//                    contentDescription = Icons.Rounded.Download.toString(),
+//                )
+//            }
 
         }
 
