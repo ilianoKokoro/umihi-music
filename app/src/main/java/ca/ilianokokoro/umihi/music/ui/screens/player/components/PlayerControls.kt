@@ -9,15 +9,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
 
 @Composable
@@ -74,12 +76,16 @@ fun PlayerControls(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
-            IconButton(onClick = onSeekToPrevious) {
+            FilledTonalIconButton(
+                onClick = onSeekToPrevious,
+                modifier = modifier.size(45.dp)
+            ) {
                 Icon(
                     Icons.Rounded.SkipPrevious,
-                    contentDescription = "Previous",
-                    modifier = modifier.size(45.dp)
+                    contentDescription = stringResource(R.string.previous),
+                    modifier = modifier.size(30.dp)
                 )
+
             }
 
             PlayPauseButton(
@@ -94,11 +100,14 @@ fun PlayerControls(
                 }
             )
 
-            IconButton(onClick = onSeekToNext) {
+            FilledTonalIconButton(
+                onClick = onSeekToNext,
+                modifier = modifier.size(45.dp)
+            ) {
                 Icon(
                     Icons.Rounded.SkipNext,
-                    contentDescription = "Next",
-                    modifier = modifier.size(45.dp)
+                    contentDescription = stringResource(R.string.next),
+                    modifier = modifier.size(30.dp)
                 )
             }
         }
