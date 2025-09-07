@@ -156,7 +156,7 @@ fun PlayerScreen(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-                    contentDescription = "Show Queue"
+                    contentDescription = stringResource(R.string.queue)
                 )
             }
 

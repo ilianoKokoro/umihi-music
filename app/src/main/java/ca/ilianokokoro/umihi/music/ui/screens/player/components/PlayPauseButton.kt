@@ -50,7 +50,8 @@ fun PlayPauseButton(
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(35.dp),
-                strokeWidth = 5.dp
+                strokeWidth = 5.dp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         } else {
             AnimatedContent(
@@ -61,13 +62,16 @@ fun PlayPauseButton(
                     Icon(
                         imageVector = Icons.Rounded.Pause,
                         contentDescription = stringResource(R.string.pause),
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier.size(35.dp),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Rounded.PlayArrow,
                         contentDescription = stringResource(R.string.play),
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier.size(35.dp),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             }

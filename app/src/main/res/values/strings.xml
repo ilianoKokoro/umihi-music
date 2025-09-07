@@ -15,4 +15,5 @@
     <string name="error">Error</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="queue">Queue</string>
 </resources>

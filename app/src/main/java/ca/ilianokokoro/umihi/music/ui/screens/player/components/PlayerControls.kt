@@ -11,6 +11,7 @@ import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,18 +58,27 @@ fun PlayerControls(
                 onUpdateSeekBarHeldState(false)
             },
 
-            modifier = modifier.padding(vertical = 10.dp)
+            modifier = modifier.padding(top = 10.dp)
         )
-
-        // TODO : Reduce spacing
-
+        
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp)
         ) {
-            Text(position.toTimeString(), fontWeight = FontWeight.Bold)
-            Text(duration.toTimeString(), fontWeight = FontWeight.Bold)
+            Text(
+                text = position.toTimeString(),
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = duration.toTimeString(),
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
+
 
         // Player controls row
         Row(
