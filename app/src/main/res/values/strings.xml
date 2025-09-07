@@ -12,4 +12,5 @@
     <string name="shuffle">Shuffle</string>
     <string name="songs">%1$d songs</string>
     <string name="pause">Pause</string>
+    <string name="error">Error</string>
 </resources>
