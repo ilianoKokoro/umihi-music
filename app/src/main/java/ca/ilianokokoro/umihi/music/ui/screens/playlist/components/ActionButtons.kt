@@ -20,6 +20,7 @@ import ca.ilianokokoro.umihi.music.R
 
 @Composable
 fun ActionButtons(
+    buttonEnabled: Boolean,
     onPlayClicked: () -> Unit,
     onShuffleClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -29,6 +30,7 @@ fun ActionButtons(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Button(
+            enabled = buttonEnabled,
             onClick = onPlayClicked,
             modifier = Modifier.weight(1f)
         ) {
@@ -41,6 +43,7 @@ fun ActionButtons(
         }
 
         OutlinedButton(
+            enabled = buttonEnabled,
             onClick = onShuffleClicked,
             modifier = Modifier.weight(1f)
         ) {

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
@@ -90,7 +91,7 @@ fun PlayerScreen(
                     .padding(horizontal = 20.dp),
             ) {
                 AnimatedContent(
-                    targetState = playlistViewModel.currentSong.thumbnail,
+                    targetState = playlistViewModel.currentSong?.thumbnail ?: "",
                     transitionSpec = {
                         fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
                             fadeOut(
@@ -119,12 +120,12 @@ fun PlayerScreen(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = playlistViewModel.currentSong.title,
+                        text = playlistViewModel.currentSong?.title ?: "",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         modifier = modifier.basicMarquee()
                     )
                     Text(
-                        text = playlistViewModel.currentSong.artist,
+                        text = playlistViewModel.currentSong?.artist ?: "",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.Bold
@@ -156,7 +157,8 @@ fun PlayerScreen(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-                    contentDescription = stringResource(R.string.queue)
+                    contentDescription = stringResource(R.string.queue),
+                    modifier = modifier.size(28.dp)
                 )
             }
 
@@ -172,4 +174,3 @@ fun PlayerScreen(
         }
     }
 }
-

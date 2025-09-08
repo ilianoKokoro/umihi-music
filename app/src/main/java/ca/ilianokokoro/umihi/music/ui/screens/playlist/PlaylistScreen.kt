@@ -99,6 +99,7 @@ fun PlaylistScreen(
                                     onDownloadPressed = playlistViewModel::downloadPlaylist
                                 )
                                 ActionButtons(
+                                    buttonEnabled = !songs.isEmpty(),
                                     onPlayClicked = {
                                         onOpenPlayer()
                                         playlistViewModel.playPlaylist()

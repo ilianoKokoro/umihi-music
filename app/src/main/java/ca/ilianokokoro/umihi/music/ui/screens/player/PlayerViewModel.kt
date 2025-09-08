@@ -88,8 +88,9 @@ class PlayerViewModel(player: Player, application: Application) :
         updateCurrentSong()
     }
 
-    val currentSong: Song
-        get() = _uiState.value.queue[_uiState.value.currentIndex]
+    val currentSong: Song?
+        get() = _uiState.value.queue.getOrNull(_uiState.value.currentIndex)
+
 
     fun seekPlayer() {
         _player.seekTo(_uiState.value.progressMs.toLong())
@@ -151,7 +152,7 @@ class PlayerViewModel(player: Player, application: Application) :
         viewModelScope.launch {
 //        Log.d("CustomLog", "updateCurrentSong ${_player.getCurrentSong()}")
             resetState()
-            
+
             _uiState.update {
                 _uiState.value.copy(
                     currentIndex = _player.currentMediaItemIndex,

@@ -22,6 +22,17 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
             }
 
+        /**
+         * Deletes the entire database file.
+         */
+        fun deleteDatabase(context: Context) {
+            synchronized(this) {
+                INSTANCE?.close()
+                INSTANCE = null
+                context.deleteDatabase(Constants.Database.NAME)
+            }
+        }
+        
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
