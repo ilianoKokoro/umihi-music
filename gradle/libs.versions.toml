@@ -57,6 +57,7 @@ androidx-media3-session = { group = "androidx.media3", name = "media3-session", 
 androidx-media3-exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "media3Exoplayer" }
 androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "media3Exoplayer" }
 androidx-media3-exoplayer-rtsp = { module = "androidx.media3:media3-exoplayer-rtsp", version.ref = "media3Exoplayer" }
+androidx-media3-datasource = { module = "androidx.media3:media3-datasource", version.ref = "media3Exoplayer" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 fuel-json = { module = "com.github.kittinunf.fuel:fuel-json", version.ref = "fuel" }
 fuel-android = { module = "com.github.kittinunf.fuel:fuel-android", version.ref = "fuel" }

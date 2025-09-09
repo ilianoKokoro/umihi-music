@@ -8,10 +8,12 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
 import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.CoroutineScope
@@ -31,12 +33,19 @@ class PlaybackService : MediaSessionService() {
     override fun onCreate() {
         super.onCreate()
 
+
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-            .setUserAgent(Util.getUserAgent(this, this.packageName))
+            .setUserAgent(Util.getUserAgent(this, packageName))
+
+        val cacheDataSourceFactory = CacheDataSource.Factory()
+            .setCache(ExoCache(application).cache)
+            .setUpstreamDataSourceFactory(httpDataSourceFactory)
+            .setCacheWriteDataSinkFactory(null)
+            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
         player = ExoPlayer.Builder(this)
             .setMediaSourceFactory(
-                YoutubeMediaSourceFactory(application, httpDataSourceFactory)
+                YoutubeMediaSourceFactory(application, cacheDataSourceFactory)
             )
             .build()
 

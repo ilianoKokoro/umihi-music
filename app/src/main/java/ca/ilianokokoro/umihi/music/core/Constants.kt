@@ -31,6 +31,13 @@ object Constants {
         const val SONGS_TABLE = "songs"
     }
 
+    object ExoPlayer {
+        object Cache {
+            const val NAME = "umihi-music-exoplayer"
+            const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
+        }
+    }
+
     object Player {
         const val PROGRESS_UPDATE_DELAY = 500L
         const val IMAGE_TRANSITION_DELAY = 200
