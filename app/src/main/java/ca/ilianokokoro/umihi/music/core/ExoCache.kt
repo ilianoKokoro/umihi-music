@@ -12,9 +12,10 @@ class ExoCache(private val context: Context) {
     private val databaseProvider by lazy { StandaloneDatabaseProvider(context) }
     val cache: SimpleCache by lazy {
         val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
+        val cacheEvictor = LeastRecentlyUsedCacheEvictor(Constants.ExoPlayer.Cache.SIZE)
         SimpleCache(
             cacheDir,
-            LeastRecentlyUsedCacheEvictor(Constants.ExoPlayer.Cache.SIZE),
+            cacheEvictor,
             databaseProvider
         )
     }
