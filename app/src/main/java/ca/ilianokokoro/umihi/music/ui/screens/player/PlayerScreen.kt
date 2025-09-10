@@ -28,11 +28,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,15 +53,28 @@ fun PlayerScreen(
     player: Player,
     modifier: Modifier = Modifier,
     application: Application,
-    playlistViewModel: PlayerViewModel = viewModel(
+    playerViewModel: PlayerViewModel = viewModel(
         factory =
             PlayerViewModel.Factory(player = player, application = application)
     )
 
 ) {
-    val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
 
     val queueSheetState = rememberModalBottomSheetState()
+
+    // Close the screen in resumed with an empty queue
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME && uiState.queue.isEmpty() && playerViewModel.currentSong == null) {
+                onBack()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
 
     Scaffold(
         topBar = {
@@ -91,7 +108,7 @@ fun PlayerScreen(
                     .padding(horizontal = 20.dp),
             ) {
                 AnimatedContent(
-                    targetState = playlistViewModel.currentSong?.thumbnail ?: "",
+                    targetState = playerViewModel.currentSong?.thumbnail ?: "",
                     transitionSpec = {
                         fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
                             fadeOut(
@@ -120,12 +137,12 @@ fun PlayerScreen(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = playlistViewModel.currentSong?.title ?: "",
+                        text = playerViewModel.currentSong?.title ?: "",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         modifier = modifier.basicMarquee()
                     )
                     Text(
-                        text = playlistViewModel.currentSong?.artist ?: "",
+                        text = playerViewModel.currentSong?.artist ?: "",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight.Bold
@@ -139,20 +156,20 @@ fun PlayerScreen(
                     isLoading = uiState.isLoading,
                     position = uiState.progressMs,
                     duration = uiState.durationMs,
-                    onPlay = playlistViewModel::play,
-                    onPause = playlistViewModel::pause,
-                    onSeek = playlistViewModel::seek,
-                    onSeekPlayer = playlistViewModel::seekPlayer,
-                    onSeekToNext = playlistViewModel::seekToNext,
-                    onSeekToPrevious = playlistViewModel::seekToPrevious,
-                    onUpdateSeekBarHeldState = playlistViewModel::updateSeekBarHeldState
+                    onPlay = playerViewModel::play,
+                    onPause = playerViewModel::pause,
+                    onSeek = playerViewModel::seek,
+                    onSeekPlayer = playerViewModel::seekPlayer,
+                    onSeekToNext = playerViewModel::seekToNext,
+                    onSeekToPrevious = playerViewModel::seekToPrevious,
+                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
                 )
             }
 
             // Queue Button
             IconButton(
                 onClick = {
-                    playlistViewModel.setQueueVisibility(true)
+                    playerViewModel.setQueueVisibility(true)
                 }
             ) {
                 Icon(
@@ -165,8 +182,8 @@ fun PlayerScreen(
             // Queue
             if (uiState.isQueueModalShown) {
                 QueueBottomSheet(
-                    changeVisibility = { playlistViewModel.setQueueVisibility(it) },
-                    scope = playlistViewModel.viewModelScope,
+                    changeVisibility = { playerViewModel.setQueueVisibility(it) },
+                    scope = playerViewModel.viewModelScope,
                     sheetState = queueSheetState,
                     songs = uiState.queue
                 )
