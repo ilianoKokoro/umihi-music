@@ -32,19 +32,19 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object PlaylistsScreenKey : NavKey
+private data object PlaylistsScreenKey : NavKey
 
 @Serializable
-data object SettingsScreenKey : NavKey
+private data object SettingsScreenKey : NavKey
 
 @Serializable
-data class PlaylistScreenKey(val playlist: Playlist) : NavKey
+private data class PlaylistScreenKey(val playlist: Playlist) : NavKey
 
 @Serializable
-data object AuthScreenKey : NavKey
+private data object AuthScreenKey : NavKey
 
 @Serializable
-data object PlayerScreenKey : NavKey
+private data object PlayerScreenKey : NavKey
 
 
 @Composable
@@ -148,7 +148,7 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                     }
 
                     is PlayerScreenKey -> {
-                        NavEntry(key = key) {
+                        NavEntry(key = key, metadata = Constants.Animation.SLIDE_UP_TRANSITION) {
                             PlayerScreen(
                                 onBack = backStack::removeLastOrNull,
                                 player = player,

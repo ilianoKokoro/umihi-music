@@ -1,5 +1,12 @@
 package ca.ilianokokoro.umihi.music.core
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -11,6 +18,25 @@ object Constants {
     object Animation {
         const val NAVIGATION_DURATION = 200
         const val IMAGE_FADE_DURATION = 200
+        
+        val SLIDE_UP_TRANSITION = NavDisplay.transitionSpec {
+            slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = tween(NAVIGATION_DURATION * 2)
+            ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+        } + NavDisplay.popTransitionSpec {
+            EnterTransition.None togetherWith
+                    slideOutVertically(
+                        targetOffsetY = { it },
+                        animationSpec = tween(NAVIGATION_DURATION * 2)
+                    )
+        } + NavDisplay.predictivePopTransitionSpec {
+            EnterTransition.None togetherWith
+                    slideOutVertically(
+                        targetOffsetY = { it },
+                        animationSpec = tween(NAVIGATION_DURATION * 2)
+                    )
+        }
     }
 
     object Auth {
