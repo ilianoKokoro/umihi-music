@@ -1,5 +1,8 @@
 package ca.ilianokokoro.umihi.music
 
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.core.net.toUri
@@ -58,8 +61,13 @@ class PlaybackService : MediaSessionService() {
             }
         })
 
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        val pendingIntent =
+            PendingIntent.getActivity(this, 0, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
 
-        mediaSession = MediaSession.Builder(this, player).build()
+        mediaSession = MediaSession.Builder(this, player)
+            .setSessionActivity(pendingIntent)
+            .build()
     }
 
     override fun onGetSession(
