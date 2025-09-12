@@ -65,3 +65,13 @@ Join the Discord server to get update pings, know about announcements and get su
 ## Credits 🎨
 
 **App logo**: Made by [Frittusk](https://www.twitch.tv/frittusk)
+
+## Star History ✨
+
+<a href="https://www.star-history.com/#ilianoKokoro/umihi-music&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date" />
+ </picture>
+</a>
