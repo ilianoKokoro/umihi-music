@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +28,7 @@ fun ActionButtons(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Button(
+        FilledTonalButton(
             enabled = buttonEnabled,
             onClick = onPlayClicked,
             modifier = Modifier.weight(1f)
@@ -42,7 +41,7 @@ fun ActionButtons(
             Text(stringResource(R.string.play))
         }
 
-        OutlinedButton(
+        FilledTonalButton(
             enabled = buttonEnabled,
             onClick = onShuffleClicked,
             modifier = Modifier.weight(1f)

@@ -22,7 +22,7 @@ fuel = "2.3.1"
 webkit = "1.14.0"
 materialIconsExtended = "1.7.8"
 newvalve = "1.5"
-material3 = "1.3.2"
+material3 = "1.5.0-alpha04"
 room = "2.8.0"
 ksp = "2.2.20-2.0.3"
 

@@ -2,8 +2,8 @@ package ca.ilianokokoro.umihi.music.ui.screens.settings.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +19,7 @@ fun SettingCard(text: String, buttonText: String, onButtonPress: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text, textAlign = TextAlign.Center)
-            Button(onClick = onButtonPress) {
+            FilledTonalButton(onClick = onButtonPress) {
                 Text(buttonText)
             }
         }
