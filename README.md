@@ -4,6 +4,9 @@
 
 A lightweight **Material YouTube Music player** for Android, built with **Kotlin** and **Jetpack Compose**.
 
+[![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?include_prereleases&&style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases)
+
 Designed for simplicity and smooth performance, Umihi Music lets you enjoy your favorite tracks effortlessly.
 
 ---
@@ -36,7 +39,7 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 ## Downloads 📥
 
 <a href="https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music">
-  <img src="https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music" alt="RB Status">
+  <img src="https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge" alt="RB Status">
 </a>
 
 <p float="left">
@@ -48,11 +51,17 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 
 **⚠️ This build may not be stable as it is not a release ⚠️**
 
-[![Beta APK Build](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml/badge.svg)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
+[![Beta APK Build](https://img.shields.io/github/actions/workflow/status/ilianoKokoro/umihi-music/build-release.yaml?style=for-the-badge&label=Beta%20Build)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yaml)
 
 <a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yaml/main/release-build.zip"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
 
 ---
+
+## Support 🛟
+
+Join the Discord server to get update pings, know about announcements and get support about problems
+
+<a href="https://discord.gg/mSPeHS5cF6"><img alt="Discord Server"  src="https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6"></a> &nbsp;
 
 ## Credits 🎨
 
