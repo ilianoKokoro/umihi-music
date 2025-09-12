@@ -36,3 +36,7 @@ hprof*.
 # Extras
 .DS_Store
 *.dm
+
+# Schemas
+
+/app/schemas/*

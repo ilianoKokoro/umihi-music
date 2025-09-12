@@ -1,19 +1,19 @@
 [versions]
 agp = "8.13.0"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.9.3"
-activityCompose = "1.10.1"
-composeBom = "2025.08.01"
+activityCompose = "1.11.0"
+composeBom = "2025.09.00"
 
 # Added librairies
 desugar_jdk_libs_nio = "2.1.5"
-nav3Core = "1.0.0-alpha07"
+nav3Core = "1.0.0-alpha09"
 nav3Lifecycle = "1.0.0-alpha04"
-kotlinSerialization = "2.2.10"
+kotlinSerialization = "2.2.20"
 kotlinxSerializationCore = "1.9.0"
 coil = "3.3.0"
 media3Exoplayer = "1.8.0"
@@ -23,8 +23,8 @@ webkit = "1.14.0"
 materialIconsExtended = "1.7.8"
 newvalve = "1.5"
 material3 = "1.3.2"
-room = "2.7.2"
-ksp = "2.2.10-2.0.2"
+room = "2.8.0"
+ksp = "2.2.20-2.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

@@ -9,7 +9,11 @@ import ca.ilianokokoro.umihi.music.data.repositories.LocalSongRepository
 import ca.ilianokokoro.umihi.music.models.Song
 import java.util.concurrent.Executors
 
-@Database(entities = [Song::class], version = Constants.Database.VERSION, exportSchema = true)
+@Database(
+    entities = [Song::class],
+    version = Constants.Database.VERSION,
+    exportSchema = false // Set to true to get an exported json
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun songRepository(): LocalSongRepository
 
@@ -32,7 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context.deleteDatabase(Constants.Database.NAME)
             }
         }
-        
+
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,

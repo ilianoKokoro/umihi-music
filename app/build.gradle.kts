@@ -25,6 +25,7 @@ android {
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -51,6 +52,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
+
     kotlin {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
@@ -59,6 +61,10 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
 }
 
