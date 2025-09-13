@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -112,9 +111,15 @@ fun PlaylistsScreen(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
 
                             ) {
-                                items(items = playlists, key = {
-                                    it.id
-                                }) { playlist ->
+
+                                items(
+                                    count = playlists.size,
+                                    key = { playlistIndex ->
+                                        val playlist = playlists[playlistIndex]
+                                        "playlist_${playlist.id}_$playlistIndex" // TODO make it cleaner later
+                                    },
+                                ) { playlistIndex ->
+                                    val playlist = playlists[playlistIndex]
                                     PlaylistCard(
                                         playlist = playlist, onClicked =
                                             { onPlaylistPressed(playlist) }

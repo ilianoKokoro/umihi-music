@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -92,6 +91,7 @@ fun PlaylistScreen(
                     ) {
                         val fullPlaylist = uiState.screenState.playlist
                         val songs = fullPlaylist.songs
+
                         item {
                             Column(modifier = modifier.padding(horizontal = 16.dp)) {
                                 PlaylistInfo(
@@ -123,9 +123,16 @@ fun PlaylistScreen(
                                 )
                             }
                         } else {
-                            items(items = songs, key = {
-                                it.id
-                            }) { song ->
+
+
+                            items(
+                                count = songs.size,
+                                key = { songIndex ->
+                                    val song = songs[songIndex]
+                                    "song_${song.id}_$songIndex" // TODO make it cleaner later
+                                },
+                            ) { songIndex ->
+                                val song = songs[songIndex]
                                 SongListItem(song, onPress = {
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)

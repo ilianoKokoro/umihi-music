@@ -42,7 +42,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             localSongRepository.deleteAll()
             // TODO : Delete files
-            listOf<String>()[1]
         }
     }
 
