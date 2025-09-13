@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +32,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -112,17 +114,19 @@ fun PlaylistsScreen(
 
                             ) {
 
-                                items(
-                                    count = playlists.size,
-                                    key = { playlistIndex ->
-                                        val playlist = playlists[playlistIndex]
-                                        "playlist_${playlist.id}_$playlistIndex" // TODO make it cleaner later
-                                    },
-                                ) { playlistIndex ->
-                                    val playlist = playlists[playlistIndex]
+                                itemsIndexed(
+                                    items = playlists,
+                                    key = { index, playlist ->
+                                        ComposeHelper.getLazyKey(
+                                            playlist,
+                                            playlist.id,
+                                            index
+                                        )
+                                    }
+                                ) { _, playlist ->
                                     PlaylistCard(
-                                        playlist = playlist, onClicked =
-                                            { onPlaylistPressed(playlist) }
+                                        playlist = playlist,
+                                        onClicked = { onPlaylistPressed(playlist) }
                                     )
                                 }
                             }

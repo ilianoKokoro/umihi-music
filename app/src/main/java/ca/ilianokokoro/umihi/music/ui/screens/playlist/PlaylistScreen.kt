@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -123,16 +125,16 @@ fun PlaylistScreen(
                                 )
                             }
                         } else {
-
-
-                            items(
-                                count = songs.size,
-                                key = { songIndex ->
-                                    val song = songs[songIndex]
-                                    "song_${song.id}_$songIndex" // TODO make it cleaner later
-                                },
-                            ) { songIndex ->
-                                val song = songs[songIndex]
+                            itemsIndexed(
+                                items = songs,
+                                key = { index, song ->
+                                    ComposeHelper.getLazyKey(
+                                        song,
+                                        song.id,
+                                        index
+                                    )
+                                }
+                            ) { _, song ->
                                 SongListItem(song, onPress = {
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
