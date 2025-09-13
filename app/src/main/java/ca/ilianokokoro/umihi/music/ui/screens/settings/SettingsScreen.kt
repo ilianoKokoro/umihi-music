@@ -5,10 +5,16 @@ package ca.ilianokokoro.umihi.music.ui.screens.settings
 import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Login
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,7 +35,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingCard
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
 @Composable
 fun SettingsScreen(
@@ -52,6 +59,7 @@ fun SettingsScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -72,7 +80,7 @@ fun SettingsScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,25 +92,50 @@ fun SettingsScreen(
         ) {
             when (uiState.screenState) {
                 is ScreenState.Success -> {
-                    if (uiState.screenState.isLoggedIn) {
-                        SettingCard(
-                            text = "You are logged in to your YouTube account",
-                            buttonText = "Log Out",
-                            onButtonPress = settingsViewModel::logOut
-                        )
-                    } else {
-                        SettingCard(
-                            text = "You are currently not logged in",
-                            buttonText = "Log In",
-                            onButtonPress = openAuthScreen
-                        )
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        item {
+                            SettingsSection(
+                                title = "Account"
+                            ) {
+
+                                if (uiState.screenState.isLoggedIn) {
+                                    SettingsItem(
+                                        title = "Log Out",
+                                        subtitle = "You are logged in to your YouTube account",
+                                        leadingIcon = Icons.AutoMirrored.Outlined.Logout,
+                                        onClick = settingsViewModel::logOut
+                                    )
+                                } else {
+                                    SettingsItem(
+                                        title = "Log In",
+                                        subtitle = "You are currently not logged in",
+                                        leadingIcon = Icons.AutoMirrored.Outlined.Login,
+                                        onClick = openAuthScreen
+                                    )
+                                }
+                            }
+
+                            SettingsSection(
+                                title = "Data & Storage",
+                            ) {
+                                SettingsItem(
+                                    title = "Delete app data",
+                                    subtitle = "Resets all the information",
+                                    leadingIcon = Icons.Outlined.Delete,
+                                    onClick = settingsViewModel::clearDownloads
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                SettingsItem(
+                                    title = "Delete all downloads",
+                                    subtitle = "Deletes all the downloaded songs and cache",
+                                    leadingIcon = Icons.Outlined.Delete,
+                                    onClick = settingsViewModel::clearDownloads
+                                )
+                            }
+
+                        }
                     }
 
-                    SettingCard(
-                        text = "Press this button to remove all downloaded songs",
-                        buttonText = "Delete downloads",
-                        onButtonPress = settingsViewModel::clearDownloads
-                    )
                 }
 
                 ScreenState.Loading -> LoadingAnimation()

@@ -11,10 +11,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -72,11 +74,19 @@ fun PlaylistsScreen(
                 title = {
                     Text(stringResource(R.string.playlists))
                 }, actions = {
-                    IconButton(onClick = onSettingsButtonPress) {
+                    FilledIconButton(
+                        onClick = onSettingsButtonPress,
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                    ) {
+
                         Icon(
-                            imageVector = Icons.Rounded.Settings,
-                            contentDescription = stringResource(R.string.back_description)
-                        )
+                            imageVector = Icons.Outlined.Settings,
+                            contentDescription = stringResource(R.string.back_description),
+
+                            )
                     }
                 }
             )
@@ -85,7 +95,7 @@ fun PlaylistsScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(horizontal = 8.dp)
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
