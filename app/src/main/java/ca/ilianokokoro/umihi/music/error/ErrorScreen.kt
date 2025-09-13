@@ -65,12 +65,10 @@ fun ErrorScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Surface(
-                // color = MaterialTheme.colorScheme.primaryContainer,
                 tonalElevation = 2.dp,
                 shape = MaterialTheme.shapes.extraLarge
             ) {
                 Icon(
-                    //tint = MaterialTheme.colorScheme.primary,
                     imageVector = Icons.Default.ErrorOutline,
                     contentDescription = stringResource(R.string.error),
                     modifier = Modifier

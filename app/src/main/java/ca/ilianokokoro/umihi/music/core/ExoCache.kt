@@ -9,9 +9,8 @@ import java.io.File
 
 @UnstableApi
 class ExoCache(private val context: Context) {
-    private val databaseProvider by lazy { StandaloneDatabaseProvider(context) }
+    private val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
     val cache: SimpleCache by lazy {
-        val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
         val cacheEvictor = LeastRecentlyUsedCacheEvictor(Constants.ExoPlayer.Cache.SIZE)
         SimpleCache(
             cacheDir,
@@ -19,4 +18,14 @@ class ExoCache(private val context: Context) {
             databaseProvider
         )
     }
+
+    fun clear() {
+        SimpleCache.delete(cacheDir, databaseProvider)
+    }
+
+    fun release() {
+        cache.release()
+    }
+
+    private val databaseProvider by lazy { StandaloneDatabaseProvider(context) }
 }

@@ -60,18 +60,6 @@ fun QueueBottomSheet(
             }
 
         }
-
-
-//        Button(onClick = {
-//            scope.launch { sheetState.hide() }
-//                .invokeOnCompletion {
-//                    if (!sheetState.isVisible) {
-//                        changeVisibility(false)
-//                    }
-//                }
-//        }) {
-//            Text("Hide bottom sheet")
-//        }
     }
 
 }

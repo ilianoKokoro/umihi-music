@@ -1,11 +1,14 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import androidx.annotation.OptIn
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.media3.common.util.UnstableApi
+import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
@@ -17,6 +20,8 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
     val uiState = _uiState.asStateFlow()
+
+    private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
     private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     fun logOut() {
@@ -38,9 +43,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
 
+    @OptIn(UnstableApi::class)
     fun clearDownloads() {
         viewModelScope.launch {
             localSongRepository.deleteAll()
+            ExoCache(_application).clear()
             // TODO : Delete files
         }
     }

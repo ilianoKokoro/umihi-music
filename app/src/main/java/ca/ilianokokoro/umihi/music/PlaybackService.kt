@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.util.Log
-import androidx.annotation.OptIn
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -27,23 +26,25 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@UnstableApi
 class PlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
+    private lateinit var exoCache: ExoCache
     private lateinit var player: Player
     private val songRepository = SongRepository()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 
-    @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
 
+        exoCache = ExoCache(application)
 
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setUserAgent(Util.getUserAgent(this, packageName))
 
         val cacheDataSourceFactory = CacheDataSource.Factory()
-            .setCache(ExoCache(application).cache)
+            .setCache(exoCache.cache)
             .setUpstreamDataSourceFactory(httpDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
@@ -87,6 +88,7 @@ class PlaybackService : MediaSessionService() {
     override fun onDestroy() {
         mediaSession?.run {
             player.release()
+            exoCache.release()
             release()
             mediaSession = null
         }

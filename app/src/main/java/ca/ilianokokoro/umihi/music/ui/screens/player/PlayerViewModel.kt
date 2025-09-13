@@ -65,18 +65,8 @@ class PlayerViewModel(player: Player, application: Application) :
                                 )
                             }
                         }
-
-//                        Player.STATE_ENDED -> {
-//                            Log.d("CustomLog", "Player.STATE_ENDED")
-//                        }
-
-//                        Player.STATE_IDLE -> {
-//                            Log.d("CustomLog", "Player.STATE_IDLE")
-//                        }
-
-
+                        
                         else -> {
-                            // Do nothing
                         }
                     }
                 }
