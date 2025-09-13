@@ -12,6 +12,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
+import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import io.github.shalva97.initNewPipe
@@ -23,6 +24,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initCoaoc()
+
         initNewPipe()
 
         initExoplayer { readyPlayer ->
@@ -38,6 +42,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun initCoaoc() {
+        CaocConfig.Builder.create()
+            .backgroundMode(CaocConfig.BACKGROUND_MODE_CRASH)
+            .trackActivities(true)
+            .apply()
     }
 
     private fun initExoplayer(onReady: (Player) -> Unit) {

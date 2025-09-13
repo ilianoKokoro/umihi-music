@@ -27,6 +27,17 @@
             </intent-filter>
         </activity>
 
+
+        <activity
+            android:name=".ErrorActivity"
+            android:exported="false"
+            android:process=":error_activity"
+            android:theme="@style/Theme.UmihiMusic">
+            <intent-filter>
+                <action android:name="cat.ereza.customactivityoncrash.ERROR" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".PlaybackService"
             android:exported="true"
