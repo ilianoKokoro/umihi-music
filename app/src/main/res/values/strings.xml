@@ -16,4 +16,13 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="queue">Queue</string>
+    <string name="error_screen_title">An error occurred</string>
+    <string name="restart_application">Restart Application</string>
+    <string name="error_details">Error Details</string>
+    <string name="user_error_request">Please report this crash by creating an issue on GitHub or posting in the Umihi Music Discord.\nMake sure to include the logs from the \'Error Details\' button.</string>
+    <string name="close">Close</string>
+    <string name="copy_logs">Copy logs</string>
+    <string name="copied">Copied</string>
+    <string name="view_details">View Details</string>
+    <string name="error_log">Error Log</string>
 </resources>
