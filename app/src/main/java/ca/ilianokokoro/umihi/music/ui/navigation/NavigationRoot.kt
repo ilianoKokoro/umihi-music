@@ -10,10 +10,14 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavEntry
@@ -24,6 +28,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
@@ -54,9 +59,11 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
     val app = LocalContext.current.applicationContext as Application
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.BottomCenter
+
     ) {
         NavDisplay(
             modifier = modifier,
@@ -65,7 +72,8 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 rememberSavedStateNavEntryDecorator(),
                 rememberViewModelStoreNavEntryDecorator(),
                 rememberSceneSetupNavEntryDecorator()
-            ), transitionSpec = {
+            ),
+            transitionSpec = {
                 (scaleIn(
                     animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
                     initialScale = 0.85f
@@ -77,7 +85,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         ) +
                                 fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
             },
-
             popTransitionSpec = {
                 (scaleIn(
                     animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
@@ -90,7 +97,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         ) +
                                 fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
             },
-
             predictivePopTransitionSpec = {
                 (scaleIn(
                     animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
@@ -102,7 +108,8 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                             targetScale = 0.85f
                         ) +
                                 fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)))
-            }, entryProvider = { key ->
+            },
+            entryProvider = { key ->
 
                 when (key) {
                     is PlaylistsScreenKey -> {
@@ -160,9 +167,16 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                     else -> throw RuntimeException("Invalid NavKey : $key")
                 }
             }
+        )
 
+        MiniPlayerWrapper(
+            player = player,
+            isPlayerOpened = backStack.last() == PlayerScreenKey,
+            onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
+            modifier = Modifier
+                .systemBarsPadding()
+                .padding(2.dp)
         )
 
     }
-
 }
