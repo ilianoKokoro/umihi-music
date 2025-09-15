@@ -3,6 +3,9 @@ package ca.ilianokokoro.umihi.music.core.helpers
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 
 object ComposeHelper {
 
@@ -21,6 +24,12 @@ object ComposeHelper {
             .lineSequence()
             .take(7)
             .joinToString("\n")
-         
+
     }
+
+    @Composable
+    fun rememberInteractionSource(): MutableInteractionSource {
+        return remember { MutableInteractionSource() }
+    }
+
 }

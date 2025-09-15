@@ -5,12 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledIconToggleButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -19,15 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.material.LargeIconButton
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.material.MediumIconButton
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerControls(
     isPlaying: Boolean,
-    isLoading: Boolean, // TODO
+    isLoading: Boolean,
     position: Float,
     duration: Float,
     onSeekPlayer: () -> Unit,
@@ -39,6 +45,8 @@ fun PlayerControls(
     onSeekToPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val controlsInteractionSources = List(3) { ComposeHelper.rememberInteractionSource() }
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -81,42 +89,103 @@ fun PlayerControls(
         }
 
 
-        // Player controls row
+
         Row(
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            ButtonGroup(
+                overflowIndicator = {}
+            ) {
+                customItem(
+                    {
+                        FilledIconButton(
+                            onClick = onSeekToPrevious,
+                            shapes = IconButtonDefaults.shapes(),
+                            interactionSource = controlsInteractionSources[0],
+                            modifier = Modifier
+                                .weight(2f)
+                                .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
+                                .animateWidth(interactionSource = controlsInteractionSources[0])
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.SkipPrevious,
+                                contentDescription = Icons.Rounded.SkipPrevious.toString(),
+                            )
+                        }
+                    },
+                    {}
+                )
 
-            MediumIconButton(
-                onClick = onSeekToPrevious,
-                icon = Icons.Rounded.SkipPrevious,
-                background = MaterialTheme.colorScheme.primaryContainer,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
+                customItem(
+                    {
 
-            LargeIconButton(
-                onClick = {
-                    if (isPlaying) {
-                        onPause()
-                    } else {
-                        onPlay()
-                    }
-                }, icon = if (isPlaying) {
-                    Icons.Rounded.Pause
-                } else {
-                    Icons.Rounded.PlayArrow
-                }
-            )
+                        FilledIconToggleButton(
+                            enabled = !isLoading,
+                            checked = isPlaying && !isLoading,
+                            onCheckedChange = {
+                                if (isLoading) {
+                                    // Do nothing
+                                } else if (isPlaying) {
+                                    onPause()
+                                } else {
+                                    onPlay()
+                                }
+                            },
+                            shapes = IconButtonDefaults.toggleableShapes(),
+                            interactionSource = controlsInteractionSources[1],
+                            modifier = modifier
+                                .weight(3f)
+                                .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
+                                .animateWidth(interactionSource = controlsInteractionSources[1])
+                        ) {
+                            if (isLoading) {
+                                CircularWavyProgressIndicator(
+                                    modifier = Modifier.size(20.dp),
+                                )
+                            } else {
+                                val icon = if (isPlaying) {
+                                    Icons.Rounded.Pause
+                                } else {
+                                    Icons.Rounded.PlayArrow
+                                }
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = icon.toString()
+                                )
+                            }
 
 
-            MediumIconButton(
-                onClick = onSeekToNext,
-                icon = Icons.Rounded.SkipNext,
-                background = MaterialTheme.colorScheme.primaryContainer,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
+                        }
+                    },
+                    {}
+                )
+
+                customItem(
+                    {
+                        FilledIconButton(
+                            onClick = onSeekToNext,
+                            shapes = IconButtonDefaults.shapes(),
+                            interactionSource = controlsInteractionSources[2],
+                            modifier = Modifier
+                                .weight(2f)
+                                .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
+                                .animateWidth(interactionSource = controlsInteractionSources[2])
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.SkipNext,
+                                contentDescription = Icons.Rounded.SkipNext.toString(),
+                            )
+                        }
+                    },
+                    {}
+                )
+            }
         }
+
+
     }
 }
-

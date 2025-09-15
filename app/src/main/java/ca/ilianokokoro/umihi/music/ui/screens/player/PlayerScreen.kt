@@ -21,6 +21,7 @@ import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -85,10 +86,23 @@ fun PlayerScreen(
                 title = {
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    FilledIconButton(
+                        onClick = onBack,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        modifier = Modifier.size(
+                            IconButtonDefaults.smallContainerSize(
+                                IconButtonDefaults.IconButtonWidthOption.Wide
+                            )
+                        )
+                    ) {
+
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
-                            contentDescription = stringResource(R.string.back_description)
+                            contentDescription = stringResource(R.string.back_description),
                         )
                     }
                 },
@@ -174,12 +188,12 @@ fun PlayerScreen(
                 onClick = {
                     playerViewModel.setQueueVisibility(true)
                 },
-                shapes = IconButtonDefaults.shapes()
-            ) {
+                shapes = IconButtonDefaults.shapes(),
+
+                ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
                     contentDescription = stringResource(R.string.queue),
-                    modifier = modifier.size(28.dp)
                 )
             }
 

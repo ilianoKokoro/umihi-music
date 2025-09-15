@@ -48,7 +48,7 @@ fun MiniPlayerWrapper(
         exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
         modifier = modifier
             .fillMaxWidth()
-            .height(64.dp)
+            .height(84.dp)
     ) {
         MiniPlayer(currentSong = currentSong!!, onClick = onMiniPlayerPressed, onPlayPause = {
             if (player.isPlaying) {

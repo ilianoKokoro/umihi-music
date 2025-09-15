@@ -6,14 +6,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MiniPlayer(
     modifier: Modifier = Modifier,
@@ -32,7 +36,6 @@ fun MiniPlayer(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(64.dp)
             .padding(8.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
@@ -43,10 +46,12 @@ fun MiniPlayer(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Song info
+
+            SquareImage(currentSong.thumbnail)
+
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center
@@ -64,13 +69,17 @@ fun MiniPlayer(
                 )
             }
 
-            // Play/Pause button placeholder
-            IconButton(onClick = onPlayPause) {
+            FilledIconButton(
+                onClick = onPlayPause,
+                shapes = IconButtonDefaults.shapes(),
+            ) {
                 Icon(
-                    imageVector = Icons.Default.PlayArrow, // or Pause depending on player state
-                    contentDescription = "Play/Pause"
+                    imageVector = Icons.Rounded.PlayArrow,
+                    contentDescription = Icons.Default.PlayArrow.toString()
                 )
             }
+
         }
+
     }
 }
