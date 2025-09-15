@@ -1,14 +1,16 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,26 +33,28 @@ fun MiniPlayer(
     modifier: Modifier = Modifier,
     currentSong: Song,
     onClick: () -> Unit,
-    onPlayPause: () -> Unit
+    onPlayPause: () -> Unit,
+    isPlaying: Boolean
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+                .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            SquareImage(currentSong.thumbnail)
+            Box(modifier = modifier.padding(8.dp)) {
+                SquareImage(currentSong.thumbnail)
+            }
+
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -59,13 +63,16 @@ fun MiniPlayer(
                 Text(
                     text = currentSong.title,
                     style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1
+                    maxLines = 1,
+                    modifier = modifier.basicMarquee()
                 )
                 Text(
                     text = currentSong.artist,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
+                    modifier = modifier.basicMarquee()
+
                 )
             }
 
@@ -73,9 +80,14 @@ fun MiniPlayer(
                 onClick = onPlayPause,
                 shapes = IconButtonDefaults.shapes(),
             ) {
+                val icon = if (isPlaying) {
+                    Icons.Rounded.Pause
+                } else {
+                    Icons.Rounded.PlayArrow
+                }
                 Icon(
-                    imageVector = Icons.Rounded.PlayArrow,
-                    contentDescription = Icons.Default.PlayArrow.toString()
+                    imageVector = icon,
+                    contentDescription = icon.toString()
                 )
             }
 

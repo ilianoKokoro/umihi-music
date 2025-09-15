@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -30,12 +31,19 @@ fun MiniPlayerWrapper(
     isPlayerOpened: Boolean
 ) {
     var currentSong by remember { mutableStateOf(player.currentMediaItem?.toSong()) }
+    var songIsPlaying by remember { mutableStateOf(false) }
     val insets = WindowInsets.navigationBars.asPaddingValues()
     val bottomInset = with(LocalDensity.current) { insets.calculateBottomPadding().roundToPx() }
     DisposableEffect(player) {
         val listener = object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 currentSong = mediaItem?.toSong()
+
+
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                songIsPlaying = isPlaying
             }
         }
         player.addListener(listener)
@@ -48,14 +56,20 @@ fun MiniPlayerWrapper(
         exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
         modifier = modifier
             .fillMaxWidth()
-            .height(84.dp)
+            .padding(horizontal = 8.dp)
+            .height(70.dp)
     ) {
-        MiniPlayer(currentSong = currentSong!!, onClick = onMiniPlayerPressed, onPlayPause = {
-            if (player.isPlaying) {
-                player.pause()
-            } else {
-                player.play()
-            }
-        })
+        MiniPlayer(
+            currentSong = currentSong!!,
+            onClick = onMiniPlayerPressed,
+            onPlayPause = {
+                if (player.isPlaying) {
+                    player.pause()
+                } else {
+                    player.play()
+                }
+            },
+            isPlaying = songIsPlaying
+        )
     }
 }

@@ -26,6 +26,8 @@ class PlayerViewModel(player: Player, application: Application) :
     private val _player = player
 
     init {
+        //  Log.d("CustomLog", "init PlayerViewModel")
+
         _player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
@@ -33,49 +35,20 @@ class PlayerViewModel(player: Player, application: Application) :
 
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-//                   Log.d("CustomLog", "onIsPlayingChanged isPlaying $isPlaying")
-                viewModelScope.launch {
-                    _uiState.update {
-                        _uiState.value.copy(
-                            isPlaying = _player.isPlaying
-                        )
-                    }
-                }
+                updateIsPlayingState()
             }
 
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-                viewModelScope.launch {
-                    when (playbackState) {
-                        Player.STATE_BUFFERING -> {
-//                            Log.d("CustomLog", "Player.STATE_BUFFERING")
-                            _uiState.update {
-                                _uiState.value.copy(
-                                    isLoading = true
-                                )
-                            }
-                        }
-
-                        Player.STATE_READY -> {
-//                            Log.d("CustomLog", "Player.STATE_READY")
-                            updateSongDuration()
-                            _uiState.update {
-                                _uiState.value.copy(
-                                    isLoading = false
-                                )
-                            }
-                        }
-                        
-                        else -> {
-                        }
-                    }
-                }
+                updateIsLoadingState()
             }
         })
 
 
         startProgressUpdate()
         updateCurrentSong()
+        updateIsLoadingState()
+        updateIsPlayingState()
     }
 
     val currentSong: Song?
@@ -146,7 +119,7 @@ class PlayerViewModel(player: Player, application: Application) :
             _uiState.update {
                 _uiState.value.copy(
                     currentIndex = _player.currentMediaItemIndex,
-                    queue = _player.getQueue()
+                    queue = _player.getQueue(),
                 )
             }
         }
@@ -190,6 +163,45 @@ class PlayerViewModel(player: Player, application: Application) :
             _uiState.update {
                 _uiState.value.copy(
                     durationMs = songDuration.toFloat(),
+                )
+            }
+        }
+    }
+
+    private fun updateIsLoadingState() {
+        viewModelScope.launch {
+            when (_player.playbackState) {
+                Player.STATE_BUFFERING -> {
+//                            Log.d("CustomLog", "Player.STATE_BUFFERING")
+                    _uiState.update {
+                        _uiState.value.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+
+                Player.STATE_READY -> {
+//                            Log.d("CustomLog", "Player.STATE_READY")
+                    updateSongDuration()
+                    _uiState.update {
+                        _uiState.value.copy(
+                            isLoading = false
+                        )
+                    }
+                }
+
+                else -> {
+                }
+            }
+        }
+    }
+
+    private fun updateIsPlayingState() {
+        //                   Log.d("CustomLog", "onIsPlayingChanged isPlaying $isPlaying")
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    isPlaying = _player.isPlaying
                 )
             }
         }
