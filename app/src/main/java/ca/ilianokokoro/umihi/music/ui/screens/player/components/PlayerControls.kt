@@ -5,28 +5,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
-import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.material.LargeIconButton
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.material.MediumIconButton
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerControls(
     isPlaying: Boolean,
-    isLoading: Boolean,
+    isLoading: Boolean, // TODO
     position: Float,
     duration: Float,
     onSeekPlayer: () -> Unit,
@@ -60,7 +61,7 @@ fun PlayerControls(
 
             modifier = modifier.padding(top = 10.dp)
         )
-        
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = modifier
@@ -86,40 +87,35 @@ fun PlayerControls(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
-            FilledTonalIconButton(
+
+            MediumIconButton(
                 onClick = onSeekToPrevious,
-                modifier = modifier.size(45.dp)
-            ) {
-                Icon(
-                    Icons.Rounded.SkipPrevious,
-                    contentDescription = stringResource(R.string.previous),
-                    modifier = modifier.size(30.dp)
-                )
+                icon = Icons.Rounded.SkipPrevious,
+                background = MaterialTheme.colorScheme.primaryContainer,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
 
-            }
-
-            PlayPauseButton(
-                isPlaying = isPlaying,
-                isLoading = isLoading,
+            LargeIconButton(
                 onClick = {
                     if (isPlaying) {
                         onPause()
                     } else {
                         onPlay()
                     }
+                }, icon = if (isPlaying) {
+                    Icons.Rounded.Pause
+                } else {
+                    Icons.Rounded.PlayArrow
                 }
             )
 
-            FilledTonalIconButton(
+
+            MediumIconButton(
                 onClick = onSeekToNext,
-                modifier = modifier.size(45.dp)
-            ) {
-                Icon(
-                    Icons.Rounded.SkipNext,
-                    contentDescription = stringResource(R.string.next),
-                    modifier = modifier.size(30.dp)
-                )
-            }
+                icon = Icons.Rounded.SkipNext,
+                background = MaterialTheme.colorScheme.primaryContainer,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
         }
     }
 }

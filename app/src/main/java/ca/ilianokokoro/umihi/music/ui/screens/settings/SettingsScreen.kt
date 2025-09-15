@@ -15,8 +15,10 @@ import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,6 +39,7 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable // TODO : Extract strings
 fun SettingsScreen(
     onBack: () -> Unit,
@@ -63,7 +66,10 @@ fun SettingsScreen(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(
+                        onClick = onBack,
+                        shapes = IconButtonDefaults.shapes()
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = stringResource(R.string.back_description)

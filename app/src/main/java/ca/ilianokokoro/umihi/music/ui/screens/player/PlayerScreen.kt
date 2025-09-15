@@ -20,8 +20,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,6 +49,7 @@ import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerScreen(
     onBack: () -> Unit,
@@ -170,7 +173,8 @@ fun PlayerScreen(
             IconButton(
                 onClick = {
                     playerViewModel.setQueueVisibility(true)
-                }
+                },
+                shapes = IconButtonDefaults.shapes()
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
