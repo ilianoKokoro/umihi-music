@@ -1,6 +1,6 @@
-[![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?include_prereleases&&style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases)
-[![RB Status](https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge)](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge)
+[![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?include_prereleases&style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge&color=E53935)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
+[![RB Status](https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 
 # Umihi Music
 
@@ -16,6 +16,7 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 
 <p float="left">
 <a href="https://apt.izzysoft.de/packages/ca.ilianokokoro.umihi.music"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80"></a>
+<a href="https://www.openapk.net/umihi-music/ca.ilianokokoro.umihi.music/"><img src="https://www.openapk.net/images/openapk-badge.png" height="80"></a>
 <a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
 </p>
 
@@ -60,7 +61,7 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 
 Join the Discord server to get update pings, know about announcements and get support about problems
 
-<a href="https://discord.gg/mSPeHS5cF6"><img alt="Discord Server"  src="https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6"></a> &nbsp;
+[![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
 
 ## Credits 🎨
 
