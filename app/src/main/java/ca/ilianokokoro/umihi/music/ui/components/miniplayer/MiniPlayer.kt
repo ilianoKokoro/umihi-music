@@ -3,7 +3,6 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,18 +46,19 @@ fun MiniPlayer(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Box(modifier = modifier.padding(8.dp)) {
-                SquareImage(currentSong.thumbnail)
-            }
 
+            SquareImage(currentSong.thumbnail)
 
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 8.dp),
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = currentSong.title,
@@ -78,7 +78,7 @@ fun MiniPlayer(
 
             FilledIconButton(
                 onClick = onPlayPause,
-                shapes = IconButtonDefaults.shapes(),
+                shapes = IconButtonDefaults.shapes()
             ) {
                 val icon = if (isPlaying) {
                     Icons.Rounded.Pause

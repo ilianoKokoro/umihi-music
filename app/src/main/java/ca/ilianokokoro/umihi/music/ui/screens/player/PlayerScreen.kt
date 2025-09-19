@@ -189,8 +189,11 @@ fun PlayerScreen(
                     playerViewModel.setQueueVisibility(true)
                 },
                 shapes = IconButtonDefaults.shapes(),
-
-                ) {
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
                     contentDescription = stringResource(R.string.queue),

@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -40,6 +41,7 @@ import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.PlaylistCard
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlaylistsScreen(
     onSettingsButtonPress: () -> Unit,
@@ -76,6 +78,7 @@ fun PlaylistsScreen(
                 }, actions = {
                     FilledIconButton(
                         onClick = onSettingsButtonPress,
+                        shapes = IconButtonDefaults.shapes(),
                         colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             contentColor = MaterialTheme.colorScheme.onSurface
