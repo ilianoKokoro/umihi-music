@@ -27,13 +27,12 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 -   Play your YouTube / YT Music playlists
 -   No ads
 -   Lightweight and fast
--   Clean Material You design
+-   Clean Material Expressive design
 -   Optimized for modern Android devices
 
 ### Future features (In development)
 
 -   [ ] Download playlists for offline use
--   [ ] Miniplayer
 -   [ ] Translations to other languages
 
 ---
