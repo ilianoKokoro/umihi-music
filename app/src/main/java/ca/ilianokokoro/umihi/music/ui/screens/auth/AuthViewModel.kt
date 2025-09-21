@@ -11,21 +11,28 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
-    val uiState = _uiState.asStateFlow()
+    //  val uiState = _uiState.asStateFlow()
+
+    private val _eventsChannel = Channel<ScreenEvent.Out>()
+    val eventChannel = _eventsChannel.consumeAsFlow()
     private val datastoreRepository = DatastoreRepository(application)
 
     fun onPageFinished(url: String?) {
-        if (url?.contains(Constants.Auth.END_URL) == true && !_uiState.value.isLoggedIn) {
-            val cookies = CookieManager.getInstance().getCookie(url).orEmpty()
-            saveCookies(Cookies(cookies))
-            _uiState.update { it.copy(isLoggedIn = true) }
+        viewModelScope.launch {
+            if (url?.contains(Constants.Auth.END_URL) == true && !_uiState.value.isLoggedIn) {
+                val cookies = CookieManager.getInstance().getCookie(url).orEmpty()
+                saveCookies(Cookies(cookies))
+                _uiState.update { it.copy(isLoggedIn = true) }
+                _eventsChannel.send(ScreenEvent.Out.LoginCompleted)
+            }
         }
     }
 
@@ -33,6 +40,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("CustomLog", "Got cookies: $cookies")
         viewModelScope.launch {
             datastoreRepository.saveCookies(cookies)
+        }
+    }
+
+    sealed interface ScreenEvent {
+        sealed class Out {
+            data object LoginCompleted : Out()
         }
     }
 

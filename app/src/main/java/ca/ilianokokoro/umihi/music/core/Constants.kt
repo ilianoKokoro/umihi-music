@@ -18,7 +18,7 @@ object Constants {
     object Animation {
         const val NAVIGATION_DURATION = 200
         const val IMAGE_FADE_DURATION = 200
-        
+
         val SLIDE_UP_TRANSITION = NavDisplay.transitionSpec {
             slideInVertically(
                 initialOffsetY = { it },
@@ -41,7 +41,7 @@ object Constants {
 
     object Auth {
         const val START_URL =
-            "https://accounts.google.com/AccountChooser?service=youtube&continue=https://music.youtube.com/feed/library"
+            "https://accounts.google.com/ServiceLogin?ltmpl=music&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Den%26next%3Dhttps%253A%252F%252Fmusic.youtube.com%252F%26feature%3D__FEATURE__&hl=en"
         const val END_URL =
             "https://music.youtube.com/"
     }
