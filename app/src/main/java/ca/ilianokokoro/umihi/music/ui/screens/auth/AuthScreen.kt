@@ -47,10 +47,6 @@ fun AuthScreen(
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-// Clear Any previous cookies (Not needed)
-//        WebStorage.getInstance().deleteAllData()
-//        CookieManager.getInstance().removeAllCookies(null)
-//        CookieManager.getInstance().flush()
         authViewModel.eventChannel.collectLatest {
             when (it) {
                 is AuthViewModel.ScreenEvent.Out.LoginCompleted -> {

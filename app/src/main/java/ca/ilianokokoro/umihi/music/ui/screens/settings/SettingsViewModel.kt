@@ -1,6 +1,8 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import android.webkit.CookieManager
+import android.webkit.WebStorage
 import androidx.annotation.OptIn
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +41,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     screenState = ScreenState.Success(isLoggedIn = savedCookies.toRawCookie() != String())
                 )
             }
+        }
+    }
+
+    fun clearLogins() {
+        viewModelScope.launch {
+            WebStorage.getInstance().deleteAllData()
+            CookieManager.getInstance().removeAllCookies(null)
+            CookieManager.getInstance().flush()
+            logOut()
         }
     }
 
