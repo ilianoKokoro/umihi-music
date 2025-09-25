@@ -4,7 +4,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 
 
 data class PlaylistState(
-    val screenState: ScreenState = ScreenState.Loading,
+    val screenState: ScreenState,
     val isRefreshing: Boolean = false
 )
 
@@ -13,6 +13,9 @@ sealed class ScreenState {
         val playlist: Playlist
     ) : ScreenState()
 
-    data object Loading : ScreenState()
+    data class Loading(
+        val partialPlaylist: Playlist
+    ) : ScreenState()
+
     data class Error(val exception: Exception) : ScreenState()
 }

@@ -23,12 +23,16 @@ import kotlinx.coroutines.launch
 
 class PlaylistViewModel(playlist: Playlist, player: Player, application: Application) :
     AndroidViewModel(application) {
-    private val _uiState = MutableStateFlow(PlaylistState())
+    private val _playlist = playlist
+    private val _uiState = MutableStateFlow(
+        PlaylistState(
+            screenState = ScreenState.Loading(_playlist)
+        )
+    )
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
     private val datastoreRepository = DatastoreRepository(application)
-    private val _playlist = playlist
 
     private val _player = player
 
@@ -92,7 +96,7 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
                     _uiState.value.copy(
                         screenState = when (apiResult) {
                             is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                            ApiResult.Loading -> ScreenState.Loading
+                            ApiResult.Loading -> ScreenState.Loading(_playlist)
                             is ApiResult.Success -> ScreenState.Success(apiResult.data)
                         }
                     )

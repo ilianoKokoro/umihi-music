@@ -3,6 +3,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,10 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
@@ -28,9 +29,8 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.components.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.SongListItem
-import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.ActionButtons
+import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -72,53 +72,75 @@ fun PlaylistScreen(
                 .padding(innerPadding)
         ) {
 
-            when (uiState.screenState) {
+            if (uiState.screenState is ScreenState.Error) {
+                ErrorMessage(
+                    ex = uiState.screenState.exception,
+                    onRetry = playlistViewModel::getPlaylistInfo
+                )
+            } else {
+                val playlist: Playlist = when (uiState.screenState) {
+                    is ScreenState.Loading -> {
+                        uiState.screenState.partialPlaylist
+                    }
 
-                is ScreenState.Success -> PullToRefreshBox(
-                    isRefreshing = uiState.isRefreshing,
-                    onRefresh = playlistViewModel::refreshPlaylistInfo,
-                    modifier = modifier
-                        .fillMaxSize()
-                ) {
+                    is ScreenState.Success -> {
+                        uiState.screenState.playlist
+                    }
 
-                    LazyColumn(
+                    else -> {
+                        Playlist("", "", "")
+                    }
+                }
+                val songs = playlist.songs
+                
+                if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
+                    PlaylistHeader(
+                        onOpenPlayer = onOpenPlayer,
+                        onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                        onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                        onPlayPlaylist = playlistViewModel::playPlaylist,
+                        playlist = playlist
+                    )
+
+                    if (uiState.screenState is ScreenState.Loading) {
+                        LoadingAnimation()
+                    } else {
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = modifier
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                stringResource(R.string.empty_playlist),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+
+                } else {
+                    PullToRefreshBox(
+                        isRefreshing = uiState.isRefreshing,
+                        onRefresh = playlistViewModel::refreshPlaylistInfo,
                         modifier = modifier
                             .fillMaxSize()
                     ) {
-                        val fullPlaylist = uiState.screenState.playlist
-                        val songs = fullPlaylist.songs
+                        LazyColumn(
+                            modifier = modifier
+                                .fillMaxSize(),
 
-                        item {
-                            Column(modifier = modifier.padding(horizontal = 16.dp)) {
-                                PlaylistInfo(
-                                    playlist = fullPlaylist,
-                                    onDownloadPressed = playlistViewModel::downloadPlaylist
-                                )
-                                ActionButtons(
-                                    buttonEnabled = !songs.isEmpty(),
-                                    onPlayClicked = {
-                                        onOpenPlayer()
-                                        playlistViewModel.playPlaylist()
-                                    },
-                                    onShuffleClicked = {
-                                        onOpenPlayer()
-                                        playlistViewModel.shufflePlaylist()
-                                    }
-                                )
-                            }
-                        }
+                            ) {
 
-
-                        if (songs.isEmpty()) {
                             item {
-                                Text(
-                                    stringResource(R.string.empty_playlist), // TODO : make the text vertically centered
-                                    textAlign = TextAlign.Center,
-                                    modifier = modifier
-                                        .fillMaxSize()
+                                PlaylistHeader(
+                                    onOpenPlayer = onOpenPlayer,
+                                    onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                                    onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                                    onPlayPlaylist = playlistViewModel::playPlaylist,
+                                    playlist = playlist
                                 )
                             }
-                        } else {
+
                             itemsIndexed(
                                 items = songs,
                                 key = { index, song ->
@@ -135,18 +157,10 @@ fun PlaylistScreen(
                                 })
                             }
                         }
-
                     }
                 }
-
-                ScreenState.Loading -> LoadingAnimation()
-                is ScreenState.Error -> ErrorMessage(
-                    ex = uiState.screenState.exception,
-                    onRetry = playlistViewModel::getPlaylistInfo
-                )
-
-
             }
+
 
         }
 

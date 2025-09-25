@@ -26,4 +26,5 @@
     <string name="view_details">View Details</string>
     <string name="error_log">Error Log</string>
     <string name="login_success">Login success</string>
+    <string name="empty" />
 </resources>
