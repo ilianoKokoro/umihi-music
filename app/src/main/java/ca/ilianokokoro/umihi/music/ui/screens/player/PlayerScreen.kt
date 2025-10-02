@@ -106,6 +106,23 @@ fun PlayerScreen(
                         )
                     }
                 },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            playerViewModel.setQueueVisibility(true)
+                        },
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                            contentDescription = stringResource(R.string.queue),
+                        )
+                    }
+                }
             )
         },
         modifier = Modifier.fillMaxSize()
@@ -115,14 +132,12 @@ fun PlayerScreen(
                 .padding(8.dp)
                 .fillMaxSize()
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
             Box(
                 modifier = Modifier
-                    .weight(3f)
-                    .padding(horizontal = 20.dp),
+                    .padding(20.dp),
             ) {
                 AnimatedContent(
                     targetState = playerViewModel.currentSong?.thumbnail ?: "",
@@ -147,7 +162,8 @@ fun PlayerScreen(
                     .weight(2f)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -180,23 +196,6 @@ fun PlayerScreen(
                     onSeekToNext = playerViewModel::seekToNext,
                     onSeekToPrevious = playerViewModel::seekToPrevious,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
-                )
-            }
-
-            // Queue Button
-            IconButton(
-                onClick = {
-                    playerViewModel.setQueueVisibility(true)
-                },
-                shapes = IconButtonDefaults.shapes(),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ),
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-                    contentDescription = stringResource(R.string.queue),
                 )
             }
 

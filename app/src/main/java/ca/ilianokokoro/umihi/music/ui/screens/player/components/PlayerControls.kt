@@ -98,7 +98,7 @@ fun PlayerControls(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ButtonGroup(
-                overflowIndicator = {}
+                overflowIndicator = {},
             ) {
                 customItem(
                     {
@@ -107,6 +107,7 @@ fun PlayerControls(
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = controlsInteractionSources[0],
                             modifier = Modifier
+                                .padding(vertical = 20.dp)
                                 .weight(2f)
                                 .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
                                 .animateWidth(interactionSource = controlsInteractionSources[0])
@@ -139,7 +140,7 @@ fun PlayerControls(
                             interactionSource = controlsInteractionSources[1],
                             modifier = modifier
                                 .weight(3f)
-                                .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
+                                .size(IconButtonDefaults.largeContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
                                 .animateWidth(interactionSource = controlsInteractionSources[1])
                         ) {
                             if (isLoading) {
@@ -171,6 +172,7 @@ fun PlayerControls(
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = controlsInteractionSources[2],
                             modifier = Modifier
+                                .padding(vertical = 20.dp)
                                 .weight(2f)
                                 .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
                                 .animateWidth(interactionSource = controlsInteractionSources[2])
