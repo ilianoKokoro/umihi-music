@@ -29,7 +29,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.components.SongListItem
+import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -92,7 +92,7 @@ fun PlaylistScreen(
                     }
                 }
                 val songs = playlist.songs
-                
+
                 if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
                     PlaylistHeader(
                         onOpenPlayer = onOpenPlayer,

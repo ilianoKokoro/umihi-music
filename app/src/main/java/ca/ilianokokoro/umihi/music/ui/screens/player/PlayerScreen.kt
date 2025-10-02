@@ -29,7 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -65,7 +64,6 @@ fun PlayerScreen(
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
 
-    val queueSheetState = rememberModalBottomSheetState()
 
     // Close the screen in resumed with an empty queue
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -204,7 +202,6 @@ fun PlayerScreen(
                 QueueBottomSheet(
                     changeVisibility = { playerViewModel.setQueueVisibility(it) },
                     scope = playerViewModel.viewModelScope,
-                    sheetState = queueSheetState,
                     songs = uiState.queue
                 )
             }
