@@ -128,7 +128,8 @@ class PlaybackService : MediaSessionService() {
             } catch (ex: Exception) {
                 Log.e(
                     "CustomLog",
-                    "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}"
+                    "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
+                    ex
                 )
 
             }

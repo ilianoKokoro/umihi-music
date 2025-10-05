@@ -5,17 +5,20 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.data.repositories.LocalSongRepository
+import ca.ilianokokoro.umihi.music.data.datasources.local.LocalPlaylistDataSource
+import ca.ilianokokoro.umihi.music.data.datasources.local.LocalSongDataSource
+import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import java.util.concurrent.Executors
 
 @Database(
-    entities = [Song::class],
+    entities = [Song::class, Playlist::class],
     version = Constants.Database.VERSION,
     exportSchema = false // Set to true to get an exported json
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun songRepository(): LocalSongRepository
+    abstract fun songRepository(): LocalSongDataSource
+    abstract fun playlistRepository(): LocalPlaylistDataSource
 
     companion object {
         @Volatile
@@ -41,7 +44,9 @@ abstract class AppDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java, Constants.Database.NAME
-            ).build()
+            )
+                .fallbackToDestructiveMigration(dropAllTables = true)
+                .build()
 
         /**
          * Utility method to run blocks on a dedicated background thread, used for io/database work.

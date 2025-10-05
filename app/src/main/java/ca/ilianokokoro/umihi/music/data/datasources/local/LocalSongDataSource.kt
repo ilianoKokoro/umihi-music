@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.data.repositories
+package ca.ilianokokoro.umihi.music.data.datasources.local
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -7,7 +7,7 @@ import androidx.room.Query
 import ca.ilianokokoro.umihi.music.models.Song
 
 @Dao
-interface LocalSongRepository {
+interface LocalSongDataSource {
     @Insert
     suspend fun create(song: Song)
 

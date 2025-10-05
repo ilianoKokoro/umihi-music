@@ -27,4 +27,5 @@
     <string name="error_log">Error Log</string>
     <string name="login_success">Login success</string>
     <string name="empty" />
+    <string name="download">Download</string>
 </resources>

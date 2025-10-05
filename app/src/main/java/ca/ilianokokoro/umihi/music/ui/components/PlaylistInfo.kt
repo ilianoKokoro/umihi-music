@@ -8,6 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.DownloadDone
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Modifier = Modifier) {
     val songsCount = playlist.songs.count()
@@ -49,7 +57,7 @@ fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Mo
                     text = playlist.title,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                
+
                 val alpha by animateFloatAsState(
                     targetValue = if (animatedCount == null || animatedCount == 0) 0f else 1f,
                     animationSpec = tween()
@@ -59,6 +67,30 @@ fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Mo
                     text = if (songsCount > 0) stringResource(R.string.songs, songsCount) else "",
                     modifier = Modifier.alpha(alpha)
                 )
+
+                FilledIconButton(
+                    onClick = onDownloadPressed,
+                    shapes = IconButtonDefaults.shapes(),
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    enabled = alpha != 0F && !playlist.downloaded
+                ) {
+                    when (playlist.downloaded) {
+                        true -> Icon(
+                            imageVector = Icons.Rounded.DownloadDone,
+                            contentDescription = null,
+                        )
+
+                        false -> Icon(
+                            imageVector = Icons.Rounded.Download,
+                            contentDescription = stringResource(R.string.download),
+                        )
+                    }
+
+
+                }
             }
         }
     }

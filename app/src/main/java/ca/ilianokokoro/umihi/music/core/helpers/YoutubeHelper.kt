@@ -1,6 +1,6 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
-import android.app.Application
+import android.content.Context
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
@@ -21,6 +21,7 @@ import org.schabi.newpipe.extractor.ServiceList
 
 object YoutubeHelper {
     private val client = OkHttpClient()
+
 
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
         val url =
@@ -186,8 +187,8 @@ object YoutubeHelper {
     }
 
 
-    suspend fun getSongPlayerUrl(application: Application, songId: String): String {
-        val localSongRepository = AppDatabase.getInstance(application).songRepository()
+    suspend fun getSongPlayerUrl(context: Context, songId: String): String {
+        val localSongRepository = AppDatabase.getInstance(context).songRepository()
 
         val savedSong = localSongRepository.getSongById(songId)
         if (savedSong != null && savedSong.streamUrl != null) {

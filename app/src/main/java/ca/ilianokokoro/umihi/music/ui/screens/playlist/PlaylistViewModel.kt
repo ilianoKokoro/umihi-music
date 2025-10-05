@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.extensions.playPlaylist
 import ca.ilianokokoro.umihi.music.extensions.shufflePlaylist
@@ -33,6 +34,7 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
 
     private val playlistRepository = PlaylistRepository()
     private val datastoreRepository = DatastoreRepository(application)
+    private val downloadRepository = DownloadRepository(application)
 
     private val _player = player
 
@@ -84,7 +86,8 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
     fun downloadPlaylist() {
         viewModelScope.launch {
             val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
-            playlist
+
+            downloadRepository.download(playlist)
         }
     }
 

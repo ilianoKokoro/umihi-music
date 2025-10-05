@@ -55,6 +55,7 @@ object Constants {
         const val NAME = "umihi-music"
         const val VERSION = 1
         const val SONGS_TABLE = "songs"
+        const val PLAYLISTS_TABLE = "playlists"
     }
 
     object ExoPlayer {
