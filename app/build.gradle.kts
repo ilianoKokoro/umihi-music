@@ -139,4 +139,7 @@ dependencies {
 
     // Custom Activity On Crash
     implementation(libs.customactivityoncrash)
+
+    // Workers
+    implementation(libs.androidx.work.runtime.ktx)
 }
