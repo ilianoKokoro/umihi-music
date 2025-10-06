@@ -34,7 +34,11 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Modifier = Modifier) {
+fun PlaylistInfo(
+    playlist: Playlist,
+    onDownloadPressed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val songsCount = playlist.songs.count()
     var animatedCount by remember { mutableStateOf<Int?>(null) }
 
@@ -49,12 +53,12 @@ fun PlaylistInfo(playlist: Playlist, onDownloadPressed: () -> Unit, modifier: Mo
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SquareImage(playlist.coverHref)
+        SquareImage(playlist.info.coverHref)
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 Text(
                     modifier = modifier.fillMaxWidth(),
-                    text = playlist.title,
+                    text = playlist.info.title,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
 

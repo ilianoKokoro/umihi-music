@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 
 @Composable
-fun PlaylistCard(onClicked: () -> Unit, playlist: Playlist) {
+fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
     Card(onClick = onClicked, modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -24,10 +24,10 @@ fun PlaylistCard(onClicked: () -> Unit, playlist: Playlist) {
                 .fillMaxSize()
         ) {
             SquareImage(
-                url = playlist.coverHref,
+                url = playlistInfo.coverHref,
             )
             Text(
-                playlist.title,
+                playlistInfo.title,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)

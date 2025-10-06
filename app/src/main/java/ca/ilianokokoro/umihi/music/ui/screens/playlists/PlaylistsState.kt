@@ -1,6 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlists
 
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 
 
 data class PlaylistsState(
@@ -10,7 +10,7 @@ data class PlaylistsState(
 
 sealed class ScreenState {
     data class LoggedIn(
-        val playlists: List<Playlist>
+        val playlistInfos: List<PlaylistInfo>
     ) : ScreenState()
 
 

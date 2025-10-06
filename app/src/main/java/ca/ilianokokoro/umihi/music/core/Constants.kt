@@ -53,7 +53,7 @@ object Constants {
 
     object Database {
         const val NAME = "umihi-music"
-        const val VERSION = 1
+        const val VERSION = 3
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
     }

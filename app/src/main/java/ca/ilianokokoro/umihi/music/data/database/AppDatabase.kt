@@ -7,12 +7,13 @@ import androidx.room.RoomDatabase
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalPlaylistDataSource
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalSongDataSource
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.PlaylistSongCrossRef
 import ca.ilianokokoro.umihi.music.models.Song
 import java.util.concurrent.Executors
 
 @Database(
-    entities = [Song::class, Playlist::class],
+    entities = [Song::class, PlaylistInfo::class, PlaylistSongCrossRef::class],
     version = Constants.Database.VERSION,
     exportSchema = false // Set to true to get an exported json
 )

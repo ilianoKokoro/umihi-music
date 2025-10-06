@@ -52,7 +52,7 @@ fun MiniPlayer(
         ) {
 
 
-            SquareImage(currentSong.thumbnail)
+            SquareImage(currentSong.thumbnailHref)
 
             Column(
                 modifier = Modifier

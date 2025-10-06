@@ -36,7 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.PlaylistCard
@@ -45,7 +45,7 @@ import ca.ilianokokoro.umihi.music.ui.components.PlaylistCard
 @Composable
 fun PlaylistsScreen(
     onSettingsButtonPress: () -> Unit,
-    onPlaylistPressed: (playlist: Playlist) -> Unit,
+    onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
     application: Application,
     playlistsViewModel: PlaylistsViewModel = viewModel(
         factory =
@@ -60,7 +60,7 @@ fun PlaylistsScreen(
         val observer = LifecycleEventObserver { _, event ->
             val loggedOut = uiState.screenState is ScreenState.LoggedOut
             val noPlaylistsFound =
-                uiState.screenState is ScreenState.LoggedIn && uiState.screenState.playlists.isEmpty()
+                uiState.screenState is ScreenState.LoggedIn && uiState.screenState.playlistInfos.isEmpty()
 
             if (event == Lifecycle.Event.ON_RESUME && (loggedOut || noPlaylistsFound)) {
                 playlistsViewModel.getPlaylists()
@@ -107,7 +107,7 @@ fun PlaylistsScreen(
 
             when (uiState.screenState) {
                 is ScreenState.LoggedIn -> {
-                    val playlists = uiState.screenState.playlists
+                    val playlists = uiState.screenState.playlistInfos
 
                     if (playlists.isEmpty()) {
                         Text(
@@ -138,7 +138,7 @@ fun PlaylistsScreen(
                                     }
                                 ) { _, playlist ->
                                     PlaylistCard(
-                                        playlist = playlist,
+                                        playlistInfo = playlist,
                                         onClicked = { onPlaylistPressed(playlist) }
                                     )
                                 }

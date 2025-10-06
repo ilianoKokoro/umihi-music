@@ -3,7 +3,7 @@ package ca.ilianokokoro.umihi.music.core.helpers
 import android.content.Context
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -42,7 +42,7 @@ object YoutubeHelper {
             ?.jsonPrimitive?.contentOrNull ?: ""
     }
 
-    fun extractPlaylists(jsonString: String): List<Playlist> {
+    fun extractPlaylists(jsonString: String): List<PlaylistInfo> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val tabs = json["contents"]
@@ -61,7 +61,7 @@ object YoutubeHelper {
             ?.jsonObject?.get("contents")
             ?.jsonArray ?: return emptyList()
 
-        val playlists = mutableListOf<Playlist>()
+        val playlistInfos = mutableListOf<PlaylistInfo>()
 
         for (section in sectionList) {
             val gridItems = section.jsonObject["gridRenderer"]
@@ -87,18 +87,19 @@ object YoutubeHelper {
                     playlistShelf["thumbnailRenderer"] ?: continue
                 )
 
-                playlists.add(
-                    Playlist(
+                playlistInfos.add(
+                    PlaylistInfo(
                         id = browseId,
                         title = playlistTitle,
                         coverHref = thumbnailUrl,
-                        songs = emptyList()
+                    ),
+
+
                     )
-                )
             }
         }
 
-        return playlists
+        return playlistInfos
     }
 
     fun extractHighQualityThumbnail(jsonString: String): String {
@@ -178,7 +179,7 @@ object YoutubeHelper {
                     id = videoId,
                     title = title,
                     artist = artist,
-                    thumbnail = thumbnailUrl
+                    thumbnailHref = thumbnailUrl
                 )
             )
         }

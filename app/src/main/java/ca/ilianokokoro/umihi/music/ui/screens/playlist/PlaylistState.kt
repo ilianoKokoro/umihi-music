@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 
 
 data class PlaylistState(
@@ -14,7 +15,7 @@ sealed class ScreenState {
     ) : ScreenState()
 
     data class Loading(
-        val partialPlaylist: Playlist
+        val playlistInfo: PlaylistInfo
     ) : ScreenState()
 
     data class Error(val exception: Exception) : ScreenState()

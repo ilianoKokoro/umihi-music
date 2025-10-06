@@ -26,6 +26,7 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -35,7 +36,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlaylistScreen(
-    playlist: Playlist,
+    playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
     onBack: () -> Unit,
     player: Player,
@@ -44,7 +45,7 @@ fun PlaylistScreen(
     playlistViewModel: PlaylistViewModel = viewModel(
         factory =
             PlaylistViewModel.Factory(
-                playlist = playlist,
+                playlistInfo = playlistInfo,
                 player = player,
                 application = application
             )
@@ -57,7 +58,7 @@ fun PlaylistScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(playlist.title)
+                    Text(playlistInfo.title)
                 },
                 navigationIcon = {
                     BackButton(onBack)
@@ -78,9 +79,9 @@ fun PlaylistScreen(
                     onRetry = playlistViewModel::getPlaylistInfo
                 )
             } else {
-                val playlist: Playlist = when (uiState.screenState) {
+                val playlistInfo: Playlist = when (uiState.screenState) {
                     is ScreenState.Loading -> {
-                        uiState.screenState.partialPlaylist
+                        Playlist(uiState.screenState.playlistInfo)
                     }
 
                     is ScreenState.Success -> {
@@ -88,10 +89,10 @@ fun PlaylistScreen(
                     }
 
                     else -> {
-                        Playlist("", "", "")
+                        Playlist(PlaylistInfo("", "", "", ""))
                     }
                 }
-                val songs = playlist.songs
+                val songs = playlistInfo.songs
 
                 if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
                     PlaylistHeader(
@@ -99,7 +100,7 @@ fun PlaylistScreen(
                         onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                         onShufflePlaylist = playlistViewModel::shufflePlaylist,
                         onPlayPlaylist = playlistViewModel::playPlaylist,
-                        playlist = playlist
+                        playlist = playlistInfo
                     )
 
                     if (uiState.screenState is ScreenState.Loading) {
@@ -137,7 +138,7 @@ fun PlaylistScreen(
                                     onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                                     onShufflePlaylist = playlistViewModel::shufflePlaylist,
                                     onPlayPlaylist = playlistViewModel::playPlaylist,
-                                    playlist = playlist
+                                    playlist = playlistInfo
                                 )
                             }
 

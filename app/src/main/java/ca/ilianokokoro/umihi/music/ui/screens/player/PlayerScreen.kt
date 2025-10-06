@@ -138,7 +138,7 @@ fun PlayerScreen(
                     .padding(20.dp),
             ) {
                 AnimatedContent(
-                    targetState = playerViewModel.currentSong?.thumbnail ?: "",
+                    targetState = playerViewModel.currentSong?.thumbnailHref ?: "",
                     transitionSpec = {
                         fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
                             fadeOut(

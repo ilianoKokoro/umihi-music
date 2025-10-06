@@ -27,7 +27,7 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
@@ -43,7 +43,7 @@ private data object PlaylistsScreenKey : NavKey
 private data object SettingsScreenKey : NavKey
 
 @Serializable
-private data class PlaylistScreenKey(val playlist: Playlist) : NavKey
+private data class PlaylistScreenKey(val playlistInfo: PlaylistInfo) : NavKey
 
 @Serializable
 private data object AuthScreenKey : NavKey
@@ -117,7 +117,7 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                             PlaylistsScreen(onSettingsButtonPress = {
                                 backStack.add(SettingsScreenKey)
                             }, onPlaylistPressed = { playlist ->
-                                backStack.add(PlaylistScreenKey(playlist = playlist))
+                                backStack.add(PlaylistScreenKey(playlistInfo = playlist))
                             }, application = app)
                         }
                     }
@@ -136,7 +136,7 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                     is PlaylistScreenKey -> {
                         NavEntry(key = key) {
                             PlaylistScreen(
-                                playlist = key.playlist,
+                                playlistInfo = key.playlistInfo,
                                 onBack = backStack::removeLastOrNull,
                                 onOpenPlayer = {
                                     backStack.add(PlayerScreenKey)

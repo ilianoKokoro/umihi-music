@@ -5,9 +5,10 @@ import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 
 class PlaylistDataSource {
-    fun retrieveAll(cookies: Cookies): List<Playlist> {
+    fun retrieveAll(cookies: Cookies): List<PlaylistInfo> {
         return YoutubeHelper.extractPlaylists(
             YoutubeRequestHelper.browse(
                 Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
@@ -20,7 +21,7 @@ class PlaylistDataSource {
         return playlist.copy(
             songs = YoutubeHelper.extractSongList(
                 YoutubeRequestHelper.browse(
-                    playlist.id,
+                    playlist.info.id,
                     cookies
                 ), cookies
             )

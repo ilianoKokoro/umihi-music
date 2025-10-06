@@ -16,19 +16,18 @@ class DownloadRepository(appContext: Context) {
     private val localRepository =
         AppDatabase.Companion.getInstance(_appContext).playlistRepository()
 
-
     suspend fun download(playlist: Playlist) {
-        localRepository.create(playlist)
+        localRepository.insertPlaylistWithSongs(playlist)
         val request = OneTimeWorkRequestBuilder<PlaylistDownloadWorker>().setInputData(
             workDataOf(
-                PlaylistDownloadWorker.Companion.PLAYLIST_KEY to playlist.id
+                PlaylistDownloadWorker.Companion.PLAYLIST_KEY to playlist.info.id
             )
-        )
-            .setConstraints(
-                Constraints(
-                    requiredNetworkType = NetworkType.UNMETERED, requiresStorageNotLow = true
-                )
-            ).build()
+        ).setConstraints(
+            Constraints(
+                requiredNetworkType = NetworkType.UNMETERED,
+                requiresStorageNotLow = true
+            )
+        ).build()
 
         workManager.enqueue(request)
     }

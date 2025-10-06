@@ -16,15 +16,16 @@ import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.extensions.playPlaylist
 import ca.ilianokokoro.umihi.music.extensions.shufflePlaylist
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlaylistViewModel(playlist: Playlist, player: Player, application: Application) :
+class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application: Application) :
     AndroidViewModel(application) {
-    private val _playlist = playlist
+    private val _playlist = playlistInfo
     private val _uiState = MutableStateFlow(
         PlaylistState(
             screenState = ScreenState.Loading(_playlist)
@@ -94,17 +95,18 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
     private suspend fun getPlaylistInfoAsync() {
         val cookies = datastoreRepository.getCookies()
         if (!cookies.isEmpty()) {
-            playlistRepository.retrieveOne(_playlist, cookies).collect { apiResult ->
-                _uiState.update { screenState ->
-                    _uiState.value.copy(
-                        screenState = when (apiResult) {
-                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                            ApiResult.Loading -> ScreenState.Loading(_playlist)
-                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
-                        }
-                    )
+            playlistRepository.retrieveOne(Playlist(_playlist), cookies)
+                .collect { apiResult ->
+                    _uiState.update { screenState ->
+                        _uiState.value.copy(
+                            screenState = when (apiResult) {
+                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                                ApiResult.Loading -> ScreenState.Loading(_playlist)
+                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                            }
+                        )
+                    }
                 }
-            }
         } else {
             _uiState.update { screenState ->
                 _uiState.value.copy(
@@ -118,13 +120,13 @@ class PlaylistViewModel(playlist: Playlist, player: Player, application: Applica
 
     companion object {
         fun Factory(
-            playlist: Playlist,
+            playlistInfo: PlaylistInfo,
             player: Player,
             application: Application
         ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlaylistViewModel(playlist, player, application)
+                    PlaylistViewModel(playlistInfo, player, application)
                 }
             }
     }

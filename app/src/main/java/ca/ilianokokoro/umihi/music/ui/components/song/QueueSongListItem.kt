@@ -43,7 +43,7 @@ fun QueueSongListItem(song: Song, index: Int, onPress: () -> Unit, modifier: Mod
                         .size(60.dp)
                         .aspectRatio(1f)
                 ) {
-                    SquareImage(song.thumbnail, modifier = Modifier.matchParentSize())
+                    SquareImage(song.thumbnailHref, modifier = Modifier.matchParentSize())
                 }
             }
         },

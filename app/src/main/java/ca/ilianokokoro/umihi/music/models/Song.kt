@@ -14,13 +14,15 @@ data class Song(
     val id: String,
     val title: String,
     val artist: String,
-    val thumbnail: String,
-    val streamUrl: String? = null
+    val thumbnailHref: String,
+    val thumbnailPath: String? = null,
+    val streamUrl: String? = null,
+    val audioFilePath: String? = null
 ) {
     val youtubeUrl: String
         get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${id}"
     val downloaded: Boolean
-        get() = false // TODO
+        get() = listOf(true, false).random() // TODO
 }
 
 
