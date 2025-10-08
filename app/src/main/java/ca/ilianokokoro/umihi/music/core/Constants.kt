@@ -11,6 +11,10 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
 object Constants {
+    object Url {
+        const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
+    }
+
     object Marquee {
         const val DELAY = 2000
     }

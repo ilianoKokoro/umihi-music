@@ -28,10 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.findActivity
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getShortErrorFromLog
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
@@ -41,6 +43,7 @@ fun ErrorScreen() {
     val context = LocalContext.current
     val activity = context.findActivity()
     val intent = activity?.intent!!
+    val uriHandler = LocalUriHandler.current
 
     val config = CustomActivityOnCrash.getConfigFromIntent(intent)!!
     val message = CustomActivityOnCrash.getAllErrorDetailsFromIntent(context, intent)
@@ -87,6 +90,16 @@ fun ErrorScreen() {
             )
 
             Spacer(Modifier.height(32.dp))
+
+            FilledTonalButton(
+                onClick = {
+                    uriHandler.openUri(Constants.Url.DISCORD_INVITE)
+                },
+                shapes = ButtonDefaults.shapes(),
+            ) {
+                Text(stringResource(R.string.join_discord_server))
+            }
+
 
             FilledTonalButton(
                 onClick = { isDialogShown.value = true },
