@@ -23,8 +23,7 @@ import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
-import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -69,9 +68,8 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
             modifier = modifier,
             backStack = backStack,
             entryDecorators = listOf(
-                rememberSavedStateNavEntryDecorator(),
+                rememberSaveableStateHolderNavEntryDecorator(),
                 rememberViewModelStoreNavEntryDecorator(),
-                rememberSceneSetupNavEntryDecorator()
             ),
             transitionSpec = {
                 (scaleIn(

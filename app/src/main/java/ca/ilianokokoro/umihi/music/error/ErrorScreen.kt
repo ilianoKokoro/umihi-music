@@ -11,14 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -91,14 +92,7 @@ fun ErrorScreen() {
 
             Spacer(Modifier.height(32.dp))
 
-            FilledTonalButton(
-                onClick = {
-                    uriHandler.openUri(Constants.Url.DISCORD_INVITE)
-                },
-                shapes = ButtonDefaults.shapes(),
-            ) {
-                Text(stringResource(R.string.join_discord_server))
-            }
+
 
 
             FilledTonalButton(
@@ -108,13 +102,22 @@ fun ErrorScreen() {
                 Text(stringResource(R.string.view_details))
             }
 
-            ElevatedButton(
+            Button(
                 onClick = {
                     CustomActivityOnCrash.restartApplication(activity, config)
                 },
                 shapes = ButtonDefaults.shapes(),
             ) {
                 Text(stringResource(R.string.restart_application))
+            }
+
+            OutlinedButton(
+                onClick = {
+                    uriHandler.openUri(Constants.Url.DISCORD_INVITE)
+                },
+                shapes = ButtonDefaults.shapes(),
+            ) {
+                Text(stringResource(R.string.join_discord_server))
             }
         }
     }
