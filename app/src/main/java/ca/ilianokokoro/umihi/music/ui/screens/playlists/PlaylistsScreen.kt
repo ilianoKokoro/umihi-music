@@ -12,9 +12,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -147,10 +149,19 @@ fun PlaylistsScreen(
                     }
                 }
 
-                ScreenState.LoggedOut -> Text(
-                    stringResource(R.string.log_in_message),
-                    textAlign = TextAlign.Center
-                )
+                ScreenState.LoggedOut -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        stringResource(R.string.log_in_message),
+                        textAlign = TextAlign.Center
+                    )
+                    FilledTonalButton(
+                        onClick = onSettingsButtonPress,
+                        shapes = ButtonDefaults.shapes()
+                    )
+                    {
+                        Text(stringResource(R.string.open_settings))
+                    }
+                }
 
                 ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> ErrorMessage(

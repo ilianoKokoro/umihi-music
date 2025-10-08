@@ -3,6 +3,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -155,6 +156,9 @@ fun PlaylistScreen(
                                 SongListItem(song, onPress = {
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
+                                }, openSongOptions = {
+                                    // TODO
+                                    Log.d("CustomLog", "Opening options of song ${song.title}")
                                 })
                             }
                         }

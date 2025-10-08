@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DownloadForOffline
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +25,12 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
 @Composable
-fun SongListItem(song: Song, onPress: () -> Unit, modifier: Modifier = Modifier) {
+fun SongListItem(
+    song: Song,
+    onPress: () -> Unit,
+    openSongOptions: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
 
     ListItem(
@@ -57,7 +64,19 @@ fun SongListItem(song: Song, onPress: () -> Unit, modifier: Modifier = Modifier)
                 Text(song.artist, modifier = modifier.basicMarquee())
             }
         },
-        modifier = modifier.clickable(onClick = onPress)
+        trailingContent = {
+            IconButton(onClick = openSongOptions) {
+                Icon(
+                    Icons.Rounded.MoreVert, contentDescription = stringResource(
+                        R.string.more
+                    )
+                )
+            }
+        },
+        modifier = modifier.combinedClickable(
+            onClick = onPress,
+            onLongClick = openSongOptions
+        )
     )
 
 

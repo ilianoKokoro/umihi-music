@@ -99,6 +99,7 @@ fun PlayerControls(
         ) {
             ButtonGroup(
                 overflowIndicator = {},
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 customItem(
                     {
@@ -136,7 +137,8 @@ fun PlayerControls(
                                     onPlay()
                                 }
                             },
-                            shapes = IconButtonDefaults.toggleableShapes(),
+                            shapes = IconButtonDefaults.toggleableShapes()
+                                .copy(checkedShape = IconButtonDefaults.shapes().shape),
                             interactionSource = controlsInteractionSources[1],
                             modifier = modifier
                                 .weight(3f)
@@ -145,7 +147,7 @@ fun PlayerControls(
                         ) {
                             if (isLoading) {
                                 CircularWavyProgressIndicator(
-                                    modifier = Modifier.size(20.dp),
+                                    modifier = Modifier.size(25.dp),
                                 )
                             } else {
                                 val icon = if (isPlaying) {
@@ -155,7 +157,8 @@ fun PlayerControls(
                                 }
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = icon.toString()
+                                    contentDescription = icon.toString(),
+                                    modifier = modifier.size(30.dp)
                                 )
                             }
 

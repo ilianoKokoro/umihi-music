@@ -29,4 +29,6 @@
     <string name="empty" />
     <string name="download">Download</string>
     <string name="dot">•</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="more">more</string>
 </resources>
