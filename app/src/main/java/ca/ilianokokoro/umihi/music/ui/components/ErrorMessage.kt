@@ -60,7 +60,7 @@ fun ErrorMessage(
                 contentColor = MaterialTheme.colorScheme.onErrorContainer
             )
         ) {
-            Text("Retry")
+            Text(stringResource(R.string.retry))
         }
     }
 }

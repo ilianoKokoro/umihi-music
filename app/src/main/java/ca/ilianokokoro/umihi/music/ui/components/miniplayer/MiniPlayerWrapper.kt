@@ -32,8 +32,10 @@ fun MiniPlayerWrapper(
 ) {
     var currentSong by remember { mutableStateOf(player.currentMediaItem?.toSong()) }
     var songIsPlaying by remember { mutableStateOf(false) }
+    var songIsLoading by remember { mutableStateOf(true) }
     val insets = WindowInsets.navigationBars.asPaddingValues()
     val bottomInset = with(LocalDensity.current) { insets.calculateBottomPadding().roundToPx() }
+
     DisposableEffect(player) {
         val listener = object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -45,6 +47,23 @@ fun MiniPlayerWrapper(
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 songIsPlaying = isPlaying
             }
+
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_BUFFERING -> {
+                        songIsLoading = true
+                    }
+
+                    Player.STATE_READY -> {
+                        songIsLoading = false
+                    }
+
+                    else -> {
+                    }
+                }
+            }
+
         }
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
@@ -69,7 +88,14 @@ fun MiniPlayerWrapper(
                     player.play()
                 }
             },
-            isPlaying = songIsPlaying
+            onSkipNext = {
+                player.seekToNext()
+            },
+            onSkipPrevious = {
+                player.seekToPrevious()
+            },
+            isPlaying = songIsPlaying,
+            isLoading = songIsLoading
         )
     }
 }

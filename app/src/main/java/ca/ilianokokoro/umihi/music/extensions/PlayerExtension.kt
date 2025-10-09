@@ -38,13 +38,19 @@ fun Player.addToQueue(song: Song) {
     playIfQueueCreated()
 }
 
+fun Player.clearQueue() {
+    stop()
+    clearMediaItems()
+}
+
 fun Player.getCurrentSong(): Song {
     return currentMediaItem.toSong()
 }
 
-fun Player.playIfQueueCreated() {
+private fun Player.playIfQueueCreated() {
     if (this.getQueue().size == 1) {
         prepare()
         play()
     }
 }
+
