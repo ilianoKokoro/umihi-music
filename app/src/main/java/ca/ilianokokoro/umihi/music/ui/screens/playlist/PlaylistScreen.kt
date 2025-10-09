@@ -3,7 +3,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +27,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -39,6 +39,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
+    onOpenSongOptions: (song: Song) -> Unit,
     onBack: () -> Unit,
     player: Player,
     modifier: Modifier = Modifier,
@@ -157,8 +158,7 @@ fun PlaylistScreen(
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
                                 }, openSongOptions = {
-                                    // TODO
-                                    Log.d("CustomLog", "Opening options of song ${song.title}")
+                                    onOpenSongOptions(song)
                                 })
                             }
                         }

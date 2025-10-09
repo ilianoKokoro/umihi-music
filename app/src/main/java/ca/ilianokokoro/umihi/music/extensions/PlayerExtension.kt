@@ -27,6 +27,21 @@ fun Player.getQueue(): List<Song> {
     return queue
 }
 
+fun Player.addNext(song: Song) {
+    this.addMediaItem(this.currentMediaItemIndex + 1, song.mediaItem)
+}
+
+
+fun Player.addToQueue(song: Song) {
+    this.addMediaItem(this.getQueue().size, song.mediaItem)
+}
+
 fun Player.getCurrentSong(): Song {
     return currentMediaItem.toSong()
+}
+
+fun Player.playIfJustAdded() {
+    if (this.currentMediaItemIndex == 0) {
+
+    }
 }

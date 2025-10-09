@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +30,11 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.extensions.addNext
+import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.ui.components.SongOptionBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
@@ -54,6 +62,8 @@ private data object PlayerScreenKey : NavKey
 @Composable
 fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(PlaylistsScreenKey) // Start screen
+    var songOptionsOpened by remember { mutableStateOf(false) }
+    var currentSongOptions by remember { mutableStateOf<Song?>(null) }
 
     val app = LocalContext.current.applicationContext as Application
 
@@ -138,7 +148,12 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                                 onBack = backStack::removeLastOrNull,
                                 onOpenPlayer = {
                                     backStack.add(PlayerScreenKey)
-                                }, player = player, application = app
+                                }, onOpenSongOptions = {
+                                    currentSongOptions = it
+                                    songOptionsOpened = true
+                                },
+
+                                player = player, application = app
                             )
                         }
                     }
@@ -176,5 +191,23 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 .padding(2.dp)
         )
 
+        if (songOptionsOpened) {
+            SongOptionBottomSheet(
+                onAddNext = {
+                    if (currentSongOptions != null) {
+                        player.addNext(currentSongOptions as Song)
+                        songOptionsOpened = false
+                    }
+                },
+                onAddToQueue = {
+                    if (currentSongOptions != null) {
+                        player.addToQueue(currentSongOptions as Song)
+                        songOptionsOpened = false
+                    }
+                },
+                changeVisibility = {
+                    songOptionsOpened = false
+                })
+        }
     }
 }

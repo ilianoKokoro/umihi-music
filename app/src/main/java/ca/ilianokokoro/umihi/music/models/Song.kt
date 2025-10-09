@@ -1,6 +1,9 @@
 package ca.ilianokokoro.umihi.music.models
 
 import androidx.compose.runtime.Immutable
+import androidx.core.net.toUri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -12,13 +15,27 @@ import kotlinx.serialization.Serializable
 data class Song(
     @PrimaryKey
     val id: String,
-    val title: String,
-    val artist: String,
-    val thumbnailHref: String,
+    val title: String = "",
+    val artist: String = "",
+    val thumbnailHref: String = "",
     val thumbnailPath: String? = null,
     val streamUrl: String? = null,
     val audioFilePath: String? = null
 ) {
+    val mediaItem: MediaItem
+        get() =
+            MediaItem.Builder()
+                .setUri(id)
+                .setMediaId(id)
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(title)
+                        .setArtist(artist)
+                        .setArtworkUri(thumbnailHref.toUri())
+                        .build()
+                ).build()
+
+
     val youtubeUrl: String
         get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${id}"
     val downloaded: Boolean

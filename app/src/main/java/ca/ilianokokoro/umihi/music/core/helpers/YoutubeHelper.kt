@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
+import android.util.Log
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -192,19 +193,21 @@ object YoutubeHelper {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
 
         val savedSong = localSongRepository.getSongById(songId)
+        Log.d("CustomLog", savedSong.toString())
         if (savedSong != null && savedSong.streamUrl != null) {
             if (isYoutubeUrlValid(savedSong.streamUrl)) {
-                // Log.d("CustomLog", "$songId : Got url from saved")
+                Log.d("CustomLog", "$songId : Got url from saved")
                 return savedSong.streamUrl
             }
-            // Log.d("CustomLog", "$songId : Saved url was invalid")
+            Log.d("CustomLog", "$songId : Saved url was invalid")
             localSongRepository.delete(savedSong)
         }
 
         val newUri = getSongUrlFromYoutube(songId)
-        val newSong = Song(songId, "", "", "", newUri)
+        val newSong =
+            Song(id = songId, streamUrl = newUri)
         localSongRepository.create(newSong)
-        // Log.d("CustomLog", "$songId : Got url from YouTube")
+        Log.d("CustomLog", "$songId : Got url from YouTube and saved song")
         return newUri
     }
 
@@ -212,7 +215,7 @@ object YoutubeHelper {
         val service = ServiceList.YouTube
         val extractor = withContext(Dispatchers.IO) {
             val extractor =
-                service.getStreamExtractor(Song(songId, "", "", "").youtubeUrl)
+                service.getStreamExtractor(Song(id = songId).youtubeUrl)
             extractor.fetchPage()
             return@withContext extractor
         }

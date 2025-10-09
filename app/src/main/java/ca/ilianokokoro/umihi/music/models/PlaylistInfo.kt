@@ -1,9 +1,7 @@
 package ca.ilianokokoro.umihi.music.models
 
 import androidx.compose.runtime.Immutable
-import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
@@ -41,20 +39,11 @@ data class Playlist(
 ) {
     val mediaItems: List<MediaItem>
         get() = songs.map { song ->
-            MediaItem.Builder()
-                .setUri(song.id)
-                .setMediaId(song.id)
-                .setMediaMetadata(
-                    MediaMetadata.Builder()
-                        .setTitle(song.title)
-                        .setArtist(song.artist)
-                        .setArtworkUri(song.thumbnailHref.toUri())
-                        .build()
-                ).build()
+            song.mediaItem
         }
 
     val downloaded: Boolean
-        get() = songs.all { it.downloaded }
+        get() = songs.all { song -> song.downloaded }
 }
 
 @Entity(

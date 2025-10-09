@@ -32,4 +32,6 @@
     <string name="open_settings">Open Settings</string>
     <string name="more">more</string>
     <string name="join_discord_server">Join the Discord server</string>
+    <string name="play_next">Play next</string>
+    <string name="add_to_queue">Add to queue</string>
 </resources>
