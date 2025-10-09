@@ -25,9 +25,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
+import ca.ilianokokoro.umihi.music.extensions.addNext
+import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
-import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -39,7 +40,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
-    onOpenSongOptions: (song: Song) -> Unit,
     onBack: () -> Unit,
     player: Player,
     modifier: Modifier = Modifier,
@@ -157,8 +157,10 @@ fun PlaylistScreen(
                                 SongListItem(song, onPress = {
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
-                                }, openSongOptions = {
-                                    onOpenSongOptions(song)
+                                }, playNext = {
+                                    player.addNext(song)
+                                }, addToQueue = {
+                                    player.addToQueue(song)
                                 })
                             }
                         }

@@ -14,7 +14,7 @@ fun Player.playPlaylist(playlist: Playlist, index: Int = 0) {
 fun Player.shufflePlaylist(playlist: Playlist) {
     val songs = playlist.songs
     val shuffledPlaylist = playlist.copy(songs = songs.shuffled())
-    this.playPlaylist(shuffledPlaylist)
+    playPlaylist(shuffledPlaylist)
 }
 
 
@@ -28,20 +28,23 @@ fun Player.getQueue(): List<Song> {
 }
 
 fun Player.addNext(song: Song) {
-    this.addMediaItem(this.currentMediaItemIndex + 1, song.mediaItem)
+    addMediaItem(currentMediaItemIndex + 1, song.mediaItem)
+    playIfQueueCreated()
 }
 
 
 fun Player.addToQueue(song: Song) {
-    this.addMediaItem(this.getQueue().size, song.mediaItem)
+    addMediaItem(getQueue().size, song.mediaItem)
+    playIfQueueCreated()
 }
 
 fun Player.getCurrentSong(): Song {
     return currentMediaItem.toSong()
 }
 
-fun Player.playIfJustAdded() {
-    if (this.currentMediaItemIndex == 0) {
-
+fun Player.playIfQueueCreated() {
+    if (this.getQueue().size == 1) {
+        prepare()
+        play()
     }
 }
