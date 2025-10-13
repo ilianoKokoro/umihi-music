@@ -53,7 +53,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
         env:
-          BUILD_TOOLS_VERSION: "35.0.0"
+          BUILD_TOOLS_VERSION: "36.1.0"
 
       - name: Rename APK file
         run: sudo mv ${{steps.sign_app.outputs.signedReleaseFile}} /${{env.apk_file_name}}.apk

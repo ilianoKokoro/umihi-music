@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
 
         initExoplayer { readyPlayer ->
             player = readyPlayer
-
             enableEdgeToEdge()
             setContent {
                 UmihiMusicTheme {

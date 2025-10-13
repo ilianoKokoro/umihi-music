@@ -16,6 +16,9 @@ android {
 
     namespace = "ca.ilianokokoro.umihi.music"
     compileSdk = 36
+    ndkVersion = "29.0.14206865"
+    buildToolsVersion = "36.1.0"
+    compileSdkMinor = 1
 
     defaultConfig {
         applicationId = "ca.ilianokokoro.umihi.music"
@@ -48,14 +51,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
+            jvmTarget = JvmTarget.JVM_17
         }
     }
 
