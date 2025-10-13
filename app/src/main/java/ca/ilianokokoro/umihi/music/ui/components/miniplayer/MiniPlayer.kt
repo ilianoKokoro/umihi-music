@@ -51,7 +51,7 @@ fun MiniPlayer(
             .fillMaxWidth()
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
         ),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {

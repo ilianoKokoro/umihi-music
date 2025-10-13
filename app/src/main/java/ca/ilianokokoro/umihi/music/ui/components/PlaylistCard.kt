@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,10 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 
 @Composable
 fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
-    Card(onClick = onClicked, modifier = Modifier.fillMaxSize()) {
+    Card(
+        onClick = onClicked, modifier = Modifier.fillMaxSize(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+    ) {
         Column(
             modifier = Modifier
                 .padding(12.dp)
@@ -36,8 +40,8 @@ fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
                         initialDelayMillis = Constants.Marquee.DELAY,
                     ),
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
-
             )
         }
     }

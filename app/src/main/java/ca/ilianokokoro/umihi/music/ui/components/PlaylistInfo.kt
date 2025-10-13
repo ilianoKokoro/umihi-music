@@ -62,7 +62,10 @@ fun PlaylistInfo(
                 )
 
                 Text(
-                    text = if (songsCount > 0) stringResource(R.string.songs, songsCount) else "",
+                    text = if (songsCount > 0) stringResource(
+                        R.string.songs,
+                        songsCount
+                    ) else "",
                     modifier = Modifier.alpha(alpha)
                 )
 
@@ -93,4 +96,5 @@ fun PlaylistInfo(
             }
         }
     }
+
 }
