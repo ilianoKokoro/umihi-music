@@ -37,7 +37,7 @@ data class Song(
 
 
     val youtubeUrl: String
-        get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${id}"
+        get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}1${id}"
     val downloaded: Boolean
         //        get() = listOf(true, false).random() // TODO
         get() = false

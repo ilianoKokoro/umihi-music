@@ -1,13 +1,15 @@
 package ca.ilianokokoro.umihi.music
 
-import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.getActivity
 import android.util.Log
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
@@ -70,11 +72,15 @@ class PlaybackService : MediaSessionService() {
                 // Load the full res image when a new song is played
                 updateCurrentMediaItemThumbnail(mediaItem)
             }
+
+            // Show toast on error
+            override fun onPlayerError(error: PlaybackException) {
+                Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
+            }
         })
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        val pendingIntent =
-            PendingIntent.getActivity(this, 0, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+        val pendingIntent = getActivity(this, 0, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
 
         mediaSession = MediaSession.Builder(this, player)
             .setSessionActivity(pendingIntent)
