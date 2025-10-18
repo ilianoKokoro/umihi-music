@@ -76,20 +76,22 @@ object Constants {
 
     object YoutubeApi {
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
-        const val USER_AGENT =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
-
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
 
         object Browse {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
-            val CONTEXT =
+            val CLIENT =
                 buildJsonObject {
                     put("client", buildJsonObject {
                         put("clientName", JsonPrimitive("WEB_REMIX"))
                         put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                        put(
+                            "userAgent",
+                            JsonPrimitive("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36")
+                        )
+                        put("xClientName", JsonPrimitive(1))
                     })
                 }
 

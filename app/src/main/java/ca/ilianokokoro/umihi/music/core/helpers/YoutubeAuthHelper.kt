@@ -2,18 +2,25 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Cookies
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import java.security.MessageDigest
 import kotlin.text.Charsets.UTF_8
 
 object YoutubeAuthHelper {
-    fun getHeaders(cookies: Cookies): Map<String, String> {
+    fun getHeaders(cookies: Cookies): Map<String, Any> {
+        val client = Constants.YoutubeApi.Browse.CLIENT["client"]?.jsonObject
         val headers = mutableMapOf(
             "Content-Type" to "application/json",
             "Origin" to Constants.YoutubeApi.ORIGIN,
             "Referer" to "${Constants.YoutubeApi.ORIGIN}/",
-            "X-Goog-Api-Format-Version" to "1",
+            "X-Goog-Api-Format-Version" to 1,
+            "X-Origin" to Constants.YoutubeApi.ORIGIN,
+            "X-YouTube-Client-Version" to client?.jsonObject["clientVersion"]?.jsonPrimitive.toString(),
+            "X-YouTube-Client-Name" to client?.jsonObject["xClientName"]?.jsonPrimitive.toString(),
+            //"X-Goog-AuthUser" to 1,
             "Cookie" to cookies.toRawCookie(),
-            "User-Agent" to Constants.YoutubeApi.USER_AGENT
+            "User-Agent" to client?.jsonObject["userAgent"]?.jsonPrimitive.toString()
         )
 
         val cookieMap = cookies.data
@@ -28,7 +35,8 @@ object YoutubeAuthHelper {
     private fun generateSapisidHash(sapisidCookie: String): String {
         val currentTime = System.currentTimeMillis() / 1000
         val sapisidHash = sha1("$currentTime $sapisidCookie ${Constants.YoutubeApi.ORIGIN}")
-        return "SAPISIDHASH ${currentTime}_$sapisidHash"
+        val fullAuthToken = "${currentTime}_$sapisidHash"
+        return "SAPISIDHASH $fullAuthToken SAPISID1PHASH $fullAuthToken SAPISID3PHASH $fullAuthToken"
     }
 
     private fun sha1(input: String): String {

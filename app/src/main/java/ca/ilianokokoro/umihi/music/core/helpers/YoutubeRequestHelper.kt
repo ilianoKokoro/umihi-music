@@ -45,7 +45,7 @@ object YoutubeRequestHelper {
     ): String {
         val body =
             buildJsonObject {
-                put("context", Constants.YoutubeApi.Browse.CONTEXT)
+                put("context", Constants.YoutubeApi.Browse.CLIENT)
                 put(idName, id)
             }
 
