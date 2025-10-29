@@ -3,6 +3,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -53,6 +54,7 @@ fun SettingsScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
+                Log.d("CustomLog", "Lifecycle.Event.ON_RESUME")
                 settingsViewModel.getLoginState()
             }
         }

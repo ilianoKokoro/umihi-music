@@ -1,7 +1,10 @@
 package ca.ilianokokoro.umihi.music.extensions
 
+import android.content.Context
+import android.widget.Toast
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 
@@ -27,14 +30,22 @@ fun Player.getQueue(): List<Song> {
     return queue
 }
 
-fun Player.addNext(song: Song) {
+fun Player.addNext(song: Song, context: Context? = null) {
     addMediaItem(currentMediaItemIndex + 1, song.mediaItem)
+    if (context != null) {
+        Toast.makeText(context, context.getString(R.string.play_next_toast), Toast.LENGTH_SHORT)
+            .show()
+    }
     playIfQueueCreated()
 }
 
 
-fun Player.addToQueue(song: Song) {
+fun Player.addToQueue(song: Song, context: Context? = null) {
     addMediaItem(getQueue().size, song.mediaItem)
+    if (context != null) {
+        Toast.makeText(context, context.getString(R.string.added_queue_toast), Toast.LENGTH_SHORT)
+            .show()
+    }
     playIfQueueCreated()
 }
 

@@ -158,9 +158,9 @@ fun PlaylistScreen(
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)
                                 }, playNext = {
-                                    player.addNext(song)
+                                    player.addNext(song, application)
                                 }, addToQueue = {
-                                    player.addToQueue(song)
+                                    player.addToQueue(song, application)
                                 })
                             }
                         }
