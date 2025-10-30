@@ -115,7 +115,7 @@ fun PlayerControls(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipPrevious,
-                                contentDescription = Icons.Rounded.SkipPrevious.toString(),
+                                contentDescription = Icons.Rounded.SkipPrevious.name,
                             )
                         }
                     },
@@ -157,7 +157,7 @@ fun PlayerControls(
                                 }
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = icon.toString(),
+                                    contentDescription = icon.name,
                                     modifier = modifier.size(30.dp)
                                 )
                             }
@@ -182,7 +182,7 @@ fun PlayerControls(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipNext,
-                                contentDescription = Icons.Rounded.SkipNext.toString(),
+                                contentDescription = Icons.Rounded.SkipNext.name,
                             )
                         }
                     },

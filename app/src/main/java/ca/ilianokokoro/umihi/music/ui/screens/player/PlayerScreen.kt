@@ -202,6 +202,7 @@ fun PlayerScreen(
                 QueueBottomSheet(
                     changeVisibility = { playerViewModel.setQueueVisibility(it) },
                     scope = playerViewModel.viewModelScope,
+                    player = player,
                     songs = uiState.queue
                 )
             }

@@ -37,4 +37,5 @@
     <string name="retry">Retry</string>
     <string name="play_next_toast">Playing this song next</string>
     <string name="added_queue_toast">Added song to the queue</string>
+    <string name="playing_now">Playing Now</string>
 </resources>

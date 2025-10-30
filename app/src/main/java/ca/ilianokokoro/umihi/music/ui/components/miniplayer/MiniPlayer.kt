@@ -100,7 +100,7 @@ fun MiniPlayer(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipPrevious,
-                                contentDescription = Icons.Rounded.SkipPrevious.toString(),
+                                contentDescription = Icons.Rounded.SkipPrevious.name,
                             )
                         }
                     },
@@ -137,7 +137,7 @@ fun MiniPlayer(
                                 }
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = icon.toString(),
+                                    contentDescription = icon.name,
                                     modifier = modifier.size(20.dp)
                                 )
                             }
@@ -159,7 +159,7 @@ fun MiniPlayer(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipNext,
-                                contentDescription = Icons.Rounded.SkipNext.toString(),
+                                contentDescription = Icons.Rounded.SkipNext.name,
                             )
                         }
                     },

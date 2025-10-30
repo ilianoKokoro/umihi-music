@@ -145,4 +145,7 @@ dependencies {
 
     // Workers
     implementation(libs.androidx.work.runtime.ktx)
+
+    // Reorderable list
+    implementation(libs.reorderable)
 }
