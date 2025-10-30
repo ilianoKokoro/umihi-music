@@ -15,8 +15,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
+import ca.ilianokokoro.umihi.music.extensions.getCurrentSong
+import ca.ilianokokoro.umihi.music.extensions.getQueue
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
 import kotlinx.coroutines.CoroutineScope
@@ -47,20 +48,18 @@ fun QueueBottomSheet(
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    var list by remember { mutableStateOf(listOf<Song>()) }
+    var mutableSongList by remember { mutableStateOf(songs) }
+    var lastDraggedSong by remember { mutableStateOf(Song("")) }
+    var startIndex by remember { mutableIntStateOf(0) }
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-        list = list.toMutableList().apply {
+        mutableSongList = mutableSongList.toMutableList().apply {
+            Log.d("CustomLog", "Moving ${to.index} to ${from.index}")
             add(to.index, removeAt(from.index))
         }
 
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-    }
-
-    LaunchedEffect(null) {
-        Log.d("CustomLog", "Updating songs")
-        list = songs
     }
 
     ModalBottomSheet(
@@ -85,7 +84,7 @@ fun QueueBottomSheet(
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                if (list.isEmpty()) {
+                if (mutableSongList.isEmpty()) {
                     item {
                         Text(
                             stringResource(R.string.empty_playlist), // TODO : make the text vertically centered
@@ -95,32 +94,51 @@ fun QueueBottomSheet(
                         )
                     }
                 } else {
-
                     itemsIndexed(
-                        items = list,
-                        key = { index, song -> ComposeHelper.getLazyKey(song, song.id, index) }
+                        items = mutableSongList, key = { index, song -> song.id }
                     ) { index, song ->
                         ReorderableItem(
                             reorderableLazyListState,
-                            key = ComposeHelper.getLazyKey(song, song.id, index)
+                            key = song.id
                         ) { isDragging ->
-
                             QueueSongListItem(
-                                song, index,
+                                song = song,
+                                isCurrentSong = player.getCurrentSong().id == song.id,
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
-                                modifier = Modifier.draggableHandle(
-                                    onDragStarted = {
+                                scope = this,
+                                onDragStarted =
+                                    {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                        startIndex = index
+                                        lastDraggedSong = song
                                     },
-                                    onDragStopped = {
-                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                    },
-                                ),
+                                onDragStopped = {
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+
+                                    Log.d(
+                                        "CustomLog",
+                                        "Applying $startIndex to ${
+                                            mutableSongList.indexOf(
+                                                lastDraggedSong
+                                            )
+                                        }"
+                                    )
+                                    player.moveMediaItem(
+                                        startIndex,
+                                        mutableSongList.indexOf(mutableSongList.find { it.id == lastDraggedSong.id })
+                                    )
+                                    Log.d(
+                                        "CustomLog",
+                                        player.getQueue().map { "${it.title}\n" }.toString()
+                                    )
+                                    Log.d(
+                                        "CustomLog",
+                                        "Current new index : ${player.currentMediaItemIndex}"
+                                    )
+                                }
                             )
-
-
                         }
                     }
                 }
