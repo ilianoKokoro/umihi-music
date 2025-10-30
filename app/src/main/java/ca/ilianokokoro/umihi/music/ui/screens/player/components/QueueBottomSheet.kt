@@ -55,7 +55,6 @@ fun QueueBottomSheet(
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         mutableSongList = mutableSongList.toMutableList().apply {
-            Log.d("CustomLog", "Moving ${to.index} to ${from.index}")
             add(to.index, removeAt(from.index))
         }
 
@@ -116,18 +115,18 @@ fun QueueBottomSheet(
                                     },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                    player.moveMediaItem(
+                                        startIndex,
+                                        mutableSongList.indexOf(mutableSongList.find { it.id == lastDraggedSong.id })
+                                    )
 
                                     Log.d(
                                         "CustomLog",
-                                        "Applying $startIndex to ${
+                                        "Moved $startIndex to ${
                                             mutableSongList.indexOf(
                                                 lastDraggedSong
                                             )
                                         }"
-                                    )
-                                    player.moveMediaItem(
-                                        startIndex,
-                                        mutableSongList.indexOf(mutableSongList.find { it.id == lastDraggedSong.id })
                                     )
                                     Log.d(
                                         "CustomLog",
