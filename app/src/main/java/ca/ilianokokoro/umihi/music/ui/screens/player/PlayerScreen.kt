@@ -40,7 +40,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
@@ -201,7 +200,7 @@ fun PlayerScreen(
             if (uiState.isQueueModalShown) {
                 QueueBottomSheet(
                     changeVisibility = { playerViewModel.setQueueVisibility(it) },
-                    scope = playerViewModel.viewModelScope,
+                    currentSong = uiState.queue[uiState.currentIndex],
                     player = player,
                     songs = uiState.queue
                 )

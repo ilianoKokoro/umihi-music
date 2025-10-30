@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.extensions.getQueue
 import ca.ilianokokoro.umihi.music.models.Song
@@ -41,6 +42,10 @@ class PlayerViewModel(player: Player, application: Application) :
 
             override fun onPlaybackStateChanged(playbackState: Int) {
                 updateIsLoadingState()
+            }
+
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                updateCurrentSong()
             }
         })
 

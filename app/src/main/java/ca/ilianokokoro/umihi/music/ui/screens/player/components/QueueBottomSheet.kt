@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +14,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.extensions.getCurrentSong
-import ca.ilianokokoro.umihi.music.extensions.getQueue
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -41,7 +39,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
-    scope: CoroutineScope,
+    currentSong: Song,
     player: Player,
     songs: List<Song>,
     modifier: Modifier = Modifier
@@ -49,7 +47,6 @@ fun QueueBottomSheet(
     val hapticFeedback = LocalHapticFeedback.current
 
     var mutableSongList by remember { mutableStateOf(songs) }
-    var lastDraggedSong by remember { mutableStateOf(Song("")) }
     var startIndex by remember { mutableIntStateOf(0) }
 
     val lazyListState = rememberLazyListState()
@@ -59,6 +56,12 @@ fun QueueBottomSheet(
         }
 
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+    }
+
+    LaunchedEffect(null) {
+        this.launch {
+            lazyListState.animateScrollToItem(index = mutableSongList.indexOf(mutableSongList.find { it.id == currentSong.id }))
+        }
     }
 
     ModalBottomSheet(
@@ -102,7 +105,7 @@ fun QueueBottomSheet(
                         ) { isDragging ->
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong = player.getCurrentSong().id == song.id,
+                                isCurrentSong = currentSong.id == song.id,
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
@@ -110,32 +113,38 @@ fun QueueBottomSheet(
                                 onDragStarted =
                                     {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                        startIndex = index
-                                        lastDraggedSong = song
+                                        startIndex =
+                                            mutableSongList.indexOf(mutableSongList.find { it.id == song.id })
+//
+//                                        Log.d(
+//                                            "CustomLog",
+//                                            "Starting drag of ${song.title} from $startIndex"
+//                                        )
                                     },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+
+                                    val endIndex =
+                                        mutableSongList.indexOf(mutableSongList.find { it.id == song.id })
+
+
                                     player.moveMediaItem(
                                         startIndex,
-                                        mutableSongList.indexOf(mutableSongList.find { it.id == lastDraggedSong.id })
+                                        endIndex
                                     )
 
-                                    Log.d(
-                                        "CustomLog",
-                                        "Moved $startIndex to ${
-                                            mutableSongList.indexOf(
-                                                lastDraggedSong
-                                            )
-                                        }"
-                                    )
-                                    Log.d(
-                                        "CustomLog",
-                                        player.getQueue().map { "${it.title}\n" }.toString()
-                                    )
-                                    Log.d(
-                                        "CustomLog",
-                                        "Current new index : ${player.currentMediaItemIndex}"
-                                    )
+//                                    Log.d(
+//                                        "CustomLog",
+//                                        "Moved song ${song.title} from $startIndex to $endIndex"
+//                                    )
+//                                    Log.d(
+//                                        "CustomLog",
+//                                        player.getQueue().map { "${it.title}\n" }.toString()
+//                                    )
+//                                    Log.d(
+//                                        "CustomLog",
+//                                        "Current new index : ${player.currentMediaItemIndex}"
+//                                    )
                                 }
                             )
                         }

@@ -193,7 +193,6 @@ object YoutubeHelper {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
 
         val savedSong = localSongRepository.getSongById(songId)
-        Log.d("CustomLog", savedSong.toString())
         if (savedSong != null && savedSong.streamUrl != null) {
             if (isYoutubeUrlValid(savedSong.streamUrl)) {
                 Log.d("CustomLog", "$songId : Got url from saved")
