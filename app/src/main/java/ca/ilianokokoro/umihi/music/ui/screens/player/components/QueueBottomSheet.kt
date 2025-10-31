@@ -39,7 +39,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
-    currentSong: Song,
+    currentSongIndex: Int,
     player: Player,
     songs: List<Song>,
     modifier: Modifier = Modifier
@@ -47,7 +47,7 @@ fun QueueBottomSheet(
     val hapticFeedback = LocalHapticFeedback.current
 
     var mutableSongList by remember { mutableStateOf(songs) }
-    var startIndex by remember { mutableIntStateOf(0) }
+    var startIndex by remember { mutableIntStateOf(-1) }
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
@@ -60,7 +60,7 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            lazyListState.animateScrollToItem(index = mutableSongList.indexOf(mutableSongList.find { it.uid == currentSong.uid }))
+            lazyListState.animateScrollToItem(index = currentSongIndex)
         }
     }
 
@@ -105,7 +105,9 @@ fun QueueBottomSheet(
                         ) { isDragging ->
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong = currentSong.uid == song.uid,
+                                isCurrentSong = isDragging || (startIndex == -1 && mutableSongList.elementAt(
+                                    currentSongIndex // TODO : Maybe change when the uuid is set to keep the current hightlighted song
+                                ).uid == song.uid),
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
@@ -132,6 +134,8 @@ fun QueueBottomSheet(
                                         startIndex,
                                         endIndex
                                     )
+
+                                    startIndex = -1
 
 //                                    Log.d(
 //                                        "CustomLog",
