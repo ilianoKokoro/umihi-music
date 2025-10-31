@@ -32,7 +32,7 @@ interface LocalPlaylistDataSource {
         insertPlaylist(playlist.info)
         val songs = playlist.songs
         insertSongs(songs)
-        val refs = songs.map { song -> PlaylistSongCrossRef(playlist.info.id, song.id) }
+        val refs = songs.map { song -> PlaylistSongCrossRef(playlist.info.id, song.youtubeId) }
         insertCrossRefs(refs)
     }
 

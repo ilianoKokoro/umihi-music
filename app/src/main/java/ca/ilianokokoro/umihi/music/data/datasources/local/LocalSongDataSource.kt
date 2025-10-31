@@ -15,7 +15,7 @@ interface LocalSongDataSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createAll(songs: List<Song>)
 
-    @Query("SELECT * FROM songs WHERE id = :songId")
+    @Query("SELECT * FROM songs WHERE youtubeId = :songId")
     suspend fun getSongById(songId: String): Song?
 
     @Query("DELETE FROM songs")

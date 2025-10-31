@@ -25,7 +25,7 @@ class PlaylistDownloadWorker(
                 val playlist: Playlist = localRepository.getPlaylistById(playlistId)!!
 
                 for (song in playlist.songs) {
-                    val url = YoutubeHelper.getSongPlayerUrl(appContext, song.id)
+                    val url = YoutubeHelper.getSongPlayerUrl(appContext, song.youtubeId)
                     Log.d("PlaylistDownloadWorker", "Got url : $url")
                 }
                 Result.success()

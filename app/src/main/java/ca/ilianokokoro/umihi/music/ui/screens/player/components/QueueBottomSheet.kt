@@ -60,7 +60,7 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            lazyListState.animateScrollToItem(index = mutableSongList.indexOf(mutableSongList.find { it.id == currentSong.id }))
+            lazyListState.animateScrollToItem(index = mutableSongList.indexOf(mutableSongList.find { it.uid == currentSong.uid }))
         }
     }
 
@@ -97,15 +97,15 @@ fun QueueBottomSheet(
                     }
                 } else {
                     itemsIndexed(
-                        items = mutableSongList, key = { index, song -> song.id }
+                        items = mutableSongList, key = { _, song -> song.uid }
                     ) { index, song ->
                         ReorderableItem(
                             reorderableLazyListState,
-                            key = song.id
+                            key = song.uid
                         ) { isDragging ->
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong = currentSong.id == song.id,
+                                isCurrentSong = currentSong.uid == song.uid,
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
@@ -114,7 +114,7 @@ fun QueueBottomSheet(
                                     {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
                                         startIndex =
-                                            mutableSongList.indexOf(mutableSongList.find { it.id == song.id })
+                                            mutableSongList.indexOf(mutableSongList.find { it.uid == song.uid })
 //
 //                                        Log.d(
 //                                            "CustomLog",
@@ -125,7 +125,7 @@ fun QueueBottomSheet(
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
 
                                     val endIndex =
-                                        mutableSongList.indexOf(mutableSongList.find { it.id == song.id })
+                                        mutableSongList.indexOf(mutableSongList.find { it.uid == song.uid })
 
 
                                     player.moveMediaItem(

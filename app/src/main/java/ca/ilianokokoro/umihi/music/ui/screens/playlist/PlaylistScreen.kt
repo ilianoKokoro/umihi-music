@@ -149,7 +149,7 @@ fun PlaylistScreen(
                                 key = { index, song ->
                                     ComposeHelper.getLazyKey(
                                         song,
-                                        song.id,
+                                        song.youtubeId,
                                         index
                                     )
                                 }

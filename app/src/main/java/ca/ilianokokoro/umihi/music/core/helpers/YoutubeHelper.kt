@@ -177,7 +177,7 @@ object YoutubeHelper {
 
             songs.add(
                 Song(
-                    id = videoId,
+                    youtubeId = videoId,
                     title = title,
                     artist = artist,
                     thumbnailHref = thumbnailUrl
@@ -204,7 +204,7 @@ object YoutubeHelper {
 
         val newUri = getSongUrlFromYoutube(songId)
         val newSong =
-            Song(id = songId, streamUrl = newUri)
+            Song(youtubeId = songId, streamUrl = newUri)
         localSongRepository.create(newSong)
         Log.d("CustomLog", "$songId : Got url from YouTube and saved song")
         return newUri
@@ -214,7 +214,7 @@ object YoutubeHelper {
         val service = ServiceList.YouTube
         val extractor = withContext(Dispatchers.IO) {
             val extractor =
-                service.getStreamExtractor(Song(id = songId).youtubeUrl)
+                service.getStreamExtractor(Song(youtubeId = songId).youtubeUrl)
             extractor.fetchPage()
             return@withContext extractor
         }
