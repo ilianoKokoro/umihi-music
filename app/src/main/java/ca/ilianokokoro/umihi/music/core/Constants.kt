@@ -67,6 +67,11 @@ object Constants {
             const val NAME = "umihi-music-exoplayer"
             const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
         }
+
+        object SongMetadata {
+            const val DURATION = "duration"
+            const val UID = "uid"
+        }
     }
 
     object Player {

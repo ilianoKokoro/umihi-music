@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.models
 
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
@@ -18,6 +19,7 @@ data class Song(
     val youtubeId: String,
     val title: String = "",
     val artist: String = "",
+    val duration: String = "",
     val thumbnailHref: String = "",
     val thumbnailPath: String? = null,
     val streamUrl: String? = null,
@@ -34,8 +36,17 @@ data class Song(
                         .setTitle(title)
                         .setArtist(artist)
                         .setArtworkUri(thumbnailHref.toUri())
+                        .setExtras(
+                            bundleOf(
+                                Constants.ExoPlayer.SongMetadata.DURATION to duration,
+                                Constants.ExoPlayer.SongMetadata.UID to UUID.randomUUID()
+                                    .toString(),
+                            )
+                        )
                         .build()
-                ).build()
+
+                )
+                .build()
 
 
     val youtubeUrl: String

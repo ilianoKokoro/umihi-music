@@ -39,7 +39,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
-    currentSongIndex: Int,
+    currentSong: Song,
     player: Player,
     songs: List<Song>,
     modifier: Modifier = Modifier
@@ -60,7 +60,7 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            lazyListState.animateScrollToItem(index = currentSongIndex)
+            lazyListState.animateScrollToItem(index = songs.indexOf(songs.find { it.uid == currentSong.uid }))
         }
     }
 
@@ -105,9 +105,8 @@ fun QueueBottomSheet(
                         ) { isDragging ->
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong = isDragging || (startIndex == -1 && mutableSongList.elementAt(
-                                    currentSongIndex // TODO : Maybe change when the uuid is set to keep the current hightlighted song
-                                ).uid == song.uid),
+                                isCurrentSong =
+                                    index == mutableSongList.indexOf(mutableSongList.find { it.uid == currentSong.uid }),
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
@@ -134,8 +133,6 @@ fun QueueBottomSheet(
                                         startIndex,
                                         endIndex
                                     )
-
-                                    startIndex = -1
 
 //                                    Log.d(
 //                                        "CustomLog",

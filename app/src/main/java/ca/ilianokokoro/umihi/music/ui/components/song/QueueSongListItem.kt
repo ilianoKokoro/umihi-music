@@ -20,7 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import sh.calvin.reorderable.ReorderableCollectionItemScope
@@ -74,7 +76,12 @@ fun QueueSongListItem(
             }
         },
         headlineContent = { Text(song.title, modifier = Modifier.basicMarquee()) },
-        supportingContent = { Text(song.artist, modifier = Modifier.basicMarquee()) },
+        supportingContent = {
+            Text(
+                "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                modifier = Modifier.basicMarquee()
+            )
+        },
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
             .clickable(onClick = onPress)

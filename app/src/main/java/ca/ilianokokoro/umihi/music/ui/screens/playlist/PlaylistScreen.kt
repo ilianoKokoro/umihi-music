@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
@@ -24,7 +24,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.extensions.addNext
 import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.Playlist
@@ -144,16 +143,12 @@ fun PlaylistScreen(
                                 )
                             }
 
-                            itemsIndexed(
+                            items(
                                 items = songs,
-                                key = { index, song ->
-                                    ComposeHelper.getLazyKey(
-                                        song,
-                                        song.youtubeId,
-                                        index
-                                    )
+                                key = { song ->
+                                    song.uid
                                 }
-                            ) { _, song ->
+                            ) { song ->
                                 SongListItem(song, onPress = {
                                     onOpenPlayer()
                                     playlistViewModel.playPlaylist(song)

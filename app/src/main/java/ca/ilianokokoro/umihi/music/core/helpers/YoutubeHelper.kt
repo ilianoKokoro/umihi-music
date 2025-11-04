@@ -170,6 +170,17 @@ object YoutubeHelper {
 
             val title = getSongInfo(songContent, SongInfoType.TITLE)
             val artist = getSongInfo(songContent, SongInfoType.ARTIST)
+            val duration =
+                songContent["fixedColumns"]
+                    ?.jsonArray[0]
+                    ?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
+                    ?.jsonObject["text"]
+                    ?.jsonObject["runs"]
+                    ?.jsonArray[0]
+                    ?.jsonObject["text"]
+                    ?.jsonPrimitive
+                    ?.contentOrNull.toString()
+
 
             val videoId = songContent["playlistItemData"]
                 ?.jsonObject?.get("videoId")
@@ -180,6 +191,7 @@ object YoutubeHelper {
                     youtubeId = videoId,
                     title = title,
                     artist = artist,
+                    duration = duration,
                     thumbnailHref = thumbnailUrl
                 )
             )

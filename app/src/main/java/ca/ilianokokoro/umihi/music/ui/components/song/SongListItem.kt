@@ -71,12 +71,10 @@ fun SongListItem(
                         )
                     }
 
-                    Text(song.artist, modifier = modifier.basicMarquee())
-//
-//                    Text(
-//                        stringResource(R.string.dot),
-//                    )
-                    // TODO : duration
+                    Text(
+                        "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                        modifier = modifier.basicMarquee()
+                    )
                 }
             },
             trailingContent = {
