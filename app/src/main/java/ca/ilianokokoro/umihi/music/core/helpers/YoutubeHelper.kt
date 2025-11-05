@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -203,8 +204,14 @@ object YoutubeHelper {
 
     suspend fun getSongPlayerUrl(context: Context, songId: String): String {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
-
-        val savedSong = localSongRepository.getSongById(songId)
+        var savedSong: Song? = null
+        try {
+            savedSong = localSongRepository.getSongById(songId)
+        } catch (ex: Exception) {
+            Toast.makeText(context, "Failed to get song from local repository", Toast.LENGTH_LONG)
+                .show()
+            Log.e("CustomLog", ex.toString())
+        }
         if (savedSong != null && savedSong.streamUrl != null) {
             if (isYoutubeUrlValid(savedSong.streamUrl)) {
                 Log.d("CustomLog", "$songId : Got url from saved")
