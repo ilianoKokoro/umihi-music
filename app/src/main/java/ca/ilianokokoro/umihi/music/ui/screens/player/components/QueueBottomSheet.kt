@@ -47,7 +47,7 @@ fun QueueBottomSheet(
     val hapticFeedback = LocalHapticFeedback.current
 
     var mutableSongList by remember { mutableStateOf(songs) }
-    var startIndex by remember { mutableIntStateOf(-1) }
+    var startIndex by remember { mutableIntStateOf(0) }
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
@@ -60,7 +60,7 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            lazyListState.animateScrollToItem(index = songs.indexOf(songs.find { it.uid == currentSong.uid }))
+            lazyListState.animateScrollToItem(index = songs.indexOf(currentSong))
         }
     }
 
@@ -103,10 +103,10 @@ fun QueueBottomSheet(
                             reorderableLazyListState,
                             key = song.uid
                         ) { isDragging ->
+                            val songIndex = mutableSongList.indexOf(song)
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong =
-                                    index == mutableSongList.indexOf(mutableSongList.find { it.uid == currentSong.uid }),
+                                isCurrentSong = currentSong == song,
                                 onPress = {
                                     player.seekTo(index, C.TIME_UNSET)
                                 },
@@ -114,38 +114,15 @@ fun QueueBottomSheet(
                                 onDragStarted =
                                     {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                        startIndex =
-                                            mutableSongList.indexOf(mutableSongList.find { it.uid == song.uid })
-//
-//                                        Log.d(
-//                                            "CustomLog",
-//                                            "Starting drag of ${song.title} from $startIndex"
-//                                        )
+                                        startIndex = songIndex
                                     },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
 
-                                    val endIndex =
-                                        mutableSongList.indexOf(mutableSongList.find { it.uid == song.uid })
-
-
                                     player.moveMediaItem(
                                         startIndex,
-                                        endIndex
+                                        songIndex
                                     )
-
-//                                    Log.d(
-//                                        "CustomLog",
-//                                        "Moved song ${song.title} from $startIndex to $endIndex"
-//                                    )
-//                                    Log.d(
-//                                        "CustomLog",
-//                                        player.getQueue().map { "${it.title}\n" }.toString()
-//                                    )
-//                                    Log.d(
-//                                        "CustomLog",
-//                                        "Current new index : ${player.currentMediaItemIndex}"
-//                                    )
                                 }
                             )
                         }

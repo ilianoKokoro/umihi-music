@@ -54,6 +54,20 @@ data class Song(
     val downloaded: Boolean
         //        get() = listOf(true, false).random() // TODO
         get() = false
+
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Song) return false
+        return this.hashCode() == other.hashCode()
+    }
+
+    override fun hashCode(): Int {
+        return youtubeId.hashCode() + 31 * uid.hashCode()
+    }
+
+    fun isSameYoutubeSong(other: Song): Boolean {
+        return this.youtubeId == other.youtubeId
+    }
 }
 
 
