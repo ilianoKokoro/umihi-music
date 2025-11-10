@@ -14,6 +14,7 @@ import ca.ilianokokoro.umihi.music.ui.components.PlaylistInfo
 @Composable
 fun PlaylistHeader(
     modifier: Modifier = Modifier,
+    isDownloading: Boolean,
     onOpenPlayer: () -> Unit,
     onDownloadPlaylist: () -> Unit,
     onPlayPlaylist: () -> Unit,
@@ -30,6 +31,7 @@ fun PlaylistHeader(
         Column(modifier = modifier.padding(vertical = 8.dp, horizontal = 12.dp)) {
             PlaylistInfo(
                 playlist = playlist,
+                isDownloading = isDownloading,
                 onDownloadPressed = onDownloadPlaylist
             )
             ActionButtons(

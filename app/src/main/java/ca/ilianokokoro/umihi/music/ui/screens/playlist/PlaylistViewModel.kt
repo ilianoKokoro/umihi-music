@@ -46,13 +46,13 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     fun refreshPlaylistInfo() {
         viewModelScope.launch {
-            _uiState.update { screenState ->
+            _uiState.update {
                 _uiState.value.copy(
                     isRefreshing = true
                 )
             }
             getPlaylistInfoAsync()
-            _uiState.update { screenState ->
+            _uiState.update {
                 _uiState.value.copy(
                     isRefreshing = false
                 )
@@ -88,7 +88,20 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
         viewModelScope.launch {
             val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
 
+            _uiState.update {
+                _uiState.value.copy(
+                    isDownloading = true
+                )
+            }
+
             downloadRepository.download(playlist)
+            // TODO : only set false when done fr
+
+            _uiState.update {
+                _uiState.value.copy(
+                    isDownloading = false
+                )
+            }
         }
     }
 

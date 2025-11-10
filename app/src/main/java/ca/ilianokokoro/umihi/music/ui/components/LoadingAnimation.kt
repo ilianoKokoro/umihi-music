@@ -2,8 +2,9 @@ package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +17,6 @@ fun LoadingAnimation() {
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularWavyProgressIndicator()
+        ContainedLoadingIndicator(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
     }
-
 }

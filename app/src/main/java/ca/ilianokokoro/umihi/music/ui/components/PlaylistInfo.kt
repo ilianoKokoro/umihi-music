@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 @Composable
 fun PlaylistInfo(
     playlist: Playlist,
+    isDownloading: Boolean,
     onDownloadPressed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -75,27 +77,31 @@ fun PlaylistInfo(
                     modifier = Modifier.alpha(alpha)
                 )
 
-                FilledIconButton(
-                    onClick = onDownloadPressed,
-                    shapes = IconButtonDefaults.shapes(),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    enabled = alpha != 0F && !playlist.downloaded
-                ) {
-                    when (playlist.downloaded) {
-                        true -> Icon(
-                            imageVector = Icons.Rounded.DownloadDone,
-                            contentDescription = null,
-                        )
 
-                        false -> Icon(
-                            imageVector = Icons.Rounded.Download,
-                            contentDescription = stringResource(R.string.download),
-                        )
+                if (isDownloading) {
+                    LoadingIndicator()
+                } else {
+                    FilledIconButton(
+                        onClick = onDownloadPressed,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        enabled = alpha != 0F && !playlist.downloaded
+                    ) {
+                        if (playlist.downloaded) {
+                            Icon(
+                                imageVector = Icons.Rounded.DownloadDone,
+                                contentDescription = null,
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.Download,
+                                contentDescription = stringResource(R.string.download),
+                            )
+                        }
                     }
-                    
                 }
             }
         }

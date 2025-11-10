@@ -98,6 +98,7 @@ fun PlaylistScreen(
                 if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
                     PlaylistHeader(
                         onOpenPlayer = onOpenPlayer,
+                        isDownloading = uiState.isDownloading,
                         onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                         onShufflePlaylist = playlistViewModel::shufflePlaylist,
                         onPlayPlaylist = playlistViewModel::playPlaylist,
@@ -136,6 +137,7 @@ fun PlaylistScreen(
                             item {
                                 PlaylistHeader(
                                     onOpenPlayer = onOpenPlayer,
+                                    isDownloading = uiState.isDownloading,
                                     onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                                     onShufflePlaylist = playlistViewModel::shufflePlaylist,
                                     onPlayPlaylist = playlistViewModel::playPlaylist,

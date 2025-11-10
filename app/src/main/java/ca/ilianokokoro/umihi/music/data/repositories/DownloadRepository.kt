@@ -12,15 +12,15 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 
 class DownloadRepository(appContext: Context) {
     private val _appContext = appContext
-    private val workManager: WorkManager = WorkManager.Companion.getInstance(_appContext)
+    private val workManager: WorkManager = WorkManager.getInstance(_appContext)
     private val localRepository =
-        AppDatabase.Companion.getInstance(_appContext).playlistRepository()
+        AppDatabase.getInstance(_appContext).playlistRepository()
 
     suspend fun download(playlist: Playlist) {
         localRepository.insertPlaylistWithSongs(playlist)
         val request = OneTimeWorkRequestBuilder<PlaylistDownloadWorker>().setInputData(
             workDataOf(
-                PlaylistDownloadWorker.Companion.PLAYLIST_KEY to playlist.info.id
+                PlaylistDownloadWorker.PLAYLIST_KEY to playlist.info.id
             )
         ).setConstraints(
             Constraints(

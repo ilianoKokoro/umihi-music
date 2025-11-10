@@ -26,8 +26,8 @@ data class PlaylistInfo(
 data class Playlist(
     @Embedded val info: PlaylistInfo,
     @Relation(
-        parentColumn = "id",         // Playlist.id
-        entityColumn = "youtubeId",         // Song.youtubeId
+        parentColumn = "id",              // Playlist.id
+        entityColumn = "youtubeId",       // Song.youtubeId
         associateBy = Junction(
             value = PlaylistSongCrossRef::class,
             parentColumn = "playlistId",  // column in junction pointing to Playlist
@@ -43,7 +43,9 @@ data class Playlist(
         }
 
     val downloaded: Boolean
-        get() = songs.all { song -> song.downloaded }
+        get() = true
+    //   get() = songs.all { song -> song.downloaded }
+
 }
 
 @Entity(

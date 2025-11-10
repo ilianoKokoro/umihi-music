@@ -1,6 +1,7 @@
 # Gradle files
 .gradle/
 build/
+.kotlin/sessions/*.salive
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -38,5 +39,7 @@ hprof*.
 *.dm
 
 # Schemas
-
 /app/schemas/*
+
+# GitHub
+keystore.properties

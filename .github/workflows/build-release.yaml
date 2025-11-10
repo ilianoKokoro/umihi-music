@@ -22,7 +22,8 @@ env:
   main_project_module: app
   app_name: Umihi Music
   apk_file_name: UmihiMusic
-  original_apk: app-release-unsigned.apk
+  original_apk_path: /build/outputs/apk/release/app-release-unsigned.apk
+  store_file_path: app/release-key.jks
 
 jobs:
   build-android-apk:
@@ -35,36 +36,41 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: 17
           cache: "gradle"
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      # Create APK Release
-      - name: Build apk release project (APK) - ${{ env.main_project_module }} module
-        run: ./gradlew assemble
-
-      - uses: filippoLeporati93/android-release-signer@v1
-        name: Sign app APK
-        id: sign_app
-        with:
-          releaseDirectory: ${{ env.main_project_module }}/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Set up Keystore
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.store_file_path }}
         env:
-          BUILD_TOOLS_VERSION: "36.1.0"
+          KEYSTORE_BASE64: ${{ secrets.SIGNING_KEY }}
+
+      - name: Create keystore.properties file
+        run: |
+          echo "storeFile=${{ env.store_file_path }}" > keystore.properties
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+
+      - name: Build with dynamic beta flag
+        run: |
+          if [[ "${{ github.ref_name }}" == "prod" ]]; then
+            ./gradlew assembleRelease -Pbeta=false
+          else
+            ./gradlew assembleRelease -Pbeta=true
+          fi
 
       - name: Rename APK file
-        run: sudo mv ${{steps.sign_app.outputs.signedReleaseFile}} /${{env.apk_file_name}}.apk
+        run: sudo mv ${{env.main_project_module}}${{env.original_apk_path}} ${{env.apk_file_name}}.apk
 
       - name: Upload APK Release
         uses: actions/upload-artifact@v4
         with:
           name: release-build
-          path: /${{env.apk_file_name}}.apk
+          path: ${{env.apk_file_name}}.apk
           overwrite: true
           if-no-files-found: error
   publish-github-release:
