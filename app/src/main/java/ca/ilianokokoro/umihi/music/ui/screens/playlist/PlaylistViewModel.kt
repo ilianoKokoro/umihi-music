@@ -94,27 +94,29 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     private suspend fun getPlaylistInfoAsync() {
         val cookies = datastoreRepository.getCookies()
-        if (!cookies.isEmpty()) {
-            playlistRepository.retrieveOne(Playlist(_playlist), cookies)
-                .collect { apiResult ->
-                    _uiState.update { screenState ->
-                        _uiState.value.copy(
-                            screenState = when (apiResult) {
-                                is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                                ApiResult.Loading -> ScreenState.Loading(_playlist)
-                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
-                            }
-                        )
-                    }
-                }
-        } else {
-            _uiState.update { screenState ->
+        if (cookies.isEmpty()) {
+            _uiState.update {
                 _uiState.value.copy(
-                    screenState =
-                        ScreenState.Error(Exception("Failed to get to login cookies"))
+                    screenState = ScreenState.Error(Exception("Failed to get to login cookies"))
                 )
             }
+            return
         }
+
+
+        playlistRepository.retrieveOne(Playlist(_playlist), cookies)
+            .collect { apiResult ->
+                _uiState.update { _ ->
+                    _uiState.value.copy(
+                        screenState = when (apiResult) {
+                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                            ApiResult.Loading -> ScreenState.Loading(_playlist)
+                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                        }
+                    )
+                }
+            }
+
     }
 
 

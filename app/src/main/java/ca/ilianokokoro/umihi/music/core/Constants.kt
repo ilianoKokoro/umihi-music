@@ -80,6 +80,9 @@ object Constants {
     }
 
     object YoutubeApi {
+        const val RETRY_COUNT = 3
+
+        const val RETRY_DELAY = 1000L
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"

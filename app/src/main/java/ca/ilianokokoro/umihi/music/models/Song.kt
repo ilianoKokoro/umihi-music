@@ -52,8 +52,7 @@ data class Song(
     val youtubeUrl: String
         get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${youtubeId}"
     val downloaded: Boolean
-        //        get() = listOf(true, false).random() // TODO
-        get() = false
+        get() = listOf(true, false).random()
 
 
     override fun equals(other: Any?): Boolean {
