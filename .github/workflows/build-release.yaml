@@ -19,11 +19,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  main_project_module: app
-  app_name: Umihi Music
-  apk_file_name: UmihiMusic
-  original_apk_path: /build/outputs/apk/release/app-release-unsigned.apk
-  store_file_path: app/release-key.jks
+  MAIN_PROJECT_MODULE: app
+  APP_NAME: Umihi Music
+  APK_FILE_NAME: UmihiMusic
+  ORIGINAL_APK_PATH: /build/outputs/apk/release/app-release-unsigned.apk
+  STORE_FILE: release-key.jks
 
 jobs:
   build-android-apk:
@@ -44,13 +44,13 @@ jobs:
 
       - name: Set up Keystore
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.store_file_path }}
+          echo "$KEYSTORE_BASE64" | base64 -d > ${{env.MAIN_PROJECT_MODULE}}/${{ env.STORE_FILE }}
         env:
           KEYSTORE_BASE64: ${{ secrets.SIGNING_KEY }}
 
       - name: Create keystore.properties file
         run: |
-          echo "storeFile=${{ env.store_file_path }}" > keystore.properties
+          echo "storeFile=${{ env.STORE_FILE }}" > keystore.properties
           echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
           echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
@@ -64,13 +64,13 @@ jobs:
           fi
 
       - name: Rename APK file
-        run: sudo mv ${{env.main_project_module}}${{env.original_apk_path}} ${{env.apk_file_name}}.apk
+        run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}} ${{env.APK_FILE_NAME}}.apk
 
       - name: Upload APK Release
         uses: actions/upload-artifact@v4
         with:
           name: release-build
-          path: ${{env.apk_file_name}}.apk
+          path: ${{env.APK_FILE_NAME}}.apk
           overwrite: true
           if-no-files-found: error
   publish-github-release:
@@ -92,9 +92,9 @@ jobs:
       - name: Extract version
         id: get_version
         run: |
-          versionMajor=$(grep -oP 'val\s+versionMajor\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
-          versionMinor=$(grep -oP 'val\s+versionMinor\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
-          versionPatch=$(grep -oP 'val\s+versionPatch\s*=\s*\K[0-9]+' ${{ env.main_project_module }}/build.gradle.kts)
+          versionMajor=$(grep -oP 'val\s+versionMajor\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
+          versionMinor=$(grep -oP 'val\s+versionMinor\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
+          versionPatch=$(grep -oP 'val\s+versionPatch\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
 
           version="${versionMajor}.${versionMinor}.${versionPatch}"
 
