@@ -22,7 +22,7 @@ env:
   MAIN_PROJECT_MODULE: app
   APP_NAME: Umihi Music
   APK_FILE_NAME: UmihiMusic
-  ORIGINAL_APK_PATH: /build/outputs/apk/release/app-release-unsigned.apk
+  ORIGINAL_APK_PATH: /build/outputs/apk/release/app-release.apk
   STORE_FILE: release-key.jks
 
 jobs:
