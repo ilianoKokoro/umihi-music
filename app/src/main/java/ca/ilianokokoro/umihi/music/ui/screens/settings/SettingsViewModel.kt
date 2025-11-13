@@ -66,7 +66,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun checkForUpdates() {
         viewModelScope.launch {
-            VersionManager.checkForUpdates(_application)
+            VersionManager.checkForUpdates(context = _application, showToast = true)
         }
     }
 

@@ -7,8 +7,16 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
+import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+
 
 object VersionManager {
+
+    private val _eventsFlow =
+        MutableSharedFlow<ScreenEvent>()
+    val eventsFlow = _eventsFlow.asSharedFlow()
 
     private var versionName: String? = null
 
@@ -29,49 +37,56 @@ object VersionManager {
         return versionName.toString()
     }
 
-    suspend fun checkForUpdates(context: Context? = null) {
+    suspend fun checkForUpdates(context: Context, showToast: Boolean = false) {
         try {
             githubRepository.getLatestVersionName().collect { result ->
                 when (result) {
-                    is ApiResult.Success<String> -> {
-                        val mostUpToDateVersion = result.data.drop(1)
+                    is ApiResult.Success<GithubReleaseResponse> -> {
+                        val githubRelease = result.data
+
+                        val mostUpToDateVersion = githubRelease.tagName.drop(1)
                         val outdated = mostUpToDateVersion.isVersionMoreRecent()
 
                         if (!outdated) {
-                            if (context != null) {
-                                Toast.makeText( // TODO make the toast work
+                            printd("App is up to date")
+                            if (showToast) {
+                                Toast.makeText(
                                     context,
                                     context.getString(R.string.up_to_date_message),
                                     Toast.LENGTH_LONG
-                                )
+                                ).show()
                             }
                         } else {
-                            printd("outdated")
+
+                            _eventsFlow.emit(ScreenEvent.UpdateAvailable(githubReleaseResponse = result.data))
                         }
+
 
                     }
 
                     is ApiResult.Error -> {
-                        printe(message = result.errorMessage)
+                        throw result.exception
                     }
 
                     ApiResult.Loading -> {}
                 }
 
-
             }
         } catch (ex: Exception) {
+            if (showToast) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.update_check_failed),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             printe(message = ex.message.toString(), exception = ex)
         }
     }
 
     private fun String.isVersionMoreRecent(): Boolean {
         try {
-            val appVersion = versionName!!
-
-            if (appVersion.isBetaVersion()) {
-                return false
-            }
+            val appVersion = versionName!!.stripBetaTag()
 
             if (appVersion == this) {
                 return false
@@ -99,7 +114,21 @@ object VersionManager {
         }
     }
 
+    private fun String.stripBetaTag(): String {
+        return if (this.isBetaVersion()) {
+            this.dropLast(5)
+        } else {
+            this
+        }
+    }
+
     private fun String.isBetaVersion(): Boolean {
         return this.endsWith("-beta")
     }
+
+    sealed class ScreenEvent {
+        data class UpdateAvailable(val githubReleaseResponse: GithubReleaseResponse) :
+            ScreenEvent()
+    }
 }
+

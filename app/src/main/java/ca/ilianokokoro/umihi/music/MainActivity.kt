@@ -15,6 +15,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.services.PlaybackService
+import ca.ilianokokoro.umihi.music.ui.components.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig
@@ -37,10 +38,6 @@ class MainActivity : ComponentActivity() {
 
         VersionManager.initialize(this)
 
-        lifecycleScope.launch {
-            VersionManager.checkForUpdates()
-        }
-
         initExoplayer { readyPlayer ->
             player = readyPlayer
             enableEdgeToEdge()
@@ -50,7 +47,12 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         player = player
                     )
+                    UpdateDialog()
                 }
+            }
+
+            lifecycleScope.launch {
+                VersionManager.checkForUpdates(this@MainActivity)
             }
         }
     }

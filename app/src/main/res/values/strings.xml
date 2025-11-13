@@ -39,4 +39,12 @@
     <string name="added_queue_toast">Added song to the queue</string>
     <string name="playing_now">Playing Now</string>
     <string name="up_to_date_message">The app is up to date !</string>
+    <string name="update_check_failed">Failed to check for updates</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="update_available">Update Available</string>
+    <string name="new_version_body">A new version is available. (%1$s)</string>
+    <string name="show_on_github">Show on Github</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="open">Open</string>
 </resources>

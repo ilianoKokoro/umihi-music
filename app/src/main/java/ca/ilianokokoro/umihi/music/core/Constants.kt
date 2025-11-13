@@ -13,6 +13,11 @@ import kotlinx.serialization.json.buildJsonObject
 object Constants {
     object Url {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
+        const val GITHUB_RELEASE_API =
+            "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/latest"
+
+        const val GITHUB_RELEASE_LINK =
+            "https://github.com/ilianoKokoro/umihi-music/releases/latest"
     }
 
     object Marquee {

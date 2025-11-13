@@ -47,7 +47,10 @@ fun ErrorLogDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
-                            val clip = ClipData.newPlainText("Error Log", fullErrorLog)
+                            val clip = ClipData.newPlainText(
+                                context.getString(R.string.error_log),
+                                fullErrorLog
+                            )
                             clipboard.setClipEntry(ClipEntry(clip))
                             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
                                 Toast.makeText(
