@@ -2,7 +2,6 @@ package ca.ilianokokoro.umihi.music.ui.screens.playlists
 
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -25,7 +24,6 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
 
 
     init {
-        Log.d("CustomLog", "init PlaylistsViewModel")
         getPlaylists()
     }
 
@@ -53,8 +51,6 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     suspend fun getPlaylistsSuspend() {
-        Log.d("CustomLog", "getting playlists getPlaylists")
-
         val cookies = datastoreRepository.getCookies()
         if (!cookies.isEmpty()) {
             playlistRepository.retrieveAll(cookies).collect { apiResult ->

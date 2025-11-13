@@ -5,17 +5,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.services.PlaybackService
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import io.github.shalva97.initNewPipe
+import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +34,12 @@ class MainActivity : ComponentActivity() {
         initCoaoc()
 
         initNewPipe()
+
+        VersionManager.initialize(this)
+
+        lifecycleScope.launch {
+            VersionManager.checkForUpdates()
+        }
 
         initExoplayer { readyPlayer ->
             player = readyPlayer
@@ -50,6 +62,7 @@ class MainActivity : ComponentActivity() {
             .apply()
     }
 
+    @OptIn(UnstableApi::class)
     private fun initExoplayer(onReady: (Player) -> Unit) {
         val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
         controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()

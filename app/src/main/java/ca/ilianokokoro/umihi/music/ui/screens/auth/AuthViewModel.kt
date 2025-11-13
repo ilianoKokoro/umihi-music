@@ -1,7 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.auth
 
 import android.app.Application
-import android.util.Log
 import android.webkit.CookieManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.channels.Channel
@@ -37,7 +37,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun saveCookies(cookies: Cookies) {
-        Log.d("CustomLog", "Got cookies: $cookies")
+        printd("Got cookies: $cookies")
         viewModelScope.launch {
             datastoreRepository.saveCookies(cookies)
         }

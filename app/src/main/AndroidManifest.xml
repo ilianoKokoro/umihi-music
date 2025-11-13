@@ -39,7 +39,7 @@
         </activity>
 
         <service
-            android:name=".PlaybackService"
+            android:name=".services.PlaybackService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"
             tools:ignore="ExportedService">

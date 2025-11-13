@@ -2,7 +2,6 @@ package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -40,7 +39,6 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     private val _player = player
 
     init {
-        Log.d("CustomLog", "init PlaylistViewModel")
         getPlaylistInfo()
     }
 

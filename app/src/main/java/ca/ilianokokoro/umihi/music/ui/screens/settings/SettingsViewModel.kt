@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
@@ -60,6 +61,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             localSongRepository.deleteAll()
             ExoCache(_application).clear()
             // TODO : Delete files
+        }
+    }
+
+    fun checkForUpdates() {
+        viewModelScope.launch {
+            VersionManager.checkForUpdates(_application)
         }
     }
 

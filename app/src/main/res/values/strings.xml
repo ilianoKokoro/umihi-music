@@ -38,4 +38,5 @@
     <string name="play_next_toast">Playing this song next</string>
     <string name="added_queue_toast">Added song to the queue</string>
     <string name="playing_now">Playing Now</string>
+    <string name="up_to_date_message">The app is up to date !</string>
 </resources>

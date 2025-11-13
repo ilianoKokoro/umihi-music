@@ -27,8 +27,6 @@ class PlayerViewModel(player: Player, application: Application) :
     private val _player = player
 
     init {
-        //  Log.d("CustomLog", "init PlayerViewModel")
-
         _player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
@@ -118,7 +116,6 @@ class PlayerViewModel(player: Player, application: Application) :
 
     private fun updateCurrentSong() {
         viewModelScope.launch {
-//        Log.d("CustomLog", "updateCurrentSong ${_player.getCurrentSong()}")
             resetState()
 
             _uiState.update {
@@ -131,7 +128,6 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun startProgressUpdate() {
-//        Log.d("CustomLog", "startProgressUpdate")
         viewModelScope.launch {
             while (true) {
                 if (!_uiState.value.isSeekBarHeld) {
@@ -159,12 +155,6 @@ class PlayerViewModel(player: Player, application: Application) :
                 songDuration = 0
             }
 
-
-//            Log.d(
-//                "CustomLog",
-//                "updateSongInfo durationMs $songDuration"
-//            )
-
             _uiState.update {
                 _uiState.value.copy(
                     durationMs = songDuration.toFloat(),
@@ -177,7 +167,6 @@ class PlayerViewModel(player: Player, application: Application) :
         viewModelScope.launch {
             when (_player.playbackState) {
                 Player.STATE_BUFFERING -> {
-//                            Log.d("CustomLog", "Player.STATE_BUFFERING")
                     _uiState.update {
                         _uiState.value.copy(
                             isLoading = true
@@ -186,7 +175,6 @@ class PlayerViewModel(player: Player, application: Application) :
                 }
 
                 Player.STATE_READY -> {
-//                            Log.d("CustomLog", "Player.STATE_READY")
                     updateSongDuration()
                     _uiState.update {
                         _uiState.value.copy(
@@ -202,7 +190,6 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun updateIsPlayingState() {
-        //                   Log.d("CustomLog", "onIsPlayingChanged isPlaying $isPlaying")
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(

@@ -24,7 +24,6 @@ object ComposeHelper {
             .lineSequence()
             .take(7)
             .joinToString("\n")
-
     }
 
     @Composable

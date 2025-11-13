@@ -1,9 +1,6 @@
-package ca.ilianokokoro.umihi.music
+package ca.ilianokokoro.umihi.music.services
 
-import android.app.PendingIntent.FLAG_IMMUTABLE
-import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.app.PendingIntent.getActivity
-import android.util.Log
+import android.app.PendingIntent
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
@@ -21,6 +18,7 @@ import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +78,12 @@ class PlaybackService : MediaSessionService() {
         })
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        val pendingIntent = getActivity(this, 0, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         mediaSession = MediaSession.Builder(this, player)
             .setSessionActivity(pendingIntent)
@@ -132,10 +135,9 @@ class PlaybackService : MediaSessionService() {
                     }
                 }
             } catch (ex: Exception) {
-                Log.e(
-                    "CustomLog",
-                    "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
-                    ex
+                UmihiHelper.printe(
+                    message = "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
+                    exception = ex
                 )
 
             }

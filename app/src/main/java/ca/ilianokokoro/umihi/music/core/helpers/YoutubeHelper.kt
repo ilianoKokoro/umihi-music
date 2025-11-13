@@ -1,9 +1,10 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -212,22 +213,22 @@ object YoutubeHelper {
         } catch (ex: Exception) {
             Toast.makeText(context, "Failed to get song from local repository", Toast.LENGTH_LONG)
                 .show()
-            Log.e("CustomLog", ex.toString())
+            printe(ex.toString())
         }
         if (savedSong != null && savedSong.streamUrl != null) {
             if (isYoutubeUrlValid(savedSong.streamUrl)) {
-                Log.d("CustomLog", "$songId : Got url from saved")
+                printd("$songId : Got url from saved")
                 return savedSong.streamUrl
             }
-            Log.d("CustomLog", "$songId : Saved url was invalid")
-            localSongRepository.delete(savedSong)
+            printd("$songId : Saved url was invalid")
+
         }
 
         val newUri = getSongUrlFromYoutube(songId)
         val newSong =
             Song(youtubeId = songId, streamUrl = newUri)
         localSongRepository.create(newSong)
-        Log.d("CustomLog", "$songId : Got url from YouTube and saved song")
+        printd("$songId : Got url from YouTube and saved song")
         return newUri
     }
 
@@ -235,7 +236,6 @@ object YoutubeHelper {
         songId: String,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String {
-        // TODO : Constants for delay and retries
         val service = ServiceList.YouTube
 
         var attempts = 0
@@ -249,26 +249,16 @@ object YoutubeHelper {
                     extractor.audioStreams.maxBy { it.averageBitrate }.content
                 }
 
-//                Log.d(
-//                    "CustomLog",
-//                    "Got the url for song $songId from Youtube"
-//                )
-
                 return streamUrl
             } catch (e: Exception) {
-                Log.d(
-                    "CustomLog",
+                printe(
                     "Failed to get song $songId from Youtube : Attempt -> $attempts/$retries : ${e.message}"
                 )
                 delay(Constants.YoutubeApi.RETRY_DELAY * (attempt + 1))
             }
         }
 
-        Log.d(
-            "CustomLog",
-            "Fatal fail for song $songId. Could not get it after $attempts attempts"
-        )
-        return String()
+        throw Exception("Fatal fail for song $songId. Could not get it after $attempts attempts")
     }
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {

@@ -3,7 +3,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -54,7 +55,6 @@ fun SettingsScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                Log.d("CustomLog", "Lifecycle.Event.ON_RESUME")
                 settingsViewModel.getLoginState()
             }
         }
@@ -137,6 +137,38 @@ fun SettingsScreen(
 //                                    leadingIcon = Icons.Outlined.Delete,
 //                                    onClick = // Maybe ?
 //                                )
+                    }
+
+                    SettingsSection(
+                        title = "Data & Storage",
+                    ) {
+
+                        SettingsItem(
+                            title = "Delete all downloads",
+                            subtitle = "Deletes all the downloaded songs and cache",
+                            leadingIcon = Icons.Outlined.Delete,
+                            onClick = settingsViewModel::clearDownloads
+                        )
+//                                Spacer(modifier = Modifier.height(4.dp))
+//                                SettingsItem(
+//                                    title = "Delete app data",
+//                                    subtitle = "Resets all the information",
+//                                    leadingIcon = Icons.Outlined.Delete,
+//                                    onClick = // Maybe ?
+//                                )
+                    }
+
+
+                    SettingsSection(
+                        title = "App Info",
+                    ) {
+
+                        SettingsItem(
+                            title = "Check for updates",
+                            subtitle = "Current version : ${VersionManager.getVersionName()}",
+                            leadingIcon = Icons.Outlined.Update,
+                            onClick = settingsViewModel::checkForUpdates
+                        )
                     }
 
 
