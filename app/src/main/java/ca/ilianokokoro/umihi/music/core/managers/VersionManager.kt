@@ -7,6 +7,7 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
+import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,7 +21,7 @@ object VersionManager {
 
     private var versionName: String? = null
 
-    private var githubRepository: GithubRepository = GithubRepository()
+    private val githubRepository: GithubRepository = GithubRepository()
 
     fun initialize(context: Context) {
         if (versionName == null) {
@@ -82,6 +83,10 @@ object VersionManager {
             }
             printe(message = ex.message.toString(), exception = ex)
         }
+    }
+
+    fun ignoreUpdate(version: Version) {
+        // TODO
     }
 
     private fun String.isVersionMoreRecent(): Boolean {

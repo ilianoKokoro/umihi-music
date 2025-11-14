@@ -3,7 +3,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 val versionMajor = 1
-val versionMinor = 1
+val versionMinor = 4
 val versionPatch = 0
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true

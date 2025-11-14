@@ -65,6 +65,7 @@ object Constants {
         const val VERSION = 5
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
+        const val VERSIONS_TABLE = "versions"
     }
 
     object ExoPlayer {
