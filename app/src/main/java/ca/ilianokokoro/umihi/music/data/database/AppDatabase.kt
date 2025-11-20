@@ -7,19 +7,22 @@ import androidx.room.RoomDatabase
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalPlaylistDataSource
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalSongDataSource
+import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistSongCrossRef
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.models.Version
 import java.util.concurrent.Executors
 
 @Database(
-    entities = [Song::class, PlaylistInfo::class, PlaylistSongCrossRef::class],
+    entities = [Song::class, PlaylistInfo::class, PlaylistSongCrossRef::class, Version::class],
     version = Constants.Database.VERSION,
     exportSchema = false // Set to true to get an exported json
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun songRepository(): LocalSongDataSource
     abstract fun playlistRepository(): LocalPlaylistDataSource
+    abstract fun versionRepository(): VersionDataSource
 
     companion object {
         @Volatile
@@ -30,15 +33,11 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
             }
 
-        /**
-         * Deletes the entire database file.
-         */
-        fun deleteDatabase(context: Context) {
-            synchronized(this) {
-                INSTANCE?.close()
-                INSTANCE = null
-                context.deleteDatabase(Constants.Database.NAME)
-            }
+        suspend fun clearDownloads(context: Context) {
+            val instance = getInstance(context)
+
+            instance.songRepository().deleteAll()
+            instance.playlistRepository().deleteAll()
         }
 
         private fun buildDatabase(context: Context) =

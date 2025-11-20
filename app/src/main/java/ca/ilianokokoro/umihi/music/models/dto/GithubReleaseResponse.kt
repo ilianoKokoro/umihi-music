@@ -9,7 +9,10 @@ data class GithubReleaseResponse(
     val tagName: String,
     val body: String,
     val assets: List<AssetsResponse>,
-)
+) {
+    val versionName: String
+        get() = tagName.removePrefix("v")
+}
 
 @Serializable
 data class AssetsResponse(

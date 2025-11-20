@@ -4,8 +4,11 @@ import android.content.Context
 import android.widget.Toast
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
+import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -22,6 +25,7 @@ object VersionManager {
     private var versionName: String? = null
 
     private val githubRepository: GithubRepository = GithubRepository()
+    private lateinit var versionRepository: VersionDataSource
 
     fun initialize(context: Context) {
         if (versionName == null) {
@@ -32,25 +36,27 @@ object VersionManager {
                 String()
             }
         }
+
+        versionRepository = AppDatabase.getInstance(context).versionRepository()
     }
 
     fun getVersionName(): String {
         return versionName.toString()
     }
 
-    suspend fun checkForUpdates(context: Context, showToast: Boolean = false) {
+    suspend fun checkForUpdates(context: Context, manualCheck: Boolean = false) {
         try {
             githubRepository.getLatestVersionName().collect { result ->
                 when (result) {
                     is ApiResult.Success<GithubReleaseResponse> -> {
                         val githubRelease = result.data
 
-                        val mostUpToDateVersion = githubRelease.tagName.drop(1)
-                        val outdated = mostUpToDateVersion.isVersionMoreRecent()
+                        val mostUpToDateVersion = githubRelease.versionName
+                        val outdated = mostUpToDateVersion.isNewUpdate(manualCheck)
 
                         if (!outdated) {
                             printd("App is up to date")
-                            if (showToast) {
+                            if (manualCheck) {
                                 Toast.makeText(
                                     context,
                                     context.getString(R.string.up_to_date_message),
@@ -74,7 +80,7 @@ object VersionManager {
 
             }
         } catch (ex: Exception) {
-            if (showToast) {
+            if (manualCheck) {
                 Toast.makeText(
                     context,
                     context.getString(R.string.update_check_failed),
@@ -85,15 +91,21 @@ object VersionManager {
         }
     }
 
-    fun ignoreUpdate(version: Version) {
-        // TODO
+    suspend fun ignoreUpdate(version: Version) {
+        versionRepository.ignoreVersion(version)
     }
 
-    private fun String.isVersionMoreRecent(): Boolean {
+    private suspend fun String.isNewUpdate(manualCheck: Boolean): Boolean {
         try {
-            val appVersion = versionName!!.stripBetaTag()
+            val appVersion = versionName!!.removeSuffix(Constants.BETA_SUFFIX)
 
             if (appVersion == this) {
+                return false
+            }
+            val ignoredVersions = versionRepository.getIgnoredVersions()
+
+
+            if (!manualCheck && ignoredVersions.contains(Version(this))) {
                 return false
             }
 
@@ -117,18 +129,6 @@ object VersionManager {
             printe(message = ex.message.toString(), exception = ex)
             return true
         }
-    }
-
-    private fun String.stripBetaTag(): String {
-        return if (this.isBetaVersion()) {
-            this.dropLast(5)
-        } else {
-            this
-        }
-    }
-
-    private fun String.isBetaVersion(): Boolean {
-        return this.endsWith("-beta")
     }
 
     sealed class ScreenEvent {

@@ -20,6 +20,7 @@ class GithubDatasource {
                 json.decodeFromString<GithubReleaseResponse>(result.value.content)
             }
 
+
             is Result.Failure -> {
                 throw Exception("Failed to get the latest GitHub release version name")
             }

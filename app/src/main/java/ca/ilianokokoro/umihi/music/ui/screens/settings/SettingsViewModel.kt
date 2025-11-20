@@ -26,7 +26,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
-    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     fun logOut() {
         viewModelScope.launch {
             datastoreRepository.saveCookies(Cookies(""))
@@ -58,7 +57,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     @OptIn(UnstableApi::class)
     fun clearDownloads() {
         viewModelScope.launch {
-            localSongRepository.deleteAll()
+            AppDatabase.clearDownloads(_application)
             ExoCache(_application).clear()
             // TODO : Delete files
         }
@@ -66,7 +65,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun checkForUpdates() {
         viewModelScope.launch {
-            VersionManager.checkForUpdates(context = _application, showToast = true)
+            VersionManager.checkForUpdates(context = _application, manualCheck = true)
         }
     }
 

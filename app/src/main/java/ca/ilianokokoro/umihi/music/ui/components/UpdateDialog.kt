@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
-
 package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +19,14 @@ import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun UpdateDialog() {
+fun UpdateDialog(scope: CoroutineScope) {
     val uriHandler = LocalUriHandler.current
 
     val showDialog = remember { mutableStateOf(false) }
@@ -60,8 +62,14 @@ fun UpdateDialog() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     TextButton(onClick = {
-                        // TODO : save version as ignored
-                        showDialog.value = false
+                        scope.launch {
+                            VersionManager.ignoreUpdate(
+                                version = Version(
+                                    name = (data.value as GithubReleaseResponse).versionName
+                                )
+                            )
+                            showDialog.value = false
+                        }
                     }, shapes = ButtonDefaults.shapes()) { Text(stringResource(R.string.dismiss)) }
 
 

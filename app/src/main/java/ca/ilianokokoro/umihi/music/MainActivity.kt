@@ -47,13 +47,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         player = player
                     )
-                    UpdateDialog()
+                    UpdateDialog(lifecycleScope)
                 }
             }
 
-            lifecycleScope.launch {
-                VersionManager.checkForUpdates(this@MainActivity)
-            }
+            checkForUpdate()
         }
     }
 
@@ -71,6 +69,12 @@ class MainActivity : ComponentActivity() {
         controllerFuture!!.addListener({
             onReady(controllerFuture!!.get())
         }, MoreExecutors.directExecutor())
+    }
+
+    private fun checkForUpdate() {
+        lifecycleScope.launch {
+            VersionManager.checkForUpdates(this@MainActivity)
+        }
     }
 
 

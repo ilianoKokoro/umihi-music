@@ -11,6 +11,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
 object Constants {
+    const val BETA_SUFFIX = "-beta"
+
     object Url {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
         const val GITHUB_RELEASE_API =
@@ -62,10 +64,11 @@ object Constants {
 
     object Database {
         const val NAME = "umihi-music"
-        const val VERSION = 5
+        const val VERSION = 6
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
         const val VERSIONS_TABLE = "versions"
+        const val P = "playlistSong"
     }
 
     object ExoPlayer {

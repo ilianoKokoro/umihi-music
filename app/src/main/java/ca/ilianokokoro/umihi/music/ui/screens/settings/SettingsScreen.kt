@@ -138,26 +138,7 @@ fun SettingsScreen(
 //                                    onClick = // Maybe ?
 //                                )
                     }
-
-                    SettingsSection(
-                        title = "Data & Storage",
-                    ) {
-
-                        SettingsItem(
-                            title = "Delete all downloads",
-                            subtitle = "Deletes all the downloaded songs and cache",
-                            leadingIcon = Icons.Outlined.Delete,
-                            onClick = settingsViewModel::clearDownloads
-                        )
-//                                Spacer(modifier = Modifier.height(4.dp))
-//                                SettingsItem(
-//                                    title = "Delete app data",
-//                                    subtitle = "Resets all the information",
-//                                    leadingIcon = Icons.Outlined.Delete,
-//                                    onClick = // Maybe ?
-//                                )
-                    }
-
+                    
 
                     SettingsSection(
                         title = "App Info",

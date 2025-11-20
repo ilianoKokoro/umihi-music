@@ -35,5 +35,7 @@ interface LocalPlaylistDataSource {
         val refs = songs.map { song -> PlaylistSongCrossRef(playlist.info.id, song.youtubeId) }
         insertCrossRefs(refs)
     }
-
+    
+    @Query("DELETE FROM playlists")
+    suspend fun deleteAll()
 }
