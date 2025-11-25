@@ -31,4 +31,10 @@ object ComposeHelper {
         return remember { MutableInteractionSource() }
     }
 
+    fun String.getBulletPointsFromMarkdown(): String =
+        lineSequence()
+            .map { it.trimStart() }
+            .filter { it.startsWith("-") }
+            .joinToString("\n") { "• " + it.removePrefix("-").trimStart() }
+
 }

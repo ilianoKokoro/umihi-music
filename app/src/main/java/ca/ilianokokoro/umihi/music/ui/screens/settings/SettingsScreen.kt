@@ -41,7 +41,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable // TODO : Extract strings
+@Composable
 fun SettingsScreen(
     onBack: () -> Unit,
     openAuthScreen: () -> Unit,
@@ -93,40 +93,40 @@ fun SettingsScreen(
                 is ScreenState.Success -> {
 
                     SettingsSection(
-                        title = "Account"
+                        title = stringResource(R.string.account)
                     ) {
 
                         if (uiState.screenState.isLoggedIn) {
                             SettingsItem(
-                                title = "Log Out",
-                                subtitle = "You are logged in to your YouTube account",
+                                title = stringResource(R.string.log_out),
+                                subtitle = stringResource(R.string.logged_in_message),
                                 leadingIcon = Icons.AutoMirrored.Outlined.Logout,
                                 onClick = settingsViewModel::logOut
                             )
                         } else {
                             SettingsItem(
-                                title = "Log In",
-                                subtitle = "You are currently not logged in",
+                                title = stringResource(R.string.log_in),
+                                subtitle = stringResource(R.string.logged_out_message),
                                 leadingIcon = Icons.AutoMirrored.Outlined.Login,
                                 onClick = openAuthScreen
                             )
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         SettingsItem(
-                            title = "Clear login info",
-                            subtitle = "Clears all the saved accounts and login information",
+                            title = stringResource(R.string.clear_login_info),
+                            subtitle = stringResource(R.string.clear_login_message),
                             leadingIcon = Icons.Outlined.Delete,
                             onClick = settingsViewModel::clearLogins
                         )
                     }
 
                     SettingsSection(
-                        title = "Data & Storage",
+                        title = stringResource(R.string.data_and_storage),
                     ) {
 
                         SettingsItem(
-                            title = "Delete all downloads",
-                            subtitle = "Deletes all the downloaded songs and cache",
+                            title = stringResource(R.string.delete_downloads),
+                            subtitle = stringResource(R.string.clear_data_message),
                             leadingIcon = Icons.Outlined.Delete,
                             onClick = settingsViewModel::clearDownloads
                         )
@@ -138,15 +138,18 @@ fun SettingsScreen(
 //                                    onClick = // Maybe ?
 //                                )
                     }
-                    
+
 
                     SettingsSection(
-                        title = "App Info",
+                        title = stringResource(R.string.app_info),
                     ) {
 
                         SettingsItem(
-                            title = "Check for updates",
-                            subtitle = "Current version : ${VersionManager.getVersionName()}",
+                            title = stringResource(R.string.check_for_updates),
+                            subtitle = stringResource(
+                                R.string.current_version,
+                                VersionManager.getVersionName()
+                            ),
                             leadingIcon = Icons.Outlined.Update,
                             onClick = settingsViewModel::checkForUpdates
                         )

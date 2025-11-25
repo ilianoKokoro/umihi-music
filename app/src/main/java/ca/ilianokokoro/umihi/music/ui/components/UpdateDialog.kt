@@ -1,11 +1,15 @@
 package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -18,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getBulletPointsFromMarkdown
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -44,17 +49,30 @@ fun UpdateDialog(scope: CoroutineScope) {
     }
 
     if (showDialog.value) {
+        val releaseInfo = data.value as GithubReleaseResponse
         AlertDialog(
             onDismissRequest = { showDialog.value = false },
-            title = { Text(stringResource(R.string.update_available)) },
-            text = {
+            title = {
                 Text(
-                    stringResource(
-                        R.string.new_version_body,
-                        data.value?.tagName.toString()
-                    )
+                    text = stringResource(R.string.update_available),
                 )
-            }, // TODO : add release changelog
+            },
+            text = {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Text(
+                        text = stringResource(
+                            R.string.new_version_body,
+                            releaseInfo.tagName
+                        ),
+                        style = MaterialTheme.typography.bodyLarge
+
+                    )
+                    Text(
+                        text = releaseInfo.body.getBulletPointsFromMarkdown(),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            },
             confirmButton = {},
             dismissButton = {
                 Row(
@@ -65,7 +83,7 @@ fun UpdateDialog(scope: CoroutineScope) {
                         scope.launch {
                             VersionManager.ignoreUpdate(
                                 version = Version(
-                                    name = (data.value as GithubReleaseResponse).versionName
+                                    name = releaseInfo.versionName
                                 )
                             )
                             showDialog.value = false

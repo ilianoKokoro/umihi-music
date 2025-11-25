@@ -47,4 +47,16 @@
     <string name="show_on_github">Show on Github</string>
     <string name="dismiss">Dismiss</string>
     <string name="open">Open</string>
+    <string name="log_out">Log Out</string>
+    <string name="data_and_storage"><![CDATA[Data & Storage]]></string>
+    <string name="app_info">App Info</string>
+    <string name="check_for_updates">Check for updates</string>
+    <string name="current_version">Current version : %1$s</string>
+    <string name="delete_downloads">Delete all downloads</string>
+    <string name="clear_login_info">Clear login info</string>
+    <string name="logged_in_message">You are logged in to your YouTube account</string>
+    <string name="logged_out_message">You are currently not logged in</string>
+    <string name="account">Account</string>
+    <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
+    <string name="clear_login_message">Clears all the saved accounts and login information</string>
 </resources>
