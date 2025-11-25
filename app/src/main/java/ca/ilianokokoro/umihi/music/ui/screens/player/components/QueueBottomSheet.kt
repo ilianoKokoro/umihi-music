@@ -102,7 +102,7 @@ fun QueueBottomSheet(
                         ReorderableItem(
                             reorderableLazyListState,
                             key = song.uid
-                        ) { isDragging ->
+                        ) { _ ->
                             val songIndex = mutableSongList.indexOf(song)
                             QueueSongListItem(
                                 song = song,

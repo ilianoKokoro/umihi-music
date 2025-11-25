@@ -12,6 +12,9 @@ import ca.ilianokokoro.umihi.music.models.Song
 
 @Dao
 interface LocalPlaylistDataSource {
+    @Query("SELECT * FROM playlists")
+    suspend fun getAll(): List<Playlist>
+
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     suspend fun getPlaylistById(playlistId: String): Playlist?
@@ -35,7 +38,7 @@ interface LocalPlaylistDataSource {
         val refs = songs.map { song -> PlaylistSongCrossRef(playlist.info.id, song.youtubeId) }
         insertCrossRefs(refs)
     }
-    
+
     @Query("DELETE FROM playlists")
     suspend fun deleteAll()
 }

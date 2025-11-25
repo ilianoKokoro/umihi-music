@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
+    private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
     private val datastoreRepository = DatastoreRepository(application)
 
 
@@ -36,13 +38,15 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun refreshPlaylists() {
         viewModelScope.launch {
-            _uiState.update { screenState ->
+            _uiState.update {
                 _uiState.value.copy(
                     isRefreshing = true
                 )
             }
+
             getPlaylistsSuspend()
-            _uiState.update { screenState ->
+
+            _uiState.update {
                 _uiState.value.copy(
                     isRefreshing = false
                 )
@@ -54,10 +58,15 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
         val cookies = datastoreRepository.getCookies()
         if (!cookies.isEmpty()) {
             playlistRepository.retrieveAll(cookies).collect { apiResult ->
-                _uiState.update { screenState ->
+                _uiState.update {
                     _uiState.value.copy(
                         screenState = when (apiResult) {
-                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
+                            is ApiResult.Error -> { // TODO : Maybe still add a message
+                                val localPlaylists =
+                                    localPlaylistRepository.getAll().map { it.info }
+                                ScreenState.LoggedIn(localPlaylists)
+                            }
+
                             ApiResult.Loading -> ScreenState.Loading
                             is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
                         }
@@ -66,7 +75,7 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
         } else {
-            _uiState.update { screenState ->
+            _uiState.update {
                 _uiState.value.copy(
                     screenState =
                         ScreenState.LoggedOut

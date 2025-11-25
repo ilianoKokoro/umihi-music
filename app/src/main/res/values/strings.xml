@@ -59,4 +59,7 @@
     <string name="account">Account</string>
     <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
+    <string name="login_info_cleared">Login Info Cleared</string>
+    <string name="cache_cleared">Cache Cleared</string>
+    <string name="invalid_navkey">Invalid NavKey : %1$s</string>
 </resources>

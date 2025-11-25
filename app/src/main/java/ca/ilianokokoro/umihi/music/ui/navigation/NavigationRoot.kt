@@ -20,12 +20,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.media3.common.Player
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
@@ -65,8 +68,10 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
 
     ) {
         NavDisplay(
+
             modifier = modifier,
             backStack = backStack,
+            onBack = backStack::safePop,
             entryDecorators = listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
                 rememberViewModelStoreNavEntryDecorator(),
@@ -112,21 +117,26 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 when (key) {
                     is PlaylistsScreenKey -> {
                         NavEntry(key = key) {
-                            PlaylistsScreen(onSettingsButtonPress = {
-                                backStack.add(SettingsScreenKey)
-                            }, onPlaylistPressed = { playlist ->
-                                backStack.add(PlaylistScreenKey(playlistInfo = playlist))
-                            }, application = app)
+                            PlaylistsScreen(
+                                onSettingsButtonPress = {
+                                    backStack.add(SettingsScreenKey)
+                                },
+                                onPlaylistPressed = { playlist ->
+                                    backStack.add(PlaylistScreenKey(playlistInfo = playlist))
+                                },
+                                application = app
+                            )
                         }
                     }
 
                     is SettingsScreenKey -> {
                         NavEntry(key = key) {
                             SettingsScreen(
-                                onBack = backStack::removeLastOrNull,
+                                onBack = backStack::safePop,
                                 openAuthScreen = {
                                     backStack.add(AuthScreenKey)
-                                }, application = app
+                                },
+                                application = app
                             )
                         }
                     }
@@ -135,11 +145,12 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         NavEntry(key = key) {
                             PlaylistScreen(
                                 playlistInfo = key.playlistInfo,
-                                onBack = backStack::removeLastOrNull,
+                                onBack = backStack::safePop,
                                 onOpenPlayer = {
                                     backStack.add(PlayerScreenKey)
                                 },
-                                player = player, application = app
+                                player = player,
+                                application = app
                             )
                         }
                     }
@@ -147,23 +158,26 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                     is AuthScreenKey -> {
                         NavEntry(key = key) {
                             AuthScreen(
-                                onBack = backStack::removeLastOrNull,
+                                onBack = backStack::safePop,
                                 application = app
                             )
                         }
                     }
 
                     is PlayerScreenKey -> {
-                        NavEntry(key = key, metadata = Constants.Animation.SLIDE_UP_TRANSITION) {
+                        NavEntry(
+                            key = key,
+                            metadata = Constants.Animation.SLIDE_UP_TRANSITION
+                        ) {
                             PlayerScreen(
-                                onBack = backStack::removeLastOrNull,
+                                onBack = backStack::safePop,
                                 player = player,
                                 application = app
                             )
                         }
                     }
 
-                    else -> throw RuntimeException("Invalid NavKey : $key")
+                    else -> throw RuntimeException(app.getString(R.string.invalid_navkey, key))
                 }
             }
         )
@@ -176,5 +190,13 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 .systemBarsPadding()
                 .padding(2.dp)
         )
+    }
+}
+
+fun NavBackStack<NavKey>.safePop() {
+    if (this.size > 1) {
+        this.removeLastOrNull()
+    } else {
+        printe("Backstack Pop was called unsafely")
     }
 }

@@ -117,7 +117,7 @@ fun PlaylistsScreen(
                             textAlign = TextAlign.Center
                         )
                     } else {
-                        PullToRefreshBox(
+                        PullToRefreshBox( // TODO : Make it work on empty list
                             isRefreshing = uiState.isRefreshing,
                             onRefresh = playlistsViewModel::refreshPlaylists
                         ) {

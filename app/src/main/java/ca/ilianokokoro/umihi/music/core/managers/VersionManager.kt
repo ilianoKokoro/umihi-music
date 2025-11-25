@@ -5,7 +5,6 @@ import android.widget.Toast
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
@@ -55,7 +54,6 @@ object VersionManager {
                         val outdated = mostUpToDateVersion.isNewUpdate(manualCheck)
 
                         if (!outdated) {
-                            printd("App is up to date")
                             if (manualCheck) {
                                 Toast.makeText(
                                     context,
@@ -64,7 +62,6 @@ object VersionManager {
                                 ).show()
                             }
                         } else {
-
                             _eventsFlow.emit(ScreenEvent.UpdateAvailable(githubReleaseResponse = result.data))
                         }
 

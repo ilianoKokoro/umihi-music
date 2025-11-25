@@ -9,6 +9,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
@@ -33,6 +35,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
+    private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
 
@@ -104,29 +107,40 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     }
 
     private suspend fun getPlaylistInfoAsync() {
-        val cookies = datastoreRepository.getCookies()
-        if (cookies.isEmpty()) {
+        try {
+            val cookies = datastoreRepository.getCookies()
+            if (cookies.isEmpty()) {
+                throw Exception("Failed to get to login cookies")
+            }
+
+
+            playlistRepository.retrieveOne(Playlist(_playlist), cookies)
+                .collect { apiResult ->
+                    _uiState.update { _ ->
+                        _uiState.value.copy(
+                            screenState = when (apiResult) {
+                                is ApiResult.Error -> {
+                                    val playlist =
+                                        localPlaylistRepository.getPlaylistById(_playlist.id)
+
+                                    ScreenState.Success(playlist!!)
+                                }
+
+                                ApiResult.Loading -> ScreenState.Loading(_playlist)
+                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                            }
+                        )
+                    }
+                }
+
+        } catch (ex: Exception) {
+            printe(message = ex.toString(), exception = ex)
             _uiState.update {
                 _uiState.value.copy(
-                    screenState = ScreenState.Error(Exception("Failed to get to login cookies"))
+                    screenState = ScreenState.Error(ex)
                 )
             }
-            return
         }
-
-
-        playlistRepository.retrieveOne(Playlist(_playlist), cookies)
-            .collect { apiResult ->
-                _uiState.update { _ ->
-                    _uiState.value.copy(
-                        screenState = when (apiResult) {
-                            is ApiResult.Error -> ScreenState.Error(apiResult.exception)
-                            ApiResult.Loading -> ScreenState.Loading(_playlist)
-                            is ApiResult.Success -> ScreenState.Success(apiResult.data)
-                        }
-                    )
-                }
-            }
 
     }
 

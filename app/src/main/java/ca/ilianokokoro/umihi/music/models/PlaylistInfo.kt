@@ -43,8 +43,8 @@ data class Playlist(
         }
 
     val downloaded: Boolean
-        get() = true
-    //   get() = songs.all { song -> song.downloaded }
+        //get() = true
+        get() = songs.all { song -> song.downloaded }
 
 }
 
