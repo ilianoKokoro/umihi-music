@@ -120,10 +120,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
                         _uiState.value.copy(
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> {
-                                    val playlist =
-                                        localPlaylistRepository.getPlaylistById(_playlist.id)
-
-                                    ScreenState.Success(playlist!!)
+                                    getLocalPlaylistInfo()
                                 }
 
                                 ApiResult.Loading -> ScreenState.Loading(_playlist)
@@ -142,6 +139,20 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             }
         }
 
+    }
+
+
+    private suspend fun getLocalPlaylistInfo(): ScreenState {
+        try {
+            val localPlaylist = localPlaylistRepository.getPlaylistById(_playlist.id)
+            if (localPlaylist != null) {
+                return ScreenState.Success(localPlaylist)
+            }
+            throw Exception("Playlist is not fully downloaded")
+        } catch (ex: Exception) {
+            printe(message = ex.toString(), exception = ex)
+            return ScreenState.Error(exception = ex)
+        }
     }
 
 

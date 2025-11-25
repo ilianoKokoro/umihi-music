@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
@@ -28,7 +29,6 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     init {
         getPlaylists()
     }
-
 
     fun getPlaylists() {
         viewModelScope.launch {
@@ -55,32 +55,43 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     suspend fun getPlaylistsSuspend() {
-        val cookies = datastoreRepository.getCookies()
-        if (!cookies.isEmpty()) {
-            playlistRepository.retrieveAll(cookies).collect { apiResult ->
+        try {
+            val cookies = datastoreRepository.getCookies()
+            if (!cookies.isEmpty()) {
+                playlistRepository.retrieveAll(cookies).collect { apiResult ->
+                    _uiState.update {
+                        _uiState.value.copy(
+                            screenState = when (apiResult) {
+                                is ApiResult.Error -> { // TODO : Maybe still add a message
+                                    getLocalPlaylists()
+                                }
+
+                                ApiResult.Loading -> ScreenState.Loading
+                                is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
+                            }
+                        )
+                    }
+                }
+
+            } else {
                 _uiState.update {
                     _uiState.value.copy(
-                        screenState = when (apiResult) {
-                            is ApiResult.Error -> { // TODO : Maybe still add a message
-                                val localPlaylists =
-                                    localPlaylistRepository.getAll().map { it.info }
-                                ScreenState.LoggedIn(localPlaylists)
-                            }
-
-                            ApiResult.Loading -> ScreenState.Loading
-                            is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
-                        }
+                        screenState =
+                            ScreenState.LoggedOut
                     )
                 }
             }
+        } catch (ex: Exception) {
+            printe(message = ex.toString(), exception = ex)
+        }
+    }
 
-        } else {
-            _uiState.update {
-                _uiState.value.copy(
-                    screenState =
-                        ScreenState.LoggedOut
-                )
-            }
+    suspend fun getLocalPlaylists(): ScreenState {
+        try {
+            return ScreenState.LoggedIn(localPlaylistRepository.getAll().map { it.info })
+        } catch (ex: Exception) {
+            printe(message = ex.toString(), exception = ex)
+            return ScreenState.Error(exception = ex)
         }
     }
 

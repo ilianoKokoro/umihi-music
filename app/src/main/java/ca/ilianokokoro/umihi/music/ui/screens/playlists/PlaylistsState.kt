@@ -13,9 +13,9 @@ sealed class ScreenState {
         val playlistInfos: List<PlaylistInfo>
     ) : ScreenState()
 
-
     data object LoggedOut
         : ScreenState()
+
 
     data object Loading : ScreenState()
     data class Error(val exception: Exception) : ScreenState()

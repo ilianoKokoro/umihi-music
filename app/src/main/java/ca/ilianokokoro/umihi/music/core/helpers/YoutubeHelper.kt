@@ -225,8 +225,7 @@ object YoutubeHelper {
         }
 
         val newUri = getSongUrlFromYoutube(songId)
-        val newSong =
-            Song(youtubeId = songId, streamUrl = newUri)
+        val newSong = Song(youtubeId = songId, streamUrl = newUri) // TODO, save all info
         localSongRepository.create(newSong)
         printd("$songId : Got url from YouTube and saved song")
         return newUri
