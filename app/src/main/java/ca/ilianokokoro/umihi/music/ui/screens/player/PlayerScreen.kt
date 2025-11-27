@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -166,26 +167,32 @@ fun PlayerScreen(
                     .padding(8.dp)
                     .fillMaxSize()
                     .padding(innerPadding),
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
 
             ) {
-                Column {
-                    Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = 32.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
                     SongInfo(playerViewModel.currentSong)
+                    PlayerControls(
+                        isPlaying = uiState.isPlaying,
+                        isLoading = uiState.isLoading,
+                        position = uiState.progressMs,
+                        duration = uiState.durationMs,
+                        onPlay = playerViewModel::play,
+                        onPause = playerViewModel::pause,
+                        onSeek = playerViewModel::seek,
+                        onSeekPlayer = playerViewModel::seekPlayer,
+                        onSeekToNext = playerViewModel::seekToNext,
+                        onSeekToPrevious = playerViewModel::seekToPrevious,
+                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
+                    )
                 }
-                PlayerControls(
-                    isPlaying = uiState.isPlaying,
-                    isLoading = uiState.isLoading,
-                    position = uiState.progressMs,
-                    duration = uiState.durationMs,
-                    onPlay = playerViewModel::play,
-                    onPause = playerViewModel::pause,
-                    onSeek = playerViewModel::seek,
-                    onSeekPlayer = playerViewModel::seekPlayer,
-                    onSeekToNext = playerViewModel::seekToNext,
-                    onSeekToPrevious = playerViewModel::seekToPrevious,
-                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
-                )
 
             }
         }
