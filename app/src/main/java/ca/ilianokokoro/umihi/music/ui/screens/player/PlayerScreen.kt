@@ -1,8 +1,9 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
 package ca.ilianokokoro.umihi.music.ui.screens.player
 
 import android.app.Application
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -12,6 +13,7 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,11 +47,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerScreen(
     onBack: () -> Unit,
@@ -59,10 +62,9 @@ fun PlayerScreen(
         factory =
             PlayerViewModel.Factory(player = player, application = application)
     )
-
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
-
+    val orientation = LocalConfiguration.current.orientation
 
     // Close the screen in resumed with an empty queue
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -75,8 +77,6 @@ fun PlayerScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
-
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -124,63 +124,55 @@ fun PlayerScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        Column(
-            modifier = modifier
-                .padding(8.dp)
-                .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
 
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(20.dp),
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Column(
+                modifier = modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally
+
             ) {
-                AnimatedContent(
-                    targetState = playerViewModel.currentSong?.thumbnailHref ?: "",
-                    transitionSpec = {
-                        fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
-                            fadeOut(
-                                animationSpec = tween(
-                                    Constants.Player.IMAGE_TRANSITION_DELAY
-                                )
-                            )
-                        )
-                    }
-                ) { targetState ->
-                    SquareImage(url = targetState)
+                Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                Column(
+                    modifier = Modifier
+                        .weight(2f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    SongInfo(playerViewModel.currentSong)
+                    PlayerControls(
+                        isPlaying = uiState.isPlaying,
+                        isLoading = uiState.isLoading,
+                        position = uiState.progressMs,
+                        duration = uiState.durationMs,
+                        onPlay = playerViewModel::play,
+                        onPause = playerViewModel::pause,
+                        onSeek = playerViewModel::seek,
+                        onSeekPlayer = playerViewModel::seekPlayer,
+                        onSeekToNext = playerViewModel::seekToNext,
+                        onSeekToPrevious = playerViewModel::seekToPrevious,
+                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
+                    )
                 }
-
             }
 
-            // Song Info + Controls
-            Column(
-                modifier = Modifier
-                    .weight(2f)
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = playerViewModel.currentSong?.title ?: "",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        modifier = modifier.basicMarquee()
-                    )
-                    Text(
-                        text = playerViewModel.currentSong?.artist ?: "",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = modifier.basicMarquee()
-                    )
-                }
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Row(
+                modifier = modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                horizontalArrangement = Arrangement.SpaceEvenly
 
+            ) {
+                Column {
+                    Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                    SongInfo(playerViewModel.currentSong)
+                }
                 PlayerControls(
                     isPlaying = uiState.isPlaying,
                     isLoading = uiState.isLoading,
@@ -194,18 +186,66 @@ fun PlayerScreen(
                     onSeekToPrevious = playerViewModel::seekToPrevious,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
                 )
-            }
-
-            // Queue
-            if (uiState.isQueueModalShown) {
-                QueueBottomSheet(
-                    changeVisibility = { playerViewModel.setQueueVisibility(it) },
-                    currentSong = uiState.queue[uiState.currentIndex],
-                    player = player,
-                    songs = uiState.queue
-                )
 
             }
         }
+    }
+
+
+    // Queue
+    if (uiState.isQueueModalShown) {
+        QueueBottomSheet(
+            changeVisibility = { playerViewModel.setQueueVisibility(it) },
+            currentSong = uiState.queue[uiState.currentIndex],
+            player = player,
+            songs = uiState.queue
+        )
+
+    }
+}
+
+@Composable
+fun Thumbnail(href: String) {
+    Box(
+        modifier = Modifier
+            .padding(20.dp),
+    ) {
+        AnimatedContent(
+            targetState = href,
+            transitionSpec = {
+                fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
+                    fadeOut(
+                        animationSpec = tween(
+                            Constants.Player.IMAGE_TRANSITION_DELAY
+                        )
+                    )
+                )
+            }
+        ) { targetState ->
+            SquareImage(url = targetState)
+        }
+
+    }
+}
+
+@Composable
+fun SongInfo(song: Song?) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = song?.title ?: "",
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            modifier = Modifier.basicMarquee()
+        )
+        Text(
+            text = song?.artist ?: "",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier.basicMarquee()
+        )
     }
 }
