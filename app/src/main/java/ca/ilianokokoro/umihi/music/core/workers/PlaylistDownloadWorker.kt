@@ -27,13 +27,13 @@ class PlaylistDownloadWorker(
     private val params: WorkerParameters
 ) :
     CoroutineWorker(appContext, params) {
+
     private val playlistRepository = AppDatabase.getInstance(appContext).playlistRepository()
     private val songRepository = AppDatabase.getInstance(appContext).songRepository()
 
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             try {
-
                 val playlistId = params.inputData.getString(PLAYLIST_KEY)!!
                 val playlist: Playlist = playlistRepository.getPlaylistById(playlistId)!!
 
@@ -50,16 +50,12 @@ class PlaylistDownloadWorker(
                 playlist.songs.map { song ->
                     async {
                         semaphore.withPermit {
-                            val url = YoutubeHelper.getSongPlayerUrl(appContext, song.youtubeId)
-                            //  Log.d("PlaylistDownloadWorker", "Got url for ${song.youtubeId}: $url")
-
                             val thumbnailPath =
                                 downloadImage(appContext, song.thumbnailHref, song.youtubeId)
-                            val audioPath = downloadAudio(appContext, url, song.youtubeId)
+                            val audioPath = downloadAudio(appContext, song.youtubeId)
                             val updatedSong = song.copy(
                                 thumbnailPath = thumbnailPath?.path,
                                 audioFilePath = audioPath,
-                                streamUrl = url
                             )
                             songRepository.create(updatedSong)
                         }
@@ -84,10 +80,10 @@ class PlaylistDownloadWorker(
             try {
                 val imageDir =
                     UmihiHelper.getDownloadDirectory(context, Constants.Downloads.THUMBNAILS_FOLDER)
-
                 val imageFile = File(imageDir, "$id.jpg")
 
                 if (imageFile.exists()) {
+                    printd("Song Image $id was already downloaded")
                     return@withContext imageFile
                 }
 
@@ -112,36 +108,30 @@ class PlaylistDownloadWorker(
 
     suspend fun downloadAudio(
         context: Context,
-        audioUrl: String,
-        fileName: String
+        youtubeId: String,
     ): String? = withContext(Dispatchers.IO) {
         try {
-            printd("downloading song $id ...")
-            val client = OkHttpClient()
-            val request = Request.Builder().url(audioUrl).build()
-            val response = client.newCall(request).execute()
-
-            if (!response.isSuccessful) return@withContext null
-
-
             val audioDir = UmihiHelper.getDownloadDirectory(
                 context = context,
                 directory = Constants.Downloads.AUDIO_FILES_FOLDER
             )
-
-            val extension = response.body?.contentType()?.subtype ?: "webm" // Fallback
-            val outputFile = File(audioDir, "$fileName.$extension")
-
+            val outputFile = File(audioDir, "$youtubeId.webm")
             if (outputFile.exists()) {
+                printd("Song Audio $id was already downloaded")
                 return@withContext null
             }
 
+            val url = YoutubeHelper.getSongPlayerUrl(appContext, youtubeId)
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+
+            if (!response.isSuccessful) return@withContext null
             response.body?.byteStream()?.use { input ->
                 FileOutputStream(outputFile).use { output ->
                     input.copyTo(output)
                 }
             }
-            printd("downloading done $id ...")
+
             return@withContext outputFile.absolutePath
         } catch (e: Exception) {
             e.printStackTrace()
@@ -150,6 +140,9 @@ class PlaylistDownloadWorker(
     }
 
     companion object {
-        const val PLAYLIST_KEY = "playlist"
+        private const val PLAYLIST_KEY = "playlist"
+        private val client = OkHttpClient()
     }
+
+
 }

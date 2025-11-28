@@ -6,7 +6,6 @@ import androidx.core.net.toUri
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DataSpec
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -42,7 +41,6 @@ class YoutubeDataSourceFactory(
                     }
                 }
 
-                printd(actualUri.toString())
                 val newSpec = dataSpec.withUri(actualUri)
                 return base.open(newSpec)
             }

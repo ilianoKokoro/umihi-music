@@ -40,11 +40,15 @@ class PlaybackService : MediaSessionService() {
         super.onCreate()
 
         exoCache = ExoCache(application)
+
+        // For remote playback
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setUserAgent(Util.getUserAgent(this, packageName))
 
+        // Add file playback
         val defaultDataSourceFactory = DefaultDataSource.Factory(this, httpDataSourceFactory)
 
+        // For caching for all types of playback
         val cacheDataSourceFactory = CacheDataSource.Factory()
             .setCache(exoCache.cache)
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
