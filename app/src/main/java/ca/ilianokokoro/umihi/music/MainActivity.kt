@@ -13,6 +13,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.services.PlaybackService
 import ca.ilianokokoro.umihi.music.ui.components.UpdateDialog
@@ -21,8 +22,9 @@ import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
-import io.github.shalva97.initNewPipe
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import org.schabi.newpipe.extractor.NewPipe
 
 
 class MainActivity : ComponentActivity() {
@@ -53,6 +55,10 @@ class MainActivity : ComponentActivity() {
 
             checkForUpdate()
         }
+    }
+
+    private fun initNewPipe() {
+        NewPipe.init(YoutubeExtractor(OkHttpClient()))
     }
 
     private fun initCoaoc() {

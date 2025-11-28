@@ -89,7 +89,6 @@ android {
     }
 }
 
-
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -149,9 +148,6 @@ dependencies {
     // Icons
     implementation(libs.androidx.material.icons.extended)
 
-    // New Valve (NewPipeExtractor)
-    implementation(libs.newvalve)
-
     // Room
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
@@ -166,4 +162,7 @@ dependencies {
 
     // Reorderable list
     implementation(libs.reorderable)
+
+    // New Pipe Extractor
+    implementation(libs.newpipeextractor)
 }

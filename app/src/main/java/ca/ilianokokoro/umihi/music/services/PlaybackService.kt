@@ -18,7 +18,7 @@ import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -111,6 +111,9 @@ class PlaybackService : MediaSessionService() {
                     songRepository.getSongThumbnail(mediaItem.mediaId).collect { result ->
                         when (result) {
                             is ApiResult.Success -> {
+                                if (result.data.isBlank()) {
+                                    return@collect
+                                }
                                 val updated = mediaItem.buildUpon()
                                     .setMediaMetadata(
                                         mediaItem.mediaMetadata.buildUpon()
@@ -130,12 +133,16 @@ class PlaybackService : MediaSessionService() {
                                 }
                             }
 
+                            is ApiResult.Error -> {
+                                printe(message = result.errorMessage, exception = result.exception)
+                            }
+
                             else -> Unit
                         }
                     }
                 }
             } catch (ex: Exception) {
-                UmihiHelper.printe(
+                printe(
                     message = "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
                     exception = ex
                 )
