@@ -9,10 +9,10 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
-import ca.ilianokokoro.umihi.music.models.Playlist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
@@ -34,8 +34,11 @@ class PlaylistDownloadWorker(
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             try {
-                val playlistId = params.inputData.getString(PLAYLIST_KEY)!!
-                val playlist: Playlist = playlistRepository.getPlaylistById(playlistId)!!
+                val playlistId = params.inputData.getString(PLAYLIST_KEY)
+                    ?: return@withContext Result.failure()
+
+                val playlist = playlistRepository.getPlaylistById(playlistId)
+                    ?: return@withContext Result.failure()
 
                 val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
                 val playlistImage =
@@ -46,27 +49,38 @@ class PlaylistDownloadWorker(
                     )
                 )
 
+                coroutineScope {
+                    playlist.songs.map { song ->
+                        async {
+                            semaphore.withPermit {
+                                try {
+                                    val thumbnailPath = downloadImage(
+                                        appContext,
+                                        song.thumbnailHref,
+                                        song.youtubeId
+                                    )
+                                    val audioPath = downloadAudio(appContext, song.youtubeId)
 
-                playlist.songs.map { song ->
-                    async {
-                        semaphore.withPermit {
-                            val thumbnailPath =
-                                downloadImage(appContext, song.thumbnailHref, song.youtubeId)
-                            val audioPath = downloadAudio(appContext, song.youtubeId)
-                            val updatedSong = song.copy(
-                                thumbnailPath = thumbnailPath?.path,
-                                audioFilePath = audioPath,
-                            )
-                            songRepository.create(updatedSong)
+                                    val updatedSong = song.copy(
+                                        thumbnailPath = thumbnailPath?.path,
+                                        audioFilePath = audioPath,
+                                    )
+                                    songRepository.create(updatedSong)
+                                } catch (e: Exception) {
+                                    printe(
+                                        message = "Error downloading song: ${song.youtubeId}",
+                                        exception = e
+                                    )
+                                }
+                            }
                         }
-                    }
-                }.awaitAll()
+                    }.awaitAll()
+                }
 
                 printd("Playlist download complete")
                 Result.success()
             } catch (e: Exception) {
                 printe(
-                    tag = "PlaylistDownloadWorker",
                     message = "Error Downloading Playlist",
                     exception = e
                 )
