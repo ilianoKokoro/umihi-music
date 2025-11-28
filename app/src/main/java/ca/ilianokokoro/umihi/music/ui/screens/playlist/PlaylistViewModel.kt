@@ -98,11 +98,11 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             downloadRepository.download(playlist)
             // TODO : only set false when done fr
 
-            _uiState.update {
-                _uiState.value.copy(
-                    isDownloading = false
-                )
-            }
+            //            _uiState.update {
+            //                _uiState.value.copy(
+            //                    isDownloading = false
+            //                )
+            //            }
         }
     }
 

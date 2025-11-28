@@ -12,6 +12,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 
 @Dao
 interface LocalPlaylistDataSource {
+    @Transaction
     @Query("SELECT * FROM playlists")
     suspend fun getAll(): List<Playlist>
 
