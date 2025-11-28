@@ -205,7 +205,11 @@ object YoutubeHelper {
     }
 
 
-    suspend fun getSongPlayerUrl(context: Context, songId: String): String {
+    suspend fun getSongPlayerUrl(
+        context: Context,
+        songId: String,
+        allowLocal: Boolean = false
+    ): String {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
         var savedSong: Song? = null
         try {
@@ -216,13 +220,19 @@ object YoutubeHelper {
             printe(ex.toString())
         }
 
-        if (savedSong != null && savedSong.streamUrl != null) {
-            if (isYoutubeUrlValid(savedSong.streamUrl)) {
-                printd("$songId : Got url from saved")
-                return savedSong.streamUrl
+        if (savedSong != null) {
+            if (allowLocal && savedSong.audioFilePath != null) {
+                printd("$songId : Was downloaded")
+                return savedSong.audioFilePath
             }
-            printd("$songId : Saved url was invalid")
 
+            if (savedSong.streamUrl != null) {
+                if (isYoutubeUrlValid(savedSong.streamUrl)) {
+                    printd("$songId : Got url from saved")
+                    return savedSong.streamUrl
+                }
+                printd("$songId : Saved url was invalid")
+            }
         }
 
         val newUri = getSongUrlFromYoutube(songId)

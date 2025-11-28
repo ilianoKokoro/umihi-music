@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Playlist
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +16,10 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.io.File
+import java.io.FileOutputStream
 import java.net.URL
 
 class PlaylistDownloadWorker(
@@ -44,17 +50,23 @@ class PlaylistDownloadWorker(
                 playlist.songs.map { song ->
                     async {
                         semaphore.withPermit {
-                            //  val url = YoutubeHelper.getSongPlayerUrl(appContext, song.youtubeId)
+                            val url = YoutubeHelper.getSongPlayerUrl(appContext, song.youtubeId)
                             //  Log.d("PlaylistDownloadWorker", "Got url for ${song.youtubeId}: $url")
 
                             val thumbnailPath =
                                 downloadImage(appContext, song.thumbnailHref, song.youtubeId)
-                            val updatedSong = song.copy(thumbnailPath = thumbnailPath?.path)
+                            val audioPath = downloadAudio(appContext, url, song.youtubeId)
+                            val updatedSong = song.copy(
+                                thumbnailPath = thumbnailPath?.path,
+                                audioFilePath = audioPath,
+                                streamUrl = url
+                            )
                             songRepository.create(updatedSong)
                         }
                     }
                 }.awaitAll()
 
+                printd("Playlist download complete")
                 Result.success()
             } catch (e: Exception) {
                 printe(
@@ -70,18 +82,22 @@ class PlaylistDownloadWorker(
     private suspend fun downloadImage(context: Context, imageUrl: String, id: String): File? {
         return withContext(Dispatchers.IO) {
             try {
-                val imageDir = File(context.filesDir, Constants.Downloads.THUMBNAILS_FOLDER)
-                imageDir.mkdirs()
+                val imageDir =
+                    UmihiHelper.getDownloadDirectory(context, Constants.Downloads.THUMBNAILS_FOLDER)
 
                 val imageFile = File(imageDir, "$id.jpg")
+
+                if (imageFile.exists()) {
+                    return@withContext imageFile
+                }
 
                 URL(imageUrl).openStream().use { input ->
                     imageFile.outputStream().use { output ->
                         input.copyTo(output)
                     }
                 }
-
                 imageFile
+
             } catch (e: Exception) {
                 printe(
                     tag = "PlaylistDownloadWorker",
@@ -90,6 +106,46 @@ class PlaylistDownloadWorker(
                 )
                 null
             }
+        }
+    }
+
+
+    suspend fun downloadAudio(
+        context: Context,
+        audioUrl: String,
+        fileName: String
+    ): String? = withContext(Dispatchers.IO) {
+        try {
+            printd("downloading song $id ...")
+            val client = OkHttpClient()
+            val request = Request.Builder().url(audioUrl).build()
+            val response = client.newCall(request).execute()
+
+            if (!response.isSuccessful) return@withContext null
+
+
+            val audioDir = UmihiHelper.getDownloadDirectory(
+                context = context,
+                directory = Constants.Downloads.AUDIO_FILES_FOLDER
+            )
+
+            val extension = response.body?.contentType()?.subtype ?: "webm" // Fallback
+            val outputFile = File(audioDir, "$fileName.$extension")
+
+            if (outputFile.exists()) {
+                return@withContext null
+            }
+
+            response.body?.byteStream()?.use { input ->
+                FileOutputStream(outputFile).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            printd("downloading done $id ...")
+            return@withContext outputFile.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext null
         }
     }
 

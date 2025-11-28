@@ -229,7 +229,7 @@ fun Thumbnail(href: String) {
                 )
             }
         ) { targetState ->
-            SquareImage(url = targetState)
+            SquareImage(uri = targetState)
         }
 
     }

@@ -7,6 +7,7 @@ import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DataSpec
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 @UnstableApi
 class YoutubeDataSourceFactory(
@@ -17,17 +18,33 @@ class YoutubeDataSourceFactory(
         val base = baseFactory.createDataSource()
         return object : DataSource by base {
             override fun open(dataSpec: DataSpec): Long {
-                val actualUri = if (dataSpec.uri.scheme == null) {
-                    runBlocking {
-                        YoutubeHelper.getSongPlayerUrl(application, dataSpec.uri.toString()).toUri()
+                val actualUri = runBlocking {
+                    when {
+                        dataSpec.uri.scheme != null -> {
+                            return@runBlocking dataSpec.uri
+                        }
+
+                        else -> {
+                            val streamUri = YoutubeHelper.getSongPlayerUrl(
+                                context = application,
+                                songId = dataSpec.uri.toString(),
+                                allowLocal = true
+                            )
+
+                            if (streamUri.startsWith("/")) {
+                                //return@runBlocking "file://$streamUri".toUri()
+                                File(streamUri).toURI()
+                            }
+
+                            return@runBlocking streamUri.toUri()
+                        }
                     }
-                } else {
-                    dataSpec.uri
                 }
 
                 val newSpec = dataSpec.withUri(actualUri)
                 return base.open(newSpec)
             }
+
 
             override fun getResponseHeaders(): Map<String, List<String>> {
                 return base.responseHeaders

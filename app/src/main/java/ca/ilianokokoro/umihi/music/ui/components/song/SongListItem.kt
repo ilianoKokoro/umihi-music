@@ -52,7 +52,10 @@ fun SongListItem(
                         .size(60.dp)        // match the row height
                         .aspectRatio(1f)        // force square
                 ) {
-                    SquareImage(song.thumbnailHref, modifier = modifier.matchParentSize())
+                    SquareImage(
+                        song.thumbnailPath ?: song.thumbnailHref,
+                        modifier = modifier.matchParentSize()
+                    )
                 }
             },
             headlineContent = { Text(song.title, modifier = modifier.basicMarquee()) },

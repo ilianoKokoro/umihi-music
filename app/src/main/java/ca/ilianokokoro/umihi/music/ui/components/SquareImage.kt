@@ -17,9 +17,9 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 
 @Composable
-fun SquareImage(url: String, modifier: Modifier = Modifier, cornerRadius: Dp = 12.dp) {
+fun SquareImage(uri: String, modifier: Modifier = Modifier, cornerRadius: Dp = 12.dp) {
     AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current).data(url)
+        model = ImageRequest.Builder(LocalContext.current).data(uri)
             .crossfade(Constants.Animation.IMAGE_FADE_DURATION).build(),
         contentDescription = stringResource(R.string.playlist_cover),
         contentScale = ContentScale.Crop,

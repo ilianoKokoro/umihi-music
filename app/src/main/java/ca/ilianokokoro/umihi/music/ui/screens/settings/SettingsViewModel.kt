@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
@@ -67,7 +68,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             AppDatabase.clearDownloads(_application)
             ExoCache(_application).clear()
-            // TODO : Delete downloads when implemented
+            UmihiHelper.getDownloadDirectory(context = _application)
+                .deleteRecursively()
             Toast.makeText(
                 _application,
                 _application.getString(R.string.downloads_cleared),

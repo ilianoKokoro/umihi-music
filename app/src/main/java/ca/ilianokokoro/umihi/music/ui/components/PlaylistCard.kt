@@ -28,7 +28,7 @@ fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
                 .fillMaxSize()
         ) {
             SquareImage(
-                url = playlistInfo.coverHref,
+                uri = playlistInfo.coverPath ?: playlistInfo.coverHref,
             )
             Text(
                 playlistInfo.title,

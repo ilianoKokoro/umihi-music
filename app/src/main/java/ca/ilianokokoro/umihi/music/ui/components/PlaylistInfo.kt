@@ -55,7 +55,7 @@ fun PlaylistInfo(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SquareImage(playlist.info.coverHref)
+        SquareImage(playlist.info.coverPath ?: playlist.info.coverHref)
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 Text(

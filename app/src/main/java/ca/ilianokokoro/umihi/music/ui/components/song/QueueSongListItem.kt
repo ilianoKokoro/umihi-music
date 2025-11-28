@@ -51,7 +51,10 @@ fun QueueSongListItem(
                     .size(innerHeight)
                     .aspectRatio(1f)
             ) {
-                SquareImage(song.thumbnailHref, modifier = Modifier.matchParentSize())
+                SquareImage(
+                    song.thumbnailPath ?: song.thumbnailHref,
+                    modifier = Modifier.matchParentSize()
+                )
             }
 
         },

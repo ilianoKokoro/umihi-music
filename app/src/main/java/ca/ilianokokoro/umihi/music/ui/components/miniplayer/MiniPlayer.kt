@@ -61,7 +61,7 @@ fun MiniPlayer(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            SquareImage(currentSong.thumbnailHref)
+            SquareImage(currentSong.thumbnailPath ?: currentSong.thumbnailHref)
 
             Column(
                 modifier = Modifier
