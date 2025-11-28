@@ -10,6 +10,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
+import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
@@ -39,14 +40,16 @@ class PlaybackService : MediaSessionService() {
         super.onCreate()
 
         exoCache = ExoCache(application)
-
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setUserAgent(Util.getUserAgent(this, packageName))
 
+        val defaultDataSourceFactory = DefaultDataSource.Factory(this, httpDataSourceFactory)
+
         val cacheDataSourceFactory = CacheDataSource.Factory()
             .setCache(exoCache.cache)
-            .setUpstreamDataSourceFactory(httpDataSourceFactory)
+            .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+
 
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
@@ -57,9 +60,7 @@ class PlaybackService : MediaSessionService() {
             )
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .setHandleAudioBecomingNoisy(true)
-            .setMediaSourceFactory(
-                YoutubeMediaSourceFactory(application, cacheDataSourceFactory)
-            )
+            .setMediaSourceFactory(YoutubeMediaSourceFactory(application, cacheDataSourceFactory))
             .build()
 
         player.addListener(object : Player.Listener {
