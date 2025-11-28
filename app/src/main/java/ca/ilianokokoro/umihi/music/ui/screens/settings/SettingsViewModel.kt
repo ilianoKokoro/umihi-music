@@ -70,7 +70,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             // TODO : Delete downloads when implemented
             Toast.makeText(
                 _application,
-                _application.getString(R.string.cache_cleared),
+                _application.getString(R.string.downloads_cleared),
                 Toast.LENGTH_LONG
             ).show()
         }

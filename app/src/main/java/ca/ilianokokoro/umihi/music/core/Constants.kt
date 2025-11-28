@@ -22,6 +22,13 @@ object Constants {
             "https://github.com/ilianoKokoro/umihi-music/releases/latest"
     }
 
+    object Downloads {
+
+        const val MAX_CONCURRENT_DOWNLOADS = 5
+        const val THUMBNAILS_FOLDER = "thumbnails_downloads"
+        const val AUDIO_FILES_FOLDER = "audio_files_downloads"
+    }
+
     object Marquee {
         const val DELAY = 2000
     }
@@ -68,7 +75,6 @@ object Constants {
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
         const val VERSIONS_TABLE = "versions"
-        const val P = "playlistSong"
     }
 
     object ExoPlayer {

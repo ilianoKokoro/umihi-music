@@ -209,12 +209,13 @@ object YoutubeHelper {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
         var savedSong: Song? = null
         try {
-            savedSong = localSongRepository.getSongById(songId)
+            savedSong = localSongRepository.getSong(songId)
         } catch (ex: Exception) {
             Toast.makeText(context, "Failed to get song from local repository", Toast.LENGTH_LONG)
                 .show()
             printe(ex.toString())
         }
+
         if (savedSong != null && savedSong.streamUrl != null) {
             if (isYoutubeUrlValid(savedSong.streamUrl)) {
                 printd("$songId : Got url from saved")
@@ -225,8 +226,7 @@ object YoutubeHelper {
         }
 
         val newUri = getSongUrlFromYoutube(songId)
-        val newSong = Song(youtubeId = songId, streamUrl = newUri) // TODO, save all info
-        localSongRepository.create(newSong)
+        localSongRepository.setStreamUrl(songId = songId, streamUrl = newUri)
         printd("$songId : Got url from YouTube and saved song")
         return newUri
     }

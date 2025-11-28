@@ -61,5 +61,6 @@
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
     <string name="login_info_cleared">Login Info Cleared</string>
     <string name="cache_cleared">Cache Cleared</string>
+    <string name="downloads_cleared">Downloads Cleared</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
 </resources>

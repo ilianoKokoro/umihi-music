@@ -8,7 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,32 +77,32 @@ fun PlaylistInfo(
                     modifier = Modifier.alpha(alpha)
                 )
 
-//
-//                if (isDownloading) {
-//                    LoadingIndicator()
-//                } else {
-//                    FilledIconButton(
-//                        onClick = onDownloadPressed,
-//                        shapes = IconButtonDefaults.shapes(),
-//                        colors = IconButtonDefaults.filledIconButtonColors(
-//                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-//                            contentColor = MaterialTheme.colorScheme.onSurface
-//                        ),
-//                        enabled = alpha != 0F && !playlist.downloaded
-//                    ) {
-//                        if (playlist.downloaded) {
-//                            Icon(
-//                                imageVector = Icons.Rounded.DownloadDone,
-//                                contentDescription = null,
-//                            )
-//                        } else {
-//                            Icon(
-//                                imageVector = Icons.Rounded.Download,
-//                                contentDescription = stringResource(R.string.download),
-//                            )
-//                        }
-//                    }
-//                }
+
+                if (isDownloading) {
+                    LoadingIndicator()
+                } else {
+                    FilledIconButton(
+                        onClick = onDownloadPressed,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        enabled = alpha != 0F && !playlist.downloaded
+                    ) {
+                        if (playlist.downloaded) {
+                            Icon(
+                                imageVector = Icons.Rounded.DownloadDone,
+                                contentDescription = null,
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.Download,
+                                contentDescription = stringResource(R.string.download),
+                            )
+                        }
+                    }
+                }
             }
         }
     }
