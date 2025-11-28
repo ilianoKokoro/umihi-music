@@ -101,6 +101,8 @@ object Constants {
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
+        const val USER_AGENT =
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
 
         object Browse {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}"
@@ -112,7 +114,7 @@ object Constants {
                         put("clientVersion", JsonPrimitive("1.20250212.01.00"))
                         put(
                             "userAgent",
-                            JsonPrimitive("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36")
+                            JsonPrimitive(USER_AGENT)
                         )
                         put("xClientName", JsonPrimitive(1))
                     })
@@ -124,6 +126,7 @@ object Constants {
 
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player"
+
 
         }
 

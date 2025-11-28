@@ -105,42 +105,65 @@ class PlaylistDownloadWorker(
         }
     }
 
-
     suspend fun downloadAudio(
         context: Context,
         youtubeId: String,
+        connections: Int = 8
     ): String? = withContext(Dispatchers.IO) {
-        try {
-            val audioDir = UmihiHelper.getDownloadDirectory(
-                context = context,
-                directory = Constants.Downloads.AUDIO_FILES_FOLDER
-            )
-            val outputFile = File(audioDir, "$youtubeId.webm")
-            if (outputFile.exists()) {
-                printd("Song Audio $id was already downloaded")
-                return@withContext null
-            }
 
-            val url = YoutubeHelper.getSongPlayerUrl(appContext, youtubeId)
-            val request = Request.Builder().url(url).build()
-            val response = client.newCall(request).execute()
+        val audioDir =
+            UmihiHelper.getDownloadDirectory(context, Constants.Downloads.AUDIO_FILES_FOLDER)
+        val outputFile = File(audioDir, "$youtubeId.webm")
 
-            if (!response.isSuccessful) return@withContext null
-            response.body?.byteStream()?.use { input ->
-                FileOutputStream(outputFile).use { output ->
-                    input.copyTo(output)
+        if (outputFile.exists()) return@withContext outputFile.absolutePath
+
+        val url = YoutubeHelper.getSongPlayerUrl(appContext, youtubeId)
+
+        val headReq = Request.Builder()
+            .url(url)
+            .header("Range", "bytes=0-0")
+            .build()
+
+        val headRes = client.newCall(headReq).execute()
+        val total = headRes.headers["Content-Range"]
+            ?.substringAfter("/")
+            ?.toLongOrNull()
+            ?: return@withContext null
+
+        val chunkSize = total / connections
+        val tempFiles = mutableListOf<File>()
+
+        (0 until connections).map { i ->
+            async {
+                val start = i * chunkSize
+                val end = if (i == connections - 1) total - 1 else (start + chunkSize - 1)
+                val temp = File(audioDir, "$youtubeId.part$i")
+
+                val req = Request.Builder()
+                    .url(url)
+                    .header("Range", "bytes=$start-$end")
+                    .header("User-Agent", Constants.YoutubeApi.USER_AGENT)
+                    .build()
+
+                client.newCall(req).execute().body?.byteStream().use { input ->
+                    FileOutputStream(temp).use { output -> input?.copyTo(output) }
                 }
+                tempFiles += temp
             }
+        }.awaitAll()
 
-            return@withContext outputFile.absolutePath
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@withContext null
+        FileOutputStream(outputFile).use { out ->
+            tempFiles.sortedBy { it.name }.forEach { part ->
+                part.inputStream().use { it.copyTo(out) }
+                part.delete()
+            }
         }
+
+        return@withContext outputFile.absolutePath
     }
 
     companion object {
-        private const val PLAYLIST_KEY = "playlist"
+        const val PLAYLIST_KEY = "playlist"
         private val client = OkHttpClient()
     }
 
