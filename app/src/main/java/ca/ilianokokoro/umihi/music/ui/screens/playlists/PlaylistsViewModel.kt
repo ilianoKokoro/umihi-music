@@ -63,7 +63,8 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
                         _uiState.value.copy(
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> { // TODO : Maybe still add a message
-                                    getLocalPlaylists()
+                                    ScreenState.LoggedIn(
+                                        localPlaylistRepository.getAll().map { it.info })
                                 }
 
                                 ApiResult.Loading -> ScreenState.Loading
@@ -85,16 +86,6 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
             printe(message = ex.toString(), exception = ex)
         }
     }
-
-    suspend fun getLocalPlaylists(): ScreenState {
-        try {
-            return ScreenState.LoggedIn(localPlaylistRepository.getAll().map { it.info })
-        } catch (ex: Exception) {
-            printe(message = ex.toString(), exception = ex)
-            return ScreenState.Error(exception = ex)
-        }
-    }
-
 
     companion object {
         fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {

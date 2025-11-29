@@ -108,11 +108,12 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     private suspend fun getPlaylistInfoAsync() {
         try {
+            val localPlaylist = localPlaylistRepository.getPlaylistById(_playlist.id)
+
             val cookies = datastoreRepository.getCookies()
             if (cookies.isEmpty()) {
                 throw Exception("Failed to get to login cookies")
             }
-
 
             playlistRepository.retrieveOne(Playlist(_playlist), cookies)
                 .collect { apiResult ->
@@ -120,11 +121,30 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
                         _uiState.value.copy(
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> {
-                                    getLocalPlaylistInfo()
+                                    if (localPlaylist == null) {
+                                        ScreenState.Error(Exception("Playlist is not downloaded"))
+                                    } else {
+                                        ScreenState.Success(playlist = localPlaylist)
+                                    }
                                 }
 
                                 ApiResult.Loading -> ScreenState.Loading(_playlist)
-                                is ApiResult.Success -> ScreenState.Success(apiResult.data)
+                                is ApiResult.Success -> {
+                                    var remotePlaylist = apiResult.data
+
+                                    if (localPlaylist != null) {
+                                        val localMap =
+                                            localPlaylist.songs.associateBy { it.youtubeId }
+
+                                        val updatedSongs = remotePlaylist.songs.map { remoteSong ->
+                                            localMap[remoteSong.youtubeId] ?: remoteSong
+                                        }
+
+                                        remotePlaylist =
+                                            remotePlaylist.copy(songs = updatedSongs)
+                                    }
+                                    ScreenState.Success(playlist = remotePlaylist)
+                                }
                             }
                         )
                     }
@@ -139,20 +159,6 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             }
         }
 
-    }
-
-
-    private suspend fun getLocalPlaylistInfo(): ScreenState {
-        try {
-            val localPlaylist = localPlaylistRepository.getPlaylistById(_playlist.id)
-            if (localPlaylist != null) {
-                return ScreenState.Success(localPlaylist)
-            }
-            throw Exception("Playlist is not fully downloaded")
-        } catch (ex: Exception) {
-            printe(message = ex.toString(), exception = ex)
-            return ScreenState.Error(exception = ex)
-        }
     }
 
 
