@@ -15,7 +15,7 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
@@ -63,51 +63,52 @@ class PlaylistDownloadWorker(
                     )
                 )
 
-                coroutineScope {
-                    playlist.songs.map { song ->
-                        async {
-                            semaphore.withPermit {
-                                try {
-                                    val thumbnailPath = downloadImage(
-                                        appContext,
-                                        song.thumbnailHref,
-                                        song.youtubeId
-                                    )
-                                    val audioPath = downloadAudio(appContext, song.youtubeId)
+                playlist.songs.map { song ->
+                    async {
+                        semaphore.withPermit {
+                            try {
+                                val thumbnailPath = downloadImage(
+                                    appContext,
+                                    song.thumbnailHref,
+                                    song.youtubeId
+                                )
+                                val audioPath = downloadAudio(appContext, song.youtubeId)
 
-                                    val updatedSong = song.copy(
-                                        thumbnailPath = thumbnailPath?.path,
-                                        audioFilePath = audioPath,
-                                    )
-                                    songRepository.create(updatedSong)
+                                val updatedSong = song.copy(
+                                    thumbnailPath = thumbnailPath?.path,
+                                    audioFilePath = audioPath,
+                                )
+                                songRepository.create(updatedSong)
 
-                                    UmihiNotificationManager.showPlaylistDownloadProgress(
-                                        appContext,
-                                        playlist,
-                                        ++downloadedSongs,
-                                        totalSongs
-                                    )
-                                } catch (e: Exception) {
-                                    UmihiNotificationManager.showSongDownloadFailed(
-                                        appContext,
-                                        song
-                                    )
-                                    printe(
-                                        message = "Error downloading song: ${song.youtubeId}",
-                                        exception = e
-                                    )
-                                }
+                                UmihiNotificationManager.showPlaylistDownloadProgress(
+                                    appContext,
+                                    playlist,
+                                    ++downloadedSongs,
+                                    totalSongs
+                                )
+                            } catch (e: Exception) {
+                                UmihiNotificationManager.showSongDownloadFailed(
+                                    appContext,
+                                    song
+                                )
+                                printe(
+                                    message = "Error downloading song: ${song.youtubeId}",
+                                    exception = e
+                                )
                             }
                         }
-                    }.awaitAll()
-                }
+                    }
+                }.awaitAll()
+
 
                 UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
                 printd("Playlist download complete")
+                delay(Constants.Downloads.DEBOUNCE_DELAY)
                 Result.success()
             } catch (e: Exception) {
                 UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
                 printe(message = e.toString(), exception = e)
+                delay(Constants.Downloads.DEBOUNCE_DELAY)
                 Result.failure()
             }
         }

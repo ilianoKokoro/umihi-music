@@ -23,6 +23,7 @@ object Constants {
     }
 
     object Downloads {
+        const val DEBOUNCE_DELAY = 1000L
         const val MAX_CONCURRENT_DOWNLOADS = 5
         const val DIRECTORY = "downloads"
         const val THUMBNAILS_FOLDER = "thumbnails_downloads"
