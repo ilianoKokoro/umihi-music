@@ -1,6 +1,8 @@
 package ca.ilianokokoro.umihi.music.core.workers
 
 import android.content.Context
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -8,6 +10,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
+import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,14 +34,25 @@ class PlaylistDownloadWorker(
     private val playlistRepository = AppDatabase.getInstance(appContext).playlistRepository()
     private val songRepository = AppDatabase.getInstance(appContext).songRepository()
 
+    @OptIn(UnstableApi::class)
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
-            try {
-                val playlistId = params.inputData.getString(PLAYLIST_KEY)
-                    ?: return@withContext Result.failure()
+            val playlistId = params.inputData.getString(PLAYLIST_KEY)
+                ?: return@withContext Result.failure()
 
-                val playlist = playlistRepository.getPlaylistById(playlistId)
-                    ?: return@withContext Result.failure()
+            val playlist = playlistRepository.getPlaylistById(playlistId)
+                ?: return@withContext Result.failure()
+
+            try {
+                val totalSongs = playlist.songs.size
+                var downloadedSongs = 0
+
+                UmihiNotificationManager.showPlaylistDownloadProgress(
+                    appContext,
+                    playlist,
+                    0,
+                    totalSongs
+                )
 
                 val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
                 val playlistImage =
@@ -66,7 +80,18 @@ class PlaylistDownloadWorker(
                                         audioFilePath = audioPath,
                                     )
                                     songRepository.create(updatedSong)
+
+                                    UmihiNotificationManager.showPlaylistDownloadProgress(
+                                        appContext,
+                                        playlist,
+                                        ++downloadedSongs,
+                                        totalSongs
+                                    )
                                 } catch (e: Exception) {
+                                    UmihiNotificationManager.showSongDownloadFailed(
+                                        appContext,
+                                        song
+                                    )
                                     printe(
                                         message = "Error downloading song: ${song.youtubeId}",
                                         exception = e
@@ -77,13 +102,12 @@ class PlaylistDownloadWorker(
                     }.awaitAll()
                 }
 
+                UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
                 printd("Playlist download complete")
                 Result.success()
             } catch (e: Exception) {
-                printe(
-                    message = "Error Downloading Playlist",
-                    exception = e
-                )
+                UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
+                printe(message = e.toString(), exception = e)
                 Result.failure()
             }
         }

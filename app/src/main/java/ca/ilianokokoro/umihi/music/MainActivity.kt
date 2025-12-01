@@ -1,10 +1,13 @@
 package ca.ilianokokoro.umihi.music
 
+import android.Manifest
 import android.content.ComponentName
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
@@ -31,6 +34,10 @@ class MainActivity : ComponentActivity() {
     private var controllerFuture: ListenableFuture<MediaController>? = null
     private lateinit var player: Player
 
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +46,8 @@ class MainActivity : ComponentActivity() {
         initNewPipe()
 
         VersionManager.initialize(this)
+
+        requestNotificationPermission()
 
         initExoplayer { readyPlayer ->
             player = readyPlayer
@@ -54,6 +63,12 @@ class MainActivity : ComponentActivity() {
             }
 
             checkForUpdate()
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 
