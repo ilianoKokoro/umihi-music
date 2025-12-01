@@ -66,7 +66,7 @@ object UmihiNotificationManager {
             NotificationChannels.PLAYLIST_DOWNLOAD.channelId
         )
             .setContentTitle(playlist.info.title)
-            .setContentText("${playlist.info.title} downloaded")
+            .setContentText("Playlist downloaded")
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
             .setAutoCancel(true)
             .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
@@ -104,7 +104,7 @@ object UmihiNotificationManager {
             context,
             NotificationChannels.PLAYLIST_DOWNLOAD.channelId
         )
-            .setContentTitle("Playlist Downloads")
+            .setContentTitle("Download finished")
             .setContentText("")
             .setSmallIcon(android.R.drawable.stat_sys_download)
             .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
@@ -123,23 +123,22 @@ object UmihiNotificationManager {
     ) {
         val notification = NotificationCompat.Builder(
             context,
-            NotificationChannels.SONG_DOWNLOADS.channelId
+            NotificationChannels.SONG_DOWNLOAD.channelId
         )
             .setContentTitle("Download failed")
             .setContentText("Failed to download ${song.title} - ${song.artist}")
             .setSmallIcon(android.R.drawable.stat_notify_error)
             .setAutoCancel(true)
-            .setGroup(NotificationChannels.SONG_DOWNLOADS.group)
+            .setGroup(NotificationChannels.SONG_DOWNLOAD.group)
             .setCategory(NotificationCompat.CATEGORY_ERROR)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
         notificationManager.notify(getNotificationID(song.youtubeId), notification)
-        updateGroupSummary(context)
     }
 
     private fun getNotificationID(id: String): Int {
-        return 1000 + abs(id.hashCode() % 1000)
+        return 1000 + abs(id.hashCode() and 0x7fffffff)
     }
 
     private enum class NotificationChannels(
@@ -150,17 +149,18 @@ object UmihiNotificationManager {
         val group: String
     ) {
         PLAYLIST_DOWNLOAD(
-            channelId = "playlist_download",
-            channelName = "Playlist Downloads",
-            description = "Shows progress of playlist downloads",
+            channelId = "playlist_progress",
+            channelName = "Playlist Download Progress",
+            description = "Shows live progress and completion notifications for playlist downloads",
             importance = NotificationManager.IMPORTANCE_LOW,
             group = "PLAYLIST_GROUP"
         ),
-        SONG_DOWNLOADS(
-            channelId = "playlist_download",
-            channelName = "Song downloads",
-            description = "Alerts about song downloading",
-            importance = NotificationManager.IMPORTANCE_HIGH,
+
+        SONG_DOWNLOAD(
+            channelId = "song_alerts",
+            channelName = "Song Download Alerts",
+            description = "Notifies about individual song download issues during playlist downloads",
+            importance = NotificationManager.IMPORTANCE_DEFAULT,
             group = "SONG_GROUP"
         );
     }
