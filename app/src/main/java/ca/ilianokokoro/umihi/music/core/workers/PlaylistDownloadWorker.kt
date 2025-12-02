@@ -15,7 +15,6 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
@@ -103,12 +102,10 @@ class PlaylistDownloadWorker(
 
                 UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
                 printd("Playlist download complete")
-                delay(Constants.Downloads.DEBOUNCE_DELAY)
                 Result.success()
             } catch (e: Exception) {
                 UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
                 printe(message = e.toString(), exception = e)
-                delay(Constants.Downloads.DEBOUNCE_DELAY)
                 Result.failure()
             }
         }
