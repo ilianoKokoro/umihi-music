@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.Player
+import androidx.work.WorkInfo
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
@@ -42,7 +44,44 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     private val _player = player
 
     init {
-        getPlaylistInfo()
+        viewModelScope.launch {
+            getPlaylistInfoAsync()
+            observerDownloadJob()
+        }
+    }
+
+    suspend fun observerDownloadJob() {
+        val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
+        val existingJobFlow = downloadRepository.getExistingJobFlow(playlist)
+
+        existingJobFlow.collect { workInfos ->
+            val workInfo = workInfos.firstOrNull() ?: return@collect
+
+            _uiState.update {
+                it.copy(
+                    isDownloading =
+                        workInfo.state == WorkInfo.State.ENQUEUED ||
+                                workInfo.state == WorkInfo.State.RUNNING ||
+                                workInfo.state == WorkInfo.State.BLOCKED
+
+                )
+            }
+
+            when (workInfo.state) {
+                WorkInfo.State.SUCCEEDED -> {
+                    printd("Download finished for ${playlist.info.title}")
+                }
+
+                WorkInfo.State.FAILED,
+                WorkInfo.State.CANCELLED -> {
+                    printd("Download failed or cancelled for ${playlist.info.title}")
+                }
+
+                else -> {}
+            }
+        }
+
+
     }
 
     fun refreshPlaylistInfo() {
@@ -88,21 +127,8 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     fun downloadPlaylist() {
         viewModelScope.launch {
             val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
-
-            _uiState.update {
-                _uiState.value.copy(
-                    isDownloading = true
-                )
-            }
-
             downloadRepository.download(playlist)
-            // TODO : only set false when done fr
-
-            //            _uiState.update {
-            //                _uiState.value.copy(
-            //                    isDownloading = false
-            //                )
-            //            }
+            observerDownloadJob()
         }
     }
 

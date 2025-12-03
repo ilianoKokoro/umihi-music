@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.managers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -12,12 +13,22 @@ import kotlin.math.abs
 
 object UmihiNotificationManager {
     private lateinit var notificationManager: NotificationManager
+    private lateinit var pendingIntent: PendingIntent
+
 
     fun init(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
+        notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannels.entries.forEach {
                 val notificationChannel = NotificationChannel(
                     it.channelId,
@@ -39,10 +50,8 @@ object UmihiNotificationManager {
         currentSong: Int,
         totalSongs: Int
     ) {
-        val notification = NotificationCompat.Builder(
-            context,
-            NotificationChannels.PLAYLIST_DOWNLOAD.channelId
-        )
+
+        val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle(playlist.info.title)
             .setContentText("$currentSong of $totalSongs songs downloaded")
             .setSmallIcon(android.R.drawable.stat_sys_download)
@@ -61,10 +70,7 @@ object UmihiNotificationManager {
         context: Context,
         playlist: Playlist,
     ) {
-        val notification = NotificationCompat.Builder(
-            context,
-            NotificationChannels.PLAYLIST_DOWNLOAD.channelId
-        )
+        val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle(playlist.info.title)
             .setContentText("Playlist downloaded")
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
@@ -82,10 +88,7 @@ object UmihiNotificationManager {
         context: Context,
         playlist: Playlist,
     ) {
-        val notification = NotificationCompat.Builder(
-            context,
-            NotificationChannels.PLAYLIST_DOWNLOAD.channelId
-        )
+        val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle("Download failed")
             .setContentText("Failed to download ${playlist.info.title}")
             .setSmallIcon(android.R.drawable.stat_notify_error)
@@ -100,18 +103,16 @@ object UmihiNotificationManager {
     }
 
     private fun updateGroupSummary(context: Context) {
-        val summaryNotification = NotificationCompat.Builder(
-            context,
-            NotificationChannels.PLAYLIST_DOWNLOAD.channelId
-        )
-            .setContentTitle("Download finished")
-            .setContentText("")
-            .setSmallIcon(android.R.drawable.stat_sys_download)
-            .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
-            .setGroupSummary(true)
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
+        val summaryNotification =
+            getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
+                .setContentTitle("Download finished")
+                .setContentText("")
+                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
+                .setGroupSummary(true)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build()
 
         notificationManager.notify(0, summaryNotification)
     }
@@ -121,10 +122,7 @@ object UmihiNotificationManager {
         context: Context,
         song: Song,
     ) {
-        val notification = NotificationCompat.Builder(
-            context,
-            NotificationChannels.SONG_DOWNLOAD.channelId
-        )
+        val notification = getBaseNotification(context, NotificationChannels.SONG_DOWNLOAD)
             .setContentTitle("Download failed")
             .setContentText("Failed to download ${song.title} - ${song.artist}")
             .setSmallIcon(android.R.drawable.stat_notify_error)
@@ -135,6 +133,17 @@ object UmihiNotificationManager {
             .build()
 
         notificationManager.notify(getNotificationID(song.youtubeId), notification)
+    }
+
+    private fun getBaseNotification(
+        context: Context,
+        channel: NotificationChannels
+    ): NotificationCompat.Builder {
+        return NotificationCompat.Builder(
+            context,
+            channel.channelId
+        )
+            .setContentIntent(pendingIntent)
     }
 
     private fun getNotificationID(id: String): Int {
