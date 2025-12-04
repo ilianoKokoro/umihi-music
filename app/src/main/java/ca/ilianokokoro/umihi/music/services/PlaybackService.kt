@@ -14,6 +14,9 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.CommandButton
+import androidx.media3.session.DefaultMediaNotificationProvider
+import androidx.media3.session.MediaNotification
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -21,6 +24,7 @@ import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -35,25 +39,20 @@ class PlaybackService : MediaSessionService() {
     private val songRepository = SongRepository()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-
     override fun onCreate() {
         super.onCreate()
 
         exoCache = ExoCache(application)
 
-        // For remote playback
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setUserAgent(Util.getUserAgent(this, packageName))
 
-        // Add file playback
         val defaultDataSourceFactory = DefaultDataSource.Factory(this, httpDataSourceFactory)
 
-        // For caching for all types of playback
         val cacheDataSourceFactory = CacheDataSource.Factory()
             .setCache(exoCache.cache)
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-
 
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
@@ -93,11 +92,22 @@ class PlaybackService : MediaSessionService() {
         mediaSession = MediaSession.Builder(this, player)
             .setSessionActivity(pendingIntent)
             .build()
+
+        setMediaNotificationProvider(CustomMediaNotificationProvider(this))
     }
 
     override fun onGetSession(
         controllerInfo: MediaSession.ControllerInfo
     ): MediaSession? = mediaSession
+
+    override fun onTaskRemoved(rootIntent: android.content.Intent?) {
+        val player = mediaSession?.player
+        if (player != null) {
+            if (!player.playWhenReady || player.mediaItemCount == 0) {
+                stopSelf()
+            }
+        }
+    }
 
     override fun onDestroy() {
         mediaSession?.run {
@@ -134,7 +144,6 @@ class PlaybackService : MediaSessionService() {
                                             updated
                                         )
                                     }
-
                                 }
                             }
 
@@ -151,9 +160,34 @@ class PlaybackService : MediaSessionService() {
                     message = "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
                     exception = ex
                 )
-
             }
         }
+    }
 
+    private class CustomMediaNotificationProvider(
+        private val context: android.content.Context
+    ) : MediaNotification.Provider {
+
+        override fun createNotification(
+            mediaSession: MediaSession,
+            customLayout: ImmutableList<CommandButton>,
+            actionFactory: MediaNotification.ActionFactory,
+            onNotificationChangedCallback: MediaNotification.Provider.Callback
+        ): MediaNotification {
+            val builder = DefaultMediaNotificationProvider.Builder(context)
+                .build()
+            return builder.createNotification(
+                mediaSession,
+                customLayout,
+                actionFactory,
+                onNotificationChangedCallback
+            )
+        }
+
+        override fun handleCustomCommand(
+            session: MediaSession,
+            action: String,
+            extras: android.os.Bundle
+        ): Boolean = false
     }
 }
