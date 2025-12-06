@@ -11,16 +11,6 @@ import androidx.room.Relation
 import ca.ilianokokoro.umihi.music.core.Constants
 import kotlinx.serialization.Serializable
 
-@Serializable
-@Immutable
-@Entity(tableName = Constants.Database.PLAYLISTS_TABLE)
-data class PlaylistInfo(
-    @PrimaryKey val id: String,
-    val title: String,
-    val coverHref: String,
-    val coverPath: String? = null,
-)
-
 
 @Immutable
 data class Playlist(
@@ -47,6 +37,17 @@ data class Playlist(
         get() = songs.all { song -> song.downloaded }
 
 }
+
+@Serializable
+@Immutable
+@Entity(tableName = Constants.Database.PLAYLISTS_TABLE)
+data class PlaylistInfo(
+    @PrimaryKey val id: String,
+    val title: String,
+    val coverHref: String,
+    val coverPath: String? = null,
+)
+
 
 @Entity(
     primaryKeys = ["playlistId", "songId"],
