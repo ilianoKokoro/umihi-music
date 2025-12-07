@@ -42,4 +42,17 @@ interface LocalPlaylistDataSource {
 
     @Query("DELETE FROM playlists")
     suspend fun deleteAll()
+
+
+    @Query("DELETE FROM playlists WHERE id = :playlistId")
+    suspend fun deletePlaylistById(playlistId: String)
+
+    @Query("DELETE FROM PlaylistSongCrossRef WHERE playlistId = :playlistId")
+    suspend fun deleteCrossRefsByPlaylistId(playlistId: String)
+
+    @Transaction
+    suspend fun deleteFullPlaylist(playlistId: String) {
+        deleteCrossRefsByPlaylistId(playlistId)
+        deletePlaylistById(playlistId)
+    }
 }

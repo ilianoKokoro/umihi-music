@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components
+package ca.ilianokokoro.umihi.music.ui.components.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -114,4 +114,6 @@ fun UpdateDialog(scope: CoroutineScope) {
             properties = DialogProperties(dismissOnClickOutside = false)
         )
     }
+
+
 }

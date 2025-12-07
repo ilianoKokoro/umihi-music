@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
@@ -19,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 
@@ -44,6 +47,7 @@ fun PlaylistInfo(
 ) {
     val songsCount = playlist.songs.count()
     var animatedCount by remember { mutableStateOf<Int?>(null) }
+    val showDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(songsCount) {
         animatedCount = songsCount
@@ -83,13 +87,19 @@ fun PlaylistInfo(
                     CircularWavyProgressIndicator(modifier = Modifier.size(40.dp))
                 } else {
                     FilledIconButton(
-                        onClick = onDownloadPressed,
+                        onClick = {
+                            if (!playlist.downloaded) {
+                                onDownloadPressed()
+                            } else {
+                                showDialog.value = true
+                            }
+                        },
                         shapes = IconButtonDefaults.shapes(),
                         colors = IconButtonDefaults.filledIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                             contentColor = MaterialTheme.colorScheme.onSurface
                         ),
-                        enabled = alpha != 0F && !playlist.downloaded
+                        enabled = alpha != 0F
                     ) {
                         if (playlist.downloaded) {
                             Icon(
@@ -107,5 +117,28 @@ fun PlaylistInfo(
             }
         }
     }
+
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = { Text(stringResource(R.string.remove_local_playlist)) },
+            text = { Text(stringResource(R.string.remove_local_confirm_text)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                        onDownloadPressed()
+                    }
+                ) { Text(stringResource(R.string.confirm)) }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDialog.value = false }
+                ) { Text(stringResource(R.string.cancel)) }
+            },
+            properties = DialogProperties(dismissOnClickOutside = false)
+        )
+    }
+
 
 }

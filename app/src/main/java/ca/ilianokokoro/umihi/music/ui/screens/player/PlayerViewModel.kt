@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -45,17 +46,18 @@ class PlayerViewModel(player: Player, application: Application) :
             override fun onTimelineChanged(timeline: Timeline, reason: Int) {
                 updateCurrentSong()
             }
-        })
 
+            override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
+                updateThumbnail()
+            }
+        })
+        
 
         startProgressUpdate()
         updateCurrentSong()
         updateIsLoadingState()
         updateIsPlayingState()
     }
-
-    val currentSong: Song?
-        get() = _uiState.value.queue.getOrNull(_uiState.value.currentIndex)
 
 
     fun seekPlayer() {
@@ -95,7 +97,6 @@ class PlayerViewModel(player: Player, application: Application) :
         _player.play()
     }
 
-
     fun seekToNext() {
         _player.seekToNext()
     }
@@ -113,6 +114,10 @@ class PlayerViewModel(player: Player, application: Application) :
             }
         }
     }
+
+    private val currentSong: Song?
+        get() = _uiState.value.queue.getOrNull(_uiState.value.currentIndex)
+
 
     private fun updateCurrentSong() {
         viewModelScope.launch {
@@ -148,7 +153,6 @@ class PlayerViewModel(player: Player, application: Application) :
         }
 
         viewModelScope.launch {
-
             var songDuration = _player.duration
 
             if (songDuration == C.TIME_UNSET) {
@@ -211,6 +215,15 @@ class PlayerViewModel(player: Player, application: Application) :
         }
     }
 
+    private fun updateThumbnail() {
+        val artUri = _player.currentMediaItem?.mediaMetadata?.artworkUri ?: return
+        if (currentSong?.thumbnailHref == artUri.toString()) {
+            return
+        }
+
+        val newSong = currentSong?.copy(thumbnailHref = artUri.toString()) ?: return
+        _uiState.value.queue[_uiState.value.currentIndex] = newSong
+    }
 
     companion object {
         fun Factory(

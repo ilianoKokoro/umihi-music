@@ -21,7 +21,7 @@ fun Player.shufflePlaylist(playlist: Playlist) {
 }
 
 
-fun Player.getQueue(): List<Song> {
+fun Player.getQueue(): MutableList<Song> {
     val queue = mutableListOf<Song>()
     for (i in 0 until mediaItemCount) {
         val mediaItem = getMediaItemAt(i)

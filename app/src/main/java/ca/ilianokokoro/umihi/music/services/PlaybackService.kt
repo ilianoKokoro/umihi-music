@@ -148,7 +148,7 @@ class PlaybackService : MediaSessionService() {
                             }
 
                             is ApiResult.Error -> {
-                                printe(message = result.errorMessage, exception = result.exception)
+                                throw Exception("result was ApiResult.Error")
                             }
 
                             else -> Unit

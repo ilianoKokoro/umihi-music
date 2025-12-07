@@ -127,8 +127,15 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     fun downloadPlaylist() {
         viewModelScope.launch {
             val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
-            downloadRepository.download(playlist)
-            observerDownloadJob()
+
+            if (!playlist.downloaded) {
+                downloadRepository.download(playlist)
+                observerDownloadJob()
+                return@launch
+            }
+
+            downloadRepository.delete(playlist)
+            getPlaylistInfoAsync()
         }
     }
 

@@ -19,7 +19,7 @@ import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.services.PlaybackService
-import ca.ilianokokoro.umihi.music.ui.components.UpdateDialog
+import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig

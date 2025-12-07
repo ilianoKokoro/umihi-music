@@ -63,4 +63,8 @@
     <string name="cache_cleared">Cache Cleared</string>
     <string name="downloads_cleared">Downloads Cleared</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove_local_playlist">Remove local playlist</string>
+    <string name="remove_local_confirm_text">Delete the downloaded files for this playlist? The playlist will remain available online.</string>
 </resources>

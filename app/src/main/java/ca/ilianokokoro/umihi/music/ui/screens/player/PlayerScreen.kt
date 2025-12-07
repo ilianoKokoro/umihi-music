@@ -66,12 +66,13 @@ fun PlayerScreen(
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
     val orientation = LocalConfiguration.current.orientation
+    val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
     // Close the screen in resumed with an empty queue
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME && uiState.queue.isEmpty() && playerViewModel.currentSong == null) {
+            if (event == Lifecycle.Event.ON_RESUME && uiState.queue.isEmpty() && currentSong == null) {
                 onBack()
             }
         }
@@ -135,7 +136,7 @@ fun PlayerScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                Thumbnail(href = currentSong?.thumbnailHref.toString())
                 Column(
                     modifier = Modifier
                         .weight(2f)
@@ -144,7 +145,7 @@ fun PlayerScreen(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    SongInfo(playerViewModel.currentSong)
+                    SongInfo(currentSong)
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
@@ -171,14 +172,14 @@ fun PlayerScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
 
             ) {
-                Thumbnail(href = playerViewModel.currentSong?.thumbnailHref.toString())
+                Thumbnail(href = currentSong?.thumbnailHref.toString())
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(horizontal = 32.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    SongInfo(playerViewModel.currentSong)
+                    SongInfo(currentSong)
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
