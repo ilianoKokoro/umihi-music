@@ -32,12 +32,10 @@ class PlayerViewModel(player: Player, application: Application) :
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
             }
-
-
+            
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 updateIsPlayingState()
             }
-
 
             override fun onPlaybackStateChanged(playbackState: Int) {
                 updateIsLoadingState()
@@ -51,7 +49,6 @@ class PlayerViewModel(player: Player, application: Application) :
                 updateThumbnail()
             }
         })
-        
 
         startProgressUpdate()
         updateCurrentSong()

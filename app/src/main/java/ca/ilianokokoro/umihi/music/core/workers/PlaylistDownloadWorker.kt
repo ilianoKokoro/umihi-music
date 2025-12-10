@@ -5,6 +5,7 @@ import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
@@ -12,6 +13,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
+import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -31,7 +33,8 @@ class PlaylistDownloadWorker(
     CoroutineWorker(appContext, params) {
 
     private val playlistRepository = AppDatabase.getInstance(appContext).playlistRepository()
-    private val songRepository = AppDatabase.getInstance(appContext).songRepository()
+    private val localSongRepository = AppDatabase.getInstance(appContext).songRepository()
+    private val songRepository = SongRepository()
 
     @OptIn(UnstableApi::class)
     override suspend fun doWork(): Result {
@@ -66,25 +69,37 @@ class PlaylistDownloadWorker(
                     async {
                         semaphore.withPermit {
                             try {
-                                val thumbnailPath = downloadImage(
-                                    appContext,
-                                    song.thumbnailHref,
-                                    song.youtubeId
-                                )
+                                var result: ApiResult<String>? = null
+                                songRepository.getSongThumbnail(song.youtubeId)
+                                    .collect { r ->
+                                        when (r) {
+                                            is ApiResult.Loading -> {}
+                                            else -> {
+                                                result = r
+                                                return@collect
+                                            }
+                                        }
+                                    }
+
                                 val audioPath = downloadAudio(appContext, song.youtubeId)
+                                val thumbnailPath =
+                                    (result as? ApiResult.Success)
+                                        ?.data
+                                        ?.let { downloadImage(appContext, it, song.youtubeId) }
 
                                 val updatedSong = song.copy(
                                     thumbnailPath = thumbnailPath?.path,
                                     audioFilePath = audioPath,
                                 )
-                                songRepository.create(updatedSong)
 
+                                localSongRepository.create(updatedSong)
                                 UmihiNotificationManager.showPlaylistDownloadProgress(
                                     appContext,
                                     playlist,
                                     ++downloadedSongs,
                                     totalSongs
                                 )
+
                             } catch (e: Exception) {
                                 UmihiNotificationManager.showSongDownloadFailed(
                                     appContext,
@@ -98,6 +113,7 @@ class PlaylistDownloadWorker(
                         }
                     }
                 }.awaitAll()
+
 
 
                 UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)

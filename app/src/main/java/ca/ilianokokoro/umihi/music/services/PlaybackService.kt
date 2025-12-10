@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.services
 
 import android.app.PendingIntent
+import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
@@ -20,8 +21,10 @@ import androidx.media3.session.MediaNotification
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import com.google.common.collect.ImmutableList
@@ -30,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 @UnstableApi
 class PlaybackService : MediaSessionService() {
@@ -120,45 +124,65 @@ class PlaybackService : MediaSessionService() {
     }
 
     private fun updateCurrentMediaItemThumbnail(mediaItem: MediaItem?) {
-        if (mediaItem != null) {
+        if (mediaItem == null) return
+
+        val context = applicationContext
+        val songId = mediaItem.mediaId
+
+        serviceScope.launch {
             try {
-                serviceScope.launch {
-                    songRepository.getSongThumbnail(mediaItem.mediaId).collect { result ->
+                val imageDir = UmihiHelper.getDownloadDirectory(
+                    context,
+                    Constants.Downloads.THUMBNAILS_FOLDER
+                )
+                val downloadedImage = File(imageDir, "$songId.jpg")
+                if (downloadedImage.exists()) {
+                    updateMediaItemArtwork(mediaItem, downloadedImage.toUri())
+                    return@launch
+                }
+
+                songRepository.getSongThumbnail(songId)
+                    .collect { result ->
                         when (result) {
                             is ApiResult.Success -> {
-                                if (result.data.isBlank()) {
+                                if (result.data.isNotBlank()) {
+                                    updateMediaItemArtwork(mediaItem, result.data.toUri())
                                     return@collect
-                                }
-                                val updated = mediaItem.buildUpon()
-                                    .setMediaMetadata(
-                                        mediaItem.mediaMetadata.buildUpon()
-                                            .setArtworkUri(result.data.toUri())
-                                            .build()
-                                    )
-                                    .build()
-
-                                withContext(Dispatchers.Main) {
-                                    if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
-                                        player.replaceMediaItem(
-                                            player.currentMediaItemIndex,
-                                            updated
-                                        )
-                                    }
                                 }
                             }
 
                             is ApiResult.Error -> {
-                                throw Exception("result was ApiResult.Error")
+                                error(
+                                    "ApiResult.Error was null",
+                                )
                             }
 
-                            else -> Unit
+                            else -> {}
                         }
                     }
-                }
             } catch (ex: Exception) {
                 printe(
-                    message = "Failed to get full res thumbnail for ${mediaItem.mediaId}. Error : ${ex.message}",
-                    exception = ex
+                    message = "Failed to get full res thumbnail for $songId. Error : ${ex.message}",
+                )
+            }
+        }
+    }
+
+
+    private suspend fun updateMediaItemArtwork(mediaItem: MediaItem, uri: Uri) {
+        val updated = mediaItem.buildUpon()
+            .setMediaMetadata(
+                mediaItem.mediaMetadata.buildUpon()
+                    .setArtworkUri(uri)
+                    .build()
+            )
+            .build()
+
+        withContext(Dispatchers.Main) {
+            if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
+                player.replaceMediaItem(
+                    player.currentMediaItemIndex,
+                    updated
                 )
             }
         }

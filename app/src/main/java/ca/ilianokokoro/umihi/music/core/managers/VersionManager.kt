@@ -11,8 +11,10 @@ import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.withContext
 
 
 object VersionManager {
@@ -47,42 +49,44 @@ object VersionManager {
         try {
             githubRepository.getLatestVersionName().collect { result ->
                 when (result) {
-                    is ApiResult.Success<GithubReleaseResponse> -> {
+                    is ApiResult.Success -> {
                         val githubRelease = result.data
-
                         val mostUpToDateVersion = githubRelease.versionName
                         val outdated = mostUpToDateVersion.isNewUpdate(manualCheck)
 
                         if (!outdated) {
                             if (manualCheck) {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.up_to_date_message),
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.up_to_date_message),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
                         } else {
-                            _eventsFlow.emit(ScreenEvent.UpdateAvailable(githubReleaseResponse = result.data))
+                            _eventsFlow.emit(ScreenEvent.UpdateAvailable(githubReleaseResponse = githubRelease))
                         }
 
-
+                        return@collect
                     }
 
                     is ApiResult.Error -> {
                         throw result.exception
                     }
 
-                    ApiResult.Loading -> {}
+                    else -> {}
                 }
-
             }
         } catch (ex: Exception) {
             if (manualCheck) {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.update_check_failed),
-                    Toast.LENGTH_LONG
-                ).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.update_check_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
             printe(message = ex.message.toString(), exception = ex)
         }
