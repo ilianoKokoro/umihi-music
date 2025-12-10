@@ -51,7 +51,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     }
 
     suspend fun observerDownloadJob() {
-        val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
+        val playlist = getPlaylist() ?: return
         val existingJobFlow = downloadRepository.getExistingJobFlow(playlist)
 
         existingJobFlow.collect { workInfos ->
@@ -108,9 +108,8 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     }
 
     fun playPlaylist(startingSong: Song? = null) {
+        val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-
-            val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
             _player.playPlaylist(
                 playlist,
                 startingSong?.let { playlist.songs.indexOf(it) } ?: 0
@@ -119,15 +118,15 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     }
 
     fun shufflePlaylist() {
+        val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            _player.shufflePlaylist((_uiState.value.screenState as ScreenState.Success).playlist)
+            _player.shufflePlaylist(playlist)
         }
     }
 
     fun downloadPlaylist() {
+        val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            val playlist = (_uiState.value.screenState as ScreenState.Success).playlist
-
             if (!playlist.downloaded) {
                 downloadRepository.download(playlist)
                 observerDownloadJob()
@@ -194,6 +193,13 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     }
 
+    private fun getPlaylist(): Playlist? {
+        val screenState = _uiState.value.screenState
+        if (screenState !is ScreenState.Success) {
+            return null
+        }
+        return screenState.playlist
+    }
 
     companion object {
         fun Factory(

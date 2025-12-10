@@ -24,6 +24,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.net.URL
 
 class PlaylistDownloadWorker(
@@ -167,51 +168,84 @@ class PlaylistDownloadWorker(
             UmihiHelper.getDownloadDirectory(context, Constants.Downloads.AUDIO_FILES_FOLDER)
         val outputFile = File(audioDir, "$youtubeId.webm")
 
-        if (outputFile.exists()) return@withContext outputFile.absolutePath
+        if (outputFile.exists()) {
+            return@withContext outputFile.absolutePath
+        }
 
         val url = YoutubeHelper.getSongPlayerUrl(appContext, youtubeId)
 
-        val headReq = Request.Builder()
-            .url(url)
-            .header("Range", "bytes=0-0")
-            .build()
+        val total = try {
+            val headReq = Request.Builder()
+                .url(url)
+                .header("Range", "bytes=0-0")
+                .build()
 
-        val headRes = client.newCall(headReq).execute()
-        val total = headRes.headers["Content-Range"]
-            ?.substringAfter("/")
-            ?.toLongOrNull()
-            ?: return@withContext null
+            client.newCall(headReq).execute().use { headRes ->
+                if (!headRes.isSuccessful) {
+                    return@withContext null
+                }
+                headRes.headers["Content-Range"]
+                    ?.substringAfter("/")
+                    ?.toLongOrNull()
+                    ?: return@withContext null
+            }
+        } catch (e: Exception) {
+            printe("Failed to get content length: ${e.message}")
+            return@withContext null
+        }
 
         val chunkSize = total / connections
         val tempFiles = mutableListOf<File>()
 
-        (0 until connections).map { i ->
-            async {
-                val start = i * chunkSize
-                val end = if (i == connections - 1) total - 1 else (start + chunkSize - 1)
-                val temp = File(audioDir, "$youtubeId.part$i")
+        try {
+            (0 until connections).map { i ->
+                async {
+                    val start = i * chunkSize
+                    val end = if (i == connections - 1) total - 1 else (start + chunkSize - 1)
+                    val temp = File(audioDir, "$youtubeId.part$i")
 
-                val req = Request.Builder()
-                    .url(url)
-                    .header("Range", "bytes=$start-$end")
-                    .header("User-Agent", Constants.YoutubeApi.USER_AGENT)
-                    .build()
+                    try {
+                        val req = Request.Builder()
+                            .url(url)
+                            .header("Range", "bytes=$start-$end")
+                            .header("User-Agent", Constants.YoutubeApi.USER_AGENT)
+                            .build()
 
-                client.newCall(req).execute().body?.byteStream().use { input ->
-                    FileOutputStream(temp).use { output -> input?.copyTo(output) }
+                        client.newCall(req).execute().use { response ->
+                            if (!response.isSuccessful) {
+                                throw IOException("Failed to download chunk $i: ${response.code}")
+                            }
+
+                            response.body?.byteStream()?.use { input ->
+                                FileOutputStream(temp).use { output ->
+                                    input.copyTo(output)
+                                }
+                            } ?: throw IOException("Empty response body for chunk $i")
+                        }
+
+                        temp
+                    } catch (e: Exception) {
+                        temp.delete()
+                        throw e
+                    }
                 }
-                tempFiles += temp
-            }
-        }.awaitAll()
+            }.awaitAll().also { tempFiles.addAll(it) }
 
-        FileOutputStream(outputFile).use { out ->
-            tempFiles.sortedBy { it.name }.forEach { part ->
-                part.inputStream().use { it.copyTo(out) }
-                part.delete()
+            FileOutputStream(outputFile).use { out ->
+                tempFiles.sortedBy { it.name }.forEach { part ->
+                    part.inputStream().use { it.copyTo(out) }
+                    part.delete()
+                }
             }
+
+            return@withContext outputFile.absolutePath
+
+        } catch (e: Exception) {
+            printe("Download failed for $youtubeId: ${e.message}")
+            tempFiles.forEach { it.delete() }
+            outputFile.delete()
+            return@withContext null
         }
-
-        return@withContext outputFile.absolutePath
     }
 
     companion object {

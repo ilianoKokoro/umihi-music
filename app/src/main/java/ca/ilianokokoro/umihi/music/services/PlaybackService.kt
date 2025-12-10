@@ -106,10 +106,8 @@ class PlaybackService : MediaSessionService() {
 
     override fun onTaskRemoved(rootIntent: android.content.Intent?) {
         val player = mediaSession?.player
-        if (player != null) {
-            if (!player.playWhenReady || player.mediaItemCount == 0) {
-                stopSelf()
-            }
+        if (player == null || player.mediaItemCount == 0) {
+            pauseAllPlayersAndStopSelf()
         }
     }
 
