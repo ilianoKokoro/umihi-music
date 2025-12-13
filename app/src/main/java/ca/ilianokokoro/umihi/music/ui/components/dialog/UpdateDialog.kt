@@ -102,7 +102,7 @@ fun UpdateDialog(scope: CoroutineScope) {
                     }
                 }, shapes = ButtonDefaults.shapes()) { Text(stringResource(R.string.ignore)) }
             },
-            properties = DialogProperties(dismissOnClickOutside = false)
+            properties = DialogProperties(dismissOnClickOutside = true)
         )
     }
 

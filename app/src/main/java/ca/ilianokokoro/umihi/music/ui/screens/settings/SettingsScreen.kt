@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -147,18 +146,18 @@ fun SettingsScreen(
                             leadingIcon = Icons.Outlined.Update,
                             onClick = settingsViewModel::checkForUpdates
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        SettingsItem(
-                            title = stringResource(R.string.update_channel_title),
-                            subtitle = stringResource(
-                                R.string.current_update_channel_body,
-                                state.settings.updateChannel
-                            ),
-                            leadingIcon = Icons.Outlined.SystemUpdate,
-                            onClick = {
-                                showUpdateChannelDialog.value = true
-                            }
-                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        SettingsItem(
+//                            title = stringResource(R.string.update_channel_title),
+//                            subtitle = stringResource(
+//                                R.string.current_update_channel_body,
+//                                state.settings.updateChannel
+//                            ),
+//                            leadingIcon = Icons.Outlined.SystemUpdate,
+//                            onClick = {
+//                                showUpdateChannelDialog.value = true
+//                            }
+//                        )
                     }
 
                     if (showUpdateChannelDialog.value) {

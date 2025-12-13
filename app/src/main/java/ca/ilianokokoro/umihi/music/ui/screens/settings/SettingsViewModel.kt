@@ -99,7 +99,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         if (state !is ScreenState.Success) {
             return false
         }
-        return state.settings.cookies.isEmpty()
+        return !state.settings.cookies.isEmpty()
     }
 
 

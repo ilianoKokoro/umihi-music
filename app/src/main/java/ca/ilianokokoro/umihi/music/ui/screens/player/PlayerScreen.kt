@@ -11,7 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -136,11 +136,16 @@ fun PlayerScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                Thumbnail(href = currentSong?.thumbnailHref.toString())
+                Thumbnail(
+                    href = currentSong?.thumbnailHref.toString(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                )
                 Column(
                     modifier = Modifier
-                        .weight(2f)
                         .fillMaxWidth()
+                        .weight(1f)
                         .padding(horizontal = 8.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -172,10 +177,18 @@ fun PlayerScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
 
             ) {
-                Thumbnail(href = currentSong?.thumbnailHref.toString())
+
+                Thumbnail(
+                    href = currentSong?.thumbnailHref.toString(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                )
+
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
+                        .weight(1f)
                         .padding(horizontal = 32.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -213,28 +226,36 @@ fun PlayerScreen(
 }
 
 @Composable
-fun Thumbnail(href: String) {
-    Box(
-        modifier = Modifier
-            .padding(20.dp),
+fun Thumbnail(
+    href: String,
+    modifier: Modifier = Modifier
+) {
+    BoxWithConstraints(
+        modifier = modifier.padding(20.dp),
+        contentAlignment = Alignment.Center
     ) {
+        val size = minOf(maxWidth, maxHeight)
+
         AnimatedContent(
             targetState = href,
             transitionSpec = {
-                fadeIn(animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)).togetherWith(
+                fadeIn(
+                    animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
+                ).togetherWith(
                     fadeOut(
-                        animationSpec = tween(
-                            Constants.Player.IMAGE_TRANSITION_DELAY
-                        )
+                        animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
                     )
                 )
             }
         ) { targetState ->
-            SquareImage(uri = targetState)
+            SquareImage(
+                uri = targetState,
+                modifier = Modifier.size(size)
+            )
         }
-
     }
 }
+
 
 @Composable
 fun SongInfo(song: Song?) {
