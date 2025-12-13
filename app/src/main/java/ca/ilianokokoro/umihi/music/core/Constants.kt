@@ -67,6 +67,7 @@ object Constants {
     object Datastore {
         const val NAME = "umihi-mobile"
         const val COOKIES_KEY = "cookies"
+        const val UPDATE_CHANNEL_KEY = "update-channel"
     }
 
     object Database {

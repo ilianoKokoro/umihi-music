@@ -1,9 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.dialog
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -17,14 +14,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getBulletPointsFromMarkdown
-import ca.ilianokokoro.umihi.music.core.managers.AndroidDownloader
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -35,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UpdateDialog(scope: CoroutineScope) {
     val uriHandler = LocalUriHandler.current
-    val downloader = AndroidDownloader(LocalContext.current)
+    //val downloader = AndroidDownloader(LocalContext.current)
 
 
     val showDialog = remember { mutableStateOf(false) }
@@ -77,44 +72,35 @@ fun UpdateDialog(scope: CoroutineScope) {
                     )
                 }
             },
-            confirmButton = {},
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                        uriHandler.openUri(Constants.Url.GITHUB_RELEASE_LINK)
+                    },
+                    shapes = ButtonDefaults.shapes()
+                ) { Text(stringResource(R.string.open)) }
+
+//                TextButton(
+//                    onClick = {
+//                        showDialog.value = false
+//                        downloader.downloadUpdate(releaseInfo.assets.first().url)
+//                    },
+//                    shapes = ButtonDefaults.shapes()
+//                ) { Text(stringResource(R.string.download)) }
+
+            },
             dismissButton = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    TextButton(onClick = {
-                        scope.launch {
-                            VersionManager.ignoreUpdate(
-                                version = Version(
-                                    name = releaseInfo.versionName
-                                )
+                TextButton(onClick = {
+                    scope.launch {
+                        VersionManager.ignoreUpdate(
+                            version = Version(
+                                name = releaseInfo.versionName
                             )
-                            showDialog.value = false
-                        }
-                    }, shapes = ButtonDefaults.shapes()) { Text(stringResource(R.string.dismiss)) }
-
-
-                    Row {
-                        TextButton(
-                            onClick = {
-                                showDialog.value = false
-                                uriHandler.openUri(Constants.Url.GITHUB_RELEASE_LINK)
-                            },
-                            shapes = ButtonDefaults.shapes()
-                        ) { Text(stringResource(R.string.open)) }
-
-                        TextButton(
-                            onClick = {
-                                showDialog.value = false
-                                downloader.downloadUpdate(releaseInfo.assets.first().url)
-                                // TODO : download apk
-                            },
-                            shapes = ButtonDefaults.shapes()
-                        ) { Text(stringResource(R.string.download)) }
+                        )
+                        showDialog.value = false
                     }
-                }
-
+                }, shapes = ButtonDefaults.shapes()) { Text(stringResource(R.string.ignore)) }
             },
             properties = DialogProperties(dismissOnClickOutside = false)
         )

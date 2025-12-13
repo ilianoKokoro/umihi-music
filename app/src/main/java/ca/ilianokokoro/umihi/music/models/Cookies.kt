@@ -1,6 +1,6 @@
 package ca.ilianokokoro.umihi.music.models
 
-data class Cookies(val raw: String) {
+data class Cookies(val raw: String = String()) {
     val data: Map<String, String> by lazy {
         raw.split(";")
             .mapNotNull { entry ->
@@ -12,7 +12,7 @@ data class Cookies(val raw: String) {
 
 
     fun isEmpty(): Boolean {
-        return raw == ""
+        return raw.isBlank()
     }
 
     fun toRawCookie(): String = raw

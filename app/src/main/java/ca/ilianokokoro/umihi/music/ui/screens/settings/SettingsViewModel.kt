@@ -31,17 +31,17 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val datastoreRepository = DatastoreRepository(application)
     fun logOut() {
         viewModelScope.launch {
-            datastoreRepository.saveCookies(Cookies(""))
-            getLoginState()
+            datastoreRepository.saveCookies(Cookies())
+            getSettings()
         }
     }
 
-    fun getLoginState() {
+    fun getSettings() {
         viewModelScope.launch {
-            val savedCookies = datastoreRepository.getCookies()
+            val settings = datastoreRepository.getSettings()
             _uiState.update {
                 _uiState.value.copy(
-                    screenState = ScreenState.Success(isLoggedIn = savedCookies.toRawCookie() != String())
+                    screenState = ScreenState.Success(settings = settings)
                 )
             }
         }
@@ -78,10 +78,28 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun changeUpdateChannel(updateChannel: DatastoreRepository.UpdateChannel) {
+        viewModelScope.launch {
+            datastoreRepository.save(
+                DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL,
+                updateChannel.toString()
+            )
+            getSettings()
+        }
+    }
+
     fun checkForUpdates() {
         viewModelScope.launch {
             VersionManager.checkForUpdates(context = _application, manualCheck = true)
         }
+    }
+
+    fun isLoggedIn(): Boolean {
+        val state = _uiState.value.screenState
+        if (state !is ScreenState.Success) {
+            return false
+        }
+        return state.settings.cookies.isEmpty()
     }
 
 

@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -23,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,6 +40,7 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
@@ -49,13 +53,14 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
 ) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
+    val showUpdateChannelDialog = remember { mutableStateOf(false) } // TODO : extract to viewmodel
 
     // Refresh when returning to the screen
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                settingsViewModel.getLoginState()
+                settingsViewModel.getSettings()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -91,12 +96,11 @@ fun SettingsScreen(
         ) {
             when (uiState.screenState) {
                 is ScreenState.Success -> {
-
+                    val state = uiState.screenState
                     SettingsSection(
                         title = stringResource(R.string.account)
                     ) {
-
-                        if (uiState.screenState.isLoggedIn) {
+                        if (settingsViewModel.isLoggedIn()) {
                             SettingsItem(
                                 title = stringResource(R.string.log_out),
                                 subtitle = stringResource(R.string.logged_in_message),
@@ -123,27 +127,17 @@ fun SettingsScreen(
                     SettingsSection(
                         title = stringResource(R.string.data_and_storage),
                     ) {
-
                         SettingsItem(
                             title = stringResource(R.string.delete_downloads),
                             subtitle = stringResource(R.string.clear_data_message),
                             leadingIcon = Icons.Outlined.Delete,
                             onClick = settingsViewModel::clearDownloads
                         )
-//                                Spacer(modifier = Modifier.height(4.dp))
-//                                SettingsItem(
-//                                    title = "Delete app data",
-//                                    subtitle = "Resets all the information",
-//                                    leadingIcon = Icons.Outlined.Delete,
-//                                    onClick = // Maybe ?
-//                                )
                     }
-
 
                     SettingsSection(
                         title = stringResource(R.string.app_info),
                     ) {
-
                         SettingsItem(
                             title = stringResource(R.string.check_for_updates),
                             subtitle = stringResource(
@@ -153,20 +147,41 @@ fun SettingsScreen(
                             leadingIcon = Icons.Outlined.Update,
                             onClick = settingsViewModel::checkForUpdates
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        SettingsItem(
+                            title = stringResource(R.string.update_channel_title),
+                            subtitle = stringResource(
+                                R.string.current_update_channel_body,
+                                state.settings.updateChannel
+                            ),
+                            leadingIcon = Icons.Outlined.SystemUpdate,
+                            onClick = {
+                                showUpdateChannelDialog.value = true
+                            }
+                        )
                     }
 
-
+                    if (showUpdateChannelDialog.value) {
+                        UpdateChannelDialog(
+                            selectedOption = state.settings.updateChannel,
+                            onChange = {
+                                settingsViewModel.changeUpdateChannel(it)
+                            }, onClose = {
+                                showUpdateChannelDialog.value = false
+                            })
+                    }
                 }
 
                 ScreenState.Loading -> LoadingAnimation()
                 is ScreenState.Error -> ErrorMessage(
                     ex = uiState.screenState.exception,
-                    onRetry = settingsViewModel::getLoginState
+                    onRetry = settingsViewModel::getSettings
                 )
             }
         }
-
     }
+
+
 }
 
 

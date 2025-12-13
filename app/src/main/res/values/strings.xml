@@ -67,4 +67,8 @@
     <string name="cancel">Cancel</string>
     <string name="remove_local_playlist">Remove local playlist</string>
     <string name="remove_local_confirm_text">Delete the downloaded files for this playlist? The playlist will remain available online.</string>
+    <string name="ignore">Ignore</string>
+    <string name="update_channel_title">Change update channel</string>
+    <string name="current_update_channel_body">Current update channel : %1$s</string>
+    <string name="update_channel_dialog">Change update channel</string>
 </resources>
