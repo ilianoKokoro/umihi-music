@@ -16,5 +16,6 @@ data class GithubReleaseResponse(
 
 @Serializable
 data class AssetsResponse(
-    val url: String
+    @SerialName("browser_download_url")
+    val url: String,
 )

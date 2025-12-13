@@ -17,12 +17,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getBulletPointsFromMarkdown
+import ca.ilianokokoro.umihi.music.core.managers.AndroidDownloader
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -33,6 +35,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun UpdateDialog(scope: CoroutineScope) {
     val uriHandler = LocalUriHandler.current
+    val downloader = AndroidDownloader(LocalContext.current)
+
 
     val showDialog = remember { mutableStateOf(false) }
     val data = remember { mutableStateOf<GithubReleaseResponse?>(null) }
@@ -100,13 +104,14 @@ fun UpdateDialog(scope: CoroutineScope) {
                             shapes = ButtonDefaults.shapes()
                         ) { Text(stringResource(R.string.open)) }
 
-//                        TextButton(
-//                            onClick = {
-//                                showDialog.value = false
-//                                // TODO : download apk
-//                            },
-//                            shapes = ButtonDefaults.shapes()
-//                        ) { Text(stringResource(R.string.download)) }
+                        TextButton(
+                            onClick = {
+                                showDialog.value = false
+                                downloader.downloadUpdate(releaseInfo.assets.first().url)
+                                // TODO : download apk
+                            },
+                            shapes = ButtonDefaults.shapes()
+                        ) { Text(stringResource(R.string.download)) }
                     }
                 }
 

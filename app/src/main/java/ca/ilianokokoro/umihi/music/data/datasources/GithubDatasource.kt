@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
@@ -17,6 +18,7 @@ class GithubDatasource {
 
         return when (result) {
             is Result.Success -> {
+                printd(result.value.content)
                 json.decodeFromString<GithubReleaseResponse>(result.value.content)
             }
 

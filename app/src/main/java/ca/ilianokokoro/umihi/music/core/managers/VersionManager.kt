@@ -98,6 +98,7 @@ object VersionManager {
 
     private suspend fun String.isNewUpdate(manualCheck: Boolean): Boolean {
         try {
+            return true // TEMP for testing
             val appVersion = versionName!!.removeSuffix(Constants.BETA_SUFFIX)
 
             if (appVersion == this) {
