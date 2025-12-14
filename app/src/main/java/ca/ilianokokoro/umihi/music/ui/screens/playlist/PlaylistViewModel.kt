@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application: Application) :
     AndroidViewModel(application) {
@@ -44,39 +45,35 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     private val _player = player
 
     init {
-        viewModelScope.launch {
-            observeSongDownloads()
-        }
+        observeSongDownloads()
         viewModelScope.launch {
             getPlaylistInfoAsync()
             observerDownloadJob()
         }
     }
 
-    private suspend fun observeSongDownloads() {
-        localPlaylistRepository.observePlaylistById(_playlist.id).collect { localPlaylist ->
-            if (localPlaylist != null) {
-                _uiState.update { currentState ->
-                    val currentScreenState = currentState.screenState
-
-                    if (currentScreenState is ScreenState.Success) {
-                        val updatedPlaylist = currentScreenState.playlist.copy(
-                            songs = currentScreenState.playlist.songs.map { song ->
-                                val localSong = localPlaylist.songs.find {
-                                    it.isSameYoutubeSong(song)
-                                }
-                                localSong ?: song
-                            }
-                        )
-
-                        currentState.copy(
-                            screenState = ScreenState.Success(playlist = updatedPlaylist)
-                        )
-                    } else {
-                        currentState
+    private fun observeSongDownloads() {
+        viewModelScope.launch {
+            localPlaylistRepository.observePlaylistById(_playlist.id).collect { localPlaylist ->
+                if (localPlaylist != null) {
+                    _uiState.update { currentState ->
+                        val screenState = currentState.screenState
+                        if (screenState is ScreenState.Success) {
+                            currentState.copy(
+                                screenState = screenState.copy(
+                                    playlist = updatePlaylistFrom(
+                                        screenState.playlist,
+                                        localPlaylist
+                                    )
+                                )
+                            )
+                        } else {
+                            currentState
+                        }
                     }
                 }
             }
+
         }
     }
 
@@ -200,20 +197,13 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
                                 ApiResult.Loading -> ScreenState.Loading(_playlist)
                                 is ApiResult.Success -> {
-                                    var remotePlaylist = apiResult.data
-
-                                    if (localPlaylist != null) {
-                                        val localMap =
-                                            localPlaylist.songs.associateBy { it.youtubeId }
-
-                                        val updatedSongs = remotePlaylist.songs.map { remoteSong ->
-                                            localMap[remoteSong.youtubeId] ?: remoteSong
-                                        }
-
-                                        remotePlaylist =
-                                            remotePlaylist.copy(songs = updatedSongs)
-                                    }
-                                    ScreenState.Success(playlist = remotePlaylist)
+                                    val remotePlaylist = apiResult.data
+                                    ScreenState.Success(
+                                        playlist = updatePlaylistFrom(
+                                            remotePlaylist,
+                                            localPlaylist
+                                        )
+                                    )
                                 }
                             }
                         )
@@ -229,6 +219,22 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             }
         }
 
+    }
+
+    private fun updatePlaylistFrom(oldPlaylist: Playlist, updatedPlaylist: Playlist?): Playlist {
+        if (updatedPlaylist != null) {
+            val localMap =
+                updatedPlaylist.songs.associateBy { it.youtubeId }
+
+            val updatedSongs = oldPlaylist.songs.map { remoteSong ->
+                localMap[remoteSong.youtubeId]?.copy(
+                    uid = UUID.randomUUID().toString()
+                ) ?: remoteSong
+            }
+
+            return oldPlaylist.copy(songs = updatedSongs)
+        }
+        return oldPlaylist
     }
 
     private fun getPlaylist(): Playlist? {
