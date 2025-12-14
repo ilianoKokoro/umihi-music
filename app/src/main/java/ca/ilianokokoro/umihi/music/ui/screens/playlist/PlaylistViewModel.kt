@@ -48,6 +48,8 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             getPlaylistInfoAsync()
             observerDownloadJob()
         }
+
+
     }
 
     suspend fun observerDownloadJob() {
@@ -58,6 +60,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             val workInfo = workInfos.firstOrNull() ?: return@collect
 
             _uiState.update {
+
                 it.copy(
                     isDownloading =
                         workInfo.state == WorkInfo.State.ENQUEUED ||
@@ -80,8 +83,6 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
                 else -> {}
             }
         }
-
-
     }
 
     fun refreshPlaylistInfo() {
@@ -129,7 +130,6 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
         viewModelScope.launch {
             if (!playlist.downloaded) {
                 downloadRepository.downloadPlaylist(playlist)
-                observerDownloadJob()
                 return@launch
             }
 

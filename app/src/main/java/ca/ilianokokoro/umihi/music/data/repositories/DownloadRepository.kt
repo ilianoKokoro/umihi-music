@@ -51,23 +51,24 @@ class DownloadRepository(appContext: Context) {
 
     suspend fun deletePlaylist(playlist: Playlist) {
         localPlaylistRepository.deleteFullPlaylist(playlist.info.id)
+        val audioDir =
+            UmihiHelper.getDownloadDirectory(
+                _appContext,
+                Constants.Downloads.AUDIO_FILES_FOLDER
+            )
+        val imageDir =
+            UmihiHelper.getDownloadDirectory(_appContext, Constants.Downloads.THUMBNAILS_FOLDER)
 
+        val imageFile = File(imageDir, "${playlist.info.id}.jpg")
+        if (imageFile.exists()) {
+            imageFile.delete()
+        }
         playlist.songs.forEach { song ->
-            val audioDir =
-                UmihiHelper.getDownloadDirectory(
-                    _appContext,
-                    Constants.Downloads.AUDIO_FILES_FOLDER
-                )
             val outputFile = File(audioDir, "${song.youtubeId}.webm")
-
             if (outputFile.exists()) {
                 outputFile.delete()
             }
-
-            val imageDir =
-                UmihiHelper.getDownloadDirectory(_appContext, Constants.Downloads.THUMBNAILS_FOLDER)
             val imageFile = File(imageDir, "${song.youtubeId}.jpg")
-
             if (imageFile.exists()) {
                 imageFile.delete()
             }

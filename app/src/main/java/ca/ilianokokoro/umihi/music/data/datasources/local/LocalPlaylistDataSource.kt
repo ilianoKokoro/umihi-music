@@ -19,7 +19,7 @@ interface LocalPlaylistDataSource {
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     suspend fun getPlaylistById(playlistId: String): Playlist?
-
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylist(playlistInfo: PlaylistInfo)
 
@@ -42,7 +42,6 @@ interface LocalPlaylistDataSource {
 
     @Query("DELETE FROM playlists")
     suspend fun deleteAll()
-
 
     @Query("DELETE FROM playlists WHERE id = :playlistId")
     suspend fun deletePlaylistById(playlistId: String)
