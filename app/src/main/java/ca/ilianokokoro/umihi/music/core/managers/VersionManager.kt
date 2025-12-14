@@ -97,40 +97,38 @@ object VersionManager {
     }
 
     private suspend fun String.isNewUpdate(manualCheck: Boolean): Boolean {
-        try {
-            val appVersion = versionName!!.removeSuffix(Constants.BETA_SUFFIX)
+        val currentVersion = versionName ?: return true
+        val isBeta = currentVersion.endsWith(Constants.BETA_SUFFIX)
 
-            if (appVersion == this) {
-                return false
-            }
-            val ignoredVersions = versionRepository.getIgnoredVersions()
-
-
-            if (!manualCheck && ignoredVersions.contains(Version(this))) {
-                return false
-            }
-
-            val leftVersionArray = this.split(".")
-            val rightVersionArray = appVersion.split(".")
-
-            if (leftVersionArray.count() != rightVersionArray.count()) {
-                return true
-            }
-            for (leftVersionNumberString in leftVersionArray) {
-                val leftVersionNumber = leftVersionNumberString.toInt()
-                val rightVersionNumber =
-                    rightVersionArray[leftVersionArray.indexOf(leftVersionNumberString)].toInt()
-                if (leftVersionNumber > rightVersionNumber) {
-                    return true
-                }
-            }
+        if (this == currentVersion) {
             return false
-
-        } catch (ex: Exception) {
-            printe(message = ex.message.toString(), exception = ex)
-            return true
         }
+
+        if (!manualCheck) {
+            val ignored = versionRepository.getIgnoredVersions()
+            if (ignored.contains(Version(this))) {
+                return false
+            }
+        }
+
+        val incomingParts = this.split(".").map { it.toInt() }
+        val currentParts =
+            currentVersion.removeSuffix(Constants.BETA_SUFFIX).split(".").map { it.toInt() }
+
+        val maxLength = maxOf(incomingParts.size, currentParts.size)
+        for (i in 0 until maxLength) {
+            val incoming = incomingParts.getOrElse(i) { 0 }
+            val current = currentParts.getOrElse(i) { 0 }
+
+            when {
+                incoming > current -> return true
+                incoming < current -> return false
+            }
+        }
+
+        return isBeta
     }
+
 
     sealed class ScreenEvent {
         data class UpdateAvailable(val githubReleaseResponse: GithubReleaseResponse) :
