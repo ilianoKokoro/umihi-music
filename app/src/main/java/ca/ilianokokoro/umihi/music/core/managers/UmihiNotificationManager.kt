@@ -135,6 +135,23 @@ object UmihiNotificationManager {
         notificationManager.notify(getNotificationID(song.youtubeId), notification)
     }
 
+    fun showSongDownloadSuccess(
+        context: Context,
+        song: Song,
+    ) {
+        val notification = getBaseNotification(context, NotificationChannels.SONG_DOWNLOAD)
+            .setContentTitle(song.title)
+            .setContentText("Song downloaded")
+            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+            .setAutoCancel(true)
+            .setGroup(NotificationChannels.SONG_DOWNLOAD.group)
+            .setCategory(NotificationCompat.CATEGORY_STATUS)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        notificationManager.notify(getNotificationID(song.youtubeId), notification)
+    }
+
     private fun getBaseNotification(
         context: Context,
         channel: NotificationChannels

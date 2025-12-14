@@ -12,8 +12,10 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.workers.PlaylistDownloadWorker
+import ca.ilianokokoro.umihi.music.core.workers.SongDownloadWorker
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -24,8 +26,8 @@ class DownloadRepository(appContext: Context) {
         AppDatabase.getInstance(_appContext).playlistRepository()
     private val localPlaylistRepository = AppDatabase.getInstance(_appContext).playlistRepository()
 
-    suspend fun download(playlist: Playlist) {
-        val existingWork = getExistingJobs(playlist)
+    suspend fun downloadPlaylist(playlist: Playlist) {
+        val existingWork = getExistingJobs(playlist.info.id)
         if (existingWork.isNotEmpty()) {
             printd("Download is already ongoing for playlist ${playlist.info.title}")
             return
@@ -47,7 +49,7 @@ class DownloadRepository(appContext: Context) {
         workManager.enqueueUniqueWork(playlist.info.id, ExistingWorkPolicy.KEEP, request)
     }
 
-    suspend fun delete(playlist: Playlist) {
+    suspend fun deletePlaylist(playlist: Playlist) {
         localPlaylistRepository.deleteFullPlaylist(playlist.info.id)
 
         playlist.songs.forEach { song ->
@@ -72,14 +74,42 @@ class DownloadRepository(appContext: Context) {
         }
     }
 
+    suspend fun downloadSong(playlist: Playlist, song: Song) {
+        val id = "${playlist.info.id}${song.youtubeId}"
+        val existingWork = getExistingJobs(id)
+        if (existingWork.isNotEmpty()) {
+            printd("Download is already ongoing for song ${playlist.info.title}")
+            return
+        }
+
+        localRepository.insertPlaylistWithSongs(playlist)
+        val request = OneTimeWorkRequestBuilder<SongDownloadWorker>().setInputData(
+            workDataOf(
+                SongDownloadWorker.PLAYLIST_KEY to playlist.info.id,
+                SongDownloadWorker.SONG_KEY to song.youtubeId
+            )
+        ).setConstraints(
+            Constraints(
+                requiredNetworkType = NetworkType.CONNECTED,
+                requiresStorageNotLow = true
+            )
+        ).build()
+
+
+        workManager.enqueueUniqueWork(
+            id,
+            ExistingWorkPolicy.KEEP,
+            request
+        )
+    }
 
     fun getExistingJobFlow(playlist: Playlist): Flow<List<WorkInfo>> {
         return workManager.getWorkInfosForUniqueWorkFlow(playlist.info.id)
 
     }
 
-    private fun getExistingJobs(playlist: Playlist): List<WorkInfo> {
-        return workManager.getWorkInfosForUniqueWork(playlist.info.id).get().filter {
+    private fun getExistingJobs(id: String): List<WorkInfo> {
+        return workManager.getWorkInfosForUniqueWork(id).get().filter {
             it.state == WorkInfo.State.ENQUEUED ||
                     it.state == WorkInfo.State.RUNNING ||
                     it.state == WorkInfo.State.BLOCKED

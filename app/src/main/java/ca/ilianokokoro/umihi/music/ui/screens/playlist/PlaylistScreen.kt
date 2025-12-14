@@ -158,6 +158,8 @@ fun PlaylistScreen(
                                     player.addNext(song, application)
                                 }, addToQueue = {
                                     player.addToQueue(song, application)
+                                }, download = {
+                                    playlistViewModel.downloadSong(song)
                                 })
                             }
                         }

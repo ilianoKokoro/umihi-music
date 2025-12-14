@@ -128,13 +128,23 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
             if (!playlist.downloaded) {
-                downloadRepository.download(playlist)
+                downloadRepository.downloadPlaylist(playlist)
                 observerDownloadJob()
                 return@launch
             }
 
-            downloadRepository.delete(playlist)
+            downloadRepository.deletePlaylist(playlist)
             getPlaylistInfoAsync()
+        }
+    }
+
+    fun downloadSong(song: Song) {
+        val playlist = getPlaylist() ?: return
+        if (song.downloaded) {
+            return
+        }
+        viewModelScope.launch {
+            downloadRepository.downloadSong(playlist, song)
         }
     }
 
@@ -156,7 +166,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
                                     if (localPlaylist == null) {
                                         ScreenState.Error(Exception("Playlist is not downloaded"))
                                     } else {
-                                        ScreenState.Success(playlist = localPlaylist)
+                                        ScreenState.Success(playlist = localPlaylist.copy(songs = localPlaylist.songs.filter { it.downloaded }))
                                     }
                                 }
 

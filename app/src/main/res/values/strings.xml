@@ -71,4 +71,5 @@
     <string name="update_channel_title">Change update channel</string>
     <string name="current_update_channel_body">Current update channel : %1$s</string>
     <string name="update_channel_dialog">Change update channel</string>
+    <string name="delete_download">Delete Download</string>
 </resources>

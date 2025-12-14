@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
@@ -37,6 +38,7 @@ import ca.ilianokokoro.umihi.music.ui.components.dropdown.ModernDropdownItem
 fun SongListItem(
     song: Song,
     onPress: () -> Unit,
+    download: () -> Unit,
     playNext: () -> Unit,
     addToQueue: () -> Unit,
     modifier: Modifier = Modifier
@@ -109,6 +111,17 @@ fun SongListItem(
                                 expanded = false
                             }
                         )
+                        if (!song.downloaded) {
+                            ModernDropdownItem(
+                                leadingIcon = Icons.Rounded.Download,
+                                text = stringResource(R.string.download),
+                                onClick = {
+                                    download()
+                                    expanded = false
+                                }
+                            )
+                        }
+
                     }
                 }
             },
