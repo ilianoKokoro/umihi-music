@@ -30,6 +30,7 @@ interface LocalPlaylistDataSource {
     )
     suspend fun getSongIdsWithPlaylist(songIds: List<String>): List<String>
 
+    @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     fun observePlaylistById(playlistId: String): Flow<Playlist?>
 
