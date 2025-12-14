@@ -43,7 +43,9 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/home.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/playlist.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/player.png" width="200" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/queue.png" width="200" />
     <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/settings.png" width="200" />
+
 </p>
 
 ### Beta build
