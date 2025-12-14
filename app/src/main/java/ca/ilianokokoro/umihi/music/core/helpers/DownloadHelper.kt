@@ -16,6 +16,8 @@ import java.io.IOException
 import java.net.URL
 
 object DownloadHelper {
+    private val client = OkHttpClient()
+    
     suspend fun downloadImage(context: Context, imageUrl: String, id: String): File? {
         return withContext(Dispatchers.IO) {
             try {
@@ -49,7 +51,6 @@ object DownloadHelper {
     suspend fun downloadAudio(
         context: Context,
         youtubeId: String,
-        client: OkHttpClient,
         connections: Int = 8
     ): String? = withContext(Dispatchers.IO) {
 

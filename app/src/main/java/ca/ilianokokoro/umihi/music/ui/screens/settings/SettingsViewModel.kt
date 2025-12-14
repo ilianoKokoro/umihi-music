@@ -17,6 +17,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,6 +30,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
+    private val downloadRepository = DownloadRepository(application)
+
     fun logOut() {
         viewModelScope.launch {
             datastoreRepository.saveCookies(Cookies())
@@ -66,6 +69,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     @OptIn(UnstableApi::class)
     fun clearDownloads() {
         viewModelScope.launch {
+            downloadRepository.cancelAllWorks()
             AppDatabase.clearDownloads(_application)
             ExoCache(_application).clear()
             UmihiHelper.getDownloadDirectory(context = _application)

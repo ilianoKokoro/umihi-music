@@ -41,9 +41,9 @@ data class Playlist(
 @Immutable
 @Entity(tableName = Constants.Database.PLAYLISTS_TABLE)
 data class PlaylistInfo(
-    @PrimaryKey val id: String,
-    val title: String,
-    val coverHref: String,
+    @PrimaryKey val id: String = "",
+    val title: String = "",
+    val coverHref: String = "",
     val coverPath: String? = null,
 )
 

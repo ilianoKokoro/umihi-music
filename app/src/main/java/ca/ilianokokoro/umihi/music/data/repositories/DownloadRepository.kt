@@ -8,6 +8,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
@@ -22,9 +23,8 @@ import java.io.File
 class DownloadRepository(appContext: Context) {
     private val _appContext = appContext
     private val workManager: WorkManager = WorkManager.getInstance(_appContext)
-    private val localRepository =
-        AppDatabase.getInstance(_appContext).playlistRepository()
     private val localPlaylistRepository = AppDatabase.getInstance(_appContext).playlistRepository()
+    private val localSongRepository = AppDatabase.getInstance(_appContext).songRepository()
 
     suspend fun downloadPlaylist(playlist: Playlist) {
         val existingWork = getExistingJobs(playlist.info.id)
@@ -32,8 +32,7 @@ class DownloadRepository(appContext: Context) {
             printd("Download is already ongoing for playlist ${playlist.info.title}")
             return
         }
-
-        localRepository.insertPlaylistWithSongs(playlist)
+        localPlaylistRepository.insertPlaylistWithSongs(playlist)
         val request = OneTimeWorkRequestBuilder<PlaylistDownloadWorker>().setInputData(
             workDataOf(
                 PlaylistDownloadWorker.PLAYLIST_KEY to playlist.info.id
@@ -59,20 +58,27 @@ class DownloadRepository(appContext: Context) {
         val imageDir =
             UmihiHelper.getDownloadDirectory(_appContext, Constants.Downloads.THUMBNAILS_FOLDER)
 
-        val imageFile = File(imageDir, "${playlist.info.id}.jpg")
-        if (imageFile.exists()) {
-            imageFile.delete()
-        }
+        File(
+            imageDir,
+            _appContext.getString(R.string.jpg_extension, playlist.info.id)
+        ).takeIf { it.exists() }?.delete()
+
+        val songIds = playlist.songs.map { it.youtubeId }
+        val stillLinked = localPlaylistRepository.getSongIdsWithPlaylist(songIds).toSet()
+        val songsToClear = mutableListOf<String>()
         playlist.songs.forEach { song ->
-            val outputFile = File(audioDir, "${song.youtubeId}.webm")
-            if (outputFile.exists()) {
-                outputFile.delete()
-            }
-            val imageFile = File(imageDir, "${song.youtubeId}.jpg")
-            if (imageFile.exists()) {
-                imageFile.delete()
-            }
+            if (song.youtubeId in stillLinked) return@forEach
+            songsToClear.add(song.youtubeId)
+            File(
+                audioDir,
+                _appContext.getString(R.string.webm_extension, song.youtubeId)
+            ).takeIf { it.exists() }?.delete()
+            File(
+                imageDir,
+                _appContext.getString(R.string.jpg_extension, song.youtubeId)
+            ).takeIf { it.exists() }?.delete()
         }
+        localSongRepository.deleteByIds(songsToClear)
     }
 
     suspend fun downloadSong(playlist: Playlist, song: Song) {
@@ -83,7 +89,7 @@ class DownloadRepository(appContext: Context) {
             return
         }
 
-        localRepository.insertPlaylistWithSongs(playlist)
+        localPlaylistRepository.insertPlaylistWithSongs(playlist)
         val request = OneTimeWorkRequestBuilder<SongDownloadWorker>().setInputData(
             workDataOf(
                 SongDownloadWorker.PLAYLIST_KEY to playlist.info.id,
@@ -102,6 +108,10 @@ class DownloadRepository(appContext: Context) {
             ExistingWorkPolicy.KEEP,
             request
         )
+    }
+
+    fun cancelAllWorks() {
+        workManager.cancelAllWork()
     }
 
     fun getExistingJobFlow(playlist: Playlist): Flow<List<WorkInfo>> {

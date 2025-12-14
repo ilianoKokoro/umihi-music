@@ -90,7 +90,7 @@ fun PlaylistScreen(
                     }
 
                     else -> {
-                        Playlist(PlaylistInfo("", "", "", ""))
+                        Playlist(PlaylistInfo())
                     }
                 }
                 val songs = playlistInfo.songs

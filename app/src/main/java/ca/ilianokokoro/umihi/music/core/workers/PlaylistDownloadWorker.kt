@@ -19,7 +19,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
+import kotlin.coroutines.cancellation.CancellationException
 
 class PlaylistDownloadWorker(
     private val appContext: Context,
@@ -81,7 +81,7 @@ class PlaylistDownloadWorker(
                                     }
 
                                 val audioPath =
-                                    DownloadHelper.downloadAudio(appContext, song.youtubeId, client)
+                                    DownloadHelper.downloadAudio(appContext, song.youtubeId)
                                 val thumbnailPath =
                                     (result as? ApiResult.Success)
                                         ?.data
@@ -106,13 +106,16 @@ class PlaylistDownloadWorker(
                                     totalSongs
                                 )
 
+                            } catch (e: CancellationException) {
+                                printd("Song download canceled ${song.title}")
+                                Result.failure()
                             } catch (e: Exception) {
                                 UmihiNotificationManager.showSongDownloadFailed(
                                     appContext,
                                     song
                                 )
                                 printe(
-                                    message = "Error downloading song: ${song.youtubeId}",
+                                    message = "Error downloading song: ${song.title}",
                                     exception = e
                                 )
                             }
@@ -125,6 +128,9 @@ class PlaylistDownloadWorker(
                 UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
                 printd("Playlist download complete")
                 Result.success()
+            } catch (e: CancellationException) {
+                printd("Playlist download canceled ${playlist.info.title}")
+                Result.failure()
             } catch (e: Exception) {
                 UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
                 printe(message = e.toString(), exception = e)
@@ -135,6 +141,5 @@ class PlaylistDownloadWorker(
 
     companion object {
         const val PLAYLIST_KEY = "playlist"
-        private val client = OkHttpClient()
     }
 }

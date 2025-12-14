@@ -45,11 +45,39 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     init {
         viewModelScope.launch {
+            observeSongDownloads()
+        }
+        viewModelScope.launch {
             getPlaylistInfoAsync()
             observerDownloadJob()
         }
+    }
 
+    private suspend fun observeSongDownloads() {
+        localPlaylistRepository.observePlaylistById(_playlist.id).collect { localPlaylist ->
+            if (localPlaylist != null) {
+                _uiState.update { currentState ->
+                    val currentScreenState = currentState.screenState
 
+                    if (currentScreenState is ScreenState.Success) {
+                        val updatedPlaylist = currentScreenState.playlist.copy(
+                            songs = currentScreenState.playlist.songs.map { song ->
+                                val localSong = localPlaylist.songs.find {
+                                    it.isSameYoutubeSong(song)
+                                }
+                                localSong ?: song
+                            }
+                        )
+
+                        currentState.copy(
+                            screenState = ScreenState.Success(playlist = updatedPlaylist)
+                        )
+                    } else {
+                        currentState
+                    }
+                }
+            }
+        }
     }
 
     suspend fun observerDownloadJob() {

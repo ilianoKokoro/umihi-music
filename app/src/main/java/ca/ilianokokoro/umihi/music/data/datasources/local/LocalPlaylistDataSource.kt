@@ -9,6 +9,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistSongCrossRef
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocalPlaylistDataSource {
@@ -19,7 +20,19 @@ interface LocalPlaylistDataSource {
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     suspend fun getPlaylistById(playlistId: String): Playlist?
-    
+
+    @Query(
+        """
+    SELECT DISTINCT songId
+    FROM PlaylistSongCrossRef
+    WHERE songId IN (:songIds)
+"""
+    )
+    suspend fun getSongIdsWithPlaylist(songIds: List<String>): List<String>
+
+    @Query("SELECT * FROM playlists WHERE id = :playlistId")
+    fun observePlaylistById(playlistId: String): Flow<Playlist?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylist(playlistInfo: PlaylistInfo)
 

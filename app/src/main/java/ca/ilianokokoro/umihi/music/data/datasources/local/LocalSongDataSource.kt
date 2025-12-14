@@ -21,7 +21,6 @@ interface LocalSongDataSource {
     @Query("DELETE FROM songs")
     suspend fun deleteAll()
 
-
     suspend fun setStreamUrl(songId: String, streamUrl: String) {
         val existing = getSong(songId) ?: Song(
             youtubeId = songId,
@@ -31,6 +30,9 @@ interface LocalSongDataSource {
         val updated = existing.copy(streamUrl = streamUrl)
         create(updated)
     }
+
+    @Query("DELETE FROM songs WHERE youtubeId IN (:songIds)")
+    suspend fun deleteByIds(songIds: List<String>)
 
     @Delete
     suspend fun delete(song: Song)

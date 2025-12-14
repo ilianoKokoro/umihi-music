@@ -7,6 +7,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
@@ -14,6 +15,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import kotlin.coroutines.cancellation.CancellationException
 
 class SongDownloadWorker(
     private val appContext: Context,
@@ -69,7 +71,6 @@ class SongDownloadWorker(
                 val audioPath =
                     DownloadHelper.downloadAudio(
                         appContext, song.youtubeId,
-                        client
                     )
                 val thumbnailPath =
                     (result as? ApiResult.Success)
@@ -89,6 +90,9 @@ class SongDownloadWorker(
                 UmihiNotificationManager.showSongDownloadSuccess(appContext, song)
                 localSongRepository.create(updatedSong)
                 Result.success()
+            } catch (e: CancellationException) {
+                printd("Song download canceled ${song.title}")
+                Result.failure()
             } catch (e: Exception) {
                 UmihiNotificationManager.showSongDownloadFailed(
                     appContext,
