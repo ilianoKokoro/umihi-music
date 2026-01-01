@@ -1,9 +1,10 @@
+import com.android.build.api.variant.BuildConfigField
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
 val versionMajor = 1
-val versionMinor = 5
+val versionMinor = 6
 val versionPatch = 0
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
@@ -34,7 +35,6 @@ android {
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}${if (beta) "-beta" else ""}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
 
@@ -82,10 +82,22 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
+    }
+}
+
+androidComponents {
+    val commitHash = "a142eb74535baf4273435b329c3296ba3f424a7e9"
+    onVariants {
+        it.buildConfigFields?.put(
+            "COMMIT_HASH", BuildConfigField(
+                "String", "\"${commitHash}\"", "commit hash"
+            )
+        )
     }
 }
 

@@ -2,12 +2,14 @@ package ca.ilianokokoro.umihi.music.core.managers
 
 import android.content.Context
 import android.widget.Toast
+import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -27,7 +29,7 @@ object VersionManager {
 
     private val githubRepository: GithubRepository = GithubRepository()
     private lateinit var versionRepository: VersionDataSource
-
+    
     fun initialize(context: Context) {
         if (versionName == null) {
             versionName = try {
@@ -37,7 +39,6 @@ object VersionManager {
                 String()
             }
         }
-
         versionRepository = AppDatabase.getInstance(context).versionRepository()
     }
 
@@ -45,37 +46,63 @@ object VersionManager {
         return versionName.toString()
     }
 
-    suspend fun checkForUpdates(context: Context, manualCheck: Boolean = false) {
+    fun getUpdateChannel(context: Context): DatastoreRepository.UpdateChannel {
+        val datastoreRepository = DatastoreRepository(context)
+        return datastoreRepository.getSettings().updateChannel
+    }
+
+    suspend fun checkForUpdates(
+        context: Context,
+        manualCheck: Boolean = false
+    ) {
         try {
-            githubRepository.getLatestVersionName().collect { result ->
-                when (result) {
-                    is ApiResult.Success -> {
-                        val githubRelease = result.data
-                        val mostUpToDateVersion = githubRelease.versionName
-                        val outdated = mostUpToDateVersion.isNewUpdate(manualCheck)
+            when (getUpdateChannel(context)) {
 
-                        if (!outdated) {
-                            if (manualCheck) {
-                                withContext(Dispatchers.Main) {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.up_to_date_message),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                DatastoreRepository.UpdateChannel.Stable -> {
+                    githubRepository.getLatestVersionName().collect { result ->
+                        when (result) {
+                            is ApiResult.Success -> {
+                                val release = result.data
+                                handleUpdateResult(
+                                    context = context,
+                                    manualCheck = manualCheck,
+                                    outdated = release.versionName.isNewUpdate(manualCheck),
+                                    release = release
+                                )
+                                return@collect
                             }
-                        } else {
-                            _eventsFlow.emit(ScreenEvent.UpdateAvailable(githubReleaseResponse = githubRelease))
+
+                            is ApiResult.Error -> throw result.exception
+                            else -> Unit
                         }
-
-                        return@collect
                     }
+                }
 
-                    is ApiResult.Error -> {
-                        throw result.exception
+                DatastoreRepository.UpdateChannel.Beta -> {
+                    githubRepository.getLatestCommit().collect { result ->
+                        when (result) {
+                            is ApiResult.Success -> {
+                                val latestCommit = result.data
+                                handleUpdateResult(
+                                    context = context,
+                                    manualCheck = manualCheck,
+                                    outdated = BuildConfig.COMMIT_HASH.isNewUpdate(
+                                        manualCheck,
+                                        latestCommit
+                                    ),
+                                    release = GithubReleaseResponse(
+                                        tagName = latestCommit,
+                                        body = "No detail",
+                                        assets = emptyList()
+                                    )
+                                )
+                                return@collect
+                            }
+
+                            is ApiResult.Error -> throw result.exception
+                            else -> Unit
+                        }
                     }
-
-                    else -> {}
                 }
             }
         } catch (ex: Exception) {
@@ -88,7 +115,30 @@ object VersionManager {
                     ).show()
                 }
             }
-            printe(message = ex.message.toString(), exception = ex)
+            printe(message = ex.message.orEmpty(), exception = ex)
+        }
+    }
+
+    private suspend fun handleUpdateResult(
+        context: Context,
+        manualCheck: Boolean,
+        outdated: Boolean,
+        release: GithubReleaseResponse
+    ) {
+        if (outdated) {
+            _eventsFlow.emit(
+                ScreenEvent.UpdateAvailable(
+                    githubReleaseResponse = release
+                )
+            )
+        } else if (manualCheck) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.up_to_date_message),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -96,8 +146,11 @@ object VersionManager {
         versionRepository.ignoreVersion(version)
     }
 
-    private suspend fun String.isNewUpdate(manualCheck: Boolean): Boolean {
-        val currentVersion = versionName ?: return true
+    private suspend fun String.isNewUpdate(
+        manualCheck: Boolean,
+        commitHash: String? = null
+    ): Boolean {
+        val currentVersion = commitHash ?: versionName ?: return true
         val isBeta = currentVersion.endsWith(Constants.BETA_SUFFIX)
 
         if (this == currentVersion) {
@@ -106,9 +159,13 @@ object VersionManager {
 
         if (!manualCheck) {
             val ignored = versionRepository.getIgnoredVersions()
-            if (ignored.contains(Version(this))) {
+            if (ignored.contains(Version(currentVersion))) {
                 return false
             }
+        }
+
+        if (commitHash != null) {
+            return true
         }
 
         val incomingParts = this.split(".").map { it.toInt() }

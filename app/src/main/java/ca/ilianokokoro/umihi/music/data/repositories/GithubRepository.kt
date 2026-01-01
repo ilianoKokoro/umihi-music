@@ -21,4 +21,15 @@ class GithubRepository() {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getLatestCommit(): Flow<ApiResult<String>> {
+        return flow {
+            try {
+                emit(ApiResult.Loading)
+                emit(ApiResult.Success(githubRepository.getLatestCommit()))
+            } catch (ex: Exception) {
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

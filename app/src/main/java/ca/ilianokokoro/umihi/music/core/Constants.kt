@@ -17,6 +17,9 @@ object Constants {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
         const val GITHUB_RELEASE_API =
             "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/latest"
+        const val GITHUB_COMMIT_API =
+            "https://api.github.com/repos/ilianoKokoro/umihi-music/commits/main"
+
 
         const val GITHUB_RELEASE_LINK =
             "https://github.com/ilianoKokoro/umihi-music/releases/latest"
