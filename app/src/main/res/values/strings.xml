@@ -74,4 +74,5 @@
     <string name="delete_download">Delete Download</string>
     <string name="webm_extension" translatable="false">%1$s.webm</string>
     <string name="jpg_extension" translatable="false">%1$s.jpg</string>
+    <string name="beta_update_available">Beta Update Available</string>
 </resources>

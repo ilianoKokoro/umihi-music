@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.datasources.GithubDatasource
+import ca.ilianokokoro.umihi.music.models.dto.GithubCommitResponse
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ class GithubRepository() {
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getLatestCommit(): Flow<ApiResult<String>> {
+    fun getLatestCommit(): Flow<ApiResult<GithubCommitResponse>> {
         return flow {
             try {
                 emit(ApiResult.Loading)

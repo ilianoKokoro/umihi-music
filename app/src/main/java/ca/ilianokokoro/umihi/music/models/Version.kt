@@ -12,5 +12,8 @@ import kotlinx.serialization.Serializable
 data class Version(
     @PrimaryKey
     val name: String,
-)
+) {
+    val isBeta: Boolean
+        get() = name.contains(".")
+}
 

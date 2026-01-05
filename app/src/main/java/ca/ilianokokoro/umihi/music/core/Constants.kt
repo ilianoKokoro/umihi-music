@@ -15,14 +15,25 @@ object Constants {
 
     object Url {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
-        const val GITHUB_RELEASE_API =
-            "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/latest"
-        const val GITHUB_COMMIT_API =
-            "https://api.github.com/repos/ilianoKokoro/umihi-music/commits/main"
 
+        object Github {
+            object Beta {
+                const val API =
+                    "https://api.github.com/repos/ilianoKokoro/umihi-music/commits/main"
+                const val DOWNLOAD =
+                    "https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/release-build.zip"
+            }
 
-        const val GITHUB_RELEASE_LINK =
-            "https://github.com/ilianoKokoro/umihi-music/releases/latest"
+            object Release {
+                const val API =
+                    "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/latest"
+                const val LATEST =
+                    "https://github.com/ilianoKokoro/umihi-music/releases/latest"
+                const val DOWNLOAD =
+                    "https://github.com/ilianoKokoro/umihi-music/releases/latest/download/UmihiMusic.apk"
+
+            }
+        }
     }
 
     object Downloads {

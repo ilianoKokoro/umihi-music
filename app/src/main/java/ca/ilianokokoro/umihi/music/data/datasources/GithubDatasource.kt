@@ -12,7 +12,7 @@ class GithubDatasource {
     private val json = Json { ignoreUnknownKeys = true }
 
     fun getLatestRelease(): GithubReleaseResponse {
-        val (_, _, result) = Constants.Url.GITHUB_RELEASE_API.httpGet()
+        val (_, _, result) = Constants.Url.Github.Release.API.httpGet()
             .responseJson()
 
 
@@ -28,14 +28,14 @@ class GithubDatasource {
         }
     }
 
-    fun getLatestCommit(): String {
-        val (_, _, result) = Constants.Url.GITHUB_COMMIT_API.httpGet()
+    fun getLatestCommit(): GithubCommitResponse {
+        val (_, _, result) = Constants.Url.Github.Beta.API.httpGet()
             .responseJson()
 
 
         return when (result) {
             is Result.Success -> {
-                json.decodeFromString<GithubCommitResponse>(result.value.content).sha
+                json.decodeFromString<GithubCommitResponse>(result.value.content)
             }
 
 

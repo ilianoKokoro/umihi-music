@@ -29,7 +29,7 @@ object VersionManager {
 
     private val githubRepository: GithubRepository = GithubRepository()
     private lateinit var versionRepository: VersionDataSource
-    
+
     fun initialize(context: Context) {
         if (versionName == null) {
             versionName = try {
@@ -88,11 +88,11 @@ object VersionManager {
                                     manualCheck = manualCheck,
                                     outdated = BuildConfig.COMMIT_HASH.isNewUpdate(
                                         manualCheck,
-                                        latestCommit
+                                        latestCommit.sha
                                     ),
                                     release = GithubReleaseResponse(
-                                        tagName = latestCommit,
-                                        body = "No detail",
+                                        tagName = latestCommit.sha.take(8),
+                                        body = latestCommit.commit.message,
                                         assets = emptyList()
                                     )
                                 )

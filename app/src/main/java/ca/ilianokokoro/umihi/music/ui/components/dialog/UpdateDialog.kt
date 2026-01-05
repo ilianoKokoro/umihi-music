@@ -18,8 +18,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getBulletPointsFromMarkdown
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -30,8 +28,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun UpdateDialog(scope: CoroutineScope) {
     val uriHandler = LocalUriHandler.current
-    //val downloader = AndroidDownloader(LocalContext.current)
-
 
     val showDialog = remember { mutableStateOf(false) }
     val data = remember { mutableStateOf<GithubReleaseResponse?>(null) }
@@ -53,7 +49,7 @@ fun UpdateDialog(scope: CoroutineScope) {
             onDismissRequest = { showDialog.value = false },
             title = {
                 Text(
-                    text = stringResource(R.string.update_available),
+                    text = stringResource(if (releaseInfo.isBeta) R.string.beta_update_available else R.string.update_available),
                 )
             },
             text = {
@@ -67,27 +63,27 @@ fun UpdateDialog(scope: CoroutineScope) {
 
                     )
                     Text(
-                        text = releaseInfo.body.getBulletPointsFromMarkdown(),
+                        text = releaseInfo.cleanBody,
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
             },
             confirmButton = {
-                TextButton(
-                    onClick = {
-                        showDialog.value = false
-                        uriHandler.openUri(Constants.Url.GITHUB_RELEASE_LINK)
-                    },
-                    shapes = ButtonDefaults.shapes()
-                ) { Text(stringResource(R.string.open)) }
-
 //                TextButton(
 //                    onClick = {
 //                        showDialog.value = false
-//                        downloader.downloadUpdate(releaseInfo.assets.first().url)
+//                        uriHandler.openUri(Constants.Url.GITHUB_RELEASE_LINK)
 //                    },
 //                    shapes = ButtonDefaults.shapes()
-//                ) { Text(stringResource(R.string.download)) }
+//                ) { Text(stringResource(R.string.open)) }
+
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                        uriHandler.openUri(releaseInfo.downloadUrl)
+                    },
+                    shapes = ButtonDefaults.shapes()
+                ) { Text(stringResource(R.string.download)) }
 
             },
             dismissButton = {

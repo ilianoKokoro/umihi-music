@@ -91,7 +91,8 @@ android {
 }
 
 androidComponents {
-    val commitHash = "a142eb74535baf4273435b329c3296ba3f424a7e9"
+    val commitHash: String = (project.findProperty("gitHash") as String?)
+        ?: "N/A"
     onVariants {
         it.buildConfigFields?.put(
             "COMMIT_HASH", BuildConfigField(

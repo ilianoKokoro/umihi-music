@@ -58,9 +58,9 @@ jobs:
       - name: Build with dynamic beta flag
         run: |
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
-            ./gradlew assembleRelease -Pbeta=false
+            ./gradlew assembleRelease -Pbeta=false -PgitHash=${{ github.sha }}
           else
-            ./gradlew assembleRelease -Pbeta=true
+            ./gradlew assembleRelease -Pbeta=true -PgitHash=${{ github.sha }}
           fi
 
       - name: Rename APK file
