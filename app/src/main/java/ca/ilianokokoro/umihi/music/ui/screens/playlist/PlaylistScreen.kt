@@ -88,10 +88,6 @@ fun PlaylistScreen(
                     is ScreenState.Success -> {
                         uiState.screenState.playlist
                     }
-
-                    else -> {
-                        Playlist(PlaylistInfo())
-                    }
                 }
                 val songs = playlistInfo.songs
 

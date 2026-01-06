@@ -25,6 +25,8 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 ## Features ✨
 
 -   Play your YouTube / YT Music playlists
+-   Download music for offline playback
+-   Automatic update checker
 -   No ads
 -   Lightweight and fast
 -   Clean Material Expressive design
@@ -32,8 +34,8 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 
 ### Future features (In development)
 
--   [ ] Download playlists for offline use
 -   [ ] Translations to other languages
+-   [ ] Search and playlist editing
 
 ---
 
