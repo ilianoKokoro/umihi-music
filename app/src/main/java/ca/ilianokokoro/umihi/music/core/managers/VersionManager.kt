@@ -91,7 +91,7 @@ object VersionManager {
                                         latestCommit.sha
                                     ),
                                     release = GithubReleaseResponse(
-                                        tagName = latestCommit.sha.take(8),
+                                        tagName = latestCommit.sha,
                                         body = latestCommit.commit.message,
                                         assets = emptyList()
                                     )

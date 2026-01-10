@@ -57,7 +57,7 @@ fun UpdateDialog(scope: CoroutineScope) {
                     Text(
                         text = stringResource(
                             R.string.new_version_body,
-                            releaseInfo.tagName
+                            releaseInfo.tagName.take(8)
                         ),
                         style = MaterialTheme.typography.bodyLarge
 
