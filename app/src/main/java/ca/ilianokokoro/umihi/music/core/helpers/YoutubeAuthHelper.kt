@@ -18,7 +18,6 @@ object YoutubeAuthHelper {
             "X-Origin" to Constants.YoutubeApi.ORIGIN,
             "X-YouTube-Client-Version" to client?.jsonObject["clientVersion"]?.jsonPrimitive.toString(),
             "X-YouTube-Client-Name" to client?.jsonObject["xClientName"]?.jsonPrimitive.toString(),
-            //"X-Goog-AuthUser" to 1,
             "Cookie" to cookies.toRawCookie(),
             "User-Agent" to client?.jsonObject["userAgent"]?.jsonPrimitive.toString()
         )
