@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.0"
 kotlin = "2.3.0"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -7,7 +7,7 @@ junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.2"
-composeBom = "2025.12.01"
+composeBom = "2026.01.00"
 
 # Added librairies
 desugar_jdk_libs_nio = "2.1.5"
@@ -21,9 +21,9 @@ datastorePreferences = "1.2.0"
 fuel = "2.3.1"
 webkit = "1.15.0"
 materialIconsExtended = "1.7.8"
-material3 = "1.5.0-alpha11"
+material3 = "1.5.0-alpha12"
 room = "2.8.4"
-ksp = "2.2.20-2.0.3"
+ksp = "2.3.4"
 customactivityoncrash = "2.4.0"
 workRuntimeKtx = "2.11.0"
 reorderable = "3.0.0"
@@ -77,7 +77,6 @@ newpipeextractor = { module = "com.github.TeamNewPipe:NewPipeExtractor", version
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
