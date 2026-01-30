@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.screens.playlists
+package ca.ilianokokoro.umihi.music.ui.screens.home
 
 
 import android.app.Application
@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlaylistsViewModel(application: Application) : AndroidViewModel(application) {
-    private val _uiState = MutableStateFlow(PlaylistsState())
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
+    private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository()
@@ -90,7 +90,7 @@ class PlaylistsViewModel(application: Application) : AndroidViewModel(applicatio
     companion object {
         fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                PlaylistsViewModel(application)
+                HomeViewModel(application)
             }
         }
     }

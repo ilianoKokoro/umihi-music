@@ -75,4 +75,6 @@
     <string name="webm_extension" translatable="false">%1$s.webm</string>
     <string name="jpg_extension" translatable="false">%1$s.jpg</string>
     <string name="beta_update_available">Beta Update Available</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
 </resources>

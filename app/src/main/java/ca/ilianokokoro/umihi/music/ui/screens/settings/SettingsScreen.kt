@@ -19,9 +19,6 @@ import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +34,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
-import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
@@ -47,7 +43,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSectio
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
-    onBack: () -> Unit,
     openAuthScreen: () -> Unit,
     application: Application,
     settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
@@ -68,116 +63,101 @@ fun SettingsScreen(
     }
 
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    BackButton(onBack)
-                },
-                title = {
-                    Text(stringResource(R.string.settings))
-                }
-            )
-        }, modifier = Modifier
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
             .fillMaxSize()
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                16.dp,
-                alignment = Alignment.CenterVertically
-            )
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(
+            16.dp,
+            alignment = Alignment.CenterVertically
+        )
 
-        ) {
-            when (uiState.screenState) {
-                is ScreenState.Success -> {
-                    val state = uiState.screenState
-                    SettingsSection(
-                        title = stringResource(R.string.account)
-                    ) {
-                        if (settingsViewModel.isLoggedIn()) {
-                            SettingsItem(
-                                title = stringResource(R.string.log_out),
-                                subtitle = stringResource(R.string.logged_in_message),
-                                leadingIcon = Icons.AutoMirrored.Outlined.Logout,
-                                onClick = settingsViewModel::logOut
-                            )
-                        } else {
-                            SettingsItem(
-                                title = stringResource(R.string.log_in),
-                                subtitle = stringResource(R.string.logged_out_message),
-                                leadingIcon = Icons.AutoMirrored.Outlined.Login,
-                                onClick = openAuthScreen
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(4.dp))
+    ) {
+        when (uiState.screenState) {
+            is ScreenState.Success -> {
+                val state = uiState.screenState
+                SettingsSection(
+                    title = stringResource(R.string.account)
+                ) {
+                    if (settingsViewModel.isLoggedIn()) {
                         SettingsItem(
-                            title = stringResource(R.string.clear_login_info),
-                            subtitle = stringResource(R.string.clear_login_message),
-                            leadingIcon = Icons.Outlined.Delete,
-                            onClick = settingsViewModel::clearLogins
+                            title = stringResource(R.string.log_out),
+                            subtitle = stringResource(R.string.logged_in_message),
+                            leadingIcon = Icons.AutoMirrored.Outlined.Logout,
+                            onClick = settingsViewModel::logOut
+                        )
+                    } else {
+                        SettingsItem(
+                            title = stringResource(R.string.log_in),
+                            subtitle = stringResource(R.string.logged_out_message),
+                            leadingIcon = Icons.AutoMirrored.Outlined.Login,
+                            onClick = openAuthScreen
                         )
                     }
-
-                    SettingsSection(
-                        title = stringResource(R.string.data_and_storage),
-                    ) {
-                        SettingsItem(
-                            title = stringResource(R.string.delete_downloads),
-                            subtitle = stringResource(R.string.clear_data_message),
-                            leadingIcon = Icons.Outlined.Delete,
-                            onClick = settingsViewModel::clearDownloads
-                        )
-                    }
-
-                    SettingsSection(
-                        title = stringResource(R.string.app_info),
-                    ) {
-                        SettingsItem(
-                            title = stringResource(R.string.check_for_updates),
-                            subtitle = stringResource(
-                                R.string.current_version,
-                                VersionManager.getVersionName()
-                            ),
-                            leadingIcon = Icons.Outlined.Update,
-                            onClick = settingsViewModel::checkForUpdates
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        SettingsItem(
-                            title = stringResource(R.string.update_channel_title),
-                            subtitle = stringResource(
-                                R.string.current_update_channel_body,
-                                state.settings.updateChannel
-                            ),
-                            leadingIcon = Icons.Outlined.SystemUpdate,
-                            onClick = {
-                                showUpdateChannelDialog.value = true
-                            }
-                        )
-                    }
-
-                    if (showUpdateChannelDialog.value) {
-                        UpdateChannelDialog(
-                            selectedOption = state.settings.updateChannel,
-                            onChange = {
-                                settingsViewModel.changeUpdateChannel(it)
-                            }, onClose = {
-                                showUpdateChannelDialog.value = false
-                            })
-                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    SettingsItem(
+                        title = stringResource(R.string.clear_login_info),
+                        subtitle = stringResource(R.string.clear_login_message),
+                        leadingIcon = Icons.Outlined.Delete,
+                        onClick = settingsViewModel::clearLogins
+                    )
                 }
 
-                ScreenState.Loading -> LoadingAnimation()
-                is ScreenState.Error -> ErrorMessage(
-                    ex = uiState.screenState.exception,
-                    onRetry = settingsViewModel::getSettings
-                )
+                SettingsSection(
+                    title = stringResource(R.string.data_and_storage),
+                ) {
+                    SettingsItem(
+                        title = stringResource(R.string.delete_downloads),
+                        subtitle = stringResource(R.string.clear_data_message),
+                        leadingIcon = Icons.Outlined.Delete,
+                        onClick = settingsViewModel::clearDownloads
+                    )
+                }
+
+                SettingsSection(
+                    title = stringResource(R.string.app_info),
+                ) {
+                    SettingsItem(
+                        title = stringResource(R.string.check_for_updates),
+                        subtitle = stringResource(
+                            R.string.current_version,
+                            VersionManager.getVersionName()
+                        ),
+                        leadingIcon = Icons.Outlined.Update,
+                        onClick = settingsViewModel::checkForUpdates
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    SettingsItem(
+                        title = stringResource(R.string.update_channel_title),
+                        subtitle = stringResource(
+                            R.string.current_update_channel_body,
+                            state.settings.updateChannel
+                        ),
+                        leadingIcon = Icons.Outlined.SystemUpdate,
+                        onClick = {
+                            showUpdateChannelDialog.value = true
+                        }
+                    )
+                }
+
+                if (showUpdateChannelDialog.value) {
+                    UpdateChannelDialog(
+                        selectedOption = state.settings.updateChannel,
+                        onChange = {
+                            settingsViewModel.changeUpdateChannel(it)
+                        }, onClose = {
+                            showUpdateChannelDialog.value = false
+                        })
+                }
             }
+
+            ScreenState.Loading -> LoadingAnimation()
+            is ScreenState.Error -> ErrorMessage(
+                ex = uiState.screenState.exception,
+                onRetry = settingsViewModel::getSettings
+            )
         }
     }
 
