@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,13 +64,26 @@ private data object AuthScreenKey : NavKey
 private data object PlayerScreenKey : NavKey
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
+    val title = remember { mutableStateOf("") }
+    // TODO dynamic
+
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        topBar = {
+            if (title.value.isNotBlank()) {
+                TopAppBar(
+                    title = {
+                        Text(title.value)
+                    }
+                )// TODO back button
+            }
+        },
         bottomBar = {
             BottomNavigationBar(
                 currentTab = backStack.last(),
@@ -177,7 +195,12 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                             SearchScreen(application = app)
                         }
 
-                        else -> throw RuntimeException(app.getString(R.string.invalid_navkey, key))
+                        else -> throw RuntimeException(
+                            app.getString(
+                                R.string.invalid_navkey,
+                                key
+                            )
+                        )
                     }
                 }
             )
