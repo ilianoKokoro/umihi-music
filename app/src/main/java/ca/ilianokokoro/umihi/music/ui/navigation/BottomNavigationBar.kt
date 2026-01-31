@@ -14,7 +14,7 @@ import ca.ilianokokoro.umihi.music.R
 
 @Composable
 fun BottomNavigationBar(
-    currentTab: NavKey,
+    currentTab: NavKey?,
     onTabSelected: (NavKey) -> Unit
 ) {
     NavigationBar {

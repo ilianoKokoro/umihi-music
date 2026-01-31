@@ -1,11 +1,14 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
 import android.app.Application
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,11 +20,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavBackStack
@@ -33,7 +35,7 @@ import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
-import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.home.HomeScreen
@@ -41,25 +43,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.search.SearchScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object HomeScreenKey : NavKey
-
-@Serializable
-data object SearchScreenKey : NavKey
-
-@Serializable
-data object SettingsScreenKey : NavKey
-
-@Serializable
-private data class PlaylistScreenKey(val playlistInfo: PlaylistInfo) : NavKey
-
-@Serializable
-private data object AuthScreenKey : NavKey
-
-@Serializable
-private data object PlayerScreenKey : NavKey
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,35 +50,64 @@ private data object PlayerScreenKey : NavKey
 fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
-    val title = remember { mutableStateOf("") }
-    // TODO dynamic
-
+    val currentScreen = backStack.last()
+    val screenConfig = rememberScreenUiConfig(currentScreen)
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+
         topBar = {
-            if (title.value.isNotBlank()) {
-                TopAppBar(
-                    title = {
-                        Text(title.value)
+            TopAppBar(
+                title = {
+                    val hasTitle = screenConfig.titleId != 0 || screenConfig.title.isNotBlank()
+
+                    AnimatedVisibility(
+                        visible = hasTitle,
+                        enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
+                        exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
+                    ) {
+                        when {
+                            screenConfig.titleId != 0 ->
+                                Text(stringResource(screenConfig.titleId))
+
+                            screenConfig.title.isNotBlank() ->
+                                Text(screenConfig.title)
+                        }
                     }
-                )// TODO back button
-            }
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                currentTab = backStack.last(),
-                onTabSelected = { key ->
-                    if (backStack.last() != key) backStack.add(key)
+                },
+                navigationIcon = {
+                    AnimatedVisibility(
+                        visible = screenConfig.showBack,
+                        enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
+                        exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
+                    ) {
+                        BackButton(onBack = backStack::safePop)
+                    }
                 }
             )
+        },
+        bottomBar = {
+            AnimatedVisibility(
+                visible = screenConfig.showBottomBar,
+                enter = slideInVertically { it } + fadeIn(),
+                exit = slideOutVertically { it } + fadeOut()
+            ) {
+                BottomNavigationBar(
+                    currentTab = screenConfig.selectedTab,
+                    onTabSelected = { key ->
+                        if (backStack.last() != key) backStack.add(key)
+                    }
+                )
+            }
         }
+
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background),
+                .padding(paddingValues),
             contentAlignment = Alignment.BottomCenter
         ) {
             NavDisplay(
