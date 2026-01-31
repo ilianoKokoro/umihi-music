@@ -75,7 +75,7 @@ fun MiniPlayerWrapper(
         exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
             .height(70.dp)
     ) {
         MiniPlayer(

@@ -35,7 +35,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
-    onBack: () -> Unit,
     player: Player,
     modifier: Modifier = Modifier,
     application: Application,

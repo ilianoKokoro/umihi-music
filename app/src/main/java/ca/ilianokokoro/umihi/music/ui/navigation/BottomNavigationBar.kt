@@ -8,7 +8,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
+import ca.ilianokokoro.umihi.music.R
 
 @Composable
 fun BottomNavigationBar(
@@ -25,7 +27,7 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
-            label = { Text("Home") }
+            label = { Text(stringResource(R.string.home)) }
         )
         NavigationBarItem(
             selected = currentTab is SearchScreenKey,
@@ -36,7 +38,7 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
-            label = { Text("Search") }
+            label = { Text(stringResource(R.string.search)) }
         )
         NavigationBarItem(
             selected = currentTab is SettingsScreenKey,
@@ -47,7 +49,7 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
-            label = { Text("Settings") }
+            label = { Text(stringResource(R.string.settings)) }
         )
     }
 }

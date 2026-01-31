@@ -49,6 +49,12 @@ fun Player.addToQueue(song: Song, context: Context? = null) {
     playIfQueueCreated()
 }
 
+fun Player.playSong(song: Song) {
+    setMediaItem(song.mediaItem)
+    playIfQueueCreated()
+}
+
+
 fun Player.clearQueue() {
     stop()
     clearMediaItems()
