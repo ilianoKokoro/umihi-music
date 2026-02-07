@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -79,13 +80,17 @@ fun SearchScreen(
                 onValueChange = {
                     searchViewModel.onSearchFieldChange(it)
                 },
-
                 label = {
                     Text(text = stringResource(R.string.search))
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Search,
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        searchViewModel.search()
+                    }
                 ),
                 maxLines = 1
             )

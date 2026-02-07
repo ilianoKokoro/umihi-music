@@ -107,6 +107,33 @@ object YoutubeHelper {
         return playlistInfos
     }
 
+
+    fun extractSearchResults(jsonString: String): List<Song> {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+
+        val tabs = json["contents"]
+            ?.jsonObject?.get("tabbedSearchResultsRenderer")
+            ?.jsonObject?.get("tabs")
+            ?.jsonArray ?: return emptyList()
+
+
+        val selectedTab = tabs.firstOrNull {
+            it.jsonObject["tabRenderer"]
+                ?.jsonObject?.get("selected")
+                ?.jsonPrimitive?.booleanOrNull == true
+        }?.jsonObject?.get("tabRenderer")?.jsonObject ?: return emptyList()
+
+        val contents = selectedTab["content"]
+            ?.jsonObject?.get("sectionListRenderer")
+            ?.jsonObject?.get("contents")
+            ?.jsonArray ?: return emptyList()
+
+
+        printd(contents.toString())
+        // TODO finish extraction
+        return listOf()
+    }
+
     fun extractHighQualityThumbnail(jsonString: String): String {
         val json = Json.parseToJsonElement(jsonString).jsonObject
         val url = json["videoDetails"]
@@ -146,7 +173,10 @@ object YoutubeHelper {
         return parseSongsFromContents(contents, settings)
     }
 
-    private fun parseSongsFromContents(contents: JsonArray?, settings: UmihiSettings): List<Song> {
+    private fun parseSongsFromContents(
+        contents: JsonArray?,
+        settings: UmihiSettings
+    ): List<Song> {
         val songs = mutableListOf<Song>()
         if (contents == null) return songs
 
@@ -158,6 +188,7 @@ object YoutubeHelper {
                     ?.jsonObject?.get("continuationCommand")
                     ?.jsonObject?.get("token")
                     ?.jsonPrimitive?.contentOrNull ?: ""
+
                 val otherSongs = extractContinuationSongs(
                     YoutubeRequestHelper.requestContinuation(
                         continuationToken = token,
@@ -165,6 +196,7 @@ object YoutubeHelper {
                     ), settings
                 )
                 songs.addAll(otherSongs)
+
                 continue
             }
 

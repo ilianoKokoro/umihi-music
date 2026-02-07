@@ -15,9 +15,6 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.CommandButton
-import androidx.media3.session.DefaultMediaNotificationProvider
-import androidx.media3.session.MediaNotification
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -27,7 +24,6 @@ import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
-import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -102,7 +98,8 @@ class PlaybackService : MediaSessionService() {
                     controller: MediaSession.ControllerInfo
                 ): MediaSession.ConnectionResult {
                     val commands =
-                        MediaSession.ConnectionResult.DEFAULT_SESSION_COMMANDS
+                        MediaSession.ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
+                            .build()
 
                     return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
                         .setAvailableSessionCommands(commands)
@@ -110,8 +107,6 @@ class PlaybackService : MediaSessionService() {
                 }
             })
             .build()
-
-        setMediaNotificationProvider(CustomMediaNotificationProvider(this))
     }
 
     override fun onGetSession(
@@ -189,7 +184,6 @@ class PlaybackService : MediaSessionService() {
                     .build()
             )
             .build()
-
         withContext(Dispatchers.Main) {
             if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
                 player.replaceMediaItem(
@@ -198,32 +192,5 @@ class PlaybackService : MediaSessionService() {
                 )
             }
         }
-    }
-
-    private class CustomMediaNotificationProvider(
-        private val context: android.content.Context
-    ) : MediaNotification.Provider {
-
-        override fun createNotification(
-            mediaSession: MediaSession,
-            customLayout: ImmutableList<CommandButton>,
-            actionFactory: MediaNotification.ActionFactory,
-            onNotificationChangedCallback: MediaNotification.Provider.Callback
-        ): MediaNotification {
-            val builder = DefaultMediaNotificationProvider.Builder(context)
-                .build()
-            return builder.createNotification(
-                mediaSession,
-                customLayout,
-                actionFactory,
-                onNotificationChangedCallback
-            )
-        }
-
-        override fun handleCustomCommand(
-            session: MediaSession,
-            action: String,
-            extras: android.os.Bundle
-        ): Boolean = false
     }
 }

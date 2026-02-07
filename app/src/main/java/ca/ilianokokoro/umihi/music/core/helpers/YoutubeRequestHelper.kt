@@ -26,12 +26,19 @@ object YoutubeRequestHelper {
         )
     }
 
-
     fun getPlayerInfo(videoId: String): String {
         return requestWithContext(
             url = Constants.YoutubeApi.PlayerInfo.URL,
             idName = "videoId",
             id = videoId
+        )
+    }
+
+    fun search(query: String): String {
+        return requestWithContext(
+            url = Constants.YoutubeApi.Search.URL,
+            idName = "query",
+            id = query
         )
     }
 

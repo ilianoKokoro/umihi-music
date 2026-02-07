@@ -145,11 +145,13 @@ object Constants {
         }
 
         object PlayerInfo {
-
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player"
 
+        }
 
+        object Search {
+            const val URL = "https://music.youtube.com/youtubei/v1/search"
         }
 
 
