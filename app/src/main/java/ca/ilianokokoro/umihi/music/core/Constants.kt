@@ -1,8 +1,9 @@
 package ca.ilianokokoro.umihi.music.core
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -27,8 +28,6 @@ object Constants {
             object Release {
                 const val API =
                     "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/latest"
-                const val LATEST =
-                    "https://github.com/ilianoKokoro/umihi-music/releases/latest"
                 const val DOWNLOAD =
                     "https://github.com/ilianoKokoro/umihi-music/releases/latest/download/UmihiMusic.apk"
 
@@ -54,21 +53,29 @@ object Constants {
         val SLIDE_UP_TRANSITION = NavDisplay.transitionSpec {
             slideInVertically(
                 initialOffsetY = { it },
-                animationSpec = tween(NAVIGATION_DURATION * 2)
-            ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                animationSpec = tween(
+                    durationMillis = NAVIGATION_DURATION * 2,
+                    easing = FastOutSlowInEasing
+                )
+            ) togetherWith fadeOut()
         } + NavDisplay.popTransitionSpec {
-            EnterTransition.None togetherWith
-                    slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(NAVIGATION_DURATION * 2)
-                    )
+            fadeIn() togetherWith slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = tween(
+                    durationMillis = NAVIGATION_DURATION * 2,
+                    easing = FastOutSlowInEasing
+                )
+            )
         } + NavDisplay.predictivePopTransitionSpec {
-            EnterTransition.None togetherWith
-                    slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(NAVIGATION_DURATION * 2)
-                    )
+            fadeIn() togetherWith slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = tween(
+                    durationMillis = NAVIGATION_DURATION * 2,
+                    easing = FastOutSlowInEasing
+                )
+            )
         }
+
     }
 
     object Auth {
