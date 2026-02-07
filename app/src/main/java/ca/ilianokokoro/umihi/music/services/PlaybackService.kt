@@ -67,6 +67,7 @@ class PlaybackService : MediaSessionService() {
             )
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .setHandleAudioBecomingNoisy(true)
+            .setDeviceVolumeControlEnabled(true)
             .setMediaSourceFactory(YoutubeMediaSourceFactory(application, cacheDataSourceFactory))
             .build()
 
@@ -95,6 +96,19 @@ class PlaybackService : MediaSessionService() {
 
         mediaSession = MediaSession.Builder(this, player)
             .setSessionActivity(pendingIntent)
+            .setCallback(object : MediaSession.Callback {
+                override fun onConnect(
+                    session: MediaSession,
+                    controller: MediaSession.ControllerInfo
+                ): MediaSession.ConnectionResult {
+                    val commands =
+                        MediaSession.ConnectionResult.DEFAULT_SESSION_COMMANDS
+
+                    return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
+                        .setAvailableSessionCommands(commands)
+                        .build()
+                }
+            })
             .build()
 
         setMediaNotificationProvider(CustomMediaNotificationProvider(this))

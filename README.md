@@ -6,13 +6,15 @@
 
 <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" height="72">
 
-A lightweight **Material YouTube Music player** for Android, built with **Kotlin** and **Jetpack Compose**.
+A lightweight **Material YouTube Music player** for Android, built with **Kotlin** and **Jetpack
+Compose**.
 
 <a href="https://www.producthunt.com/products/umihi-music?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-umihi&#0045;music" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1015448&theme=dark&t=1757640480731" alt="Umihi&#0032;Music - A&#0032;simple&#0032;material&#0032;Youtube&#0032;music&#0032;player&#0032;for&#0032;Android | Product Hunt" style="width: 250px; height: 54px; display: block" width="250" height="54" /></a>
 
-Designed for simplicity and smooth performance, Umihi Music lets you enjoy your favorite tracks effortlessly.
+Designed for simplicity and smooth performance, Umihi Music lets you enjoy your favorite tracks
+effortlessly.
 
-### Download 📥
+## Download 📥
 
 <p float="left">
 <a href="https://apt.izzysoft.de/packages/ca.ilianokokoro.umihi.music"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80"></a>
@@ -20,24 +22,27 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 <a href="https://github.com/ilianoKokoro/umihi-music/releases/latest"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
 </p>
 
----
+## Support 🛟
+
+Join the Discord server to get update pings, know about announcements and get support about problems
+
+[![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
 
 ## Features ✨
 
--   Play your YouTube / YT Music playlists
--   Download music for offline playback
--   Automatic update checker
--   No ads
--   Lightweight and fast
--   Clean Material Expressive design
--   Optimized for modern Android devices
+- Play your YouTube / YT Music playlists
+- Download music for offline playback
+- Brand accounts login
+- Automatic update checker
+- No ads
+- Lightweight and fast
+- Clean Material Expressive design
+- Optimized for modern Android devices
 
 ### Future features (In development)
 
--   [ ] Translations to other languages
--   [ ] Search and playlist editing
-
----
+- [ ] Translations to other languages
+- [ ] Search and playlist editing
 
 ## Screenshots 🖼️
 
@@ -50,21 +55,13 @@ Designed for simplicity and smooth performance, Umihi Music lets you enjoy your 
 
 </p>
 
-### Beta build
+## Beta build
 
 **⚠️ This build may not be stable as it is not a release ⚠️**
 
 [![Beta APK Build](https://img.shields.io/github/actions/workflow/status/ilianoKokoro/umihi-music/build-release.yml?style=for-the-badge&label=Beta%20Build)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yml)
 
 <a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/release-build.zip"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
-
----
-
-## Support 🛟
-
-Join the Discord server to get update pings, know about announcements and get support about problems
-
-[![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
 
 ## Credits 🎨
 
