@@ -89,6 +89,7 @@ object Constants {
         const val NAME = "umihi-mobile"
         const val COOKIES_KEY = "cookies"
         const val UPDATE_CHANNEL_KEY = "update-channel"
+        const val DATA_SYNC_ID = "data-sync-id"
     }
 
     object Database {
@@ -131,16 +132,15 @@ object Constants {
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
             val CLIENT =
                 buildJsonObject {
-                    put("client", buildJsonObject {
-                        put("clientName", JsonPrimitive("WEB_REMIX"))
-                        put("clientVersion", JsonPrimitive("1.20250212.01.00"))
-                        put(
-                            "userAgent",
-                            JsonPrimitive(USER_AGENT)
-                        )
-                        put("xClientName", JsonPrimitive(1))
-                    })
+                    put("clientName", JsonPrimitive("WEB_REMIX"))
+                    put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                    put(
+                        "userAgent",
+                        JsonPrimitive(USER_AGENT)
+                    )
+                    put("xClientName", JsonPrimitive(1))
                 }
+
 
         }
 

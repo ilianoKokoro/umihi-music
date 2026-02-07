@@ -177,12 +177,12 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
         try {
             val localPlaylist = localPlaylistRepository.getPlaylistById(_playlist.id)
 
-            val cookies = datastoreRepository.getCookies()
-            if (cookies.isEmpty()) {
+            val settings = datastoreRepository.getSettings()
+            if (settings.cookies.isEmpty()) {
                 throw Exception("Failed to get to login cookies")
             }
 
-            playlistRepository.retrieveOne(Playlist(_playlist), cookies)
+            playlistRepository.retrieveOne(Playlist(_playlist), settings)
                 .collect { apiResult ->
                     _uiState.update { _ ->
                         _uiState.value.copy(

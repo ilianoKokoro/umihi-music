@@ -56,9 +56,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getPlaylistsSuspend() {
         try {
-            val cookies = datastoreRepository.getCookies()
-            if (!cookies.isEmpty()) {
-                playlistRepository.retrieveAll(cookies).collect { apiResult ->
+            val settings = datastoreRepository.getSettings()
+
+            if (!settings.cookies.isEmpty()) {
+                playlistRepository.retrieveAll(settings).collect { apiResult ->
                     _uiState.update {
                         _uiState.value.copy(
                             screenState = when (apiResult) {

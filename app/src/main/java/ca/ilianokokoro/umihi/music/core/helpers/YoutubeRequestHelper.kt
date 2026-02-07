@@ -1,30 +1,28 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.models.Cookies
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 
 object YoutubeRequestHelper {
-    fun browse(browseId: String, cookies: Cookies): String {
+    fun browse(browseId: String, settings: UmihiSettings): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "browseId",
             id = browseId,
-            cookies = cookies
+            settings = settings
         )
     }
 
-    fun requestContinuation(continuationToken: String, cookies: Cookies): String {
+    fun requestContinuation(continuationToken: String, settings: UmihiSettings): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "continuation",
             id = continuationToken,
-            cookies = cookies
+            settings = settings
         )
     }
 
@@ -41,17 +39,13 @@ object YoutubeRequestHelper {
         url: String,
         idName: String,
         id: String,
-        cookies: Cookies? = null
+        settings: UmihiSettings? = null
     ): String {
         val body =
-            buildJsonObject {
-                put("context", Constants.YoutubeApi.Browse.CLIENT)
-                put(idName, id)
-            }
+            YoutubeAuthHelper.buildContextBody(idName, id, settings)
 
-
-        val headers = if (cookies != null) {
-            YoutubeAuthHelper.getHeaders(cookies)
+        val headers = if (settings != null) {
+            YoutubeAuthHelper.getHeaders(settings.cookies)
         } else {
             mapOf()
         }
@@ -72,5 +66,4 @@ object YoutubeRequestHelper {
             }
         }
     }
-
 }

@@ -4,5 +4,6 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateC
 
 data class UmihiSettings(
     val updateChannel: UpdateChannel = UpdateChannel.Stable,
-    val cookies: Cookies
+    val cookies: Cookies,
+    val dataSyncId: String
 )

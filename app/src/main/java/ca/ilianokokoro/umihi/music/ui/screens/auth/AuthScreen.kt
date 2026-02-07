@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.view.ContextThemeWrapper
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -90,9 +91,19 @@ fun AuthScreen(
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
+                        loadUrl("javascript:Android.onRetrieveDataSyncId(window.yt.config_.DATASYNC_ID)")
                         authViewModel.onPageFinished(url)
                     }
                 }
+                addJavascriptInterface(object {
+                    @JavascriptInterface
+                    fun onRetrieveDataSyncId(newDataSyncId: String?) {
+                        if (newDataSyncId != null) {
+                            val dataSyncId = newDataSyncId.substringBefore("||")
+                            authViewModel.onDataSyncIdFound(dataSyncId)
+                        }
+                    }
+                }, "Android")
                 loadUrl(Constants.Auth.START_URL)
             }
         },

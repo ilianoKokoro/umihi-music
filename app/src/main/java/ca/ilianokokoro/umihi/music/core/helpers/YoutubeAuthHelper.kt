@@ -2,12 +2,43 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Cookies
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 import java.security.MessageDigest
 import kotlin.text.Charsets.UTF_8
 
 object YoutubeAuthHelper {
+
+    fun buildContextBody(idName: String?, id: String?, settings: UmihiSettings?): JsonObject {
+
+
+        return buildJsonObject {
+            val user = buildJsonObject {
+                put("lockedSafetyMode", JsonPrimitive(false))
+                if (settings != null) {
+                    put("onBehalfOfUser", settings.dataSyncId)
+                }
+            }
+
+            val context = buildJsonObject {
+                put("client", Constants.YoutubeApi.Browse.CLIENT)
+                put("user", user)
+            }
+            put(
+                "context",
+                context
+            )
+            if (idName != null) {
+                put(idName, id)
+            }
+        }
+    }
+
     fun getHeaders(cookies: Cookies): Map<String, Any> {
         val client = Constants.YoutubeApi.Browse.CLIENT["client"]?.jsonObject
         val headers = mutableMapOf(

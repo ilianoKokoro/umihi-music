@@ -6,9 +6,9 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
-import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -119,7 +119,7 @@ object YoutubeHelper {
         return url ?: ""
     }
 
-    fun extractSongList(jsonString: String, cookies: Cookies): List<Song> {
+    fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["contents"]
@@ -131,10 +131,10 @@ object YoutubeHelper {
             ?.jsonObject?.get("musicPlaylistShelfRenderer")
             ?.jsonObject?.get("contents")
             ?.jsonArray
-        return parseSongsFromContents(contents, cookies)
+        return parseSongsFromContents(contents, settings)
     }
 
-    fun extractContinuationSongs(jsonString: String, cookies: Cookies): List<Song> {
+    fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["onResponseReceivedActions"]
@@ -143,10 +143,10 @@ object YoutubeHelper {
             ?.jsonObject?.get("continuationItems")
             ?.jsonArray
 
-        return parseSongsFromContents(contents, cookies)
+        return parseSongsFromContents(contents, settings)
     }
 
-    private fun parseSongsFromContents(contents: JsonArray?, cookies: Cookies): List<Song> {
+    private fun parseSongsFromContents(contents: JsonArray?, settings: UmihiSettings): List<Song> {
         val songs = mutableListOf<Song>()
         if (contents == null) return songs
 
@@ -161,8 +161,8 @@ object YoutubeHelper {
                 val otherSongs = extractContinuationSongs(
                     YoutubeRequestHelper.requestContinuation(
                         continuationToken = token,
-                        cookies = cookies
-                    ), cookies
+                        settings = settings
+                    ), settings
                 )
                 songs.addAll(otherSongs)
                 continue

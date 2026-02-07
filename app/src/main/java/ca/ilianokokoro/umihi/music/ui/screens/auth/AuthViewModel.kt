@@ -36,6 +36,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun onDataSyncIdFound(dataSyncId: String) {
+        viewModelScope.launch {
+            datastoreRepository.saveDataSyncId(dataSyncId)
+        }
+    }
+
     private fun saveCookies(cookies: Cookies) {
         printd("Got cookies: $cookies")
         viewModelScope.launch {
