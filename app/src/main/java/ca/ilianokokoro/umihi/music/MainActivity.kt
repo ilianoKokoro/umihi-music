@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music
 import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
             }
 
             handleShareIntent(intent)
+            handleViewIntent(intent)
             checkForUpdate()
         }
     }
@@ -79,6 +81,7 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleShareIntent(intent)
+        handleViewIntent(intent)
     }
 
     private fun handleShareIntent(intent: Intent?) {
@@ -95,17 +98,28 @@ class MainActivity : ComponentActivity() {
 
         val videoId = YoutubeHelper.extractYouTubeVideoId(url) ?: return
 
+        playVideoFromId(videoId)
+    }
+
+    private fun handleViewIntent(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_VIEW) return
+        val data: Uri = intent.data ?: return
+
+        val videoId = YoutubeHelper.extractYouTubeVideoId(data.toString()) ?: return
+        playVideoFromId(videoId)
+    }
+
+
+    private fun playVideoFromId(id: String) {
         lifecycleScope.launch {
-            songRepository.getSongInfo(videoId).collect { apiResult ->
+            songRepository.getSongInfo(id).collect { apiResult ->
                 when (apiResult) {
                     is ApiResult.Error -> {
                         Toast.makeText(
                             this@MainActivity,
                             getString(R.string.get_song_failed),
                             Toast.LENGTH_LONG
-                        )
-                            .show()
-
+                        ).show()
                     }
 
                     ApiResult.Loading -> {}
@@ -115,8 +129,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
 
+    }
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
