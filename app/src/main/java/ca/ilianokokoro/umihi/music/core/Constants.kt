@@ -118,6 +118,8 @@ object Constants {
     }
 
     object YoutubeApi {
+        const val URL_REGEX =
+            """https?://(www\.)?(youtube\.com|youtu\.be|music\.youtube\.com)/\S+"""
         const val RETRY_COUNT = 3
 
         const val RETRY_DELAY = 1000L

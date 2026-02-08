@@ -65,6 +65,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateShowUpdateChannelDialog(value: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showUpdateChannelDialog = value
+                )
+            }
+        }
+    }
+
 
     @OptIn(UnstableApi::class)
     fun clearDownloads() {

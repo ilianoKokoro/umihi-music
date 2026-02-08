@@ -22,11 +22,11 @@ class SongRepository {
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getSongThumbnail(songId: String): Flow<ApiResult<String>> {
+    fun getSongInfo(songId: String): Flow<ApiResult<Song>> {
         return flow {
             try {
                 emit(ApiResult.Loading)
-                emit(ApiResult.Success(songDataSource.getSongThumbnail(songId)))
+                emit(ApiResult.Success(songDataSource.getSongInfo(songId)))
             } catch (e: Exception) {
                 emit(ApiResult.Error(e))
             }

@@ -12,6 +12,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -56,14 +57,16 @@ class SongDownloadWorker(
             )
 
             try {
-                var result: ApiResult<String>? = null
-                songRepository.getSongThumbnail(song.youtubeId)
-                    .collect { r ->
-                        when (r) {
-                            is ApiResult.Loading -> {}
+                var fullSong: Song? = null
+                songRepository.getSongInfo(song.youtubeId)
+                    .collect { apiResult ->
+                        when (apiResult) {
+                            is ApiResult.Success -> {
+                                fullSong = apiResult.data
+                            }
+
                             else -> {
-                                result = r
-                                return@collect
+                                throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
                             }
                         }
                     }
@@ -73,15 +76,12 @@ class SongDownloadWorker(
                         appContext, song.youtubeId,
                     )
                 val thumbnailPath =
-                    (result as? ApiResult.Success)
-                        ?.data
-                        ?.let {
-                            DownloadHelper.downloadImage(
-                                appContext,
-                                it,
-                                song.youtubeId
-                            )
-                        }
+                    DownloadHelper.downloadImage(
+                        appContext,
+                        fullSong!!.thumbnailHref,
+                        song.youtubeId
+                    )
+
 
                 val updatedSong = song.copy(
                     thumbnailPath = thumbnailPath?.path,

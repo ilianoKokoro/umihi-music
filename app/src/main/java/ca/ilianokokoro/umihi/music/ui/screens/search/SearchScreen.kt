@@ -141,7 +141,7 @@ fun SearchScreen(
                             verticalArrangement = Arrangement.Center
 
                         ) {
-                            Text("No Result") // TODO maybe change
+                            Text(stringResource(R.string.no_results))
                         }
                     }
                 }

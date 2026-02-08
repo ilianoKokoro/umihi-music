@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
 import android.widget.Toast
+import androidx.core.net.toUri
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
@@ -23,10 +24,24 @@ import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
+import java.util.Locale
 
 object YoutubeHelper {
     private val client = OkHttpClient()
 
+
+    fun extractYouTubeVideoId(url: String): String? {
+        val uri = url.toUri()
+
+        return when {
+            uri.host?.contains("youtu.be") == true -> uri.lastPathSegment
+            uri.host?.contains("youtube.com") == true || uri.host?.contains("music.youtube.com") == true -> uri.getQueryParameter(
+                "v"
+            )
+
+            else -> null
+        }
+    }
 
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
         val url =
@@ -138,17 +153,27 @@ object YoutubeHelper {
         return songRendererList.mapNotNull { extractSong(it) }
     }
 
-    fun extractHighQualityThumbnail(jsonString: String): String {
-        val json = Json.parseToJsonElement(jsonString).jsonObject
-        val url = json["videoDetails"]
-            ?.jsonObject?.get("thumbnail")
-            ?.jsonObject?.get("thumbnails")
-            ?.jsonArray?.last()
-            ?.jsonObject?.get("url")
-            ?.jsonPrimitive?.contentOrNull
 
-        return url ?: ""
+    fun extractSongInfo(jsonString: String): Song {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+        val details = json.jsonObject["videoDetails"]?.jsonObject
+
+        val videoId = details?.get("videoId")?.jsonPrimitive?.contentOrNull ?: ""
+        val title = details?.get("title")?.jsonPrimitive?.contentOrNull ?: ""
+        val author = details?.get("author")?.jsonPrimitive?.contentOrNull ?: ""
+        val lengthSeconds: Int =
+            details?.get("lengthSeconds")?.jsonPrimitive?.contentOrNull?.toInt()
+                ?: 0
+
+        return Song(
+            youtubeId = videoId,
+            title = title,
+            artist = author,
+            duration = formatSecondsForYouTubeDisplay(lengthSeconds),
+            thumbnailHref = extractHighQualityThumbnail(jsonString)
+        )
     }
+
 
     fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
@@ -175,6 +200,31 @@ object YoutubeHelper {
             ?.jsonArray
 
         return parseSongsFromContents(contents, settings)
+    }
+
+
+    private fun formatSecondsForYouTubeDisplay(totalSeconds: Int): String {
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+
+        return if (hours > 0) {
+            String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            String.format(Locale.US, "%d:%02d", minutes, seconds)
+        }
+    }
+
+    private fun extractHighQualityThumbnail(jsonString: String): String {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+        val url = json["videoDetails"]
+            ?.jsonObject?.get("thumbnail")
+            ?.jsonObject?.get("thumbnails")
+            ?.jsonArray?.last()
+            ?.jsonObject?.get("url")
+            ?.jsonPrimitive?.contentOrNull
+
+        return url ?: ""
     }
 
     private fun parseSongsFromContents(
@@ -250,7 +300,7 @@ object YoutubeHelper {
                 ?.contentOrNull.toString()
         }
 
-        
+
         return Song(
             youtubeId = videoId,
             title = title,
@@ -337,7 +387,7 @@ object YoutubeHelper {
             client.newCall(request).execute().use { response ->
                 return@withContext response.isSuccessful
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             return@withContext false
         }
     }

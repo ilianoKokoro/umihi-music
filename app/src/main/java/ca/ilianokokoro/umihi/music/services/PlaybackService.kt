@@ -148,12 +148,14 @@ class PlaybackService : MediaSessionService() {
                     return@launch
                 }
 
-                songRepository.getSongThumbnail(songId)
+                songRepository.getSongInfo(songId)
                     .collect { result ->
                         when (result) {
                             is ApiResult.Success -> {
-                                if (result.data.isNotBlank()) {
-                                    updateMediaItemArtwork(mediaItem, result.data.toUri())
+                                val song = result.data
+                                val thumbnail = song.thumbnailHref
+                                if (thumbnail.isNotBlank()) {
+                                    updateMediaItemArtwork(mediaItem, thumbnail.toUri())
                                     return@collect
                                 }
                             }

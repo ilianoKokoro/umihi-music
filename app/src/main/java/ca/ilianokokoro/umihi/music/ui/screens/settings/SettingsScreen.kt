@@ -21,8 +21,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -48,7 +46,6 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
 ) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
-    val showUpdateChannelDialog = remember { mutableStateOf(false) } // TODO : extract to viewmodel
 
     // Refresh when returning to the screen
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -137,18 +134,18 @@ fun SettingsScreen(
                         ),
                         leadingIcon = Icons.Outlined.SystemUpdate,
                         onClick = {
-                            showUpdateChannelDialog.value = true
+                            settingsViewModel.updateShowUpdateChannelDialog(true)
                         }
                     )
                 }
 
-                if (showUpdateChannelDialog.value) {
+                if (uiState.showUpdateChannelDialog) {
                     UpdateChannelDialog(
                         selectedOption = state.settings.updateChannel,
                         onChange = {
                             settingsViewModel.changeUpdateChannel(it)
                         }, onClose = {
-                            showUpdateChannelDialog.value = false
+                            settingsViewModel.updateShowUpdateChannelDialog(false)
                         })
                 }
             }

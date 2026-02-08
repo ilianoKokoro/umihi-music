@@ -77,4 +77,6 @@
     <string name="beta_update_available">Beta Update Available</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="no_results">No Results</string>
+    <string name="get_song_failed">Failed to get Song Information</string>
 </resources>

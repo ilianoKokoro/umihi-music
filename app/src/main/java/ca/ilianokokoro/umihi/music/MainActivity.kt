@@ -2,8 +2,10 @@ package ca.ilianokokoro.umihi.music
 
 import android.Manifest
 import android.content.ComponentName
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,8 +18,13 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
+import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.services.PlaybackService
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
@@ -32,6 +39,8 @@ import org.schabi.newpipe.extractor.NewPipe
 
 class MainActivity : ComponentActivity() {
     private var controllerFuture: ListenableFuture<MediaController>? = null
+
+    private val songRepository: SongRepository = SongRepository()
     private lateinit var player: Player
 
     private val permissionLauncher = registerForActivityResult(
@@ -62,9 +71,52 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            handleShareIntent(intent)
             checkForUpdate()
         }
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleShareIntent(intent)
+    }
+
+    private fun handleShareIntent(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_SEND) return
+        if (intent.type != "text/plain") return
+
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return
+
+        val urlRegex = Regex(
+            Constants.YoutubeApi.URL_REGEX
+        )
+
+        val url = urlRegex.find(text)?.value ?: return
+
+        val videoId = YoutubeHelper.extractYouTubeVideoId(url) ?: return
+
+        lifecycleScope.launch {
+            songRepository.getSongInfo(videoId).collect { apiResult ->
+                when (apiResult) {
+                    is ApiResult.Error -> {
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.get_song_failed),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+
+                    }
+
+                    ApiResult.Loading -> {}
+                    is ApiResult.Success -> {
+                        player.playSong(apiResult.data)
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

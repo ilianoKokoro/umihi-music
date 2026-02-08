@@ -3,7 +3,9 @@ package ca.ilianokokoro.umihi.music.ui.screens.settings
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 data class SettingsState(
-    val screenState: ScreenState = ScreenState.Loading
+    val screenState: ScreenState = ScreenState.Loading,
+    val showUpdateChannelDialog: Boolean = false
+
 )
 
 sealed class ScreenState {

@@ -5,8 +5,8 @@ import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
 import ca.ilianokokoro.umihi.music.models.Song
 
 class SongDataSource {
-    fun getSongThumbnail(songId: String): String {
-        return YoutubeHelper.extractHighQualityThumbnail(
+    fun getSongInfo(songId: String): Song {
+        return YoutubeHelper.extractSongInfo(
             YoutubeRequestHelper.getPlayerInfo(songId)
         )
     }
