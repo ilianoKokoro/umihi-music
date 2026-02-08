@@ -128,10 +128,14 @@ object YoutubeHelper {
             ?.jsonObject?.get("contents")
             ?.jsonArray ?: return emptyList()
 
+        val songRendererList =
+            contents.jsonArray[0]
+                .jsonObject["musicShelfRenderer"]
+                ?.jsonObject["contents"]
+                ?.jsonArray
+                ?: return emptyList()
 
-        printd(contents.toString())
-        // TODO finish extraction
-        return listOf()
+        return songRendererList.mapNotNull { extractSong(it) }
     }
 
     fun extractHighQualityThumbnail(jsonString: String): String {
@@ -200,40 +204,49 @@ object YoutubeHelper {
                 continue
             }
 
-            val songContent =
-                shelf.jsonObject["musicResponsiveListItemRenderer"]?.jsonObject ?: continue
-            val thumbnailUrl = getBestThumbnailUrl(songContent["thumbnail"] ?: continue)
 
-            val title = getSongInfo(songContent, SongInfoType.TITLE)
-            val artist = getSongInfo(songContent, SongInfoType.ARTIST)
-            val duration =
-                songContent["fixedColumns"]
-                    ?.jsonArray[0]
-                    ?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
-                    ?.jsonObject["text"]
-                    ?.jsonObject["runs"]
-                    ?.jsonArray[0]
-                    ?.jsonObject["text"]
-                    ?.jsonPrimitive
-                    ?.contentOrNull.toString()
-
-
-            val videoId = songContent["playlistItemData"]
-                ?.jsonObject?.get("videoId")
-                ?.jsonPrimitive?.contentOrNull ?: continue
-
+            val song = extractSong(shelf) ?: continue
             songs.add(
-                Song(
-                    youtubeId = videoId,
-                    title = title,
-                    artist = artist,
-                    duration = duration,
-                    thumbnailHref = thumbnailUrl
-                )
+                song
             )
         }
 
         return songs
+    }
+
+    fun extractSong(
+        json: JsonElement,
+    ): Song? {
+        val songContent =
+            json.jsonObject["musicResponsiveListItemRenderer"]?.jsonObject ?: return null
+        val thumbnailUrl = getBestThumbnailUrl(songContent["thumbnail"] ?: return null)
+
+        val title = getSongInfo(songContent, SongInfoType.TITLE)
+        val artist = getSongInfo(songContent, SongInfoType.ARTIST)
+        val duration = // TODO : Fix the duration for search
+            songContent["fixedColumns"]
+                ?.jsonArray[0]
+                ?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
+                ?.jsonObject["text"]
+                ?.jsonObject["runs"]
+                ?.jsonArray[0]
+                ?.jsonObject["text"]
+                ?.jsonPrimitive
+                ?.contentOrNull.toString()
+
+
+        val videoId = songContent["playlistItemData"]
+            ?.jsonObject?.get("videoId")
+            ?.jsonPrimitive?.contentOrNull ?: return null
+
+
+        return Song(
+            youtubeId = videoId,
+            title = title,
+            artist = artist,
+            duration = duration,
+            thumbnailHref = thumbnailUrl
+        )
     }
 
 

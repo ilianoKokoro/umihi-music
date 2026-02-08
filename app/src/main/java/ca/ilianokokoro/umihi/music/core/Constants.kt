@@ -152,6 +152,7 @@ object Constants {
 
         object Search {
             const val URL = "https://music.youtube.com/youtubei/v1/search"
+            const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
 

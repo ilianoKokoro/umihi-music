@@ -35,6 +35,9 @@ object YoutubeAuthHelper {
             )
             if (idName != null) {
                 put(idName, id)
+                if (idName == "query") {
+                    put("params", Constants.YoutubeApi.Search.FILTER)
+                }
             }
         }
     }
