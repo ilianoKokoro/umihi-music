@@ -223,23 +223,34 @@ object YoutubeHelper {
 
         val title = getSongInfo(songContent, SongInfoType.TITLE)
         val artist = getSongInfo(songContent, SongInfoType.ARTIST)
-        val duration = // TODO : Fix the duration for search
-            songContent["fixedColumns"]
-                ?.jsonArray[0]
-                ?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
-                ?.jsonObject["text"]
-                ?.jsonObject["runs"]
-                ?.jsonArray[0]
-                ?.jsonObject["text"]
-                ?.jsonPrimitive
-                ?.contentOrNull.toString()
-
-
         val videoId = songContent["playlistItemData"]
             ?.jsonObject?.get("videoId")
             ?.jsonPrimitive?.contentOrNull ?: return null
 
 
+        var duration = ""
+        val fixedColumn =
+            songContent["fixedColumns"]?.jsonArray[0]?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
+        val flexColumn =
+            songContent["flexColumns"]?.jsonArray[1]?.jsonObject["musicResponsiveListItemFlexColumnRenderer"]
+
+        if (fixedColumn != null) {
+            duration = fixedColumn.jsonObject["text"]
+                ?.jsonObject["runs"]
+                ?.jsonArray[0]
+                ?.jsonObject["text"]
+                ?.jsonPrimitive
+                ?.contentOrNull.toString()
+        } else if (flexColumn != null) {
+            duration = flexColumn.jsonObject["text"]
+                ?.jsonObject["runs"]
+                ?.jsonArray[4]
+                ?.jsonObject["text"]
+                ?.jsonPrimitive
+                ?.contentOrNull.toString()
+        }
+
+        
         return Song(
             youtubeId = videoId,
             title = title,
@@ -247,6 +258,7 @@ object YoutubeHelper {
             duration = duration,
             thumbnailHref = thumbnailUrl
         )
+
     }
 
 

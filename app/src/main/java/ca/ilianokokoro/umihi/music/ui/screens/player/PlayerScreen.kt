@@ -77,7 +77,7 @@ fun PlayerScreen(
                 .padding(8.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            
+
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
@@ -107,7 +107,10 @@ fun PlayerScreen(
                     onSeekPlayer = playerViewModel::seekPlayer,
                     onSeekToNext = playerViewModel::seekToNext,
                     onSeekToPrevious = playerViewModel::seekToPrevious,
-                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
+                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+                    onOpenQueue = {
+                        playerViewModel.setQueueVisibility(true)
+                    }
                 )
             }
         }
@@ -148,7 +151,10 @@ fun PlayerScreen(
                     onSeekPlayer = playerViewModel::seekPlayer,
                     onSeekToNext = playerViewModel::seekToNext,
                     onSeekToPrevious = playerViewModel::seekToPrevious,
-                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState
+                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+                    onOpenQueue = {
+                        playerViewModel.setQueueVisibility(true)
+                    }
                 )
             }
 

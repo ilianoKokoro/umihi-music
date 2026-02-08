@@ -23,7 +23,18 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     fun search() {
         viewModelScope.launch {
-            songRepository.search(uiState.value.search).collect { apiResult ->
+            val query = uiState.value.search
+            if (query.isBlank()) {
+                _uiState.update {
+                    _uiState.value.copy(
+                        screenState =
+                            ScreenState.Success(results = listOf())
+                    )
+                }
+                return@launch
+            }
+
+            songRepository.search(query).collect { apiResult ->
                 _uiState.update {
                     _uiState.value.copy(
                         screenState = when (apiResult) {

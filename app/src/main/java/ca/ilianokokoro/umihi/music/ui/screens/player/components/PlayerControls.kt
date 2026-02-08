@@ -3,10 +3,12 @@ package ca.ilianokokoro.umihi.music.ui.screens.player.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.SkipNext
@@ -17,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -24,8 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
 
@@ -43,12 +48,13 @@ fun PlayerControls(
     onPlay: () -> Unit,
     onSeekToNext: () -> Unit,
     onSeekToPrevious: () -> Unit,
+    onOpenQueue: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val controlsInteractionSources = List(3) { ComposeHelper.rememberInteractionSource() }
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -191,6 +197,25 @@ fun PlayerControls(
             }
         }
 
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            IconButton(
+                onClick = onOpenQueue,
+                shapes = IconButtonDefaults.shapes(),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                    contentDescription = stringResource(R.string.queue),
+                )
+            }
 
+        }
     }
 }

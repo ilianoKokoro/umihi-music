@@ -38,10 +38,10 @@ import ca.ilianokokoro.umihi.music.ui.components.dropdown.ModernDropdownItem
 fun SongListItem(
     song: Song,
     onPress: () -> Unit,
-    download: () -> Unit,
     playNext: () -> Unit,
     addToQueue: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    download: (() -> Unit)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -111,7 +111,7 @@ fun SongListItem(
                                 expanded = false
                             }
                         )
-                        if (!song.downloaded) {
+                        if (download != null && !song.downloaded) {
                             ModernDropdownItem(
                                 leadingIcon = Icons.Rounded.Download,
                                 text = stringResource(R.string.download),

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,9 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.Player
@@ -51,10 +54,13 @@ fun SearchScreen(
     val uiState = searchViewModel.uiState.collectAsStateWithLifecycle().value
 
     val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+        if (uiState.search.isBlank()) {
+            focusRequester.requestFocus()
+        }
     }
 
     Column(
@@ -72,6 +78,7 @@ fun SearchScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .focusRequester(focusRequester)
+                    .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
                 value = uiState.search,
                 onValueChange = {
@@ -86,6 +93,7 @@ fun SearchScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onSearch = {
+                        focusManager.clearFocus()
                         searchViewModel.search()
                     }
                 ),
@@ -101,7 +109,7 @@ fun SearchScreen(
                     val songs = uiState.screenState.results
                     if (songs.isNotEmpty()) {
                         LazyColumn(
-                            verticalArrangement = Arrangement.Center,
+                            verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
                                 .fillMaxSize()
@@ -115,9 +123,6 @@ fun SearchScreen(
                                     song = it,
                                     onPress = {
                                         player.playSong(it)
-                                    },
-                                    download = {
-                                        // TODO
                                     },
                                     playNext = {
                                         player.addNext(it, context)
