@@ -4,7 +4,7 @@
 
 # Umihi Music
 
-<img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" height="72">
+<img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/app/src/main/res/mipmap-xxxhdpi/icon_round.webp" height="72">
 
 A lightweight **Material YouTube Music player** for Android, built with **Kotlin** and **Jetpack
 Compose**.
