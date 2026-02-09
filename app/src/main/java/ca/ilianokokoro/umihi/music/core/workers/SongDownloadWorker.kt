@@ -66,7 +66,7 @@ class SongDownloadWorker(
                             }
 
                             else -> {
-                                throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
+                                //   throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
                             }
                         }
                     }
@@ -90,7 +90,7 @@ class SongDownloadWorker(
                 UmihiNotificationManager.showSongDownloadSuccess(appContext, song)
                 localSongRepository.create(updatedSong)
                 Result.success()
-            } catch (e: CancellationException) {
+            } catch (_: CancellationException) {
                 printd("Song download canceled ${song.title}")
                 Result.failure()
             } catch (e: Exception) {

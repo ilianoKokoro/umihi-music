@@ -78,7 +78,7 @@ class PlaylistDownloadWorker(
                                             }
 
                                             else -> {
-                                                throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
+                                                // throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
                                             }
                                         }
                                     }
