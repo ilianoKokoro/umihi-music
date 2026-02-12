@@ -3,11 +3,11 @@ import java.io.FileInputStream
 import java.util.Properties
 
 val versionMajor = 1
-val versionMinor = 7
+val versionMinor = 8
 val versionPatch = 0
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
