@@ -35,7 +35,7 @@ data class Song(
                     MediaMetadata.Builder()
                         .setTitle(title)
                         .setArtist(artist)
-                        .setArtworkUri(thumbnailHref.toUri())
+                        .setArtworkUri((thumbnailPath ?: thumbnailHref).toUri())
                         .setExtras(
                             bundleOf(
                                 Constants.ExoPlayer.SongMetadata.DURATION to duration,
@@ -53,7 +53,7 @@ data class Song(
         get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${youtubeId}"
     val downloaded: Boolean
         get() = audioFilePath != null && thumbnailPath != null
-    
+
 
     override fun equals(other: Any?): Boolean {
         if (other !is Song) return false

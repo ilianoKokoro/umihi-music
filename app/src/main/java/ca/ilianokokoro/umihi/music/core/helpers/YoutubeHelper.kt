@@ -62,61 +62,118 @@ object YoutubeHelper {
             ?.jsonPrimitive?.contentOrNull ?: ""
     }
 
-    fun extractPlaylists(jsonString: String): List<PlaylistInfo> {
+    fun extractPlaylists(
+        jsonString: String,
+        settings: UmihiSettings
+    ): List<PlaylistInfo> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
+        val playlistInfos = mutableListOf<PlaylistInfo>()
 
         val tabs = json["contents"]
             ?.jsonObject?.get("singleColumnBrowseResultsRenderer")
             ?.jsonObject?.get("tabs")
-            ?.jsonArray ?: return emptyList()
+            ?.jsonArray
 
-        val selectedTab = tabs.firstOrNull {
+        val selectedTab = tabs?.firstOrNull {
             it.jsonObject["tabRenderer"]
                 ?.jsonObject?.get("selected")
                 ?.jsonPrimitive?.booleanOrNull == true
-        }?.jsonObject?.get("tabRenderer")?.jsonObject ?: return emptyList()
+        }?.jsonObject?.get("tabRenderer")?.jsonObject
 
-        val sectionList = selectedTab["content"]
+        val sectionList = selectedTab?.get("content")
             ?.jsonObject?.get("sectionListRenderer")
             ?.jsonObject?.get("contents")
-            ?.jsonArray ?: return emptyList()
+            ?.jsonArray
 
-        val playlistInfos = mutableListOf<PlaylistInfo>()
+        sectionList?.forEach { section ->
+            val renderer = section.jsonObject["gridRenderer"]?.jsonObject ?: return@forEach
 
-        for (section in sectionList) {
-            val gridItems = section.jsonObject["gridRenderer"]
-                ?.jsonObject?.get("items")
-                ?.jsonArray ?: continue
+            renderer["items"]?.jsonArray?.forEach { item ->
+                val playlistRenderer = item.jsonObject["musicTwoRowItemRenderer"]?.jsonObject
+                    ?: return@forEach
 
-            for (item in gridItems) {
-                val playlistShelf =
-                    item.jsonObject["musicTwoRowItemRenderer"]?.jsonObject ?: continue
-
-                val playlistTitle = playlistShelf["title"]
+                val title = playlistRenderer["title"]
                     ?.jsonObject?.get("runs")
                     ?.jsonArray?.getOrNull(0)
                     ?.jsonObject?.get("text")
-                    ?.jsonPrimitive?.contentOrNull ?: continue
+                    ?.jsonPrimitive?.contentOrNull ?: return@forEach
 
-                val browseId = playlistShelf["navigationEndpoint"]
+                val browseId = playlistRenderer["navigationEndpoint"]
                     ?.jsonObject?.get("browseEndpoint")
                     ?.jsonObject?.get("browseId")
-                    ?.jsonPrimitive?.contentOrNull ?: continue
+                    ?.jsonPrimitive?.contentOrNull ?: return@forEach
 
-                val thumbnailUrl = getBestThumbnailUrl(
-                    playlistShelf["thumbnailRenderer"] ?: continue
-                )
+                val thumbnailUrl =
+                    getBestThumbnailUrl(playlistRenderer["thumbnailRenderer"] ?: return@forEach)
 
                 playlistInfos.add(
-                    PlaylistInfo(
-                        id = browseId,
-                        title = playlistTitle,
-                        coverHref = thumbnailUrl,
-                    ),
-
-
-                    )
+                    PlaylistInfo(id = browseId, title = title, coverHref = thumbnailUrl)
+                )
             }
+
+            val continuationToken = renderer["continuations"]
+                ?.jsonArray?.firstOrNull()
+                ?.jsonObject?.get("nextContinuationData")
+                ?.jsonObject?.get("continuation")
+                ?.jsonPrimitive?.contentOrNull
+
+            if (continuationToken != null) {
+                val continuationJson = YoutubeRequestHelper.requestContinuation(
+                    continuationToken = continuationToken,
+                    settings = settings
+                )
+                playlistInfos.addAll(extractPlaylists(continuationJson, settings))
+            }
+        }
+
+        val continuationGridItems = json["continuationContents"]
+            ?.jsonObject
+            ?.get("gridContinuation")
+            ?.jsonObject
+            ?.get("items")
+            ?.jsonArray
+
+        continuationGridItems?.forEach { item ->
+            val playlistRenderer = item.jsonObject["musicTwoRowItemRenderer"]?.jsonObject
+                ?: return@forEach
+
+            val title = playlistRenderer["title"]
+                ?.jsonObject?.get("runs")
+                ?.jsonArray?.getOrNull(0)
+                ?.jsonObject?.get("text")
+                ?.jsonPrimitive?.contentOrNull ?: return@forEach
+
+            val browseId = playlistRenderer["navigationEndpoint"]
+                ?.jsonObject?.get("browseEndpoint")
+                ?.jsonObject?.get("browseId")
+                ?.jsonPrimitive?.contentOrNull ?: return@forEach
+
+            val thumbnailUrl =
+                getBestThumbnailUrl(playlistRenderer["thumbnailRenderer"] ?: return@forEach)
+
+            playlistInfos.add(
+                PlaylistInfo(id = browseId, title = title, coverHref = thumbnailUrl)
+            )
+        }
+
+        val continuationToken = json["continuationContents"]
+            ?.jsonObject
+            ?.get("gridContinuation")
+            ?.jsonObject
+            ?.get("continuations")
+            ?.jsonArray?.firstOrNull()
+            ?.jsonObject
+            ?.get("nextContinuationData")
+            ?.jsonObject
+            ?.get("continuation")
+            ?.jsonPrimitive?.contentOrNull
+
+        if (continuationToken != null) {
+            val continuationJson = YoutubeRequestHelper.requestContinuation(
+                continuationToken = continuationToken,
+                settings = settings
+            )
+            playlistInfos.addAll(extractPlaylists(continuationJson, settings))
         }
 
         return playlistInfos

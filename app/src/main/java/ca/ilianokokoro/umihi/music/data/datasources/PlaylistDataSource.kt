@@ -13,7 +13,7 @@ class PlaylistDataSource {
             YoutubeRequestHelper.browse(
                 Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
                 settings
-            )
+            ), settings
         )
     }
 
