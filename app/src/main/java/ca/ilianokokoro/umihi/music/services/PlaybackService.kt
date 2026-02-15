@@ -9,6 +9,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
 import androidx.media3.datasource.DefaultDataSource
@@ -54,6 +55,15 @@ class PlaybackService : MediaSessionService() {
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
+
+        val audioOffloadPreferences =
+            TrackSelectionParameters.AudioOffloadPreferences.Builder()
+                .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED) // TODO : Add option to enable it
+                .setIsGaplessSupportRequired(true)
+                .setIsSpeedChangeSupportRequired(true)
+                .build()
+
+
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -66,6 +76,12 @@ class PlaybackService : MediaSessionService() {
             .setDeviceVolumeControlEnabled(true)
             .setMediaSourceFactory(YoutubeMediaSourceFactory(application, cacheDataSourceFactory))
             .build()
+
+        player.trackSelectionParameters =
+            player.trackSelectionParameters
+                .buildUpon()
+                .setAudioOffloadPreferences(audioOffloadPreferences)
+                .build()
 
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(

@@ -1,7 +1,6 @@
 package ca.ilianokokoro.umihi.music
 
 import android.Manifest
-import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -11,38 +10,29 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.session.MediaController
-import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.playSong
-import ca.ilianokokoro.umihi.music.services.PlaybackService
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.MoreExecutors
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.NewPipe
 
 
 class MainActivity : ComponentActivity() {
-    private var controllerFuture: ListenableFuture<MediaController>? = null
 
     private val songRepository: SongRepository = SongRepository()
-    private lateinit var player: Player
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -59,23 +49,25 @@ class MainActivity : ComponentActivity() {
 
         requestNotificationPermission()
 
-        initExoplayer { readyPlayer ->
-            player = readyPlayer
+        PlayerManager.init(this)
+
+        PlayerManager.connectController(this) {
             enableEdgeToEdge()
             setContent {
                 UmihiMusicTheme {
                     NavigationRoot(
                         modifier = Modifier.fillMaxSize(),
-                        player = player
+                        player = it
                     )
                     UpdateDialog(lifecycleScope)
                 }
             }
-
-            handleShareIntent(intent)
-            handleViewIntent(intent)
-            checkForUpdate()
         }
+
+        handleShareIntent(intent)
+        handleViewIntent(intent)
+        checkForUpdate()
+
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -124,7 +116,7 @@ class MainActivity : ComponentActivity() {
 
                     ApiResult.Loading -> {}
                     is ApiResult.Success -> {
-                        player.playSong(apiResult.data)
+                        PlayerManager.currentController?.playSong(apiResult.data)
                     }
                 }
             }
@@ -149,25 +141,9 @@ class MainActivity : ComponentActivity() {
             .apply()
     }
 
-    @OptIn(UnstableApi::class)
-    private fun initExoplayer(onReady: (Player) -> Unit) {
-        val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
-        controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
-        controllerFuture!!.addListener({
-            onReady(controllerFuture!!.get())
-        }, MoreExecutors.directExecutor())
-    }
-
     private fun checkForUpdate() {
         lifecycleScope.launch {
             VersionManager.checkForUpdates(this@MainActivity)
         }
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        controllerFuture?.let { MediaController.releaseFuture(it) }
-        controllerFuture = null
     }
 }
