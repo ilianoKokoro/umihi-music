@@ -89,7 +89,7 @@ fun QueueBottomSheet(
                 if (mutableSongList.isEmpty()) {
                     item {
                         Text(
-                            stringResource(R.string.empty_playlist), // TODO : make the text vertically centered
+                            stringResource(R.string.queue_empty),
                             textAlign = TextAlign.Center,
                             modifier = modifier
                                 .fillMaxSize()

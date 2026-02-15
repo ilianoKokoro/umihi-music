@@ -79,4 +79,5 @@
     <string name="search">Search</string>
     <string name="no_results">No Results</string>
     <string name="get_song_failed">Failed to get Song Information</string>
+    <string name="queue_empty">No songs in the queue</string>
 </resources>
