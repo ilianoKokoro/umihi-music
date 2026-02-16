@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.models.Playlist
-import ca.ilianokokoro.umihi.music.ui.components.PlaylistInfo
+import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistInfo
 
 @Composable
 fun PlaylistHeader(

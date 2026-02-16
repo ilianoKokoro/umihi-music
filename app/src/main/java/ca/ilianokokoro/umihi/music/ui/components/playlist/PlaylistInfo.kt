@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components
+package ca.ilianokokoro.umihi.music.ui.components.playlist
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -60,7 +61,15 @@ fun PlaylistInfo(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SquareImage(playlist.info.coverPath ?: playlist.info.coverHref)
+        if (!playlist.info.isDownloadedPlaylist) {
+            SquareImage(playlist.info.coverPath ?: playlist.info.coverHref)
+        } else {
+            Icon(
+                Icons.Rounded.Download,
+                contentDescription = Icons.Rounded.Download.name,
+                modifier = Modifier.size(150.dp)
+            )
+        }
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 Text(
@@ -99,7 +108,7 @@ fun PlaylistInfo(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                             contentColor = MaterialTheme.colorScheme.onSurface
                         ),
-                        enabled = alpha != 0F
+                        enabled = !playlist.info.isDownloadedPlaylist && alpha != 0F
                     ) {
                         if (playlist.downloaded) {
                             Icon(

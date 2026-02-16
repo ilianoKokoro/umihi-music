@@ -12,6 +12,16 @@ interface LocalSongDataSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun create(song: Song)
 
+    @Query(
+        """
+    SELECT * 
+    FROM songs 
+    WHERE audioFilePath IS NOT NULL 
+      AND thumbnailPath IS NOT NULL
+"""
+    )
+    suspend fun getDownloadedSongs(): List<Song>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createAll(songs: List<Song>)
 

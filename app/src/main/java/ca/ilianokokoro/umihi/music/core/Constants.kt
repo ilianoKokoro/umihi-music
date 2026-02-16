@@ -40,6 +40,7 @@ object Constants {
         const val DIRECTORY = "downloads"
         const val THUMBNAILS_FOLDER = "thumbnails_downloads"
         const val AUDIO_FILES_FOLDER = "audio_files_downloads"
+        const val DOWNLOADED_PLAYLIST_ID = "_downloaded_"
     }
 
     object Marquee {

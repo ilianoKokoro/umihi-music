@@ -45,7 +45,10 @@ data class PlaylistInfo(
     val title: String = "",
     val coverHref: String = "",
     val coverPath: String? = null,
-)
+) {
+    val isDownloadedPlaylist: Boolean
+        get() = id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID
+}
 
 
 @Entity(

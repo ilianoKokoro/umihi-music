@@ -33,7 +33,7 @@ interface LocalPlaylistDataSource {
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     fun observePlaylistById(playlistId: String): Flow<Playlist?>
-
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylist(playlistInfo: PlaylistInfo)
 

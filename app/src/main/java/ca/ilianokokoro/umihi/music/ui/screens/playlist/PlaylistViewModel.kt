@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.Player
 import androidx.work.WorkInfo
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
@@ -39,6 +40,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
 
     private val playlistRepository = PlaylistRepository()
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
+    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
 
@@ -189,7 +191,18 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> {
                                     if (localPlaylist == null) {
-                                        ScreenState.Error(Exception("Playlist is not downloaded"))
+                                        if (_playlist.id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID) {
+                                            val downloadedSongs =
+                                                localSongRepository.getDownloadedSongs()
+                                            ScreenState.Success(
+                                                playlist = Playlist(
+                                                    info = _playlist,
+                                                    songs = downloadedSongs
+                                                )
+                                            )
+                                        } else {
+                                            ScreenState.Error(Exception("Playlist is not downloaded"))
+                                        }
                                     } else {
                                         ScreenState.Success(playlist = localPlaylist.copy(songs = localPlaylist.songs.filter { it.downloaded }))
                                     }

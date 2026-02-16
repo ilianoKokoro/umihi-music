@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components
+package ca.ilianokokoro.umihi.music.ui.components.playlist
 
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Column
@@ -10,11 +10,13 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
 @Composable
 fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
@@ -23,13 +25,21 @@ fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(12.dp)
                 .fillMaxSize()
         ) {
-            SquareImage(
-                uri = playlistInfo.coverPath ?: playlistInfo.coverHref,
-            )
+
+            if (!playlistInfo.isDownloadedPlaylist) {
+                SquareImage(
+                    uri = playlistInfo.coverPath ?: playlistInfo.coverHref,
+                )
+            } else {
+                OfflineThumbnail()
+            }
+
+
             Text(
                 playlistInfo.title,
                 modifier = Modifier

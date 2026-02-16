@@ -8,10 +8,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,6 +25,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val playlistRepository = PlaylistRepository()
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
+    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     private val datastoreRepository = DatastoreRepository(application)
 
 
@@ -58,18 +61,31 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         try {
             val settings = datastoreRepository.getSettings()
 
+            val downloadedPlaylist = PlaylistInfo(
+                id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
+                title = "Downloaded",
+            )
+
             if (!settings.cookies.isEmpty()) {
                 playlistRepository.retrieveAll(settings).collect { apiResult ->
+                    val playlists = when (apiResult) {
+                        is ApiResult.Success -> apiResult.data.toMutableList()
+                        is ApiResult.Error -> localPlaylistRepository.getAll().map { it.info }
+                            .toMutableList()
+
+                        ApiResult.Loading -> null
+                    }
+
+                    playlists?.add(0, downloadedPlaylist)
+
                     _uiState.update {
                         _uiState.value.copy(
                             screenState = when (apiResult) {
-                                is ApiResult.Error -> { // TODO : Maybe still add a message
-                                    ScreenState.LoggedIn(
-                                        localPlaylistRepository.getAll().map { it.info })
-                                }
+                                is ApiResult.Error, is ApiResult.Success -> ScreenState.LoggedIn(
+                                    playlists!!
+                                )
 
                                 ApiResult.Loading -> ScreenState.Loading
-                                is ApiResult.Success -> ScreenState.LoggedIn(apiResult.data)
                             }
                         )
                     }
