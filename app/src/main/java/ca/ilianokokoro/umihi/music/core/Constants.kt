@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -45,6 +46,12 @@ object Constants {
 
     object Marquee {
         const val DELAY = 2000
+    }
+
+    object Ui {
+        object MiniPlayer {
+            val HEIGHT = 70.dp
+        }
     }
 
     object Animation {

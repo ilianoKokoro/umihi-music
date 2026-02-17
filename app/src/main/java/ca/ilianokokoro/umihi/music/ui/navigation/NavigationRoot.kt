@@ -12,8 +12,13 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -78,28 +83,43 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                     }
                 },
                 navigationIcon = {
-                    AnimatedVisibility(
-                        visible = screenConfig.showBack,
-                        enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
-                        exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
-                    ) {
+                    if (screenConfig.showBack) {
                         BackButton(onBack = backStack::safePop)
                     }
                 }
             )
         },
         bottomBar = {
-            AnimatedVisibility(
-                visible = screenConfig.showBottomBar,
-                enter = slideInVertically { it } + fadeIn(),
-                exit = slideOutVertically { it } + fadeOut()
-            ) {
-                BottomNavigationBar(
-                    currentTab = screenConfig.selectedTab,
-                    onTabSelected = { key ->
-                        if (backStack.last() != key) backStack.add(key)
-                    }
+            Column {
+                val miniPlayerModifier = if (screenConfig.showBottomBar) {
+                    Modifier.fillMaxWidth()
+                } else {
+                    Modifier
+                        .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.navigationBars)
+                }
+
+                MiniPlayerWrapper(
+                    player = player,
+                    showMiniPlayer = screenConfig.showMiniPlayer,
+                    onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
+                    modifier = miniPlayerModifier
                 )
+
+                AnimatedVisibility(
+                    visible = screenConfig.showBottomBar,
+                    enter = slideInVertically { it } + fadeIn(),
+                    exit = slideOutVertically { it } + fadeOut()
+                ) {
+
+
+                    BottomNavigationBar(
+                        currentTab = screenConfig.selectedTab,
+                        onTabSelected = { key ->
+                            if (backStack.last() != key) backStack.add(key)
+                        }
+                    )
+                }
             }
         }
 
@@ -215,14 +235,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         )
                     }
                 }
-            )
-
-            MiniPlayerWrapper(
-                player = player,
-                isPlayerOpened = backStack.last() == PlayerScreenKey,
-                onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
             )
         }
     }

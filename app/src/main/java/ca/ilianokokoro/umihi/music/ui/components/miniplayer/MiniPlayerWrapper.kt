@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.extensions.toSong
 
 
@@ -28,7 +29,7 @@ fun MiniPlayerWrapper(
     modifier: Modifier = Modifier,
     player: Player,
     onMiniPlayerPressed: () -> Unit,
-    isPlayerOpened: Boolean
+    showMiniPlayer: Boolean
 ) {
     var currentSong by remember { mutableStateOf(player.currentMediaItem?.toSong()) }
     var songIsPlaying by remember(player) {
@@ -48,8 +49,6 @@ fun MiniPlayerWrapper(
         val listener = object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 currentSong = mediaItem?.toSong()
-
-
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -78,13 +77,13 @@ fun MiniPlayerWrapper(
     }
 
     AnimatedVisibility(
-        visible = currentSong != null && !isPlayerOpened,
+        visible = currentSong != null && showMiniPlayer,
         enter = slideInVertically(initialOffsetY = { it + bottomInset }),
         exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .height(70.dp)
+            .height(Constants.Ui.MiniPlayer.HEIGHT)
     ) {
         MiniPlayer(
             currentSong = currentSong!!,
