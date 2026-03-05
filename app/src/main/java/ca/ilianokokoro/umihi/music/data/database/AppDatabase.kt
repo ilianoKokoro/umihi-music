@@ -17,7 +17,7 @@ import java.util.concurrent.Executors
 @Database(
     entities = [Song::class, PlaylistInfo::class, PlaylistSongCrossRef::class, Version::class],
     version = Constants.Database.VERSION,
-    exportSchema = false // Set to true to get an exported json
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun songRepository(): LocalSongDataSource

@@ -3,12 +3,14 @@ package ca.ilianokokoro.umihi.music.data.repositories
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -24,6 +26,7 @@ class DatastoreRepository(private val context: Context) {
         val COOKIES = stringPreferencesKey(Constants.Datastore.COOKIES_KEY)
         val DATA_SYNC_ID = stringPreferencesKey(Constants.Datastore.DATA_SYNC_ID)
         val UPDATE_CHANNEL = stringPreferencesKey(Constants.Datastore.UPDATE_CHANNEL_KEY)
+        val SHOW_PODCAST_PLAYLIST = booleanPreferencesKey(Constants.Datastore.SHOW_PODCAST_PLAYLIST)
 
     }
 
@@ -36,10 +39,17 @@ class DatastoreRepository(private val context: Context) {
     val settings = context.dataStore.data.map {
         val updateChannel = it[UPDATE_CHANNEL]?.let { value -> UpdateChannel.valueOf(value) }
             ?: UpdateChannel.Stable
+        val showPodcastPlaylist =
+            it[SHOW_PODCAST_PLAYLIST] ?: true
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
-        UmihiSettings(updateChannel = updateChannel, cookies = cookies, dataSyncId = dataSyncId)
+        UmihiSettings(
+            updateChannel = updateChannel,
+            showPodcastPlaylist = showPodcastPlaylist,
+            cookies = cookies,
+            dataSyncId = dataSyncId
+        )
     }
 
     fun getSettings(): UmihiSettings {

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class GithubRepository() {
+class GithubRepository {
     private val githubRepository = GithubDatasource()
     fun getLatestVersionName(): Flow<ApiResult<GithubReleaseResponse>> {
         return flow {

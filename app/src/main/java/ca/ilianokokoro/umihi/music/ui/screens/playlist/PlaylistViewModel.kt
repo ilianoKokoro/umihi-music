@@ -87,13 +87,11 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
             val workInfo = workInfos.firstOrNull() ?: return@collect
 
             _uiState.update {
-
                 it.copy(
                     isDownloading =
                         workInfo.state == WorkInfo.State.ENQUEUED ||
                                 workInfo.state == WorkInfo.State.RUNNING ||
                                 workInfo.state == WorkInfo.State.BLOCKED
-
                 )
             }
 

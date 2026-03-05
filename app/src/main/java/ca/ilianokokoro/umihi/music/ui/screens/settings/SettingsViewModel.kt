@@ -5,6 +5,7 @@ import android.webkit.CookieManager
 import android.webkit.WebStorage
 import android.widget.Toast
 import androidx.annotation.OptIn
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -92,15 +93,21 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+
     fun changeUpdateChannel(updateChannel: DatastoreRepository.UpdateChannel) {
-        viewModelScope.launch {
-            datastoreRepository.save(
-                DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL,
-                updateChannel.toString()
-            )
-            getSettings()
-        }
+        updateSetting(
+            DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL,
+            updateChannel.toString()
+        )
     }
+
+    fun updatePodcastPlaylistVisibility(value: Boolean) {
+        updateSetting(
+            DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST,
+            value
+        )
+    }
+
 
     fun checkForUpdates() {
         viewModelScope.launch {
@@ -116,6 +123,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         return !state.settings.cookies.isEmpty()
     }
 
+    private fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
+        viewModelScope.launch {
+            datastoreRepository.save(
+                key,
+                value
+            )
+            getSettings()
+        }
+    }
 
     companion object {
         fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {

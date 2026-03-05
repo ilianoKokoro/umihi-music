@@ -76,8 +76,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         ApiResult.Loading -> null
                     }
 
-                    playlists?.add(0, downloadedPlaylist)
+                    if (!settings.showPodcastPlaylist) {
+                        playlists?.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
+                    }
 
+                    playlists?.add(0, downloadedPlaylist)
                     _uiState.update {
                         _uiState.value.copy(
                             screenState = when (apiResult) {

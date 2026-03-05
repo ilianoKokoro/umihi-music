@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
@@ -35,6 +36,7 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
@@ -99,6 +101,18 @@ fun SettingsScreen(
                         subtitle = stringResource(R.string.clear_login_message),
                         leadingIcon = Icons.Outlined.Delete,
                         onClick = settingsViewModel::clearLogins
+                    )
+                }
+
+                SettingsSection(
+                    title = stringResource(R.string.general),
+                ) {
+                    BooleanSettingItem(
+                        title = stringResource(R.string.show_podcast_playlist_title),
+                        subtitle = stringResource(R.string.show_podcast_playlist_description),
+                        leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
+                        value = uiState.screenState.settings.showPodcastPlaylist,
+                        onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
                     )
                 }
 
