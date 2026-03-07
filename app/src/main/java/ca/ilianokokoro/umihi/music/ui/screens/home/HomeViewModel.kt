@@ -25,7 +25,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val playlistRepository = PlaylistRepository()
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
-    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     private val datastoreRepository = DatastoreRepository(application)
 
 
