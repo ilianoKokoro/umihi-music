@@ -48,6 +48,10 @@ If you want to propose a new feature or enhancement:
 - Test your changes on at least one physical or emulator device.
 - Use **descriptive commit messages** .
 
+## Localization
+
+If you want to contibute to the translation of the application, you can help by going to the [Crowdin project](https://crowdin.com/project/umihi-music).
+
 ## Development Setup
 
 To get started:

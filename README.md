@@ -43,7 +43,6 @@ Join the Discord server to get update pings, know about announcements and get su
 ### Future features (In development)
 
 - [ ] Playlist editing
-- [ ] Translations to other languages
 
 ## Screenshots 🖼️
 
@@ -68,6 +67,10 @@ Join the Discord server to get update pings, know about announcements and get su
 ## Credits 🎨
 
 **App logo**: Made by [Frittusk](https://www.twitch.tv/frittusk)
+
+## Translations 🉐
+
+<img alt="Translation status" src="https://badges.awesome-crowdin.com/translation-14810202-878334.png" />
 
 ## Star History ✨
 
