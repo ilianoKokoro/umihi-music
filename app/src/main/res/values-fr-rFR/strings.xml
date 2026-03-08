@@ -42,11 +42,11 @@
     <string name="no">Non</string>
     <string name="update_available">Mise à jour disponible</string>
     <string name="new_version_body">Une nouvelle version est disponible. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
+    <string name="show_on_github">Afficher sur GitHub</string>
     <string name="dismiss">Refuser</string>
     <string name="open">Ouvert</string>
     <string name="log_out">Déconnexion</string>
-    <string name="data_and_storage"><![CDATA[Données & Stockage]]></string>
+    <string name="data_and_storage"><![CDATA[Données et stockage]]></string>
     <string name="app_info">Infos sur l\'application</string>
     <string name="check_for_updates">Vérifier les mises à jour</string>
     <string name="current_version">Version actuelle : %1$s</string>
