@@ -70,7 +70,7 @@
     <string name="current_update_channel_body">Canal de mise à jour actuel : %1$s</string>
     <string name="update_channel_dialog">Changer le canal de mise à jour</string>
     <string name="delete_download">Supprimer le téléchargement</string>
-    <string name="beta_update_available">Mise à jour Beta disponible</string>
+    <string name="beta_update_available">Mise à jour bêta disponible</string>
     <string name="home">Domicile</string>
     <string name="search">Chercher</string>
     <string name="no_results">Aucun résultat</string>
