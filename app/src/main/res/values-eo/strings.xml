@@ -80,6 +80,10 @@
     <string name="remove_download">Wemove Downowoad</string>
     <string name="cancel_download">Kwancel Downowoad</string>
     <string name="general">Genyewaw</string>
-    <string name="show_podcast_playlist_title">Show Podcast Pwaywist (・`ω´・)</string>
-    <string name="show_podcast_playlist_description">Toggwes da v-visibiwity of da \'-\'Episodes fow Watew\' Pwaywist :3</string>
+    <string name="show_podcast_playlist_title">Show Podcast Pwaywist</string>
+    <string name="show_podcast_playlist_description">Toggwes da v-visibiwity of da \'Episodes fow Watew\' Pwaywist :3</string>
+    <string name="special_language_disabled">Speciaw Language Disabwed ;w;</string>
+    <string name="special_language_enabled">Speciaw Language Enabwed :3</string>
+    <string name="reorder">Weowdew</string>
+    <string name="actions">Acwtions</string>
 </resources>

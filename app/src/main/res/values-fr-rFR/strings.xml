@@ -82,4 +82,8 @@
     <string name="general">Généraux</string>
     <string name="show_podcast_playlist_title">Afficher la playlist de Podcast</string>
     <string name="show_podcast_playlist_description">Active/désactive la visibilité de la liste de lecture \'Épisodes pour Plus tard\'</string>
+    <string name="special_language_disabled">Langue spéciale désactivée</string>
+    <string name="special_language_enabled">Langue spéciale activée</string>
+    <string name="reorder">Réordonner</string>
+    <string name="actions">Actions</string>
 </resources>

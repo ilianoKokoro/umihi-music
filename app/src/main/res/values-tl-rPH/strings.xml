@@ -82,4 +82,8 @@
     <string name="general">General</string>
     <string name="show_podcast_playlist_title">Ipakita ang Playlist ng Podcast</string>
     <string name="show_podcast_playlist_description">I-toggle ang visibility ng \'Episodes for Later\' Playlist</string>
+    <string name="special_language_disabled">Special Language Disabled</string>
+    <string name="special_language_enabled">Special Language Enabled</string>
+    <string name="reorder">Reorder</string>
+    <string name="actions">Actions</string>
 </resources>
