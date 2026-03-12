@@ -66,9 +66,8 @@
     <string name="remove_local_playlist">Supprimer la playlist locale</string>
     <string name="remove_local_confirm_text">Supprimer les fichiers téléchargés pour cette playlist ? La playlist restera disponible en ligne.</string>
     <string name="ignore">Ignorer</string>
-    <string name="update_channel_title">Changer le canal de mise à jour</string>
+    <string name="change_update_channel">Changer le canal de mise à jour</string>
     <string name="current_update_channel_body">Canal de mise à jour actuel : %1$s</string>
-    <string name="update_channel_dialog">Changer le canal de mise à jour</string>
     <string name="delete_download">Supprimer le téléchargement</string>
     <string name="beta_update_available">Mise à jour bêta disponible</string>
     <string name="home">Domicile</string>
@@ -83,4 +82,8 @@
     <string name="general">Généraux</string>
     <string name="show_podcast_playlist_title">Afficher la playlist de Podcast</string>
     <string name="show_podcast_playlist_description">Active/désactive la visibilité de la liste de lecture \'Épisodes pour Plus tard\'</string>
+    <string name="special_language_disabled">Langue spéciale désactivée</string>
+    <string name="special_language_enabled">Langue spéciale activée</string>
+    <string name="reorder">Réordonner</string>
+    <string name="actions">Actions</string>
 </resources>
