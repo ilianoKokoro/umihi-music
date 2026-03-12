@@ -12,6 +12,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.first
@@ -27,6 +28,7 @@ class DatastoreRepository(private val context: Context) {
         val DATA_SYNC_ID = stringPreferencesKey(Constants.Datastore.DATA_SYNC_ID)
         val UPDATE_CHANNEL = stringPreferencesKey(Constants.Datastore.UPDATE_CHANNEL_KEY)
         val SHOW_PODCAST_PLAYLIST = booleanPreferencesKey(Constants.Datastore.SHOW_PODCAST_PLAYLIST)
+        val USE_SPECIAL_LANGUAGE = booleanPreferencesKey(Constants.Datastore.USE_SPECIAL_LANGUAGE)
 
     }
 
@@ -41,6 +43,8 @@ class DatastoreRepository(private val context: Context) {
             ?: UpdateChannel.Stable
         val showPodcastPlaylist =
             it[SHOW_PODCAST_PLAYLIST] ?: true
+        val useSpecialLanguage =
+            it[USE_SPECIAL_LANGUAGE] ?: false
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -48,7 +52,8 @@ class DatastoreRepository(private val context: Context) {
             updateChannel = updateChannel,
             showPodcastPlaylist = showPodcastPlaylist,
             cookies = cookies,
-            dataSyncId = dataSyncId
+            dataSyncId = dataSyncId,
+            useSpecialLanguage = useSpecialLanguage
         )
     }
 
@@ -72,23 +77,12 @@ class DatastoreRepository(private val context: Context) {
         }
     }
 
-    fun getCookies(): Cookies {
-        return runBlocking {
-            cookies.first()
-        }
-    }
-
     suspend fun saveDataSyncId(newId: String) {
         context.dataStore.edit {
             it[DATA_SYNC_ID] = newId
         }
     }
 
-    fun getDataSyncId(): String {
-        return runBlocking {
-            dataSyncId.first()
-        }
-    }
 
     enum class UpdateChannel {
         Stable,

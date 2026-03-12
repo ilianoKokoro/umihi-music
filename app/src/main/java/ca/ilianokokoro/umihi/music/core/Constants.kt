@@ -15,6 +15,7 @@ import kotlinx.serialization.json.buildJsonObject
 object Constants {
     const val BETA_SUFFIX = "-beta"
 
+
     object Url {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
 
@@ -42,6 +43,16 @@ object Constants {
         const val THUMBNAILS_FOLDER = "thumbnails_downloads"
         const val AUDIO_FILES_FOLDER = "audio_files_downloads"
         const val DOWNLOADED_PLAYLIST_ID = "_downloaded_"
+    }
+
+    object Locale {
+        object Special {
+            const val CODE = "eo"
+            const val CLICK_QUANTITY = 25
+
+        }
+
+
     }
 
     object Marquee {
@@ -99,6 +110,9 @@ object Constants {
         const val UPDATE_CHANNEL_KEY = "update-channel"
         const val DATA_SYNC_ID = "data-sync-id"
         const val SHOW_PODCAST_PLAYLIST = "show-podcast-playlist"
+        const val USE_SPECIAL_LANGUAGE = "use-special-language"
+
+
     }
 
     object Database {

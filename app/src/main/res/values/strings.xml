@@ -87,4 +87,6 @@
     <string name="general">General</string>
     <string name="show_podcast_playlist_title">Show Podcast Playlist</string>
     <string name="show_podcast_playlist_description">Toggles the visibility of the \'Episodes for Later\' Playlist</string>
+    <string name="special_language_disabled">Special Language Disabled</string>
+    <string name="special_language_enabled">Special Language Enabled</string>
 </resources>

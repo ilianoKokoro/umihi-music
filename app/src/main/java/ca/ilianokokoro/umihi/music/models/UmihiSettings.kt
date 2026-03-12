@@ -6,5 +6,6 @@ data class UmihiSettings(
     val updateChannel: UpdateChannel = UpdateChannel.Stable,
     val cookies: Cookies,
     val dataSyncId: String,
-    val showPodcastPlaylist: Boolean = true
+    val showPodcastPlaylist: Boolean = true,
+    val useSpecialLanguage: Boolean = false
 )

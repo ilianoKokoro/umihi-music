@@ -1,7 +1,9 @@
 package ca.ilianokokoro.umihi.music
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,21 +21,22 @@ import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
 import cat.ereza.customactivityoncrash.config.CaocConfig
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.NewPipe
 
 
 class MainActivity : ComponentActivity() {
-
     private val songRepository: SongRepository = SongRepository()
-
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {}
@@ -74,6 +77,23 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         handleShareIntent(intent)
         handleViewIntent(intent)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val useSpecialLanguage = runBlocking {
+            DatastoreRepository(newBase).settings.first().useSpecialLanguage
+        }
+
+        val context = if (useSpecialLanguage) {
+            val locale = java.util.Locale.forLanguageTag(Constants.Locale.Special.CODE)
+            val config = Configuration(newBase.resources.configuration)
+            config.setLocales(android.os.LocaleList(locale))
+            newBase.createConfigurationContext(config)
+        } else {
+            newBase
+        }
+
+        super.attachBaseContext(context)
     }
 
     private fun handleShareIntent(intent: Intent?) {

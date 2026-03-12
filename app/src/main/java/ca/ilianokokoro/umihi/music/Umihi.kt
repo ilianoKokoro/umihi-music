@@ -5,6 +5,7 @@ import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 
 class Umihi : Application() {
 
+
     override fun onCreate() {
         super.onCreate()
 
