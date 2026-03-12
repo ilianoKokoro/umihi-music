@@ -66,9 +66,8 @@
     <string name="remove_local_playlist">Alisin ang lokal na playlist</string>
     <string name="remove_local_confirm_text">Tanggalin ang mga na-download na file para sa playlist na ito? Ang playlist ay mananatiling available online.</string>
     <string name="ignore">Ignore</string>
-    <string name="update_channel_title">Baguhin ang update channel</string>
+    <string name="change_update_channel">Baguhin ang update channel</string>
     <string name="current_update_channel_body">Kasalukuyang update channel : %1$s</string>
-    <string name="update_channel_dialog">Baguhin ang update channel</string>
     <string name="delete_download">Tanggalin ang Download</string>
     <string name="beta_update_available">Available ang Beta Update</string>
     <string name="home">Home</string>
@@ -83,4 +82,8 @@
     <string name="general">General</string>
     <string name="show_podcast_playlist_title">Ipakita ang Playlist ng Podcast</string>
     <string name="show_podcast_playlist_description">I-toggle ang visibility ng \'Episodes for Later\' Playlist</string>
+    <string name="special_language_disabled">Special Language Disabled</string>
+    <string name="special_language_enabled">Special Language Enabled</string>
+    <string name="reorder">Reorder</string>
+    <string name="actions">Actions</string>
 </resources>
