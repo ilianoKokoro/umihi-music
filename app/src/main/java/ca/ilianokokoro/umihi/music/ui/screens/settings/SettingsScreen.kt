@@ -141,7 +141,7 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     SettingsItem(
-                        title = stringResource(R.string.update_channel_title),
+                        title = stringResource(R.string.change_update_channel),
                         subtitle = stringResource(
                             R.string.current_update_channel_body,
                             state.settings.updateChannel

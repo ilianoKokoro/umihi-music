@@ -28,7 +28,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
@@ -100,7 +102,7 @@ fun MiniPlayer(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipPrevious,
-                                contentDescription = Icons.Rounded.SkipPrevious.name,
+                                contentDescription = stringResource(R.string.previous),
                             )
                         }
                     },
@@ -159,7 +161,7 @@ fun MiniPlayer(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipNext,
-                                contentDescription = Icons.Rounded.SkipNext.name,
+                                contentDescription = stringResource(R.string.next)
                             )
                         }
                     },

@@ -10,6 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import ca.ilianokokoro.umihi.music.R
 
 @Composable
 fun OfflineThumbnail() {
@@ -20,8 +22,8 @@ fun OfflineThumbnail() {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            Icons.Rounded.Download,
-            contentDescription = Icons.Rounded.Download.name,
+            imageVector = Icons.Rounded.Download,
+            contentDescription = stringResource(R.string.download),
             modifier = Modifier.fillMaxSize(0.7f)
         )
     }

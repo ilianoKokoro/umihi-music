@@ -72,7 +72,7 @@ fun SongListItem(
                                 .padding(end = 3.dp)
                                 .size(16.dp),
                             imageVector = Icons.Rounded.DownloadForOffline,
-                            contentDescription = Icons.Rounded.DownloadForOffline.name,
+                            contentDescription = stringResource(R.string.download),
                         )
                     }
 

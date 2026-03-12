@@ -69,14 +69,6 @@ fun UpdateDialog(scope: CoroutineScope) {
                 }
             },
             confirmButton = {
-//                TextButton(
-//                    onClick = {
-//                        showDialog.value = false
-//                        uriHandler.openUri(Constants.Url.GITHUB_RELEASE_LINK)
-//                    },
-//                    shapes = ButtonDefaults.shapes()
-//                ) { Text(stringResource(R.string.open)) }
-
                 TextButton(
                     onClick = {
                         showDialog.value = false

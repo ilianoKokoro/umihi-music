@@ -66,9 +66,8 @@
     <string name="remove_local_playlist">Wemove wocaw pwaywist ;-;</string>
     <string name="remove_local_confirm_text">Dewete da d-downwoaded fiwes fow dis pwaywist!? Da pwaywist wiww wemain avaiwabwe onwinye.</string>
     <string name="ignore">Ignowe</string>
-    <string name="update_channel_title">Change update channew</string>
+    <string name="change_update_channel">Change update channew</string>
     <string name="current_update_channel_body">Cuwwent update channew : %1$s</string>
-    <string name="update_channel_dialog">Change update channew</string>
     <string name="delete_download">Nyoo Da Downwoad</string>
     <string name="beta_update_available">Omega Wupdate Avaiwabwe</string>
     <string name="home">H-home :3</string>

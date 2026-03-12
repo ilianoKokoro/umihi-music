@@ -76,8 +76,8 @@ fun PlaylistInfo(
             SquareImage(playlist.info.coverPath ?: playlist.info.coverHref)
         } else {
             Icon(
-                Icons.Rounded.Download,
-                contentDescription = Icons.Rounded.Download.name,
+                imageVector = Icons.Rounded.Download,
+                contentDescription = stringResource(R.string.download),
                 modifier = Modifier.size(150.dp)
             )
         }
@@ -150,7 +150,7 @@ fun PlaylistInfo(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.MoreVert,
-                                contentDescription = Icons.Rounded.MoreVert.name
+                                contentDescription = stringResource(R.string.actions)
                             )
 
                             DropdownMenu(

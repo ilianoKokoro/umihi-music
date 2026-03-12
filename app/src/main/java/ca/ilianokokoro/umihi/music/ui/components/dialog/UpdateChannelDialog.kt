@@ -39,7 +39,7 @@ fun UpdateChannelDialog(
         onDismissRequest = onClose,
         title = {
             Text(
-                text = stringResource(R.string.update_channel_dialog),
+                text = stringResource(R.string.change_update_channel),
             )
         },
         text = {

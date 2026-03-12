@@ -74,7 +74,7 @@ fun QueueSongListItem(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.DragHandle,
-                    contentDescription = "Reorder"
+                    contentDescription = stringResource(R.string.reorder)
                 )
             }
         },
