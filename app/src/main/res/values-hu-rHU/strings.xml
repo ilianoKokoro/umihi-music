@@ -66,9 +66,8 @@
     <string name="remove_local_playlist">Remove local playlist</string>
     <string name="remove_local_confirm_text">Delete the downloaded files for this playlist? The playlist will remain available online.</string>
     <string name="ignore">Ignore</string>
-    <string name="update_channel_title">Change update channel</string>
+    <string name="change_update_channel">Change update channel</string>
     <string name="current_update_channel_body">Current update channel : %1$s</string>
-    <string name="update_channel_dialog">Change update channel</string>
     <string name="delete_download">Delete Download</string>
     <string name="beta_update_available">Beta Update Available</string>
     <string name="home">Home</string>
@@ -83,4 +82,8 @@
     <string name="general">General</string>
     <string name="show_podcast_playlist_title">Show Podcast Playlist</string>
     <string name="show_podcast_playlist_description">Toggles the visibility of the \'Episodes for Later\' Playlist</string>
+    <string name="special_language_disabled">Special Language Disabled</string>
+    <string name="special_language_enabled">Special Language Enabled</string>
+    <string name="reorder">Reorder</string>
+    <string name="actions">Actions</string>
 </resources>
