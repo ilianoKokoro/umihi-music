@@ -2,8 +2,11 @@ package ca.ilianokokoro.umihi.music.extensions
 
 import android.content.Context
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.TrackSelectionParameters
+import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
@@ -71,3 +74,27 @@ private fun Player.playIfQueueCreated() {
     }
 }
 
+@OptIn(UnstableApi::class)
+fun Player.setAudioOffloadEnabled(value: Boolean): TrackSelectionParameters.AudioOffloadPreferences {
+
+    val mode = if (value) {
+        TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED
+    } else {
+        TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED
+
+    }
+
+    this.trackSelectionParameters =
+        this.trackSelectionParameters
+            ?.buildUpon()
+            ?.setAudioOffloadPreferences(
+                this.trackSelectionParameters.audioOffloadPreferences.buildUpon()
+                    .setAudioOffloadMode(mode)
+                    .build()
+            )
+            ?.build() ?: return TrackSelectionParameters.AudioOffloadPreferences.DEFAULT
+
+
+    return TrackSelectionParameters.AudioOffloadPreferences.Builder().setAudioOffloadMode(mode)
+        .build()
+}

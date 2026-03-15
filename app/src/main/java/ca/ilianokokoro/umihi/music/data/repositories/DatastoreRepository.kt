@@ -1,17 +1,20 @@
 package ca.ilianokokoro.umihi.music.data.repositories
 
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -29,7 +32,7 @@ class DatastoreRepository(private val context: Context) {
         val UPDATE_CHANNEL = stringPreferencesKey(Constants.Datastore.UPDATE_CHANNEL_KEY)
         val SHOW_PODCAST_PLAYLIST = booleanPreferencesKey(Constants.Datastore.SHOW_PODCAST_PLAYLIST)
         val USE_SPECIAL_LANGUAGE = booleanPreferencesKey(Constants.Datastore.USE_SPECIAL_LANGUAGE)
-
+        val USE_AUDIO_OFFLOAD = booleanPreferencesKey(Constants.Datastore.USE_AUDIO_OFFLOAD)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -38,13 +41,13 @@ class DatastoreRepository(private val context: Context) {
         }
     }
 
+    @UnstableApi
     val settings = context.dataStore.data.map {
         val updateChannel = it[UPDATE_CHANNEL]?.let { value -> UpdateChannel.valueOf(value) }
             ?: UpdateChannel.Stable
-        val showPodcastPlaylist =
-            it[SHOW_PODCAST_PLAYLIST] ?: true
-        val useSpecialLanguage =
-            it[USE_SPECIAL_LANGUAGE] ?: false
+        val showPodcastPlaylist = it[SHOW_PODCAST_PLAYLIST] ?: true
+        val useSpecialLanguage = it[USE_SPECIAL_LANGUAGE] ?: false
+        val useAudioOffload = it[USE_AUDIO_OFFLOAD] ?: false
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -53,10 +56,12 @@ class DatastoreRepository(private val context: Context) {
             showPodcastPlaylist = showPodcastPlaylist,
             cookies = cookies,
             dataSyncId = dataSyncId,
-            useSpecialLanguage = useSpecialLanguage
+            useSpecialLanguage = useSpecialLanguage,
+            useAudioOffload = useAudioOffload
         )
     }
 
+    @OptIn(UnstableApi::class)
     fun getSettings(): UmihiSettings {
         return runBlocking {
             settings.first()

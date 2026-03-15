@@ -15,10 +15,12 @@ import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
+import ca.ilianokokoro.umihi.music.extensions.setAudioOffloadEnabled
 import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -104,6 +106,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun updatePodcastPlaylistVisibility(value: Boolean) {
         updateSetting(
             DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST,
+            value
+        )
+    }
+
+    @OptIn(UnstableApi::class)
+    fun updateAudioOffloadSetting(value: Boolean) {
+        PlayerManager.currentController?.setAudioOffloadEnabled(value)
+        updateSetting(
+            DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD,
             value
         )
     }

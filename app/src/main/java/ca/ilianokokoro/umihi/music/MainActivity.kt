@@ -45,13 +45,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         initCoaoc()
-
         initNewPipe()
-
         VersionManager.initialize(this)
-
         requestNotificationPermission()
-
         PlayerManager.init(this)
 
         PlayerManager.connectController(this) {
@@ -60,7 +56,6 @@ class MainActivity : ComponentActivity() {
                 UmihiMusicTheme {
                     NavigationRoot(
                         modifier = Modifier.fillMaxSize(),
-                        player = it
                     )
                     UpdateDialog(lifecycleScope)
                 }

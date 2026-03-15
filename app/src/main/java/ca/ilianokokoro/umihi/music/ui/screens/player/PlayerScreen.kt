@@ -36,7 +36,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
@@ -46,12 +45,11 @@ import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 @Composable
 fun PlayerScreen(
     onBack: () -> Unit,
-    player: Player,
     modifier: Modifier = Modifier,
     application: Application,
     playerViewModel: PlayerViewModel = viewModel(
         factory =
-            PlayerViewModel.Factory(player = player, application = application)
+            PlayerViewModel.Factory(application = application)
     )
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
@@ -101,12 +99,8 @@ fun PlayerScreen(
                     isLoading = uiState.isLoading,
                     position = uiState.progressMs,
                     duration = uiState.durationMs,
-                    onPlay = playerViewModel::play,
-                    onPause = playerViewModel::pause,
                     onSeek = playerViewModel::seek,
                     onSeekPlayer = playerViewModel::seekPlayer,
-                    onSeekToNext = playerViewModel::seekToNext,
-                    onSeekToPrevious = playerViewModel::seekToPrevious,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
                     onOpenQueue = {
                         playerViewModel.setQueueVisibility(true)
@@ -145,12 +139,8 @@ fun PlayerScreen(
                     isLoading = uiState.isLoading,
                     position = uiState.progressMs,
                     duration = uiState.durationMs,
-                    onPlay = playerViewModel::play,
-                    onPause = playerViewModel::pause,
                     onSeek = playerViewModel::seek,
                     onSeekPlayer = playerViewModel::seekPlayer,
-                    onSeekToNext = playerViewModel::seekToNext,
-                    onSeekToPrevious = playerViewModel::seekToPrevious,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
                     onOpenQueue = {
                         playerViewModel.setQueueVisibility(true)
@@ -168,7 +158,6 @@ fun PlayerScreen(
         QueueBottomSheet(
             changeVisibility = { playerViewModel.setQueueVisibility(it) },
             currentSong = uiState.queue[uiState.currentIndex],
-            player = player,
             songs = uiState.queue
         )
 

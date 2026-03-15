@@ -21,30 +21,31 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
 
 
 @Composable
 fun MiniPlayerWrapper(
     modifier: Modifier = Modifier,
-    player: Player,
     onMiniPlayerPressed: () -> Unit,
     showMiniPlayer: Boolean
 ) {
-    var currentSong by remember { mutableStateOf(player.currentMediaItem?.toSong()) }
+    val player = PlayerManager.currentController
+    var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
     var songIsPlaying by remember(player) {
-        mutableStateOf(player.isPlaying)
+        mutableStateOf(player?.isPlaying)
     }
     var songIsLoading by remember(player) {
-        mutableStateOf(player.playbackState == Player.STATE_BUFFERING)
+        mutableStateOf(player?.playbackState == Player.STATE_BUFFERING)
     }
     val insets = WindowInsets.navigationBars.asPaddingValues()
     val bottomInset = with(LocalDensity.current) { insets.calculateBottomPadding().roundToPx() }
 
     DisposableEffect(player) {
-        currentSong = player.currentMediaItem?.toSong()
-        songIsPlaying = player.isPlaying
-        songIsLoading = player.playbackState == Player.STATE_BUFFERING
+        currentSong = player?.currentMediaItem?.toSong()
+        songIsPlaying = player?.isPlaying
+        songIsLoading = player?.playbackState == Player.STATE_BUFFERING
 
         val listener = object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -72,8 +73,8 @@ fun MiniPlayerWrapper(
             }
 
         }
-        player.addListener(listener)
-        onDispose { player.removeListener(listener) }
+        player?.addListener(listener)
+        onDispose { player?.removeListener(listener) }
     }
 
     AnimatedVisibility(
@@ -89,19 +90,20 @@ fun MiniPlayerWrapper(
             currentSong = currentSong!!,
             onClick = onMiniPlayerPressed,
             onPlayPause = {
-                if (player.isPlaying) {
+                if (player?.isPlaying == true) {
                     player.pause()
                 } else {
-                    player.play()
+                    player?.play()
                 }
+
             },
             onSkipNext = {
-                player.seekToNext()
+                player?.seekToNext()
             },
             onSkipPrevious = {
-                player.seekToPrevious()
+                player?.seekToPrevious()
             },
-            isPlaying = songIsPlaying,
+            isPlaying = songIsPlaying == true,
             isLoading = songIsLoading
         )
     }

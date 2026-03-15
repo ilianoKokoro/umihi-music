@@ -144,8 +144,6 @@ dependencies {
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.datasource)
     // Additional playback support
-    implementation(libs.androidx.media3.exoplayer.dash)
-    implementation(libs.androidx.media3.exoplayer.rtsp)
     implementation(libs.androidx.media3.exoplayer.hls)
 
     // DataStore

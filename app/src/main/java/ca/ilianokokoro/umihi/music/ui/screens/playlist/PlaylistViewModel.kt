@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.media3.common.Player
 import androidx.work.WorkInfo
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application: Application) :
+class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
     AndroidViewModel(application) {
     private val _playlist = playlistInfo
     private val _uiState = MutableStateFlow(
@@ -43,8 +43,6 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
-
-    private val _player = player
 
     init {
         observeSongDownloads()
@@ -136,7 +134,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     fun playPlaylist(startingSong: Song? = null) {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            _player.playPlaylist(
+            PlayerManager.currentController?.playPlaylist(
                 playlist,
                 startingSong?.let { playlist.songs.indexOf(it) } ?: 0
             )
@@ -146,7 +144,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     fun shufflePlaylist() {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            _player.shufflePlaylist(playlist)
+            PlayerManager.currentController?.shufflePlaylist(playlist)
         }
     }
 
@@ -276,12 +274,11 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, player: Player, application:
     companion object {
         fun Factory(
             playlistInfo: PlaylistInfo,
-            player: Player,
             application: Application
         ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlaylistViewModel(playlistInfo, player, application)
+                    PlaylistViewModel(playlistInfo, application)
                 }
             }
     }

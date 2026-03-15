@@ -1,8 +1,8 @@
 package ca.ilianokokoro.umihi.music.models
 
+import android.os.Bundle
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
@@ -27,26 +27,27 @@ data class Song(
     val uid: String = UUID.randomUUID().toString(),
 ) {
     val mediaItem: MediaItem
-        get() =
-            MediaItem.Builder()
+        get() {
+
+            val extras = Bundle()
+            extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
+            extras.putString(Constants.ExoPlayer.SongMetadata.UID, UUID.randomUUID().toString())
+
+            return MediaItem.Builder()
                 .setUri(youtubeId)
                 .setMediaId(youtubeId)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(title)
                         .setArtist(artist)
+                        .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                         .setArtworkUri((thumbnailPath ?: thumbnailHref).toUri())
-                        .setExtras(
-                            bundleOf(
-                                Constants.ExoPlayer.SongMetadata.DURATION to duration,
-                                Constants.ExoPlayer.SongMetadata.UID to UUID.randomUUID()
-                                    .toString(),
-                            )
-                        )
+                        .setExtras(extras)
                         .build()
 
                 )
                 .build()
+        }
 
 
     val youtubeUrl: String

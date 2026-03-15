@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -115,6 +116,20 @@ fun SettingsScreen(
                         onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
                     )
                 }
+
+
+                SettingsSection(
+                    title = stringResource(R.string.playback),
+                ) {
+                    BooleanSettingItem(
+                        title = stringResource(R.string.enable_audio_offload),
+                        subtitle = stringResource(R.string.audio_offload_subtitle),
+                        leadingIcon = Icons.Outlined.Memory,
+                        value = uiState.screenState.settings.useAudioOffload,
+                        onToggle = { settingsViewModel.updateAudioOffloadSetting(it) }
+                    )
+                }
+
 
                 SettingsSection(
                     title = stringResource(R.string.data_and_storage),

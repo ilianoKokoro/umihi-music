@@ -13,6 +13,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.getQueue
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.delay
@@ -21,18 +22,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(player: Player, application: Application) :
+class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
-    private val _player = player
 
     init {
-        _player.addListener(object : Player.Listener {
+        PlayerManager.currentController?.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
             }
-            
+
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 updateIsPlayingState()
             }
@@ -58,7 +58,7 @@ class PlayerViewModel(player: Player, application: Application) :
 
 
     fun seekPlayer() {
-        _player.seekTo(_uiState.value.progressMs.toLong())
+        PlayerManager.currentController?.seekTo(_uiState.value.progressMs.toLong())
     }
 
     fun seek(location: Float) {
@@ -86,22 +86,6 @@ class PlayerViewModel(player: Player, application: Application) :
         }
     }
 
-    fun pause() {
-        _player.pause()
-    }
-
-    fun play() {
-        _player.play()
-    }
-
-    fun seekToNext() {
-        _player.seekToNext()
-    }
-
-    fun seekToPrevious() {
-        _player.seekToPrevious()
-    }
-
     fun setQueueVisibility(show: Boolean) {
         viewModelScope.launch {
             _uiState.update {
@@ -122,8 +106,8 @@ class PlayerViewModel(player: Player, application: Application) :
 
             _uiState.update {
                 _uiState.value.copy(
-                    currentIndex = _player.currentMediaItemIndex,
-                    queue = _player.getQueue(),
+                    currentIndex = PlayerManager.currentController?.currentMediaItemIndex ?: 0,
+                    queue = PlayerManager.currentController?.getQueue() ?: mutableListOf(),
                 )
             }
         }
@@ -135,7 +119,8 @@ class PlayerViewModel(player: Player, application: Application) :
                 if (!_uiState.value.isSeekBarHeld) {
                     _uiState.update {
                         _uiState.value.copy(
-                            progressMs = _player.currentPosition.toFloat(),
+                            progressMs = PlayerManager.currentController?.currentPosition?.toFloat()
+                                ?: 0f,
                         )
                     }
                 }
@@ -150,7 +135,7 @@ class PlayerViewModel(player: Player, application: Application) :
         }
 
         viewModelScope.launch {
-            var songDuration = _player.duration
+            var songDuration = PlayerManager.currentController?.duration ?: 0
 
             if (songDuration == C.TIME_UNSET) {
                 songDuration = 0
@@ -166,7 +151,7 @@ class PlayerViewModel(player: Player, application: Application) :
 
     private fun updateIsLoadingState() {
         viewModelScope.launch {
-            when (_player.playbackState) {
+            when (PlayerManager.currentController?.playbackState) {
                 Player.STATE_BUFFERING -> {
                     _uiState.update {
                         _uiState.value.copy(
@@ -194,7 +179,7 @@ class PlayerViewModel(player: Player, application: Application) :
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    isPlaying = _player.isPlaying
+                    isPlaying = PlayerManager.currentController?.isPlaying == true
                 )
             }
         }
@@ -213,7 +198,8 @@ class PlayerViewModel(player: Player, application: Application) :
     }
 
     private fun updateThumbnail() {
-        val artUri = _player.currentMediaItem?.mediaMetadata?.artworkUri ?: return
+        val artUri =
+            PlayerManager.currentController?.currentMediaItem?.mediaMetadata?.artworkUri ?: return
         if (currentSong?.thumbnailHref == artUri.toString()) {
             return
         }
@@ -224,12 +210,11 @@ class PlayerViewModel(player: Player, application: Application) :
 
     companion object {
         fun Factory(
-            player: Player,
             application: Application,
         ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlayerViewModel(player, application)
+                    PlayerViewModel(application)
                 }
             }
     }

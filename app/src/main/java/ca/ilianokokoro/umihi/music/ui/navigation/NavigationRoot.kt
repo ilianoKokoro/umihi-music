@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -52,7 +51,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
+fun NavigationRoot(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
@@ -100,7 +99,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                 }
 
                 MiniPlayerWrapper(
-                    player = player,
                     showMiniPlayer = screenConfig.showMiniPlayer,
                     onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
                     modifier = miniPlayerModifier
@@ -197,7 +195,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                             PlaylistScreen(
                                 playlistInfo = key.playlistInfo,
                                 onOpenPlayer = { backStack.add(PlayerScreenKey) },
-                                player = player,
                                 application = app
                             )
                         }
@@ -215,7 +212,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         ) {
                             PlayerScreen(
                                 onBack = backStack::safePop,
-                                player = player,
                                 application = app
                             )
                         }
@@ -223,7 +219,6 @@ fun NavigationRoot(player: Player, modifier: Modifier = Modifier) {
                         is SearchScreenKey -> NavEntry(key) {
                             SearchScreen(
                                 application = app,
-                                player = player,
                             )
                         }
 

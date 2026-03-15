@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
-import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
 import kotlinx.coroutines.launch
@@ -40,7 +40,6 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
     currentSong: Song,
-    player: Player,
     songs: List<Song>,
     modifier: Modifier = Modifier
 ) {
@@ -108,7 +107,7 @@ fun QueueBottomSheet(
                                 song = song,
                                 isCurrentSong = currentSong == song,
                                 onPress = {
-                                    player.seekTo(index, C.TIME_UNSET)
+                                    PlayerManager.currentController?.seekTo(index, C.TIME_UNSET)
                                 },
                                 scope = this,
                                 onDragStarted =
@@ -119,7 +118,7 @@ fun QueueBottomSheet(
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
 
-                                    player.moveMediaItem(
+                                    PlayerManager.currentController?.moveMediaItem(
                                         startIndex,
                                         songIndex
                                     )

@@ -31,8 +31,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.addNext
 import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.extensions.playSong
@@ -44,7 +44,6 @@ import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 @Composable
 fun SearchScreen(
     application: Application,
-    player: Player,
     searchViewModel: SearchViewModel = viewModel(
         factory =
             SearchViewModel.Factory(application = application)
@@ -122,13 +121,13 @@ fun SearchScreen(
                                 SongListItem(
                                     song = it,
                                     onPress = {
-                                        player.playSong(it)
+                                        PlayerManager.currentController?.playSong(it)
                                     },
                                     playNext = {
-                                        player.addNext(it, context)
+                                        PlayerManager.currentController?.addNext(it, context)
                                     },
                                     addToQueue = {
-                                        player.addToQueue(it, context)
+                                        PlayerManager.currentController?.addToQueue(it, context)
                                     }
                                 )
                             }

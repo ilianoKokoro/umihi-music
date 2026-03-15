@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -44,10 +45,6 @@ fun PlayerControls(
     onSeekPlayer: () -> Unit,
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
-    onPause: () -> Unit,
-    onPlay: () -> Unit,
-    onSeekToNext: () -> Unit,
-    onSeekToPrevious: () -> Unit,
     onOpenQueue: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -110,7 +107,7 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = onSeekToPrevious,
+                            onClick = { PlayerManager.currentController?.seekToPrevious() },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = controlsInteractionSources[0],
                             modifier = Modifier
@@ -138,9 +135,9 @@ fun PlayerControls(
                                 if (isLoading) {
                                     // Do nothing
                                 } else if (isPlaying) {
-                                    onPause()
+                                    PlayerManager.currentController?.pause()
                                 } else {
-                                    onPlay()
+                                    PlayerManager.currentController?.play()
                                 }
                             },
                             shapes = IconButtonDefaults.toggleableShapes()
@@ -177,7 +174,9 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = onSeekToNext,
+                            onClick = {
+                                PlayerManager.currentController?.seekToNext()
+                            },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = controlsInteractionSources[2],
                             modifier = Modifier

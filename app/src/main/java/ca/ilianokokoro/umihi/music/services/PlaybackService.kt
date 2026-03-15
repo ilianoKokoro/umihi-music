@@ -27,12 +27,15 @@ import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -42,6 +45,7 @@ class PlaybackService : MediaSessionService() {
     private lateinit var exoCache: ExoCache
     private lateinit var player: Player
     private val songRepository = SongRepository()
+    private val datastoreRepository = DatastoreRepository(this)
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onCreate() {
@@ -59,10 +63,17 @@ class PlaybackService : MediaSessionService() {
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
+        val settings = runBlocking { datastoreRepository.settings.first() }
+
+        val audioOffloadMode = if (settings.useAudioOffload) {
+            TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED
+        } else {
+            TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED
+        }
 
         val audioOffloadPreferences =
             TrackSelectionParameters.AudioOffloadPreferences.Builder()
-                .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED) // TODO : Add option to enable it
+                .setAudioOffloadMode(audioOffloadMode)
                 .setIsGaplessSupportRequired(true)
                 .setIsSpeedChangeSupportRequired(true)
                 .build()
@@ -101,6 +112,7 @@ class PlaybackService : MediaSessionService() {
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
             }
         })
+
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         val pendingIntent = PendingIntent.getActivity(
@@ -156,6 +168,8 @@ class PlaybackService : MediaSessionService() {
 
         val context = applicationContext
         val songId = mediaItem.mediaId
+
+        UmihiHelper.printd(player.trackSelectionParameters.audioOffloadPreferences?.audioOffloadMode.toString())
 
         serviceScope.launch {
             try {

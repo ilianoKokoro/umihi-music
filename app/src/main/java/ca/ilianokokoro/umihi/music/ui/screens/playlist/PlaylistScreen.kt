@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.addNext
 import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.Playlist
@@ -35,14 +35,12 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
-    player: Player,
     modifier: Modifier = Modifier,
     application: Application,
     playlistViewModel: PlaylistViewModel = viewModel(
         factory =
             PlaylistViewModel.Factory(
                 playlistInfo = playlistInfo,
-                player = player,
                 application = application
             )
     )
@@ -137,9 +135,9 @@ fun PlaylistScreen(
                                 onOpenPlayer()
                                 playlistViewModel.playPlaylist(song)
                             }, playNext = {
-                                player.addNext(song, application)
+                                PlayerManager.currentController?.addNext(song, application)
                             }, addToQueue = {
-                                player.addToQueue(song, application)
+                                PlayerManager.currentController?.addToQueue(song, application)
                             }, download = {
                                 playlistViewModel.downloadSong(song)
                             })

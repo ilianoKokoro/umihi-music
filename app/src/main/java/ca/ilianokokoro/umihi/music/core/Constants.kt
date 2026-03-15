@@ -110,7 +110,7 @@ object Constants {
         const val DATA_SYNC_ID = "data-sync-id"
         const val SHOW_PODCAST_PLAYLIST = "show-podcast-playlist"
         const val USE_SPECIAL_LANGUAGE = "use-special-language"
-
+        const val USE_AUDIO_OFFLOAD = "use-audio-offload"
 
     }
 
