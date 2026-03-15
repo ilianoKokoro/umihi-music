@@ -18,6 +18,9 @@ interface LocalSongDataSource {
     FROM songs 
     WHERE audioFilePath IS NOT NULL 
       AND thumbnailPath IS NOT NULL
+      ORDER BY  
+        songs.title COLLATE NOCASE ASC,
+        songs.artist COLLATE NOCASE ASC
 """
     )
     suspend fun getDownloadedSongs(): List<Song>

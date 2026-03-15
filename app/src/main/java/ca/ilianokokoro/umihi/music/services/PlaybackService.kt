@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.TrackSelectionParameters
@@ -27,6 +28,7 @@ import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import ca.ilianokokoro.umihi.music.extensions.cappedTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -161,9 +163,16 @@ class PlaybackService : MediaSessionService() {
                     context,
                     Constants.Downloads.THUMBNAILS_FOLDER
                 )
+
                 val downloadedImage = File(imageDir, "$songId.jpg")
                 if (downloadedImage.exists()) {
-                    updateMediaItemArtwork(mediaItem, downloadedImage.toUri())
+                    val imageBytes = downloadedImage.readBytes()
+
+                    updateMediaItemArtwork(
+                        mediaItem,
+                        imageBytes.cappedTo(),
+                        downloadedImage.toUri()
+                    )
                     return@launch
                 }
 
@@ -174,15 +183,20 @@ class PlaybackService : MediaSessionService() {
                                 val song = result.data
                                 val thumbnail = song.thumbnailHref
                                 if (thumbnail.isNotBlank()) {
-                                    updateMediaItemArtwork(mediaItem, thumbnail.toUri())
+                                    val artBytes = UmihiHelper.fetchArtworkBytes(thumbnail)
+                                    if (artBytes != null) {
+                                        updateMediaItemArtwork(
+                                            mediaItem,
+                                            artBytes,
+                                            song.thumbnailHref.toUri()
+                                        )
+                                    }
                                     return@collect
                                 }
                             }
 
                             is ApiResult.Error -> {
-                                error(
-                                    "ApiResult.Error was null",
-                                )
+                                error("ApiResult.Error was null")
                             }
 
                             else -> {}
@@ -196,11 +210,17 @@ class PlaybackService : MediaSessionService() {
         }
     }
 
+    private suspend fun updateMediaItemArtwork(
+        mediaItem: MediaItem,
+        artBytes: ByteArray?,
+        uri: Uri
+    ) {
+        UmihiHelper.printd(artBytes?.size.toString())
 
-    private suspend fun updateMediaItemArtwork(mediaItem: MediaItem, uri: Uri) {
         val updated = mediaItem.buildUpon()
             .setMediaMetadata(
                 mediaItem.mediaMetadata.buildUpon()
+                    .setArtworkData(artBytes, MediaMetadata.PICTURE_TYPE_FRONT_COVER)
                     .setArtworkUri(uri)
                     .build()
             )

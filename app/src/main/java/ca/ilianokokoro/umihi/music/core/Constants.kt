@@ -15,7 +15,6 @@ import kotlinx.serialization.json.buildJsonObject
 object Constants {
     const val BETA_SUFFIX = "-beta"
 
-
     object Url {
         const val DISCORD_INVITE = "https://discord.gg/mSPeHS5cF6"
 
@@ -51,8 +50,6 @@ object Constants {
             const val CLICK_QUANTITY = 25
 
         }
-
-
     }
 
     object Marquee {
@@ -63,6 +60,8 @@ object Constants {
         object MiniPlayer {
             val HEIGHT = 70.dp
         }
+
+        const val WEAROS_MAX_IMAGE_SIZE = 720
     }
 
     object Animation {
