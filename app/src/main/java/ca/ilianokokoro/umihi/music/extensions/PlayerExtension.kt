@@ -85,11 +85,11 @@ fun Player.setAudioOffloadEnabled(value: Boolean) {
 
     this.trackSelectionParameters =
         this.trackSelectionParameters
-            ?.buildUpon()
-            ?.setAudioOffloadPreferences(
+            .buildUpon()
+            .setAudioOffloadPreferences(
                 this.trackSelectionParameters.audioOffloadPreferences.buildUpon()
                     .setAudioOffloadMode(mode)
                     .build()
             )
-            ?.build() ?: return
+            .build()
 }
