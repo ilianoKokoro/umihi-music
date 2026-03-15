@@ -86,4 +86,7 @@
     <string name="special_language_enabled">Langue spéciale activée</string>
     <string name="reorder">Réorganiser</string>
     <string name="actions">Actions</string>
+    <string name="playback">Playback</string>
+    <string name="enable_audio_offload">Enable Audio Offload</string>
+    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
 </resources>
