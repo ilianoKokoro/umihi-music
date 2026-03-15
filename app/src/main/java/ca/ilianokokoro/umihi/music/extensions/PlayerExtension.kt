@@ -75,8 +75,7 @@ private fun Player.playIfQueueCreated() {
 }
 
 @OptIn(UnstableApi::class)
-fun Player.setAudioOffloadEnabled(value: Boolean): TrackSelectionParameters.AudioOffloadPreferences {
-
+fun Player.setAudioOffloadEnabled(value: Boolean) {
     val mode = if (value) {
         TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED
     } else {
@@ -92,9 +91,5 @@ fun Player.setAudioOffloadEnabled(value: Boolean): TrackSelectionParameters.Audi
                     .setAudioOffloadMode(mode)
                     .build()
             )
-            ?.build() ?: return TrackSelectionParameters.AudioOffloadPreferences.DEFAULT
-
-
-    return TrackSelectionParameters.AudioOffloadPreferences.Builder().setAudioOffloadMode(mode)
-        .build()
+            ?.build() ?: return
 }

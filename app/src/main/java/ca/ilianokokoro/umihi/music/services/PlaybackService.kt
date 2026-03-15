@@ -168,9 +168,7 @@ class PlaybackService : MediaSessionService() {
 
         val context = applicationContext
         val songId = mediaItem.mediaId
-
-        UmihiHelper.printd(player.trackSelectionParameters.audioOffloadPreferences?.audioOffloadMode.toString())
-
+        
         serviceScope.launch {
             try {
                 val imageDir = UmihiHelper.getDownloadDirectory(
