@@ -4,6 +4,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -167,6 +169,8 @@ fun SettingsScreen(
                         }
                     )
                 }
+
+                Box(modifier = Modifier.height(Constants.Ui.SCROLLABLE_BOTTOM_PADDING))
 
                 if (uiState.showUpdateChannelDialog) {
                     UpdateChannelDialog(
