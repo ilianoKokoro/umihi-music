@@ -86,7 +86,7 @@
     <string name="special_language_enabled">特別な言語を有効にする</string>
     <string name="reorder">並び替え</string>
     <string name="actions">アクション</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">再生</string>
+    <string name="enable_audio_offload">オーディオオフロードを有効にする</string>
+    <string name="audio_offload_subtitle">オーディオデコードを専用ハードウェアにオフロードし、バッテリ寿命を延ばします。場合によっては再生の問題が発生する可能性があります。</string>
 </resources>
