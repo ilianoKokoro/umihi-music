@@ -86,7 +86,7 @@
     <string name="special_language_enabled">Speciální jazyk povolen</string>
     <string name="reorder">Změnit pořadí</string>
     <string name="actions">Akce</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Přehrát</string>
+    <string name="enable_audio_offload">Povolit vypnutí zvuku</string>
+    <string name="audio_offload_subtitle">Vypne zvukové dekódování na vyhrazený hardware, zlepší životnost baterie. V některých případech může způsobit problémy s přehráváním.</string>
 </resources>

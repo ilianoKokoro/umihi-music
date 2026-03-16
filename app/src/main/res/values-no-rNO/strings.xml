@@ -86,7 +86,7 @@
     <string name="special_language_enabled">Spesialspråk er aktivert</string>
     <string name="reorder">Omorganiser</string>
     <string name="actions">Handlinger</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Avspilling</string>
+    <string name="enable_audio_offload">Aktiver lyd-forskyvning</string>
+    <string name="audio_offload_subtitle">Laster ut lyddekoding til dedikert maskinvare, forbedrer batterilevetiden. Kan føre til noen avspillingsproblemer i noen tilfeller.</string>
 </resources>

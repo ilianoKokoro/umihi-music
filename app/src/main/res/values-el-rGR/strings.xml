@@ -92,7 +92,7 @@
     <string name="special_language_enabled">Ειδική Γλώσσα Ενεργοποιημένη</string>
     <string name="reorder">Αναδιάταξη</string>
     <string name="actions">Ενέργειες</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Αναπαραγωγή</string>
+    <string name="enable_audio_offload">Ενεργοποίηση Offload Ήχου</string>
+    <string name="audio_offload_subtitle">Offloads αποκωδικοποίηση ήχου σε ειδικό υλικό, βελτίωση της ζωής της μπαταρίας. Μπορεί να προκαλέσει κάποια προβλήματα αναπαραγωγής σε ορισμένες περιπτώσεις.</string>
 </resources>

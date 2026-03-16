@@ -86,7 +86,7 @@
     <string name="special_language_enabled">Специальные языки включены</string>
     <string name="reorder">Изменить порядок</string>
     <string name="actions">Действия</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Воспроизведение</string>
+    <string name="enable_audio_offload">Включить выгрузку аудио</string>
+    <string name="audio_offload_subtitle">Выключает декодирование аудио на выделенное оборудование, что улучшает срок службы батареи. В некоторых случаях могут возникнуть некоторые проблемы с воспроизведением.</string>
 </resources>

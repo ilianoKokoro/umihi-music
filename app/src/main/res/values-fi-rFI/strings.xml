@@ -86,7 +86,7 @@
     <string name="special_language_enabled">Erikoiskieli Käytössä</string>
     <string name="reorder">Järjestä</string>
     <string name="actions">Toiminnot</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Toisto</string>
+    <string name="enable_audio_offload">Ota Äänen Lähetys Käyttöön</string>
+    <string name="audio_offload_subtitle">Offloads audio dekoodaus omistettu laitteisto, parantaa akun käyttöikää. Voi aiheuttaa joitakin toistoa ongelmia joissakin tapauksissa.</string>
 </resources>

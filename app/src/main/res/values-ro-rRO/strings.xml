@@ -86,7 +86,7 @@
     <string name="special_language_enabled">Limbă specială activată</string>
     <string name="reorder">Reordonare</string>
     <string name="actions">Acțiuni</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">Redare</string>
+    <string name="enable_audio_offload">Activează Offload Audio</string>
+    <string name="audio_offload_subtitle">Descoperă decodarea audio la hardware-ul dedicat, îmbunătățind durata de viață a bateriei. În unele cazuri, poate cauza probleme de redare.</string>
 </resources>

@@ -86,7 +86,7 @@
     <string name="special_language_enabled">启用特殊语言</string>
     <string name="reorder">重新排序</string>
     <string name="actions">行动</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">回放</string>
+    <string name="enable_audio_offload">启用音频卸载</string>
+    <string name="audio_offload_subtitle">将音频解码卸载到专用硬件上，改善电池寿命。在某些情况下，可能会导致一些播放问题。</string>
 </resources>
