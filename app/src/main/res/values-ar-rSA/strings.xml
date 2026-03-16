@@ -86,7 +86,7 @@
     <string name="special_language_enabled">اللغة الخاصة ممكنة</string>
     <string name="reorder">إعادة ترتيب</string>
     <string name="actions">الإجراءات</string>
-    <string name="playback">Playback</string>
-    <string name="enable_audio_offload">Enable Audio Offload</string>
-    <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
+    <string name="playback">تشغيل</string>
+    <string name="enable_audio_offload">تمكين إزاحة الصوت</string>
+    <string name="audio_offload_subtitle">تنزيل الترميز الصوتي إلى أجهزة مخصصة، تحسين عمر البطارية. قد يسبب بعض مشاكل التشغيل في بعض الحالات.</string>
 </resources>
