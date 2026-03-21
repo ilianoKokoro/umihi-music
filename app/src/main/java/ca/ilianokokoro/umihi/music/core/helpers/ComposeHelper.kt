@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.media3.common.Player
 
 object ComposeHelper {
 
@@ -36,5 +39,29 @@ object ComposeHelper {
             .map { it.trimStart() }
             .filter { it.startsWith("-") }
             .joinToString("\n") { "• " + it.removePrefix("-").trimStart() }
+
+    @Composable
+    fun rememberRepeatMode(player: Player?): Int {
+        val repeatModeState =
+            remember { mutableIntStateOf(player?.repeatMode ?: Player.REPEAT_MODE_OFF) }
+
+        DisposableEffect(player) {
+            if (player == null) return@DisposableEffect onDispose {}
+
+            val listener = object : Player.Listener {
+                override fun onRepeatModeChanged(repeatMode: Int) {
+                    repeatModeState.intValue = repeatMode
+                }
+            }
+
+            player.addListener(listener)
+
+            onDispose {
+                player.removeListener(listener)
+            }
+        }
+
+        return repeatModeState.intValue
+    }
 
 }

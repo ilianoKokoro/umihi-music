@@ -160,7 +160,6 @@ fun PlayerScreen(
             currentSong = uiState.queue[uiState.currentIndex],
             songs = uiState.queue
         )
-
     }
 }
 

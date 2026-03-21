@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.player.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Repeat
+import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.ButtonGroup
@@ -19,7 +22,6 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -30,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -48,8 +51,13 @@ fun PlayerControls(
     onOpenQueue: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val controlsInteractionSources = List(3) { ComposeHelper.rememberInteractionSource() }
+    val mainButtonsControlsInteractionSources =
+        List(3) { ComposeHelper.rememberInteractionSource() }
+    val actionButtonsControlsInteractionSources =
+        List(2) { ComposeHelper.rememberInteractionSource() }
 
+    val player = PlayerManager.currentController
+    val repeatMode = ComposeHelper.rememberRepeatMode(player)
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -109,12 +117,12 @@ fun PlayerControls(
                         FilledIconButton(
                             onClick = { PlayerManager.currentController?.seekToPrevious() },
                             shapes = IconButtonDefaults.shapes(),
-                            interactionSource = controlsInteractionSources[0],
+                            interactionSource = mainButtonsControlsInteractionSources[0],
                             modifier = Modifier
                                 .padding(vertical = 20.dp)
                                 .weight(2f)
                                 .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
-                                .animateWidth(interactionSource = controlsInteractionSources[0])
+                                .animateWidth(interactionSource = mainButtonsControlsInteractionSources[0])
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipPrevious,
@@ -142,11 +150,11 @@ fun PlayerControls(
                             },
                             shapes = IconButtonDefaults.toggleableShapes()
                                 .copy(checkedShape = IconButtonDefaults.shapes().shape),
-                            interactionSource = controlsInteractionSources[1],
+                            interactionSource = mainButtonsControlsInteractionSources[1],
                             modifier = modifier
                                 .weight(3f)
                                 .size(IconButtonDefaults.largeContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
-                                .animateWidth(interactionSource = controlsInteractionSources[1])
+                                .animateWidth(interactionSource = mainButtonsControlsInteractionSources[1])
                         ) {
                             if (isLoading) {
                                 CircularWavyProgressIndicator(
@@ -178,12 +186,12 @@ fun PlayerControls(
                                 PlayerManager.currentController?.seekToNext()
                             },
                             shapes = IconButtonDefaults.shapes(),
-                            interactionSource = controlsInteractionSources[2],
+                            interactionSource = mainButtonsControlsInteractionSources[2],
                             modifier = Modifier
                                 .padding(vertical = 20.dp)
                                 .weight(2f)
                                 .size(IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
-                                .animateWidth(interactionSource = controlsInteractionSources[2])
+                                .animateWidth(interactionSource = mainButtonsControlsInteractionSources[2])
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SkipNext,
@@ -196,25 +204,82 @@ fun PlayerControls(
             }
         }
 
-        Column(
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Row(
+            modifier = Modifier.fillMaxHeight(),
+            verticalAlignment = Alignment.Bottom
         ) {
-            IconButton(
-                onClick = onOpenQueue,
-                shapes = IconButtonDefaults.shapes(),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ),
+            ButtonGroup(
+                overflowIndicator = {},
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-                    contentDescription = stringResource(R.string.queue),
+                customItem(
+                    {
+                        FilledIconButton(
+                            onClick = onOpenQueue,
+                            shapes = IconButtonDefaults.shapes(),
+                            modifier = Modifier.animateWidth(interactionSource = mainButtonsControlsInteractionSources[0]),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            interactionSource = actionButtonsControlsInteractionSources[0],
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                                contentDescription = stringResource(R.string.queue),
+                            )
+                        }
+                    },
+                    {}
+                )
+
+                customItem(
+                    {
+
+                        FilledIconToggleButton(
+                            checked = arrayOf(
+                                Player.REPEAT_MODE_ALL,
+                                Player.REPEAT_MODE_ONE
+                            ).contains(
+                                repeatMode
+                            ),
+                            onCheckedChange = {
+                                val player = PlayerManager.currentController
+
+                                player?.repeatMode = when (player.repeatMode) {
+                                    Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
+                                    Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
+                                    Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_OFF
+                                    else -> {
+                                        Player.REPEAT_MODE_OFF
+                                    }
+                                }
+                            },
+                            shapes = IconButtonDefaults.toggleableShapes(),
+                            modifier = Modifier.animateWidth(
+                                interactionSource = mainButtonsControlsInteractionSources[1]
+                            ),
+                            interactionSource = actionButtonsControlsInteractionSources[1],
+                        ) {
+                            val icon = when (repeatMode) {
+                                Player.REPEAT_MODE_OFF -> Icons.Rounded.Repeat
+                                Player.REPEAT_MODE_ALL -> Icons.Rounded.Repeat
+                                Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
+                                else -> Icons.Rounded.Repeat
+                            }
+                            
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = icon.name
+                            )
+                        }
+
+
+                    },
+                    {}
                 )
             }
-
         }
+
+
     }
 }
