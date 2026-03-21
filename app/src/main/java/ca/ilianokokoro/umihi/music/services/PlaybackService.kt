@@ -10,6 +10,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.Player.COMMAND_GET_TIMELINE
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
@@ -18,13 +19,14 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.CacheBitmapLoader
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
-import ca.ilianokokoro.umihi.music.core.factories.YoutubeMediaSourceFactory
+import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
@@ -62,7 +64,8 @@ class PlaybackService : MediaSessionService() {
             .setCache(exoCache.cache)
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-
+        val resolvingFactory = YoutubeDataSourceFactory(application, cacheDataSourceFactory)
+        
         val settings = runBlocking { datastoreRepository.settings.first() }
 
         val audioOffloadMode = if (settings.useAudioOffload) {
@@ -79,6 +82,7 @@ class PlaybackService : MediaSessionService() {
                 .build()
 
 
+
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -89,7 +93,7 @@ class PlaybackService : MediaSessionService() {
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .setHandleAudioBecomingNoisy(true)
             .setDeviceVolumeControlEnabled(true)
-            .setMediaSourceFactory(YoutubeMediaSourceFactory(application, cacheDataSourceFactory))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(resolvingFactory))
             .build()
 
         player.trackSelectionParameters =
@@ -131,11 +135,12 @@ class PlaybackService : MediaSessionService() {
                     controller: MediaSession.ControllerInfo
                 ): MediaSession.ConnectionResult {
                     val commands =
-                        MediaSession.ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
+                        MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS.buildUpon()
+                            .add(COMMAND_GET_TIMELINE)
                             .build()
 
                     return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
-                        .setAvailableSessionCommands(commands)
+                        .setAvailablePlayerCommands(commands)
                         .build()
                 }
             })
@@ -168,7 +173,7 @@ class PlaybackService : MediaSessionService() {
 
         val context = applicationContext
         val songId = mediaItem.mediaId
-        
+
         serviceScope.launch {
             try {
                 val imageDir = UmihiHelper.getDownloadDirectory(
