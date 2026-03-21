@@ -65,7 +65,7 @@ class PlaybackService : MediaSessionService() {
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
         val resolvingFactory = YoutubeDataSourceFactory(application, cacheDataSourceFactory)
-        
+
         val settings = runBlocking { datastoreRepository.settings.first() }
 
         val audioOffloadMode = if (settings.useAudioOffload) {
@@ -232,8 +232,6 @@ class PlaybackService : MediaSessionService() {
         artBytes: ByteArray?,
         uri: Uri
     ) {
-        UmihiHelper.printd(artBytes?.size.toString())
-
         val updated = mediaItem.buildUpon()
             .setMediaMetadata(
                 mediaItem.mediaMetadata.buildUpon()

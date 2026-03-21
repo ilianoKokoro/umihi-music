@@ -108,7 +108,6 @@ fun QueueBottomSheet(
                             reorderableLazyListState,
                             key = song.uid
                         ) { _ ->
-                            val songIndex = mutableSongList.indexOf(song)
                             QueueSongListItem(
                                 song = song,
                                 isCurrentSong = currentSong == song,
@@ -119,14 +118,13 @@ fun QueueBottomSheet(
                                 onDragStarted =
                                     {
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                        startIndex = songIndex
+                                        startIndex = mutableSongList.indexOf(song)
                                     },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
-
                                     PlayerManager.currentController?.moveMediaItem(
                                         startIndex,
-                                        songIndex
+                                        mutableSongList.indexOf(song)
                                     )
                                 }
                             )
