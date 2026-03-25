@@ -36,7 +36,7 @@
     <string name="play_next_toast">Проигрывать следующую песню</string>
     <string name="added_queue_toast">Песня добавлена в очередь</string>
     <string name="playing_now">Играет сейчас</string>
-    <string name="up_to_date_message">Приложение в курсе!</string>
+    <string name="up_to_date_message">Приложение актуальное!</string>
     <string name="update_check_failed">Не удалось проверить обновления</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
@@ -69,7 +69,7 @@
     <string name="change_update_channel">Изменить канал обновления</string>
     <string name="current_update_channel_body">Текущий канал обновлений: %1$s</string>
     <string name="delete_download">Удалить загрузку</string>
-    <string name="beta_update_available">Доступно бета-обновление</string>
+    <string name="beta_update_available">Доступно новая бета-версия</string>
     <string name="home">Домашний</string>
     <string name="search">Искать</string>
     <string name="no_results">Нет результатов</string>
