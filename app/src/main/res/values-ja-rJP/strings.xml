@@ -56,7 +56,7 @@
     <string name="logged_out_message">現在ログインしていません</string>
     <string name="account">アカウント</string>
     <string name="clear_data_message">ダウンロードしたすべての曲とキャッシュを削除します</string>
-    <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します。</string>
+    <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します</string>
     <string name="login_info_cleared">ログイン情報を消去しました</string>
     <string name="cache_cleared">キャッシュが消去されました</string>
     <string name="downloads_cleared">ダウンロードを消去しました</string>
