@@ -4,8 +4,7 @@
     <string name="settings">Ρυθμίσεις</string>
     <string name="back_description">Προηγούμενη οθόνη</string>
     <string name="no_playlists">Δεν βρέθηκαν λίστες αναπαραγωγής</string>
-    <string name="log_in_message">Συνδεθείτε στο λογαριασμό σας στο YouTube για να χρησιμοποιήσετε
-        την εφαρμογή</string>
+    <string name="log_in_message">Συνδεθείτε στο λογαριασμό σας στο YouTube για να χρησιμοποιήσετε την εφαρμογή</string>
     <string name="playlist_cover">Κάλυμμα λίστας αναπαραγωγής</string>
     <string name="log_in">Σύνδεση</string>
     <string name="empty_playlist">Δεν υπάρχουν τραγούδια στη λίστα αναπαραγωγής</string>
@@ -20,9 +19,7 @@
     <string name="error_screen_title">Παρουσιάστηκε ένα σφάλμα</string>
     <string name="restart_application">Επανεκκίνηση Εφαρμογής</string>
     <string name="error_details">Λεπτομέρειες Σφάλματος</string>
-    <string name="user_error_request">Παρακαλώ αναφέρετε αυτή την κατάρρευση δημιουργώντας ένα
-        πρόβλημα στο GitHub ή δημοσιεύοντας στο Umihi Music Discord.\nΒεβαιωθείτε ότι συμπεριλάβετε
-        τα αρχεία καταγραφής από το κουμπί \'Λεπτομέρειες σφάλματος\'.</string>
+    <string name="user_error_request">Παρακαλώ αναφέρετε αυτή την κατάρρευση δημιουργώντας ένα πρόβλημα στο GitHub ή δημοσιεύοντας στο Umihi Music Discord.\nΒεβαιωθείτε ότι συμπεριλάβετε τα αρχεία καταγραφής από το κουμπί \'Λεπτομέρειες σφάλματος\'.</string>
     <string name="close">Κλείσιμο</string>
     <string name="copy_logs">Αντιγραφή αρχείων καταγραφής</string>
     <string name="copied">Αντιγράφηκε</string>
@@ -59,8 +56,7 @@
     <string name="logged_out_message">Αυτή τη στιγμή δεν είστε συνδεδεμένοι</string>
     <string name="account">Λογαριασμός</string>
     <string name="clear_data_message">Διαγράφει όλα τα ληφθέντα τραγούδια και την προσωρινή μνήμη</string>
-    <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις
-        πληροφορίες σύνδεσης</string>
+    <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις πληροφορίες σύνδεσης</string>
     <string name="login_info_cleared">Πληροφορίες Σύνδεσης Εκκαθαρίστηκαν</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
     <string name="downloads_cleared">Οι Λήψεις Εκκαθαρίστηκαν</string>
@@ -68,8 +64,7 @@
     <string name="confirm">Επιβεβαίωση</string>
     <string name="cancel">Ακύρωση</string>
     <string name="remove_local_playlist">Αφαίρεση τοπικής λίστας αναπαραγωγής</string>
-    <string name="remove_local_confirm_text">Διαγραφή των ληφθέντων αρχείων για αυτήν τη λίστα
-        αναπαραγωγής? Η λίστα αναπαραγωγής θα παραμείνει διαθέσιμη online.</string>
+    <string name="remove_local_confirm_text">Διαγραφή των ληφθέντων αρχείων για αυτήν τη λίστα αναπαραγωγής? Η λίστα αναπαραγωγής θα παραμείνει διαθέσιμη online.</string>
     <string name="ignore">Παράβλεψη</string>
     <string name="change_update_channel">Αλλαγή καναλιού ενημέρωσης</string>
     <string name="current_update_channel_body">Τρέχον κανάλι ενημέρωσης: %1$s</string>
@@ -86,8 +81,7 @@
     <string name="cancel_download">Ακύρωση Λήψης</string>
     <string name="general">Γενικά</string>
     <string name="show_podcast_playlist_title">Εμφάνιση Λίστας Εκπομπής Podcast</string>
-    <string name="show_podcast_playlist_description">Εναλλάσσει την ορατότητα της λίστας \'Επεισόδια
-        για Αργότερα\'</string>
+    <string name="show_podcast_playlist_description">Εναλλάσσει την ορατότητα της λίστας \'Επεισόδια για Αργότερα\'</string>
     <string name="special_language_disabled">Ειδική Γλώσσα Απενεργοποιημένη</string>
     <string name="special_language_enabled">Ειδική Γλώσσα Ενεργοποιημένη</string>
     <string name="reorder">Αναδιάταξη</string>
