@@ -13,7 +13,7 @@
     <string name="songs">%1$d nummers</string>
     <string name="pause">Onderbreken</string>
     <string name="error">Foutmelding</string>
-    <string name="previous">named@@0</string>
+    <string name="previous">Vorige</string>
     <string name="next">Volgende</string>
     <string name="queue">Wachtrij</string>
     <string name="error_screen_title">Er is een fout opgetreden</string>
@@ -26,7 +26,7 @@
     <string name="view_details">Details bekijken</string>
     <string name="error_log">Fout Log</string>
     <string name="login_success">Inloggen gelukt</string>
-    <string name="download">downloaden</string>
+    <string name="download">Downloaden</string>
     <string name="open_settings">Open instellingen</string>
     <string name="more">meer</string>
     <string name="join_discord_server">Deelnemen aan de Discord server</string>
@@ -38,7 +38,7 @@
     <string name="playing_now">Speelt nu</string>
     <string name="up_to_date_message">De app is up-to-date!</string>
     <string name="update_check_failed">Controleren op updates mislukt</string>
-    <string name="yes">ja</string>
+    <string name="yes">Ja</string>
     <string name="no">Neen</string>
     <string name="update_available">Update beschikbaar</string>
     <string name="new_version_body">Er is een nieuwe versie beschikbaar. (%1$s)</string>
@@ -62,7 +62,7 @@
     <string name="downloads_cleared">Downloads gewist</string>
     <string name="invalid_navkey">Ongeldige NavKey : %1$s</string>
     <string name="confirm">Bevestigen</string>
-    <string name="cancel">annuleren</string>
+    <string name="cancel">Annuleren</string>
     <string name="remove_local_playlist">Lokale afspeellijst verwijderen</string>
     <string name="remove_local_confirm_text">Verwijder de gedownloade bestanden voor deze afspeellijst? De afspeellijst blijft online beschikbaar.</string>
     <string name="ignore">Negeren</string>
@@ -85,7 +85,7 @@
     <string name="special_language_disabled">Speciale taal uitgeschakeld</string>
     <string name="special_language_enabled">Speciale taal ingeschakeld</string>
     <string name="reorder">Herordenen</string>
-    <string name="actions">acties</string>
+    <string name="actions">Acties</string>
     <string name="playback">Afspelen</string>
     <string name="enable_audio_offload">Audio Offload inschakelen</string>
     <string name="audio_offload_subtitle">Offload audiodecodering naar toegewijde hardware, verbetert de levensduur van de batterij. Dit kan in sommige gevallen leiden tot afspeelproblemen.</string>
