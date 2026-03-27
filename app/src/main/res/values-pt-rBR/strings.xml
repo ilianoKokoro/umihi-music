@@ -20,7 +20,7 @@
     <string name="restart_application">Reiniciar aplicativo</string>
     <string name="error_details">Detalhes do erro</string>
     <string name="user_error_request">Please report this crash by creating an issue on GitHub or posting in the Umihi Music Discord.\nMake sure to include the logs from the \'Error Details\' button.</string>
-    <string name="close">FECHAR</string>
+    <string name="close">Fechar</string>
     <string name="copy_logs">Copiar logs</string>
     <string name="copied">Copiado</string>
     <string name="view_details">Visualizar Detalhes</string>
@@ -28,7 +28,7 @@
     <string name="login_success">Login bem-sucedido</string>
     <string name="download">BAIXAR</string>
     <string name="open_settings">Abrir configurações</string>
-    <string name="more">Mais</string>
+    <string name="more">mais</string>
     <string name="join_discord_server">Entre no servidor do Discord</string>
     <string name="play_next">Reproduzir próxima</string>
     <string name="add_to_queue">Adicionar à fila</string>
@@ -36,9 +36,9 @@
     <string name="play_next_toast">Reproduzindo esta música a seguir</string>
     <string name="added_queue_toast">Música adicionada à fila</string>
     <string name="playing_now">Reproduzindo Agora</string>
-    <string name="up_to_date_message">O aplicativo está atualizado !</string>
+    <string name="up_to_date_message">O aplicativo está atualizado!</string>
     <string name="update_check_failed">Não foi possível verificar se há atualizações</string>
-    <string name="yes">sim</string>
+    <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="update_available">Atualização disponível</string>
     <string name="new_version_body">Está disponível uma nova versão (%1$s)</string>
@@ -62,7 +62,7 @@
     <string name="downloads_cleared">Downloads limpos</string>
     <string name="invalid_navkey">Chave NavKey Inválida: %1$s</string>
     <string name="confirm">Confirmar</string>
-    <string name="cancel">cancelar</string>
+    <string name="cancel">Cancelar</string>
     <string name="remove_local_playlist">Remover playlist local</string>
     <string name="remove_local_confirm_text">Excluir os arquivos baixados para esta playlist? A playlist permanecerá disponível online.</string>
     <string name="ignore">Ignorar</string>
@@ -85,7 +85,7 @@
     <string name="special_language_disabled">Idioma especial desativado</string>
     <string name="special_language_enabled">Idioma especial ativado</string>
     <string name="reorder">Reordenar</string>
-    <string name="actions">Ações.</string>
+    <string name="actions">Ações</string>
     <string name="playback">Reprodução</string>
     <string name="enable_audio_offload">Habilitar áudio Offload</string>
     <string name="audio_offload_subtitle">Descarrega a decodificação de áudio para hardware dedicado, melhorando a vida útil da bateria. Pode causar alguns problemas de reprodução em alguns casos.</string>
