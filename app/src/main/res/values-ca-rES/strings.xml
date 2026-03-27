@@ -49,7 +49,7 @@
     <string name="data_and_storage"><![CDATA[Data & Storage]]></string>
     <string name="app_info">App Info</string>
     <string name="check_for_updates">Check for updates</string>
-    <string name="current_version">Current version : %1$s</string>
+    <string name="current_version">Versió actual: %1$s</string>
     <string name="delete_downloads">Delete all downloads</string>
     <string name="clear_login_info">Clear login info</string>
     <string name="logged_in_message">You are logged in to your YouTube account</string>
@@ -84,9 +84,9 @@
     <string name="show_podcast_playlist_description">Toggles the visibility of the \'Episodes for Later\' Playlist</string>
     <string name="special_language_disabled">Special Language Disabled</string>
     <string name="special_language_enabled">Special Language Enabled</string>
-    <string name="reorder">Reorder</string>
-    <string name="actions">Actions</string>
-    <string name="playback">Playback</string>
+    <string name="reorder">Reordenar</string>
+    <string name="actions">Accions</string>
+    <string name="playback">Reproducció</string>
     <string name="enable_audio_offload">Enable Audio Offload</string>
     <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
 </resources>
