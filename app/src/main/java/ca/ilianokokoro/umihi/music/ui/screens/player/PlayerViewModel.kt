@@ -27,6 +27,8 @@ class PlayerViewModel(application: Application) :
     private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
 
+    private var lastUpdatedSongIndex: Int = -1
+
     init {
         PlayerManager.currentController?.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -42,7 +44,7 @@ class PlayerViewModel(application: Application) :
             }
 
             override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                updateCurrentSong()
+                updateQueue()
             }
 
             override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
@@ -101,13 +103,28 @@ class PlayerViewModel(application: Application) :
 
 
     private fun updateCurrentSong() {
+        val newIndex = PlayerManager.currentController?.currentMediaItemIndex ?: return
+        if (newIndex == lastUpdatedSongIndex) {
+            return
+        }
+        lastUpdatedSongIndex = newIndex
+
+
         viewModelScope.launch {
             resetState()
+            updateQueue()
+        }
 
+    }
+
+    private fun updateQueue() {
+        val controller = PlayerManager.currentController ?: return
+
+        viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    currentIndex = PlayerManager.currentController?.currentMediaItemIndex ?: 0,
-                    queue = PlayerManager.currentController?.getQueue() ?: mutableListOf(),
+                    currentIndex = controller.currentMediaItemIndex,
+                    queue = controller.getQueue(),
                 )
             }
         }
@@ -116,14 +133,17 @@ class PlayerViewModel(application: Application) :
     private fun startProgressUpdate() {
         viewModelScope.launch {
             while (true) {
-                if (!_uiState.value.isSeekBarHeld) {
-                    _uiState.update {
-                        _uiState.value.copy(
-                            progressMs = PlayerManager.currentController?.currentPosition?.toFloat()
-                                ?: 0f,
-                        )
+                val state = _uiState.value
+
+                if (!state.isSeekBarHeld && !state.isLoading) {
+                    val controller = PlayerManager.currentController
+                    val pos = controller?.currentPosition?.toFloat()
+
+                    if (pos != null && pos != state.progressMs) {
+                        _uiState.update { it.copy(progressMs = pos) }
                     }
                 }
+
                 delay(Constants.Player.PROGRESS_UPDATE_DELAY)
             }
         }

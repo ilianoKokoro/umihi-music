@@ -63,7 +63,6 @@ fun PlayerControls(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Slider
         Slider(
             value = position,
             valueRange = 0f..duration,
@@ -252,9 +251,17 @@ fun PlayerControls(
                                     else -> {
                                         Player.REPEAT_MODE_OFF
                                     }
+
                                 }
                             },
                             shapes = IconButtonDefaults.toggleableShapes(),
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+
+                            ),
                             modifier = Modifier.animateWidth(
                                 interactionSource = mainButtonsControlsInteractionSources[1]
                             ),
@@ -266,7 +273,7 @@ fun PlayerControls(
                                 Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
                                 else -> Icons.Rounded.Repeat
                             }
-                            
+
                             Icon(
                                 imageVector = icon,
                                 contentDescription = icon.name

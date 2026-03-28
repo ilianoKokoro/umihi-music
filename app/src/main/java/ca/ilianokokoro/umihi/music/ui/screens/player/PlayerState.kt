@@ -7,9 +7,9 @@ data class PlayerState(
     val queue: MutableList<Song> = mutableListOf(),
     val currentIndex: Int = -1,
     val progressMs: Float = 0f,
-    val durationMs: Float = 0f, // NOT
+    val durationMs: Float = 0f,
     val isPlaying: Boolean = false,
-    val isLoading: Boolean = true, // NOT
+    val isLoading: Boolean = true,
     val isSeekBarHeld: Boolean = false,
     val isQueueModalShown: Boolean = false,
 )
