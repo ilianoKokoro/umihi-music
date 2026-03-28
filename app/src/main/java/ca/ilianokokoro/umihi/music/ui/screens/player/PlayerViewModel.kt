@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -60,14 +59,17 @@ class PlayerViewModel(application: Application) :
 
 
     fun seekPlayer() {
-        PlayerManager.currentController?.seekTo(_uiState.value.progressMs.toLong())
+        PlayerManager.currentController?.seekTo(_uiState.value.playbackProgress.position.toLong())
     }
 
     fun seek(location: Float) {
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    progressMs = location,
+                    playbackProgress = PlaybackProgress(
+                        duration = it.playbackProgress.duration,
+                        position = location,
+                    ),
                 )
             }
         }
@@ -137,34 +139,31 @@ class PlayerViewModel(application: Application) :
 
                 if (!state.isSeekBarHeld && !state.isLoading) {
                     val controller = PlayerManager.currentController
-                    val pos = controller?.currentPosition?.toFloat()
 
-                    if (pos != null && pos != state.progressMs) {
-                        _uiState.update { it.copy(progressMs = pos) }
+                    val position = controller?.currentPosition?.toFloat()
+                    val duration = controller?.duration?.toFloat()
+
+                    val currentProgress = state.playbackProgress
+
+                    val newPosition = position ?: currentProgress.position
+                    val newDuration = duration ?: currentProgress.duration
+
+                    if (
+                        newPosition != currentProgress.position ||
+                        newDuration != currentProgress.duration
+                    ) {
+                        _uiState.update {
+                            it.copy(
+                                playbackProgress = PlaybackProgress(
+                                    position = newPosition,
+                                    duration = newDuration
+                                )
+                            )
+                        }
                     }
                 }
 
                 delay(Constants.Player.PROGRESS_UPDATE_DELAY)
-            }
-        }
-    }
-
-    private fun updateSongDuration() {
-        if (_uiState.value.durationMs != 0f) {
-            return
-        }
-
-        viewModelScope.launch {
-            var songDuration = PlayerManager.currentController?.duration ?: 0
-
-            if (songDuration == C.TIME_UNSET) {
-                songDuration = 0
-            }
-
-            _uiState.update {
-                _uiState.value.copy(
-                    durationMs = songDuration.toFloat(),
-                )
             }
         }
     }
@@ -181,7 +180,6 @@ class PlayerViewModel(application: Application) :
                 }
 
                 Player.STATE_READY -> {
-                    updateSongDuration()
                     _uiState.update {
                         _uiState.value.copy(
                             isLoading = false
@@ -210,8 +208,10 @@ class PlayerViewModel(application: Application) :
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    durationMs = 0f,
-                    progressMs = 0f,
+                    playbackProgress = PlaybackProgress(
+                        duration = 0f,
+                        position = 0f,
+                    ),
                 )
             }
         }

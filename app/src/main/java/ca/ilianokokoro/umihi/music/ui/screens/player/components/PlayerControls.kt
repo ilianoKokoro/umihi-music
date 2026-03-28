@@ -37,14 +37,14 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
+import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerControls(
     isPlaying: Boolean,
     isLoading: Boolean,
-    position: Float,
-    duration: Float,
+    progress: PlaybackProgress,
     onSeekPlayer: () -> Unit,
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
@@ -64,8 +64,8 @@ fun PlayerControls(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Slider(
-            value = position,
-            valueRange = 0f..duration,
+            value = progress.position,
+            valueRange = 0f..progress.duration,
 
             onValueChange = { newValue ->
                 onUpdateSeekBarHeldState(true)
@@ -87,12 +87,12 @@ fun PlayerControls(
                 .padding(horizontal = 4.dp)
         ) {
             Text(
-                text = position.toTimeString(),
+                text = progress.position.toTimeString(),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = duration.toTimeString(),
+                text = progress.duration.toTimeString(),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

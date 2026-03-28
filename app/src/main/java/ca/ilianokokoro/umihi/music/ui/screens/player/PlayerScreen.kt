@@ -97,8 +97,7 @@ fun PlayerScreen(
                 PlayerControls(
                     isPlaying = uiState.isPlaying,
                     isLoading = uiState.isLoading,
-                    position = uiState.progressMs,
-                    duration = uiState.durationMs,
+                    progress = uiState.playbackProgress,
                     onSeek = playerViewModel::seek,
                     onSeekPlayer = playerViewModel::seekPlayer,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
@@ -137,8 +136,7 @@ fun PlayerScreen(
                 PlayerControls(
                     isPlaying = uiState.isPlaying,
                     isLoading = uiState.isLoading,
-                    position = uiState.progressMs,
-                    duration = uiState.durationMs,
+                    progress = uiState.playbackProgress,
                     onSeek = playerViewModel::seek,
                     onSeekPlayer = playerViewModel::seekPlayer,
                     onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
