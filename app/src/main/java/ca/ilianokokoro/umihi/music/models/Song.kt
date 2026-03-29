@@ -34,7 +34,7 @@ data class Song(
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, UUID.randomUUID().toString())
 
             return MediaItem.Builder()
-                .setUri(youtubeId)
+                .setUri(youtubeUrl)
                 .setMediaId(youtubeId)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
@@ -68,6 +68,14 @@ data class Song(
     fun isSameYoutubeSong(other: Song): Boolean {
         return this.youtubeId == other.youtubeId
     }
+
+    companion object {
+        fun createFromYoutubeUrl(url: String): Song {
+            return Song(youtubeId = url.removePrefix(Constants.YoutubeApi.YOUTUBE_URL_PREFIX))
+        }
+        
+    }
+
 }
 
 

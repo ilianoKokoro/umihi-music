@@ -4,6 +4,7 @@ import android.content.Context
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -17,7 +18,7 @@ import java.net.URL
 
 object DownloadHelper {
     private val client = OkHttpClient()
-    
+
     suspend fun downloadImage(context: Context, imageUrl: String, id: String): File? {
         return withContext(Dispatchers.IO) {
             try {
@@ -50,19 +51,19 @@ object DownloadHelper {
 
     suspend fun downloadAudio(
         context: Context,
-        youtubeId: String,
+        song: Song,
         connections: Int = 8
     ): String? = withContext(Dispatchers.IO) {
 
         val audioDir =
             UmihiHelper.getDownloadDirectory(context, Constants.Downloads.AUDIO_FILES_FOLDER)
-        val outputFile = File(audioDir, "$youtubeId.webm")
+        val outputFile = File(audioDir, "${song.youtubeId}.webm")
 
         if (outputFile.exists()) {
             return@withContext outputFile.absolutePath
         }
 
-        val url = YoutubeHelper.getSongPlayerUrl(context, youtubeId)
+        val url = YoutubeHelper.getSongPlayerUrl(context, song)
 
         val total = try {
             val headReq = Request.Builder()
@@ -92,7 +93,7 @@ object DownloadHelper {
                 async {
                     val start = i * chunkSize
                     val end = if (i == connections - 1) total - 1 else (start + chunkSize - 1)
-                    val temp = File(audioDir, "$youtubeId.part$i")
+                    val temp = File(audioDir, "${song.youtubeId}.part$i")
 
                     try {
                         val req = Request.Builder()
@@ -131,7 +132,7 @@ object DownloadHelper {
             return@withContext outputFile.absolutePath
 
         } catch (e: Exception) {
-            printe("Download failed for $youtubeId: ${e.message}")
+            printe("Download failed for ${song.youtubeId}: ${e.message}")
             tempFiles.forEach { it.delete() }
             outputFile.delete()
             return@withContext null

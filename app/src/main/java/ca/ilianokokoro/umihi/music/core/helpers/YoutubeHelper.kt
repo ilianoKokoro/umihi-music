@@ -371,13 +371,13 @@ object YoutubeHelper {
 
     suspend fun getSongPlayerUrl(
         context: Context,
-        songId: String,
+        song: Song,
         allowLocal: Boolean = false
     ): String {
         val localSongRepository = AppDatabase.getInstance(context).songRepository()
         var savedSong: Song? = null
         try {
-            savedSong = localSongRepository.getSong(songId)
+            savedSong = localSongRepository.getSong(song.youtubeId)
         } catch (ex: Exception) {
             Toast.makeText(context, "Failed to get song from local repository", Toast.LENGTH_LONG)
                 .show()
@@ -386,27 +386,27 @@ object YoutubeHelper {
 
         if (savedSong != null) {
             if (allowLocal && savedSong.audioFilePath != null) {
-                printd("$songId : Was downloaded")
+                printd("${song.youtubeId} : Was downloaded")
                 return savedSong.audioFilePath
             }
 
             if (savedSong.streamUrl != null) {
                 if (isYoutubeUrlValid(savedSong.streamUrl)) {
-                    printd("$songId : Got url from saved")
+                    printd("${song.youtubeId} : Got url from saved")
                     return savedSong.streamUrl
                 }
-                printd("$songId : Saved url was invalid")
+                printd("${song.youtubeId} : Saved url was invalid")
             }
         }
 
-        val newUri = getSongUrlFromYoutube(songId)
-        localSongRepository.setStreamUrl(songId = songId, streamUrl = newUri)
-        printd("$songId : Got url from YouTube and saved song")
+        val newUri = getSongUrlFromYoutube(song)
+        localSongRepository.setStreamUrl(songId = song.youtubeId, streamUrl = newUri)
+        printd("${song.youtubeId} : Got url from YouTube and saved song")
         return newUri
     }
 
     private suspend fun getSongUrlFromYoutube(
-        songId: String,
+        song: Song,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String {
         val service = ServiceList.YouTube
@@ -417,7 +417,7 @@ object YoutubeHelper {
             try {
                 attempts++
                 val streamUrl = withContext(Dispatchers.IO) {
-                    val extractor = service.getStreamExtractor(Song(youtubeId = songId).youtubeUrl)
+                    val extractor = service.getStreamExtractor(song.youtubeUrl)
                     extractor.fetchPage()
                     extractor.audioStreams.maxBy { it.averageBitrate }.content
                 }
@@ -425,13 +425,13 @@ object YoutubeHelper {
                 return streamUrl
             } catch (e: Exception) {
                 printe(
-                    "Failed to get song $songId from Youtube : Attempt -> $attempts/$retries : ${e.message}"
+                    "Failed to get song ${song.youtubeId} from Youtube : Attempt -> $attempts/$retries : ${e.message}"
                 )
                 delay(Constants.YoutubeApi.RETRY_DELAY * (attempt + 1))
             }
         }
 
-        throw Exception("Fatal fail for song $songId. Could not get it after $attempts attempts")
+        throw Exception("Fatal fail for song ${song.youtubeId}. Could not get it after $attempts attempts")
     }
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {

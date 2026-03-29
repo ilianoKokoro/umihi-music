@@ -73,7 +73,7 @@ class SongDownloadWorker(
 
                 val audioPath =
                     DownloadHelper.downloadAudio(
-                        appContext, song.youtubeId,
+                        appContext, song,
                     )
                 val thumbnailPath =
                     DownloadHelper.downloadImage(
