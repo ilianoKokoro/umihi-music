@@ -68,7 +68,7 @@
     <string name="ignore">Пропустить</string>
     <string name="change_update_channel">Изменить канал обновления</string>
     <string name="current_update_channel_body">Текущий канал обновлений: %1$s</string>
-    <string name="delete_download">Удалить загрузку</string>
+    <string name="delete_download">Удалить загруженные</string>
     <string name="beta_update_available">Доступно новая бета-версия</string>
     <string name="home">Главная</string>
     <string name="search">Искать</string>
