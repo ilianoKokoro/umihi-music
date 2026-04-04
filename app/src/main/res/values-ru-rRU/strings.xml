@@ -70,7 +70,7 @@
     <string name="current_update_channel_body">Текущий канал обновлений: %1$s</string>
     <string name="delete_download">Удалить загрузку</string>
     <string name="beta_update_available">Доступно новая бета-версия</string>
-    <string name="home">Домашний</string>
+    <string name="home">Главная</string>
     <string name="search">Искать</string>
     <string name="no_results">Нет результатов</string>
     <string name="get_song_failed">Не удалось получить информацию о песне</string>
