@@ -9,6 +9,7 @@ import androidx.media3.datasource.ResolvingDataSource
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
@@ -31,7 +32,7 @@ class YoutubeDataSourceFactory(
             return uri
         }
 
-        val streamUri = runBlocking {
+        val streamUri = runBlocking(Dispatchers.IO) {
             YoutubeHelper.getSongPlayerUrl(
                 context = application,
                 song = Song.createFromYoutubeUrl(uri.toString()),
