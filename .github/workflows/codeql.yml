@@ -28,24 +28,46 @@ jobs:
         include:
           - language: actions
             build-mode: none
-          # Disable java-kotlin for now
-          # - language: java-kotlin
-          #   build-mode: autobuild
+          - language: java-kotlin
+            build-mode: manual
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - name: Set Up JDK
+        if: matrix.language == 'java-kotlin'
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Change wrapper permissions
+        if: matrix.language == 'java-kotlin'
+        run: chmod +x ./gradlew
+
+      - name: Set up Keystore
+        if: matrix.language == 'java-kotlin'
+        run: echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.MAIN_PROJECT_MODULE }}/${{ env.STORE_FILE }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.SIGNING_KEY }}
+
+      - name: Create keystore.properties
+        if: matrix.language == 'java-kotlin'
+        run: |
+          echo "storeFile=${{ env.STORE_FILE }}" > keystore.properties
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
-      # - name: Run manual build steps
-      #   if: matrix.build-mode == 'manual'
-      #   shell: bash
-      #   run: |
-      #     exit 1
+      - name: Build
+        if: matrix.language == 'java-kotlin'
+        run: ./gradlew assembleRelease -Pbeta=true -PgitHash=${{ github.sha }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:${{ matrix.language }}"
