@@ -12,6 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  MAIN_PROJECT_MODULE: app
+  STORE_FILE: release-key.jks
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
@@ -31,6 +35,9 @@ jobs:
           - language: java-kotlin
             build-mode: manual
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
       - name: Set Up JDK
         if: matrix.language == 'java-kotlin'
         uses: actions/setup-java@v5
