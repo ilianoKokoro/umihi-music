@@ -215,7 +215,7 @@ fun PlayerControls(
                         FilledIconButton(
                             onClick = onOpenQueue,
                             shapes = IconButtonDefaults.shapes(),
-                            modifier = Modifier.animateWidth(interactionSource = mainButtonsControlsInteractionSources[0]),
+                            modifier = Modifier.animateWidth(interactionSource = actionButtonsControlsInteractionSources[0]),
                             colors = IconButtonDefaults.filledIconButtonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
@@ -263,7 +263,7 @@ fun PlayerControls(
 
                             ),
                             modifier = Modifier.animateWidth(
-                                interactionSource = mainButtonsControlsInteractionSources[1]
+                                interactionSource = actionButtonsControlsInteractionSources[1]
                             ),
                             interactionSource = actionButtonsControlsInteractionSources[1],
                         ) {
