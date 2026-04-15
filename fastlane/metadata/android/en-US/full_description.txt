@@ -6,9 +6,11 @@
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
   <li>Download music for offline playback</li>
+  <li>Search and play music without logging in</li>
+  <li>Brand accounts login</li>
   <li>Automatic update checker</li>
   <li>No ads</li>
   <li>Lightweight and fast</li>
-  <li>Clean Material You / Material Expressive design</li>
+  <li>Clean Material Expressive design</li>
   <li>Optimized for modern Android devices</li>
 </ul>

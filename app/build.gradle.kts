@@ -28,7 +28,7 @@ android {
     defaultConfig {
         applicationId = "ca.ilianokokoro.umihi.music"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}${if (beta) "-beta" else ""}"
 

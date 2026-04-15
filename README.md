@@ -56,7 +56,7 @@ Join the Discord server to get update pings, know about announcements and get su
 
 </p>
 
-## Beta build
+## Beta build 🪲
 
 **⚠️ This build may not be stable as it is not a release ⚠️**
 
@@ -66,7 +66,7 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ## Credits 🎨
 
-**App logo**: Made by [Frittusk](https://www.twitch.tv/frittusk)
+**App logo**: Made by [Apelleru](https://www.twitch.tv/apelleru)
 
 ## Translations 🉐
 
