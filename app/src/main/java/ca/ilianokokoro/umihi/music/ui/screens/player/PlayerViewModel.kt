@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -140,23 +141,36 @@ class PlayerViewModel(application: Application) :
                 if (!state.isSeekBarHeld && !state.isLoading) {
                     val controller = PlayerManager.currentController
 
-                    val position = controller?.currentPosition?.toFloat()
-                    val duration = controller?.duration?.toFloat()
+                    val rawPosition = controller?.currentPosition
+                    val rawDuration = controller?.duration
 
-                    val currentProgress = state.playbackProgress
+                    val current = state.playbackProgress
 
-                    val newPosition = position ?: currentProgress.position
-                    val newDuration = duration ?: currentProgress.duration
+                    val safeDuration = when {
+                        rawDuration == null -> current.duration
+                        rawDuration == C.TIME_UNSET -> 0f
+                        rawDuration <= 0 -> 0f
+                        else -> rawDuration.toFloat()
+                    }
+
+                    val safePosition = when {
+                        rawPosition == null -> current.position
+                        rawPosition < 0 -> 0f
+                        rawDuration == null || rawDuration == C.TIME_UNSET -> 0f
+                        else -> rawPosition
+                            .coerceAtMost(rawDuration)
+                            .toFloat()
+                    }.coerceIn(0f, safeDuration)
 
                     if (
-                        newPosition != currentProgress.position ||
-                        newDuration != currentProgress.duration
+                        safePosition != current.position ||
+                        safeDuration != current.duration
                     ) {
                         _uiState.update {
                             it.copy(
                                 playbackProgress = PlaybackProgress(
-                                    position = newPosition,
-                                    duration = newDuration
+                                    position = safePosition,
+                                    duration = safeDuration
                                 )
                             )
                         }

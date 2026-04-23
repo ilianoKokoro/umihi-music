@@ -30,6 +30,7 @@ import androidx.media3.common.C
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.extensions.removeSongFromQueue
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
 import kotlinx.coroutines.launch
@@ -120,6 +121,17 @@ fun QueueBottomSheet(
                                         hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
                                         startIndex = mutableSongList.indexOf(song)
                                     },
+                                onDelete = {
+                                    val index = mutableSongList.indexOf(song)
+
+                                    if (index != -1) {
+                                        mutableSongList = mutableSongList.toMutableList().apply {
+                                            removeAt(index)
+                                        }
+
+                                        PlayerManager.currentController?.removeSongFromQueue(song)
+                                    }
+                                },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     PlayerManager.currentController?.moveMediaItem(

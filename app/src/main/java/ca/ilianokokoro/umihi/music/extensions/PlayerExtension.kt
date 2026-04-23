@@ -67,6 +67,10 @@ fun Player.getCurrentSong(): Song {
     return currentMediaItem.toSong()
 }
 
+fun Player.removeSongFromQueue(song: Song) {
+    this.removeMediaItem(getQueue().indexOf(song))
+}
+
 private fun Player.playIfQueueCreated() {
     if (this.getQueue().size == 1) {
         prepare()
