@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -24,9 +23,7 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -36,27 +33,18 @@ fun AuthScreen(
     authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory(application))
 ) {
     val context = LocalContext.current
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        authViewModel.eventChannel.collectLatest {
-            when (it) {
-                is AuthViewModel.ScreenEvent.Out.LoginCompleted -> {
-                    coroutineScope.launch {
-                        Toast
-                            .makeText(
-                                context,
-                                R.string.login_success,
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                        onBack()
-                    }
+        authViewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                AuthViewModel.ScreenEvent.Out.LoginCompleted -> {
+                    Toast.makeText(context, R.string.login_success, Toast.LENGTH_SHORT).show()
+                    onBack()
                 }
-
             }
-
         }
     }
+
 
     val isDarkMode = isSystemInDarkTheme()
 

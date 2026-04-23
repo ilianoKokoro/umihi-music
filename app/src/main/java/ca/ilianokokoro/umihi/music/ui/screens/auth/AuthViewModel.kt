@@ -11,9 +11,9 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,8 +21,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
     //  val uiState = _uiState.asStateFlow()
 
-    private val _eventsChannel = Channel<ScreenEvent.Out>()
-    val eventChannel = _eventsChannel.consumeAsFlow()
+    private val _eventsChannel = MutableSharedFlow<ScreenEvent.Out>()
+    val eventFlow = _eventsChannel.asSharedFlow()
     private val datastoreRepository = DatastoreRepository(application)
 
     fun onPageFinished(url: String?) {
@@ -31,7 +31,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 val cookies = CookieManager.getInstance().getCookie(url).orEmpty()
                 saveCookies(Cookies(cookies))
                 _uiState.update { it.copy(isLoggedIn = true) }
-                _eventsChannel.send(ScreenEvent.Out.LoginCompleted)
+                _eventsChannel.emit(ScreenEvent.Out.LoginCompleted)
             }
         }
     }
