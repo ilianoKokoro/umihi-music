@@ -3,8 +3,8 @@ import java.io.FileInputStream
 import java.util.Properties
 
 val versionMajor = 1
-val versionMinor = 11
-val versionPatch = 0
+val versionMinor = 10
+val versionPatch = 1
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -20,10 +20,9 @@ plugins {
 
 android {
     namespace = "ca.ilianokokoro.umihi.music"
-    compileSdk = 36
-    ndkVersion = "29.0.14206865"
-    buildToolsVersion = "36.1.0"
-    compileSdkMinor = 1
+    compileSdk = 37
+    ndkVersion = "30.0.14904198"
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = "ca.ilianokokoro.umihi.music"
