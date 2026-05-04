@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.UUID
 
 @UnstableApi
 class PlaybackService : MediaSessionService() {
@@ -233,14 +234,22 @@ class PlaybackService : MediaSessionService() {
         artBytes: ByteArray?,
         uri: Uri
     ) {
+        val extras = mediaItem.mediaMetadata.extras
+        extras?.putString(
+            Constants.ExoPlayer.SongMetadata.UID,
+            UUID.randomUUID().toString()
+        )
+
         val updated = mediaItem.buildUpon()
             .setMediaMetadata(
                 mediaItem.mediaMetadata.buildUpon()
                     .setArtworkData(artBytes, MediaMetadata.PICTURE_TYPE_FRONT_COVER)
                     .setArtworkUri(uri)
+                    .setExtras(extras)
                     .build()
             )
             .build()
+
         withContext(Dispatchers.Main) {
             if (player.currentMediaItem?.mediaId == mediaItem.mediaId) {
                 player.replaceMediaItem(

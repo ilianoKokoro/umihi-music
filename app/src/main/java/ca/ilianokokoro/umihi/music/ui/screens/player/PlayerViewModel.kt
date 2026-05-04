@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -48,7 +49,9 @@ class PlayerViewModel(application: Application) :
             }
 
             override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
-                updateThumbnail()
+
+                val artworkUri = mediaMetadata.artworkUri ?: return
+                updateThumbnail(artworkUri)
             }
         })
 
@@ -231,15 +234,22 @@ class PlayerViewModel(application: Application) :
         }
     }
 
-    private fun updateThumbnail() {
-        val artUri =
-            PlayerManager.currentController?.currentMediaItem?.mediaMetadata?.artworkUri ?: return
-        if (currentSong?.thumbnailHref == artUri.toString()) {
-            return
-        }
+    private fun updateThumbnail(newUri: Uri) {
+        _uiState.update { state ->
+            val index = state.currentIndex
+            val queue = state.queue
 
-        val newSong = currentSong?.copy(thumbnailHref = artUri.toString()) ?: return
-        _uiState.value.queue[_uiState.value.currentIndex] = newSong
+            if (index !in queue.indices) return@update state
+
+            val currentSong = queue[index]
+            if (currentSong.thumbnailHref == newUri.toString()) return@update state
+
+            val updatedQueue = queue.toMutableList().apply {
+                set(index, currentSong.copy(thumbnailHref = newUri.toString()))
+            }
+
+            state.copy(queue = updatedQueue)
+        }
     }
 
     companion object {

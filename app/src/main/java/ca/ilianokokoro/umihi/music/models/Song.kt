@@ -28,7 +28,6 @@ data class Song(
 ) {
     val mediaItem: MediaItem
         get() {
-
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, UUID.randomUUID().toString())
@@ -73,7 +72,7 @@ data class Song(
         fun createFromYoutubeUrl(url: String): Song {
             return Song(youtubeId = url.removePrefix(Constants.YoutubeApi.YOUTUBE_URL_PREFIX))
         }
-        
+
     }
 
 }

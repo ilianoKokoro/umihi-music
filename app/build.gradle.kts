@@ -1,4 +1,5 @@
 import com.android.build.api.variant.BuildConfigField
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -16,6 +17,10 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
+}
+
+kotlinExtension.jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 android {
@@ -66,8 +71,6 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
 
