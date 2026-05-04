@@ -70,10 +70,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         handleShareIntent(intent)
         handleViewIntent(intent)
     }
-
+    
     override fun attachBaseContext(newBase: Context) {
         val useSpecialLanguage = runBlocking {
             DatastoreRepository(newBase).settings.first().useSpecialLanguage
