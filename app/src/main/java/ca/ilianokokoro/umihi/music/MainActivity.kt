@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initCoaoc()
+        initCaoc()
         initNewPipe()
         VersionManager.initialize(this)
         requestNotificationPermission()
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
         handleShareIntent(intent)
         handleViewIntent(intent)
     }
-    
+
     override fun attachBaseContext(newBase: Context) {
         val useSpecialLanguage = runBlocking {
             DatastoreRepository(newBase).settings.first().useSpecialLanguage
@@ -150,7 +150,7 @@ class MainActivity : ComponentActivity() {
         NewPipe.init(YoutubeExtractor(OkHttpClient()))
     }
 
-    private fun initCoaoc() {
+    private fun initCaoc() {
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_CRASH)
             .trackActivities(true)

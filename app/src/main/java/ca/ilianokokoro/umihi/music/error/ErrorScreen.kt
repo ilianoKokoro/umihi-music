@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
 
 package ca.ilianokokoro.umihi.music.error
 
@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -42,12 +41,16 @@ import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 @Composable
 fun ErrorScreen() {
     val context = LocalContext.current
-    val activity = context.findActivity()
-    val intent = activity?.intent!!
     val uriHandler = LocalUriHandler.current
 
-    val config = CustomActivityOnCrash.getConfigFromIntent(intent)!!
-    val message = CustomActivityOnCrash.getAllErrorDetailsFromIntent(context, intent)
+    val activity = context.findActivity()
+    val intent = activity?.intent
+
+    val config = intent?.let { CustomActivityOnCrash.getConfigFromIntent(it) }
+    val message = intent?.let {
+        CustomActivityOnCrash.getAllErrorDetailsFromIntent(context, it)
+    } ?: stringResource(R.string.unknown_error)
+
 
     val isDialogShown = remember { mutableStateOf(false) }
 
@@ -104,7 +107,9 @@ fun ErrorScreen() {
 
             Button(
                 onClick = {
-                    CustomActivityOnCrash.restartApplication(activity, config)
+                    if (activity != null && config != null) {
+                        CustomActivityOnCrash.restartApplication(activity, config)
+                    }
                 },
                 shapes = ButtonDefaults.shapes(),
             ) {
