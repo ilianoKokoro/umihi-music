@@ -89,5 +89,5 @@
     <string name="playback">Odtwarzanie</string>
     <string name="enable_audio_offload">Włącz wyłączanie dźwięku</string>
     <string name="audio_offload_subtitle">Wyłącz dekodowanie audio do dedykowanego sprzętu, poprawiając żywotność baterii. W niektórych przypadkach może powodować problemy z odtwarzaniem.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
