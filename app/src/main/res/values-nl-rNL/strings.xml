@@ -89,4 +89,5 @@
     <string name="playback">Afspelen</string>
     <string name="enable_audio_offload">Audio Offload inschakelen</string>
     <string name="audio_offload_subtitle">Offload audiodecodering naar toegewijde hardware, verbetert de levensduur van de batterij. Dit kan in sommige gevallen leiden tot afspeelproblemen.</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>

@@ -23,8 +23,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +54,7 @@ fun ErrorScreen() {
     } ?: stringResource(R.string.unknown_error)
 
 
-    val isDialogShown = remember { mutableStateOf(false) }
+    var isDialogShown by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -73,10 +75,12 @@ fun ErrorScreen() {
         ) {
             Surface(
                 tonalElevation = 2.dp,
-                shape = MaterialTheme.shapes.extraLarge
+                shape = MaterialTheme.shapes.extraLarge,
+                color = MaterialTheme.colorScheme.errorContainer
             ) {
                 Icon(
                     imageVector = Icons.Default.ErrorOutline,
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
                     contentDescription = stringResource(R.string.error),
                     modifier = Modifier
                         .size(72.dp)
@@ -99,7 +103,7 @@ fun ErrorScreen() {
 
 
             FilledTonalButton(
-                onClick = { isDialogShown.value = true },
+                onClick = { isDialogShown = true },
                 shapes = ButtonDefaults.shapes(),
             ) {
                 Text(stringResource(R.string.view_details))
@@ -118,7 +122,9 @@ fun ErrorScreen() {
 
             OutlinedButton(
                 onClick = {
-                    uriHandler.openUri(Constants.Url.DISCORD_INVITE)
+                    runCatching {
+                        uriHandler.openUri(Constants.Url.DISCORD_INVITE)
+                    }
                 },
                 shapes = ButtonDefaults.shapes(),
             ) {
@@ -127,10 +133,10 @@ fun ErrorScreen() {
         }
     }
 
-    if (isDialogShown.value) {
+    if (isDialogShown) {
         ErrorLogDialog(
             context = context,
-            onDismissRequest = { isDialogShown.value = false },
+            onDismissRequest = { isDialogShown = false },
             dialogTitle = stringResource(R.string.error_details),
             dialogText = message.getShortErrorFromLog(),
             fullErrorLog = message

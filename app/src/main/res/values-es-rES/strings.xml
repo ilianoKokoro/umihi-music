@@ -89,4 +89,5 @@
     <string name="playback">Reproducir</string>
     <string name="enable_audio_offload">Activar carga de audio</string>
     <string name="audio_offload_subtitle">Descargas la decodificación de audio a hardware dedicado, mejorando la vida de la batería. Puede causar algunos problemas de reproducción en algunos casos.</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>

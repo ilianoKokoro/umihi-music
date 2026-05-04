@@ -89,4 +89,5 @@
     <string name="playback">Redare</string>
     <string name="enable_audio_offload">Activează Offload Audio</string>
     <string name="audio_offload_subtitle">Descoperă decodarea audio la hardware-ul dedicat, îmbunătățind durata de viață a bateriei. În unele cazuri, poate cauza probleme de redare.</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>

@@ -89,4 +89,5 @@
     <string name="playback">Reproducció</string>
     <string name="enable_audio_offload">Activa la descàrrega d’àudio</string>
     <string name="audio_offload_subtitle">Descarrega la descodificació d’àudio a maquinari dedicat, cosa que millora la durada de la bateria.</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
