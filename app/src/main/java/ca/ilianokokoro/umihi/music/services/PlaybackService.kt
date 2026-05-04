@@ -46,13 +46,14 @@ class PlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
     private lateinit var exoCache: ExoCache
     private lateinit var player: Player
+    private lateinit var datastoreRepository: DatastoreRepository
     private val songRepository = SongRepository()
-    private val datastoreRepository = DatastoreRepository(this)
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onCreate() {
         super.onCreate()
 
+        datastoreRepository = DatastoreRepository(applicationContext)
         exoCache = ExoCache(application)
 
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
