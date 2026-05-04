@@ -89,5 +89,5 @@
     <string name="playback">Lecture</string>
     <string name="enable_audio_offload">Activer le déchargement audio</string>
     <string name="audio_offload_subtitle">Décharge le décodage audio vers le matériel dédié, améliorant la durée de vie de la batterie. Peut causer des problèmes de lecture dans certains cas.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
