@@ -89,4 +89,5 @@
     <string name="playback">Afspilning</string>
     <string name="enable_audio_offload">Aktiver Lyd Offload</string>
     <string name="audio_offload_subtitle">Offloads audio dekodning til dedikeret hardware, forbedre batteriets levetid. Kan forårsage nogle afspilning problemer i nogle tilfælde.</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
