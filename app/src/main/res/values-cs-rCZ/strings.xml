@@ -89,5 +89,5 @@
     <string name="playback">Přehrát</string>
     <string name="enable_audio_offload">Povolit vypnutí zvuku</string>
     <string name="audio_offload_subtitle">Vypne zvukové dekódování na vyhrazený hardware, zlepší životnost baterie. V některých případech může způsobit problémy s přehráváním.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
