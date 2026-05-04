@@ -89,4 +89,5 @@
     <string name="playback">Воспроизведение</string>
     <string name="enable_audio_offload">Включить разгрузку аудио</string>
     <string name="audio_offload_subtitle">Переносит декодирование песен на выделенное аппаратное обеспечение, увеличивая время работы от батареи. В некоторых случаях может вызывать проблемы с воспроизведением.</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
