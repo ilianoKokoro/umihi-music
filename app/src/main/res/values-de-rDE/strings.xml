@@ -89,5 +89,5 @@
     <string name="playback">Wiedergabe</string>
     <string name="enable_audio_offload">Audio Offload aktivieren</string>
     <string name="audio_offload_subtitle">Audiodekodierung auf dedizierte Hardware abschalten, die Batterielebensdauer verkürzen. Eventuell kann es zu einigen Wiedergabeproblemen kommen.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
