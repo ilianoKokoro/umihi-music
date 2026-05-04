@@ -89,5 +89,5 @@
     <string name="playback">Αναπαραγωγή</string>
     <string name="enable_audio_offload">Ενεργοποίηση Offload Ήχου</string>
     <string name="audio_offload_subtitle">Offloads αποκωδικοποίηση ήχου σε ειδικό υλικό, βελτίωση της ζωής της μπαταρίας. Μπορεί να προκαλέσει κάποια προβλήματα αναπαραγωγής σε ορισμένες περιπτώσεις.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
