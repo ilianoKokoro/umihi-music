@@ -89,5 +89,5 @@
     <string name="playback">Toisto</string>
     <string name="enable_audio_offload">Ota Äänen Lähetys Käyttöön</string>
     <string name="audio_offload_subtitle">Offloads audio dekoodaus omistettu laitteisto, parantaa akun käyttöikää. Voi aiheuttaa joitakin toistoa ongelmia joissakin tapauksissa.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
