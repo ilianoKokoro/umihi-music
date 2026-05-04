@@ -89,5 +89,5 @@
     <string name="playback">Avspilling</string>
     <string name="enable_audio_offload">Aktiver lyd-forskyvning</string>
     <string name="audio_offload_subtitle">Laster ut lyddekoding til dedikert maskinvare, forbedrer batterilevetiden. Kan føre til noen avspillingsproblemer i noen tilfeller.</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>
