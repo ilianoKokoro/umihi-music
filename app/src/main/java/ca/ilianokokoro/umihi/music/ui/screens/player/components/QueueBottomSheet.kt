@@ -41,7 +41,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
-    currentSong: Song,
+    currentSong: Song?,
     songs: List<Song>,
     modifier: Modifier = Modifier
 ) {
@@ -61,7 +61,12 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            lazyListState.animateScrollToItem(index = songs.indexOf(currentSong))
+            val indexToScroll = songs.indexOf(currentSong)
+            if (indexToScroll < 0) {
+                return@launch
+            }
+
+            lazyListState.animateScrollToItem(index = indexToScroll)
         }
     }
 
@@ -122,15 +127,10 @@ fun QueueBottomSheet(
                                         startIndex = mutableSongList.indexOf(song)
                                     },
                                 onDelete = {
-                                    val index = mutableSongList.indexOf(song)
-
-                                    if (index != -1) {
-                                        mutableSongList = mutableSongList.toMutableList().apply {
-                                            removeAt(index)
-                                        }
-
-                                        PlayerManager.currentController?.removeSongFromQueue(song)
+                                    mutableSongList = mutableSongList.toMutableList().apply {
+                                        removeAt(index)
                                     }
+                                    PlayerManager.currentController?.removeSongFromQueue(song)
                                 },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)

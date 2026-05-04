@@ -2,9 +2,11 @@ package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -26,5 +28,7 @@ fun SquareImage(uri: String, modifier: Modifier = Modifier, cornerRadius: Dp = 1
         modifier = modifier
             .aspectRatio(1f)
             .clip(RoundedCornerShape(cornerRadius)),
+        error = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
+        placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
     )
 }
