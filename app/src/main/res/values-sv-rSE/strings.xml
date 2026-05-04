@@ -89,4 +89,5 @@
     <string name="playback">Uppspelning</string>
     <string name="enable_audio_offload">Aktivera Ljud Offload</string>
     <string name="audio_offload_subtitle">Offloads audio avkodning till dedikerad hårdvara, vilket förbättrar batteriets livslängd. Kan orsaka vissa uppspelningsproblem i vissa fall.</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
