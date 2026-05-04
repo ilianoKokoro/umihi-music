@@ -89,4 +89,5 @@
     <string name="playback">再生</string>
     <string name="enable_audio_offload">オーディオオフロードを有効にする</string>
     <string name="audio_offload_subtitle">オーディオデコードを専用ハードウェアにオフロードし、バッテリ寿命を延ばします。場合によっては再生の問題が発生する可能性があります。</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
