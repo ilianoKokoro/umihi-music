@@ -89,4 +89,5 @@
     <string name="playback">Відтворення</string>
     <string name="enable_audio_offload">Увімкнути розвантаження аудіо</string>
     <string name="audio_offload_subtitle">Окреме аудіо декодування для виділеного обладнання, покращуючи життя акумулятора. Може викликати проблеми з відтворенням в деяких випадках.</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
