@@ -2,9 +2,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
   schedule:
     - cron: "30 7 * * 3"
 
@@ -44,7 +44,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: gradle
 
       - name: Change wrapper permissions
         if: matrix.language == 'java-kotlin'
@@ -52,7 +51,8 @@ jobs:
 
       - name: Set up Keystore
         if: matrix.language == 'java-kotlin'
-        run: echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.MAIN_PROJECT_MODULE }}/${{ env.STORE_FILE }}
+        run: echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.MAIN_PROJECT_MODULE }}/${{
+          env.STORE_FILE }}
         env:
           KEYSTORE_BASE64: ${{ secrets.SIGNING_KEY }}
 
