@@ -4,7 +4,8 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 data class SettingsState(
     val screenState: ScreenState = ScreenState.Loading,
-    val showUpdateChannelDialog: Boolean = false
+    val showUpdateChannelDialog: Boolean = false,
+    val showDownloadDeleteConfirm: Boolean = false
 
 )
 

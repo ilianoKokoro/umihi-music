@@ -78,6 +78,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateShowDownloadDeleteConfirm(value: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showDownloadDeleteConfirm = value
+                )
+            }
+        }
+    }
+
 
     @OptIn(UnstableApi::class)
     fun clearDownloads() {

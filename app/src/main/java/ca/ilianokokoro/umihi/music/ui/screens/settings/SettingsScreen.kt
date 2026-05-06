@@ -38,6 +38,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
@@ -140,7 +141,9 @@ fun SettingsScreen(
                         title = stringResource(R.string.delete_downloads),
                         subtitle = stringResource(R.string.clear_data_message),
                         leadingIcon = Icons.Outlined.Delete,
-                        onClick = settingsViewModel::clearDownloads
+                        onClick = {
+                            settingsViewModel.updateShowDownloadDeleteConfirm(true)
+                        }
                     )
                 }
 
@@ -180,6 +183,18 @@ fun SettingsScreen(
                         }, onClose = {
                             settingsViewModel.updateShowUpdateChannelDialog(false)
                         })
+                } else if (uiState.showDownloadDeleteConfirm) {
+                    ConfirmDialog(
+                        title = stringResource(R.string.delete_downloads),
+                        text = stringResource(R.string.download_clear_confirm_text),
+                        onConfirm = {
+                            settingsViewModel.clearDownloads()
+                            settingsViewModel.updateShowDownloadDeleteConfirm(false)
+                        },
+                        onDismiss = {
+                            settingsViewModel.updateShowDownloadDeleteConfirm(false)
+                        })
+
                 }
             }
 
