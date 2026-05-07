@@ -90,4 +90,6 @@
     <string name="enable_audio_offload">E-enwable Awwdio Offwoad</string>
     <string name="audio_offload_subtitle">Offwoadz awwdio decowoding tu d-dedicated hawdware, empwovin batterwy lyfe. Mey cauz sum pwaybwack wissues OwO in sum cases. :3</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
+    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
 </resources>

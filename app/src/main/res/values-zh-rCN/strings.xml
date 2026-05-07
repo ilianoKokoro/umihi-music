@@ -90,4 +90,6 @@
     <string name="enable_audio_offload">启用音频卸载</string>
     <string name="audio_offload_subtitle">将音频解码卸载到专用硬件上，改善电池寿命。在某些情况下，可能会导致一些播放问题。</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
+    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
 </resources>

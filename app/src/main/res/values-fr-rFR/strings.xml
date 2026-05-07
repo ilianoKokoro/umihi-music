@@ -90,4 +90,6 @@
     <string name="enable_audio_offload">Activer le déchargement audio</string>
     <string name="audio_offload_subtitle">Décharge le décodage audio vers le matériel dédié, améliorant la durée de vie de la batterie. Peut causer des problèmes de lecture dans certains cas.</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
+    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
 </resources>
