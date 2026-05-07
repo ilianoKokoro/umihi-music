@@ -57,7 +57,7 @@
     <string name="logged_in_message">You are logged in to your YouTube account</string>
     <string name="logged_out_message">You are currently not logged in</string>
     <string name="account">Account</string>
-    <string name="clear_data_message">Remove all downloaded songs and cached data from this device</string>
+    <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
     <string name="login_info_cleared">Login Info Cleared</string>
     <string name="cache_cleared">Cache Cleared</string>
@@ -94,6 +94,6 @@
     <string name="enable_audio_offload">Enable Audio Offload</string>
     <string name="audio_offload_subtitle">Offloads audio decoding to dedicated hardware, improving battery life. May cause some playback issues in some cases.</string>
     <string name="unknown_error">Unknown error</string>
-    <string name="download_clear_confirm_text">This will permanently remove all downloaded songs, playlists, and cached data from your device.</string>
-    <string name="download_clear_confirm_title">Delete all downloads?</string>
+    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
+    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
 </resources>
