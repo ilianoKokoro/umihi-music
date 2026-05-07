@@ -55,7 +55,7 @@
     <string name="logged_in_message">You awe wogged in to youw YouTube account</string>
     <string name="logged_out_message">You awe cuwwentwy nyot wogged in</string>
     <string name="account">Acwount</string>
-    <string name="clear_data_message">Dewetes aww da downwoaded songs n cache OwO</string>
+    <string name="clear_data_message">Remowe aww da downwoaded songs n cache data fwom this dewice OwO</string>
     <string name="clear_login_message">Cweaws aww da saved accounts n w-wogin infowmation</string>
     <string name="login_info_cleared">Login Info Cweawed</string>
     <string name="cache_cleared">Cache Cweawed</string>
@@ -89,7 +89,7 @@
     <string name="playback">Pwaybwack</string>
     <string name="enable_audio_offload">E-enwable Awwdio Offwoad</string>
     <string name="audio_offload_subtitle">Offwoadz awwdio decowoding tu d-dedicated hawdware, empwovin batterwy lyfe. Mey cauz sum pwaybwack wissues OwO in sum cases. :3</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Unknown Ewwow :&lt;</string>
+    <string name="download_clear_confirm_text">This wiw pewmanetwy wemove all downwoaded songs, pwaywists, and cached data fwom uw dewice</string>
+    <string name="download_clear_confirm_title">Dewete all tha downwoads? :&lt;</string>
 </resources>
