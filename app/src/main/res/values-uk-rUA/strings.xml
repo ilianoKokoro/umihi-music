@@ -90,6 +90,4 @@
     <string name="enable_audio_offload">Увімкнути розвантаження аудіо</string>
     <string name="audio_offload_subtitle">Окреме аудіо декодування для виділеного обладнання, покращуючи життя акумулятора. Може викликати проблеми з відтворенням в деяких випадках.</string>
     <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
 </resources>

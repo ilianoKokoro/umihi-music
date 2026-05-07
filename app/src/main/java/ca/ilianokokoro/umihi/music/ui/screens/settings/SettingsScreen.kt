@@ -185,7 +185,7 @@ fun SettingsScreen(
                         })
                 } else if (uiState.showDownloadDeleteConfirm) {
                     ConfirmDialog(
-                        title = stringResource(R.string.delete_downloads),
+                        title = stringResource(R.string.download_clear_confirm_title),
                         text = stringResource(R.string.download_clear_confirm_text),
                         onConfirm = {
                             settingsViewModel.clearDownloads()
