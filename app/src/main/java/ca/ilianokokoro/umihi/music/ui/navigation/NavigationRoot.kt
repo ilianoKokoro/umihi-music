@@ -11,25 +11,31 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -39,6 +45,8 @@ import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
@@ -48,14 +56,38 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.search.SearchScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
+    val player = PlayerManager.currentController
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            initialValue = SheetValue.PartiallyExpanded,
+        )
+    )
+    var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
+
+
+
+    DisposableEffect(player) {
+        currentSong = player?.currentMediaItem?.toSong()
+
+        val listener = object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                currentSong = mediaItem?.toSong()
+            }
+
+        }
+        player?.addListener(listener)
+        onDispose { player?.removeListener(listener) }
+    }
+
+    val shouldShowSheet = currentSong != null && screenConfig.showMiniPlayer
+
 
     Scaffold(
         modifier = modifier
@@ -90,19 +122,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         },
         bottomBar = {
             Column {
-                val miniPlayerModifier = if (screenConfig.showBottomBar) {
-                    Modifier.fillMaxWidth()
-                } else {
-                    Modifier
-                        .fillMaxWidth()
-                        .windowInsetsPadding(WindowInsets.navigationBars)
-                }
-
-                MiniPlayerWrapper(
-                    showMiniPlayer = screenConfig.showMiniPlayer,
-                    onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
-                    modifier = miniPlayerModifier
-                )
 
                 AnimatedVisibility(
                     visible = screenConfig.showBottomBar,
@@ -122,11 +141,37 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         }
 
     ) { paddingValues ->
-        Box(
+        BottomSheetScaffold(
+            sheetContent = {
+                val sheetState = bottomSheetScaffoldState.bottomSheetState
+
+                val isExpanded =
+                    sheetState.currentValue == SheetValue.Expanded ||
+                            sheetState.targetValue == SheetValue.Expanded
+
+                when {
+                    isExpanded -> {
+                        PlayerScreen(
+                            onBack = backStack::safePop,
+                            application = app
+                        )
+                    }
+
+                    else -> {
+                        MiniPlayerWrapper()
+                    }
+                }
+            },
+            sheetPeekHeight = if (shouldShowSheet) {
+                Constants.Ui.MiniPlayer.HEIGHT + 4.dp * 2
+            } else {
+                0.dp
+            },
+            sheetDragHandle = {},
+            scaffoldState = bottomSheetScaffoldState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.BottomCenter
+                .padding(paddingValues)
         ) {
             NavDisplay(
                 modifier = Modifier.fillMaxSize(),
@@ -194,23 +239,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         is PlaylistScreenKey -> NavEntry(key) {
                             PlaylistScreen(
                                 playlistInfo = key.playlistInfo,
-                                onOpenPlayer = { backStack.add(PlayerScreenKey) },
+                                onOpenPlayer = { /* TODO fullscreen*/ },
                                 application = app
                             )
                         }
 
                         is AuthScreenKey -> NavEntry(key) {
                             AuthScreen(
-                                onBack = backStack::safePop,
-                                application = app
-                            )
-                        }
-
-                        is PlayerScreenKey -> NavEntry(
-                            key,
-                            metadata = Constants.Animation.SLIDE_UP_TRANSITION
-                        ) {
-                            PlayerScreen(
                                 onBack = backStack::safePop,
                                 application = app
                             )

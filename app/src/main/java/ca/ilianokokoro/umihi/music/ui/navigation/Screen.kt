@@ -23,10 +23,6 @@ data class PlaylistScreenKey(val playlistInfo: PlaylistInfo) : NavKey
 @Serializable
 data object AuthScreenKey : NavKey
 
-@Serializable
-data object PlayerScreenKey : NavKey
-
-
 data class ScreenUiConfig(
     val title: String = String(),
     @param:StringRes val titleId: Int = 0,
@@ -65,12 +61,6 @@ fun rememberScreenUiConfig(current: NavKey): ScreenUiConfig {
                 title = current.playlistInfo.title,
                 showBack = true,
                 showBottomBar = false
-            )
-
-            PlayerScreenKey -> ScreenUiConfig(
-                showBack = true,
-                showBottomBar = false,
-                showMiniPlayer = false
             )
 
             AuthScreenKey -> ScreenUiConfig(

@@ -1,13 +1,8 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -16,20 +11,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
+import ca.ilianokokoro.umihi.music.models.Song
 
 
 @Composable
 fun MiniPlayerWrapper(
-    modifier: Modifier = Modifier,
-    onMiniPlayerPressed: () -> Unit,
-    showMiniPlayer: Boolean
 ) {
     val player = PlayerManager.currentController
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
@@ -39,8 +31,6 @@ fun MiniPlayerWrapper(
     var songIsLoading by remember(player) {
         mutableStateOf(player?.playbackState == Player.STATE_BUFFERING)
     }
-    val insets = WindowInsets.navigationBars.asPaddingValues()
-    val bottomInset = with(LocalDensity.current) { insets.calculateBottomPadding().roundToPx() }
 
     DisposableEffect(player) {
         currentSong = player?.currentMediaItem?.toSong()
@@ -77,34 +67,33 @@ fun MiniPlayerWrapper(
         onDispose { player?.removeListener(listener) }
     }
 
-    AnimatedVisibility(
-        visible = currentSong != null && showMiniPlayer,
-        enter = slideInVertically(initialOffsetY = { it + bottomInset }),
-        exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .height(Constants.Ui.MiniPlayer.HEIGHT)
-    ) {
-        MiniPlayer(
-            currentSong = currentSong!!,
-            onClick = onMiniPlayerPressed,
-            onPlayPause = {
-                if (player?.isPlaying == true) {
-                    player.pause()
-                } else {
-                    player?.play()
-                }
+    if (currentSong != null) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .height(Constants.Ui.MiniPlayer.HEIGHT)
+        ) {
 
-            },
-            onSkipNext = {
-                player?.seekToNext()
-            },
-            onSkipPrevious = {
-                player?.seekToPrevious()
-            },
-            isPlaying = songIsPlaying == true,
-            isLoading = songIsLoading
-        )
+            MiniPlayer(
+                currentSong = currentSong as Song,
+                onPlayPause = {
+                    if (player?.isPlaying == true) {
+                        player.pause()
+                    } else {
+                        player?.play()
+                    }
+
+                },
+                onSkipNext = {
+                    player?.seekToNext()
+                },
+                onSkipPrevious = {
+                    player?.seekToPrevious()
+                },
+                isPlaying = songIsPlaying == true,
+                isLoading = songIsLoading
+            )
+        }
     }
 }
