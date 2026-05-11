@@ -11,18 +11,15 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -32,7 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -46,12 +42,12 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.extensions.clearQueue
 import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
-import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
+import ca.ilianokokoro.umihi.music.ui.components.miniplayer.PlayerOverlay
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.home.HomeScreen
-import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
 import ca.ilianokokoro.umihi.music.ui.screens.search.SearchScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
@@ -64,14 +60,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            initialValue = SheetValue.PartiallyExpanded,
-        )
-    )
+
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
-
-
 
     DisposableEffect(player) {
         currentSong = player?.currentMediaItem?.toSong()
@@ -86,7 +76,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         onDispose { player?.removeListener(listener) }
     }
 
-    val shouldShowSheet = currentSong != null && screenConfig.showMiniPlayer
+    val showMiniplayer = currentSong != null && screenConfig.showMiniPlayer
 
 
     Scaffold(
@@ -141,34 +131,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         }
 
     ) { paddingValues ->
-        BottomSheetScaffold(
-            sheetContent = {
-                val sheetState = bottomSheetScaffoldState.bottomSheetState
-
-                val isExpanded =
-                    sheetState.currentValue == SheetValue.Expanded ||
-                            sheetState.targetValue == SheetValue.Expanded
-
-                when {
-                    isExpanded -> {
-                        PlayerScreen(
-                            onBack = backStack::safePop,
-                            application = app
-                        )
-                    }
-
-                    else -> {
-                        MiniPlayerWrapper()
-                    }
-                }
-            },
-            sheetPeekHeight = if (shouldShowSheet) {
-                Constants.Ui.MiniPlayer.HEIGHT + 4.dp * 2
-            } else {
-                0.dp
-            },
-            sheetDragHandle = {},
-            scaffoldState = bottomSheetScaffoldState,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -265,6 +228,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         )
                     }
                 }
+            )
+
+            PlayerOverlay(
+                visible = showMiniplayer,
+                application = app,
+                onClose = {
+                    PlayerManager.currentController?.clearQueue()
+                },
             )
         }
     }

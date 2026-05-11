@@ -1,14 +1,6 @@
 package ca.ilianokokoro.umihi.music.core
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.ui.unit.dp
-import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -68,33 +60,6 @@ object Constants {
     object Animation {
         const val NAVIGATION_DURATION = 200
         const val IMAGE_FADE_DURATION = 200
-
-        val SLIDE_UP_TRANSITION = NavDisplay.transitionSpec {
-            slideInVertically(
-                initialOffsetY = { it },
-                animationSpec = tween(
-                    durationMillis = NAVIGATION_DURATION * 2,
-                    easing = FastOutSlowInEasing
-                )
-            ) togetherWith fadeOut()
-        } + NavDisplay.popTransitionSpec {
-            fadeIn() togetherWith slideOutVertically(
-                targetOffsetY = { it },
-                animationSpec = tween(
-                    durationMillis = NAVIGATION_DURATION * 2,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        } + NavDisplay.predictivePopTransitionSpec {
-            fadeIn() togetherWith slideOutVertically(
-                targetOffsetY = { it },
-                animationSpec = tween(
-                    durationMillis = NAVIGATION_DURATION * 2,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        }
-
     }
 
     object Auth {

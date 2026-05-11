@@ -1,9 +1,9 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -22,6 +22,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 
 @Composable
 fun MiniPlayerWrapper(
+    modifier: Modifier
 ) {
     val player = PlayerManager.currentController
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
@@ -68,12 +69,13 @@ fun MiniPlayerWrapper(
     }
 
     if (currentSong != null) {
-        Row(
-            modifier = Modifier
+        Card(
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp)
                 .height(Constants.Ui.MiniPlayer.HEIGHT)
         ) {
+
 
             MiniPlayer(
                 currentSong = currentSong as Song,
@@ -97,3 +99,4 @@ fun MiniPlayerWrapper(
         }
     }
 }
+
