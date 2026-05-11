@@ -8,5 +8,6 @@ data class UmihiSettings(
     val dataSyncId: String,
     val showPodcastPlaylist: Boolean = true,
     val useSpecialLanguage: Boolean = false,
-    val useAudioOffload: Boolean = false
+    val useAudioOffload: Boolean = false,
+    val keepScreenOn: Boolean = false
 )

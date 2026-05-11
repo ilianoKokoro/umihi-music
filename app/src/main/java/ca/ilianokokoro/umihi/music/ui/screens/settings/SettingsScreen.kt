@@ -18,6 +18,7 @@ import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Memory
+import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -117,6 +118,15 @@ fun SettingsScreen(
                         leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
                         value = uiState.screenState.settings.showPodcastPlaylist,
                         onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    
+                    BooleanSettingItem(
+                        title = stringResource(R.string.keep_screen_on_title),
+                        subtitle = stringResource(R.string.keep_screen_on_title_description),
+                        leadingIcon = Icons.Outlined.StayCurrentPortrait,
+                        value = uiState.screenState.settings.keepScreenOn,
+                        onToggle = { settingsViewModel.updateKeepScreenOnSetting(it) }
                     )
                 }
 

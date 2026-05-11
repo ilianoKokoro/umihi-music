@@ -16,6 +16,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
@@ -30,6 +31,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
     val uiState = _uiState.asStateFlow()
+
 
     private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
@@ -120,11 +122,18 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         )
     }
 
-    @OptIn(UnstableApi::class)
     fun updateAudioOffloadSetting(value: Boolean) {
         PlayerManager.currentController?.setAudioOffloadEnabled(value)
         updateSetting(
             DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD,
+            value
+        )
+    }
+
+    fun updateKeepScreenOnSetting(value: Boolean) {
+        ScreenAwakeManager.setKeepScreenOn(value)
+        updateSetting(
+            DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON,
             value
         )
     }

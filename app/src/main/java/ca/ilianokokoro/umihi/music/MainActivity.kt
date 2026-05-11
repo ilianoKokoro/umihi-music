@@ -20,6 +20,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
@@ -49,6 +50,7 @@ class MainActivity : ComponentActivity() {
         VersionManager.initialize(this)
         requestNotificationPermission()
         PlayerManager.init(this)
+        ScreenAwakeManager.registerActivity(this)
 
         PlayerManager.connectController(this) {
             enableEdgeToEdge()
@@ -66,6 +68,11 @@ class MainActivity : ComponentActivity() {
         handleViewIntent(intent)
         checkForUpdate()
 
+    }
+
+    override fun onDestroy() {
+        ScreenAwakeManager.unregisterActivity(this)
+        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent) {
