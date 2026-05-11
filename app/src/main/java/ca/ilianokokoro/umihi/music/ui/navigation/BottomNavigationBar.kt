@@ -79,8 +79,11 @@ fun BottomNavigationBar(
 
                         Toast.makeText(
                             context,
-                            if (oldSettings.useSpecialLanguage) resources.getString(R.string.special_language_disabled)
-                            else resources.getString(R.string.special_language_enabled),
+                            if (oldSettings.useSpecialLanguage) {
+                                resources.getString(R.string.special_language_disabled)
+                            } else {
+                                resources.getString(R.string.special_language_enabled)
+                            },
                             Toast.LENGTH_LONG
                         ).show()
                         (context as Activity).recreate()
