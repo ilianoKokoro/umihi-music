@@ -19,6 +19,7 @@ env:
   APK_FILE_NAME: UmihiMusic
   ORIGINAL_APK_PATH: /build/outputs/apk/release/app-release.apk
   STORE_FILE: release-key.jks
+  BETA_TAG: beta
 
 jobs:
   build-android-apk:
@@ -62,23 +63,30 @@ jobs:
           fi
 
       - name: Rename APK file
-        run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}} ${{env.APK_FILE_NAME}}.apk
+        run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}}
+          ${{env.APK_FILE_NAME}}.apk
 
-      - name: Create or update Beta release
+      - name: Delete Old Beta Release
+        if: github.ref_name != 'prod'
+        run: gh release delete ${{ env.BETA_TAG }} --cleanup-tag -y || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Beta release
         if: github.ref_name != 'prod'
         uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: beta
+          tag: ${{ env.BETA_TAG }}
           name: Beta
           artifacts: ${{env.APK_FILE_NAME}}.apk
           allowUpdates: true
-          replacesArtifacts: true
           removeArtifacts: true
           generateReleaseNotes: false
           makeLatest: false
           prerelease: true
+          commit: ${{ github.sha }}
 
       - name: Upload APK Release
         uses: actions/upload-artifact@v7
