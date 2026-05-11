@@ -1,4 +1,4 @@
-[![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?include_prereleases&style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge&color=E53935)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![RB Status](https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 
