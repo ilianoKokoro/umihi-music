@@ -92,6 +92,6 @@
     <string name="unknown_error">Unknown Error</string>
     <string name="download_clear_confirm_text">Cela supprimera définitivement toutes les chansons, listes de lecture et données mises en cache sur votre appareil.</string>
     <string name="download_clear_confirm_title">Supprimer toutes les chansons téléchargées ?</string>
-    <string name="keep_screen_on_title">Keep Screen Always On</string>
-    <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
+    <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
+    <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
 </resources>
