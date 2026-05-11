@@ -23,7 +23,7 @@ object Constants {
                 const val API =
                     "https://api.github.com/repos/ilianoKokoro/umihi-music/commits/main"
                 const val DOWNLOAD =
-                    "https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/umihi-music-apk.apk"
+                    "https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/UmihiMusic.apk"
             }
 
             object Release {
