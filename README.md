@@ -62,7 +62,7 @@ Join the Discord server to get update pings, know about announcements and get su
 
 [![Beta APK Build](https://img.shields.io/github/actions/workflow/status/ilianoKokoro/umihi-music/build-release.yml?style=for-the-badge&label=Beta%20Build)](https://github.com/ilianoKokoro/umihi-music/actions/workflows/build-release.yml)
 
-<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/release-build.zip"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
+<a href="https://nightly.link/ilianoKokoro/umihi-music/workflows/build-release.yml/main/umihi-music-apk.apk"><img src="https://i.postimg.cc/sxWv2J29/badge-github.png" height="80"></a>
 
 ## Credits 🎨
 

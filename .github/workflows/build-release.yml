@@ -69,9 +69,10 @@ jobs:
       - name: Upload APK Release
         uses: actions/upload-artifact@v7
         with:
-          name: release-build
+          name: umihi-music-apk
           path: ${{env.APK_FILE_NAME}}.apk
           overwrite: true
+          archive: false
           if-no-files-found: error
   publish-github-release:
     permissions:
