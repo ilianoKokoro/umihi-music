@@ -66,6 +66,22 @@ jobs:
       - name: Rename APK file
         run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}} ${{env.APK_FILE_NAME}}.apk
 
+      - name: Create or update Beta release
+        if: github.ref_name != 'prod'
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: beta
+          name: Beta
+          artifacts: ${{env.APK_FILE_NAME}}.apk
+          allowUpdates: true
+          replacesArtifacts: true
+          removeArtifacts: true
+          generateReleaseNotes: false
+          makeLatest: false
+          prerelease: true
+
       - name: Upload APK Release
         uses: actions/upload-artifact@v7
         with:
