@@ -96,4 +96,6 @@
     <string name="unknown_error">Unknown error</string>
     <string name="download_clear_confirm_text">This will permanently remove all downloaded songs, playlists, and cached data from your device.</string>
     <string name="download_clear_confirm_title">Delete all downloads?</string>
+    <string name="keep_screen_on_title">Keep Screen Always On</string>
+    <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
 </resources>
