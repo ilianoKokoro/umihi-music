@@ -1,6 +1,7 @@
 [![Latest release](https://img.shields.io/github/v/release/ilianoKokoro/umihi-music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge&color=E53935)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![RB Status](https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
+[![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
 
 # Umihi Music
 
@@ -26,7 +27,7 @@ effortlessly.
 
 Join the Discord server to get update pings, know about announcements and get support about problems
 
-[![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
+<a href="https://discord.gg/mSPeHS5cF6"><img src="https://img.builtbybit.com/qvILgDj0iYP6hLQQ5ZN4BQYilVv3ZGAZl_UsuYDHZDQ/resize:fill:2000/format:webp/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2ludGVyZ3Jhdi9kZXZpbnMtYmFkZ2VzL2Fzc2V0cy9jb3p5L3NvY2lhbC9kaXNjb3JkLXBsdXJhbF92ZWN0b3Iuc3Zn" height="60"></a>
 
 ## Features ✨
 
