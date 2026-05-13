@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import kotlin.math.roundToInt
 
@@ -41,7 +43,11 @@ fun PlayerOverlay(
         dragOffsetY = 0f
     }
 
-    Box(modifier = modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(bottom = 8.dp)
+    ) {
         when (mode) {
             PlayerSheetState.Closed -> Unit
 
