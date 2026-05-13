@@ -42,7 +42,6 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.extensions.clearQueue
 import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.PlayerOverlay
@@ -232,10 +231,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
             PlayerOverlay(
                 visible = showMiniplayer,
-                application = app,
-                onClose = {
-                    PlayerManager.currentController?.clearQueue()
-                },
+                application = app
             )
         }
     }
