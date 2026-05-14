@@ -66,29 +66,7 @@ jobs:
         run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}}
           ${{env.APK_FILE_NAME}}.apk
 
-      - name: Delete Old Beta Release
-        if: github.ref_name != 'prod'
-        run: gh release delete ${{ env.BETA_TAG }} --cleanup-tag -y || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Beta release
-        if: github.ref_name != 'prod'
-        uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag: ${{ env.BETA_TAG }}
-          name: Beta
-          artifacts: ${{env.APK_FILE_NAME}}.apk
-          allowUpdates: true
-          removeArtifacts: true
-          generateReleaseNotes: false
-          makeLatest: false
-          prerelease: true
-          commit: ${{ github.sha }}
-
-      - name: Upload APK Release
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v7
         with:
           name: UmihiMusic
@@ -96,6 +74,43 @@ jobs:
           overwrite: true
           archive: false
           if-no-files-found: error
+  update-beta-prerelease:
+    permissions:
+      packages: write
+      contents: write
+    if: github.ref_name != 'prod'
+    needs:
+      - build-android-apk
+    runs-on: ubuntu-latest
+    name: Update the beta GitHub release
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: ./artifacts
+
+      - name: Delete Old Beta Release
+        run: gh release delete ${{ env.BETA_TAG }} --cleanup-tag -y || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create new Beta release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: ${{ env.BETA_TAG }}
+          name: Beta
+          artifacts: ./artifacts/**/*.apk
+          allowUpdates: true
+          removeArtifacts: true
+          generateReleaseNotes: false
+          makeLatest: false
+          prerelease: true
+          commit: ${{ github.sha }}
+
   publish-github-release:
     permissions:
       packages: write
