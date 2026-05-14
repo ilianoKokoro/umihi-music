@@ -23,7 +23,7 @@ object PlayerManager {
     val currentController: MediaController?
         get() = controller
 
-    fun init(context: Context) {
+    private fun init(context: Context) {
         if (controllerFuture != null || controller != null) {
             return
         }
@@ -52,15 +52,12 @@ object PlayerManager {
 
     fun connectController(
         context: Context,
-        onConnected: (MediaController) -> Unit
     ) {
         val existing = controller
         if (existing != null) {
-            onConnected(existing)
             return
         }
 
-        pendingCallbacks.add(onConnected)
         init(context)
     }
 }

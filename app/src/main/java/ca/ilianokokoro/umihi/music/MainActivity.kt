@@ -43,32 +43,36 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) {}
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        super.onCreate(savedInstanceState)
-        initCaoc()
-        initNewPipe()
-        VersionManager.initialize(this)
-        requestNotificationPermission()
-        PlayerManager.init(this)
-        ScreenAwakeManager.registerActivity(this)
 
-        PlayerManager.connectController(this) {
-            enableEdgeToEdge()
-            setContent {
-                UmihiMusicTheme {
-                    NavigationRoot(
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                    UpdateDialog(lifecycleScope)
-                }
+        super.onCreate(savedInstanceState)
+
+        initCaoc()
+
+
+        enableEdgeToEdge()
+        setContent {
+            UmihiMusicTheme {
+                NavigationRoot(
+                    modifier = Modifier.fillMaxSize(),
+                )
+                UpdateDialog(lifecycleScope)
             }
         }
 
+        ScreenAwakeManager.registerActivity(this)
+        VersionManager.initialize(this)
+        initNewPipe()
+
+        PlayerManager.connectController(this)
         handleShareIntent(intent)
         handleViewIntent(intent)
-        checkForUpdate()
+        
+        requestNotificationPermission()
 
+        checkForUpdate()
     }
 
     override fun onDestroy() {

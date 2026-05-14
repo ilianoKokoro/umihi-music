@@ -67,7 +67,7 @@
             android:exported="false"
             android:launchMode="singleTop"
             android:process=":error_activity"
-            android:theme="@style/Theme.UmihiMusic">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="cat.ereza.customactivityoncrash.ERROR" />
             </intent-filter>

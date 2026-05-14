@@ -13,10 +13,20 @@ import okhttp3.Request
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
+import kotlin.time.measureTimedValue
 
 
 object UmihiHelper {
     const val TAG = "UmihiPrint"
+
+    inline fun <T> benchmark(
+        label: String,
+        block: () -> T
+    ): T {
+        val result = measureTimedValue(block)
+        printd(tag = "UmihiBench", message = "$label: ${result.duration.inWholeMilliseconds} ms")
+        return result.value
+    }
 
     fun printd(message: String, tag: String = TAG) {
         Log.d(tag, message)
