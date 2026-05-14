@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.WebView.Light" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.WebView.Light" parent="Theme.UmihiMusic">
         <item name="android:isLightTheme">true</item>
     </style>
 
-    <style name="Theme.WebView.Dark" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.WebView.Dark" parent="Theme.UmihiMusic">
         <item name="android:isLightTheme">false</item>
     </style>
 </resources>

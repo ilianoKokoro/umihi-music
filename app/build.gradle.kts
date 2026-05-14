@@ -128,6 +128,9 @@ dependencies {
     implementation(libs.nav3.runtime)
     implementation(libs.nav3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.nav3)
+    
+    // Splash Screen
+    implementation(libs.androidx.core.splashscreen)
 
     // Serialization
     implementation(libs.kotlinx.serialization.core)
@@ -177,4 +180,5 @@ dependencies {
 
     // New Pipe Extractor
     implementation(libs.newpipeextractor)
+
 }

@@ -17,12 +17,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UmihiMusic">
+        android:theme="@style/Theme.App.Starting">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.UmihiMusic">
+            android:launchMode="singleTop">
             <!-- Default -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

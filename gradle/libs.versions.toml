@@ -10,6 +10,7 @@ activityCompose = "1.13.0"
 composeBom = "2026.05.00"
 
 # Added librairies
+coreSplashscreen = "1.2.0"
 desugar_jdk_libs_nio = "2.1.5"
 nav3Core = "1.1.1"
 nav3Lifecycle = "2.10.0"
@@ -45,6 +46,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 
 # Added librairies
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 desugar_jdk_libs_nio = { module = "com.android.tools:desugar_jdk_libs_nio", version.ref = "desugar_jdk_libs_nio" }
 nav3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 nav3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
