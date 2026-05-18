@@ -1,7 +1,12 @@
 package ca.ilianokokoro.umihi.music.core.managers
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -17,6 +22,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.net.URL
 
 
 object VersionManager {
@@ -116,6 +123,95 @@ object VersionManager {
                 }
             }
             printe(message = ex.message.orEmpty(), exception = ex)
+        }
+    }
+
+    suspend fun downloadApk(
+        context: Context,
+        release: GithubReleaseResponse,
+        onProgress: (Float) -> Unit
+    ): File = withContext(Dispatchers.IO) {
+        requestInstallPermissions(context) // TODO : move to ui
+
+        val updateDir = File(context.cacheDir, "updates")
+        updateDir.mkdirs()
+
+        val apkFile = File(updateDir, Constants.Downloads.UPDATE_APK)
+
+        val connection = URL(release.downloadUrl).openConnection()
+        val totalBytes = connection.contentLengthLong
+
+        connection.getInputStream().use { input ->
+            apkFile.outputStream().use { output ->
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                var downloadedBytes = 0L
+
+                while (true) {
+                    val read = input.read(buffer)
+
+                    if (read == -1) {
+                        break
+                    }
+
+                    output.write(buffer, 0, read)
+                    downloadedBytes += read
+
+                    if (totalBytes > 0) {
+                        val progress = downloadedBytes.toFloat() / totalBytes.toFloat()
+
+                        withContext(Dispatchers.Main) {
+                            onProgress(progress)
+                        }
+                    }
+                }
+            }
+        }
+
+        apkFile
+    }
+
+    fun installApk(
+        context: Context,
+        apkFile: File
+    ) {
+        if (hasInstallPermissions(context)) {
+            val apkUri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.fileprovider",
+                apkFile
+            )
+
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(apkUri, "application/vnd.android.package-archive")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            context.startActivity(intent)
+        }
+    }
+
+
+    private fun requestInstallPermissions(context: Context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
+        if (!hasInstallPermissions(context)) {
+            val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {
+                data = "package:${context.packageName}".toUri()
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            context.startActivity(intent)
+        }
+    }
+
+    private fun hasInstallPermissions(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.packageManager.canRequestPackageInstalls()
+        } else {
+            true
         }
     }
 

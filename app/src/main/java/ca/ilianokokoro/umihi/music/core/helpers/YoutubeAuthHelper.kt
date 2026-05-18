@@ -15,8 +15,6 @@ import kotlin.text.Charsets.UTF_8
 object YoutubeAuthHelper {
 
     fun buildContextBody(idName: String?, id: String?, settings: UmihiSettings?): JsonObject {
-
-
         return buildJsonObject {
             val user = buildJsonObject {
                 put("lockedSafetyMode", JsonPrimitive(false))
