@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +32,7 @@ fun MiniPlayerWrapper(
     onMiniPlayerPressed: () -> Unit,
     showMiniPlayer: Boolean
 ) {
-    val player = PlayerManager.currentController
+    val player by PlayerManager.controllerState.collectAsState()
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
     var songIsPlaying by remember(player) {
         mutableStateOf(player?.isPlaying)
@@ -91,7 +92,7 @@ fun MiniPlayerWrapper(
             onClick = onMiniPlayerPressed,
             onPlayPause = {
                 if (player?.isPlaying == true) {
-                    player.pause()
+                    (player as Player).pause()
                 } else {
                     player?.play()
                 }

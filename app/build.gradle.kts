@@ -4,7 +4,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 val versionMajor = 1
-val versionMinor = 11
+val versionMinor = 12
 val versionPatch = 0
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
@@ -128,7 +128,7 @@ dependencies {
     implementation(libs.nav3.runtime)
     implementation(libs.nav3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.nav3)
-    
+
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
