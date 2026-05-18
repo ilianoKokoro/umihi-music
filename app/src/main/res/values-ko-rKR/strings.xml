@@ -94,4 +94,5 @@
     <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
     <string name="keep_screen_on_title">Keep Screen Always On</string>
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
+    <string name="downloading_update">Downloading Update...</string>
 </resources>
