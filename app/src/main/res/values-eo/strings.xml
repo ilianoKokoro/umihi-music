@@ -94,4 +94,5 @@
     <string name="download_clear_confirm_title">Dewete all tha downwoads? :&lt;</string>
     <string name="keep_screen_on_title">Keep Scween Always On</string>
     <string name="keep_screen_on_title_description">Pwevents tha dispway fwom tuwnin off while tha app is owpen</string>
+    <string name="downloading_update">Downloading Update...</string>
 </resources>
