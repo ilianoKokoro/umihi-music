@@ -201,10 +201,12 @@ object YoutubeHelper {
             ?.jsonArray ?: return emptyList()
 
         val songRendererList =
-            contents.jsonArray[0]
-                .jsonObject["musicShelfRenderer"]
-                ?.jsonObject["contents"]
-                ?.jsonArray
+            contents.jsonArray
+                .firstNotNullOfOrNull {
+                    it.jsonObject["musicShelfRenderer"]
+                        ?.jsonObject?.get("contents")
+                        ?.jsonArray
+                }
                 ?: return emptyList()
 
         return songRendererList.mapNotNull { extractSong(it) }
