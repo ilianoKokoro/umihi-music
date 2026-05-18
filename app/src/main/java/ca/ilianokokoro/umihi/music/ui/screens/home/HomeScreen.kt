@@ -84,7 +84,7 @@ fun HomeScreen(
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    PullToRefreshBox( // TODO : Make it work on empty list
+                    PullToRefreshBox(
                         isRefreshing = uiState.isRefreshing,
                         onRefresh = homeViewModel::refreshPlaylists
                     ) {

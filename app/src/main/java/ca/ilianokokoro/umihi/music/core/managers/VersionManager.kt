@@ -208,11 +208,8 @@ object VersionManager {
     }
 
     private fun hasInstallPermissions(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.packageManager.canRequestPackageInstalls()
-        } else {
-            true
-        }
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+                || context.packageManager.canRequestPackageInstalls()
     }
 
     private suspend fun handleUpdateResult(
