@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
@@ -337,28 +338,7 @@ object YoutubeHelper {
             ?.jsonPrimitive?.contentOrNull ?: return null
 
 
-        var duration = ""
-        val fixedColumn =
-            songContent["fixedColumns"]?.jsonArray[0]?.jsonObject["musicResponsiveListItemFixedColumnRenderer"]
-        val flexColumn =
-            songContent["flexColumns"]?.jsonArray[1]?.jsonObject["musicResponsiveListItemFlexColumnRenderer"]
-
-        if (fixedColumn != null) {
-            duration = fixedColumn.jsonObject["text"]
-                ?.jsonObject["runs"]
-                ?.jsonArray[0]
-                ?.jsonObject["text"]
-                ?.jsonPrimitive
-                ?.contentOrNull.toString()
-        } else if (flexColumn != null) {
-            duration = flexColumn.jsonObject["text"]
-                ?.jsonObject["runs"]
-                ?.jsonArray[4]
-                ?.jsonObject["text"]
-                ?.jsonPrimitive
-                ?.contentOrNull.toString()
-        }
-
+        val duration = extractDuration(songContent)
 
         return Song(
             youtubeId = videoId,
@@ -405,6 +385,58 @@ object YoutubeHelper {
         localSongRepository.setStreamUrl(songId = song.youtubeId, streamUrl = newUri)
         printd("${song.youtubeId} : Got url from YouTube and saved song")
         return newUri
+    }
+
+
+    private fun extractDuration(songContent: JsonObject): String {
+        val durationRegex = Regex("""\d+:\d{2}(:\d{2})?""")
+
+        val fixedDuration = songContent["fixedColumns"]
+            ?.jsonArray
+            ?.firstOrNull()
+            ?.jsonObject
+            ?.get("musicResponsiveListItemFixedColumnRenderer")
+            ?.jsonObject
+            ?.get("text")
+            ?.jsonObject
+            ?.get("runs")
+            ?.jsonArray
+            ?.firstOrNull()
+            ?.jsonObject
+            ?.get("text")
+            ?.jsonPrimitive
+            ?.contentOrNull
+
+        if (fixedDuration != null) {
+            return fixedDuration
+        }
+
+        val flexColumns = songContent["flexColumns"]
+            ?.jsonArray
+            ?: return ""
+
+        for (column in flexColumns) {
+            val runs = column.jsonObject["musicResponsiveListItemFlexColumnRenderer"]
+                ?.jsonObject
+                ?.get("text")
+                ?.jsonObject
+                ?.get("runs")
+                ?.jsonArray
+                ?: continue
+
+            for (run in runs) {
+                val text = run.jsonObject["text"]
+                    ?.jsonPrimitive
+                    ?.contentOrNull
+                    ?: continue
+               
+                if (durationRegex.matches(text)) {
+                    return text
+                }
+            }
+        }
+
+        return ""
     }
 
     private suspend fun getSongUrlFromYoutube(
