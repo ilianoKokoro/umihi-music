@@ -79,11 +79,14 @@
             android:name=".services.PlaybackService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"
+            android:stopWithTask="false"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="androidx.media3.session.MediaSessionService" />
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
