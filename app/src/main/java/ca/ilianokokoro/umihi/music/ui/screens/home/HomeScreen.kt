@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.ButtonDefaults
@@ -19,6 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -33,9 +38,9 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
-import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -53,6 +58,8 @@ fun HomeScreen(
     val uiState = homeViewModel.uiState.collectAsStateWithLifecycle().value
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    var createPlaylistOpen by remember { mutableStateOf(false) }
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             val loggedOut = uiState.screenState is ScreenState.LoggedOut
@@ -77,19 +84,6 @@ fun HomeScreen(
 
         when (uiState.screenState) {
             is ScreenState.LoggedIn -> {
-
-                FilledTonalButton( // TODO
-                    onClick = {
-                        homeViewModel.createPlaylist("title", "description", Privacy.PRIVATE)
-
-                    },
-                    shapes = ButtonDefaults.shapes()
-                )
-                {
-                    Text("create")
-                }
-
-
                 val playlists = uiState.screenState.playlistInfos
 
                 if (playlists.isEmpty()) {
@@ -112,6 +106,19 @@ fun HomeScreen(
                             )
 
                         ) {
+                            item(
+                                span = {
+                                    GridItemSpan(maxLineSpan)
+                                }
+                            ) {
+                                FilledTonalButton(
+                                    onClick = { createPlaylistOpen = true },
+                                    shapes = ButtonDefaults.shapes()
+                                ) {
+                                    Text(stringResource(R.string.create_playlist))
+
+                                }
+                            }
                             itemsIndexed(
                                 items = playlists,
                                 key = { index, playlist ->
@@ -151,6 +158,15 @@ fun HomeScreen(
                 ex = uiState.screenState.exception,
                 onRetry = homeViewModel::getPlaylists
             )
+
+        }
+        if (createPlaylistOpen) {
+            PlaylistCreationDialog(
+                onClose = { createPlaylistOpen = false },
+                onConfirm = { title, description, privacy ->
+                    homeViewModel.createPlaylist(title, description, privacy)
+                    createPlaylistOpen = false
+                })
 
         }
     }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +39,7 @@ import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -76,18 +76,16 @@ fun SearchScreen(
                 onRetry = searchViewModel::search
             )
         } else {
-            OutlinedTextField(
+            MaterialUInput(
                 modifier = Modifier
                     .focusRequester(focusRequester)
-                    .padding(horizontal = 8.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .fillMaxWidth(),
                 value = uiState.search,
                 onValueChange = {
                     searchViewModel.onSearchFieldChange(it)
                 },
-                label = {
-                    Text(text = stringResource(R.string.search))
-                },
+                label = stringResource(R.string.search),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Search,
