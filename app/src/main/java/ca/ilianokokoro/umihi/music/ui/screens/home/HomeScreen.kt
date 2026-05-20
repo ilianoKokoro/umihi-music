@@ -33,6 +33,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
@@ -76,6 +77,19 @@ fun HomeScreen(
 
         when (uiState.screenState) {
             is ScreenState.LoggedIn -> {
+
+                FilledTonalButton( // TODO
+                    onClick = {
+                        homeViewModel.createPlaylist("title", "description", Privacy.PRIVATE)
+
+                    },
+                    shapes = ButtonDefaults.shapes()
+                )
+                {
+                    Text("create")
+                }
+
+
                 val playlists = uiState.screenState.playlistInfos
 
                 if (playlists.isEmpty()) {

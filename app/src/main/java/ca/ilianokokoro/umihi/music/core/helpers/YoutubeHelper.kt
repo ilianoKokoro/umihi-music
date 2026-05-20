@@ -30,7 +30,6 @@ import java.util.Locale
 object YoutubeHelper {
     private val client = OkHttpClient()
 
-
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
 
@@ -180,6 +179,52 @@ object YoutubeHelper {
         return playlistInfos
     }
 
+
+    fun extractCreatedPlaylist(jsonString: String): PlaylistInfo? {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+
+        val renderer = json["actions"]
+            ?.jsonArray
+            ?.firstNotNullOfOrNull { action ->
+                action.jsonObject["handlePlaylistCreationCommand"]
+                    ?.jsonObject
+                    ?.get("createdPlaylist")
+                    ?.jsonObject
+                    ?.get("musicTwoRowItemRenderer")
+                    ?.jsonObject
+            }
+            ?: return null
+
+        val title = renderer["title"]
+            ?.jsonObject
+            ?.get("runs")
+            ?.jsonArray
+            ?.getOrNull(0)
+            ?.jsonObject
+            ?.get("text")
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?: return null
+
+        val browseId = renderer["navigationEndpoint"]
+            ?.jsonObject
+            ?.get("browseEndpoint")
+            ?.jsonObject
+            ?.get("browseId")
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?: return null
+
+        val thumbnailUrl = getBestThumbnailUrl(
+            renderer["thumbnailRenderer"] ?: return null
+        )
+
+        return PlaylistInfo(
+            id = browseId,
+            title = title,
+            coverHref = thumbnailUrl
+        )
+    }
 
     fun extractSearchResults(jsonString: String): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
@@ -429,7 +474,7 @@ object YoutubeHelper {
                     ?.jsonPrimitive
                     ?.contentOrNull
                     ?: continue
-               
+
                 if (durationRegex.matches(text)) {
                     return text
                 }

@@ -168,8 +168,10 @@ object Constants {
                     )
                     put("xClientName", JsonPrimitive(1))
                 }
+        }
 
-
+        object Create {
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${API_KEY}"
         }
 
         object PlayerInfo {

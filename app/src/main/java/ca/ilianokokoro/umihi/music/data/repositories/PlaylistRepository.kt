@@ -4,6 +4,7 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +32,31 @@ class PlaylistRepository {
             try {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Success(playlistDataSource.retrieveOne(playlist, settings)))
+            } catch (e: Exception) {
+                emit(ApiResult.Error(e))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun create(
+        title: String,
+        description: String,
+        privacy: Privacy,
+        settings: UmihiSettings
+    ): Flow<ApiResult<PlaylistInfo?>> {
+        return flow {
+            try {
+                emit(ApiResult.Loading)
+                emit(
+                    ApiResult.Success(
+                        playlistDataSource.create(
+                            title,
+                            description,
+                            privacy,
+                            settings
+                        )
+                    )
+                )
             } catch (e: Exception) {
                 emit(ApiResult.Error(e))
             }

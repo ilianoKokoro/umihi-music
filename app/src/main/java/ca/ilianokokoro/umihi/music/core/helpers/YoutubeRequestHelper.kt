@@ -1,11 +1,16 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.models.Privacy
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 object YoutubeRequestHelper {
     fun browse(browseId: String, settings: UmihiSettings): String {
@@ -26,6 +31,44 @@ object YoutubeRequestHelper {
         )
     }
 
+
+    fun createPlaylist(
+        title: String,
+        description: String,
+        privacy: Privacy,
+        songs: List<Song> = listOf(),
+        settings: UmihiSettings
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("title", title)
+            put("description", description)
+            put("privacyStatus", privacy.value)
+
+            put(
+                "videoIds",
+                buildJsonArray {
+                    songs.forEach { it.youtubeId }
+                }
+            )
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Create.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
     fun getPlayerInfo(videoId: String): String {
         return requestWithContext(
             url = Constants.YoutubeApi.PlayerInfo.URL,
@@ -42,35 +85,40 @@ object YoutubeRequestHelper {
         )
     }
 
-    private fun requestWithContext(
+    private fun requestWithBody(
         url: String,
-        idName: String,
-        id: String,
+        body: Any,
         settings: UmihiSettings? = null
     ): String {
-        val body =
-            YoutubeAuthHelper.buildContextBody(idName, id, settings)
-
         val headers = if (settings != null) {
             YoutubeAuthHelper.getHeaders(settings.cookies)
         } else {
             mapOf()
         }
 
-        val (_, _, result) = url.httpPost().jsonBody(body.toString())
-            .header(
-                headers
-            )
+        val (_, _, result) = url.httpPost()
+            .jsonBody(body.toString())
+            .header(headers)
             .responseJson()
 
         return when (result) {
-            is Result.Success -> {
-                result.value.content
-            }
-
-            is Result.Failure -> {
-                throw result.error.exception
-            }
+            is Result.Success -> result.value.content
+            is Result.Failure -> throw result.error.exception
         }
+    }
+
+    private fun requestWithContext(
+        url: String,
+        idName: String,
+        id: String,
+        settings: UmihiSettings? = null
+    ): String {
+        val body = YoutubeAuthHelper.buildContextBody(idName, id, settings)
+
+        return requestWithBody(
+            url = url,
+            body = body,
+            settings = settings
+        )
     }
 }

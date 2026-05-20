@@ -14,6 +14,7 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Privacy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -103,6 +104,47 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         } catch (ex: Exception) {
             printe(message = ex.toString(), exception = ex)
+        }
+    }
+
+    fun createPlaylist(title: String, description: String, privacy: Privacy) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+
+                if (settings.cookies.isEmpty()) {
+                    _uiState.update {
+                        it.copy(screenState = ScreenState.LoggedOut)
+                    }
+                    return@launch
+                }
+
+                playlistRepository.create(title, description, privacy, settings)
+                    .collect { apiResult ->
+                        if (apiResult !is ApiResult.Success || apiResult.data == null) {
+                            return@collect
+                        }
+
+                        val currentState = _uiState.value.screenState
+                        if (currentState !is ScreenState.LoggedIn) {
+                            return@collect
+                        }
+
+                        val updatedPlaylists = currentState.playlistInfos
+                            .toMutableList()
+                            .apply {
+                                add(index = 2.coerceAtMost(size), element = apiResult.data)
+                            }
+
+                        _uiState.update {
+                            it.copy(
+                                screenState = ScreenState.LoggedIn(updatedPlaylists)
+                            )
+                        }
+                    }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
         }
     }
 
