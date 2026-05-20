@@ -84,7 +84,6 @@ android {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
-
 }
 
 ksp {

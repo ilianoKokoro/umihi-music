@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import ca.ilianokokoro.umihi.music.BuildConfig
@@ -21,6 +24,7 @@ import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.URL
@@ -36,6 +40,7 @@ object VersionManager {
 
     private val githubRepository: GithubRepository = GithubRepository()
     private lateinit var versionRepository: VersionDataSource
+
 
     fun initialize(context: Context) {
         if (versionName == null) {
@@ -131,8 +136,6 @@ object VersionManager {
         release: GithubReleaseResponse,
         onProgress: (Float) -> Unit
     ): File = withContext(Dispatchers.IO) {
-        requestInstallPermissions(context) // TODO : move to ui
-
         val updateDir = File(context.cacheDir, "updates")
         updateDir.mkdirs()
 
@@ -192,19 +195,43 @@ object VersionManager {
     }
 
 
-    private fun requestInstallPermissions(context: Context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return
-        }
+    suspend fun requestInstallPermissions(
+        activity: ComponentActivity
+    ): Boolean = suspendCancellableCoroutine { continuation ->
 
-        if (!hasInstallPermissions(context)) {
-            val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {
-                data = "package:${context.packageName}".toUri()
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        fun resumeWithResult(value: Boolean) {
+            if (!continuation.isActive) {
+                return
             }
 
-            context.startActivity(intent)
+            continuation.resume(value) { _, _, _ -> }
         }
+
+
+        if (hasInstallPermissions(activity)) {
+            resumeWithResult(true)
+            return@suspendCancellableCoroutine
+        }
+
+        var launcher: ActivityResultLauncher<Intent>? = null
+
+        launcher = activity.activityResultRegistry.register(
+            "install_permissions_${System.nanoTime()}",
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            launcher?.unregister()
+            resumeWithResult(hasInstallPermissions(activity))
+        }
+
+        continuation.invokeOnCancellation {
+            launcher.unregister()
+        }
+
+        val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {
+            data = "package:${activity.packageName}".toUri()
+        }
+
+        launcher.launch(intent)
     }
 
     private fun hasInstallPermissions(context: Context): Boolean {

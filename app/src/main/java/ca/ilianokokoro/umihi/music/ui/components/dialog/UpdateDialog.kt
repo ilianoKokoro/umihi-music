@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.dialog
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -122,6 +123,16 @@ fun UpdateDialog(scope: CoroutineScope) {
 
 
                             scope.launch {
+
+                                val granted = VersionManager.requestInstallPermissions(
+                                    activity = context as ComponentActivity
+                                )
+
+                                if (!granted) {
+                                    isDownloading = false
+                                    return@launch
+                                }
+
                                 isDownloading = true
                                 downloadProgress = 0f
 
