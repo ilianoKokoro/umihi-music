@@ -95,4 +95,13 @@
     <string name="keep_screen_on_title">Keep Screen Always On</string>
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="privacy">Privacy</string>
+    <string name="create">Create</string>
+    <string name="create_playlist">Create playlist</string>
+    <string name="visibility">Visibility\n</string>
+    <string name="privacy_unlisted">Unlisted</string>
+    <string name="privacy_public">Public</string>
+    <string name="privacy_private">Private</string>
 </resources>
