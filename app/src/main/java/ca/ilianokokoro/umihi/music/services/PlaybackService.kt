@@ -20,8 +20,10 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.CacheBitmapLoader
+import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
+import androidx.media3.session.SessionError
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
@@ -29,8 +31,15 @@ import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
+import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import com.google.common.collect.ImmutableList
+import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.SettableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -38,6 +47,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import okhttp3.internal.toImmutableList
 import java.io.File
 import java.util.UUID
 
@@ -48,11 +58,104 @@ class PlaybackService : MediaLibraryService() {
     private lateinit var player: Player
     private lateinit var datastoreRepository: DatastoreRepository
     private val songRepository = SongRepository()
+    private val playlistRepository = PlaylistRepository()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 
     val callback = object : MediaLibrarySession.Callback {
-        // Implement methods like onGetLibraryRoot, onGetChildren, etc.
+
+        override fun onGetLibraryRoot(
+            session: MediaLibrarySession,
+            browser: MediaSession.ControllerInfo,
+            params: LibraryParams?
+        ): ListenableFuture<LibraryResult<MediaItem>> {
+            return Futures.immediateFuture(
+                LibraryResult.ofItem(
+                    MediaItem.Builder()
+                        .setMediaId(Constants.ExoPlayer.Cache.Library.ROOT_ID)
+                        .setMediaMetadata(
+                            MediaMetadata.Builder()
+                                .setTitle(Constants.APP_NAME)
+                                .setIsBrowsable(true)
+                                .setIsPlayable(false)
+                                .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
+                                .build()
+                        )
+                        .build(),
+                    params
+                )
+            )
+        }
+
+        override fun onGetChildren(
+            session: MediaLibrarySession,
+            browser: MediaSession.ControllerInfo,
+            parentId: String,
+            page: Int,
+            pageSize: Int,
+            params: LibraryParams?
+        ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
+            val future = SettableFuture.create<LibraryResult<ImmutableList<MediaItem>>>()
+
+            serviceScope.launch {
+                try {
+                    val result = when {
+                        parentId == Constants.ExoPlayer.Cache.Library.ROOT_ID -> {
+                            val playlists = playlistRepository
+                                .retrieveAll(datastoreRepository.settings.first())
+                                .first { it !is ApiResult.Loading }
+
+                            if (playlists is ApiResult.Success) {
+                                playlists.data.map { playlist ->
+                                    playlist.toBrowsableMediaItem()
+                                }
+                            } else {
+                                emptyList()
+                            }
+                        }
+
+                        parentId.startsWith(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX) -> {
+                            val playlistId =
+                                parentId.removePrefix(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX)
+
+                            val playlist = Playlist(
+                                PlaylistInfo(id = playlistId)
+                            )
+
+                            val result = playlistRepository
+                                .retrieveOne(
+                                    playlist,
+                                    datastoreRepository.settings.first()
+                                )
+                                .first { it !is ApiResult.Loading }
+
+                            if (result is ApiResult.Success) {
+                                result.data.songs.map { song ->
+                                    song.mediaItem
+                                }
+                            } else {
+                                emptyList()
+                            }
+                        }
+
+                        else -> emptyList()
+                    }
+
+                    future.set(
+                        LibraryResult.ofItemList(
+                            result.toImmutableList(),
+                            params
+                        )
+                    )
+                } catch (e: Exception) {
+                    future.set(
+                        LibraryResult.ofError(SessionError.ERROR_UNKNOWN)
+                    )
+                }
+            }
+
+            return future
+        }
     }
 
     override fun onCreate() {

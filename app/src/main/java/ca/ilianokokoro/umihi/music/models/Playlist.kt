@@ -1,7 +1,9 @@
 package ca.ilianokokoro.umihi.music.models
 
 import androidx.compose.runtime.Immutable
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
@@ -48,6 +50,22 @@ data class PlaylistInfo(
 ) {
     val isDownloadedPlaylist: Boolean
         get() = id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID
+
+
+    fun toBrowsableMediaItem(): MediaItem {
+        return MediaItem.Builder()
+            .setMediaId("playlist:$id")
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setTitle(title)
+                    .setArtworkUri(coverHref.toUri())
+                    .setIsBrowsable(true)
+                    .setIsPlayable(false)
+                    .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
+                    .build()
+            )
+            .build()
+    }
 }
 
 
@@ -58,4 +76,5 @@ data class PlaylistInfo(
 data class PlaylistSongCrossRef(
     val playlistId: String,
     val songId: String
+
 )

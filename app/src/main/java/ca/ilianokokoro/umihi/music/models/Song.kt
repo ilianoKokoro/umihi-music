@@ -40,6 +40,8 @@ data class Song(
                         .setTitle(title)
                         .setArtist(artist)
                         .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                        .setIsBrowsable(false)
+                        .setIsPlayable(true)
                         .setArtworkUri((thumbnailPath ?: thumbnailHref).toUri())
                         .setExtras(extras)
                         .build()

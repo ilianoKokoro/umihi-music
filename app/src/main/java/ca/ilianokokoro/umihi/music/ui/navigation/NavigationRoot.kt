@@ -56,14 +56,18 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
+    //  val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-
+            .background(MaterialTheme.colorScheme.background)
+        // .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ,
         topBar = {
+
             TopAppBar(
+                //   scrollBehavior = scrollBehavior,
                 title = {
                     val hasTitle = screenConfig.titleId != 0 || screenConfig.title.isNotBlank()
 
