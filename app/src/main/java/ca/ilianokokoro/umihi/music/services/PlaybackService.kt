@@ -165,7 +165,7 @@ class PlaybackService : MediaLibraryService() {
                             params
                         )
                     )
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     future.set(
                         LibraryResult.ofError(SessionError.ERROR_UNKNOWN)
                     )
@@ -208,13 +208,13 @@ class PlaybackService : MediaLibraryService() {
                 .setIsSpeedChangeSupportRequired(true)
                 .build()
 
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(C.USAGE_MEDIA)
+            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+            .build()
+
         player = ExoPlayer.Builder(this)
-            .setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(C.USAGE_MEDIA)
-                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-                    .build(), true
-            )
+            .setAudioAttributes(audioAttributes, true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .setHandleAudioBecomingNoisy(true)
             .setDeviceVolumeControlEnabled(true)
