@@ -41,22 +41,22 @@ class PlaylistRepository {
         privacy: Privacy,
         settings: UmihiSettings
     ): Flow<ApiResult<PlaylistInfo?>> {
+
+
         return flow {
-            try {
-                emit(ApiResult.Loading)
-                emit(
-                    ApiResult.Success(
-                        playlistDataSource.create(
-                            title,
-                            description,
-                            privacy,
-                            settings
-                        )
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.create(
+                        title,
+                        description,
+                        privacy,
+                        settings
                     )
                 )
-            } catch (e: Exception) {
-                emit(ApiResult.Error(e))
-            }
+            )
+        }.catch { e ->
+            emit(ApiResult.Error(Exception(e.cause)))
         }.flowOn(Dispatchers.IO)
     }
 }

@@ -13,7 +13,6 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
 object Constants {
-    const val APP_NAME = "Umihi Music"
     const val BETA_SUFFIX = "-beta"
 
     object Url {
@@ -134,6 +133,7 @@ object Constants {
 
             object Library {
                 const val ROOT_ID = "root"
+                const val PLAYLIST_ROOT = "root_playlist"
                 const val PLAYLIST_PREFIX = "playlist:"
             }
         }

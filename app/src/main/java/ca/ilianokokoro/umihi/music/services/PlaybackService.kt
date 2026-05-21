@@ -24,12 +24,14 @@ import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionError
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
@@ -70,11 +72,6 @@ class PlaybackService : MediaLibraryService() {
             val commands =
                 MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS.buildUpon()
                     .add(Player.COMMAND_GET_TIMELINE)
-                    .add(Player.COMMAND_GET_VOLUME)
-                    .add(Player.COMMAND_SET_VOLUME)
-                    .add(Player.COMMAND_GET_DEVICE_VOLUME)
-                    .add(Player.COMMAND_SET_DEVICE_VOLUME_WITH_FLAGS)
-                    .add(Player.COMMAND_ADJUST_DEVICE_VOLUME_WITH_FLAGS)
                     .build()
 
             return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
@@ -93,8 +90,7 @@ class PlaybackService : MediaLibraryService() {
                         .setMediaId(Constants.ExoPlayer.Cache.Library.ROOT_ID)
                         .setMediaMetadata(
                             MediaMetadata.Builder()
-                                .setTitle(Constants.APP_NAME)
-                                .setIsBrowsable(true)
+                                .setIsBrowsable(false)
                                 .setIsPlayable(false)
                                 .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
                                 .build()
@@ -114,12 +110,30 @@ class PlaybackService : MediaLibraryService() {
             params: LibraryParams?
         ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
             val future = SettableFuture.create<LibraryResult<ImmutableList<MediaItem>>>()
-
+            val context = this@PlaybackService
             serviceScope.launch {
                 try {
                     val result = when {
                         parentId == Constants.ExoPlayer.Cache.Library.ROOT_ID -> {
-                            val playlists = playlistRepository
+                            listOf(
+                                MediaItem
+                                    .Builder()
+                                    .setMediaId(Constants.ExoPlayer.Cache.Library.PLAYLIST_ROOT)
+                                    .setMediaMetadata(
+                                        MediaMetadata
+                                            .Builder()
+                                            .setTitle(context.getString(R.string.playlists))
+                                            .setIsPlayable(false)
+                                            .setIsBrowsable(true)
+                                            .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS)
+                                            .build(),
+                                    ).build()
+                            )
+
+                        }
+
+                        parentId == Constants.ExoPlayer.Cache.Library.PLAYLIST_ROOT -> {
+                            val playlists = playlistRepository // TODO get local playlists first
                                 .retrieveAll(datastoreRepository.settings.first())
                                 .first { it !is ApiResult.Loading }
 
@@ -131,6 +145,7 @@ class PlaybackService : MediaLibraryService() {
                                 emptyList()
                             }
                         }
+
 
                         parentId.startsWith(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX) -> {
                             val playlistId =
@@ -174,6 +189,93 @@ class PlaybackService : MediaLibraryService() {
 
             return future
         }
+
+        override fun onSetMediaItems(
+            mediaSession: MediaSession,
+            controller: MediaSession.ControllerInfo,
+            mediaItems: MutableList<MediaItem>,
+            startIndex: Int,
+            startPositionMs: Long
+        ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
+            val future = SettableFuture.create<MediaSession.MediaItemsWithStartPosition>()
+
+            serviceScope.launch {
+                try {
+                    val resolvedItems = mediaItems.flatMap { item ->
+                        when {
+                            item.mediaId.startsWith(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX) -> {
+                                val playlistId = item.mediaId
+                                    .removePrefix(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX)
+
+                                val playlist = Playlist(
+                                    PlaylistInfo(id = playlistId)
+                                )
+
+                                val result = playlistRepository
+                                    .retrieveOne(
+                                        playlist,
+                                        datastoreRepository.settings.first()
+                                    )
+                                    .first { it !is ApiResult.Loading }
+
+                                if (result is ApiResult.Success) {
+                                    result.data.songs.map { song ->
+                                        song.mediaItem
+                                    }
+                                } else {
+                                    emptyList()
+                                }
+                            }
+
+                            else -> {
+
+                                val songId = item.mediaId
+
+                                val result = songRepository
+                                    .getSongInfo(songId)
+                                    .first { it !is ApiResult.Loading }
+
+                                if (result is ApiResult.Success) {
+                                    val song = result.data
+
+                                    val url = YoutubeHelper.getSongPlayerUrl(
+                                        this@PlaybackService,
+                                        song,
+                                        true
+                                    )
+
+                                    listOf(
+                                        song.mediaItem.buildUpon()
+                                            .setUri(url)
+                                            .build()
+                                    )
+                                } else {
+                                    listOf()
+                                }
+
+                            }
+                        }
+                    }
+
+                    future.set(
+                        MediaSession.MediaItemsWithStartPosition(
+                            resolvedItems,
+                            if (resolvedItems.isEmpty()) {
+                                C.INDEX_UNSET
+                            } else {
+                                startIndex.coerceAtLeast(0)
+                            },
+                            startPositionMs.coerceAtLeast(0)
+                        )
+                    )
+                } catch (ex: Exception) {
+                    future.setException(ex)
+                }
+            }
+
+            return future
+        }
+
     }
 
     override fun onCreate() {
