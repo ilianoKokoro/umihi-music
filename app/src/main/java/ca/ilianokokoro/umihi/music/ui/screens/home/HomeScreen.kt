@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.ButtonDefaults
@@ -106,19 +105,19 @@ fun HomeScreen(
                             )
 
                         ) {
-                            item(
-                                span = {
-                                    GridItemSpan(maxLineSpan)
-                                }
-                            ) {
-                                FilledTonalButton(
-                                    onClick = { createPlaylistOpen = true },
-                                    shapes = ButtonDefaults.shapes()
-                                ) {
-                                    Text(stringResource(R.string.create_playlist))
-
-                                }
-                            }
+//                            item(
+//                                span = {
+//                                    GridItemSpan(maxLineSpan)
+//                                }
+//                            ) {
+//                                FilledTonalButton(
+//                                    onClick = { createPlaylistOpen = true },
+//                                    shapes = ButtonDefaults.shapes()
+//                                ) {
+//                                    Text(stringResource(R.string.create_playlist))
+//
+//                                }
+//                            }
                             itemsIndexed(
                                 items = playlists,
                                 key = { index, playlist ->

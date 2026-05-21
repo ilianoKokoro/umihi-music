@@ -58,7 +58,7 @@ data class PlaylistInfo(
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(title)
-                    .setArtworkUri(coverHref.toUri())
+                    .setArtworkUri((coverPath ?: coverHref).takeIf { it.isNotBlank() }?.toUri())
                     .setIsBrowsable(true)
                     .setIsPlayable(false)
                     .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)

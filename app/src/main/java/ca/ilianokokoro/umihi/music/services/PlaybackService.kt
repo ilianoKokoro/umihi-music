@@ -63,6 +63,25 @@ class PlaybackService : MediaLibraryService() {
 
 
     val callback = object : MediaLibrarySession.Callback {
+        override fun onConnect(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo
+        ): MediaSession.ConnectionResult {
+            val commands =
+                MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS.buildUpon()
+                    .add(Player.COMMAND_GET_TIMELINE)
+                    .add(Player.COMMAND_GET_VOLUME)
+                    .add(Player.COMMAND_SET_VOLUME)
+                    .add(Player.COMMAND_GET_DEVICE_VOLUME)
+                    .add(Player.COMMAND_SET_DEVICE_VOLUME_WITH_FLAGS)
+                    .add(Player.COMMAND_ADJUST_DEVICE_VOLUME_WITH_FLAGS)
+                    .build()
+
+            return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
+                .setAvailablePlayerCommands(commands)
+                .build()
+        }
+
         override fun onGetLibraryRoot(
             session: MediaLibrarySession,
             browser: MediaSession.ControllerInfo,
@@ -189,8 +208,6 @@ class PlaybackService : MediaLibraryService() {
                 .setIsSpeedChangeSupportRequired(true)
                 .build()
 
-
-
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -224,7 +241,6 @@ class PlaybackService : MediaLibraryService() {
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
             }
         })
-
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         val pendingIntent = PendingIntent.getActivity(
