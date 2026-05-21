@@ -13,13 +13,13 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
-import ca.ilianokokoro.umihi.music.models.Song
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
-import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.cancellation.CancellationException
 
 class PlaylistDownloadWorker(
@@ -34,64 +34,55 @@ class PlaylistDownloadWorker(
 
     @OptIn(UnstableApi::class)
     override suspend fun doWork(): Result {
-        return withContext(Dispatchers.IO) {
-            val playlistId = params.inputData.getString(PLAYLIST_KEY)
-                ?: return@withContext Result.failure()
+        val playlistId = params.inputData.getString(PLAYLIST_KEY)
+            ?: return Result.failure()
 
-            val playlist = playlistRepository.getPlaylistById(playlistId)
-                ?: return@withContext Result.failure()
+        val playlist = playlistRepository.getPlaylistById(playlistId)
+            ?: return Result.failure()
 
-            try {
-                val totalSongs = playlist.songs.size
-                var downloadedSongs = 0
+        return try {
+            val totalSongs = playlist.songs.size
+            val downloadedSongs = AtomicInteger(0)
 
-                UmihiNotificationManager.showPlaylistDownloadProgress(
-                    appContext,
-                    playlist,
-                    0,
-                    totalSongs
+            UmihiNotificationManager.showPlaylistDownloadProgress(
+                appContext,
+                playlist,
+                0,
+                totalSongs
+            )
+
+            val playlistImage = DownloadHelper.downloadImage(
+                appContext,
+                playlist.info.coverHref,
+                playlist.info.id
+            )
+
+            playlistRepository.insertPlaylist(
+                playlist.info.copy(
+                    coverPath = playlistImage?.path
                 )
+            )
 
-                val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
-                val playlistImage =
-                    DownloadHelper.downloadImage(
-                        appContext,
-                        playlist.info.coverHref,
-                        playlist.info.id
-                    )
-                playlistRepository.insertPlaylist(
-                    playlist.info.copy(
-                        coverPath = playlistImage?.path
-                    )
-                )
+            val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
 
+            coroutineScope {
                 playlist.songs.map { song ->
                     async {
                         semaphore.withPermit {
                             try {
-                                var fullSong: Song? = null
-                                songRepository.getSongInfo(song.youtubeId)
-                                    .collect { apiResult ->
-                                        when (apiResult) {
-                                            is ApiResult.Success -> {
-                                                fullSong = apiResult.data
-                                            }
+                                val fullSongData = songRepository
+                                    .getSongInfo(song.youtubeId)
+                                    .first { it is ApiResult.Success }
 
-                                            else -> {
-                                                // throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
-                                            }
-                                        }
-                                    }
+                                val fullSong = (fullSongData as ApiResult.Success).data
 
-                                val audioPath =
-                                    DownloadHelper.downloadAudio(appContext, song)
-                                val thumbnailPath =
-                                    DownloadHelper.downloadImage(
-                                        appContext,
-                                        fullSong!!.thumbnailHref,
-                                        song.youtubeId
-                                    )
+                                val audioPath = DownloadHelper.downloadAudio(appContext, song)
 
+                                val thumbnailPath = DownloadHelper.downloadImage(
+                                    appContext,
+                                    fullSong.thumbnailHref,
+                                    song.youtubeId
+                                )
 
                                 val updatedSong = song.copy(
                                     thumbnailPath = thumbnailPath?.path,
@@ -99,21 +90,22 @@ class PlaylistDownloadWorker(
                                 )
 
                                 localSongRepository.create(updatedSong)
+
                                 UmihiNotificationManager.showPlaylistDownloadProgress(
                                     appContext,
                                     playlist,
-                                    ++downloadedSongs,
+                                    downloadedSongs.incrementAndGet(),
                                     totalSongs
                                 )
-
                             } catch (e: CancellationException) {
                                 printd("Song download canceled ${song.title}")
-                                Result.failure()
+                                throw e
                             } catch (e: Exception) {
                                 UmihiNotificationManager.showSongDownloadFailed(
                                     appContext,
                                     song
                                 )
+
                                 printe(
                                     message = "Error downloading song: ${song.title}",
                                     exception = e
@@ -122,23 +114,23 @@ class PlaylistDownloadWorker(
                         }
                     }
                 }.awaitAll()
-
-
-
-                UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
-                printd("Playlist download complete")
-                Result.success()
-            } catch (e: CancellationException) {
-                UmihiNotificationManager.showPlaylistDownloadCanceled(appContext, playlist)
-                printd("Playlist download canceled ${playlist.info.title}")
-                Result.failure()
-            } catch (e: Exception) {
-                UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
-                printe(message = e.toString(), exception = e)
-                Result.failure()
             }
+
+            UmihiNotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
+            printd("Playlist download complete")
+
+            Result.success()
+        } catch (_: CancellationException) {
+            UmihiNotificationManager.showPlaylistDownloadCanceled(appContext, playlist)
+            printd("Playlist download canceled ${playlist.info.title}")
+            Result.failure()
+        } catch (e: Exception) {
+            UmihiNotificationManager.showPlaylistDownloadFailure(appContext, playlist)
+            printe(message = e.toString(), exception = e)
+            Result.failure()
         }
     }
+
 
     companion object {
         const val PLAYLIST_KEY = "playlist"

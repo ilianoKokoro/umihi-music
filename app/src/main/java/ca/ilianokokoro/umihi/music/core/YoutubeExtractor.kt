@@ -9,84 +9,90 @@ import org.schabi.newpipe.extractor.downloader.Response
 import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 import java.io.IOException
 
-internal class YoutubeExtractor(private val client: OkHttpClient) : Downloader() {
-    private val cookies = HashMap<String, String>()
+internal class YoutubeExtractor(
+    private val client: OkHttpClient
+) : Downloader() {
 
-    private fun getCookies(url: String): String {
-        val resultCookies: MutableList<String> = ArrayList()
-        if (url.contains(YOUTUBE_DOMAIN)) {
-            val youtubeCookie = getCookie(YOUTUBE_RESTRICTED_MODE_COOKIE_KEY)
-            if (youtubeCookie != null) {
-                resultCookies.add(youtubeCookie)
+    private val cookieStore = HashMap<String, String>()
+
+    @Throws(IOException::class, ReCaptchaException::class)
+    override fun execute(request: Request): Response {
+        val url = request.url()
+        val requestBody: RequestBody? = request.dataToSend()?.toRequestBody()
+
+        val requestBuilder = okhttp3.Request.Builder()
+            .url(url)
+            .method(request.httpMethod(), requestBody)
+            .header("User-Agent", USER_AGENT)
+            .header("Accept", "*/*")
+            .header("Accept-Language", "en-US,en;q=0.9")
+            .header("Origin", YOUTUBE_HOST)
+            .header("Referer", "$YOUTUBE_HOST/")
+
+        val cookieHeader = getCookies()
+        if (cookieHeader.isNotBlank()) {
+            requestBuilder.header("Cookie", cookieHeader)
+        }
+
+        for ((headerName, headerValueList) in request.headers()) {
+            requestBuilder.removeHeader(headerName)
+
+            for (headerValue in headerValueList) {
+                requestBuilder.addHeader(headerName, headerValue)
             }
         }
-        val recaptchaCookie = getCookie(RECAPTCHA_COOKIES_KEY)
-        if (recaptchaCookie != null) {
-            resultCookies.add(recaptchaCookie)
+
+        client.newCall(requestBuilder.build()).execute().use { response ->
+            if (response.code == 429) {
+                throw ReCaptchaException("YouTube rate limit / reCAPTCHA challenge", url)
+            }
+
+            val responseBody = response.body?.string()
+            val latestUrl = response.request.url.toString()
+
+            return Response(
+                response.code,
+                response.message,
+                response.headers.toMultimap(),
+                responseBody,
+                latestUrl
+            )
         }
+    }
+
+    private fun getCookies(): String {
+        val resultCookies = mutableListOf<String>()
+
+        getCookie(RECAPTCHA_COOKIES_KEY)?.let(resultCookies::add)
+
         return concatCookies(resultCookies)
     }
 
     private fun getCookie(key: String): String? {
-        return cookies[key]
-    }
-
-    @Throws(IOException::class, ReCaptchaException::class)
-    override fun execute(request: Request): Response {
-        val httpMethod = request.httpMethod()
-        val url = request.url()
-        val headers = request.headers()
-        val dataToSend = request.dataToSend()
-        val requestBody: RequestBody? = dataToSend?.toRequestBody()
-
-        val requestBuilder = okhttp3.Request.Builder()
-            .method(httpMethod, requestBody).url(url)
-            .addHeader("User-Agent", USER_AGENT)
-        val cookies = getCookies(url)
-        if (cookies.isNotEmpty()) {
-            requestBuilder.addHeader("Cookie", cookies)
-        }
-        for ((headerName, headerValueList) in headers) {
-            if (headerValueList.size > 1) {
-                requestBuilder.removeHeader(headerName)
-                for (headerValue in headerValueList) {
-                    requestBuilder.addHeader(headerName, headerValue)
-                }
-            } else if (headerValueList.size == 1) {
-                requestBuilder.header(headerName, headerValueList[0])
-            }
-        }
-        val response = client.newCall(requestBuilder.build()).execute()
-        if (response.code == 429) {
-            response.close()
-            throw ReCaptchaException("reCaptcha Challenge requested", url)
-        }
-        val body = response.body
-        val responseBodyToReturn = body?.string()
-        val latestUrl = response.request.url.toString()
-        return Response(
-            response.code, response.message, response.headers.toMultimap(),
-            responseBodyToReturn, latestUrl
-        )
+        return cookieStore[key]
     }
 
     private fun concatCookies(cookieStrings: Collection<String>): String {
-        val cookieSet: MutableSet<String?> = HashSet()
-        for (cookies in cookieStrings) {
-            cookieSet.addAll(splitCookies(cookies))
-        }
-        return cookieSet.joinToString("; ").trim(' ')
+        return cookieStrings
+            .flatMap { splitCookies(it) }
+            .filter { it.isNotBlank() }
+            .distinct()
+            .joinToString("; ")
     }
 
-    private fun splitCookies(cookies: String): Set<String?> {
-        return HashSet(listOf(*cookies.split("; *".toRegex()).toTypedArray()))
+    private fun splitCookies(cookies: String): List<String> {
+        return cookies
+            .split(";")
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
     }
 
     companion object {
-        const val USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0"
-        const val YOUTUBE_RESTRICTED_MODE_COOKIE_KEY = "youtube_restricted_mode_key"
-        const val YOUTUBE_DOMAIN = "youtube.com"
+        const val USER_AGENT =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
+        const val YOUTUBE_HOST = "https://www.youtube.com"
         const val RECAPTCHA_COOKIES_KEY = "recaptcha_cookies"
     }
+
 
 }

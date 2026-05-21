@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.NewPipe
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : ComponentActivity() {
@@ -69,7 +70,7 @@ class MainActivity : ComponentActivity() {
         PlayerManager.connectController(this)
         handleShareIntent(intent)
         handleViewIntent(intent)
-        
+
         requestNotificationPermission()
 
         checkForUpdate()
@@ -159,7 +160,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewPipe() {
-        NewPipe.init(YoutubeExtractor(OkHttpClient()))
+        val youtubeHttpClient = OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .callTimeout(45, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build()
+        NewPipe.init(YoutubeExtractor(youtubeHttpClient))
     }
 
     private fun initCaoc() {

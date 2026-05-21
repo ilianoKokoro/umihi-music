@@ -12,17 +12,13 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
-import ca.ilianokokoro.umihi.music.models.Song
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
+import kotlinx.coroutines.flow.first
 import kotlin.coroutines.cancellation.CancellationException
 
 class SongDownloadWorker(
     private val appContext: Context,
     private val params: WorkerParameters
-) :
-    CoroutineWorker(appContext, params) {
+) : CoroutineWorker(appContext, params) {
 
     private val playlistRepository = AppDatabase.getInstance(appContext).playlistRepository()
     private val localSongRepository = AppDatabase.getInstance(appContext).songRepository()
@@ -30,86 +26,72 @@ class SongDownloadWorker(
 
     @OptIn(UnstableApi::class)
     override suspend fun doWork(): Result {
-        return withContext(Dispatchers.IO) {
-            val playlistId = params.inputData.getString(PLAYLIST_KEY)
-                ?: return@withContext Result.failure()
+        val playlistId = params.inputData.getString(PLAYLIST_KEY)
+            ?: return Result.failure()
 
-            val songId = params.inputData.getString(SONG_KEY)
-                ?: return@withContext Result.failure()
+        val songId = params.inputData.getString(SONG_KEY)
+            ?: return Result.failure()
 
-            val playlist = playlistRepository.getPlaylistById(playlistId)
-                ?: return@withContext Result.failure()
+        val playlist = playlistRepository.getPlaylistById(playlistId)
+            ?: return Result.failure()
 
-            val song = localSongRepository.getSong(songId)
-                ?: return@withContext Result.failure()
+        val song = localSongRepository.getSong(songId)
+            ?: return Result.failure()
 
+        return try {
+            val playlistImage = DownloadHelper.downloadImage(
+                appContext,
+                playlist.info.coverHref,
+                playlist.info.id
+            )
 
-            val playlistImage =
-                DownloadHelper.downloadImage(
-                    appContext,
-                    playlist.info.coverHref,
-                    playlist.info.id
-                )
             playlistRepository.insertPlaylist(
                 playlist.info.copy(
                     coverPath = playlistImage?.path
                 )
             )
 
-            try {
-                var fullSong: Song? = null
-                songRepository.getSongInfo(song.youtubeId)
-                    .collect { apiResult ->
-                        when (apiResult) {
-                            is ApiResult.Success -> {
-                                fullSong = apiResult.data
-                            }
+            val fullSongData = songRepository
+                .getSongInfo(song.youtubeId)
+                .first { it is ApiResult.Success }
 
-                            else -> {
-                                //   throw Exception("Failed to getSongInfo for song : ${song.youtubeId}")
-                            }
-                        }
-                    }
+            val fullSong = (fullSongData as ApiResult.Success).data
 
-                val audioPath =
-                    DownloadHelper.downloadAudio(
-                        appContext, song,
-                    )
-                val thumbnailPath =
-                    DownloadHelper.downloadImage(
-                        appContext,
-                        fullSong!!.thumbnailHref,
-                        song.youtubeId
-                    )
+            val audioPath = DownloadHelper.downloadAudio(appContext, song)
 
+            val thumbnailPath = DownloadHelper.downloadImage(
+                appContext,
+                fullSong.thumbnailHref,
+                song.youtubeId
+            )
 
-                val updatedSong = song.copy(
-                    thumbnailPath = thumbnailPath?.path,
-                    audioFilePath = audioPath,
-                )
-                UmihiNotificationManager.showSongDownloadSuccess(appContext, song)
-                localSongRepository.create(updatedSong)
-                Result.success()
-            } catch (_: CancellationException) {
-                printd("Song download canceled ${song.title}")
-                Result.failure()
-            } catch (e: Exception) {
-                UmihiNotificationManager.showSongDownloadFailed(
-                    appContext,
-                    song
-                )
-                printe(
-                    message = "Error downloading song: ${song.youtubeId}",
-                    exception = e
-                )
-                Result.failure()
-            }
+            val updatedSong = song.copy(
+                thumbnailPath = thumbnailPath?.path,
+                audioFilePath = audioPath,
+            )
+
+            localSongRepository.create(updatedSong)
+
+            UmihiNotificationManager.showSongDownloadSuccess(appContext, song)
+
+            Result.success()
+        } catch (_: CancellationException) {
+            printd("Song download canceled ${song.title}")
+            Result.failure()
+        } catch (e: Exception) {
+            UmihiNotificationManager.showSongDownloadFailed(appContext, song)
+
+            printe(
+                message = "Error downloading song: ${song.youtubeId}",
+                exception = e
+            )
+
+            Result.failure()
         }
     }
 
     companion object {
         const val PLAYLIST_KEY = "playlist"
         const val SONG_KEY = "song"
-        private val client = OkHttpClient()
     }
 }

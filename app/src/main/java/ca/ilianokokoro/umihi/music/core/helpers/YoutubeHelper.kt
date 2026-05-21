@@ -489,28 +489,41 @@ object YoutubeHelper {
         retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String {
         val service = ServiceList.YouTube
-
-        var attempts = 0
+        var lastError: Throwable? = null
 
         repeat(retries) { attempt ->
             try {
-                attempts++
-                val streamUrl = withContext(Dispatchers.IO) {
+                return withContext(Dispatchers.IO) {
                     val extractor = service.getStreamExtractor(song.youtubeUrl)
-                    extractor.fetchPage()
-                    extractor.audioStreams.maxBy { it.averageBitrate }.content
-                }
 
-                return streamUrl
-            } catch (e: Exception) {
+                    extractor.fetchPage()
+
+                    val bestAudioStream = extractor.audioStreams
+                        .filter { it.content.isNotBlank() }
+                        .maxByOrNull { it.averageBitrate }
+                        ?: error("No valid audio streams found")
+
+                    bestAudioStream.content
+                }
+            } catch (e: Throwable) {
+                lastError = e
+
                 printe(
-                    "Failed to get song ${song.youtubeId} from Youtube : Attempt -> $attempts/$retries : ${e.message}"
+                    "Failed to get song ${song.youtubeId} from YouTube: " +
+                            "Attempt ${attempt + 1}/$retries: " +
+                            "${e::class.simpleName}: ${e.message ?: "no message"}"
                 )
-                delay(Constants.YoutubeApi.RETRY_DELAY * (attempt + 1))
+
+                if (attempt < retries - 1) {
+                    delay(Constants.YoutubeApi.RETRY_DELAY * (attempt + 1))
+                }
             }
         }
 
-        throw Exception("Fatal fail for song ${song.youtubeId}. Could not get it after $attempts attempts")
+        throw Exception(
+            "Fatal fail for song ${song.youtubeId}. Could not get it after $retries attempts",
+            lastError
+        )
     }
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {
