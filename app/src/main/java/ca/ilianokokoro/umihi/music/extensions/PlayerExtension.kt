@@ -68,7 +68,8 @@ fun Player.getCurrentSong(): Song {
 }
 
 fun Player.removeSongFromQueue(song: Song) {
-    this.removeMediaItem(getQueue().indexOf(song))
+    val index = getQueue().indexOf(song)// TODO Fix crash
+    removeMediaItem(index)
 }
 
 private fun Player.playIfQueueCreated() {

@@ -189,92 +189,34 @@ class PlaybackService : MediaLibraryService() {
             return future
         }
 
-//        override fun onSetMediaItems(
-//            mediaSession: MediaSession,
-//            controller: MediaSession.ControllerInfo,
-//            mediaItems: MutableList<MediaItem>,
-//            startIndex: Int,
-//            startPositionMs: Long
-//        ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
-//            val future = SettableFuture.create<MediaSession.MediaItemsWithStartPosition>()
-//
-//            serviceScope.launch {
-//                try {
-//                    val resolvedItems = mediaItems.flatMap { item ->
-//                        when {
-//                            item.mediaId.startsWith(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX) -> {
-//                                val playlistId = item.mediaId
-//                                    .removePrefix(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX)
-//
-//                                val playlist = Playlist(
-//                                    PlaylistInfo(id = playlistId)
-//                                )
-//
-//                                val result = playlistRepository
-//                                    .retrieveOne(
-//                                        playlist,
-//                                        datastoreRepository.settings.first()
-//                                    )
-//                                    .first { it !is ApiResult.Loading }
-//
-//                                if (result is ApiResult.Success) {
-//                                    result.data.songs.map { song ->
-//                                        song.mediaItem
-//                                    }
-//                                } else {
-//                                    emptyList()
-//                                }
-//                            }
-//
-//                            else -> {
-//
-//                                val songId = item.mediaId
-//
-//                                val result = songRepository
-//                                    .getSongInfo(songId)
-//                                    .first { it !is ApiResult.Loading }
-//
-//                                if (result is ApiResult.Success) {
-//                                    val song = result.data
-//
-//                                    val url = YoutubeHelper.getSongPlayerUrl(
-//                                        this@PlaybackService,
-//                                        song,
-//                                        true
-//                                    )
-//
-//                                    listOf(
-//                                        song.mediaItem.buildUpon()
-//                                            .setUri(url)
-//                                            .build()
-//                                    )
-//                                } else {
-//                                    listOf()
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//
-//                    future.set(
-//                        MediaSession.MediaItemsWithStartPosition(
-//                            resolvedItems,
-//                            if (resolvedItems.isEmpty()) {
-//                                C.INDEX_UNSET
-//                            } else {
-//                                startIndex.coerceAtLeast(0)
-//                            },
-//                            startPositionMs.coerceAtLeast(0)
-//                        )
-//                    )
-//                } catch (ex: Exception) {
-//                    future.setException(ex)
-//                }
-//            }
-//
-//            return future
-//        }
+        override fun onSetMediaItems(
+            mediaSession: MediaSession,
+            controller: MediaSession.ControllerInfo,
+            mediaItems: MutableList<MediaItem>,
+            startIndex: Int,
+            startPositionMs: Long
+        ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
+            val future = SettableFuture.create<MediaSession.MediaItemsWithStartPosition>()
 
+            UmihiHelper.printd("onSetMediaItems")
+
+            mediaItems.forEach {
+                UmihiHelper.printd("${it.mediaId} : ${it.mediaMetadata.title}")
+            }
+
+            future.set(
+                MediaSession.MediaItemsWithStartPosition(
+                    mediaItems,
+                    if (mediaItems.isEmpty()) {
+                        C.INDEX_UNSET
+                    } else {
+                        startIndex.coerceAtLeast(0)
+                    },
+                    startPositionMs.coerceAtLeast(0)
+                )
+            )
+            return future
+        }
     }
 
     override fun onCreate() {
