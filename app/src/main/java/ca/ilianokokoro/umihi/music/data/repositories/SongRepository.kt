@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.datasources.SongDataSource
+import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,7 @@ class SongRepository {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(songDataSource.search(query)))
         }.catch { e ->
-            emit(ApiResult.Error(Exception(e.cause)))
+            emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -26,7 +27,7 @@ class SongRepository {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(songDataSource.getSongInfo(songId)))
         }.catch { e ->
-            emit(ApiResult.Error(Exception(e.cause)))
+            emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
 }

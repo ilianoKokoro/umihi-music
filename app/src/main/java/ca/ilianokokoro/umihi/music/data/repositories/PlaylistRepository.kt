@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
+import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
@@ -19,7 +20,7 @@ class PlaylistRepository {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(playlistDataSource.retrieveAll(settings)))
         }.catch { e ->
-            emit(ApiResult.Error(Exception(e.cause)))
+            emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -31,7 +32,7 @@ class PlaylistRepository {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(playlistDataSource.retrieveOne(playlist, settings)))
         }.catch { e ->
-            emit(ApiResult.Error(Exception(e.cause)))
+            emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -56,7 +57,7 @@ class PlaylistRepository {
                 )
             )
         }.catch { e ->
-            emit(ApiResult.Error(Exception(e.cause)))
+            emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
 }

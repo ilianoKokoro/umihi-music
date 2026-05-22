@@ -24,7 +24,6 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
-import ca.ilianokokoro.umihi.music.models.Song
 
 
 @Composable
@@ -79,6 +78,7 @@ fun MiniPlayerWrapper(
         onDispose { player?.removeListener(listener) }
     }
 
+
     AnimatedVisibility(
         visible = currentSong != null && showMiniPlayer,
         enter = slideInVertically(initialOffsetY = { it + bottomInset }),
@@ -88,8 +88,9 @@ fun MiniPlayerWrapper(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .height(Constants.Ui.MiniPlayer.HEIGHT)
     ) {
+        val song = currentSong ?: return@AnimatedVisibility
         MiniPlayer(
-            currentSong = currentSong as Song,
+            currentSong = song,
             onClick = onMiniPlayerPressed,
             onPlayPause = {
                 if (player?.isPlaying == true) {
