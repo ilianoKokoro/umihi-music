@@ -72,8 +72,8 @@ fun PlayerScreen(
     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column(
             modifier = modifier
-                .padding(8.dp)
                 .fillMaxSize()
+                .padding(16.dp)
                 .background(MaterialTheme.colorScheme.background),
 
             horizontalAlignment = Alignment.CenterHorizontally

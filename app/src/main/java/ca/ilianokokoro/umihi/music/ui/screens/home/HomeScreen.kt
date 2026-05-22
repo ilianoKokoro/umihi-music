@@ -6,11 +6,15 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -40,6 +44,8 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -96,6 +102,7 @@ fun HomeScreen(
                         onRefresh = homeViewModel::refreshPlaylists
                     ) {
                         LazyVerticalGrid(
+
                             modifier = Modifier.fillMaxSize(),
                             columns = GridCells.Adaptive(minSize = 150.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -105,19 +112,22 @@ fun HomeScreen(
                             )
 
                         ) {
-//                            item(
-//                                span = {
-//                                    GridItemSpan(maxLineSpan)
-//                                }
-//                            ) {
-//                                FilledTonalButton(
-//                                    onClick = { createPlaylistOpen = true },
-//                                    shapes = ButtonDefaults.shapes()
-//                                ) {
-//                                    Text(stringResource(R.string.create_playlist))
-//
-//                                }
-//                            }
+                            item(
+                                span = {
+                                    GridItemSpan(maxLineSpan)
+                                }
+                            ) {
+                                Row(horizontalArrangement = Arrangement.End) {
+                                    MaterialUButton(
+                                        text = stringResource(R.string.create_playlist),
+                                        variant = MaterialUButtonVariant.Tonal,
+                                        icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                                        onClick = {
+                                            createPlaylistOpen = true
+                                        }
+                                    )
+                                }
+                            }
                             itemsIndexed(
                                 items = playlists,
                                 key = { index, playlist ->

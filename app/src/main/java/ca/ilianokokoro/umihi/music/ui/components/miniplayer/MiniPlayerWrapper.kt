@@ -24,6 +24,7 @@ import androidx.media3.common.Player
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
+import ca.ilianokokoro.umihi.music.models.Song
 
 
 @Composable
@@ -88,7 +89,7 @@ fun MiniPlayerWrapper(
             .height(Constants.Ui.MiniPlayer.HEIGHT)
     ) {
         MiniPlayer(
-            currentSong = currentSong!!,
+            currentSong = currentSong as Song,
             onClick = onMiniPlayerPressed,
             onPlayPause = {
                 if (player?.isPlaying == true) {

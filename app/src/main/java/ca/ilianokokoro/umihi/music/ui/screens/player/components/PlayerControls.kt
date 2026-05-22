@@ -61,7 +61,8 @@ fun PlayerControls(
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -79,12 +80,12 @@ fun PlayerControls(
                 onUpdateSeekBarHeldState(false)
             },
 
-            modifier = modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = 10.dp)
         )
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp)
         ) {
@@ -152,7 +153,7 @@ fun PlayerControls(
                             shapes = IconButtonDefaults.toggleableShapes()
                                 .copy(checkedShape = IconButtonDefaults.shapes().shape),
                             interactionSource = mainButtonsControlsInteractionSources[1],
-                            modifier = modifier
+                            modifier = Modifier
                                 .weight(3f)
                                 .size(IconButtonDefaults.largeContainerSize(IconButtonDefaults.IconButtonWidthOption.Wide))
                                 .animateWidth(interactionSource = mainButtonsControlsInteractionSources[1])
@@ -170,7 +171,7 @@ fun PlayerControls(
                                 Icon(
                                     imageVector = icon,
                                     contentDescription = icon.name,
-                                    modifier = modifier.size(30.dp)
+                                    modifier = Modifier.size(30.dp)
                                 )
                             }
 
