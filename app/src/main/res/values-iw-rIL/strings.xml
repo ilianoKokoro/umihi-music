@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="playlists">Playlists</string>
+    <string name="playlists">פלייליסטים</string>
     <string name="settings">הגדרות</string>
     <string name="back_description">Previous screen</string>
-    <string name="no_playlists">No playlists found</string>
+    <string name="no_playlists">לא נמצאו פלייליסטים</string>
     <string name="log_in_message">Please Log in to your YouTube account to use the app</string>
     <string name="playlist_cover">Playlist cover</string>
     <string name="log_in">Log In</string>
     <string name="empty_playlist">No songs in the playlist</string>
     <string name="play">Play</string>
     <string name="shuffle">Shuffle</string>
-    <string name="songs">%1$d songs</string>
+    <string name="songs">%1$d שירים</string>
     <string name="pause">Pause</string>
     <string name="error">שגיאה</string>
     <string name="previous">Previous</string>
-    <string name="next">Next</string>
+    <string name="next">הבא</string>
     <string name="queue">Queue</string>
     <string name="error_screen_title">An error occurred</string>
     <string name="restart_application">Restart Application</string>
@@ -26,7 +26,7 @@
     <string name="view_details">View Details</string>
     <string name="error_log">Error Log</string>
     <string name="login_success">Login success</string>
-    <string name="download">Download</string>
+    <string name="download">הורדה</string>
     <string name="open_settings">Open Settings</string>
     <string name="more">more</string>
     <string name="join_discord_server">Join the Discord server</string>
@@ -46,10 +46,10 @@
     <string name="dismiss">Dismiss</string>
     <string name="open">Open</string>
     <string name="log_out">Log Out</string>
-    <string name="data_and_storage"><![CDATA[Data & Storage]]></string>
+    <string name="data_and_storage"><![CDATA[נתונים ואחסון]]></string>
     <string name="app_info">App Info</string>
     <string name="check_for_updates">Check for updates</string>
-    <string name="current_version">Current version : %1$s</string>
+    <string name="current_version">גרסה נוכחית : %1$s</string>
     <string name="delete_downloads">Delete all downloads</string>
     <string name="clear_login_info">Clear login info</string>
     <string name="logged_in_message">You are logged in to your YouTube account</string>
@@ -72,7 +72,7 @@
     <string name="beta_update_available">Beta Update Available</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
-    <string name="no_results">No Results</string>
+    <string name="no_results">לא נמצאו תוצאות</string>
     <string name="get_song_failed">Failed to get Song Information</string>
     <string name="queue_empty">No songs in the queue</string>
     <string name="cancel_playlist_download">Cancel Playlist Download</string>
@@ -101,7 +101,7 @@
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
     <string name="visibility">Visibility\n</string>
-    <string name="privacy_unlisted">Unlisted</string>
-    <string name="privacy_public">Public</string>
-    <string name="privacy_private">Private</string>
+    <string name="privacy_unlisted">לא רשום</string>
+    <string name="privacy_public">ציבורי</string>
+    <string name="privacy_private">פרטי</string>
 </resources>
