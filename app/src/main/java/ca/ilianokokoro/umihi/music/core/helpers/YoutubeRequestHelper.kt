@@ -8,6 +8,7 @@ import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -69,11 +70,17 @@ object YoutubeRequestHelper {
         )
     }
 
-    fun getPlayerInfo(videoId: String): String {
+    fun getPlayerInfo(
+        videoId: String,
+        client: JsonObject? = null,
+        visitorData: String? = null
+    ): String {
         return requestWithContext(
             url = Constants.YoutubeApi.PlayerInfo.URL,
             idName = "videoId",
-            id = videoId
+            id = videoId,
+            client = client,
+            visitorData = visitorData
         )
     }
 
@@ -88,10 +95,16 @@ object YoutubeRequestHelper {
     private fun requestWithBody(
         url: String,
         body: Any,
-        settings: UmihiSettings? = null
+        settings: UmihiSettings? = null,
+        client: JsonObject? = null,
+        visitorData: String? = null
     ): String {
         val headers = if (settings != null) {
-            YoutubeAuthHelper.getHeaders(settings.cookies)
+            YoutubeAuthHelper.getHeaders(settings.cookies, visitorData, client)
+        } else if (visitorData != null) {
+            mapOf(
+                "X-Goog-Visitor-Id" to visitorData
+            )
         } else {
             mapOf()
         }
@@ -111,14 +124,24 @@ object YoutubeRequestHelper {
         url: String,
         idName: String,
         id: String,
-        settings: UmihiSettings? = null
+        settings: UmihiSettings? = null,
+        client: JsonObject? = null,
+        visitorData: String? = null
     ): String {
-        val body = YoutubeAuthHelper.buildContextBody(idName, id, settings)
+        val body = YoutubeAuthHelper.buildContextBody(
+            idName,
+            id,
+            settings,
+            client,
+            visitorData
+        )
 
         return requestWithBody(
             url = url,
             body = body,
-            settings = settings
+            settings = settings,
+            client = client,
+            visitorData = visitorData
         )
     }
 }

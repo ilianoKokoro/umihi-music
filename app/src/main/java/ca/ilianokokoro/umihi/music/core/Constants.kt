@@ -164,7 +164,11 @@ object Constants {
         object Browse {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
-            val CLIENT =
+
+        }
+
+        object Client {
+            val WEB_REMIX =
                 buildJsonObject {
                     put("clientName", JsonPrimitive("WEB_REMIX"))
                     put("clientVersion", JsonPrimitive("1.20250212.01.00"))
@@ -174,6 +178,29 @@ object Constants {
                     )
                     put("xClientName", JsonPrimitive(1))
                 }
+
+            val ANDROID_VR = buildJsonObject {
+                put("clientName", JsonPrimitive("ANDROID_VR"))
+                put("clientVersion", JsonPrimitive("1.61.48"))
+                put("clientId", JsonPrimitive("28"))
+                put(
+                    "userAgent",
+                    JsonPrimitive(
+                        "com.google.android.apps.youtube.vr.oculus/1.61.48 (Linux; U; Android 12; en_US; Quest 3; Build/SQ3A.220605.009.A1; Cronet/132.0.6808.3)"
+                    )
+                )
+                put("osName", JsonPrimitive("Android"))
+                put("osVersion", JsonPrimitive("12"))
+                put("deviceMake", JsonPrimitive("Oculus"))
+                put("deviceModel", JsonPrimitive("Quest 3"))
+                put("androidSdkVersion", JsonPrimitive("32"))
+                put("buildId", JsonPrimitive("SQ3A.220605.009.A1"))
+                put("cronetVersion", JsonPrimitive("132.0.6808.3"))
+                put(
+                    "packageName",
+                    JsonPrimitive("com.google.android.apps.youtube.vr.oculus")
+                )
+            }
         }
 
         object Create {

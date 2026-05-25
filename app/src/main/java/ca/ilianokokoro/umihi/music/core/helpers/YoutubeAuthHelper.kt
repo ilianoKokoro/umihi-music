@@ -8,40 +8,55 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.put
 import java.security.MessageDigest
 import kotlin.text.Charsets.UTF_8
 
 object YoutubeAuthHelper {
 
-    fun buildContextBody(idName: String?, id: String?, settings: UmihiSettings?): JsonObject {
+    fun buildContextBody(
+        idName: String?,
+        id: String?,
+        settings: UmihiSettings?,
+        client: JsonObject? = null,
+        visitorData: String? = null,
+    ): JsonObject {
+        val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
+
         return buildJsonObject {
             val user = buildJsonObject {
                 put("lockedSafetyMode", JsonPrimitive(false))
-                if (settings != null) {
-                    put("onBehalfOfUser", settings.dataSyncId)
+
+                settings?.dataSyncId?.let {
+                    put("onBehalfOfUser", JsonPrimitive(it))
                 }
             }
 
             val context = buildJsonObject {
-                put("client", Constants.YoutubeApi.Browse.CLIENT)
+                put("client", clientToUse)
                 put("user", user)
+
+                visitorData?.let {
+                    put("visitorData", JsonPrimitive(it))
+                }
             }
-            put(
-                "context",
-                context
-            )
+
+            put("context", context)
+
             if (idName != null) {
-                put(idName, id)
+                put(idName, JsonPrimitive(id))
+
                 if (idName == "query") {
-                    put("params", Constants.YoutubeApi.Search.FILTER)
+                    put("params", JsonPrimitive(Constants.YoutubeApi.Search.FILTER))
                 }
             }
         }
     }
 
-    fun getHeaders(cookies: Cookies): Map<String, Any> {
-        val client = Constants.YoutubeApi.Browse.CLIENT["client"]?.jsonObject
+    fun getHeaders(
+        cookies: Cookies? = null,
+        visitorData: String? = null,
+        client: JsonObject? = Constants.YoutubeApi.Client.WEB_REMIX
+    ): Map<String, Any> {
         val headers = mutableMapOf(
             "Content-Type" to "application/json",
             "Origin" to Constants.YoutubeApi.ORIGIN,
@@ -50,16 +65,21 @@ object YoutubeAuthHelper {
             "X-Origin" to Constants.YoutubeApi.ORIGIN,
             "X-YouTube-Client-Version" to client?.jsonObject["clientVersion"]?.jsonPrimitive.toString(),
             "X-YouTube-Client-Name" to client?.jsonObject["xClientName"]?.jsonPrimitive.toString(),
-            "Cookie" to cookies.toRawCookie(),
             "User-Agent" to client?.jsonObject["userAgent"]?.jsonPrimitive.toString()
         )
 
-        val cookieMap = cookies.data
-        val sapisidCookie = cookieMap["SAPISID"] ?: cookieMap["__Secure-3PAPISID"]
-        if (sapisidCookie != null) {
-            headers["Authorization"] = generateSapisidHash(sapisidCookie)
+        visitorData?.let {
+            headers["X-Goog-Visitor-Id"] = it
         }
 
+        if (cookies != null) {
+            headers["Cookie"] = cookies.toRawCookie()
+            val cookieMap = cookies.data
+            val sapisidCookie = cookieMap["SAPISID"] ?: cookieMap["__Secure-3PAPISID"]
+            if (sapisidCookie != null) {
+                headers["Authorization"] = generateSapisidHash(sapisidCookie)
+            }
+        }
         return headers
     }
 

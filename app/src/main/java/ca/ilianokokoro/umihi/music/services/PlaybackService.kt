@@ -200,10 +200,6 @@ class PlaybackService : MediaLibraryService() {
 
             UmihiHelper.printd("onSetMediaItems")
 
-            mediaItems.forEach {
-                UmihiHelper.printd("${it.mediaId} : ${it.mediaMetadata.title}")
-            }
-
             future.set(
                 MediaSession.MediaItemsWithStartPosition(
                     mediaItems,
@@ -366,7 +362,7 @@ class PlaybackService : MediaLibraryService() {
                             }
 
                             is ApiResult.Error -> {
-                                error("ApiResult.Error was null")
+                                error("Request to YouTube failed")
                             }
 
                             else -> {}

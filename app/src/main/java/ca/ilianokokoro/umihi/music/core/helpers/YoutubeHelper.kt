@@ -19,6 +19,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -29,6 +30,7 @@ import java.util.Locale
 
 object YoutubeHelper {
     private val client = OkHttpClient()
+    private var visitorData: String? = null
 
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
@@ -488,29 +490,23 @@ object YoutubeHelper {
         song: Song,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String {
-        val service = ServiceList.YouTube
         var lastError: Throwable? = null
 
+        val fastUrl = resolveAndroidVrStreamUrl(song.youtubeId)
+
+        if (fastUrl != null) return fastUrl
+
+        printd("${song.youtubeId} : Falling back to NewPipe")
         repeat(retries) { attempt ->
             try {
                 return withContext(Dispatchers.IO) {
-                    val extractor = service.getStreamExtractor(song.youtubeUrl)
-
-                    extractor.fetchPage()
-
-                    val bestAudioStream = extractor.audioStreams
-                        .filter { it.content.isNotBlank() }
-                        .maxByOrNull { it.averageBitrate }
-                        ?: error("No valid audio streams found")
-
-                    bestAudioStream.content
+                    resolveNewPipeStreamUrl(song)
                 }
             } catch (e: Throwable) {
                 lastError = e
 
                 printe(
-                    "Failed to get song ${song.youtubeId} from YouTube: " +
-                            "Attempt ${attempt + 1}/$retries: " +
+                    "${song.youtubeId} : Failed attempt ${attempt + 1}/$retries with NewPipe: " +
                             "${e::class.simpleName}: ${e.message ?: "no message"}"
                 )
 
@@ -521,9 +517,119 @@ object YoutubeHelper {
         }
 
         throw Exception(
-            "Fatal fail for song ${song.youtubeId}. Could not get it after $retries attempts",
+            "${song.youtubeId} : Fatal fail. Could not get it after $retries attempts",
             lastError
         )
+    }
+
+    private suspend fun resolveAndroidVrStreamUrl(
+        videoId: String,
+        retries: Int = Constants.YoutubeApi.RETRY_COUNT,
+    ): String? = withContext(Dispatchers.IO) {
+        fun executeRequest(): String? {
+            val response = YoutubeRequestHelper.getPlayerInfo(
+                videoId = videoId,
+                client = Constants.YoutubeApi.Client.ANDROID_VR,
+                visitorData = visitorData,
+            )
+
+            return extractStreamFromAndroidVrResponse(response)
+        }
+
+        repeat(retries) { attempt ->
+            val previousVisitorData = visitorData
+
+            executeRequest()?.let {
+                return@withContext it
+            }
+
+            val visitorDataUpdated =
+                previousVisitorData != visitorData
+
+            val isLastAttempt =
+                attempt >= retries - 1
+
+            if (!visitorDataUpdated || isLastAttempt) {
+                return@repeat
+            }
+
+            printd(
+                "Retrying ANDROID_VR with updated visitorData " +
+                        "(${attempt + 1}/$retries)"
+            )
+        }
+
+        null
+    }
+
+    private fun resolveNewPipeStreamUrl(song: Song): String {
+        val service = ServiceList.YouTube
+        val extractor = service.getStreamExtractor(song.youtubeUrl)
+
+        extractor.fetchPage()
+
+        val bestAudioStream = extractor.audioStreams
+            .filter { it.content.isNotBlank() }
+            .maxByOrNull { it.averageBitrate }
+            ?: error("No valid audio streams found")
+
+        return bestAudioStream.content
+    }
+
+    private fun extractStreamFromAndroidVrResponse(
+        text: String,
+    ): String? {
+        val root = Json.parseToJsonElement(text).jsonObject
+
+        val visitorData = root["responseContext"]
+            ?.jsonObject
+            ?.get("visitorData")
+            ?.jsonPrimitive
+            ?.contentOrNull
+
+        if (YoutubeHelper.visitorData == null) {
+            YoutubeHelper.visitorData = visitorData
+        }
+
+        val status = root["playabilityStatus"]
+            ?.jsonObject
+            ?.get("status")
+            ?.jsonPrimitive
+            ?.contentOrNull
+
+        val reason = root["playabilityStatus"]
+            ?.jsonObject
+            ?.get("reason")
+            ?.jsonPrimitive
+            ?.contentOrNull
+
+        val directUrl = root["streamingData"]
+            ?.jsonObject
+            ?.get("adaptiveFormats")
+            ?.jsonArray
+            ?.asSequence()
+            ?.map { it.jsonObject }
+            ?.filter {
+                it["url"]?.jsonPrimitive?.contentOrNull?.isNotBlank() == true
+            }
+            ?.filter {
+                it["mimeType"]
+                    ?.jsonPrimitive
+                    ?.contentOrNull
+                    ?.startsWith("audio/", ignoreCase = true) == true
+            }
+            ?.maxByOrNull {
+                it["bitrate"]?.jsonPrimitive?.intOrNull ?: 0
+            }
+            ?.get("url")
+            ?.jsonPrimitive
+            ?.contentOrNull
+
+        if (reason != null) {
+            printe("ANDROID_VR Failed ($status). Reason : $reason ")
+        }
+
+        return directUrl
     }
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {

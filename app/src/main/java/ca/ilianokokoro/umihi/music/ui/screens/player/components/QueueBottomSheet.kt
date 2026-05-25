@@ -49,7 +49,7 @@ fun QueueBottomSheet(
 
     var mutableSongList by remember(songs) { mutableStateOf(songs) }
     var startIndex by remember { mutableIntStateOf(0) }
-    
+
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         mutableSongList = mutableSongList.toMutableList().apply {
@@ -59,7 +59,7 @@ fun QueueBottomSheet(
         hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
     }
 
-    LaunchedEffect(null) {
+    LaunchedEffect(Unit) {
         this.launch {
             val indexToScroll =
                 PlayerManager.currentController?.currentMediaItemIndex ?: return@launch
