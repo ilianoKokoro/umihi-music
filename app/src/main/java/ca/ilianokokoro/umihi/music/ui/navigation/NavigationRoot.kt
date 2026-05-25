@@ -66,35 +66,49 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         ,
         topBar = {
 
-            TopAppBar(
-                //   scrollBehavior = scrollBehavior,
-                title = {
-                    val hasTitle = screenConfig.titleId != 0 || screenConfig.title.isNotBlank()
+            AnimatedVisibility(
+                visible = screenConfig.showTopBar,
+                enter = slideInVertically { it } + fadeIn(),
+                exit = slideOutVertically { it } + fadeOut()
+            ) {
+                TopAppBar(
+                    //   scrollBehavior = scrollBehavior,
+                    title = {
+                        val hasTitle = screenConfig.titleId != 0 || screenConfig.title.isNotBlank()
 
-                    AnimatedVisibility(
-                        visible = hasTitle,
-                        enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
-                        exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
-                    ) {
-                        when {
-                            screenConfig.titleId != 0 ->
-                                Text(stringResource(screenConfig.titleId))
+                        AnimatedVisibility(
+                            visible = hasTitle,
+                            enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
+                            exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
+                        ) {
+                            when {
+                                screenConfig.titleId != 0 ->
+                                    Text(stringResource(screenConfig.titleId))
 
-                            screenConfig.title.isNotBlank() ->
-                                Text(screenConfig.title)
+                                screenConfig.title.isNotBlank() ->
+                                    Text(screenConfig.title)
+                            }
+                        }
+                    },
+                    navigationIcon = {
+                        if (screenConfig.showBack) {
+                            BackButton(onBack = backStack::safePop)
                         }
                     }
-                },
-                navigationIcon = {
-                    if (screenConfig.showBack) {
-                        BackButton(onBack = backStack::safePop)
-                    }
-                }
-            )
+                )
+            }
+
         },
         bottomBar = {
+
+            val columnModifier = if (screenConfig.showBottomBar) {
+                Modifier
+            } else {
+                Modifier.windowInsetsPadding(WindowInsets.navigationBars)
+            }
+
             Column(
-                modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)
+                modifier = columnModifier
             ) {
                 MiniPlayerWrapper(
                     showMiniPlayer = screenConfig.showMiniPlayer,

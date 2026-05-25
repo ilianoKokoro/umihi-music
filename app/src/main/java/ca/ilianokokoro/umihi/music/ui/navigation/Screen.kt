@@ -32,6 +32,7 @@ data class ScreenUiConfig(
     @param:StringRes val titleId: Int = 0,
     val showBack: Boolean = false,
     val showBottomBar: Boolean = true,
+    val showTopBar: Boolean = true,
     val showMiniPlayer: Boolean = true,
     val selectedTab: NavKey? = null
 )
@@ -51,6 +52,7 @@ fun rememberScreenUiConfig(current: NavKey): ScreenUiConfig {
                 titleId = R.string.search,
                 showBack = false,
                 showBottomBar = true,
+                showTopBar = false,
                 selectedTab = SearchScreenKey
             )
 
@@ -68,9 +70,9 @@ fun rememberScreenUiConfig(current: NavKey): ScreenUiConfig {
             )
 
             PlayerScreenKey -> ScreenUiConfig(
-                showBack = true,
                 showBottomBar = false,
-                showMiniPlayer = false
+                showMiniPlayer = false,
+                showTopBar = false
             )
 
             AuthScreenKey -> ScreenUiConfig(

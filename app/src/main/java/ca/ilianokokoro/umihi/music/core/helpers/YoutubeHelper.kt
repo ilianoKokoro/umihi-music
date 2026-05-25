@@ -30,7 +30,7 @@ import java.util.Locale
 
 object YoutubeHelper {
     private val client = OkHttpClient()
-    private var visitorData: String? = null
+    private var visitorData: String? = null // TODO use safer and more global value
 
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
