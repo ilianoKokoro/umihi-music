@@ -16,7 +16,6 @@ import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.getQueue
-import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,8 +26,6 @@ class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
-
-    private var lastUpdatedSongIndex: Int = -1
 
     init {
         PlayerManager.currentController?.addListener(object : Player.Listener {
@@ -104,35 +101,29 @@ class PlayerViewModel(application: Application) :
         }
     }
 
-    private val currentSong: Song?
-        get() = _uiState.value.queue.getOrNull(_uiState.value.currentIndex)
-
-
     private fun updateCurrentSong() {
-        val newIndex = PlayerManager.currentController?.currentMediaItemIndex ?: return
-        if (newIndex == lastUpdatedSongIndex) {
-            return
+        val controller = PlayerManager.currentController ?: return
+
+        _uiState.update { state ->
+            state.copy(
+                currentIndex = controller.currentMediaItemIndex,
+                queue = controller.getQueue(),
+                playbackProgress = PlaybackProgress(
+                    duration = 0f,
+                    position = 0f,
+                )
+            )
         }
-        lastUpdatedSongIndex = newIndex
-
-
-        viewModelScope.launch {
-            resetState()
-            updateQueue()
-        }
-
     }
 
     private fun updateQueue() {
         val controller = PlayerManager.currentController ?: return
 
-        viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    currentIndex = controller.currentMediaItemIndex,
-                    queue = controller.getQueue(),
-                )
-            }
+        _uiState.update { state ->
+            state.copy(
+                currentIndex = controller.currentMediaItemIndex,
+                queue = controller.getQueue()
+            )
         }
     }
 
@@ -220,19 +211,6 @@ class PlayerViewModel(application: Application) :
         }
     }
 
-
-    private fun resetState() {
-        viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    playbackProgress = PlaybackProgress(
-                        duration = 0f,
-                        position = 0f,
-                    ),
-                )
-            }
-        }
-    }
 
     private fun updateThumbnail(newUri: Uri) {
         _uiState.update { state ->

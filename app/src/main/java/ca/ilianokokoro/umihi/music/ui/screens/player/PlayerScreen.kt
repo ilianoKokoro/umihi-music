@@ -73,7 +73,7 @@ fun PlayerScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(8.dp)
                 .background(MaterialTheme.colorScheme.background),
 
             horizontalAlignment = Alignment.CenterHorizontally
@@ -151,12 +151,11 @@ fun PlayerScreen(
     }
 
 
-    // Queue
     if (uiState.isQueueModalShown) {
         QueueBottomSheet(
             changeVisibility = { playerViewModel.setQueueVisibility(it) },
-            currentSong = uiState.queue.getOrNull(uiState.currentIndex),
-            songs = uiState.queue
+            songs = uiState.queue,
+            currentIndex = uiState.currentIndex
         )
     }
 }

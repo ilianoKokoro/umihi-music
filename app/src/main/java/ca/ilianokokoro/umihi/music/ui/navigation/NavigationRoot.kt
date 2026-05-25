@@ -93,19 +93,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             )
         },
         bottomBar = {
-            Column {
-                val miniPlayerModifier = if (screenConfig.showBottomBar) {
-                    Modifier.fillMaxWidth()
-                } else {
-                    Modifier
-                        .fillMaxWidth()
-                        .windowInsetsPadding(WindowInsets.navigationBars)
-                }
-
+            Column(
+                modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)
+            ) {
                 MiniPlayerWrapper(
                     showMiniPlayer = screenConfig.showMiniPlayer,
                     onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
-                    modifier = miniPlayerModifier
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 AnimatedVisibility(
@@ -113,8 +107,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     enter = slideInVertically { it } + fadeIn(),
                     exit = slideOutVertically { it } + fadeOut()
                 ) {
-
-
                     BottomNavigationBar(
                         currentTab = screenConfig.selectedTab,
                         onTabSelected = { key ->

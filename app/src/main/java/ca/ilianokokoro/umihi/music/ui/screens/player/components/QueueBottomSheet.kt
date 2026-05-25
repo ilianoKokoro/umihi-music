@@ -31,7 +31,6 @@ import androidx.media3.common.C
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.extensions.removeSongFromQueue
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
 import kotlinx.coroutines.launch
@@ -42,15 +41,15 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
-    currentSong: Song?,
     songs: List<Song>,
+    currentIndex: Int,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    var mutableSongList by remember { mutableStateOf(songs) }
+    var mutableSongList by remember(songs) { mutableStateOf(songs) }
     var startIndex by remember { mutableIntStateOf(0) }
-
+    
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         mutableSongList = mutableSongList.toMutableList().apply {
@@ -62,10 +61,8 @@ fun QueueBottomSheet(
 
     LaunchedEffect(null) {
         this.launch {
-            val indexToScroll = songs.indexOf(currentSong)
-            if (indexToScroll < 0) {
-                return@launch
-            }
+            val indexToScroll =
+                PlayerManager.currentController?.currentMediaItemIndex ?: return@launch
 
             lazyListState.animateScrollToItem(index = indexToScroll)
         }
@@ -120,21 +117,20 @@ fun QueueBottomSheet(
                         ) { _ ->
                             QueueSongListItem(
                                 song = song,
-                                isCurrentSong = currentSong == song,
+                                isCurrentSong = song.uid == songs.getOrNull(currentIndex)?.uid,
                                 onPress = {
                                     PlayerManager.currentController?.seekTo(index, C.TIME_UNSET)
                                 },
                                 scope = this,
-                                onDragStarted =
-                                    {
-                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                        startIndex = mutableSongList.indexOf(song)
-                                    },
+                                onDragStarted = {
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                    startIndex = mutableSongList.indexOf(song)
+                                },
                                 onDelete = {
                                     mutableSongList = mutableSongList.toMutableList().apply {
                                         removeAt(index)
                                     }
-                                    PlayerManager.currentController?.removeSongFromQueue(song)
+                                    PlayerManager.currentController?.removeMediaItem(index)
                                 },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
