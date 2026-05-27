@@ -19,16 +19,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
@@ -39,7 +35,6 @@ import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
-import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.home.HomeScreen
@@ -49,56 +44,19 @@ import ca.ilianokokoro.umihi.music.ui.screens.search.SearchScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
-    //  val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-        // .nestedScroll(scrollBehavior.nestedScrollConnection)
-        ,
-        topBar = {
+            .background(MaterialTheme.colorScheme.background),
+        contentWindowInsets = WindowInsets(0),
 
-            AnimatedVisibility(
-                visible = screenConfig.showTopBar,
-                enter = slideInVertically { it } + fadeIn(),
-                exit = slideOutVertically { it } + fadeOut()
-            ) {
-                TopAppBar(
-                    //   scrollBehavior = scrollBehavior,
-                    title = {
-                        val hasTitle = screenConfig.titleId != 0 || screenConfig.title.isNotBlank()
-
-                        AnimatedVisibility(
-                            visible = hasTitle,
-                            enter = fadeIn(tween(Constants.Animation.NAVIGATION_DURATION)),
-                            exit = fadeOut(tween(Constants.Animation.NAVIGATION_DURATION))
-                        ) {
-                            when {
-                                screenConfig.titleId != 0 ->
-                                    Text(stringResource(screenConfig.titleId))
-
-                                screenConfig.title.isNotBlank() ->
-                                    Text(screenConfig.title)
-                            }
-                        }
-                    },
-                    navigationIcon = {
-                        if (screenConfig.showBack) {
-                            BackButton(onBack = backStack::safePop)
-                        }
-                    }
-                )
-            }
-
-        },
         bottomBar = {
 
             val columnModifier = if (screenConfig.showBottomBar) {

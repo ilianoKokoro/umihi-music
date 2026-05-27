@@ -1,7 +1,9 @@
 package ca.ilianokokoro.umihi.music.models
 
+import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
 
+@Immutable
 data class UmihiSettings(
     val updateChannel: UpdateChannel = UpdateChannel.Stable,
     val cookies: Cookies,

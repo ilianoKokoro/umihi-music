@@ -44,6 +44,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerControls(
+    modifier: Modifier = Modifier,
     isPlaying: Boolean,
     isLoading: Boolean,
     progress: PlaybackProgress,
@@ -51,7 +52,6 @@ fun PlayerControls(
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
     onOpenQueue: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }

@@ -22,7 +22,6 @@ import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -45,7 +44,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSetting
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 @Composable
 fun SettingsScreen(
     openAuthScreen: () -> Unit,
@@ -120,7 +119,7 @@ fun SettingsScreen(
                         onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    
+
                     BooleanSettingItem(
                         title = stringResource(R.string.keep_screen_on_title),
                         subtitle = stringResource(R.string.keep_screen_on_title_description),

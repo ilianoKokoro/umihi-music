@@ -10,7 +10,6 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -26,7 +25,7 @@ import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 @Composable
 fun UpdateChannelDialog(
     selectedOption: UpdateChannel,

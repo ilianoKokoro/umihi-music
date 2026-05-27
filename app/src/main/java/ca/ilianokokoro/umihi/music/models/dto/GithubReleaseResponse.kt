@@ -1,10 +1,12 @@
 package ca.ilianokokoro.umihi.music.models.dto
 
+import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getBulletPointsFromMarkdown
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 data class GithubReleaseResponse(
     @SerialName("tag_name")

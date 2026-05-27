@@ -1,5 +1,9 @@
 package ca.ilianokokoro.umihi.music.models
 
+import androidx.compose.runtime.Immutable
+
+
+@Immutable
 data class Cookies(val raw: String = String()) {
     val data: Map<String, String> by lazy {
         raw.split(";")

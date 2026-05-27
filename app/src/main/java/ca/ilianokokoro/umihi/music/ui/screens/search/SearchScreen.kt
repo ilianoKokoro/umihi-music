@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,7 +38,7 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.screens.search.components.SearchBar
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 @Composable
 fun SearchScreen(
     application: Application,
@@ -59,85 +59,86 @@ fun SearchScreen(
             focusRequester.requestFocus()
         }
     }
+    Scaffold { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (uiState.screenState is ScreenState.Error) {
+                ErrorMessage(
+                    ex = uiState.screenState.exception,
+                    onRetry = searchViewModel::search
+                )
+            } else {
+                SearchBar(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                        .fillMaxWidth(),
+                    value = uiState.search,
+                    onValueChange = {
+                        searchViewModel.onSearchFieldChange(it)
+                    },
+                    onSearch = {
+                        searchViewModel.search()
+                    },
+                    focusManager = focusManager,
+                    focusRequester = focusRequester,
+                )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        if (uiState.screenState is ScreenState.Error) {
-            ErrorMessage(
-                ex = uiState.screenState.exception,
-                onRetry = searchViewModel::search
-            )
-        } else {
-            SearchBar(
-                modifier = Modifier
-                    .focusRequester(focusRequester)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                    .fillMaxWidth(),
-                value = uiState.search,
-                onValueChange = {
-                    searchViewModel.onSearchFieldChange(it)
-                },
-                onSearch = {
-                    searchViewModel.search()
-                },
-                focusManager = focusManager,
-                focusRequester = focusRequester,
-            )
+                when (uiState.screenState) {
+                    ScreenState.Loading -> {
+                        LoadingAnimation()
+                    }
 
-            when (uiState.screenState) {
-                ScreenState.Loading -> {
-                    LoadingAnimation()
-                }
-
-                is ScreenState.Success -> {
-                    val songs = uiState.screenState.results
-                    if (songs.isNotEmpty()) {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING),
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            items(
-                                items = songs,
-                                key = { song ->
-                                    song.uid
-                                }) {
-                                SongListItem(
-                                    song = it,
-                                    onPress = {
-                                        PlayerManager.currentController?.playSong(it)
-                                    },
-                                    playNext = {
-                                        PlayerManager.currentController?.addNext(it, context)
-                                    },
-                                    addToQueue = {
-                                        PlayerManager.currentController?.addToQueue(it, context)
-                                    }
-                                )
+                    is ScreenState.Success -> {
+                        val songs = uiState.screenState.results
+                        if (songs.isNotEmpty()) {
+                            LazyColumn(
+                                verticalArrangement = Arrangement.Top,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+                                items(
+                                    items = songs,
+                                    key = { song ->
+                                        song.uid
+                                    }) {
+                                    SongListItem(
+                                        song = it,
+                                        onPress = {
+                                            PlayerManager.currentController?.playSong(it)
+                                        },
+                                        playNext = {
+                                            PlayerManager.currentController?.addNext(it, context)
+                                        },
+                                        addToQueue = {
+                                            PlayerManager.currentController?.addToQueue(it, context)
+                                        }
+                                    )
+                                }
                             }
-                        }
-                    } else {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
 
-                        ) {
-                            Text(stringResource(R.string.no_results))
+                            ) {
+                                Text(stringResource(R.string.no_results))
+                            }
                         }
                     }
                 }
+
             }
-
         }
-
     }
 
 }
