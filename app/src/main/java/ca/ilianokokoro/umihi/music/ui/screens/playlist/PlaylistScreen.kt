@@ -6,11 +6,15 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +30,9 @@ import ca.ilianokokoro.umihi.music.extensions.addNext
 import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
+import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
@@ -36,6 +42,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
     application: Application,
     playlistViewModel: PlaylistViewModel = viewModel(
@@ -50,103 +57,123 @@ fun PlaylistScreen(
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
 
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
+    FadingStatusBarWrapper {
 
-        if (uiState.screenState is ScreenState.Error) {
-            ErrorMessage(
-                ex = uiState.screenState.exception,
-                onRetry = playlistViewModel::getPlaylistInfo
+        Scaffold(topBar = {
+            TopAppBar(
+                title = {
+                    Text(playlistInfo.title)
+                },
+                navigationIcon = {
+                    BackButton(onBack = onBack)
+
+                }
             )
-        } else {
-            val playlistInfo: Playlist = when (uiState.screenState) {
-                is ScreenState.Loading -> {
-                    Playlist(uiState.screenState.playlistInfo)
-                }
+        }) { paddingValues ->
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
 
-                is ScreenState.Success -> {
-                    uiState.screenState.playlist
-                }
-            }
-            val songs = playlistInfo.songs
-
-            if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
-                PlaylistHeader(
-                    onOpenPlayer = onOpenPlayer,
-                    isDownloading = uiState.isDownloading,
-                    onDownloadPlaylist = playlistViewModel::downloadPlaylist,
-                    onShufflePlaylist = playlistViewModel::shufflePlaylist,
-                    onPlayPlaylist = playlistViewModel::playPlaylist,
-                    onDeletePlaylist = playlistViewModel::deletePlaylist,
-                    onCancelDownload = playlistViewModel::cancelDownload,
-                    playlist = playlistInfo
-                )
-
-                if (uiState.screenState is ScreenState.Loading) {
-                    LoadingAnimation()
+                if (uiState.screenState is ScreenState.Error) {
+                    ErrorMessage(
+                        ex = uiState.screenState.exception,
+                        onRetry = playlistViewModel::getPlaylistInfo
+                    )
                 } else {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = modifier
-                            .fillMaxSize()
-                    ) {
-                        Text(
-                            stringResource(R.string.empty_playlist),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }
-
-            } else {
-                PullToRefreshBox(
-                    isRefreshing = uiState.isRefreshing,
-                    onRefresh = playlistViewModel::refreshPlaylistInfo,
-                    modifier = modifier
-                        .fillMaxSize()
-                ) {
-                    LazyColumn(
-                        modifier = modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
-                    ) {
-
-                        item {
-                            PlaylistHeader(
-                                onOpenPlayer = onOpenPlayer,
-                                isDownloading = uiState.isDownloading,
-                                onDownloadPlaylist = playlistViewModel::downloadPlaylist,
-                                onShufflePlaylist = playlistViewModel::shufflePlaylist,
-                                onPlayPlaylist = playlistViewModel::playPlaylist,
-                                onDeletePlaylist = playlistViewModel::deletePlaylist,
-                                onCancelDownload = playlistViewModel::cancelDownload,
-                                playlist = playlistInfo
-                            )
+                    val playlistInfo: Playlist = when (uiState.screenState) {
+                        is ScreenState.Loading -> {
+                            Playlist(uiState.screenState.playlistInfo)
                         }
 
-                        items(
-                            items = songs,
-                            key = { song ->
-                                song.uid
+                        is ScreenState.Success -> {
+                            uiState.screenState.playlist
+                        }
+                    }
+                    val songs = playlistInfo.songs
+
+                    if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
+
+                        Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding()))
+
+                        PlaylistHeader(
+                            onOpenPlayer = onOpenPlayer,
+                            isDownloading = uiState.isDownloading,
+                            onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                            onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                            onPlayPlaylist = playlistViewModel::playPlaylist,
+                            onDeletePlaylist = playlistViewModel::deletePlaylist,
+                            onCancelDownload = playlistViewModel::cancelDownload,
+                            playlist = playlistInfo
+                        )
+
+                        if (uiState.screenState is ScreenState.Loading) {
+                            LoadingAnimation()
+                        } else {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = modifier
+                                    .fillMaxSize()
+                            ) {
+                                Text(
+                                    stringResource(R.string.empty_playlist),
+                                    textAlign = TextAlign.Center,
+                                )
                             }
-                        ) { song ->
-                            SongListItem(song, onPress = {
-                                onOpenPlayer()
-                                playlistViewModel.playPlaylist(song)
-                            }, playNext = {
-                                PlayerManager.currentController?.addNext(song, application)
-                            }, addToQueue = {
-                                PlayerManager.currentController?.addToQueue(song, application)
-                            }, download = {
-                                playlistViewModel.downloadSong(song)
-                            })
+                        }
+
+                    } else {
+                        PullToRefreshBox(
+                            isRefreshing = uiState.isRefreshing,
+                            onRefresh = playlistViewModel::refreshPlaylistInfo,
+                            modifier = modifier
+                                .fillMaxSize()
+                        ) {
+                            LazyColumn(
+                                modifier = modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
+                            ) {
+                                item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
+                                item {
+                                    PlaylistHeader(
+                                        onOpenPlayer = onOpenPlayer,
+                                        isDownloading = uiState.isDownloading,
+                                        onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                                        onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                                        onPlayPlaylist = playlistViewModel::playPlaylist,
+                                        onDeletePlaylist = playlistViewModel::deletePlaylist,
+                                        onCancelDownload = playlistViewModel::cancelDownload,
+                                        playlist = playlistInfo
+                                    )
+                                }
+
+                                items(
+                                    items = songs,
+                                    key = { song ->
+                                        song.uid
+                                    }
+                                ) { song ->
+                                    SongListItem(song, onPress = {
+                                        onOpenPlayer()
+                                        playlistViewModel.playPlaylist(song)
+                                    }, playNext = {
+                                        PlayerManager.currentController?.addNext(song, application)
+                                    }, addToQueue = {
+                                        PlayerManager.currentController?.addToQueue(
+                                            song,
+                                            application
+                                        )
+                                    }, download = {
+                                        playlistViewModel.downloadSong(song)
+                                    })
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 
 }

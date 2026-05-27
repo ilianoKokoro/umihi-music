@@ -68,6 +68,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             Column(
                 modifier = columnModifier
             ) {
+
                 MiniPlayerWrapper(
                     showMiniPlayer = screenConfig.showMiniPlayer,
                     onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
@@ -162,6 +163,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         is PlaylistScreenKey -> NavEntry(key) {
                             PlaylistScreen(
                                 playlistInfo = key.playlistInfo,
+                                onBack = backStack::safePop,
                                 onOpenPlayer = { backStack.add(PlayerScreenKey) },
                                 application = app
                             )

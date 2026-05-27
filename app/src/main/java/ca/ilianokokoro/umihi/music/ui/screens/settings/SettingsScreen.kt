@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
+import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
@@ -65,153 +67,162 @@ fun SettingsScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+    FadingStatusBarWrapper {
+        Scaffold { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp,
+                    alignment = Alignment.CenterVertically
+                )
 
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(
-            16.dp,
-            alignment = Alignment.CenterVertically
-        )
+            ) {
+                Spacer(
+                    modifier = Modifier.height(
+                        paddingValues.calculateTopPadding()
+                    )
+                )
 
-    ) {
-        when (uiState.screenState) {
-            is ScreenState.Success -> {
-                val state = uiState.screenState
-                SettingsSection(
-                    title = stringResource(R.string.account)
-                ) {
-                    if (settingsViewModel.isLoggedIn()) {
-                        SettingsItem(
-                            title = stringResource(R.string.log_out),
-                            subtitle = stringResource(R.string.logged_in_message),
-                            leadingIcon = Icons.AutoMirrored.Outlined.Logout,
-                            onClick = settingsViewModel::logOut
-                        )
-                    } else {
-                        SettingsItem(
-                            title = stringResource(R.string.log_in),
-                            subtitle = stringResource(R.string.logged_out_message),
-                            leadingIcon = Icons.AutoMirrored.Outlined.Login,
-                            onClick = openAuthScreen
-                        )
+                when (uiState.screenState) {
+                    is ScreenState.Success -> {
+                        val state = uiState.screenState
+                        SettingsSection(
+                            title = stringResource(R.string.account)
+                        ) {
+                            if (settingsViewModel.isLoggedIn()) {
+                                SettingsItem(
+                                    title = stringResource(R.string.log_out),
+                                    subtitle = stringResource(R.string.logged_in_message),
+                                    leadingIcon = Icons.AutoMirrored.Outlined.Logout,
+                                    onClick = settingsViewModel::logOut
+                                )
+                            } else {
+                                SettingsItem(
+                                    title = stringResource(R.string.log_in),
+                                    subtitle = stringResource(R.string.logged_out_message),
+                                    leadingIcon = Icons.AutoMirrored.Outlined.Login,
+                                    onClick = openAuthScreen
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.clear_login_info),
+                                subtitle = stringResource(R.string.clear_login_message),
+                                leadingIcon = Icons.Outlined.Delete,
+                                onClick = settingsViewModel::clearLogins
+                            )
+                        }
+
+                        SettingsSection(
+                            title = stringResource(R.string.general),
+                        ) {
+                            BooleanSettingItem(
+                                title = stringResource(R.string.show_podcast_playlist_title),
+                                subtitle = stringResource(R.string.show_podcast_playlist_description),
+                                leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
+                                value = uiState.screenState.settings.showPodcastPlaylist,
+                                onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            BooleanSettingItem(
+                                title = stringResource(R.string.keep_screen_on_title),
+                                subtitle = stringResource(R.string.keep_screen_on_title_description),
+                                leadingIcon = Icons.Outlined.StayCurrentPortrait,
+                                value = uiState.screenState.settings.keepScreenOn,
+                                onToggle = { settingsViewModel.updateKeepScreenOnSetting(it) }
+                            )
+                        }
+
+
+                        SettingsSection(
+                            title = stringResource(R.string.playback),
+                        ) {
+                            BooleanSettingItem(
+                                title = stringResource(R.string.enable_audio_offload),
+                                subtitle = stringResource(R.string.audio_offload_subtitle),
+                                leadingIcon = Icons.Outlined.Memory,
+                                value = uiState.screenState.settings.useAudioOffload,
+                                onToggle = { settingsViewModel.updateAudioOffloadSetting(it) }
+                            )
+                        }
+
+
+                        SettingsSection(
+                            title = stringResource(R.string.data_and_storage),
+                        ) {
+                            SettingsItem(
+                                title = stringResource(R.string.delete_downloads),
+                                subtitle = stringResource(R.string.clear_data_message),
+                                leadingIcon = Icons.Outlined.Delete,
+                                onClick = {
+                                    settingsViewModel.updateShowDownloadDeleteConfirm(true)
+                                }
+                            )
+                        }
+
+                        SettingsSection(
+                            title = stringResource(R.string.app_info),
+                        ) {
+                            SettingsItem(
+                                title = stringResource(R.string.check_for_updates),
+                                subtitle = stringResource(
+                                    R.string.current_version,
+                                    VersionManager.getVersionName()
+                                ),
+                                leadingIcon = Icons.Outlined.Update,
+                                onClick = settingsViewModel::checkForUpdates
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.change_update_channel),
+                                subtitle = stringResource(
+                                    R.string.current_update_channel_body,
+                                    state.settings.updateChannel
+                                ),
+                                leadingIcon = Icons.Outlined.SystemUpdate,
+                                onClick = {
+                                    settingsViewModel.updateShowUpdateChannelDialog(true)
+                                }
+                            )
+                        }
+
+                        Box(modifier = Modifier.height(Constants.Ui.SCROLLABLE_BOTTOM_PADDING))
+
+                        if (uiState.showUpdateChannelDialog) {
+                            UpdateChannelDialog(
+                                selectedOption = state.settings.updateChannel,
+                                onChange = {
+                                    settingsViewModel.changeUpdateChannel(it)
+                                }, onClose = {
+                                    settingsViewModel.updateShowUpdateChannelDialog(false)
+                                })
+                        } else if (uiState.showDownloadDeleteConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.download_clear_confirm_title),
+                                text = stringResource(R.string.download_clear_confirm_text),
+                                onConfirm = {
+                                    settingsViewModel.clearDownloads()
+                                    settingsViewModel.updateShowDownloadDeleteConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowDownloadDeleteConfirm(false)
+                                })
+
+                        }
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    SettingsItem(
-                        title = stringResource(R.string.clear_login_info),
-                        subtitle = stringResource(R.string.clear_login_message),
-                        leadingIcon = Icons.Outlined.Delete,
-                        onClick = settingsViewModel::clearLogins
+
+                    ScreenState.Loading -> LoadingAnimation()
+                    is ScreenState.Error -> ErrorMessage(
+                        ex = uiState.screenState.exception,
+                        onRetry = settingsViewModel::getSettings
                     )
-                }
-
-                SettingsSection(
-                    title = stringResource(R.string.general),
-                ) {
-                    BooleanSettingItem(
-                        title = stringResource(R.string.show_podcast_playlist_title),
-                        subtitle = stringResource(R.string.show_podcast_playlist_description),
-                        leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
-                        value = uiState.screenState.settings.showPodcastPlaylist,
-                        onToggle = { settingsViewModel.updatePodcastPlaylistVisibility(it) }
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    BooleanSettingItem(
-                        title = stringResource(R.string.keep_screen_on_title),
-                        subtitle = stringResource(R.string.keep_screen_on_title_description),
-                        leadingIcon = Icons.Outlined.StayCurrentPortrait,
-                        value = uiState.screenState.settings.keepScreenOn,
-                        onToggle = { settingsViewModel.updateKeepScreenOnSetting(it) }
-                    )
-                }
-
-
-                SettingsSection(
-                    title = stringResource(R.string.playback),
-                ) {
-                    BooleanSettingItem(
-                        title = stringResource(R.string.enable_audio_offload),
-                        subtitle = stringResource(R.string.audio_offload_subtitle),
-                        leadingIcon = Icons.Outlined.Memory,
-                        value = uiState.screenState.settings.useAudioOffload,
-                        onToggle = { settingsViewModel.updateAudioOffloadSetting(it) }
-                    )
-                }
-
-
-                SettingsSection(
-                    title = stringResource(R.string.data_and_storage),
-                ) {
-                    SettingsItem(
-                        title = stringResource(R.string.delete_downloads),
-                        subtitle = stringResource(R.string.clear_data_message),
-                        leadingIcon = Icons.Outlined.Delete,
-                        onClick = {
-                            settingsViewModel.updateShowDownloadDeleteConfirm(true)
-                        }
-                    )
-                }
-
-                SettingsSection(
-                    title = stringResource(R.string.app_info),
-                ) {
-                    SettingsItem(
-                        title = stringResource(R.string.check_for_updates),
-                        subtitle = stringResource(
-                            R.string.current_version,
-                            VersionManager.getVersionName()
-                        ),
-                        leadingIcon = Icons.Outlined.Update,
-                        onClick = settingsViewModel::checkForUpdates
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    SettingsItem(
-                        title = stringResource(R.string.change_update_channel),
-                        subtitle = stringResource(
-                            R.string.current_update_channel_body,
-                            state.settings.updateChannel
-                        ),
-                        leadingIcon = Icons.Outlined.SystemUpdate,
-                        onClick = {
-                            settingsViewModel.updateShowUpdateChannelDialog(true)
-                        }
-                    )
-                }
-
-                Box(modifier = Modifier.height(Constants.Ui.SCROLLABLE_BOTTOM_PADDING))
-
-                if (uiState.showUpdateChannelDialog) {
-                    UpdateChannelDialog(
-                        selectedOption = state.settings.updateChannel,
-                        onChange = {
-                            settingsViewModel.changeUpdateChannel(it)
-                        }, onClose = {
-                            settingsViewModel.updateShowUpdateChannelDialog(false)
-                        })
-                } else if (uiState.showDownloadDeleteConfirm) {
-                    ConfirmDialog(
-                        title = stringResource(R.string.download_clear_confirm_title),
-                        text = stringResource(R.string.download_clear_confirm_text),
-                        onConfirm = {
-                            settingsViewModel.clearDownloads()
-                            settingsViewModel.updateShowDownloadDeleteConfirm(false)
-                        },
-                        onDismiss = {
-                            settingsViewModel.updateShowDownloadDeleteConfirm(false)
-                        })
-
                 }
             }
-
-            ScreenState.Loading -> LoadingAnimation()
-            is ScreenState.Error -> ErrorMessage(
-                ex = uiState.screenState.exception,
-                onRetry = settingsViewModel::getSettings
-            )
         }
     }
 

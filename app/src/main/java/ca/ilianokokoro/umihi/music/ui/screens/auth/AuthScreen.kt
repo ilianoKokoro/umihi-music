@@ -11,18 +11,25 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -47,60 +54,71 @@ fun AuthScreen(
 
 
     val isDarkMode = isSystemInDarkTheme()
-
-    AndroidView(
-        modifier = Modifier
-            .fillMaxSize(),
-        factory = { ctx ->
-
-            val themedContext = ContextThemeWrapper(
-                ctx,
-                if (isDarkMode) R.style.Theme_WebView_Dark
-                else R.style.Theme_WebView_Light
-            )
-
-            WebView(themedContext).apply {
-                layoutParams =
-                    ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
-
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-
-                if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
-                    WebSettingsCompat.setAlgorithmicDarkeningAllowed(
-                        settings,
-                        true
-                    )
-                }
-
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
-                        loadUrl("javascript:Android.onRetrieveDataSyncId(window.yt.config_.DATASYNC_ID)")
-                        authViewModel.onPageFinished(url)
-                    }
-                }
-                addJavascriptInterface(object {
-                    @JavascriptInterface
-                    fun onRetrieveDataSyncId(newDataSyncId: String?) {
-                        if (newDataSyncId != null) {
-                            val dataSyncId = newDataSyncId.substringBefore("||")
-                            authViewModel.onDataSyncIdFound(dataSyncId)
-                        }
-                    }
-                }, "Android")
-                loadUrl(Constants.Auth.START_URL)
+    Scaffold(topBar = {
+        TopAppBar(
+            title = {
+                Text(stringResource(R.string.log_in))
+            },
+            navigationIcon = {
+                BackButton(onBack = onBack)
             }
-        },
-        onRelease = { view ->
-            view.stopLoading()
-            view.destroy()
-        }
-    )
+        )
+    }) { paddingValues ->
+        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxSize(),
+                factory = { ctx ->
 
+                    val themedContext = ContextThemeWrapper(
+                        ctx,
+                        if (isDarkMode) R.style.Theme_WebView_Dark
+                        else R.style.Theme_WebView_Light
+                    )
+
+                    WebView(themedContext).apply {
+                        layoutParams =
+                            ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                            )
+
+                        settings.javaScriptEnabled = true
+                        settings.domStorageEnabled = true
+
+                        if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
+                            WebSettingsCompat.setAlgorithmicDarkeningAllowed(
+                                settings,
+                                true
+                            )
+                        }
+
+                        webViewClient = object : WebViewClient() {
+                            override fun onPageFinished(view: WebView?, url: String?) {
+                                super.onPageFinished(view, url)
+                                loadUrl("javascript:Android.onRetrieveDataSyncId(window.yt.config_.DATASYNC_ID)")
+                                authViewModel.onPageFinished(url)
+                            }
+                        }
+                        addJavascriptInterface(object {
+                            @JavascriptInterface
+                            fun onRetrieveDataSyncId(newDataSyncId: String?) {
+                                if (newDataSyncId != null) {
+                                    val dataSyncId = newDataSyncId.substringBefore("||")
+                                    authViewModel.onDataSyncIdFound(dataSyncId)
+                                }
+                            }
+                        }, "Android")
+                        loadUrl(Constants.Auth.START_URL)
+                    }
+                },
+                onRelease = { view ->
+                    view.stopLoading()
+                    view.destroy()
+                }
+            )
+        }
+    }
 }
 
 

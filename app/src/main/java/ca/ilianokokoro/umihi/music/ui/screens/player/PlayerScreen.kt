@@ -28,6 +28,7 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -73,101 +74,101 @@ fun PlayerScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+    Scaffold { paddingValues ->
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(end = 8.dp, start = 8.dp, top = paddingValues.calculateTopPadding())
+                    .background(MaterialTheme.colorScheme.background),
 
-    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(8.dp)
-                .background(MaterialTheme.colorScheme.background),
+                horizontalAlignment = Alignment.CenterHorizontally
 
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                FilledIconButton(
-                    onClick = { onBack() },
-                    shapes = IconButtonDefaults.shapes(),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
+            ) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    FilledIconButton(
+                        onClick = { onBack() },
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowDownward,
+                            contentDescription = Icons.Rounded.ArrowDownward.name
+                        )
+                    }
+                }
+                Thumbnail(
+                    href = currentSong?.thumbnailHref.toString(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(horizontal = 8.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.ArrowDownward,
-                        contentDescription = Icons.Rounded.ArrowDownward.name
+                    SongInfo(currentSong)
+                    PlayerControls(
+                        isPlaying = uiState.isPlaying,
+                        isLoading = uiState.isLoading,
+                        progress = uiState.playbackProgress,
+                        onSeek = playerViewModel::seek,
+                        onSeekPlayer = playerViewModel::seekPlayer,
+                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+                        onOpenQueue = {
+                            playerViewModel.setQueueVisibility(true)
+                        }
                     )
                 }
             }
-            Thumbnail(
-                href = currentSong?.thumbnailHref.toString(),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(horizontal = 8.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Row(
+                modifier = modifier
+                    .padding(end = 8.dp, start = 8.dp, top = paddingValues.calculateTopPadding())
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+
             ) {
-                SongInfo(currentSong)
-                PlayerControls(
-                    isPlaying = uiState.isPlaying,
-                    isLoading = uiState.isLoading,
-                    progress = uiState.playbackProgress,
-                    onSeek = playerViewModel::seek,
-                    onSeekPlayer = playerViewModel::seekPlayer,
-                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                    onOpenQueue = {
-                        playerViewModel.setQueueVisibility(true)
-                    }
+
+                Thumbnail(
+                    href = currentSong?.thumbnailHref.toString(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
                 )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .padding(horizontal = 32.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    SongInfo(currentSong)
+                    PlayerControls(
+                        isPlaying = uiState.isPlaying,
+                        isLoading = uiState.isLoading,
+                        progress = uiState.playbackProgress,
+                        onSeek = playerViewModel::seek,
+                        onSeekPlayer = playerViewModel::seekPlayer,
+                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+                        onOpenQueue = {
+                            playerViewModel.setQueueVisibility(true)
+                        }
+                    )
+                }
+
             }
         }
-
-    } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        Row(
-            modifier = modifier
-                .padding(8.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-
-        ) {
-
-            Thumbnail(
-                href = currentSong?.thumbnailHref.toString(),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-                    .padding(horizontal = 32.dp),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                SongInfo(currentSong)
-                PlayerControls(
-                    isPlaying = uiState.isPlaying,
-                    isLoading = uiState.isLoading,
-                    progress = uiState.playbackProgress,
-                    onSeek = playerViewModel::seek,
-                    onSeekPlayer = playerViewModel::seekPlayer,
-                    onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                    onOpenQueue = {
-                        playerViewModel.setQueueVisibility(true)
-                    }
-                )
-            }
-
-        }
-
     }
 
 
