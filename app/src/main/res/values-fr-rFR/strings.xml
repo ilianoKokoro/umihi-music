@@ -95,13 +95,13 @@
     <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
     <string name="downloading_update">Téléchargement de la mise à jour...</string>
-    <string name="title">Title</string>
+    <string name="title">Titre</string>
     <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
-    <string name="create">Create</string>
-    <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
-    <string name="privacy_unlisted">Unlisted</string>
-    <string name="privacy_public">Public</string>
-    <string name="privacy_private">Private</string>
+    <string name="privacy">Confidentialité</string>
+    <string name="create">Créer</string>
+    <string name="create_playlist">Créer une playlist</string>
+    <string name="visibility">Visibilité\n</string>
+    <string name="privacy_unlisted">Non répertorié</string>
+    <string name="privacy_public">Publique</string>
+    <string name="privacy_private">Privé</string>
 </resources>
