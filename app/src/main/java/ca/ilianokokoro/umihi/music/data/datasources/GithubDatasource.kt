@@ -3,9 +3,9 @@ package ca.ilianokokoro.umihi.music.data.datasources
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.extensions.body
 import ca.ilianokokoro.umihi.music.models.dto.GithubCommitResponse
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
-import kotlinx.io.readString
 import kotlinx.serialization.json.Json
 
 class GithubDatasource {
@@ -16,7 +16,7 @@ class GithubDatasource {
             val result = UmihiHttpClient.fuelClient.get(request = {
                 this.url = Constants.Url.Github.Release.API
             })
-            return json.decodeFromString<GithubReleaseResponse>(result.source.readString())
+            return json.decodeFromString<GithubReleaseResponse>(result.body)
 
         } catch (e: Exception) {
             UmihiHelper.printe(e.toString())
@@ -29,7 +29,7 @@ class GithubDatasource {
             val result = UmihiHttpClient.fuelClient.get(request = {
                 this.url = Constants.Url.Github.Beta.API
             })
-            return json.decodeFromString<GithubCommitResponse>(result.source.readString())
+            return json.decodeFromString<GithubCommitResponse>(result.body)
 
         } catch (e: Exception) {
             UmihiHelper.printe(e.toString())

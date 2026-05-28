@@ -2,10 +2,10 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
+import ca.ilianokokoro.umihi.music.extensions.body
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
-import kotlinx.io.readString
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
@@ -114,7 +114,7 @@ object YoutubeRequestHelper {
                 this.body = body.toString()
                 this.headers = headers
             }
-        ).source.readString()
+        ).body
     }
 
     private suspend fun requestWithContext(
