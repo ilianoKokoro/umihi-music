@@ -33,9 +33,7 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.NewPipe
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : ComponentActivity() {
@@ -160,14 +158,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewPipe() {
-        val youtubeHttpClient = OkHttpClient.Builder()
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .callTimeout(45, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
-            .build()
-        NewPipe.init(YoutubeExtractor(youtubeHttpClient))
+        NewPipe.init(YoutubeExtractor())
     }
 
     private fun initCaoc() {

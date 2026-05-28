@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.core
 
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.schabi.newpipe.extractor.downloader.Downloader
@@ -9,9 +8,7 @@ import org.schabi.newpipe.extractor.downloader.Response
 import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 import java.io.IOException
 
-internal class YoutubeExtractor(
-    private val client: OkHttpClient
-) : Downloader() {
+internal class YoutubeExtractor : Downloader() {
 
     private val cookieStore = HashMap<String, String>()
 
@@ -42,7 +39,7 @@ internal class YoutubeExtractor(
             }
         }
 
-        client.newCall(requestBuilder.build()).execute().use { response ->
+        UmihiHttpClient.client.newCall(requestBuilder.build()).execute().use { response ->
             if (response.code == 429) {
                 throw ReCaptchaException("YouTube rate limit / reCAPTCHA challenge", url)
             }

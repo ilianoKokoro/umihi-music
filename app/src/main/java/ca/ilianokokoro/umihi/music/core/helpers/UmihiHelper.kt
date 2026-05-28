@@ -6,10 +6,10 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
@@ -52,17 +52,11 @@ object UmihiHelper {
     suspend fun fetchArtworkBytes(url: String): ByteArray? {
         return withContext(Dispatchers.IO) {
             try {
-                val client = OkHttpClient()
+                val (_, _, result) = url.httpGet().response()
 
-                val request = Request.Builder()
-                    .url(url)
-                    .build()
-
-                val response = client.newCall(request).execute()
-
-                if (!response.isSuccessful) return@withContext null
-
-                val bytes = response.body?.bytes() ?: return@withContext null
+                if (result is Result.Failure) return@withContext null
+                
+                val bytes = result.get()
 
                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                     ?: return@withContext null

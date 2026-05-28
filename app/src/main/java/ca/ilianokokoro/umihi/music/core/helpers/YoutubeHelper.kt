@@ -10,6 +10,9 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import com.github.kittinunf.fuel.httpHead
+import com.github.kittinunf.fuel.json.responseJson
+import com.github.kittinunf.result.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -23,13 +26,10 @@ import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
 import java.util.Locale
 
 object YoutubeHelper {
-    private val client = OkHttpClient()
     private var visitorData: String? = null // TODO use safer and more global value
 
     fun extractYouTubeVideoId(url: String): String? {
@@ -634,19 +634,14 @@ object YoutubeHelper {
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {
         try {
-            val request = Request.Builder()
-                .url(url)
-                .head()
-                .build()
+            val (_, _, result) = url.httpHead()
+                .responseJson()
 
-            client.newCall(request).execute().use { response ->
-                return@withContext response.isSuccessful
-            }
+            result is Result.Success
         } catch (_: Exception) {
-            return@withContext false
+            false
         }
     }
-
 }
 
 

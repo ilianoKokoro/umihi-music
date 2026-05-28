@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.models.Song
@@ -9,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
@@ -17,7 +17,6 @@ import java.io.IOException
 import java.net.URL
 
 object DownloadHelper {
-    private val client = OkHttpClient()
 
     suspend fun downloadImage(context: Context, imageUrl: String, id: String): File? {
         return withContext(Dispatchers.IO) {
@@ -71,7 +70,7 @@ object DownloadHelper {
                 .header("Range", "bytes=0-0")
                 .build()
 
-            client.newCall(headReq).execute().use { headRes ->
+            UmihiHttpClient.client.newCall(headReq).execute().use { headRes ->
                 if (!headRes.isSuccessful) {
                     return@withContext null
                 }
@@ -102,7 +101,7 @@ object DownloadHelper {
                             .header("User-Agent", Constants.YoutubeApi.USER_AGENT)
                             .build()
 
-                        client.newCall(req).execute().use { response ->
+                        UmihiHttpClient.client.newCall(req).execute().use { response ->
                             if (!response.isSuccessful) {
                                 throw IOException("Failed to download chunk $i: ${response.code}")
                             }

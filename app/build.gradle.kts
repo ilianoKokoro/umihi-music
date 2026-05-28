@@ -152,8 +152,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Fuel (HTTP)
-    implementation(libs.fuel.android)
-    implementation(libs.fuel.json)
+    implementation(libs.fuel)
 
     // WebKit
     implementation(libs.androidx.webkit)
