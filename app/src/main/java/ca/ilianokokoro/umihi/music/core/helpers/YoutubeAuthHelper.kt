@@ -56,12 +56,12 @@ object YoutubeAuthHelper {
         cookies: Cookies? = null,
         visitorData: String? = null,
         client: JsonObject? = Constants.YoutubeApi.Client.WEB_REMIX
-    ): Map<String, Any> {
+    ): Map<String, String> {
         val headers = mutableMapOf(
             "Content-Type" to "application/json",
             "Origin" to Constants.YoutubeApi.ORIGIN,
             "Referer" to "${Constants.YoutubeApi.ORIGIN}/",
-            "X-Goog-Api-Format-Version" to 1,
+            "X-Goog-Api-Format-Version" to "1",
             "X-Origin" to Constants.YoutubeApi.ORIGIN,
             "X-YouTube-Client-Version" to client?.jsonObject["clientVersion"]?.jsonPrimitive.toString(),
             "X-YouTube-Client-Name" to client?.jsonObject["xClientName"]?.jsonPrimitive.toString(),

@@ -1,20 +1,18 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
-import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.github.kittinunf.fuel.httpPost
-import com.github.kittinunf.fuel.json.responseJson
-import com.github.kittinunf.result.Result
+import kotlinx.io.readString
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 object YoutubeRequestHelper {
-    fun browse(browseId: String, settings: UmihiSettings): String {
+    suspend fun browse(browseId: String, settings: UmihiSettings): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "browseId",
@@ -23,7 +21,7 @@ object YoutubeRequestHelper {
         )
     }
 
-    fun requestContinuation(continuationToken: String, settings: UmihiSettings): String {
+    suspend fun requestContinuation(continuationToken: String, settings: UmihiSettings): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "continuation",
@@ -33,7 +31,7 @@ object YoutubeRequestHelper {
     }
 
 
-    fun createPlaylist(
+    suspend fun createPlaylist(
         title: String,
         description: String,
         privacy: Privacy,
@@ -70,7 +68,7 @@ object YoutubeRequestHelper {
         )
     }
 
-    fun getPlayerInfo(
+    suspend fun getPlayerInfo(
         videoId: String,
         client: JsonObject? = null,
         visitorData: String? = null
@@ -84,7 +82,7 @@ object YoutubeRequestHelper {
         )
     }
 
-    fun search(query: String): String {
+    suspend fun search(query: String): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Search.URL,
             idName = "query",
@@ -92,7 +90,7 @@ object YoutubeRequestHelper {
         )
     }
 
-    private fun requestWithBody(
+    private suspend fun requestWithBody(
         url: String,
         body: Any,
         settings: UmihiSettings? = null,
@@ -109,18 +107,17 @@ object YoutubeRequestHelper {
             mapOf()
         }
 
-        val (_, _, result) = url.httpPost()
-            .jsonBody(body.toString())
-            .header(headers)
-            .responseJson()
 
-        return when (result) {
-            is Result.Success -> result.value.content
-            is Result.Failure -> throw result.error.exception
-        }
+        return UmihiHttpClient.fuelClient.post(
+            request = {
+                this.url = url
+                this.body = body.toString()
+                this.headers = headers
+            }
+        ).source.readString()
     }
 
-    private fun requestWithContext(
+    private suspend fun requestWithContext(
         url: String,
         idName: String,
         id: String,

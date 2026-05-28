@@ -1,47 +1,39 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.models.dto.GithubCommitResponse
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.fuel.json.responseJson
-import com.github.kittinunf.result.Result
+import kotlinx.io.readString
 import kotlinx.serialization.json.Json
 
 class GithubDatasource {
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun getLatestRelease(): GithubReleaseResponse {
-        val (_, _, result) = Constants.Url.Github.Release.API.httpGet()
-            .responseJson()
+    suspend fun getLatestRelease(): GithubReleaseResponse {
+        try {
+            val result = UmihiHttpClient.fuelClient.get(request = {
+                this.url = Constants.Url.Github.Release.API
+            })
+            return json.decodeFromString<GithubReleaseResponse>(result.source.readString())
 
-
-        return when (result) {
-            is Result.Success -> {
-                json.decodeFromString<GithubReleaseResponse>(result.value.content)
-            }
-
-
-            is Result.Failure -> {
-                throw Exception("Failed to get the latest GitHub release version name")
-            }
+        } catch (e: Exception) {
+            UmihiHelper.printe(e.toString())
+            throw Exception("Failed to get the latest GitHub release version name")
         }
     }
 
-    fun getLatestCommit(): GithubCommitResponse {
-        val (_, _, result) = Constants.Url.Github.Beta.API.httpGet()
-            .responseJson()
+    suspend fun getLatestCommit(): GithubCommitResponse {
+        try {
+            val result = UmihiHttpClient.fuelClient.get(request = {
+                this.url = Constants.Url.Github.Beta.API
+            })
+            return json.decodeFromString<GithubCommitResponse>(result.source.readString())
 
-
-        return when (result) {
-            is Result.Success -> {
-                json.decodeFromString<GithubCommitResponse>(result.value.content)
-            }
-
-
-            is Result.Failure -> {
-                throw Exception("Failed to get the latest commit")
-            }
+        } catch (e: Exception) {
+            UmihiHelper.printe(e.toString())
+            throw Exception("Failed to get the latest commit")
         }
     }
 }

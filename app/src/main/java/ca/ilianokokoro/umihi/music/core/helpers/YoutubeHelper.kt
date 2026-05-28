@@ -4,15 +4,13 @@ import android.content.Context
 import android.widget.Toast
 import androidx.core.net.toUri
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
-import com.github.kittinunf.fuel.httpHead
-import com.github.kittinunf.fuel.json.responseJson
-import com.github.kittinunf.result.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -64,7 +62,7 @@ object YoutubeHelper {
             ?.jsonPrimitive?.contentOrNull ?: ""
     }
 
-    fun extractPlaylists(
+    suspend fun extractPlaylists(
         jsonString: String,
         settings: UmihiSettings
     ): List<PlaylistInfo> {
@@ -282,7 +280,7 @@ object YoutubeHelper {
     }
 
 
-    fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
+    suspend fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["contents"]
@@ -297,7 +295,7 @@ object YoutubeHelper {
         return parseSongsFromContents(contents, settings)
     }
 
-    fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
+    suspend fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["onResponseReceivedActions"]
@@ -334,7 +332,7 @@ object YoutubeHelper {
         return url ?: ""
     }
 
-    private fun parseSongsFromContents(
+    private suspend fun parseSongsFromContents(
         contents: JsonArray?,
         settings: UmihiSettings
     ): List<Song> {
@@ -526,7 +524,7 @@ object YoutubeHelper {
         videoId: String,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT,
     ): String? = withContext(Dispatchers.IO) {
-        fun executeRequest(): String? {
+        suspend fun executeRequest(): String? {
             val response = YoutubeRequestHelper.getPlayerInfo(
                 videoId = videoId,
                 client = Constants.YoutubeApi.Client.ANDROID_VR,
@@ -634,10 +632,10 @@ object YoutubeHelper {
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {
         try {
-            val (_, _, result) = url.httpHead()
-                .responseJson()
 
-            result is Result.Success
+            val result = UmihiHttpClient.fuelClient.head(request = { this.url = url })
+
+            result.statusCode in 200..399
         } catch (_: Exception) {
             false
         }

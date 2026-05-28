@@ -9,7 +9,7 @@ import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 class PlaylistDataSource {
-    fun retrieveAll(settings: UmihiSettings): List<PlaylistInfo> {
+    suspend fun retrieveAll(settings: UmihiSettings): List<PlaylistInfo> {
         return YoutubeHelper.extractPlaylists(
             YoutubeRequestHelper.browse(
                 Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
@@ -18,7 +18,7 @@ class PlaylistDataSource {
         )
     }
 
-    fun retrieveOne(playlist: Playlist, settings: UmihiSettings): Playlist {
+    suspend fun retrieveOne(playlist: Playlist, settings: UmihiSettings): Playlist {
         return playlist.copy(
             songs = YoutubeHelper.extractSongList(
                 YoutubeRequestHelper.browse(
@@ -29,7 +29,7 @@ class PlaylistDataSource {
         )
     }
 
-    fun create(
+    suspend fun create(
         title: String,
         description: String,
         privacy: Privacy,

@@ -48,7 +48,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import okhttp3.internal.toImmutableList
 import java.io.File
 import java.util.UUID
 
@@ -175,7 +174,7 @@ class PlaybackService : MediaLibraryService() {
 
                     future.set(
                         LibraryResult.ofItemList(
-                            result.toImmutableList(),
+                            result,
                             params
                         )
                     )

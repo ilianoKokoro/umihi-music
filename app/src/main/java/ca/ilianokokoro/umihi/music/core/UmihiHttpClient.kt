@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.core
 
+import fuel.FuelBuilder
+import fuel.HttpLoader
 import okhttp3.OkHttpClient
 
 object UmihiHttpClient {
@@ -7,5 +9,9 @@ object UmihiHttpClient {
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build()
+    }
+
+    val fuelClient: HttpLoader by lazy {
+        FuelBuilder().config(client).build()
     }
 }
