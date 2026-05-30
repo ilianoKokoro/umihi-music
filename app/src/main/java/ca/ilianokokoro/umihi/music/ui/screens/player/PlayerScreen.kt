@@ -128,23 +128,46 @@ fun PlayerScreen(
                     )
                 }
             }
-
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Row(
                 modifier = modifier
-                    .padding(end = 8.dp, start = 8.dp, top = paddingValues.calculateTopPadding())
+                    .padding(
+                        end = 8.dp,
+                        start = 8.dp,
+                        top = paddingValues.calculateTopPadding()
+                    )
                     .fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
-
             ) {
-
-                Thumbnail(
-                    href = currentSong?.thumbnailHref.toString(),
+                Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
-                )
+                ) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        FilledIconButton(
+                            onClick = { onBack() },
+                            shapes = IconButtonDefaults.shapes(),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowDownward,
+                                contentDescription = Icons.Rounded.ArrowDownward.name
+                            )
+                        }
+                    }
+
+                    Thumbnail(
+                        href = currentSong?.thumbnailHref.toString(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f)
+                    )
+                }
 
                 Column(
                     modifier = Modifier
@@ -154,6 +177,7 @@ fun PlayerScreen(
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     SongInfo(currentSong)
+
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
@@ -166,8 +190,8 @@ fun PlayerScreen(
                         }
                     )
                 }
-
             }
+        
         }
     }
 

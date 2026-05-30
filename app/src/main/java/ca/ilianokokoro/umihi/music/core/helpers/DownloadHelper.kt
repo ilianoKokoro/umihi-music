@@ -6,23 +6,24 @@ import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.URL
 
 object DownloadHelper {
 
     suspend fun downloadImage(context: Context, imageUrl: String, id: String): File? {
         return withContext(Dispatchers.IO) {
             try {
-                val imageDir =
-                    UmihiHelper.getDownloadDirectory(context, Constants.Downloads.THUMBNAILS_FOLDER)
+                val imageDir = UmihiHelper.getDownloadDirectory(
+                    context,
+                    Constants.Downloads.THUMBNAILS_FOLDER
+                )
+
                 val imageFile = File(imageDir, "$id.jpg")
 
                 if (imageFile.exists()) {
@@ -30,13 +31,41 @@ object DownloadHelper {
                     return@withContext imageFile
                 }
 
-                URL(imageUrl).openStream().use { input ->
-                    imageFile.outputStream().use { output ->
-                        input.copyTo(output)
-                    }
-                }
-                imageFile
+                val tempFile = File(imageDir, "$id.jpg.part")
 
+                if (tempFile.exists()) {
+                    tempFile.delete()
+                }
+
+                val request = Request.Builder()
+                    .url(imageUrl)
+                    .get()
+                    .build()
+
+                UmihiHttpClient.client
+                    .newCall(request)
+                    .execute()
+                    .use { response ->
+                        if (!response.isSuccessful) {
+                            throw IOException("HTTP ${response.code}: ${response.message}")
+                        }
+
+                        val body = response.body ?: throw IOException("Empty image response body")
+
+                        body.byteStream().use { input ->
+                            tempFile.outputStream().use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                    }
+
+                if (!tempFile.renameTo(imageFile)) {
+                    throw IOException("Failed to rename thumbnail temp file")
+                }
+
+                imageFile
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 printe(
                     tag = "PlaylistDownloadWorker",
@@ -51,12 +80,15 @@ object DownloadHelper {
     suspend fun downloadAudio(
         context: Context,
         song: Song,
-        connections: Int = 8
+        retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String? = withContext(Dispatchers.IO) {
+        val audioDir = UmihiHelper.getDownloadDirectory(
+            context,
+            Constants.Downloads.AUDIO_FILES_FOLDER
+        )
 
-        val audioDir =
-            UmihiHelper.getDownloadDirectory(context, Constants.Downloads.AUDIO_FILES_FOLDER)
         val outputFile = File(audioDir, "${song.youtubeId}.webm")
+        val tempFile = File(audioDir, "${song.youtubeId}.webm.part")
 
         if (outputFile.exists()) {
             return@withContext outputFile.absolutePath
@@ -64,77 +96,66 @@ object DownloadHelper {
 
         val url = YoutubeHelper.getSongPlayerUrl(context, song)
 
-        val total = try {
-            val headReq = Request.Builder()
-                .url(url)
-                .header("Range", "bytes=0-0")
-                .build()
+        var lastException: Exception? = null
 
-            UmihiHttpClient.client.newCall(headReq).execute().use { headRes ->
-                if (!headRes.isSuccessful) {
-                    return@withContext null
+        repeat(retries) { attempt ->
+            try {
+                if (tempFile.exists()) {
+                    tempFile.delete()
                 }
-                headRes.headers["Content-Range"]
-                    ?.substringAfter("/")
-                    ?.toLongOrNull()
-                    ?: return@withContext null
-            }
-        } catch (e: Exception) {
-            printe("Failed to get content length: ${e.message}")
-            return@withContext null
-        }
 
-        val chunkSize = total / connections
-        val tempFiles = mutableListOf<File>()
+                val request = Request.Builder()
+                    .url(url)
+                    .header("Range", "bytes=0-")
+                    .build()
 
-        try {
-            (0 until connections).map { i ->
-                async {
-                    val start = i * chunkSize
-                    val end = if (i == connections - 1) total - 1 else (start + chunkSize - 1)
-                    val temp = File(audioDir, "${song.youtubeId}.part$i")
-
-                    try {
-                        val req = Request.Builder()
-                            .url(url)
-                            .header("Range", "bytes=$start-$end")
-                            .header("User-Agent", Constants.YoutubeApi.USER_AGENT)
-                            .build()
-
-                        UmihiHttpClient.client.newCall(req).execute().use { response ->
-                            if (!response.isSuccessful) {
-                                throw IOException("Failed to download chunk $i: ${response.code}")
-                            }
-
-                            response.body?.byteStream()?.use { input ->
-                                FileOutputStream(temp).use { output ->
-                                    input.copyTo(output)
-                                }
-                            } ?: throw IOException("Empty response body for chunk $i")
+                UmihiHttpClient.downloadClient
+                    .newCall(request)
+                    .execute()
+                    .use { response ->
+                        if (!response.isSuccessful) {
+                            throw IOException("Failed to download audio: ${response.code}")
                         }
 
-                        temp
-                    } catch (e: Exception) {
-                        temp.delete()
-                        throw e
-                    }
-                }
-            }.awaitAll().also { tempFiles.addAll(it) }
+                        val body = response.body
+                            ?: throw IOException("Empty audio response body")
 
-            FileOutputStream(outputFile).use { out ->
-                tempFiles.sortedBy { it.name }.forEach { part ->
-                    part.inputStream().use { it.copyTo(out) }
-                    part.delete()
+                        body.byteStream().use { input ->
+                            FileOutputStream(tempFile).use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                    }
+
+                if (outputFile.exists()) {
+                    outputFile.delete()
+                }
+
+                if (!tempFile.renameTo(outputFile)) {
+                    throw IOException("Failed to rename temp audio file")
+                }
+
+                return@withContext outputFile.absolutePath
+            } catch (e: CancellationException) {
+                tempFile.delete()
+                throw e
+            } catch (e: Exception) {
+                tempFile.delete()
+                lastException = e
+
+                if (attempt == retries - 1) {
+                    throw e
                 }
             }
-
-            return@withContext outputFile.absolutePath
-
-        } catch (e: Exception) {
-            printe("Download failed for ${song.youtubeId}: ${e.message}")
-            tempFiles.forEach { it.delete() }
-            outputFile.delete()
-            return@withContext null
         }
+
+        printe(
+            message = "Download failed for ${song.youtubeId}: ${lastException?.message}",
+            exception = lastException
+        )
+
+        tempFile.delete()
+        outputFile.delete()
+        null
     }
 }

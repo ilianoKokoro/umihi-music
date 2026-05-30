@@ -2,14 +2,19 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
-import ca.ilianokokoro.umihi.music.extensions.body
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
 
 object YoutubeRequestHelper {
     suspend fun browse(browseId: String, settings: UmihiSettings): String {
@@ -96,7 +101,7 @@ object YoutubeRequestHelper {
         settings: UmihiSettings? = null,
         client: JsonObject? = null,
         visitorData: String? = null
-    ): String {
+    ): String = withContext(Dispatchers.IO) {
         val headers = if (settings != null) {
             YoutubeAuthHelper.getHeaders(settings.cookies, visitorData, client)
         } else if (visitorData != null) {
@@ -107,14 +112,33 @@ object YoutubeRequestHelper {
             mapOf()
         }
 
+        val mediaType = "application/json; charset=utf-8".toMediaType()
 
-        return UmihiHttpClient.fuelClient.post(
-            request = {
-                this.url = url
-                this.body = body.toString()
-                this.headers = headers
+        val requestBody = body
+            .toString()
+            .toRequestBody(mediaType)
+
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .apply {
+                headers.forEach { (name, value) ->
+                    addHeader(name, value)
+                }
             }
-        ).body
+            .build()
+
+        UmihiHttpClient.client
+            .newCall(request)
+            .execute()
+            .use { response ->
+                if (!response.isSuccessful) {
+                    throw IOException("HTTP ${response.code}: ${response.message}")
+                }
+
+                response.body?.string()
+                    ?: throw IOException("Empty response body")
+            }
     }
 
     private suspend fun requestWithContext(

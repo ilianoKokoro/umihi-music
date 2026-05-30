@@ -28,7 +28,6 @@ customactivityoncrash = "2.4.0"
 workRuntimeKtx = "2.11.2"
 reorderable = "3.1.0"
 newpipeextractor = "v0.26.2"
-fuel = "3.0.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -71,7 +70,6 @@ customactivityoncrash = { module = "cat.ereza:customactivityoncrash", version.re
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 newpipeextractor = { module = "com.github.TeamNewPipe:NewPipeExtractor", version.ref = "newpipeextractor" }
-fuel = { module = "com.github.kittinunf.fuel:fuel", version.ref = "fuel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

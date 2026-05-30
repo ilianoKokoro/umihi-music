@@ -24,6 +24,7 @@ import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
 import java.util.Locale
 
@@ -632,10 +633,17 @@ object YoutubeHelper {
 
     private suspend fun isYoutubeUrlValid(url: String): Boolean = withContext(Dispatchers.IO) {
         try {
+            val request = Request.Builder()
+                .url(url)
+                .head()
+                .build()
 
-            val result = UmihiHttpClient.fuelClient.head(request = { this.url = url })
-
-            result.statusCode in 200..399
+            UmihiHttpClient.client
+                .newCall(request)
+                .execute()
+                .use { response ->
+                    response.code in 200..399
+                }
         } catch (_: Exception) {
             false
         }
