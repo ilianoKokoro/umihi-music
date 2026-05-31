@@ -30,9 +30,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.extensions.addNext
-import ca.ilianokokoro.umihi.music.extensions.addToQueue
-import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
@@ -112,13 +109,13 @@ fun SearchScreen(
                                     SongListItem(
                                         song = it,
                                         onPress = {
-                                            PlayerManager.currentController?.playSong(it)
+                                            PlayerManager.playSong(it)
                                         },
                                         playNext = {
-                                            PlayerManager.currentController?.addNext(it, context)
+                                            PlayerManager.addNext(it, context)
                                         },
                                         addToQueue = {
-                                            PlayerManager.currentController?.addToQueue(it, context)
+                                            PlayerManager.addToQueue(it, context)
                                         }
                                     )
                                 }

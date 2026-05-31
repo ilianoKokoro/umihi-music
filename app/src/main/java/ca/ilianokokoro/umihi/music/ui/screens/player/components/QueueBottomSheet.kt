@@ -27,7 +27,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.C
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -120,7 +119,7 @@ fun QueueBottomSheet(
                                 song = song,
                                 isCurrentSong = song.uid == songs.getOrNull(currentIndex)?.uid,
                                 onPress = {
-                                    PlayerManager.currentController?.seekTo(index, C.TIME_UNSET)
+                                    PlayerManager.seekToIndex(index)
                                 },
                                 scope = this,
                                 onDragStarted = {
@@ -131,7 +130,7 @@ fun QueueBottomSheet(
                                     mutableSongList = mutableSongList.toMutableList().apply {
                                         removeAt(index)
                                     }
-                                    PlayerManager.currentController?.removeMediaItem(index)
+                                    PlayerManager.removeMediaItem(index)
                                 },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)

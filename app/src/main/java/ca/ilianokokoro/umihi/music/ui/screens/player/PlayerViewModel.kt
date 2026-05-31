@@ -15,7 +15,6 @@ import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.extensions.getQueue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -102,12 +101,11 @@ class PlayerViewModel(application: Application) :
     }
 
     private fun updateCurrentSong() {
-        val controller = PlayerManager.currentController ?: return
 
         _uiState.update { state ->
             state.copy(
-                currentIndex = controller.currentMediaItemIndex,
-                queue = controller.getQueue(),
+                currentIndex = PlayerManager.getCurrentIndex(),
+                queue = PlayerManager.getQueue(),
                 playbackProgress = PlaybackProgress(
                     duration = 0f,
                     position = 0f,
@@ -117,12 +115,10 @@ class PlayerViewModel(application: Application) :
     }
 
     private fun updateQueue() {
-        val controller = PlayerManager.currentController ?: return
-
         _uiState.update { state ->
             state.copy(
-                currentIndex = controller.currentMediaItemIndex,
-                queue = controller.getQueue()
+                currentIndex = PlayerManager.getCurrentIndex(),
+                queue = PlayerManager.getQueue()
             )
         }
     }
@@ -178,7 +174,7 @@ class PlayerViewModel(application: Application) :
 
     private fun updateIsLoadingState() {
         viewModelScope.launch {
-            when (PlayerManager.currentController?.playbackState) {
+            when (PlayerManager.playbackState) {
                 Player.STATE_BUFFERING -> {
                     _uiState.update {
                         _uiState.value.copy(
@@ -205,7 +201,7 @@ class PlayerViewModel(application: Application) :
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    isPlaying = PlayerManager.currentController?.isPlaying == true
+                    isPlaying = PlayerManager.isPlaying
                 )
             }
         }

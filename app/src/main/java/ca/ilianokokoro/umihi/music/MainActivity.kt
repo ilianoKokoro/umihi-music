@@ -25,7 +25,6 @@ import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
-import ca.ilianokokoro.umihi.music.extensions.playSong
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot
 import ca.ilianokokoro.umihi.music.ui.theme.UmihiMusicTheme
@@ -50,7 +49,6 @@ class MainActivity : ComponentActivity() {
 
         initCaoc()
 
-
         enableEdgeToEdge()
         setContent {
             UmihiMusicTheme {
@@ -65,13 +63,18 @@ class MainActivity : ComponentActivity() {
         VersionManager.initialize(this)
         initNewPipe()
 
-        PlayerManager.connectController(this)
         handleShareIntent(intent)
         handleViewIntent(intent)
 
         requestNotificationPermission()
 
         checkForUpdate()
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        PlayerManager.connectController(this)
     }
 
     override fun onDestroy() {
@@ -104,8 +107,12 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleShareIntent(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND) return
-        if (intent.type != "text/plain") return
+        if (intent?.action != Intent.ACTION_SEND) {
+            return
+        }
+        if (intent.type != "text/plain") {
+            return
+        }
 
         val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return
 
@@ -143,7 +150,7 @@ class MainActivity : ComponentActivity() {
 
                     ApiResult.Loading -> {}
                     is ApiResult.Success -> {
-                        PlayerManager.currentController?.playSong(apiResult.data)
+                        PlayerManager.playSong(apiResult.data)
                     }
                 }
             }

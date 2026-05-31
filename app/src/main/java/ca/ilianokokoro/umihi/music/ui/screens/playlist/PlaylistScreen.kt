@@ -26,8 +26,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.extensions.addNext
-import ca.ilianokokoro.umihi.music.extensions.addToQueue
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
@@ -158,9 +156,9 @@ fun PlaylistScreen(
                                         onOpenPlayer()
                                         playlistViewModel.playPlaylist(song)
                                     }, playNext = {
-                                        PlayerManager.currentController?.addNext(song, application)
+                                        PlayerManager.addNext(song, application)
                                     }, addToQueue = {
-                                        PlayerManager.currentController?.addToQueue(
+                                        PlayerManager.addToQueue(
                                             song,
                                             application
                                         )

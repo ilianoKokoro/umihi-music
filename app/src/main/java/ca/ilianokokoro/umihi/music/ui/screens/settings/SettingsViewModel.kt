@@ -21,7 +21,6 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
-import ca.ilianokokoro.umihi.music.extensions.setAudioOffloadEnabled
 import ca.ilianokokoro.umihi.music.models.Cookies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -123,7 +122,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun updateAudioOffloadSetting(value: Boolean) {
-        PlayerManager.currentController?.setAudioOffloadEnabled(value)
+        PlayerManager.setAudioOffloadEnabled(value)
         updateSetting(
             DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD,
             value

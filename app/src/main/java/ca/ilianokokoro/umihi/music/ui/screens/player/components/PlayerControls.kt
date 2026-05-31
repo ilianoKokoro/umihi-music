@@ -60,6 +60,7 @@ fun PlayerControls(
 
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -117,7 +118,7 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = { PlayerManager.currentController?.seekToPrevious() },
+                            onClick = { PlayerManager.skipToPrevious() },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[0],
                             modifier = Modifier
@@ -129,6 +130,7 @@ fun PlayerControls(
                             Icon(
                                 imageVector = Icons.Rounded.SkipPrevious,
                                 contentDescription = stringResource(R.string.previous),
+                                modifier = Modifier.size(30.dp)
                             )
                         }
                     },
@@ -171,7 +173,7 @@ fun PlayerControls(
                                 Icon(
                                     imageVector = icon,
                                     contentDescription = icon.name,
-                                    modifier = Modifier.size(30.dp)
+                                    modifier = Modifier.size(50.dp)
                                 )
                             }
 
@@ -185,7 +187,7 @@ fun PlayerControls(
                     {
                         FilledIconButton(
                             onClick = {
-                                PlayerManager.currentController?.seekToNext()
+                                PlayerManager.skipToNext()
                             },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[2],
@@ -198,6 +200,8 @@ fun PlayerControls(
                             Icon(
                                 imageVector = Icons.Rounded.SkipNext,
                                 contentDescription = stringResource(R.string.next),
+                                modifier = Modifier.size(30.dp)
+
                             )
                         }
                     },
@@ -245,17 +249,7 @@ fun PlayerControls(
                                 repeatMode
                             ),
                             onCheckedChange = {
-                                val player = PlayerManager.currentController
-
-                                player?.repeatMode = when (player.repeatMode) {
-                                    Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
-                                    Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
-                                    Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_OFF
-                                    else -> {
-                                        Player.REPEAT_MODE_OFF
-                                    }
-
-                                }
+                                PlayerManager.cycleRepeatMode()
                             },
                             shapes = IconButtonDefaults.toggleableShapes(),
                             colors = IconButtonDefaults.filledIconToggleButtonColors(

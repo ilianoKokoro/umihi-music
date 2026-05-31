@@ -17,8 +17,6 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
-import ca.ilianokokoro.umihi.music.extensions.playPlaylist
-import ca.ilianokokoro.umihi.music.extensions.shufflePlaylist
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
@@ -134,7 +132,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
     fun playPlaylist(startingSong: Song? = null) {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            PlayerManager.currentController?.playPlaylist(
+            PlayerManager.playPlaylist(
                 playlist,
                 startingSong?.let { playlist.songs.indexOf(it) } ?: 0
             )
@@ -144,7 +142,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
     fun shufflePlaylist() {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            PlayerManager.currentController?.shufflePlaylist(playlist)
+            PlayerManager.shufflePlaylist(playlist)
         }
     }
 
