@@ -69,32 +69,46 @@ fun SettingsScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+
     FadingStatusBarWrapper { statusBarHeight ->
         Scaffold(
             contentWindowInsets = WindowInsets(0.dp)
         ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = statusBarHeight,
-                        bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING + paddingValues.calculateBottomPadding()
+            when (val screenState = uiState.screenState) {
+                ScreenState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingAnimation()
+                    }
+                }
 
-                    ),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.settings),
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+                is ScreenState.Error -> {
+                    ErrorMessage(
+                        ex = screenState.exception,
+                        onRetry = settingsViewModel::getSettings
+                    )
+                }
 
-                when (uiState.screenState) {
-                    is ScreenState.Success -> {
-                        val state = uiState.screenState
+                is ScreenState.Success -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = statusBarHeight,
+                                bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING + paddingValues.calculateBottomPadding()
+                            ),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.settings),
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
 
                         SettingsSection(
                             title = stringResource(R.string.account)
@@ -130,18 +144,17 @@ fun SettingsScreen(
                                 title = stringResource(R.string.show_podcast_playlist_title),
                                 subtitle = stringResource(R.string.show_podcast_playlist_description),
                                 leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
-                                value = state.settings.showPodcastPlaylist,
+                                value = screenState.settings.showPodcastPlaylist,
                                 onToggle = {
                                     settingsViewModel.updatePodcastPlaylistVisibility(it)
                                 }
                             )
                             Spacer(modifier = Modifier.height(4.dp))
-
                             BooleanSettingItem(
                                 title = stringResource(R.string.keep_screen_on_title),
                                 subtitle = stringResource(R.string.keep_screen_on_title_description),
                                 leadingIcon = Icons.Outlined.StayCurrentPortrait,
-                                value = state.settings.keepScreenOn,
+                                value = screenState.settings.keepScreenOn,
                                 onToggle = {
                                     settingsViewModel.updateKeepScreenOnSetting(it)
                                 }
@@ -155,7 +168,7 @@ fun SettingsScreen(
                                 title = stringResource(R.string.enable_audio_offload),
                                 subtitle = stringResource(R.string.audio_offload_subtitle),
                                 leadingIcon = Icons.Outlined.Memory,
-                                value = state.settings.useAudioOffload,
+                                value = screenState.settings.useAudioOffload,
                                 onToggle = {
                                     settingsViewModel.updateAudioOffloadSetting(it)
                                 }
@@ -192,7 +205,7 @@ fun SettingsScreen(
                                 title = stringResource(R.string.change_update_channel),
                                 subtitle = stringResource(
                                     R.string.current_update_channel_body,
-                                    state.settings.updateChannel
+                                    screenState.settings.updateChannel
                                 ),
                                 leadingIcon = Icons.Outlined.SystemUpdate,
                                 onClick = {
@@ -203,7 +216,7 @@ fun SettingsScreen(
 
                         if (uiState.showUpdateChannelDialog) {
                             UpdateChannelDialog(
-                                selectedOption = state.settings.updateChannel,
+                                selectedOption = screenState.settings.updateChannel,
                                 onChange = {
                                     settingsViewModel.changeUpdateChannel(it)
                                 },
@@ -225,26 +238,8 @@ fun SettingsScreen(
                             )
                         }
                     }
-
-                    ScreenState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LoadingAnimation()
-                        }
-                    }
-
-                    is ScreenState.Error -> {
-                        ErrorMessage(
-                            ex = uiState.screenState.exception,
-                            onRetry = settingsViewModel::getSettings
-                        )
-                    }
                 }
             }
         }
     }
 }
-
-
