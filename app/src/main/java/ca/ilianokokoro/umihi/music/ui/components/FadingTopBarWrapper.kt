@@ -14,12 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun FadingStatusBarWrapper(
     modifier: Modifier = Modifier,
     fadeColor: Color = MaterialTheme.colorScheme.background,
-    content: @Composable () -> Unit
+    content: @Composable (statusBarHeight: Dp) -> Unit
 ) {
     val density = LocalDensity.current
 
@@ -30,7 +31,7 @@ fun FadingStatusBarWrapper(
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        content()
+        content(statusBarHeight)
 
         Box(
             modifier = Modifier

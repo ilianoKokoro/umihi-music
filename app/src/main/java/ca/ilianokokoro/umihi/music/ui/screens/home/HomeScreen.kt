@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -74,25 +74,28 @@ fun HomeScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    FadingStatusBarWrapper {
+    FadingStatusBarWrapper { statusBarHeight ->
         Scaffold(
+            contentWindowInsets = WindowInsets(0.dp),
             floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        createPlaylistOpen = true
+                if (uiState.screenState is ScreenState.LoggedIn) {
+                    FloatingActionButton(
+                        onClick = {
+                            createPlaylistOpen = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = Icons.Rounded.Add.name
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Add,
-                        contentDescription = Icons.Rounded.Add.name
-                    )
                 }
+
             }
         ) { paddingValues ->
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 8.dp),
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -117,8 +120,10 @@ fun HomeScreen(
                                     verticalArrangement = Arrangement.spacedBy(12.dp),
                                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                                     contentPadding = PaddingValues(
-                                        top = paddingValues.calculateTopPadding(),
-                                        bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING
+                                        top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
+                                        bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
+                                        end = 8.dp,
+                                        start = 8.dp
                                     )
 
                                 ) {
