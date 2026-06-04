@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
@@ -82,8 +83,11 @@ fun PlaylistInfo(
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 Text(
-                    modifier = modifier.fillMaxWidth(),
+                    modifier = modifier
+                        .fillMaxWidth(),
                     text = playlist.info.title,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
 

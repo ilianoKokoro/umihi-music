@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.playlist
 
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
@@ -44,11 +43,9 @@ fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
                 playlistInfo.title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .basicMarquee(
-                        repeatDelayMillis = Constants.Marquee.DELAY,
-                        initialDelayMillis = Constants.Marquee.DELAY,
-                    ),
+                    .padding(top = 8.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
