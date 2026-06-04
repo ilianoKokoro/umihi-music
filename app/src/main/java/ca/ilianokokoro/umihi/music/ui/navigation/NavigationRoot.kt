@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
@@ -36,6 +37,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
 import ca.ilianokokoro.umihi.music.ui.screens.home.HomeScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
@@ -46,6 +48,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
+    val sharedViewModel: SharedViewModel = viewModel()
     val backStack = rememberNavBackStack(HomeScreenKey)
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
@@ -145,6 +148,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     when (key) {
                         is HomeScreenKey -> NavEntry(key) {
                             HomeScreen(
+                                sharedViewModel = sharedViewModel,
                                 onSettingsButtonPress = { backStack.add(SettingsScreenKey) },
                                 onPlaylistPressed = { playlist ->
                                     backStack.add(PlaylistScreenKey(playlistInfo = playlist))
@@ -162,6 +166,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
                         is PlaylistScreenKey -> NavEntry(key) {
                             PlaylistScreen(
+                                sharedViewModel = sharedViewModel,
                                 playlistInfo = key.playlistInfo,
                                 onBack = backStack::safePop,
                                 onOpenPlayer = { backStack.add(PlayerScreenKey) },

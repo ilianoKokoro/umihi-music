@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.FileDownloadOff
@@ -50,12 +51,14 @@ fun PlaylistInfo(
     playlist: Playlist,
     isDownloading: Boolean,
     onDownloadPressed: () -> Unit,
+    onDeleteDownloadPressed: () -> Unit,
     onDeletePressed: () -> Unit,
     onCancelDownload: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val songsCount = playlist.songs.count()
     var animatedCount by remember { mutableStateOf<Int?>(null) }
+    val showDeleteDownloadDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     val showCancelDialog = remember { mutableStateOf(false) }
     var optionsExtended by remember { mutableStateOf(false) }
@@ -114,7 +117,7 @@ fun PlaylistInfo(
                         FilledIconButton(
                             onClick = {
                                 if (playlist.downloaded) {
-                                    showDeleteDialog.value = true
+                                    showDeleteDownloadDialog.value = true
                                 } else if (isDownloading) {
                                     showCancelDialog.value = true
                                 } else {
@@ -175,6 +178,15 @@ fun PlaylistInfo(
                                     leadingIcon = Icons.Rounded.FileDownloadOff,
                                     text = stringResource(R.string.remove_download),
                                     onClick = {
+                                        showDeleteDownloadDialog.value = true
+                                        optionsExtended = false
+                                    }
+                                )
+
+                                ModernDropdownItem(
+                                    leadingIcon = Icons.Rounded.Delete,
+                                    text = stringResource(R.string.delete_playlist),
+                                    onClick = {
                                         showDeleteDialog.value = true
                                         optionsExtended = false
                                     }
@@ -187,22 +199,22 @@ fun PlaylistInfo(
         }
     }
 
-    if (showDeleteDialog.value) {
+    if (showDeleteDownloadDialog.value) {
         AlertDialog(
-            onDismissRequest = { showDeleteDialog.value = false },
+            onDismissRequest = { showDeleteDownloadDialog.value = false },
             title = { Text(stringResource(R.string.remove_local_playlist)) },
             text = { Text(stringResource(R.string.remove_local_confirm_text)) },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        showDeleteDialog.value = false
-                        onDeletePressed()
+                        showDeleteDownloadDialog.value = false
+                        onDeleteDownloadPressed()
                     }
                 ) { Text(stringResource(R.string.confirm)) }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { showDeleteDialog.value = false }
+                    onClick = { showDeleteDownloadDialog.value = false }
                 ) { Text(stringResource(R.string.cancel)) }
             },
             properties = DialogProperties(dismissOnClickOutside = false)
@@ -225,6 +237,28 @@ fun PlaylistInfo(
             dismissButton = {
                 TextButton(
                     onClick = { showCancelDialog.value = false }
+                ) { Text(stringResource(R.string.cancel)) }
+            },
+            properties = DialogProperties(dismissOnClickOutside = false)
+        )
+    }
+
+    if (showDeleteDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog.value = false },
+            title = { Text(stringResource(R.string.delete_playlist)) },
+            text = { Text(stringResource(R.string.delete_playlist_text)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteDialog.value = false
+                        onDeletePressed()
+                    }
+                ) { Text(stringResource(R.string.confirm)) }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDeleteDialog.value = false }
                 ) { Text(stringResource(R.string.cancel)) }
             },
             properties = DialogProperties(dismissOnClickOutside = false)

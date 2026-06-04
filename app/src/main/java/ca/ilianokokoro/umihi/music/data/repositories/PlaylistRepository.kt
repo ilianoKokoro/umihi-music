@@ -60,4 +60,23 @@ class PlaylistRepository {
             emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
+
+    fun delete(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.delete(
+                        playlist,
+                        settings
+                    )
+                )
+            )
+        }.catch { e ->
+            emit(ApiResult.Error(e.toException()))
+        }.flowOn(Dispatchers.IO)
+    }
 }

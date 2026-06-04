@@ -20,18 +20,23 @@ import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
+class PlaylistViewModel(
+    private val playlistInfo: PlaylistInfo,
+    private val sharedViewModel: SharedViewModel,
+    application: Application
+) :
     AndroidViewModel(application) {
-    private val _playlist = playlistInfo
+
     private val _uiState = MutableStateFlow(
         PlaylistState(
-            screenState = ScreenState.Loading(_playlist)
+            screenState = ScreenState.Loading(playlistInfo)
         )
     )
     val uiState = _uiState.asStateFlow()
@@ -52,7 +57,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
 
     private fun observeSongDownloads() {
         viewModelScope.launch {
-            localPlaylistRepository.observePlaylistById(_playlist.id).collect { localPlaylist ->
+            localPlaylistRepository.observePlaylistById(playlistInfo.id).collect { localPlaylist ->
                 if (localPlaylist != null) {
                     _uiState.update { currentState ->
                         val screenState = currentState.screenState
@@ -157,7 +162,48 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
         }
     }
 
-    fun deletePlaylist() {
+    fun deletePlaylist(onBack: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception("Failed to get to login cookies")
+                }
+
+                playlistRepository.delete(playlistInfo, settings)
+                    .collect { apiResult ->
+                        _uiState.update { _ ->
+                            _uiState.value.copy(
+                                screenState = when (apiResult) {
+                                    is ApiResult.Error -> {
+                                        ScreenState.Error(Exception("Failed to delete the playlist"))
+                                    }
+
+                                    ApiResult.Loading -> ScreenState.Loading(playlistInfo)
+                                    is ApiResult.Success -> {
+                                        onBack()
+                                        sharedViewModel.markPlaylistDeleted(
+                                            playlistInfo
+                                        )
+                                        ScreenState.Success(Playlist(PlaylistInfo()))
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+                _uiState.update {
+                    _uiState.value.copy(
+                        screenState = ScreenState.Error(ex)
+                    )
+                }
+            }
+        }
+    }
+
+    fun deleteLocalPlaylist() {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
             downloadRepository.deletePlaylist(playlist)
@@ -188,26 +234,26 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
 
     private suspend fun getPlaylistInfoAsync() {
         try {
-            val localPlaylist = localPlaylistRepository.getPlaylistById(_playlist.id)
+            val localPlaylist = localPlaylistRepository.getPlaylistById(playlistInfo.id)
 
             val settings = datastoreRepository.getSettings()
             if (settings.cookies.isEmpty()) {
                 throw Exception("Failed to get to login cookies")
             }
 
-            playlistRepository.retrieveOne(Playlist(_playlist), settings)
+            playlistRepository.retrieveOne(Playlist(playlistInfo), settings)
                 .collect { apiResult ->
                     _uiState.update { _ ->
                         _uiState.value.copy(
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> {
                                     if (localPlaylist == null) {
-                                        if (_playlist.id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID) {
+                                        if (playlistInfo.id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID) {
                                             val downloadedSongs =
                                                 localSongRepository.getDownloadedSongs()
                                             ScreenState.Success(
                                                 playlist = Playlist(
-                                                    info = _playlist,
+                                                    info = playlistInfo,
                                                     songs = downloadedSongs
                                                 )
                                             )
@@ -219,7 +265,7 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
                                     }
                                 }
 
-                                ApiResult.Loading -> ScreenState.Loading(_playlist)
+                                ApiResult.Loading -> ScreenState.Loading(playlistInfo)
                                 is ApiResult.Success -> {
                                     val remotePlaylist = apiResult.data
                                     ScreenState.Success(
@@ -272,11 +318,12 @@ class PlaylistViewModel(playlistInfo: PlaylistInfo, application: Application) :
     companion object {
         fun Factory(
             playlistInfo: PlaylistInfo,
+            sharedViewModel: SharedViewModel,
             application: Application
         ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    PlaylistViewModel(playlistInfo, application)
+                    PlaylistViewModel(playlistInfo, sharedViewModel, application)
                 }
             }
     }

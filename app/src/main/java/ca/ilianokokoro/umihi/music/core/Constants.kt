@@ -207,6 +207,11 @@ object Constants {
             const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${API_KEY}"
         }
 
+
+        object Delete {
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${API_KEY}"
+        }
+
         object PlayerInfo {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player"

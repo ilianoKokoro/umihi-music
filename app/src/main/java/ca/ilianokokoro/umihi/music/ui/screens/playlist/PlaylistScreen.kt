@@ -34,11 +34,13 @@ import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
 
 @Composable
 fun PlaylistScreen(
+    sharedViewModel: SharedViewModel,
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
     onBack: () -> Unit,
@@ -48,6 +50,7 @@ fun PlaylistScreen(
         factory =
             PlaylistViewModel.Factory(
                 playlistInfo = playlistInfo,
+                sharedViewModel = sharedViewModel,
                 application = application
             )
     )
@@ -105,7 +108,8 @@ fun PlaylistScreen(
                             onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                             onShufflePlaylist = playlistViewModel::shufflePlaylist,
                             onPlayPlaylist = playlistViewModel::playPlaylist,
-                            onDeletePlaylist = playlistViewModel::deletePlaylist,
+                            onDeleteDownloadPlaylist = playlistViewModel::deleteLocalPlaylist,
+                            onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                             onCancelDownload = playlistViewModel::cancelDownload,
                             playlist = playlistInfo
                         )
@@ -145,7 +149,8 @@ fun PlaylistScreen(
                                         onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                                         onShufflePlaylist = playlistViewModel::shufflePlaylist,
                                         onPlayPlaylist = playlistViewModel::playPlaylist,
-                                        onDeletePlaylist = playlistViewModel::deletePlaylist,
+                                        onDeleteDownloadPlaylist = playlistViewModel::deleteLocalPlaylist,
+                                        onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                                         onCancelDownload = playlistViewModel::cancelDownload,
                                         playlist = playlistInfo
                                     )

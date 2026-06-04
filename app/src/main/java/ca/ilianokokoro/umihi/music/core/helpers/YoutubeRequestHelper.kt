@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -72,6 +73,35 @@ object YoutubeRequestHelper {
             settings = settings
         )
     }
+
+    suspend fun deletePlaylist(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+        
+        val playlistId = playlist.id.removePrefix("VL")
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("playlistId", playlistId)
+        }
+
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Delete.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
 
     suspend fun getPlayerInfo(
         videoId: String,

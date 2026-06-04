@@ -19,7 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,9 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
@@ -43,9 +41,11 @@ import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
 @Composable
 fun HomeScreen(
+    sharedViewModel: SharedViewModel,
     onSettingsButtonPress: () -> Unit,
     onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
     application: Application,
@@ -57,21 +57,15 @@ fun HomeScreen(
 ) {
     val uiState = homeViewModel.uiState.collectAsStateWithLifecycle().value
 
-    val lifecycleOwner = LocalLifecycleOwner.current
     var createPlaylistOpen by remember { mutableStateOf(false) }
 
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            val loggedOut = uiState.screenState is ScreenState.LoggedOut
-            val noPlaylistsFound =
-                uiState.screenState is ScreenState.LoggedIn && uiState.screenState.playlistInfos.isEmpty()
+    val deletedPlaylistIds by sharedViewModel.deletedPlaylistIds.collectAsState()
 
-            if (event == Lifecycle.Event.ON_RESUME && (loggedOut || noPlaylistsFound)) {
-                homeViewModel.getPlaylists()
-            }
+    LaunchedEffect(deletedPlaylistIds) {
+        if (deletedPlaylistIds.isNotEmpty()) {
+            homeViewModel.removePlaylistsFromList(deletedPlaylistIds)
+            sharedViewModel.consumeDeletedPlaylists()
         }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     FadingStatusBarWrapper { statusBarHeight ->

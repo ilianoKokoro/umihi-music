@@ -148,6 +148,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun removePlaylistsFromList(playlistIds: Set<String>) {
+        _uiState.update { currentState ->
+            val loggedIn = currentState.screenState as? ScreenState.LoggedIn
+                ?: return@update currentState
+
+            currentState.copy(
+                screenState = loggedIn.copy(
+                    playlistInfos = loggedIn.playlistInfos.filterNot { playlist ->
+                        playlist.id in playlistIds
+                    }
+                )
+            )
+        }
+    }
+
     companion object {
         fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {
             initializer {

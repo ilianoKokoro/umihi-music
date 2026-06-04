@@ -45,4 +45,14 @@ class PlaylistDataSource {
             )
         )
     }
+
+    suspend fun delete(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ) {
+        YoutubeRequestHelper.deletePlaylist(
+            playlist,
+            settings = settings
+        )
+    }
 }
