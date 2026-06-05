@@ -104,4 +104,6 @@
     <string name="privacy_unlisted">Non répertorié</string>
     <string name="privacy_public">Publique</string>
     <string name="privacy_private">Privé</string>
+    <string name="delete_playlist">Delete Playlist</string>
+    <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
 </resources>
