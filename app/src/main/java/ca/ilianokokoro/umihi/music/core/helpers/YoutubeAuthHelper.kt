@@ -6,7 +6,7 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import java.security.MessageDigest
 import kotlin.text.Charsets.UTF_8
@@ -55,18 +55,38 @@ object YoutubeAuthHelper {
     fun getHeaders(
         cookies: Cookies? = null,
         visitorData: String? = null,
-        client: JsonObject? = Constants.YoutubeApi.Client.WEB_REMIX
+        client: JsonObject? = null
     ): Map<String, String> {
+        val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
+
         val headers = mutableMapOf(
-            "Content-Type" to "application/json",
+            "Content-Type" to "application/json; charset=utf-8",
             "Origin" to Constants.YoutubeApi.ORIGIN,
             "Referer" to "${Constants.YoutubeApi.ORIGIN}/",
             "X-Goog-Api-Format-Version" to "1",
             "X-Origin" to Constants.YoutubeApi.ORIGIN,
-            "X-YouTube-Client-Version" to client?.jsonObject["clientVersion"]?.jsonPrimitive.toString(),
-            "X-YouTube-Client-Name" to client?.jsonObject["xClientName"]?.jsonPrimitive.toString(),
-            "User-Agent" to client?.jsonObject["userAgent"]?.jsonPrimitive.toString()
         )
+
+        clientToUse["clientVersion"]
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?.let {
+                headers["X-YouTube-Client-Version"] = it
+            }
+
+        clientToUse["xClientName"]
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?.let {
+                headers["X-YouTube-Client-Name"] = it
+            }
+
+        clientToUse["userAgent"]
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?.let {
+                headers["User-Agent"] = it
+            }
 
         visitorData?.let {
             headers["X-Goog-Visitor-Id"] = it
@@ -74,12 +94,15 @@ object YoutubeAuthHelper {
 
         if (cookies != null) {
             headers["Cookie"] = cookies.toRawCookie()
+
             val cookieMap = cookies.data
             val sapisidCookie = cookieMap["SAPISID"] ?: cookieMap["__Secure-3PAPISID"]
+
             if (sapisidCookie != null) {
                 headers["Authorization"] = generateSapisidHash(sapisidCookie)
             }
         }
+
         return headers
     }
 
