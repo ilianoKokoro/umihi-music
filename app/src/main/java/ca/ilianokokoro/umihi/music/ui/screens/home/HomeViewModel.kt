@@ -15,8 +15,10 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -41,69 +43,117 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refreshPlaylists() {
         viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    isRefreshing = true
-                )
+            _uiState.update { currentState ->
+                currentState.copy(isRefreshing = true)
             }
 
-            getPlaylistsSuspend()
-
-            _uiState.update {
-                _uiState.value.copy(
-                    isRefreshing = false
-                )
+            try {
+                refreshPlaylistsOnce()
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            } finally {
+                _uiState.update { currentState ->
+                    currentState.copy(isRefreshing = false)
+                }
             }
         }
+    }
+
+    private suspend fun refreshPlaylistsOnce() {
+        val settings = datastoreRepository.getSettings()
+
+        if (settings.cookies.isEmpty()) {
+            _uiState.update { currentState ->
+                currentState.copy(screenState = ScreenState.LoggedOut)
+            }
+            return
+        }
+
+        val apiResult = playlistRepository.retrieveAll(settings)
+            .first { result ->
+                result is ApiResult.Success || result is ApiResult.Error
+            }
+
+        val playlists = when (apiResult) {
+            is ApiResult.Success -> apiResult.data.toMutableList()
+
+            is ApiResult.Error -> localPlaylistRepository.getAll()
+                .map { it.info }
+                .toMutableList()
+
+            ApiResult.Loading -> return
+        }
+
+        applyPlaylistFiltersAndUpdateState(
+            playlists = playlists,
+            settings = settings
+        )
     }
 
     suspend fun getPlaylistsSuspend() {
         try {
             val settings = datastoreRepository.getSettings()
 
-            val downloadedPlaylist = PlaylistInfo(
-                id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
-                title = "Downloaded",
-            )
+            if (settings.cookies.isEmpty()) {
+                _uiState.update { currentState ->
+                    currentState.copy(screenState = ScreenState.LoggedOut)
+                }
+                return
+            }
 
-            if (!settings.cookies.isEmpty()) {
-                playlistRepository.retrieveAll(settings).collect { apiResult ->
-                    val playlists = when (apiResult) {
-                        is ApiResult.Success -> apiResult.data.toMutableList()
-                        is ApiResult.Error -> localPlaylistRepository.getAll().map { it.info }
-                            .toMutableList()
-
-                        ApiResult.Loading -> null
+            playlistRepository.retrieveAll(settings).collect { apiResult ->
+                when (apiResult) {
+                    ApiResult.Loading -> {
+                        _uiState.update { currentState ->
+                            currentState.copy(screenState = ScreenState.Loading)
+                        }
                     }
 
-                    if (!settings.showPodcastPlaylist) {
-                        playlists?.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
-                    }
+                    is ApiResult.Success -> {
+                        val playlists = apiResult.data.toMutableList()
 
-                    playlists?.add(0, downloadedPlaylist)
-                    _uiState.update {
-                        _uiState.value.copy(
-                            screenState = when (apiResult) {
-                                is ApiResult.Error, is ApiResult.Success -> ScreenState.LoggedIn(
-                                    playlists!!
-                                )
-
-                                ApiResult.Loading -> ScreenState.Loading
-                            }
+                        applyPlaylistFiltersAndUpdateState(
+                            playlists = playlists,
+                            settings = settings
                         )
                     }
-                }
 
-            } else {
-                _uiState.update {
-                    _uiState.value.copy(
-                        screenState =
-                            ScreenState.LoggedOut
-                    )
+                    is ApiResult.Error -> {
+                        val playlists = localPlaylistRepository.getAll()
+                            .map { it.info }
+                            .toMutableList()
+
+                        applyPlaylistFiltersAndUpdateState(
+                            playlists = playlists,
+                            settings = settings
+                        )
+                    }
                 }
             }
         } catch (ex: Exception) {
             printe(message = ex.toString(), exception = ex)
+        }
+    }
+
+    private fun applyPlaylistFiltersAndUpdateState(
+        playlists: MutableList<PlaylistInfo>,
+        settings: UmihiSettings
+    ) {
+        val downloadedPlaylist = PlaylistInfo(
+            id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
+            title = "Downloaded",
+        )
+
+        if (!settings.showPodcastPlaylist) {
+            playlists.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
+        }
+
+        playlists.add(0, downloadedPlaylist)
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                screenState = ScreenState.LoggedIn(playlists)
+            )
         }
     }
 

@@ -198,6 +198,7 @@ class PlaybackService : MediaLibraryService() {
             val future = SettableFuture.create<MediaSession.MediaItemsWithStartPosition>()
 
             UmihiHelper.printd("onSetMediaItems")
+            UmihiHelper.printd(mediaItems.toString())
 
             future.set(
                 MediaSession.MediaItemsWithStartPosition(

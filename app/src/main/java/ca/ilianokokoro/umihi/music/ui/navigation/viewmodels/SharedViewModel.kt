@@ -6,11 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-
 class SharedViewModel : ViewModel() {
 
     private val _deletedPlaylistIds = MutableStateFlow<Set<String>>(emptySet())
     val deletedPlaylistIds = _deletedPlaylistIds.asStateFlow()
+
+    private val _playlistRefreshNeeded = MutableStateFlow(false)
+    val playlistRefreshNeeded = _playlistRefreshNeeded.asStateFlow()
 
     fun markPlaylistDeleted(playlist: PlaylistInfo) {
         _deletedPlaylistIds.update { current ->
@@ -20,5 +22,13 @@ class SharedViewModel : ViewModel() {
 
     fun consumeDeletedPlaylists() {
         _deletedPlaylistIds.value = emptySet()
+    }
+
+    fun requestPlaylistRefresh() {
+        _playlistRefreshNeeded.value = true
+    }
+
+    fun consumePlaylistRefresh() {
+        _playlistRefreshNeeded.value = false
     }
 }

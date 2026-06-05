@@ -60,11 +60,20 @@ fun HomeScreen(
     var createPlaylistOpen by remember { mutableStateOf(false) }
 
     val deletedPlaylistIds by sharedViewModel.deletedPlaylistIds.collectAsState()
+    val playlistRefreshNeeded by sharedViewModel.playlistRefreshNeeded.collectAsState()
 
-    LaunchedEffect(deletedPlaylistIds) {
-        if (deletedPlaylistIds.isNotEmpty()) {
-            homeViewModel.removePlaylistsFromList(deletedPlaylistIds)
-            sharedViewModel.consumeDeletedPlaylists()
+    LaunchedEffect(deletedPlaylistIds, playlistRefreshNeeded) {
+        when {
+            playlistRefreshNeeded -> {
+                homeViewModel.refreshPlaylists()
+                sharedViewModel.consumePlaylistRefresh()
+                sharedViewModel.consumeDeletedPlaylists()
+            }
+
+            deletedPlaylistIds.isNotEmpty() -> {
+                homeViewModel.removePlaylistsFromList(deletedPlaylistIds)
+                sharedViewModel.consumeDeletedPlaylists()
+            }
         }
     }
 

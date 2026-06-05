@@ -177,6 +177,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         is AuthScreenKey -> NavEntry(key) {
                             AuthScreen(
                                 onBack = backStack::safePop,
+                                sharedViewModel = sharedViewModel,
                                 application = app
                             )
                         }

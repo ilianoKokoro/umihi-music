@@ -30,6 +30,7 @@ import androidx.webkit.WebViewFeature
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -37,6 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AuthScreen(
     onBack: () -> Unit,
     application: Application,
+    sharedViewModel: SharedViewModel,
     authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory(application))
 ) {
     val context = LocalContext.current
@@ -46,6 +48,7 @@ fun AuthScreen(
             when (event) {
                 AuthViewModel.ScreenEvent.Out.LoginCompleted -> {
                     Toast.makeText(context, R.string.login_success, Toast.LENGTH_SHORT).show()
+                    sharedViewModel.requestPlaylistRefresh()
                     onBack()
                 }
             }
