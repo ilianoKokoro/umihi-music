@@ -102,7 +102,6 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-
                 when (uiState.screenState) {
                     is ScreenState.LoggedIn -> {
                         val playlists = uiState.screenState.playlistInfos

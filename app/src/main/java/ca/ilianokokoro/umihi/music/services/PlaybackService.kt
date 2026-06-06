@@ -20,11 +20,8 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.CacheBitmapLoader
-import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
-import androidx.media3.session.SessionError
-import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
@@ -35,12 +32,6 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
-import ca.ilianokokoro.umihi.music.models.Playlist
-import ca.ilianokokoro.umihi.music.models.PlaylistInfo
-import com.google.common.collect.ImmutableList
-import com.google.common.util.concurrent.Futures
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.SettableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -61,159 +52,8 @@ class PlaybackService : MediaLibraryService() {
     private val playlistRepository = PlaylistRepository()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    private lateinit var callback: UmihiMediaLibraryCallback
 
-    val callback = object : MediaLibrarySession.Callback {
-        override fun onConnect(
-            session: MediaSession,
-            controller: MediaSession.ControllerInfo
-        ): MediaSession.ConnectionResult {
-            val commands =
-                MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS.buildUpon()
-                    .add(Player.COMMAND_GET_TIMELINE)
-                    .build()
-
-            return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
-                .setAvailablePlayerCommands(commands)
-                .build()
-        }
-
-        override fun onGetLibraryRoot(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<MediaItem>> {
-            return Futures.immediateFuture(
-                LibraryResult.ofItem(
-                    MediaItem.Builder()
-                        .setMediaId(Constants.ExoPlayer.Cache.Library.ROOT_ID)
-                        .setMediaMetadata(
-                            MediaMetadata.Builder()
-                                .setIsBrowsable(false)
-                                .setIsPlayable(false)
-                                .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
-                                .build()
-                        )
-                        .build(),
-                    params
-                )
-            )
-        }
-
-        override fun onGetChildren(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            parentId: String,
-            page: Int,
-            pageSize: Int,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-            val future = SettableFuture.create<LibraryResult<ImmutableList<MediaItem>>>()
-            val context = this@PlaybackService
-            serviceScope.launch {
-                try {
-                    val result = when {
-                        parentId == Constants.ExoPlayer.Cache.Library.ROOT_ID -> {
-                            listOf(
-                                MediaItem
-                                    .Builder()
-                                    .setMediaId(Constants.ExoPlayer.Cache.Library.PLAYLIST_ROOT)
-                                    .setMediaMetadata(
-                                        MediaMetadata
-                                            .Builder()
-                                            .setTitle(context.getString(R.string.playlists))
-                                            .setIsPlayable(false)
-                                            .setIsBrowsable(true)
-                                            .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS)
-                                            .build(),
-                                    ).build()
-                            )
-
-                        }
-
-                        parentId == Constants.ExoPlayer.Cache.Library.PLAYLIST_ROOT -> {
-                            val playlists = playlistRepository // TODO get local playlists first
-                                .retrieveAll(datastoreRepository.settings.first())
-                                .first { it !is ApiResult.Loading }
-
-                            if (playlists is ApiResult.Success) {
-                                playlists.data.map { playlist ->
-                                    playlist.toBrowsableMediaItem()
-                                }
-                            } else {
-                                emptyList()
-                            }
-                        }
-
-
-                        parentId.startsWith(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX) -> {
-                            val playlistId =
-                                parentId.removePrefix(Constants.ExoPlayer.Cache.Library.PLAYLIST_PREFIX)
-
-                            val playlist = Playlist(
-                                PlaylistInfo(id = playlistId)
-                            )
-
-                            val result = playlistRepository
-                                .retrieveOne(
-                                    playlist,
-                                    datastoreRepository.settings.first()
-                                )
-                                .first { it !is ApiResult.Loading }
-
-                            if (result is ApiResult.Success) {
-                                result.data.songs.map { song ->
-                                    song.mediaItem
-                                }
-                            } else {
-                                emptyList()
-                            }
-                        }
-
-                        else -> emptyList()
-                    }
-
-                    future.set(
-                        LibraryResult.ofItemList(
-                            result,
-                            params
-                        )
-                    )
-                } catch (_: Exception) {
-                    future.set(
-                        LibraryResult.ofError(SessionError.ERROR_UNKNOWN)
-                    )
-                }
-            }
-
-            return future
-        }
-
-        override fun onSetMediaItems(
-            mediaSession: MediaSession,
-            controller: MediaSession.ControllerInfo,
-            mediaItems: MutableList<MediaItem>,
-            startIndex: Int,
-            startPositionMs: Long
-        ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
-            val future = SettableFuture.create<MediaSession.MediaItemsWithStartPosition>()
-
-            //  UmihiHelper.printd("onSetMediaItems")
-            //  UmihiHelper.printd(mediaItems.toString())
-
-            future.set(
-                MediaSession.MediaItemsWithStartPosition(
-                    mediaItems,
-                    if (mediaItems.isEmpty()) {
-                        C.INDEX_UNSET
-                    } else {
-                        startIndex.coerceAtLeast(0)
-                    },
-                    startPositionMs.coerceAtLeast(0)
-                )
-            )
-            return future
-        }
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -289,6 +129,13 @@ class PlaybackService : MediaLibraryService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        callback = UmihiMediaLibraryCallback(
+            service = this,
+            serviceScope = serviceScope,
+            datastoreRepository = datastoreRepository,
+            songRepository = songRepository,
+            playlistRepository = playlistRepository
+        )
 
         mediaLibrarySession = MediaLibrarySession.Builder(this, player, callback)
             .setSessionActivity(pendingIntent)

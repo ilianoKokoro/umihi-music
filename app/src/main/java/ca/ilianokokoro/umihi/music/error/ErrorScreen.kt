@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -40,6 +41,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.findActivity
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getShortErrorFromLog
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ErrorScreen() {
     val context = LocalContext.current

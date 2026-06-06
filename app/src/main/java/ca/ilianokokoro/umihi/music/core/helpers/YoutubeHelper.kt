@@ -27,6 +27,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 object YoutubeHelper {
     private var visitorData: String? = null // TODO use safer and more global value
@@ -528,7 +529,7 @@ object YoutubeHelper {
                 )
 
                 if (attempt < retries - 1) {
-                    delay(Constants.YoutubeApi.RETRY_DELAY * (attempt + 1))
+                    delay((Constants.YoutubeApi.RETRY_DELAY * (attempt + 1)).milliseconds)
                 }
             }
         }

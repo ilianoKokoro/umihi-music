@@ -141,12 +141,9 @@ fun PlayerControls(
                     {
 
                         FilledIconToggleButton(
-                            enabled = !isLoading,
                             checked = isPlaying && !isLoading,
                             onCheckedChange = {
-                                if (isLoading) {
-                                    // Do nothing
-                                } else if (isPlaying) {
+                                if (isPlaying) {
                                     PlayerManager.currentController?.pause()
                                 } else {
                                     PlayerManager.currentController?.play()

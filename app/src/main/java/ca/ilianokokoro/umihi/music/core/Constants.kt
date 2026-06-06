@@ -131,11 +131,15 @@ object Constants {
             const val NAME = "umihi-music-exoplayer"
             const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
 
-            object Library {
-                const val ROOT_ID = "root"
-                const val PLAYLIST_ROOT = "root_playlist"
-                const val PLAYLIST_PREFIX = "playlist:"
-            }
+
+        }
+
+        object Library {
+            const val ROOT_ID = "root"
+            const val PLAYLIST_ROOT = "root_playlist"
+            const val PLAYLIST_PREFIX = "playlist:"
+            const val PLAY_PLAYLIST_PREFIX = "action_play_playlist_"
+            const val SHUFFLE_PLAYLIST_PREFIX = "action_shuffle_playlist_"
         }
 
         object SongMetadata {
