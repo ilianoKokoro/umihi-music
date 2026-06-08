@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[البيانات والتخزين]]></string>
     <string name="app_info">معلومات التطبيق</string>
     <string name="check_for_updates">التحقق من وجود تحديثات</string>
-    <string name="current_version">الإصدار الحالي: %1$s</string>
     <string name="delete_downloads">حذف جميع التنزيلات</string>
     <string name="clear_login_info">مسح معلومات تسجيل الدخول</string>
     <string name="logged_in_message">أنت مسجل الدخول إلى حسابك على اليوتيوب</string>

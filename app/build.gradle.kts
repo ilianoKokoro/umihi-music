@@ -53,7 +53,8 @@ android {
     flavorDimensions += "version"
 
     productFlavors {
-        create("github") {
+        create("standalone") {
+            isDefault = true
             dimension = "version"
             buildConfigField("boolean", "UPDATER_ENABLED", "true")
         }
@@ -113,14 +114,29 @@ ksp {
 }
 
 androidComponents {
-    val commitHash: String = (project.findProperty("gitHash") as String?)
-        ?: "N/A"
-    onVariants {
-        it.buildConfigFields?.put(
-            "COMMIT_HASH", BuildConfigField(
-                "String", "\"${commitHash}\"", "commit hash"
+    val commitHash: String =
+        (project.findProperty("gitHash") as String?) ?: "N/A"
+
+    onVariants { variant ->
+        variant.buildConfigFields?.put(
+            "COMMIT_HASH",
+            BuildConfigField(
+                "String",
+                "\"$commitHash\"",
+                "commit hash"
             )
         )
+
+        variant.outputs.forEach { output ->
+            val flavor = variant.flavorName
+            output.outputFileName.set(
+                when (flavor) {
+                    "standalone" -> "UmihiMusic.apk"
+                    "store" -> "UmihiMusic-store.apk"
+                    else -> "UmihiMusic-$flavor.apk"
+                }
+            )
+        }
     }
 }
 

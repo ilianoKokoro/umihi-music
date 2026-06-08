@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Tietojen & Tallennustila]]></string>
     <string name="app_info">Sovelluksen Tiedot</string>
     <string name="check_for_updates">Tarkista päivitykset</string>
-    <string name="current_version">Nykyinen versio : %1$s</string>
     <string name="delete_downloads">Poista kaikki lataukset</string>
     <string name="clear_login_info">Tyhjennä kirjautumistiedot</string>
     <string name="logged_in_message">Olet kirjautunut sisään YouTube-tilillesi</string>

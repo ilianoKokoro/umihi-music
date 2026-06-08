@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Gegevens & Opslag]]></string>
     <string name="app_info">App informatie</string>
     <string name="check_for_updates">Op updates controleren</string>
-    <string name="current_version">Huidige versie: %1$s</string>
     <string name="delete_downloads">Verwijder alle downloads</string>
     <string name="clear_login_info">Inloggegevens wissen</string>
     <string name="logged_in_message">Je bent ingelogd op je YouTube-account</string>

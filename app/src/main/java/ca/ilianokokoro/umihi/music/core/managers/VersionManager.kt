@@ -67,6 +67,10 @@ object VersionManager {
         context: Context,
         manualCheck: Boolean = false
     ) {
+        if (!BuildConfig.UPDATER_ENABLED) {
+            return
+        }
+
         try {
             when (getUpdateChannel(context)) {
 

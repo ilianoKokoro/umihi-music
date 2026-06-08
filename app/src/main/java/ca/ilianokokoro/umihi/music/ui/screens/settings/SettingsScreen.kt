@@ -18,6 +18,7 @@ import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
@@ -37,6 +38,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
@@ -109,6 +111,18 @@ fun SettingsScreen(
                             style = MaterialTheme.typography.headlineLarge,
                             color = MaterialTheme.colorScheme.onBackground
                         )
+
+
+                        SettingsSection(
+                            title = stringResource(R.string.app_info)
+                        ) {
+                            SettingsItem(
+                                title = stringResource(R.string.current_version),
+                                subtitle = VersionManager.getVersionName(),
+                                leadingIcon = Icons.Outlined.Info,
+                                onClick = { }
+                            )
+                        }
 
                         SettingsSection(
                             title = stringResource(R.string.account)
@@ -188,30 +202,29 @@ fun SettingsScreen(
                             )
                         }
 
-                        SettingsSection(
-                            title = stringResource(R.string.app_info)
-                        ) {
-                            SettingsItem(
-                                title = stringResource(R.string.check_for_updates),
-                                subtitle = stringResource(
-                                    R.string.current_version,
-                                    VersionManager.getVersionName()
-                                ),
-                                leadingIcon = Icons.Outlined.Update,
-                                onClick = settingsViewModel::checkForUpdates
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            SettingsItem(
-                                title = stringResource(R.string.change_update_channel),
-                                subtitle = stringResource(
-                                    R.string.current_update_channel_body,
-                                    screenState.settings.updateChannel
-                                ),
-                                leadingIcon = Icons.Outlined.SystemUpdate,
-                                onClick = {
-                                    settingsViewModel.updateShowUpdateChannelDialog(true)
-                                }
-                            )
+                        if (BuildConfig.UPDATER_ENABLED) {
+                            SettingsSection(
+                                title = stringResource(R.string.updates)
+                            ) {
+                                SettingsItem(
+                                    title = stringResource(R.string.check_for_updates),
+                                    subtitle = stringResource(R.string.check_update_setting_description),
+                                    leadingIcon = Icons.Outlined.Update,
+                                    onClick = settingsViewModel::checkForUpdates
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                SettingsItem(
+                                    title = stringResource(R.string.change_update_channel),
+                                    subtitle = stringResource(
+                                        R.string.current_update_channel_body,
+                                        screenState.settings.updateChannel
+                                    ),
+                                    leadingIcon = Icons.Outlined.SystemUpdate,
+                                    onClick = {
+                                        settingsViewModel.updateShowUpdateChannelDialog(true)
+                                    }
+                                )
+                            }
                         }
 
                         if (uiState.showUpdateChannelDialog) {

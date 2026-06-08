@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Data & lagring]]></string>
     <string name="app_info">App info</string>
     <string name="check_for_updates">Se etter oppdateringer</string>
-    <string name="current_version">Gjeldende versjon: %1$s</string>
     <string name="delete_downloads">Slett alle nedlastinger</string>
     <string name="clear_login_info">Tøm innloggingsinfo</string>
     <string name="logged_in_message">Du er logget på din YouTube-konto</string>

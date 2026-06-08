@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Data a úložiště]]></string>
     <string name="app_info">Informace o aplikaci</string>
     <string name="check_for_updates">Zkontrolovat aktualizace</string>
-    <string name="current_version">Aktuální verze : %1$s</string>
     <string name="delete_downloads">Odstranit všechna stahování</string>
     <string name="clear_login_info">Vymazat přihlašovací údaje</string>
     <string name="logged_in_message">Jste přihlášeni ke svému YouTube účtu</string>

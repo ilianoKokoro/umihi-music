@@ -15,9 +15,7 @@ concurrency:
 
 env:
   MAIN_PROJECT_MODULE: app
-  APP_NAME: Umihi Music
   APK_FILE_NAME: UmihiMusic
-  ORIGINAL_APK_PATH: /build/outputs/apk/release/app-release.apk
   STORE_FILE: release-key.jks
   BETA_TAG: beta
 
@@ -54,23 +52,38 @@ jobs:
           echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
 
-      - name: Build with dynamic beta flag
+      - name: Build APKs
         run: |
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
-            ./gradlew assembleRelease -Pbeta=false -PgitHash=${{ github.sha }}
+            ./gradlew \
+              assembleStandaloneRelease \
+              assembleStoreRelease \
+              -Pbeta=false \
+              -PgitHash=${{ github.sha }}
           else
-            ./gradlew assembleRelease -Pbeta=true -PgitHash=${{ github.sha }}
+            ./gradlew \
+              assembleStandaloneRelease \
+              -Pbeta=true \
+              -PgitHash=${{ github.sha }}
           fi
 
-      - name: Rename APK file
-        run: sudo mv ${{env.MAIN_PROJECT_MODULE}}${{env.ORIGINAL_APK_PATH}}
-          ${{env.APK_FILE_NAME}}.apk
+      - name: Collect APKs
+        run: |
+          mkdir -p release-apks
+
+          cp app/build/outputs/apk/standalone/release/${{env.APK_FILE_NAME}}.apk \
+            release-apks/${{env.APK_FILE_NAME}}.apk
+
+          if [[ "${{ github.ref_name }}" == "prod" ]]; then
+            cp app/build/outputs/apk/store/release/${{env.APK_FILE_NAME}}-store.apk \
+              release-apks/${{env.APK_FILE_NAME}}-store.apk
+          fi
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: UmihiMusic
-          path: ${{env.APK_FILE_NAME}}.apk
+          name: apk-files
+          path: release-apks/*
           overwrite: true
           archive: false
           if-no-files-found: error

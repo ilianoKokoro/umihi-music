@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Dades i emmagatzematge]]></string>
     <string name="app_info">Informació de l\'aplicació</string>
     <string name="check_for_updates">Comprovar actualitzacions</string>
-    <string name="current_version">Versió actual: %1$s</string>
     <string name="delete_downloads">Suprimeix la baixada</string>
     <string name="clear_login_info">Neteja la informació d’inici de sessió</string>
     <string name="logged_in_message">Ja tens la sessió iniciada al teu compte de YouTube</string>

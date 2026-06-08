@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Dane i pamięć]]></string>
     <string name="app_info">Informacje o aplikacji</string>
     <string name="check_for_updates">Sprawdź aktualizacje</string>
-    <string name="current_version">Obecna wersja: %1$s</string>
     <string name="delete_downloads">Usuń wszystkie pobrane</string>
     <string name="clear_login_info">Wyczyść dane logowania</string>
     <string name="logged_in_message">Jesteś zalogowany na swoje konto YouTube</string>

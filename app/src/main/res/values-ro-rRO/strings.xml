@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Date și stocare]]></string>
     <string name="app_info">Informații despre aplicație</string>
     <string name="check_for_updates">Verifică pentru actualizări</string>
-    <string name="current_version">Versiunea curentă: %1$s</string>
     <string name="delete_downloads">Șterge toate descărcările</string>
     <string name="clear_login_info">Ștergeți informațiile de conectare</string>
     <string name="logged_in_message">Ești conectat la contul tău de YouTube</string>

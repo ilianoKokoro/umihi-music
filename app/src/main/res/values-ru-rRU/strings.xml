@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Данные и хранение]]></string>
     <string name="app_info">Информация о приложении</string>
     <string name="check_for_updates">Проверить обновления</string>
-    <string name="current_version">Текущая версия: %1$s</string>
     <string name="delete_downloads">Удалить все загрузки</string>
     <string name="clear_login_info">Очистить данные для входа</string>
     <string name="logged_in_message">Вы вошли в свой аккаунт YouTube</string>
