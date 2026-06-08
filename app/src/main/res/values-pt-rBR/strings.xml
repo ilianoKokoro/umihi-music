@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Dados e armazenamento]]></string>
     <string name="app_info">Informações do aplicativo</string>
     <string name="check_for_updates">Verificar se há atualizações</string>
-    <string name="current_version">Versão atual: %1$s</string>
     <string name="delete_downloads">Excluir todos os downloads</string>
     <string name="clear_login_info">Limpar informações de login</string>
     <string name="logged_in_message">Você está conectado à sua conta do YouTube</string>
@@ -106,4 +105,7 @@
     <string name="privacy_private">Private</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
+    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
+    <string name="updates">Updates</string>
+    <string name="current_version">Current Version</string>
 </resources>
