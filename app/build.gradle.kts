@@ -5,12 +5,15 @@ import java.util.Properties
 
 val versionMajor = 1
 val versionMinor = 12
-val versionPatch = 1
+val versionPatch = 2
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 
 plugins {
     alias(libs.plugins.android.application)
@@ -42,10 +45,14 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+            if (keystorePropertiesFile.exists()) {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            } else {
+                println("Keystore properties file not found. No signing configuration will be applied.")
+            }
         }
     }
 
@@ -60,9 +67,8 @@ android {
         }
 
         create("store") {
-            dimension = "version"
-            applicationIdSuffix = ".store"
             versionNameSuffix = "-store"
+            dimension = "version"
             buildConfigField("boolean", "UPDATER_ENABLED", "false")
         }
     }
