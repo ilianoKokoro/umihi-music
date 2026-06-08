@@ -48,7 +48,7 @@
     <string name="logged_in_message">Olet kirjautunut sisään YouTube-tilillesi</string>
     <string name="logged_out_message">Et ole tällä hetkellä kirjautunut sisään</string>
     <string name="account">Tili</string>
-    <string name="clear_data_message">Poistaa kaikki ladatut kappaleet ja välimuisti</string>
+    <string name="clear_data_message">Poista kaikki ladatut kappaleet ja välimuistissa olevat tiedot tältä laitteelta</string>
     <string name="clear_login_message">Tyhjentää kaikki tallennetut tilit ja kirjautumistiedot</string>
     <string name="login_info_cleared">Kirjautumistiedot Tyhjennetty</string>
     <string name="downloads_cleared">Lataukset Tyhjennetty</string>
@@ -80,16 +80,15 @@
     <string name="playback">Toisto</string>
     <string name="enable_audio_offload">Ota Äänen Lähetys Käyttöön</string>
     <string name="audio_offload_subtitle">Offloads audio dekoodaus omistettu laitteisto, parantaa akun käyttöikää. Voi aiheuttaa joitakin toistoa ongelmia joissakin tapauksissa.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Tuntematon virhe</string>
+    <string name="download_clear_confirm_text">Tämä poistaa pysyvästi kaikki ladatut kappaleet, soittolistat ja välimuistit laitteestasi.</string>
+    <string name="download_clear_confirm_title">Poista kaikki lataukset?</string>
     <string name="keep_screen_on_title">Pidä Näyttö Aina Päällä</string>
     <string name="keep_screen_on_title_description">Estää näytön sammuttamisen kun sovellus on auki</string>
-    <string name="downloading_update">Ladataan Päivitystä...</string>
+    <string name="downloading_update">Ladataan Päivitystä…</string>
     <string name="title">Otsikko</string>
     <string name="create">Luo</string>
     <string name="create_playlist">Luo soittolista</string>
-    <string name="visibility">Näkyvyys\n</string>
     <string name="privacy_unlisted">Listaamaton</string>
     <string name="privacy_public">Julkinen</string>
     <string name="privacy_private">Yksityinen</string>
@@ -98,4 +97,5 @@
     <string name="check_update_setting_description">Uusia päivityksiä GitHubista tarkistetaan</string>
     <string name="updates">Päivitykset</string>
     <string name="current_version">Nykyinen Versio</string>
+    <string name="visibility">Näkyvyys</string>
 </resources>
