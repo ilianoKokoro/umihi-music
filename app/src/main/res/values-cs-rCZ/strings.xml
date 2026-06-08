@@ -89,7 +89,6 @@
     <string name="title">Hlava 1 – Celkem</string>
     <string name="create">Vytvořit</string>
     <string name="create_playlist">Vytvořit seznam skladeb</string>
-    <string name="visibility">Viditelnost\n</string>
     <string name="privacy_unlisted">Neuvedeno</string>
     <string name="privacy_public">Veřejnost</string>
     <string name="privacy_private">Soukromé</string>

@@ -89,7 +89,6 @@
     <string name="title">Otsikko</string>
     <string name="create">Luo</string>
     <string name="create_playlist">Luo soittolista</string>
-    <string name="visibility">Näkyvyys\n</string>
     <string name="privacy_unlisted">Listaamaton</string>
     <string name="privacy_public">Julkinen</string>
     <string name="privacy_private">Yksityinen</string>

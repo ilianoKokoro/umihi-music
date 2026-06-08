@@ -89,7 +89,6 @@
     <string name="title">Titel</string>
     <string name="create">Opret</string>
     <string name="create_playlist">Opret afspilningsliste</string>
-    <string name="visibility">Synlighed\n</string>
     <string name="privacy_unlisted">Ulistet</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>

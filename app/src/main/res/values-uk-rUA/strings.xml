@@ -89,7 +89,6 @@
     <string name="title">Найменування</string>
     <string name="create">Створити</string>
     <string name="create_playlist">Створити плейліст</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Поза списком</string>
     <string name="privacy_public">Загальнодоступна</string>
     <string name="privacy_private">Приватний</string>

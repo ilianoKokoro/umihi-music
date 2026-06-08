@@ -89,7 +89,6 @@
     <string name="title">Tittel</string>
     <string name="create">Opprett</string>
     <string name="create_playlist">Lag spilleliste</string>
-    <string name="visibility">Synlighet\n</string>
     <string name="privacy_unlisted">Unotert</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>

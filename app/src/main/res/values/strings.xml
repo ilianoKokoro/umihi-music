@@ -88,11 +88,10 @@
     <string name="download_clear_confirm_title">Delete all downloads?</string>
     <string name="keep_screen_on_title">Keep Screen Always On</string>
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
-    <string name="downloading_update">Downloading Update...</string>
+    <string name="downloading_update">Downloading Update…</string>
     <string name="title">Title</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>
@@ -101,4 +100,5 @@
     <string name="check_update_setting_description">Checks for new updates from GitHub</string>
     <string name="updates">Updates</string>
     <string name="current_version">Current Version</string>
+    <string name="visibility">Visibility</string>
 </resources>

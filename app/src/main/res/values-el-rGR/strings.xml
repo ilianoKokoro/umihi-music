@@ -89,7 +89,6 @@
     <string name="title">Τίτλος</string>
     <string name="create">Δημιουργία</string>
     <string name="create_playlist">Δημιουργία λίστας αναπαραγωγής</string>
-    <string name="visibility">Ορατότητα\n</string>
     <string name="privacy_unlisted">Μη Καταχωρημένο</string>
     <string name="privacy_public">Δημόσιο</string>
     <string name="privacy_private">Ιδιωτικό</string>

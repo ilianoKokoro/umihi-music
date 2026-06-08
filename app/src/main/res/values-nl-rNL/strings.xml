@@ -89,7 +89,6 @@
     <string name="title">Aanspreektitel</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
-    <string name="visibility">Zichtbaarheid\n</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
     <string name="privacy_public">Openbaar</string>
     <string name="privacy_private">Privé</string>

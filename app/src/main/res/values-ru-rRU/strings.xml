@@ -89,7 +89,6 @@
     <string name="title">Заголовок</string>
     <string name="create">Создать</string>
     <string name="create_playlist">Создать плейлист</string>
-    <string name="visibility">Видимость\n</string>
     <string name="privacy_unlisted">Не занесено</string>
     <string name="privacy_public">Публичный</string>
     <string name="privacy_private">Приватный</string>

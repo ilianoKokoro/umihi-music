@@ -89,7 +89,6 @@
     <string name="title">タイトル</string>
     <string name="create">作成</string>
     <string name="create_playlist">プレイリストを作成</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">リストにありません</string>
     <string name="privacy_public">公開</string>
     <string name="privacy_private">非公開</string>

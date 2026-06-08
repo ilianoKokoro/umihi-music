@@ -89,7 +89,6 @@
     <string name="title">Titlu</string>
     <string name="create">Crează</string>
     <string name="create_playlist">Creare listă</string>
-    <string name="visibility">Vizibilitate\n</string>
     <string name="privacy_unlisted">Nelistate</string>
     <string name="privacy_public">Publice</string>
     <string name="privacy_private">Privat</string>

@@ -89,7 +89,6 @@
     <string name="title">Titolo</string>
     <string name="create">Crea</string>
     <string name="create_playlist">Crea playlist</string>
-    <string name="visibility">Visibilità\n</string>
     <string name="privacy_unlisted">Non Elencato</string>
     <string name="privacy_public">Pubblico</string>
     <string name="privacy_private">Privato</string>

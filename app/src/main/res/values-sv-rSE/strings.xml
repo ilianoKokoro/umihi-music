@@ -89,7 +89,6 @@
     <string name="title">Titel</string>
     <string name="create">Skapa</string>
     <string name="create_playlist">Skapa spellista</string>
-    <string name="visibility">Synlighet\n</string>
     <string name="privacy_unlisted">Olistad</string>
     <string name="privacy_public">Publik</string>
     <string name="privacy_private">Privat</string>
