@@ -103,9 +103,9 @@
     <string name="privacy_unlisted">Non répertorié</string>
     <string name="privacy_public">Publique</string>
     <string name="privacy_private">Privé</string>
-    <string name="delete_playlist">Delete Playlist</string>
-    <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
-    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
-    <string name="updates">Updates</string>
-    <string name="current_version">Current Version</string>
+    <string name="delete_playlist">Supprimer la playlist</string>
+    <string name="delete_playlist_text">Êtes-vous sûr de vouloir supprimer cette playlist de votre compte YouTube ? Cette action est irréversible.</string>
+    <string name="check_update_setting_description">Vérifie les nouvelles mises à jour de GitHub</string>
+    <string name="updates">Mises à jour</string>
+    <string name="current_version">Version actuelle</string>
 </resources>
