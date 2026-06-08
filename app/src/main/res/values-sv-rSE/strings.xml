@@ -48,7 +48,7 @@
     <string name="logged_in_message">Du är inloggad på ditt YouTube-konto</string>
     <string name="logged_out_message">Du är för närvarande inte inloggad</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Tar bort alla nedladdade låtar och cache</string>
+    <string name="clear_data_message">Ta bort alla hämtade låtar och cachelagrad data från denna enhet</string>
     <string name="clear_login_message">Rensar alla sparade konton och inloggningsuppgifter</string>
     <string name="login_info_cleared">Inloggningsinformation rensad</string>
     <string name="downloads_cleared">Nedladdningar rensade</string>
@@ -80,16 +80,15 @@
     <string name="playback">Uppspelning</string>
     <string name="enable_audio_offload">Aktivera Ljud Offload</string>
     <string name="audio_offload_subtitle">Offloads audio avkodning till dedikerad hårdvara, vilket förbättrar batteriets livslängd. Kan orsaka vissa uppspelningsproblem i vissa fall.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Okänt fel</string>
+    <string name="download_clear_confirm_text">Detta kommer att permanent ta bort alla nedladdade låtar, spellistor och cachade data från din enhet.</string>
+    <string name="download_clear_confirm_title">Ta bort alla nedladdningar?</string>
     <string name="keep_screen_on_title">Håll skärmen alltid igång</string>
     <string name="keep_screen_on_title_description">Förhindrar att skärmen stängs av medan appen är öppen</string>
-    <string name="downloading_update">Laddar ner uppdatering...</string>
+    <string name="downloading_update">Laddar ner uppdatering…</string>
     <string name="title">Titel</string>
     <string name="create">Skapa</string>
     <string name="create_playlist">Skapa spellista</string>
-    <string name="visibility">Synlighet\n</string>
     <string name="privacy_unlisted">Olistad</string>
     <string name="privacy_public">Publik</string>
     <string name="privacy_private">Privat</string>
@@ -98,4 +97,5 @@
     <string name="check_update_setting_description">Söker efter nya uppdateringar från GitHub</string>
     <string name="updates">Uppdateringar</string>
     <string name="current_version">Nuvarande version</string>
+    <string name="visibility">Synlighet</string>
 </resources>
