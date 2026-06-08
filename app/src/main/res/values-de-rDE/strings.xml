@@ -48,7 +48,7 @@
     <string name="logged_in_message">Sie sind bei Ihrem YouTube-Konto angemeldet</string>
     <string name="logged_out_message">Sie sind derzeit nicht eingeloggt</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Löscht alle heruntergeladenen Titel und Cache</string>
+    <string name="clear_data_message">Entferne alle heruntergeladenen Lieder und zwischengespeicherten Daten von diesem Gerät</string>
     <string name="clear_login_message">Löscht alle gespeicherten Konten und Login-Informationen</string>
     <string name="login_info_cleared">Anmeldeinformationen gelöscht</string>
     <string name="downloads_cleared">Downloads gelöscht</string>
@@ -80,16 +80,15 @@
     <string name="playback">Wiedergabe</string>
     <string name="enable_audio_offload">Audio Offload aktivieren</string>
     <string name="audio_offload_subtitle">Audiodekodierung auf dedizierte Hardware abschalten, die Batterielebensdauer verkürzen. Eventuell kann es zu einigen Wiedergabeproblemen kommen.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Unbekannter Fehler</string>
+    <string name="download_clear_confirm_text">Dies löscht dauerhaft alle heruntergeladenen Songs, Wiedergabelisten und zwischengespeicherten Daten von deinem Gerät.</string>
+    <string name="download_clear_confirm_title">Alle Downloads löschen?</string>
     <string name="keep_screen_on_title">Bildschirm immer an</string>
     <string name="keep_screen_on_title_description">Verhindert das Ausschalten des Displays während die App geöffnet ist</string>
-    <string name="downloading_update">Update wird heruntergeladen...</string>
+    <string name="downloading_update">Update wird heruntergeladen…</string>
     <string name="title">Titel</string>
     <string name="create">Anlegen</string>
     <string name="create_playlist">Playlist erstellen</string>
-    <string name="visibility">Sichtbarkeit\n</string>
     <string name="privacy_unlisted">Nicht gelistet</string>
     <string name="privacy_public">Öffentlich</string>
     <string name="privacy_private">Privat</string>
@@ -98,4 +97,5 @@
     <string name="check_update_setting_description">Prüft auf neue Updates von GitHub</string>
     <string name="updates">Updates</string>
     <string name="current_version">Aktuelle Version</string>
+    <string name="visibility">Sichtbarkeit</string>
 </resources>
