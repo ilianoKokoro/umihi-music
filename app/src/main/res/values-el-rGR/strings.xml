@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Δεδομένα & Αποθήκευση]]></string>
     <string name="app_info">Πληροφορίες Εφαρμογής</string>
     <string name="check_for_updates">Έλεγχος ενημερώσεων</string>
-    <string name="current_version">Τρέχουσα έκδοση: %1$s</string>
     <string name="delete_downloads">Διαγραφή όλων των λήψεων</string>
     <string name="clear_login_info">Εκκαθάριση πληροφοριών σύνδεσης</string>
     <string name="logged_in_message">Είστε συνδεδεμένοι στο λογαριασμό σας στο YouTube</string>
@@ -106,4 +105,7 @@
     <string name="privacy_private">Private</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
+    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
+    <string name="updates">Updates</string>
+    <string name="current_version">Current Version</string>
 </resources>
