@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Data at Storage]]></string>
     <string name="app_info">Impormasyon ng App</string>
     <string name="check_for_updates">Tingnan ang mga update</string>
-    <string name="current_version">Kasalukuyang bersyon : %1$s</string>
     <string name="delete_downloads">I-delete ang lahat ng downloads</string>
     <string name="clear_login_info">Burahin ang login info</string>
     <string name="logged_in_message">Naka-log in ka sa iyong YouTube account</string>
@@ -106,4 +105,7 @@
     <string name="privacy_private">Private</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
+    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
+    <string name="updates">Updates</string>
+    <string name="current_version">Current Version</string>
 </resources>
