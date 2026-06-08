@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[数据和存储]]></string>
     <string name="app_info">应用信息</string>
     <string name="check_for_updates">检查更新</string>
-    <string name="current_version">当前版本： %1$s</string>
     <string name="delete_downloads">删除所有下载</string>
     <string name="clear_login_info">清除登录信息</string>
     <string name="logged_in_message">您已登录到您的 YouTube 帐户</string>
@@ -106,4 +105,7 @@
     <string name="privacy_private">Private</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
+    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
+    <string name="updates">Updates</string>
+    <string name="current_version">Current Version</string>
 </resources>
