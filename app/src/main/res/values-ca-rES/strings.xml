@@ -11,7 +11,6 @@
     <string name="play">Reprodueix</string>
     <string name="shuffle">Aleatori</string>
     <string name="songs">%1$d Cançons</string>
-    <string name="pause">Pausa</string>
     <string name="error">Error</string>
     <string name="previous">Anterior</string>
     <string name="next">Següent</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Reproduint ara</string>
     <string name="up_to_date_message">L’aplicació està actualitzada!</string>
     <string name="update_check_failed">No s’ha pogut comprovar si hi ha actualitzacions</string>
-    <string name="yes">Si</string>
-    <string name="no">No</string>
     <string name="update_available">Actualització Disponible</string>
     <string name="new_version_body">Hi ha disponible una nova versió. (%1$s)</string>
-    <string name="show_on_github">Mostra a GitHub</string>
-    <string name="dismiss">Descarta</string>
-    <string name="open">Obrir</string>
     <string name="log_out">Tanca la sessió</string>
     <string name="data_and_storage"><![CDATA[Dades i emmagatzematge]]></string>
     <string name="app_info">Informació de l\'aplicació</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Esborra totes les cançons descarregades i la memòria cau</string>
     <string name="clear_login_message">Esborra tots els comptes guardats i la informació d’inici de sessió</string>
     <string name="login_info_cleared">Informació d’inici de sessió netejada</string>
-    <string name="cache_cleared">Memòria cau esborrada</string>
     <string name="downloads_cleared">Descàrregues netejades</string>
     <string name="invalid_navkey">Clau de navegació no vàlida: %1$s</string>
     <string name="confirm">Confirmar</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorar</string>
     <string name="change_update_channel">Canvia el canal d’actualitzacions</string>
     <string name="current_update_channel_body">Canal d’actualització actual: %1$s</string>
-    <string name="delete_download">Suprimeix la baixada</string>
     <string name="beta_update_available">Hi ha disponible una actualització beta</string>
     <string name="home">Inici</string>
     <string name="search">Cercar</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

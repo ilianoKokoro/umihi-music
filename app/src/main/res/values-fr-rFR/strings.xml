@@ -11,7 +11,6 @@
     <string name="play">Lecture</string>
     <string name="shuffle">Lecture aléatoire</string>
     <string name="songs">%1$d titres</string>
-    <string name="pause">Pause</string>
     <string name="error">Erreur</string>
     <string name="previous">Précédent</string>
     <string name="next">Suivant</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">En cours de lecture</string>
     <string name="up_to_date_message">L\'application est à jour !</string>
     <string name="update_check_failed">Échec de la vérification des mises à jour</string>
-    <string name="yes">Oui</string>
-    <string name="no">Non</string>
     <string name="update_available">Mise à jour disponible</string>
     <string name="new_version_body">Une nouvelle version est disponible. (%1$s)</string>
-    <string name="show_on_github">Afficher sur GitHub</string>
-    <string name="dismiss">Rejeter</string>
-    <string name="open">Ouvert</string>
     <string name="log_out">Déconnexion</string>
     <string name="data_and_storage"><![CDATA[Données et Stockage]]></string>
     <string name="app_info">Informations sur l\'application</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Supprime tous les titres téléchargés et le cache</string>
     <string name="clear_login_message">Efface tous les comptes enregistrés et les informations de connexion</string>
     <string name="login_info_cleared">Informations de connexion effacées</string>
-    <string name="cache_cleared">Cache effacé</string>
     <string name="downloads_cleared">Téléchargements effacés</string>
     <string name="invalid_navkey">Clé de navigation invalide : %1$s</string>
     <string name="confirm">Confirmer</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorer</string>
     <string name="change_update_channel">Changer le canal de mise à jour</string>
     <string name="current_update_channel_body">Canal de mise à jour actuel : %1$s</string>
-    <string name="delete_download">Supprimer le téléchargement</string>
     <string name="beta_update_available">Mise à jour bêta disponible</string>
     <string name="home">Accueil</string>
     <string name="search">Recherche</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
     <string name="downloading_update">Téléchargement de la mise à jour...</string>
     <string name="title">Titre</string>
-    <string name="description">Description</string>
-    <string name="privacy">Confidentialité</string>
     <string name="create">Créer</string>
     <string name="create_playlist">Créer une playlist</string>
-    <string name="visibility">Visibilité\n</string>
     <string name="privacy_unlisted">Non répertorié</string>
     <string name="privacy_public">Publique</string>
     <string name="privacy_private">Privé</string>

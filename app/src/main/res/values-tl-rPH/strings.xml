@@ -11,7 +11,6 @@
     <string name="play">Palaro</string>
     <string name="shuffle">Balasa</string>
     <string name="songs">%1$d mga kanta</string>
-    <string name="pause">Huminto</string>
     <string name="error">Error bro</string>
     <string name="previous">Dati</string>
     <string name="next">Kasunod</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Naglalaro Ngayon</string>
     <string name="up_to_date_message">Ang app ay napapanahon !</string>
     <string name="update_check_failed">Nabigong suriin ang mga update</string>
-    <string name="yes">Opo</string>
-    <string name="no">Hindi</string>
     <string name="update_available">Available ang Update</string>
     <string name="new_version_body">Bagong bersyon available. (%1$s)</string>
-    <string name="show_on_github">Ipakita sa Github</string>
-    <string name="dismiss">I-dismiss</string>
-    <string name="open">Buksan</string>
     <string name="log_out">Mag log out</string>
     <string name="data_and_storage"><![CDATA[Data at Storage]]></string>
     <string name="app_info">Impormasyon ng App</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Tinatanggal ang lahat ng na-download na kanta at cache</string>
     <string name="clear_login_message">I-clear ang lahat ng naka-save na account at impormasyon sa pag-login</string>
     <string name="login_info_cleared">Na-clear ang Impormasyon sa Pag-login</string>
-    <string name="cache_cleared">Na-clear ang Cache</string>
     <string name="downloads_cleared">Na-clear ang mga Download</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
     <string name="confirm">Confirm</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignore</string>
     <string name="change_update_channel">Baguhin ang update channel</string>
     <string name="current_update_channel_body">Kasalukuyang update channel : %1$s</string>
-    <string name="delete_download">Tanggalin ang Download</string>
     <string name="beta_update_available">Available ang Beta Update</string>
     <string name="home">Home</string>
     <string name="search">Maghanap</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

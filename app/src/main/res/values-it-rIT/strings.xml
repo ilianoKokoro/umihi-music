@@ -11,7 +11,6 @@
     <string name="play">Gioca</string>
     <string name="shuffle">Mischia</string>
     <string name="songs">Canzoni %1$d</string>
-    <string name="pause">Pausa</string>
     <string name="error">Errore</string>
     <string name="previous">Precedente</string>
     <string name="next">Successivo</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Riproduzione Ora</string>
     <string name="up_to_date_message">L\'app è aggiornata!</string>
     <string name="update_check_failed">Impossibile controllare gli aggiornamenti</string>
-    <string name="yes">Sì</string>
-    <string name="no">No</string>
     <string name="update_available">Aggiornamento Disponibile</string>
     <string name="new_version_body">È disponibile una nuova versione (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Ignora</string>
-    <string name="open">Apri</string>
     <string name="log_out">Esci</string>
     <string name="data_and_storage"><![CDATA[Dati E Archiviazione]]></string>
     <string name="app_info">Info App</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Elimina tutti i brani e la cache scaricati</string>
     <string name="clear_login_message">Cancella tutti gli account salvati e le informazioni di accesso</string>
     <string name="login_info_cleared">Informazioni Di Accesso Cancellate</string>
-    <string name="cache_cleared">Cache Cancellata</string>
     <string name="downloads_cleared">Scaricamenti Cancellati</string>
     <string name="invalid_navkey">NavKey Non Valida: %1$s</string>
     <string name="confirm">Conferma</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignora</string>
     <string name="change_update_channel">Cambia canale di aggiornamento</string>
     <string name="current_update_channel_body">Canale di aggiornamento attuale: %1$s</string>
-    <string name="delete_download">Elimina Download</string>
     <string name="beta_update_available">Aggiornamento Beta Disponibile</string>
     <string name="home">Home</string>
     <string name="search">Cerca</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

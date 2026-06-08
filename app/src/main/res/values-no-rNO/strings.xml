@@ -11,7 +11,6 @@
     <string name="play">Spill</string>
     <string name="shuffle">Bland</string>
     <string name="songs">%1$d sanger</string>
-    <string name="pause">Paus</string>
     <string name="error">Feil</string>
     <string name="previous">Forrige</string>
     <string name="next">Neste</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Spiller nå</string>
     <string name="up_to_date_message">Appen er oppdatert!</string>
     <string name="update_check_failed">Kunne ikke se etter oppdateringer</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nei</string>
     <string name="update_available">Oppdatering tilgjengelig</string>
     <string name="new_version_body">En ny versjon er tilgjengelig. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Avvis</string>
-    <string name="open">Åpne</string>
     <string name="log_out">Logg ut</string>
     <string name="data_and_storage"><![CDATA[Data & lagring]]></string>
     <string name="app_info">App info</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Sletter alle nedlastede sanger og cache</string>
     <string name="clear_login_message">Fjerner alle de lagrede kontoene og innloggings informasjonen</string>
     <string name="login_info_cleared">Innloggingsinformasjon fjernet</string>
-    <string name="cache_cleared">Hurtiglager tømt</string>
     <string name="downloads_cleared">Nedlastinger fjernet</string>
     <string name="invalid_navkey">Ugyldig marinnøkkel : %1$s</string>
     <string name="confirm">Bekreft</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorer</string>
     <string name="change_update_channel">Endre oppdateringskanalen</string>
     <string name="current_update_channel_body">Gjeldende oppdateringskanal: %1$s</string>
-    <string name="delete_download">Slett nedlastning</string>
     <string name="beta_update_available">Betaoppdatering tilgjengelig</string>
     <string name="home">Hjem</string>
     <string name="search">Søk</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

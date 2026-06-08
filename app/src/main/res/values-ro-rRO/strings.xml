@@ -11,7 +11,6 @@
     <string name="play">Redare</string>
     <string name="shuffle">Amestecare</string>
     <string name="songs">%1$d melodii</string>
-    <string name="pause">Întrerupeți</string>
     <string name="error">Eroare</string>
     <string name="previous">Anterior</string>
     <string name="next">Următoarea</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Redă acum</string>
     <string name="up_to_date_message">Aplicația este actualizată!</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat</string>
-    <string name="yes">Da</string>
-    <string name="no">Nr</string>
     <string name="update_available">Actualizare disponibilă</string>
     <string name="new_version_body">Este disponibilă o versiune nouă. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Renunţaţi</string>
-    <string name="open">Deschideți</string>
     <string name="log_out">Ieșire din cont</string>
     <string name="data_and_storage"><![CDATA[Date și stocare]]></string>
     <string name="app_info">Informații despre aplicație</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Şterge toate melodiile şi geocutiile descărcate</string>
     <string name="clear_login_message">Curăță toate conturile salvate și informații de autentificare</string>
     <string name="login_info_cleared">Informații de conectare șterse</string>
-    <string name="cache_cleared">Memoria cache ștearsă</string>
     <string name="downloads_cleared">Descărcări șterse</string>
     <string name="invalid_navkey">Navkey invalid: %1$s</string>
     <string name="confirm">Confirmare</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignoră</string>
     <string name="change_update_channel">Schimbă canalul de actualizare</string>
     <string name="current_update_channel_body">Canalul curent de actualizare: %1$s</string>
-    <string name="delete_download">Șterge Descărcare</string>
     <string name="beta_update_available">Actualizare beta disponibilă</string>
     <string name="home">Acasă</string>
     <string name="search">Caută</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

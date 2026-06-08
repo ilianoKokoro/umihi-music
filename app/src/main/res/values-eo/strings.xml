@@ -11,7 +11,6 @@
     <string name="play">Pway</string>
     <string name="shuffle">Shuwffwe</string>
     <string name="songs">%1$d swongs</string>
-    <string name="pause">Pwause</string>
     <string name="error">Ewwow</string>
     <string name="previous">Pwevious</string>
     <string name="next">Nyext</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Pwaying Nyow</string>
     <string name="up_to_date_message">D-Da app is up to date ?-?-?!?1</string>
     <string name="update_check_failed">Faiwed to check fow updates :&lt;</string>
-    <string name="yes">OwO</string>
-    <string name="no">Nyo</string>
     <string name="update_available">Update Avaiwabwe!</string>
     <string name="new_version_body">OwO w-what\'s dis? nyew vewsion is avaiwabwe! (%1$s)</string>
-    <string name="show_on_github">Lookie wookie! Gwithub~</string>
-    <string name="dismiss">Dwissmiss</string>
-    <string name="open">OwOpen</string>
     <string name="log_out">Wog Out :&lt;</string>
     <string name="data_and_storage"><![CDATA[Dwata n Stowage]]></string>
     <string name="app_info">A-app Infwo?!</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Remowe aww da downwoaded songs n cache data fwom this dewice OwO</string>
     <string name="clear_login_message">Cweaws aww da saved accounts n w-wogin infowmation</string>
     <string name="login_info_cleared">Login Info Cweawed</string>
-    <string name="cache_cleared">Cache Cweawed</string>
     <string name="downloads_cleared">Downwoads Cweawed</string>
     <string name="invalid_navkey">Invawid NavKey : %1$s</string>
     <string name="confirm">Confiwm</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignowe</string>
     <string name="change_update_channel">Change update channew</string>
     <string name="current_update_channel_body">Cuwwent update channew : %1$s</string>
-    <string name="delete_download">Nyoo Da Downwoad</string>
     <string name="beta_update_available">Omega Wupdate Avaiwabwe</string>
     <string name="home">H-home :3</string>
     <string name="search">Seawchie</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Pwevents tha dispway fwom tuwnin off while tha app is owpen</string>
     <string name="downloading_update">Downwoadin Upwdate :3...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

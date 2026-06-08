@@ -11,7 +11,6 @@
     <string name="play">Відтворити</string>
     <string name="shuffle">Випадковий порядок</string>
     <string name="songs">%1$d пісень</string>
-    <string name="pause">Пауза</string>
     <string name="error">Помилка</string>
     <string name="previous">Попереднє</string>
     <string name="next">Уперед</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Грає зараз</string>
     <string name="up_to_date_message">Додаток в актуальному стані!</string>
     <string name="update_check_failed">Не вдалося перевірити наявність оновлень</string>
-    <string name="yes">Так</string>
-    <string name="no">Ні</string>
     <string name="update_available">Доступне оновлення</string>
     <string name="new_version_body">Доступна нова версія (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Відхилити</string>
-    <string name="open">Відкриті</string>
     <string name="log_out">Вийти з системи</string>
     <string name="data_and_storage"><![CDATA[Дані та сховище]]></string>
     <string name="app_info">Про додаток</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Видаляє всі завантажені пісні та кеш</string>
     <string name="clear_login_message">Очищує всі збережені облікові записи та дані входу</string>
     <string name="login_info_cleared">Дані для входу очищено</string>
-    <string name="cache_cleared">Кеш очищено</string>
     <string name="downloads_cleared">Завантаження очищено</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
     <string name="confirm">Підтвердити</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ігнорувати</string>
     <string name="change_update_channel">Зміна каналу оновлення</string>
     <string name="current_update_channel_body">Поточний канал оновлення : %1$s</string>
-    <string name="delete_download">Видалити завантаження</string>
     <string name="beta_update_available">Доступне оновлення</string>
     <string name="home">Домашній екран</string>
     <string name="search">Пошук</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

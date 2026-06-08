@@ -11,7 +11,6 @@
     <string name="play">Reproduzir</string>
     <string name="shuffle">Aleatório</string>
     <string name="songs">%1$d músicas</string>
-    <string name="pause">Suspender</string>
     <string name="error">ERRO</string>
     <string name="previous">Anterior</string>
     <string name="next">Próximo</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Reproduzindo Agora</string>
     <string name="up_to_date_message">O aplicativo está atualizado!</string>
     <string name="update_check_failed">Não foi possível verificar se há atualizações</string>
-    <string name="yes">Sim</string>
-    <string name="no">Não</string>
     <string name="update_available">Atualização disponível</string>
     <string name="new_version_body">Está disponível uma nova versão (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Descartar</string>
-    <string name="open">Abertas</string>
     <string name="log_out">Encerrar Sessão</string>
     <string name="data_and_storage"><![CDATA[Dados e armazenamento]]></string>
     <string name="app_info">Informações do aplicativo</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Exclui todas as músicas e cache baixados</string>
     <string name="clear_login_message">Limpa todas as contas salvas e informações de login</string>
     <string name="login_info_cleared">Informações de login limpas</string>
-    <string name="cache_cleared">Cache limpo</string>
     <string name="downloads_cleared">Downloads limpos</string>
     <string name="invalid_navkey">Chave NavKey Inválida: %1$s</string>
     <string name="confirm">Confirmar</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorar</string>
     <string name="change_update_channel">Alterar atualização do canal</string>
     <string name="current_update_channel_body">Atualização atual do canal : %1$s</string>
-    <string name="delete_download">Excluir download</string>
     <string name="beta_update_available">Atualização Beta Disponível</string>
     <string name="home">Residencial</string>
     <string name="search">Pesquisa</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

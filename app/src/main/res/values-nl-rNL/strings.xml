@@ -11,7 +11,6 @@
     <string name="play">Afspelen</string>
     <string name="shuffle">Shuffle</string>
     <string name="songs">%1$d nummers</string>
-    <string name="pause">Onderbreken</string>
     <string name="error">Foutmelding</string>
     <string name="previous">Vorige</string>
     <string name="next">Volgende</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Speelt nu</string>
     <string name="up_to_date_message">De app is up-to-date!</string>
     <string name="update_check_failed">Controleren op updates mislukt</string>
-    <string name="yes">Ja</string>
-    <string name="no">Neen</string>
     <string name="update_available">Update beschikbaar</string>
     <string name="new_version_body">Er is een nieuwe versie beschikbaar. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Uitschakelen</string>
-    <string name="open">Open</string>
     <string name="log_out">Log uit</string>
     <string name="data_and_storage"><![CDATA[Gegevens & Opslag]]></string>
     <string name="app_info">App informatie</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Verwijdert alle gedownloade nummers en cache</string>
     <string name="clear_login_message">Verwijdert alle opgeslagen accounts en inloggegevens</string>
     <string name="login_info_cleared">Inloggegevens gewist</string>
-    <string name="cache_cleared">Cache gewist</string>
     <string name="downloads_cleared">Downloads gewist</string>
     <string name="invalid_navkey">Ongeldige NavKey : %1$s</string>
     <string name="confirm">Bevestigen</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Negeren</string>
     <string name="change_update_channel">Update kanaal wijzigen</string>
     <string name="current_update_channel_body">Huidige updatekanaal: %1$s</string>
-    <string name="delete_download">Download verwijderen</string>
     <string name="beta_update_available">Beta Update beschikbaar</string>
     <string name="home">Startpagina</string>
     <string name="search">Zoeken</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

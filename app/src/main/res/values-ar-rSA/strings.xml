@@ -11,7 +11,6 @@
     <string name="play">تشغيل</string>
     <string name="shuffle">خلط</string>
     <string name="songs">%1$d songs</string>
-    <string name="pause">إيقاف</string>
     <string name="error">خطأ</string>
     <string name="previous">السابق</string>
     <string name="next">التالي</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">تشغيل الآن</string>
     <string name="up_to_date_message">التطبيق محدث!</string>
     <string name="update_check_failed">فشل التحقق من وجود تحديثات</string>
-    <string name="yes">نعم</string>
-    <string name="no">لا</string>
     <string name="update_available">تحديث متوفر</string>
     <string name="new_version_body">نسخة جديدة متوفرة. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">تجاهل</string>
-    <string name="open">فتح</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="data_and_storage"><![CDATA[البيانات والتخزين]]></string>
     <string name="app_info">معلومات التطبيق</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">يحذف جميع الأغاني المحملة و ذاكرة التخزين المؤقت</string>
     <string name="clear_login_message">مسح جميع الحسابات المحفوظة ومعلومات تسجيل الدخول</string>
     <string name="login_info_cleared">مسح معلومات تسجيل الدخول</string>
-    <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
     <string name="downloads_cleared">تم مسح التنزيلات</string>
     <string name="invalid_navkey">NavKey غير صالح: %1$s</string>
     <string name="confirm">تأكيد</string>
@@ -67,7 +60,6 @@
     <string name="ignore">تجاهل</string>
     <string name="change_update_channel">تغيير قناة التحديث</string>
     <string name="current_update_channel_body">قناة التحديث الحالية: %1$s</string>
-    <string name="delete_download">حذف التحميل</string>
     <string name="beta_update_available">تحديث بيتا متوفر</string>
     <string name="home">المنزل</string>
     <string name="search">البحث</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

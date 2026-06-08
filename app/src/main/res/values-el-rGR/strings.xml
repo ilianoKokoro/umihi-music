@@ -11,7 +11,6 @@
     <string name="play">Αναπαραγωγή</string>
     <string name="shuffle">Τυχαία Αναπαραγωγή</string>
     <string name="songs">%1$d τραγούδια</string>
-    <string name="pause">Παύση</string>
     <string name="error">Σφάλμα</string>
     <string name="previous">Προηγούμενο</string>
     <string name="next">Επόμενο</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Αναπαραγωγή Τώρα</string>
     <string name="up_to_date_message">Η εφαρμογή είναι ενημερωμένη!</string>
     <string name="update_check_failed">Αποτυχία ελέγχου για ενημερώσεις</string>
-    <string name="yes">Ναι</string>
-    <string name="no">Όχι</string>
     <string name="update_available">Διαθέσιμη Ενημέρωση</string>
     <string name="new_version_body">Μια νέα έκδοση είναι διαθέσιμη. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Απόρριψη</string>
-    <string name="open">Άνοιγμα</string>
     <string name="log_out">Αποσύνδεση</string>
     <string name="data_and_storage"><![CDATA[Δεδομένα & Αποθήκευση]]></string>
     <string name="app_info">Πληροφορίες Εφαρμογής</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Διαγράφει όλα τα ληφθέντα τραγούδια και την προσωρινή μνήμη</string>
     <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις πληροφορίες σύνδεσης</string>
     <string name="login_info_cleared">Πληροφορίες Σύνδεσης Εκκαθαρίστηκαν</string>
-    <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
     <string name="downloads_cleared">Οι Λήψεις Εκκαθαρίστηκαν</string>
     <string name="invalid_navkey">Μη Έγκυρο NavKey : %1$s</string>
     <string name="confirm">Επιβεβαίωση</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Παράβλεψη</string>
     <string name="change_update_channel">Αλλαγή καναλιού ενημέρωσης</string>
     <string name="current_update_channel_body">Τρέχον κανάλι ενημέρωσης: %1$s</string>
-    <string name="delete_download">Διαγραφή Λήψης</string>
     <string name="beta_update_available">Διαθέσιμη Ενημέρωση Beta</string>
     <string name="home">Αρχική</string>
     <string name="search">Αναζήτηση</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

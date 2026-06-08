@@ -11,7 +11,6 @@
     <string name="play">Spela</string>
     <string name="shuffle">Blanda</string>
     <string name="songs">%1$d låtar</string>
-    <string name="pause">Pausa</string>
     <string name="error">Fel</string>
     <string name="previous">Föregående</string>
     <string name="next">Nästa</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Spelar nu</string>
     <string name="up_to_date_message">Appen är uppdaterad!</string>
     <string name="update_check_failed">Det gick inte att söka efter uppdateringar</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nej</string>
     <string name="update_available">Uppdatering tillgänglig</string>
     <string name="new_version_body">En ny version är tillgänglig. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Avfärda</string>
-    <string name="open">Öppna</string>
     <string name="log_out">Logga ut</string>
     <string name="data_and_storage"><![CDATA[Data och lagring]]></string>
     <string name="app_info">App Information</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Tar bort alla nedladdade låtar och cache</string>
     <string name="clear_login_message">Rensar alla sparade konton och inloggningsuppgifter</string>
     <string name="login_info_cleared">Inloggningsinformation rensad</string>
-    <string name="cache_cleared">Cachen rensad</string>
     <string name="downloads_cleared">Nedladdningar rensade</string>
     <string name="invalid_navkey">Ogiltig NavKey : %1$s</string>
     <string name="confirm">Bekräfta</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorera</string>
     <string name="change_update_channel">Ändra uppdateringskanal</string>
     <string name="current_update_channel_body">Aktuell uppdateringskanal : %1$s</string>
-    <string name="delete_download">Ta bort nedladdning</string>
     <string name="beta_update_available">Beta-uppdatering tillgänglig</string>
     <string name="home">Hem</string>
     <string name="search">Sök</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

@@ -11,7 +11,6 @@
     <string name="play">再生</string>
     <string name="shuffle">シャッフル</string>
     <string name="songs">%1$d 曲</string>
-    <string name="pause">一時停止</string>
     <string name="error">エラー</string>
     <string name="previous">前</string>
     <string name="next">次へ</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">再生中</string>
     <string name="up_to_date_message">アプリは最新です！</string>
     <string name="update_check_failed">更新の確認に失敗しました</string>
-    <string name="yes">はい</string>
-    <string name="no">いいえ</string>
     <string name="update_available">アップデートがあります</string>
     <string name="new_version_body">新しいバージョンが利用可能です。 (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">却下する</string>
-    <string name="open">開く</string>
     <string name="log_out">ログアウト</string>
     <string name="data_and_storage"><![CDATA[データ & ストレージ]]></string>
     <string name="app_info">アプリ情報</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">ダウンロードしたすべての曲とキャッシュを削除します</string>
     <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します</string>
     <string name="login_info_cleared">ログイン情報を消去しました</string>
-    <string name="cache_cleared">キャッシュが消去されました</string>
     <string name="downloads_cleared">ダウンロードを消去しました</string>
     <string name="invalid_navkey">無効なナビキー: %1$s</string>
     <string name="confirm">確認する</string>
@@ -67,7 +60,6 @@
     <string name="ignore">無視</string>
     <string name="change_update_channel">更新チャンネルの変更</string>
     <string name="current_update_channel_body">現在の更新チャンネル： %1$s</string>
-    <string name="delete_download">ダウンロードを削除</string>
     <string name="beta_update_available">ベータ版のアップデートが利用可能です</string>
     <string name="home">ホーム</string>
     <string name="search">検索</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

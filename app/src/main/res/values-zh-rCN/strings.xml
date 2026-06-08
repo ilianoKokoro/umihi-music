@@ -11,7 +11,6 @@
     <string name="play">播放</string>
     <string name="shuffle">随机播放</string>
     <string name="songs">%1$d 歌曲</string>
-    <string name="pause">暂停</string>
     <string name="error">错误</string>
     <string name="previous">上一个</string>
     <string name="next">下一个</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">现在播放</string>
     <string name="up_to_date_message">此应用已经是最新版本！</string>
     <string name="update_check_failed">检查更新失败</string>
-    <string name="yes">否</string>
-    <string name="no">否</string>
     <string name="update_available">可用更新</string>
     <string name="new_version_body">有新版本可用。(%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">关闭</string>
-    <string name="open">打开</string>
     <string name="log_out">登出</string>
     <string name="data_and_storage"><![CDATA[数据和存储]]></string>
     <string name="app_info">应用信息</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">删除所有下载的歌曲和缓存</string>
     <string name="clear_login_message">清除所有已保存的帐户和登录信息</string>
     <string name="login_info_cleared">登录信息已清除</string>
-    <string name="cache_cleared">缓存已清除</string>
     <string name="downloads_cleared">下载已清除</string>
     <string name="invalid_navkey">无效的 NavKey : %1$s</string>
     <string name="confirm">确认</string>
@@ -67,7 +60,6 @@
     <string name="ignore">忽略</string>
     <string name="change_update_channel">更改更新频道</string>
     <string name="current_update_channel_body">当前更新频道: %1$s</string>
-    <string name="delete_download">删除下载</string>
     <string name="beta_update_available">测试版更新可用</string>
     <string name="home">首页</string>
     <string name="search">搜索</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>

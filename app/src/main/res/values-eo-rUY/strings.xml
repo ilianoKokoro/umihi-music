@@ -11,7 +11,6 @@
     <string name="play">Play</string>
     <string name="shuffle">Shuffle</string>
     <string name="songs">%1$d songs</string>
-    <string name="pause">Pause</string>
     <string name="error">Error</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Playing Now</string>
     <string name="up_to_date_message">The app is up to date !</string>
     <string name="update_check_failed">Failed to check for updates</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="update_available">Update Available</string>
     <string name="new_version_body">A new version is available. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Dismiss</string>
-    <string name="open">Open</string>
     <string name="log_out">Log Out</string>
     <string name="data_and_storage"><![CDATA[Data & Storage]]></string>
     <string name="app_info">App Info</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
     <string name="login_info_cleared">Login Info Cleared</string>
-    <string name="cache_cleared">Cache Cleared</string>
     <string name="downloads_cleared">Downloads Cleared</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
     <string name="confirm">Confirm</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignore</string>
     <string name="change_update_channel">Change update channel</string>
     <string name="current_update_channel_body">Current update channel : %1$s</string>
-    <string name="delete_download">Delete Download</string>
     <string name="beta_update_available">Beta Update Available</string>
     <string name="home">Home</string>
     <string name="search">Search</string>

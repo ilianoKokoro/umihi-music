@@ -11,7 +11,6 @@
     <string name="play">Afspil</string>
     <string name="shuffle">Bland</string>
     <string name="songs">%1$d sange</string>
-    <string name="pause">Pause</string>
     <string name="error">Fejl</string>
     <string name="previous">Forrige</string>
     <string name="next">Næste</string>
@@ -38,13 +37,8 @@
     <string name="playing_now">Afspiller Nu</string>
     <string name="up_to_date_message">Appen er opdateret!</string>
     <string name="update_check_failed">Mislykkedes at tjekke for opdateringer</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nej</string>
     <string name="update_available">Opdatering Tilgængelig</string>
     <string name="new_version_body">En ny version er tilgængelig. (%1$s)</string>
-    <string name="show_on_github">Show on Github</string>
-    <string name="dismiss">Afvis</string>
-    <string name="open">Åbn</string>
     <string name="log_out">Log Ud</string>
     <string name="data_and_storage"><![CDATA[Data & Lagerplads]]></string>
     <string name="app_info">App Info</string>
@@ -57,7 +51,6 @@
     <string name="clear_data_message">Sletter alle de downloadede sange og cache</string>
     <string name="clear_login_message">Rydder alle de gemte konti og loginoplysninger</string>
     <string name="login_info_cleared">Login Info Ryddet</string>
-    <string name="cache_cleared">Cache Ryddet</string>
     <string name="downloads_cleared">Downloads Ryddet</string>
     <string name="invalid_navkey">Ugyldig Navnøgle: %1$s</string>
     <string name="confirm">Bekræft</string>
@@ -67,7 +60,6 @@
     <string name="ignore">Ignorer</string>
     <string name="change_update_channel">Skift opdateringskanal</string>
     <string name="current_update_channel_body">Nuværende opdateringskanal : %1$s</string>
-    <string name="delete_download">Slet Download</string>
     <string name="beta_update_available">Beta Opdatering Tilgængelig</string>
     <string name="home">Hjem</string>
     <string name="search">Søg</string>
@@ -95,11 +87,8 @@
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="downloading_update">Downloading Update...</string>
     <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="privacy">Privacy</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
-    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">Unlisted</string>
     <string name="privacy_public">Public</string>
     <string name="privacy_private">Private</string>
