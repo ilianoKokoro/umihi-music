@@ -48,7 +48,7 @@
     <string name="logged_in_message">Είστε συνδεδεμένοι στο λογαριασμό σας στο YouTube</string>
     <string name="logged_out_message">Αυτή τη στιγμή δεν είστε συνδεδεμένοι</string>
     <string name="account">Λογαριασμός</string>
-    <string name="clear_data_message">Διαγράφει όλα τα ληφθέντα τραγούδια και την προσωρινή μνήμη</string>
+    <string name="clear_data_message">Αφαίρεση όλων των κατεβασμένων τραγουδιών και δεδομένων της προσωρινής μνήμης από αυτήν τη συσκευή</string>
     <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις πληροφορίες σύνδεσης</string>
     <string name="login_info_cleared">Πληροφορίες Σύνδεσης Εκκαθαρίστηκαν</string>
     <string name="downloads_cleared">Οι Λήψεις Εκκαθαρίστηκαν</string>
@@ -80,12 +80,12 @@
     <string name="playback">Αναπαραγωγή</string>
     <string name="enable_audio_offload">Ενεργοποίηση Offload Ήχου</string>
     <string name="audio_offload_subtitle">Offloads αποκωδικοποίηση ήχου σε ειδικό υλικό, βελτίωση της ζωής της μπαταρίας. Μπορεί να προκαλέσει κάποια προβλήματα αναπαραγωγής σε ορισμένες περιπτώσεις.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Άγνωστο σφάλμα</string>
+    <string name="download_clear_confirm_text">Αυτό θα αφαιρέσει μόνιμα όλα τα κατεβασμένα τραγούδια, λίστες αναπαραγωγής και προσωρινά αποθηκευμένα δεδομένα από τη συσκευή σας.</string>
+    <string name="download_clear_confirm_title">Διαγραφή όλων των λήψεων?</string>
     <string name="keep_screen_on_title">Κρατήστε Την Οθόνη Πάντα Ενεργή</string>
     <string name="keep_screen_on_title_description">Αποτρέπει την απενεργοποίηση της οθόνης όταν η εφαρμογή είναι ανοιχτή</string>
-    <string name="downloading_update">Λήψη Ενημέρωσης...</string>
+    <string name="downloading_update">Downloading Update…</string>
     <string name="title">Τίτλος</string>
     <string name="create">Δημιουργία</string>
     <string name="create_playlist">Δημιουργία λίστας αναπαραγωγής</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Ελέγχει για νέες ενημερώσεις από το GitHub</string>
     <string name="updates">Ενημερώσεις</string>
     <string name="current_version">Τρέχουσα Έκδοση</string>
+    <string name="visibility">Ορατότητα</string>
 </resources>

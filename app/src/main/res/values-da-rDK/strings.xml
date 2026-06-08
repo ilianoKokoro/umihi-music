@@ -48,7 +48,7 @@
     <string name="logged_in_message">Du er logget på din YouTube-konto</string>
     <string name="logged_out_message">Du er i øjeblikket ikke logget ind</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Sletter alle de downloadede sange og cache</string>
+    <string name="clear_data_message">Fjern alle downloadede sange og cachelagrede data fra denne enhed</string>
     <string name="clear_login_message">Rydder alle de gemte konti og loginoplysninger</string>
     <string name="login_info_cleared">Login Info Ryddet</string>
     <string name="downloads_cleared">Downloads Ryddet</string>
@@ -80,12 +80,12 @@
     <string name="playback">Afspilning</string>
     <string name="enable_audio_offload">Aktiver Lyd Offload</string>
     <string name="audio_offload_subtitle">Offloads audio dekodning til dedikeret hardware, forbedre batteriets levetid. Kan forårsage nogle afspilning problemer i nogle tilfælde.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Ukendt fejl</string>
+    <string name="download_clear_confirm_text">Dette vil permanent fjerne alle downloadede sange, afspilningslister og cachede data fra din enhed.</string>
+    <string name="download_clear_confirm_title">Slet alle downloads?</string>
     <string name="keep_screen_on_title">Hold Skærmen Altid Tændt</string>
     <string name="keep_screen_on_title_description">Forhindrer skærmen i at slukke, mens appen er åben</string>
-    <string name="downloading_update">Downloader Opdatering...</string>
+    <string name="downloading_update">Downloader Opdatering…</string>
     <string name="title">Titel</string>
     <string name="create">Opret</string>
     <string name="create_playlist">Opret afspilningsliste</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Kontrollerer for nye opdateringer fra GitHub</string>
     <string name="updates">Opdateringer</string>
     <string name="current_version">Nuværende Version</string>
+    <string name="visibility">Synlighed</string>
 </resources>

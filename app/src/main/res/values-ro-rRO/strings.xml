@@ -48,7 +48,7 @@
     <string name="logged_in_message">Ești conectat la contul tău de YouTube</string>
     <string name="logged_out_message">Momentan nu ești conectat</string>
     <string name="account">Cont</string>
-    <string name="clear_data_message">Şterge toate melodiile şi geocutiile descărcate</string>
+    <string name="clear_data_message">Șterge toate melodiile descărcate și datele din cache de pe acest dispozitiv</string>
     <string name="clear_login_message">Curăță toate conturile salvate și informații de autentificare</string>
     <string name="login_info_cleared">Informații de conectare șterse</string>
     <string name="downloads_cleared">Descărcări șterse</string>
@@ -80,12 +80,12 @@
     <string name="playback">Redare</string>
     <string name="enable_audio_offload">Activează Offload Audio</string>
     <string name="audio_offload_subtitle">Descoperă decodarea audio la hardware-ul dedicat, îmbunătățind durata de viață a bateriei. În unele cazuri, poate cauza probleme de redare.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Eroare necunoscută</string>
+    <string name="download_clear_confirm_text">Acest lucru va elimina definitiv toate melodiile descărcate, listele de redare și datele din cache de pe dispozitivul dvs.</string>
+    <string name="download_clear_confirm_title">Ștergeți toate descărcările?</string>
     <string name="keep_screen_on_title">Păstraţi ecranul permanent aprins</string>
     <string name="keep_screen_on_title_description">Împiedică ecranul de la oprire în timp ce aplicația este deschisă</string>
-    <string name="downloading_update">Se descarcă actualizarea...</string>
+    <string name="downloading_update">Descărcare Actualizare…</string>
     <string name="title">Titlu</string>
     <string name="create">Crează</string>
     <string name="create_playlist">Creare listă</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Verifică noi actualizări de la GitHub</string>
     <string name="updates">Actualizări</string>
     <string name="current_version">Versiunea Curentă</string>
+    <string name="visibility">Vizibilitate</string>
 </resources>

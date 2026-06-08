@@ -48,7 +48,7 @@
     <string name="logged_in_message">أنت مسجل الدخول إلى حسابك على اليوتيوب</string>
     <string name="logged_out_message">أنت حاليا غير مسجل الدخول</string>
     <string name="account">حساب</string>
-    <string name="clear_data_message">يحذف جميع الأغاني المحملة و ذاكرة التخزين المؤقت</string>
+    <string name="clear_data_message">إزالة جميع الأغاني المحملة والبيانات المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="clear_login_message">مسح جميع الحسابات المحفوظة ومعلومات تسجيل الدخول</string>
     <string name="login_info_cleared">مسح معلومات تسجيل الدخول</string>
     <string name="downloads_cleared">تم مسح التنزيلات</string>
@@ -80,12 +80,12 @@
     <string name="playback">تشغيل</string>
     <string name="enable_audio_offload">تمكين إزاحة الصوت</string>
     <string name="audio_offload_subtitle">تنزيل الترميز الصوتي إلى أجهزة مخصصة، تحسين عمر البطارية. قد يسبب بعض مشاكل التشغيل في بعض الحالات.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">خطأ غير معروف</string>
+    <string name="download_clear_confirm_text">سيؤدي هذا إلى إزالة جميع الأغاني التي تم تنزيلها وقوائم التشغيل والبيانات المخزنة مؤقتاً من جهازك.</string>
+    <string name="download_clear_confirm_title">حذف جميع التنزيلات؟</string>
     <string name="keep_screen_on_title">إبقاء الشاشة دائماً قيد التشغيل</string>
     <string name="keep_screen_on_title_description">يمنع الشاشة من إيقاف التشغيل أثناء فتح التطبيق</string>
-    <string name="downloading_update">جاري تحميل التحديث...</string>
+    <string name="downloading_update">جاري تحميل التحديث…</string>
     <string name="title">العنوان</string>
     <string name="create">إنشاء</string>
     <string name="create_playlist">إنشاء قائمة تشغيل</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">التحقق من وجود تحديثات جديدة من GitHub</string>
     <string name="updates">التحديثات</string>
     <string name="current_version">الإصدار الحالي</string>
+    <string name="visibility">الظهور</string>
 </resources>

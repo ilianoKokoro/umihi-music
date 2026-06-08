@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Checks for new updates from GitHub</string>
     <string name="updates">Updates</string>
     <string name="current_version">Current Version</string>
+    <string name="visibility">Visibility</string>
 </resources>

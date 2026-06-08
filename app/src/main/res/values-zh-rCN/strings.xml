@@ -48,7 +48,7 @@
     <string name="logged_in_message">您已登录到您的 YouTube 帐户</string>
     <string name="logged_out_message">您目前没有登录</string>
     <string name="account">账户</string>
-    <string name="clear_data_message">删除所有下载的歌曲和缓存</string>
+    <string name="clear_data_message">从此设备中删除所有已下载的歌曲和缓存的数据</string>
     <string name="clear_login_message">清除所有已保存的帐户和登录信息</string>
     <string name="login_info_cleared">登录信息已清除</string>
     <string name="downloads_cleared">下载已清除</string>
@@ -80,12 +80,12 @@
     <string name="playback">回放</string>
     <string name="enable_audio_offload">启用音频卸载</string>
     <string name="audio_offload_subtitle">将音频解码卸载到专用硬件上，改善电池寿命。在某些情况下，可能会导致一些播放问题。</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="download_clear_confirm_text">这将从您的设备永久删除所有已下载的歌曲、播放列表和缓存的数据。</string>
+    <string name="download_clear_confirm_title">删除所有下载？</string>
     <string name="keep_screen_on_title">保持屏幕始终开启</string>
     <string name="keep_screen_on_title_description">在应用程序打开时阻止显示关闭</string>
-    <string name="downloading_update">正在下载更新...</string>
+    <string name="downloading_update">Downloading Update…</string>
     <string name="title">标题</string>
     <string name="create">创建</string>
     <string name="create_playlist">创建播放列表</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">检查来自 GitHub 的新更新</string>
     <string name="updates">更新</string>
     <string name="current_version">当前版本</string>
+    <string name="visibility">可见性</string>
 </resources>

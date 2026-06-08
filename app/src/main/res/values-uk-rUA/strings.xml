@@ -48,7 +48,7 @@
     <string name="logged_in_message">Ви увійшли в свій акаунт YouTube</string>
     <string name="logged_out_message">Ви не ввійшли</string>
     <string name="account">Обліковий запис</string>
-    <string name="clear_data_message">Видаляє всі завантажені пісні та кеш</string>
+    <string name="clear_data_message">Видалити всі завантажені пісні і кешовані дані з цього пристрою</string>
     <string name="clear_login_message">Очищує всі збережені облікові записи та дані входу</string>
     <string name="login_info_cleared">Дані для входу очищено</string>
     <string name="downloads_cleared">Завантаження очищено</string>
@@ -80,12 +80,12 @@
     <string name="playback">Відтворення</string>
     <string name="enable_audio_offload">Увімкнути розвантаження аудіо</string>
     <string name="audio_offload_subtitle">Окреме аудіо декодування для виділеного обладнання, покращуючи життя акумулятора. Може викликати проблеми з відтворенням в деяких випадках.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Невідома помилка</string>
+    <string name="download_clear_confirm_text">Ця дія назавжди видалить всі завантажені пісні, списки відтворення та кешовані дані з вашого пристрою.</string>
+    <string name="download_clear_confirm_title">Видалити всі завантаження?</string>
     <string name="keep_screen_on_title">Тримати екран Always On</string>
     <string name="keep_screen_on_title_description">Запобігає вимкненню екрану, коли програма відкрита</string>
-    <string name="downloading_update">Завантаження оновлення...</string>
+    <string name="downloading_update">Завантаження оновлення…</string>
     <string name="title">Найменування</string>
     <string name="create">Створити</string>
     <string name="create_playlist">Створити плейліст</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Перевіряє оновлення від GitHub</string>
     <string name="updates">Оновлення</string>
     <string name="current_version">Поточна версія</string>
+    <string name="visibility">Видимість</string>
 </resources>

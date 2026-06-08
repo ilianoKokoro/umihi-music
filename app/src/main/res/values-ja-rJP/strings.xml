@@ -48,8 +48,8 @@
     <string name="logged_in_message">YouTubeアカウントにログインしています</string>
     <string name="logged_out_message">現在ログインしていません</string>
     <string name="account">アカウント</string>
-    <string name="clear_data_message">ダウンロードしたすべての曲とキャッシュを削除します</string>
-    <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します</string>
+    <string name="clear_data_message">このデバイスからダウンロードしたすべての曲とキャッシュされたデータを削除します</string>
+    <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します。</string>
     <string name="login_info_cleared">ログイン情報を消去しました</string>
     <string name="downloads_cleared">ダウンロードを消去しました</string>
     <string name="invalid_navkey">無効なナビキー: %1$s</string>
@@ -80,12 +80,12 @@
     <string name="playback">再生</string>
     <string name="enable_audio_offload">オーディオオフロードを有効にする</string>
     <string name="audio_offload_subtitle">オーディオデコードを専用ハードウェアにオフロードし、バッテリ寿命を延ばします。場合によっては再生の問題が発生する可能性があります。</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">不明なエラー</string>
+    <string name="download_clear_confirm_text">ダウンロードしたすべての曲、プレイリスト、キャッシュされたデータがデバイスから完全に削除されます。</string>
+    <string name="download_clear_confirm_title">すべてのダウンロードを削除しますか？</string>
     <string name="keep_screen_on_title">常に画面をオンにする</string>
     <string name="keep_screen_on_title_description">アプリを開いている間にディスプレイがオフになるのを防ぎます</string>
-    <string name="downloading_update">アップデートをダウンロードしています...</string>
+    <string name="downloading_update">Downloading Update…</string>
     <string name="title">タイトル</string>
     <string name="create">作成</string>
     <string name="create_playlist">プレイリストを作成</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">GitHubからの新しいアップデートを確認します</string>
     <string name="updates">更新</string>
     <string name="current_version">現在のバージョン</string>
+    <string name="visibility">公開範囲</string>
 </resources>

@@ -48,7 +48,7 @@
     <string name="logged_in_message">Jesteś zalogowany na swoje konto YouTube</string>
     <string name="logged_out_message">Nie jesteś zalogowany</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Usuwa wszystkie pobrane utwory i skrzynkę</string>
+    <string name="clear_data_message">Usuń wszystkie pobrane utwory i dane pamięci podręcznej z tego urządzenia</string>
     <string name="clear_login_message">Czyści wszystkie zapisane konta i dane logowania</string>
     <string name="login_info_cleared">Wyczyszczono dane logowania</string>
     <string name="downloads_cleared">Pobieranie wyczyszczone</string>
@@ -80,12 +80,12 @@
     <string name="playback">Odtwarzanie</string>
     <string name="enable_audio_offload">Włącz wyłączanie dźwięku</string>
     <string name="audio_offload_subtitle">Wyłącz dekodowanie audio do dedykowanego sprzętu, poprawiając żywotność baterii. W niektórych przypadkach może powodować problemy z odtwarzaniem.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Nieznany błąd</string>
+    <string name="download_clear_confirm_text">Spowoduje to trwałe usunięcie z urządzenia wszystkich pobranych utworów, list odtwarzania i danych z pamięci podręcznej.</string>
+    <string name="download_clear_confirm_title">Usunąć wszystkie pobierania?</string>
     <string name="keep_screen_on_title">Utrzymuj ekran zawsze włączony</string>
     <string name="keep_screen_on_title_description">Zapobiega wyłączeniu ekranu, gdy aplikacja jest otwarta</string>
-    <string name="downloading_update">Pobieranie aktualizacji...</string>
+    <string name="downloading_update">Pobieranie aktualizacji…</string>
     <string name="title">Rozporządzenie Rady (EWG) nr 2658/87 z dnia 23 lipca 1987 r. w sprawie nomenklatury taryfowej i statystycznej oraz w sprawie Wspólnej Taryfy Celnej (Dz.U. L 256 z 7.9.1987, s. 1).</string>
     <string name="create">Utwórz</string>
     <string name="create_playlist">Utwórz playlistę</string>
@@ -97,4 +97,5 @@
     <string name="check_update_setting_description">Sprawdza dostępność nowych aktualizacji z GitHub</string>
     <string name="updates">Aktualizacje</string>
     <string name="current_version">Aktualna wersja</string>
+    <string name="visibility">Widoczność</string>
 </resources>
