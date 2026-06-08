@@ -71,6 +71,7 @@ Join the Discord server to get update pings, know about announcements and get su
 - Lightweight and fast
 - Clean Material Expressive design
 - Optimized for modern Android devices
+- Android Auto support
 
 ### Future features (In development)
 
