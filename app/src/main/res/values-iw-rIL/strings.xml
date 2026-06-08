@@ -89,6 +89,7 @@
     <string name="title">כותרת</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
+    <string name="visibility">Visibility\n</string>
     <string name="privacy_unlisted">לא רשום</string>
     <string name="privacy_public">ציבורי</string>
     <string name="privacy_private">פרטי</string>
