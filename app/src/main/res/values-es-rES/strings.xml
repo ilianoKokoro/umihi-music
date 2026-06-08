@@ -48,7 +48,7 @@
     <string name="logged_in_message">Ha iniciado sesión en su cuenta de YouTube</string>
     <string name="logged_out_message">Actualmente no estás conectado</string>
     <string name="account">Cuenta</string>
-    <string name="clear_data_message">Elimina todas las canciones descargadas y caché</string>
+    <string name="clear_data_message">Eliminar todas las canciones descargadas y los datos en caché de este dispositivo</string>
     <string name="clear_login_message">Limpia todas las cuentas guardadas e información de acceso</string>
     <string name="login_info_cleared">Información de inicio de sesión limpiada</string>
     <string name="downloads_cleared">Descargas Limpiadas</string>
@@ -80,16 +80,15 @@
     <string name="playback">Reproducir</string>
     <string name="enable_audio_offload">Activar carga de audio</string>
     <string name="audio_offload_subtitle">Descargas la decodificación de audio a hardware dedicado, mejorando la vida de la batería. Puede causar algunos problemas de reproducción en algunos casos.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Error desconocido</string>
+    <string name="download_clear_confirm_text">Esto eliminará permanentemente todas las canciones, listas de reproducción y datos almacenados en caché de su dispositivo.</string>
+    <string name="download_clear_confirm_title">¿Borrar todas las descargas?</string>
     <string name="keep_screen_on_title">Mantener la pantalla siempre encendida</string>
     <string name="keep_screen_on_title_description">Evita que la pantalla se apague mientras la aplicación está abierta</string>
-    <string name="downloading_update">Descargando actualización...</string>
+    <string name="downloading_update">Descargando actualización…</string>
     <string name="title">Título</string>
     <string name="create">Crear</string>
     <string name="create_playlist">Crear lista</string>
-    <string name="visibility">Visibilidad\n</string>
     <string name="privacy_unlisted">Sin enumerar</string>
     <string name="privacy_public">Público</string>
     <string name="privacy_private">Privado</string>
@@ -98,4 +97,5 @@
     <string name="check_update_setting_description">Comprueba nuevas actualizaciones de GitHub</string>
     <string name="updates">Actualizaciones</string>
     <string name="current_version">Versión actual</string>
+    <string name="visibility">Visibilidad</string>
 </resources>
