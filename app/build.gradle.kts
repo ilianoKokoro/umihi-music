@@ -5,7 +5,7 @@ import java.util.Properties
 
 val versionMajor = 1
 val versionMinor = 12
-val versionPatch = 0
+val versionPatch = 1
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -50,6 +50,22 @@ android {
     }
 
 
+    flavorDimensions += "version"
+
+    productFlavors {
+        create("github") {
+            dimension = "version"
+            buildConfigField("boolean", "UPDATER_ENABLED", "true")
+        }
+
+        create("store") {
+            dimension = "version"
+            applicationIdSuffix = ".store"
+            versionNameSuffix = "-store"
+            buildConfigField("boolean", "UPDATER_ENABLED", "false")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -78,6 +94,12 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 
     androidResources {

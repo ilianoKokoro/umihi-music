@@ -145,6 +145,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: v${{ steps.get_version.outputs.version }}
+          commit: prod
           artifacts: ./artifacts/**/*.apk
           generateReleaseNotes: true
           draft: true
