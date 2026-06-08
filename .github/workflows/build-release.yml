@@ -79,13 +79,12 @@ jobs:
               release-apks/${{env.APK_FILE_NAME}}-store.apk
           fi
 
-      - name: Upload APK Artifact
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v7
         with:
           name: apk-files
-          path: release-apks/*
+          path: release-apks/
           overwrite: true
-          archive: false
           if-no-files-found: error
   update-beta-prerelease:
     permissions:
