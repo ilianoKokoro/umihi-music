@@ -49,7 +49,6 @@
     <string name="data_and_storage"><![CDATA[Gegevens & Opslag]]></string>
     <string name="app_info">App informatie</string>
     <string name="check_for_updates">Op updates controleren</string>
-    <string name="current_version">Huidige versie: %1$s</string>
     <string name="delete_downloads">Verwijder alle downloads</string>
     <string name="clear_login_info">Inloggegevens wissen</string>
     <string name="logged_in_message">Je bent ingelogd op je YouTube-account</string>
@@ -106,4 +105,7 @@
     <string name="privacy_private">Private</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
+    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
+    <string name="updates">Updates</string>
+    <string name="current_version">Current Version</string>
 </resources>
