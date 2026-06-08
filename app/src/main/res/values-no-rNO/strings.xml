@@ -48,7 +48,7 @@
     <string name="logged_in_message">Du er logget på din YouTube-konto</string>
     <string name="logged_out_message">Du er ikke innlogget nå</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Sletter alle nedlastede sanger og cache</string>
+    <string name="clear_data_message">Fjern alle nedlastede sanger og mellomlagrede data fra denne enheten</string>
     <string name="clear_login_message">Fjerner alle de lagrede kontoene og innloggings informasjonen</string>
     <string name="login_info_cleared">Innloggingsinformasjon fjernet</string>
     <string name="downloads_cleared">Nedlastinger fjernet</string>
@@ -80,16 +80,15 @@
     <string name="playback">Avspilling</string>
     <string name="enable_audio_offload">Aktiver lyd-forskyvning</string>
     <string name="audio_offload_subtitle">Laster ut lyddekoding til dedikert maskinvare, forbedrer batterilevetiden. Kan føre til noen avspillingsproblemer i noen tilfeller.</string>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="download_clear_confirm_text">This action will clear all the downloaded playlists from disk and clear the cache</string>
-    <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
+    <string name="unknown_error">Ukjent feil</string>
+    <string name="download_clear_confirm_text">Dette vil permanent fjerne alle nedlastede sanger, spillelister og bufrede data fra enheten.</string>
+    <string name="download_clear_confirm_title">Slette alle nedlastinger?</string>
     <string name="keep_screen_on_title">Behold skjermen alltid på</string>
     <string name="keep_screen_on_title_description">Hindrer skjermen i å slå av mens appen er åpen</string>
-    <string name="downloading_update">Laster ned oppdatering...</string>
+    <string name="downloading_update">Laster ned oppdatering…</string>
     <string name="title">Tittel</string>
     <string name="create">Opprett</string>
     <string name="create_playlist">Lag spilleliste</string>
-    <string name="visibility">Synlighet\n</string>
     <string name="privacy_unlisted">Unotert</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>
@@ -98,4 +97,5 @@
     <string name="check_update_setting_description">Sjekker etter nye oppdateringer fra GitHub</string>
     <string name="updates">Oppdateringer</string>
     <string name="current_version">Gjeldende versjon</string>
+    <string name="visibility">Synlighet</string>
 </resources>
