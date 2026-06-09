@@ -90,12 +90,12 @@
     <string name="create">Cweate</string>
     <string name="create_playlist">Cweate pwaywist</string>
     <string name="privacy_unlisted">Unwisted</string>
-    <string name="privacy_public">Public</string>
+    <string name="privacy_public">Pubwic</string>
     <string name="privacy_private">Pwivate</string>
     <string name="delete_playlist">Delete Pwaywist</string>
     <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
     <string name="check_update_setting_description">Checks for new updates from GitHub</string>
     <string name="updates">Updates</string>
-    <string name="current_version">Current Version</string>
+    <string name="current_version">Cuwwent vewsion</string>
     <string name="visibility">Viswibiwity</string>
 </resources>
