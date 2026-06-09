@@ -2,6 +2,7 @@
 [![Downloads](https://img.shields.io/github/downloads/ilianoKokoro/umihi-music/total?style=for-the-badge&color=E53935)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![RB Status](https://shields.rbtlog.dev/simple/ca.ilianokokoro.umihi.music?style=for-the-badge)](https://github.com/ilianoKokoro/umihi-music/releases/latest)
 [![Discord Server](https://dcbadge.limes.pink/api/server/https://discord.gg/mSPeHS5cF6)](https://discord.gg/mSPeHS5cF6)
+[![Crowdin](https://img.shields.io/badge/Crowdin-translate%20project-2E3340?style=for-the-badge&logo=crowdin)](https://crowdin.com/project/umihi-music)
 
 # Umihi Music
 
@@ -103,6 +104,7 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ## Translations 🉐
 
+[![Crowdin](https://badges.crowdin.net/umihi-music/localized.svg)](https://crowdin.com/project/umihi-music)
 <img alt="Translation status" src="https://badges.awesome-crowdin.com/translation-14810202-878334.png" />
 
 ## Star History ✨
