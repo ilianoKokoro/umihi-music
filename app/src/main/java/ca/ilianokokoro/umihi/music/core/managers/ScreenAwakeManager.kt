@@ -3,15 +3,18 @@ package ca.ilianokokoro.umihi.music.core.managers
 import android.app.Activity
 import android.view.WindowManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 object ScreenAwakeManager {
 
     private var currentActivity: WeakReference<Activity>? = null
     private var datastoreRepository: WeakReference<DatastoreRepository>? = null
-
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     fun registerActivity(activity: Activity) {
         currentActivity = WeakReference(activity)
@@ -21,9 +24,11 @@ object ScreenAwakeManager {
                 WeakReference(DatastoreRepository(activity.applicationContext))
         }
 
-        val savedSettings = runBlocking { datastoreRepository?.get()?.settings?.first() }
-        if (savedSettings != null) {
-            setKeepScreenOn(savedSettings.keepScreenOn)
+        scope.launch {
+            val savedSettings = datastoreRepository?.get()?.settings?.first()
+            if (savedSettings != null) {
+                setKeepScreenOn(savedSettings.keepScreenOn)
+            }
         }
     }
 

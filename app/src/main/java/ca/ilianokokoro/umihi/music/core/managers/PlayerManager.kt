@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.MoreExecutors
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.coroutines.cancellation.CancellationException
 
 object PlayerManager {
 
@@ -38,6 +39,7 @@ object PlayerManager {
 
 
     @OptIn(UnstableApi::class)
+    @Synchronized
     fun connectController(context: Context) {
         if (isConnected) {
             _controllerState.value = controller
@@ -68,6 +70,8 @@ object PlayerManager {
                     controller = built
                     _controllerState.value = built
 
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (_: Exception) {
                     clearDeadController()
                 } finally {
@@ -78,6 +82,7 @@ object PlayerManager {
         )
     }
 
+    @Synchronized
     fun disconnectController() {
         controllerFuture?.let { future ->
             MediaController.releaseFuture(future)
@@ -238,8 +243,9 @@ object PlayerManager {
         }
     }
 
-    fun getQueue(): MutableList<Song> {
-        val controller = currentController ?: return mutableListOf()
+    @Synchronized
+    fun getQueue(): List<Song> {
+        val controller = currentController ?: return emptyList()
         val queue = mutableListOf<Song>()
 
         for (i in 0 until controller.mediaItemCount) {
@@ -249,10 +255,12 @@ object PlayerManager {
         return queue
     }
 
+    @Synchronized
     fun getCurrentSong(): Song? {
         return currentController?.currentMediaItem?.toSong()
     }
 
+    @Synchronized
     fun getCurrentIndex(): Int {
         return currentController?.currentMediaItemIndex ?: C.INDEX_UNSET
     }
@@ -292,6 +300,7 @@ object PlayerManager {
         }
     }
 
+    @Synchronized
     private fun clearDeadController() {
         controller = null
         _controllerState.value = null

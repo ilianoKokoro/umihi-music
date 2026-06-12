@@ -4,7 +4,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 
 
 data class PlayerState(
-    val queue: MutableList<Song> = mutableListOf(),
+    val queue: List<Song> = emptyList(),
     val currentIndex: Int = -1,
     val playbackProgress: PlaybackProgress = PlaybackProgress(),
     val isPlaying: Boolean = false,

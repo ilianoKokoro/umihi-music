@@ -19,7 +19,6 @@ import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.Datastore.NAME)
@@ -62,10 +61,8 @@ class DatastoreRepository(private val context: Context) {
         )
     }
 
-    fun getSettings(): UmihiSettings {
-        return runBlocking {
-            settings.first()
-        }
+    suspend fun getSettings(): UmihiSettings {
+        return settings.first()
     }
 
     val cookies = context.dataStore.data.map {

@@ -37,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.UUID
@@ -72,17 +71,9 @@ class PlaybackService : MediaLibraryService() {
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
         val resolvingFactory = YoutubeDataSourceFactory(application, cacheDataSourceFactory)
 
-        val settings = runBlocking { datastoreRepository.settings.first() }
-
-        val audioOffloadMode = if (settings.useAudioOffload) {
-            TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED
-        } else {
-            TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED
-        }
-
         val audioOffloadPreferences =
             TrackSelectionParameters.AudioOffloadPreferences.Builder()
-                .setAudioOffloadMode(audioOffloadMode)
+                .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED)
                 .setIsGaplessSupportRequired(true)
                 .setIsSpeedChangeSupportRequired(true)
                 .build()
@@ -105,6 +96,27 @@ class PlaybackService : MediaLibraryService() {
                 .buildUpon()
                 .setAudioOffloadPreferences(audioOffloadPreferences)
                 .build()
+
+        serviceScope.launch {
+            val settings = datastoreRepository.settings.first()
+            val mode = if (settings.useAudioOffload) {
+                TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED
+            } else {
+                TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED
+            }
+            withContext(Dispatchers.Main) {
+                player.trackSelectionParameters =
+                    player.trackSelectionParameters
+                        .buildUpon()
+                        .setAudioOffloadPreferences(
+                            player.trackSelectionParameters.audioOffloadPreferences
+                                .buildUpon()
+                                .setAudioOffloadMode(mode)
+                                .build()
+                        )
+                        .build()
+            }
+        }
 
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(

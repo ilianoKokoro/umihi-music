@@ -54,7 +54,7 @@ data class PlaylistInfo(
 
     fun toBrowsableMediaItem(): MediaItem {
         return MediaItem.Builder()
-            .setMediaId("playlist:$id")
+            .setMediaId("${Constants.ExoPlayer.Library.PLAYLIST_PREFIX}$id")
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(title)

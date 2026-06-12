@@ -52,12 +52,8 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onSearchFieldChange(newValue: String) {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    search = newValue
-                )
-            }
+        _uiState.update {
+            it.copy(search = newValue)
         }
     }
 

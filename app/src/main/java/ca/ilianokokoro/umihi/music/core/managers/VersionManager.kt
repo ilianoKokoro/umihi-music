@@ -24,6 +24,7 @@ import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -58,9 +59,9 @@ object VersionManager {
         return versionName.toString()
     }
 
-    fun getUpdateChannel(context: Context): DatastoreRepository.UpdateChannel {
+    suspend fun getUpdateChannel(context: Context): DatastoreRepository.UpdateChannel {
         val datastoreRepository = DatastoreRepository(context)
-        return datastoreRepository.getSettings().updateChannel
+        return datastoreRepository.settings.first().updateChannel
     }
 
     suspend fun checkForUpdates(
