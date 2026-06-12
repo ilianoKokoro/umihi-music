@@ -48,7 +48,7 @@ class PlaybackService : MediaLibraryService() {
     private lateinit var player: Player
     private lateinit var datastoreRepository: DatastoreRepository
     private val songRepository = SongRepository()
-    private val playlistRepository = PlaylistRepository()
+    private lateinit var playlistRepository: PlaylistRepository
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private lateinit var callback: UmihiMediaLibraryCallback
@@ -58,6 +58,7 @@ class PlaybackService : MediaLibraryService() {
         super.onCreate()
 
         datastoreRepository = DatastoreRepository(applicationContext)
+        playlistRepository = PlaylistRepository(application)
         exoCache = ExoCache(application)
 
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()

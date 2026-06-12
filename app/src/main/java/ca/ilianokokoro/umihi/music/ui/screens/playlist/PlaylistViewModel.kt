@@ -9,7 +9,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.work.WorkInfo
 import ca.ilianokokoro.umihi.music.core.ApiResult
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class PlaylistViewModel(
     private val playlistInfo: PlaylistInfo,
@@ -41,9 +39,8 @@ class PlaylistViewModel(
     )
     val uiState = _uiState.asStateFlow()
 
-    private val playlistRepository = PlaylistRepository()
+    private val playlistRepository = PlaylistRepository(application)
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
-    private val localSongRepository = AppDatabase.getInstance(application).songRepository()
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
 
@@ -234,12 +231,7 @@ class PlaylistViewModel(
 
     private suspend fun getPlaylistInfoAsync() {
         try {
-            val localPlaylist = localPlaylistRepository.getPlaylistById(playlistInfo.id)
-
             val settings = datastoreRepository.getSettings()
-            if (settings.cookies.isEmpty()) {
-                throw Exception("Failed to get to login cookies")
-            }
 
             playlistRepository.retrieveOne(Playlist(playlistInfo), settings)
                 .collect { apiResult ->
@@ -247,33 +239,12 @@ class PlaylistViewModel(
                         _uiState.value.copy(
                             screenState = when (apiResult) {
                                 is ApiResult.Error -> {
-                                    if (localPlaylist == null) {
-                                        if (playlistInfo.id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID) {
-                                            val downloadedSongs =
-                                                localSongRepository.getDownloadedSongs()
-                                            ScreenState.Success(
-                                                playlist = Playlist(
-                                                    info = playlistInfo,
-                                                    songs = downloadedSongs
-                                                )
-                                            )
-                                        } else {
-                                            ScreenState.Error(Exception("Playlist is not downloaded"))
-                                        }
-                                    } else {
-                                        ScreenState.Success(playlist = localPlaylist.copy(songs = localPlaylist.songs.filter { it.downloaded }))
-                                    }
+                                    ScreenState.Error(apiResult.exception)
                                 }
 
                                 ApiResult.Loading -> ScreenState.Loading(playlistInfo)
                                 is ApiResult.Success -> {
-                                    val remotePlaylist = apiResult.data
-                                    ScreenState.Success(
-                                        playlist = updatePlaylistFrom(
-                                            remotePlaylist,
-                                            localPlaylist
-                                        )
-                                    )
+                                    ScreenState.Success(playlist = apiResult.data)
                                 }
                             }
                         )
@@ -292,19 +263,14 @@ class PlaylistViewModel(
     }
 
     private fun updatePlaylistFrom(oldPlaylist: Playlist, updatedPlaylist: Playlist?): Playlist {
-        if (updatedPlaylist != null) {
-            val localMap =
-                updatedPlaylist.songs.associateBy { it.youtubeId }
-
-            val updatedSongs = oldPlaylist.songs.map { remoteSong ->
-                localMap[remoteSong.youtubeId]?.copy(
-                    uid = UUID.randomUUID().toString()
-                ) ?: remoteSong
-            }
-
-            return oldPlaylist.copy(songs = updatedSongs)
+        if (updatedPlaylist == null) {
+            return oldPlaylist
         }
-        return oldPlaylist
+        val localMap = updatedPlaylist.songs.associateBy { it.youtubeId }
+        val mergedSongs = oldPlaylist.songs.map { remoteSong ->
+            localMap[remoteSong.youtubeId] ?: remoteSong
+        }
+        return oldPlaylist.copy(songs = mergedSongs)
     }
 
     private fun getPlaylist(): Playlist? {

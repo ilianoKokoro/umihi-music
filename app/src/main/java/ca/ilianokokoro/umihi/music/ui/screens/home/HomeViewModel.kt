@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
-import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -26,8 +25,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
 
-    private val playlistRepository = PlaylistRepository()
-    private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
+    private val playlistRepository = PlaylistRepository(application)
     private val datastoreRepository = DatastoreRepository(application)
 
 
@@ -76,11 +74,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         val playlists = when (apiResult) {
             is ApiResult.Success -> apiResult.data.toMutableList()
-
-            is ApiResult.Error -> localPlaylistRepository.getAll()
-                .map { it.info }
-                .toMutableList()
-
+            is ApiResult.Error -> emptyList()
             ApiResult.Loading -> return
         }
 
@@ -111,22 +105,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
                     is ApiResult.Success -> {
                         val playlists = apiResult.data.toMutableList()
-
-                        applyPlaylistFiltersAndUpdateState(
-                            playlists = playlists,
-                            settings = settings
-                        )
+                        applyPlaylistFiltersAndUpdateState(playlists, settings)
                     }
 
                     is ApiResult.Error -> {
-                        val playlists = localPlaylistRepository.getAll()
-                            .map { it.info }
-                            .toMutableList()
-
-                        applyPlaylistFiltersAndUpdateState(
-                            playlists = playlists,
-                            settings = settings
-                        )
+                        printe(message = "Failed to load playlists", exception = apiResult.exception)
+                        _uiState.update { currentState ->
+                            currentState.copy(screenState = ScreenState.LoggedOut)
+                        }
                     }
                 }
             }
@@ -136,23 +122,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun applyPlaylistFiltersAndUpdateState(
-        playlists: MutableList<PlaylistInfo>,
+        playlists: List<PlaylistInfo>,
         settings: UmihiSettings
     ) {
+        val mutablePlaylists = playlists.toMutableList()
         val downloadedPlaylist = PlaylistInfo(
             id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
             title = "Downloaded",
         )
 
         if (!settings.showPodcastPlaylist) {
-            playlists.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
+            mutablePlaylists.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
         }
 
-        playlists.add(0, downloadedPlaylist)
+        mutablePlaylists.add(0, downloadedPlaylist)
 
         _uiState.update { currentState ->
             currentState.copy(
-                screenState = ScreenState.LoggedIn(playlists)
+                screenState = ScreenState.LoggedIn(mutablePlaylists)
             )
         }
     }
