@@ -9,21 +9,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 
 @Composable
-fun SquareImage(uri: String, modifier: Modifier = Modifier, cornerRadius: Dp = 12.dp) {
+fun SquareImage(
+    modifier: Modifier = Modifier,
+    uri: String,
+    contentDescription: String? = null,
+    cornerRadius: Dp = 12.dp,
+) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current).data(uri)
             .crossfade(Constants.Animation.IMAGE_FADE_DURATION).build(),
-        contentDescription = stringResource(R.string.playlist_cover),
+        contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         modifier = modifier
             .aspectRatio(1f)

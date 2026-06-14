@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,18 +20,18 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
-
 
 @Composable
 fun MiniPlayerWrapper(
     modifier: Modifier = Modifier,
     onMiniPlayerPressed: () -> Unit,
-    showMiniPlayer: Boolean
+    showMiniPlayer: Boolean,
 ) {
-    val player by PlayerManager.controllerState.collectAsState()
+    val player by PlayerManager.controllerState.collectAsStateWithLifecycle()
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
     var songIsPlaying by remember(player) {
         mutableStateOf(player?.isPlaying)
@@ -40,8 +39,10 @@ fun MiniPlayerWrapper(
     var songIsLoading by remember(player) {
         mutableStateOf(player?.playbackState == Player.STATE_BUFFERING)
     }
-    val insets = WindowInsets.navigationBars.asPaddingValues()
-    val bottomInset = with(LocalDensity.current) { insets.calculateBottomPadding().roundToPx() }
+
+    val bottomInsetPx: Int = with(LocalDensity.current) {
+        WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding().roundToPx()
+    }
 
     DisposableEffect(player) {
         currentSong = player?.currentMediaItem?.toSong()
@@ -57,32 +58,26 @@ fun MiniPlayerWrapper(
                 songIsPlaying = isPlaying
             }
 
-
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
                     Player.STATE_BUFFERING -> {
                         songIsLoading = true
                     }
-
                     Player.STATE_READY -> {
                         songIsLoading = false
                     }
-
-                    else -> {
-                    }
+                    else -> {}
                 }
             }
-
         }
         player?.addListener(listener)
         onDispose { player?.removeListener(listener) }
     }
 
-
     AnimatedVisibility(
         visible = currentSong != null && showMiniPlayer,
-        enter = slideInVertically(initialOffsetY = { it + bottomInset }),
-        exit = slideOutVertically(targetOffsetY = { it + bottomInset }),
+        enter = slideInVertically(initialOffsetY = { it + bottomInsetPx }),
+        exit = slideOutVertically(targetOffsetY = { it + bottomInsetPx }),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -94,18 +89,13 @@ fun MiniPlayerWrapper(
             onClick = onMiniPlayerPressed,
             onPlayPause = {
                 if (player?.isPlaying == true) {
-                    (player as Player).pause()
+                    player?.pause()
                 } else {
                     player?.play()
                 }
-
             },
-            onSkipNext = {
-                player?.seekToNext()
-            },
-            onSkipPrevious = {
-                player?.seekToPrevious()
-            },
+            onSkipNext = { player?.seekToNext() },
+            onSkipPrevious = { player?.seekToPrevious() },
             isPlaying = songIsPlaying == true,
             isLoading = songIsLoading
         )

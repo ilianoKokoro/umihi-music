@@ -25,7 +25,10 @@ import kotlin.coroutines.cancellation.CancellationException
 
 object PlayerManager {
 
+    @Volatile
     private var controllerFuture: ListenableFuture<MediaController>? = null
+
+    @Volatile
     private var controller: MediaController? = null
 
     private val _controllerState = MutableStateFlow<MediaController?>(null)
@@ -67,15 +70,18 @@ object PlayerManager {
                 try {
                     val built = future.get()
 
-                    controller = built
-                    _controllerState.value = built
-
+                    synchronized(this@PlayerManager) {
+                        controller = built
+                        _controllerState.value = built
+                    }
                 } catch (e: CancellationException) {
                     throw e
                 } catch (_: Exception) {
                     clearDeadController()
                 } finally {
-                    controllerFuture = null
+                    synchronized(this@PlayerManager) {
+                        controllerFuture = null
+                    }
                 }
             },
             MoreExecutors.directExecutor()

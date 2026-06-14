@@ -11,17 +11,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
 @Composable
-fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
+fun PlaylistCard(
+    playlistInfo: PlaylistInfo,
+    onClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        onClick = onClicked, modifier = Modifier.fillMaxSize(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+        onClick = onClicked,
+        modifier = modifier.fillMaxSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -29,18 +38,17 @@ fun PlaylistCard(onClicked: () -> Unit, playlistInfo: PlaylistInfo) {
                 .padding(12.dp)
                 .fillMaxSize()
         ) {
-
             if (!playlistInfo.isDownloadedPlaylist) {
                 SquareImage(
                     uri = playlistInfo.coverPath ?: playlistInfo.coverHref,
+                    contentDescription = stringResource(R.string.playlist_cover),
                 )
             } else {
                 OfflineThumbnail()
             }
 
-
             Text(
-                playlistInfo.title,
+                text = playlistInfo.title,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),
