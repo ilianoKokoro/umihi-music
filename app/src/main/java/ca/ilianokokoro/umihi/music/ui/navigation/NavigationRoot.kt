@@ -19,9 +19,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -46,6 +54,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.search.SearchScreen
 import ca.ilianokokoro.umihi.music.ui.screens.settings.SettingsScreen
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
     val sharedViewModel: SharedViewModel = viewModel()
@@ -54,6 +63,12 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
 
+    var showFullPlayer by remember { mutableStateOf(false) }
+    val playerSheetState =
+        rememberBottomSheetState(
+            enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
+            initialValue = SheetValue.Hidden
+        )
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -73,8 +88,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             ) {
 
                 MiniPlayerWrapper(
-                    showMiniPlayer = screenConfig.showMiniPlayer,
-                    onMiniPlayerPressed = { backStack.add(PlayerScreenKey) },
+                    showMiniPlayer = screenConfig.showMiniPlayer && !showFullPlayer,
+                    onMiniPlayerPressed = { showFullPlayer = true },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -169,7 +184,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 sharedViewModel = sharedViewModel,
                                 playlistInfo = key.playlistInfo,
                                 onBack = backStack::safePop,
-                                onOpenPlayer = { backStack.add(PlayerScreenKey) },
+                                onOpenPlayer = { showFullPlayer = true },
                                 application = app
                             )
                         }
@@ -178,16 +193,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             AuthScreen(
                                 onBack = backStack::safePop,
                                 sharedViewModel = sharedViewModel,
-                                application = app
-                            )
-                        }
-
-                        is PlayerScreenKey -> NavEntry(
-                            key,
-                            metadata = Constants.Animation.SLIDE_UP_TRANSITION
-                        ) {
-                            PlayerScreen(
-                                onBack = backStack::safePop,
                                 application = app
                             )
                         }
@@ -207,6 +212,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     }
                 }
             )
+        }
+    }
+
+    if (showFullPlayer) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                showFullPlayer = false
+            },
+            sheetState = playerSheetState
+        ) {
+            PlayerScreen(onBack = { showFullPlayer = false }, application = app)
         }
     }
 }

@@ -62,7 +62,7 @@ fun PlayerControls(
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
