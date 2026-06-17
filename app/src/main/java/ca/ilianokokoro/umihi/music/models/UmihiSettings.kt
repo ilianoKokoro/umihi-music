@@ -6,6 +6,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateC
 @Immutable
 data class UmihiSettings(
     val updateChannel: UpdateChannel = UpdateChannel.Stable,
+    val updateChecking: Boolean = true,
     val cookies: Cookies,
     val dataSyncId: String,
     val showPodcastPlaylist: Boolean = true,

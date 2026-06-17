@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
@@ -32,6 +33,7 @@ class DatastoreRepository(private val context: Context) {
         val USE_SPECIAL_LANGUAGE = booleanPreferencesKey(Constants.Datastore.USE_SPECIAL_LANGUAGE)
         val USE_AUDIO_OFFLOAD = booleanPreferencesKey(Constants.Datastore.USE_AUDIO_OFFLOAD)
         val KEEP_SCREEN_ON = booleanPreferencesKey(Constants.Datastore.KEEP_SCREEN_ON)
+        val AUTO_UPDATE = booleanPreferencesKey(Constants.Datastore.AUTO_UPDATE)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -47,8 +49,10 @@ class DatastoreRepository(private val context: Context) {
         val useSpecialLanguage = it[USE_SPECIAL_LANGUAGE] ?: false
         val useAudioOffload = it[USE_AUDIO_OFFLOAD] ?: false
         val keepScreenOn = it[KEEP_SCREEN_ON] ?: false
+        val updateChecking = it[AUTO_UPDATE] ?: true
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
+
 
         UmihiSettings(
             updateChannel = updateChannel,
@@ -57,7 +61,8 @@ class DatastoreRepository(private val context: Context) {
             dataSyncId = dataSyncId,
             useSpecialLanguage = useSpecialLanguage,
             useAudioOffload = useAudioOffload,
-            keepScreenOn = keepScreenOn
+            keepScreenOn = keepScreenOn,
+            updateChecking = updateChecking
         )
     }
 

@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
+import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Memory
@@ -42,6 +43,7 @@ import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -160,7 +162,10 @@ fun SettingsScreen(
                                 leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
                                 value = screenState.settings.showPodcastPlaylist,
                                 onToggle = {
-                                    settingsViewModel.updatePodcastPlaylistVisibility(it)
+                                    settingsViewModel.updateSetting(
+                                        PreferenceKeys.SHOW_PODCAST_PLAYLIST,
+                                        it
+                                    )
                                 }
                             )
                             Spacer(modifier = Modifier.height(4.dp))
@@ -213,6 +218,20 @@ fun SettingsScreen(
                                     onClick = settingsViewModel::checkForUpdates
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
+                                BooleanSettingItem(
+                                    title = stringResource(R.string.auto_update_title),
+                                    subtitle = stringResource(R.string.auto_update_subtitle),
+                                    leadingIcon = Icons.Outlined.Autorenew,
+                                    value = screenState.settings.updateChecking,
+                                    onToggle = {
+                                        settingsViewModel.updateSetting(
+                                            PreferenceKeys.AUTO_UPDATE,
+                                            it
+                                        )
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+
                                 SettingsItem(
                                     title = stringResource(R.string.change_update_channel),
                                     subtitle = stringResource(
@@ -231,7 +250,10 @@ fun SettingsScreen(
                             UpdateChannelDialog(
                                 selectedOption = screenState.settings.updateChannel,
                                 onChange = {
-                                    settingsViewModel.changeUpdateChannel(it)
+                                    settingsViewModel.updateSetting(
+                                        PreferenceKeys.UPDATE_CHANNEL,
+                                        it.toString()
+                                    )
                                 },
                                 onClose = {
                                     settingsViewModel.updateShowUpdateChannelDialog(false)

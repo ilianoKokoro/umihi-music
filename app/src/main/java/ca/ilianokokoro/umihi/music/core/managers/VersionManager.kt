@@ -19,6 +19,7 @@ import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
@@ -59,9 +60,9 @@ object VersionManager {
         return versionName.toString()
     }
 
-    suspend fun getUpdateChannel(context: Context): DatastoreRepository.UpdateChannel {
+    suspend fun getSettings(context: Context): UmihiSettings {
         val datastoreRepository = DatastoreRepository(context)
-        return datastoreRepository.settings.first().updateChannel
+        return datastoreRepository.settings.first()
     }
 
     suspend fun checkForUpdates(
@@ -72,9 +73,13 @@ object VersionManager {
             return
         }
 
-        try {
-            when (getUpdateChannel(context)) {
+        val settings = getSettings(context)
+        if (!settings.updateChecking && !manualCheck) {
+            return
+        }
 
+        try {
+            when (settings.updateChannel) {
                 DatastoreRepository.UpdateChannel.Stable -> {
                     githubRepository.getLatestVersionName().collect { result ->
                         when (result) {

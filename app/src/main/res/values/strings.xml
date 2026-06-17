@@ -101,4 +101,6 @@
     <string name="updates">Updates</string>
     <string name="current_version">Current Version</string>
     <string name="visibility">Visibility</string>
+    <string name="auto_update_title">Automatic Update Checking</string>
+    <string name="auto_update_subtitle">Enables checking for update automatically on app launch</string>
 </resources>

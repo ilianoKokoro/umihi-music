@@ -107,20 +107,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun changeUpdateChannel(updateChannel: DatastoreRepository.UpdateChannel) {
-        updateSetting(
-            DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL,
-            updateChannel.toString()
-        )
-    }
-
-    fun updatePodcastPlaylistVisibility(value: Boolean) {
-        updateSetting(
-            DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST,
-            value
-        )
-    }
-
     fun updateAudioOffloadSetting(value: Boolean) {
         PlayerManager.setAudioOffloadEnabled(value)
         updateSetting(
@@ -152,7 +138,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         return !state.settings.cookies.isEmpty()
     }
 
-    private fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
+    fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
         viewModelScope.launch {
             datastoreRepository.save(
                 key,
