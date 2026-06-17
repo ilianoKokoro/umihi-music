@@ -46,16 +46,12 @@ object Constants {
         }
     }
 
-    object Marquee {
-        const val DELAY = 2000
-    }
-
     object Ui {
         object MiniPlayer {
             val HEIGHT = 70.dp
         }
 
-        val SCROLLABLE_BOTTOM_PADDING = 100.dp
+        val SCROLLABLE_BOTTOM_PADDING = 120.dp
         const val WEAROS_MAX_IMAGE_SIZE = 720
     }
 

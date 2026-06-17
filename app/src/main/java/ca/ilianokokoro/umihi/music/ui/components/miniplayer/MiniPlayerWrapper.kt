@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +17,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
@@ -63,9 +65,11 @@ fun MiniPlayerWrapper(
                     Player.STATE_BUFFERING -> {
                         songIsLoading = true
                     }
+
                     Player.STATE_READY -> {
                         songIsLoading = false
                     }
+
                     else -> {}
                 }
             }
@@ -80,6 +84,7 @@ fun MiniPlayerWrapper(
         exit = slideOutVertically(targetOffsetY = { it + bottomInsetPx }),
         modifier = modifier
             .fillMaxWidth()
+            .background(Color.Transparent)
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .height(Constants.Ui.MiniPlayer.HEIGHT)
     ) {

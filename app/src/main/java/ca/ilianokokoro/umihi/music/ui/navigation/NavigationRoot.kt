@@ -1,26 +1,20 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
 import android.app.Application
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
@@ -33,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
@@ -69,52 +64,38 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
             initialValue = SheetValue.Hidden
         )
+
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier = modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0),
 
         bottomBar = {
-
-            val columnModifier = if (screenConfig.showBottomBar) {
-                Modifier
-            } else {
-                Modifier.windowInsetsPadding(WindowInsets.navigationBars)
-            }
-
-            Column(
-                modifier = columnModifier
-            ) {
-
-                MiniPlayerWrapper(
-                    showMiniPlayer = screenConfig.showMiniPlayer && !showFullPlayer,
-                    onMiniPlayerPressed = { showFullPlayer = true },
-                    modifier = Modifier.fillMaxWidth()
+            if (screenConfig.showBottomBar) {
+                BottomNavigationBar(
+                    currentTab = screenConfig.selectedTab,
+                    onTabSelected = { key ->
+                        if (backStack.last() != key) backStack.add(key)
+                    }
                 )
-
-                AnimatedVisibility(
-                    visible = screenConfig.showBottomBar,
-                    enter = slideInVertically { it } + fadeIn(),
-                    exit = slideOutVertically { it } + fadeOut()
-                ) {
-                    BottomNavigationBar(
-                        currentTab = screenConfig.selectedTab,
-                        onTabSelected = { key ->
-                            if (backStack.last() != key) backStack.add(key)
-                        }
-                    )
-                }
             }
         }
-
     ) { paddingValues ->
+
+        val miniPlayerBottomPadding by animateDpAsState(
+            targetValue = if (!screenConfig.showBottomBar) {
+                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            } else {
+                0.dp
+            },
+            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION) // TODO : use FastOutSlowInEasing
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.BottomCenter
+                .padding(paddingValues)
         ) {
+
             NavDisplay(
                 modifier = Modifier.fillMaxSize(),
                 backStack = backStack,
@@ -161,6 +142,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 },
                 entryProvider = { key ->
                     when (key) {
+
                         is HomeScreenKey -> NavEntry(key) {
                             HomeScreen(
                                 sharedViewModel = sharedViewModel,
@@ -211,6 +193,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         )
                     }
                 }
+            )
+
+            MiniPlayerWrapper(
+                showMiniPlayer = screenConfig.showMiniPlayer && !showFullPlayer,
+                onMiniPlayerPressed = { showFullPlayer = true },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = miniPlayerBottomPadding)
             )
         }
     }

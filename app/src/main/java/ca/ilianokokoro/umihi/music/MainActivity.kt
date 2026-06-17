@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.schabi.newpipe.extractor.NewPipe
 
-
 class MainActivity : ComponentActivity() {
     private val songRepository: SongRepository = SongRepository()
     private val permissionLauncher = registerForActivityResult(
@@ -53,7 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             UmihiMusicTheme {
                 NavigationRoot(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 )
                 UpdateDialog(lifecycleScope)
             }
