@@ -1,12 +1,15 @@
 package ca.ilianokokoro.umihi.music.ui.navigation
 
 import android.app.Application
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -21,13 +24,15 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
@@ -59,35 +64,27 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val screenConfig = rememberScreenUiConfig(currentScreen)
 
     var showFullPlayer by remember { mutableStateOf(false) }
+    var bottomBarHeightPixels by remember { mutableIntStateOf(0) }
+    val bottomBarHeightDp = with(LocalDensity.current) { bottomBarHeightPixels.toDp() }
     val playerSheetState =
         rememberBottomSheetState(
             enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
             initialValue = SheetValue.Hidden
         )
 
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0),
-
-        bottomBar = {
-            if (screenConfig.showBottomBar) {
-                BottomNavigationBar(
-                    currentTab = screenConfig.selectedTab,
-                    onTabSelected = { key ->
-                        if (backStack.last() != key) backStack.add(key)
-                    }
-                )
-            }
-        }
     ) { paddingValues ->
 
         val miniPlayerBottomPadding by animateDpAsState(
             targetValue = if (!screenConfig.showBottomBar) {
                 WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
             } else {
-                0.dp
+                bottomBarHeightDp
             },
-            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION) // TODO : use FastOutSlowInEasing
+            animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)
         )
 
         Box(
@@ -97,7 +94,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         ) {
 
             NavDisplay(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize(),
                 backStack = backStack,
                 onBack = backStack::safePop,
                 entryDecorators = listOf(
@@ -202,8 +200,35 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = miniPlayerBottomPadding)
             )
+
+
+            AnimatedVisibility(
+                visible = screenConfig.showBottomBar,
+                enter = slideInVertically(
+                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
+                    initialOffsetY = { it }
+                ),
+                exit = slideOutVertically(
+                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
+                    targetOffsetY = { it }
+                ),
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                BottomNavigationBar(
+                    currentTab = screenConfig.selectedTab,
+                    onTabSelected = { key ->
+                        if (backStack.last() != key) {
+                            backStack.add(key)
+                        }
+                    },
+                    modifier = Modifier.onSizeChanged { bottomBarHeightPixels = it.height }
+                )
+            }
         }
+
     }
+
+
 
     if (showFullPlayer) {
         ModalBottomSheet(
@@ -215,6 +240,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             PlayerScreen(onBack = { showFullPlayer = false }, application = app)
         }
     }
+
 }
 
 

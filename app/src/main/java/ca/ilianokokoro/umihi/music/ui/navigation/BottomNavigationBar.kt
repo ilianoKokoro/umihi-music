@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
     currentTab: NavKey?,
     onTabSelected: (NavKey) -> Unit
 ) {
@@ -35,7 +37,7 @@ fun BottomNavigationBar(
     val datastoreRepository = remember { DatastoreRepository(context) }
     val resources = LocalResources.current
 
-    NavigationBar {
+    NavigationBar(modifier = modifier) {
         NavigationBarItem(
             selected = currentTab is HomeScreenKey,
             onClick = {
