@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class PlaylistViewModel(
     private val playlistInfo: PlaylistInfo,
@@ -268,7 +269,8 @@ class PlaylistViewModel(
         }
         val localMap = updatedPlaylist.songs.associateBy { it.youtubeId }
         val mergedSongs = oldPlaylist.songs.map { remoteSong ->
-            localMap[remoteSong.youtubeId] ?: remoteSong
+            localMap[remoteSong.youtubeId]?.copy(uid = UUID.randomUUID().toString())
+                ?: remoteSong
         }
         return oldPlaylist.copy(songs = mergedSongs)
     }
