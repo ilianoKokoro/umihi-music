@@ -98,4 +98,6 @@
     <string name="updates">Päivitykset</string>
     <string name="current_version">Nykyinen Versio</string>
     <string name="visibility">Näkyvyys</string>
+    <string name="auto_update_title">Automaattinen Päivityksen Tarkistus</string>
+    <string name="auto_update_subtitle">Mahdollistaa päivityksen tarkistamisen automaattisesti sovelluksen käynnistyessä</string>
 </resources>

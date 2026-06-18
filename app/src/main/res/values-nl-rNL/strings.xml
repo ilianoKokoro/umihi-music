@@ -98,4 +98,6 @@
     <string name="updates">Bijwerken</string>
     <string name="current_version">Huidige versie</string>
     <string name="visibility">Zichtbaarheid</string>
+    <string name="auto_update_title">Automatische update controle</string>
+    <string name="auto_update_subtitle">Activeert het automatisch controleren op updates bij het starten van de app</string>
 </resources>

@@ -98,4 +98,6 @@
     <string name="updates">Uppdateringar</string>
     <string name="current_version">Nuvarande version</string>
     <string name="visibility">Synlighet</string>
+    <string name="auto_update_title">Automatisk uppdateringskontroll</string>
+    <string name="auto_update_subtitle">Möjliggör sökning efter uppdatering automatiskt vid appstart</string>
 </resources>

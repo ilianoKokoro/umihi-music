@@ -98,4 +98,6 @@
     <string name="updates">Оновлення</string>
     <string name="current_version">Поточна версія</string>
     <string name="visibility">Видимість</string>
+    <string name="auto_update_title">Автоматична перевірка оновлень</string>
+    <string name="auto_update_subtitle">Дозволяє перевірити наявність оновлень автоматично при запуску програми</string>
 </resources>

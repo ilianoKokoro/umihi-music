@@ -98,4 +98,6 @@
     <string name="updates">Atualizações</string>
     <string name="current_version">Versão Atual</string>
     <string name="visibility">Visibilidade</string>
+    <string name="auto_update_title">Verificação de Atualizações Automática</string>
+    <string name="auto_update_subtitle">Permite a verificação de atualizações automaticamente ao iniciar o aplicativo</string>
 </resources>

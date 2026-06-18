@@ -98,4 +98,6 @@
     <string name="updates">Aktualizace</string>
     <string name="current_version">Aktuální verze</string>
     <string name="visibility">Viditelnost</string>
+    <string name="auto_update_title">Automatická kontrola aktualizací</string>
+    <string name="auto_update_subtitle">Umožňuje automaticky kontrolovat aktualizace při spuštění aplikace</string>
 </resources>

@@ -86,16 +86,18 @@
     <string name="keep_screen_on_title">Keep Scween Always On</string>
     <string name="keep_screen_on_title_description">Pwevents tha dispway fwom tuwnin off while tha app is owpen</string>
     <string name="downloading_update">Downwoadin Upwdate :3…</string>
-    <string name="title">Title</string>
+    <string name="title">Titwle</string>
     <string name="create">Cweate</string>
     <string name="create_playlist">Cweate pwaywist</string>
     <string name="privacy_unlisted">Unwisted</string>
     <string name="privacy_public">Pubwic</string>
     <string name="privacy_private">Pwivate</string>
     <string name="delete_playlist">Delete Pwaywist</string>
-    <string name="delete_playlist_text">Are you sure you want to delete this playlist from your YouTube Account ? This action cannot be reversed.</string>
-    <string name="check_update_setting_description">Checks for new updates from GitHub</string>
-    <string name="updates">Updates</string>
+    <string name="delete_playlist_text">R u sure you wanna dewete this pwaywist from your YouTube accwount ? Dis actwion cannot be weversed.</string>
+    <string name="check_update_setting_description">Chwecks fow new upwdates fwom GitHub :3</string>
+    <string name="updates">Upwdates</string>
     <string name="current_version">Cuwwent vewsion</string>
     <string name="visibility">Viswibiwity</string>
+    <string name="auto_update_title">Automatic Upwdate Chwecking</string>
+    <string name="auto_update_subtitle">Enabwes chwecking fow upwdate automaticawy on app waunch</string>
 </resources>

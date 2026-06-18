@@ -98,4 +98,6 @@
     <string name="updates">Ενημερώσεις</string>
     <string name="current_version">Τρέχουσα Έκδοση</string>
     <string name="visibility">Ορατότητα</string>
+    <string name="auto_update_title">Αυτόματος Έλεγχος Ενημέρωσης</string>
+    <string name="auto_update_subtitle">Ενεργοποιεί τον έλεγχο για ενημέρωση αυτόματα κατά την εκκίνηση της εφαρμογής</string>
 </resources>

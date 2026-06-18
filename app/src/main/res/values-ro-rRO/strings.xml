@@ -98,4 +98,6 @@
     <string name="updates">Actualizări</string>
     <string name="current_version">Versiunea Curentă</string>
     <string name="visibility">Vizibilitate</string>
+    <string name="auto_update_title">Verificare automată a actualizărilor</string>
+    <string name="auto_update_subtitle">Activează verificarea actualizării automat la lansarea aplicației</string>
 </resources>

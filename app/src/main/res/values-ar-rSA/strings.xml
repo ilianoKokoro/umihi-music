@@ -98,4 +98,6 @@
     <string name="updates">التحديثات</string>
     <string name="current_version">الإصدار الحالي</string>
     <string name="visibility">الظهور</string>
+    <string name="auto_update_title">التحقق التلقائي من التحديث</string>
+    <string name="auto_update_subtitle">تمكين التحقق من التحديث تلقائياً عند تشغيل التطبيق</string>
 </resources>
