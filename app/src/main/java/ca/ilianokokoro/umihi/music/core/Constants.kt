@@ -51,7 +51,7 @@ object Constants {
             val HEIGHT = 70.dp
         }
 
-        val SCROLLABLE_BOTTOM_PADDING = 120.dp
+        val SCROLLABLE_BOTTOM_PADDING = 200.dp
         const val WEAROS_MAX_IMAGE_SIZE = 720
     }
 
