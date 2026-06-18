@@ -98,4 +98,6 @@
     <string name="updates">Updates</string>
     <string name="current_version">Aktuelle Version</string>
     <string name="visibility">Sichtbarkeit</string>
+    <string name="auto_update_title">Automatische Updateprüfung</string>
+    <string name="auto_update_subtitle">Aktiviert die automatische Suche nach Updates beim Start der App</string>
 </resources>

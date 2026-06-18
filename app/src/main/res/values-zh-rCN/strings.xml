@@ -98,4 +98,6 @@
     <string name="updates">更新</string>
     <string name="current_version">当前版本</string>
     <string name="visibility">可见性</string>
+    <string name="auto_update_title">自动更新检查</string>
+    <string name="auto_update_subtitle">启用自动检查应用程序启动时的更新</string>
 </resources>

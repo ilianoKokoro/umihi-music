@@ -98,4 +98,6 @@
     <string name="updates">Opdateringer</string>
     <string name="current_version">Nuværende Version</string>
     <string name="visibility">Synlighed</string>
+    <string name="auto_update_title">Tjek Automatisk Opdatering</string>
+    <string name="auto_update_subtitle">Aktiverer automatisk kontrol for opdatering ved app-start</string>
 </resources>

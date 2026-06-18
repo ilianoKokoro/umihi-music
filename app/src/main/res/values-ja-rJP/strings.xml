@@ -98,4 +98,6 @@
     <string name="updates">更新</string>
     <string name="current_version">現在のバージョン</string>
     <string name="visibility">公開範囲</string>
+    <string name="auto_update_title">アップデートの自動確認</string>
+    <string name="auto_update_subtitle">アプリの起動時に自動的にアップデートのチェックを有効にする</string>
 </resources>

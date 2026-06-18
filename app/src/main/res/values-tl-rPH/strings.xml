@@ -85,7 +85,7 @@
     <string name="download_clear_confirm_title">Are you sure you want to delete all downloads</string>
     <string name="keep_screen_on_title">Keep Screen Always On</string>
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
-    <string name="downloading_update">Downloading Update...</string>
+    <string name="downloading_update">Downloading Update…</string>
     <string name="title">Title</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
@@ -98,4 +98,6 @@
     <string name="updates">Updates</string>
     <string name="current_version">Current Version</string>
     <string name="visibility">Visibility</string>
+    <string name="auto_update_title">Automatic Update Checking</string>
+    <string name="auto_update_subtitle">Enables checking for update automatically on app launch</string>
 </resources>

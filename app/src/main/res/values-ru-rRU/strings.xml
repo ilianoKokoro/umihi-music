@@ -97,5 +97,7 @@
     <string name="check_update_setting_description">Проверяет наличие обновлений с GitHub</string>
     <string name="updates">Обновления</string>
     <string name="current_version">Текущая версия</string>
-    <string name="visibility">Visibility</string>
+    <string name="visibility">Видимость</string>
+    <string name="auto_update_title">Автоматическая проверка обновлений</string>
+    <string name="auto_update_subtitle">Включает проверку обновлений автоматически при запуске приложения</string>
 </resources>
