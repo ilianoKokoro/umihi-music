@@ -103,4 +103,14 @@
     <string name="visibility">Visibility</string>
     <string name="auto_update_title">Automatic Update Checking</string>
     <string name="auto_update_subtitle">Enables checking for update automatically on app launch</string>
+    <string name="sleep_timer">Sleep Timer</string>
+    <string name="sleep_timer_active">Sleep Timer Active</string>
+    <string name="sleep_timer_remaining">remaining</string>
+    <string name="cancel_timer">Cancel Timer</string>
+    <string name="sleep_timer_end_of_song">Stop playback after the current song ends</string>
+    <string name="sleep_timer_end_of_song_btn">End of Song</string>
+    <string name="sleep_timer_set_duration">Stop playback after a set time</string>
+    <string name="sleep_timer_minutes">%1$d minutes</string>
+    <string name="sleep_timer_min_short">%1$d min</string>
+    <string name="sleep_timer_start">Start Timer</string>
 </resources>

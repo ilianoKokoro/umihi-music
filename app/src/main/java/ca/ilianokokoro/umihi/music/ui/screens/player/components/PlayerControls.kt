@@ -16,6 +16,8 @@ import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.material.icons.rounded.TimerOff
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -52,11 +54,13 @@ fun PlayerControls(
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
     onOpenQueue: () -> Unit,
+    onOpenSleepTimer: () -> Unit,
+    sleepTimerRemainingSeconds: Long?,
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(2) { ComposeHelper.rememberInteractionSource() }
+        List(3) { ComposeHelper.rememberInteractionSource() }
 
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
@@ -237,6 +241,38 @@ fun PlayerControls(
 
                 customItem(
                     {
+                        val isTimerActive = sleepTimerRemainingSeconds != null
+
+                        FilledIconToggleButton(
+                            checked = isTimerActive,
+                            onCheckedChange = { onOpenSleepTimer() },
+                            shapes = IconButtonDefaults.toggleableShapes(),
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier.animateWidth(
+                                interactionSource = actionButtonsControlsInteractionSources[1]
+                            ),
+                            interactionSource = actionButtonsControlsInteractionSources[1],
+                        ) {
+                            Icon(
+                                imageVector = if (isTimerActive) {
+                                    Icons.Rounded.TimerOff
+                                } else {
+                                    Icons.Rounded.Timer
+                                },
+                                contentDescription = stringResource(R.string.sleep_timer),
+                            )
+                        }
+                    },
+                    {}
+                )
+
+                customItem(
+                    {
 
                         FilledIconToggleButton(
                             checked = arrayOf(
@@ -257,9 +293,9 @@ fun PlayerControls(
 
                             ),
                             modifier = Modifier.animateWidth(
-                                interactionSource = actionButtonsControlsInteractionSources[1]
+                                interactionSource = actionButtonsControlsInteractionSources[2]
                             ),
-                            interactionSource = actionButtonsControlsInteractionSources[1],
+                            interactionSource = actionButtonsControlsInteractionSources[2],
                         ) {
                             val icon = when (repeatMode) {
                                 Player.REPEAT_MODE_OFF -> Icons.Rounded.Repeat

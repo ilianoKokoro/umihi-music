@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+
 class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState())
@@ -55,8 +56,32 @@ class PlayerViewModel(application: Application) :
         updateCurrentSong()
         updateIsLoadingState()
         updateIsPlayingState()
+
+        viewModelScope.launch {
+            PlayerManager.sleepTimerRemainingSeconds.collect { seconds ->
+                _uiState.update { it.copy(sleepTimerRemainingSeconds = seconds) }
+            }
+        }
     }
 
+
+    fun setSleepTimerSheetVisibility(show: Boolean) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSleepTimerModalShown = show) }
+        }
+    }
+
+    fun startSleepTimer(minutes: Int) {
+        PlayerManager.startSleepTimer(minutes)
+    }
+
+    fun startSleepTimerEndOfSong() {
+        PlayerManager.startSleepTimerEndOfSong()
+    }
+
+    fun cancelSleepTimer() {
+        PlayerManager.cancelSleepTimer()
+    }
 
     fun seekPlayer() {
         PlayerManager.currentController?.seekTo(_uiState.value.playbackProgress.position.toLong())

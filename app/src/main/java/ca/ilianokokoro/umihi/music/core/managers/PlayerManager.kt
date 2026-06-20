@@ -18,10 +18,17 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.services.PlaybackService
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Duration.Companion.milliseconds
 
 object PlayerManager {
 
@@ -34,11 +41,20 @@ object PlayerManager {
     private val _controllerState = MutableStateFlow<MediaController?>(null)
     val controllerState: StateFlow<MediaController?> = _controllerState.asStateFlow()
 
+    val currentController: MediaController?
+        get() = controller?.takeIf { it.isConnected }
+
     private val isConnected: Boolean
         get() = controller?.isConnected == true
 
-    val currentController: MediaController?
-        get() = controller?.takeIf { it.isConnected }
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    private var sleepTimerJob: Job? = null
+    private var sleepTimerEndOfSongListener: Player.Listener? = null
+
+    private val _sleepTimerRemainingSeconds = MutableStateFlow<Long?>(null)
+    val sleepTimerRemainingSeconds: StateFlow<Long?> = _sleepTimerRemainingSeconds.asStateFlow()
 
 
     @OptIn(UnstableApi::class)
@@ -295,6 +311,59 @@ object PlayerManager {
 
     private fun setRepeatMode(repeatMode: Int) {
         currentController?.repeatMode = repeatMode
+    }
+
+
+    fun startSleepTimer(minutes: Int) {
+        cancelSleepTimer()
+        sleepTimerJob = scope.launch {
+            var remaining = minutes * 60L
+            while (remaining > 0) {
+                _sleepTimerRemainingSeconds.value = remaining
+                delay(1000L.milliseconds)
+                remaining--
+            }
+            _sleepTimerRemainingSeconds.value = null
+            currentController?.pause()
+        }
+    }
+
+    fun startSleepTimerEndOfSong() {
+        // TODO improve this
+        cancelSleepTimer()
+        val controller = currentController ?: return
+        val listener = object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                controller.pause()
+                finishEndOfSongTimer()
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    controller.pause()
+                    finishEndOfSongTimer()
+                }
+            }
+
+            private fun finishEndOfSongTimer() {
+                controller.removeListener(this)
+                sleepTimerEndOfSongListener = null
+                _sleepTimerRemainingSeconds.value = null
+            }
+        }
+        sleepTimerEndOfSongListener = listener
+        controller.addListener(listener)
+        _sleepTimerRemainingSeconds.value = 0L
+    }
+
+    fun cancelSleepTimer() {
+        sleepTimerJob?.cancel()
+        sleepTimerJob = null
+        sleepTimerEndOfSongListener?.let { listener ->
+            currentController?.removeListener(listener)
+        }
+        sleepTimerEndOfSongListener = null
+        _sleepTimerRemainingSeconds.value = null
     }
 
     private fun playIfFirstQueueItem() {

@@ -42,6 +42,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.SleepTimerBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -105,7 +106,11 @@ fun PlayerScreen(
                         onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
                         onOpenQueue = {
                             playerViewModel.setQueueVisibility(true)
-                        }
+                        },
+                        onOpenSleepTimer = {
+                            playerViewModel.setSleepTimerSheetVisibility(true)
+                        },
+                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
             }
@@ -153,7 +158,11 @@ fun PlayerScreen(
                         onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
                         onOpenQueue = {
                             playerViewModel.setQueueVisibility(true)
-                        }
+                        },
+                        onOpenSleepTimer = {
+                            playerViewModel.setSleepTimerSheetVisibility(true)
+                        },
+                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
             }
@@ -167,6 +176,16 @@ fun PlayerScreen(
             changeVisibility = { playerViewModel.setQueueVisibility(it) },
             songs = uiState.queue,
             currentIndex = uiState.currentIndex
+        )
+    }
+
+    if (uiState.isSleepTimerModalShown) {
+        SleepTimerBottomSheet(
+            changeVisibility = playerViewModel::setSleepTimerSheetVisibility,
+            activeRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+            onStartTimer = playerViewModel::startSleepTimer,
+            onStartEndOfSong = playerViewModel::startSleepTimerEndOfSong,
+            onCancelTimer = playerViewModel::cancelSleepTimer,
         )
     }
 }
