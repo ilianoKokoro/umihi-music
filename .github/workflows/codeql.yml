@@ -36,7 +36,7 @@ jobs:
             build-mode: manual
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set Up JDK
         if: matrix.language == 'java-kotlin'
