@@ -53,7 +53,15 @@ object Constants {
 
         val SCROLLABLE_BOTTOM_PADDING = 200.dp
         const val WEAROS_MAX_IMAGE_SIZE = 720
-        const val DEFAULT_SLEEP_TIMER = 60
+
+        object Player {
+            object SleepTimer {
+                const val DEFAULT_VALUE = 20
+                const val STEP_VALUE = 5
+                const val STEP_AMOUNT = 40
+
+            }
+        }
     }
 
     object Animation {

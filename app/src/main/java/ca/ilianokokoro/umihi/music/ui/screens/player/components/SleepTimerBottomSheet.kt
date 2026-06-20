@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -127,7 +128,7 @@ fun SleepTimerBottomSheet(
                     style = MaterialTheme.typography.bodyLarge,
                 )
 
-                var sliderValue by remember { mutableIntStateOf(Constants.Ui.DEFAULT_SLEEP_TIMER) }
+                var sliderValue by remember { mutableIntStateOf(Constants.Ui.Player.SleepTimer.DEFAULT_VALUE) }
 
                 Text(
                     text = stringResource(R.string.sleep_timer_minutes, sliderValue),
@@ -136,25 +137,34 @@ fun SleepTimerBottomSheet(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
 
+
+                val range =
+                    Constants.Ui.Player.SleepTimer.STEP_VALUE.toFloat()..(Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT).toFloat()
+
                 Slider(
                     value = sliderValue.toFloat(),
-                    onValueChange = { sliderValue = ((it / 10f).toInt().coerceIn(1, 20)) * 10 },
-                    valueRange = 10f..200f,
-                    steps = 18,
+                    onValueChange = {
+                        sliderValue = it.roundToInt()
+                    },
+                    valueRange = range,
+                    steps = Constants.Ui.Player.SleepTimer.STEP_AMOUNT - 2,
                     modifier = Modifier.fillMaxWidth(),
                 )
+
+                val minLabel = Constants.Ui.Player.SleepTimer.STEP_VALUE
+                val maxLabel = Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = stringResource(R.string.sleep_timer_min_short, 10),
+                        text = stringResource(R.string.sleep_timer_min_short, minLabel),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        text = stringResource(R.string.sleep_timer_min_short, 200),
+                        text = stringResource(R.string.sleep_timer_min_short, maxLabel),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
