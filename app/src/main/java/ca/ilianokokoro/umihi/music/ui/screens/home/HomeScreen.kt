@@ -4,17 +4,17 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -40,6 +40,7 @@ import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
@@ -80,21 +81,6 @@ fun HomeScreen(
     FadingStatusBarWrapper { statusBarHeight ->
         Scaffold(
             contentWindowInsets = WindowInsets(0.dp),
-            floatingActionButton = {
-                if (uiState.screenState is ScreenState.LoggedIn) {
-                    FloatingActionButton(
-                        onClick = {
-                            createPlaylistOpen = true
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Add,
-                            contentDescription = Icons.Rounded.Add.name
-                        )
-                    }
-                }
-
-            }
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -129,6 +115,17 @@ fun HomeScreen(
                                     )
 
                                 ) {
+                                    item(span = { GridItemSpan(maxLineSpan) }) {
+                                        Row(horizontalArrangement = Arrangement.End) {
+                                            MaterialUButton(
+                                                onClick = {
+                                                    createPlaylistOpen = true
+                                                },
+                                                icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                                                text = stringResource(R.string.create_playlist)
+                                            )
+                                        }
+                                    }
                                     itemsIndexed(
                                         items = playlists,
                                         key = { index, playlist ->
