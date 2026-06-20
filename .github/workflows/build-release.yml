@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set Up JDK
         uses: actions/setup-java@v5
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Update the beta GitHub release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download artifacts
         uses: actions/download-artifact@v8
@@ -133,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish the GitHub release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download artifacts
         uses: actions/download-artifact@v8
