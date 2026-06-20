@@ -3,9 +3,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.player.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -106,10 +104,6 @@ fun SleepTimerBottomSheet(
                     fontWeight = FontWeight.Bold,
                 )
 
-                Text(
-                    text = stringResource(R.string.sleep_timer_end_of_song),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
 
                 FilledTonalButton(
                     onClick = {
@@ -121,12 +115,6 @@ fun SleepTimerBottomSheet(
                     Text(stringResource(R.string.sleep_timer_end_of_song_btn))
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(R.string.sleep_timer_set_duration),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
 
                 var sliderValue by remember { mutableIntStateOf(Constants.Ui.Player.SleepTimer.DEFAULT_VALUE) }
 
@@ -152,7 +140,8 @@ fun SleepTimerBottomSheet(
                 )
 
                 val minLabel = Constants.Ui.Player.SleepTimer.STEP_VALUE
-                val maxLabel = Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT
+                val maxLabel =
+                    Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
