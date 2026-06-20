@@ -11,6 +11,8 @@ data class PlayerState(
     val isLoading: Boolean = true,
     val isSeekBarHeld: Boolean = false,
     val isQueueModalShown: Boolean = false,
+    val isSleepTimerModalShown: Boolean = false,
+    val sleepTimerRemainingSeconds: Long? = null,
 )
 
 data class PlaybackProgress(

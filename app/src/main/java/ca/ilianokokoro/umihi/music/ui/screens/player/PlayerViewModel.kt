@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
+
 
 class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -55,8 +57,32 @@ class PlayerViewModel(application: Application) :
         updateCurrentSong()
         updateIsLoadingState()
         updateIsPlayingState()
+
+        viewModelScope.launch {
+            PlayerManager.sleepTimerRemainingSeconds.collect { seconds ->
+                _uiState.update { it.copy(sleepTimerRemainingSeconds = seconds) }
+            }
+        }
     }
 
+
+    fun setSleepTimerSheetVisibility(show: Boolean) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSleepTimerModalShown = show) }
+        }
+    }
+
+    fun startSleepTimer(minutes: Int) {
+        PlayerManager.startSleepTimer(minutes)
+    }
+
+    fun startSleepTimerEndOfSong() {
+        PlayerManager.startSleepTimerEndOfSong()
+    }
+
+    fun cancelSleepTimer() {
+        PlayerManager.cancelSleepTimer()
+    }
 
     fun seekPlayer() {
         PlayerManager.currentController?.seekTo(_uiState.value.playbackProgress.position.toLong())
@@ -167,7 +193,7 @@ class PlayerViewModel(application: Application) :
                     }
                 }
 
-                delay(Constants.Player.PROGRESS_UPDATE_DELAY)
+                delay(Constants.Player.PROGRESS_UPDATE_DELAY.milliseconds)
             }
         }
     }
