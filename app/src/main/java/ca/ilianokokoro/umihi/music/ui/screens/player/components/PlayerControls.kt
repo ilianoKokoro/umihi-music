@@ -218,26 +218,6 @@ fun PlayerControls(
             ButtonGroup(
                 overflowIndicator = {},
             ) {
-                customItem(
-                    {
-                        FilledIconButton(
-                            onClick = onOpenQueue,
-                            shapes = IconButtonDefaults.shapes(),
-                            modifier = Modifier.animateWidth(interactionSource = actionButtonsControlsInteractionSources[0]),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ),
-                            interactionSource = actionButtonsControlsInteractionSources[0],
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-                                contentDescription = stringResource(R.string.queue),
-                            )
-                        }
-                    },
-                    {}
-                )
 
                 customItem(
                     {
@@ -270,6 +250,28 @@ fun PlayerControls(
                     },
                     {}
                 )
+                customItem(
+                    {
+                        FilledIconButton(
+                            onClick = onOpenQueue,
+                            shapes = IconButtonDefaults.shapes(),
+                            modifier = Modifier.animateWidth(interactionSource = actionButtonsControlsInteractionSources[0]),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            interactionSource = actionButtonsControlsInteractionSources[0],
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                                contentDescription = stringResource(R.string.queue),
+                            )
+                        }
+                    },
+                    {}
+                )
+
+
 
                 customItem(
                     {

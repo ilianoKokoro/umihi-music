@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -126,7 +127,7 @@ fun SleepTimerBottomSheet(
                     style = MaterialTheme.typography.bodyLarge,
                 )
 
-                var sliderValue by remember { mutableIntStateOf(60) }
+                var sliderValue by remember { mutableIntStateOf(Constants.Ui.DEFAULT_SLEEP_TIMER) }
 
                 Text(
                     text = stringResource(R.string.sleep_timer_minutes, sliderValue),

@@ -53,6 +53,7 @@ object Constants {
 
         val SCROLLABLE_BOTTOM_PADDING = 200.dp
         const val WEAROS_MAX_IMAGE_SIZE = 720
+        const val DEFAULT_SLEEP_TIMER = 60
     }
 
     object Animation {
@@ -110,7 +111,7 @@ object Constants {
     }
 
     object Player {
-        const val PROGRESS_UPDATE_DELAY = 500L
+        const val PROGRESS_UPDATE_DELAY = 500
         const val IMAGE_TRANSITION_DELAY = 200
     }
 
@@ -119,7 +120,7 @@ object Constants {
             """https?://(www\.)?(youtube\.com|youtu\.be|music\.youtube\.com)/\S+"""
         const val RETRY_COUNT = 3
         const val PODCAST_PLAYLIST_ID = "VLSE"
-        const val RETRY_DELAY = 1000L
+        const val RETRY_DELAY = 1000
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"

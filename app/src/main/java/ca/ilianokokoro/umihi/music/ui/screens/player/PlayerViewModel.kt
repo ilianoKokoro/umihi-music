@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 
 class PlayerViewModel(application: Application) :
@@ -192,7 +193,7 @@ class PlayerViewModel(application: Application) :
                     }
                 }
 
-                delay(Constants.Player.PROGRESS_UPDATE_DELAY)
+                delay(Constants.Player.PROGRESS_UPDATE_DELAY.milliseconds)
             }
         }
     }

@@ -315,12 +315,30 @@ object PlayerManager {
 
 
     fun startSleepTimer(minutes: Int) {
+        startSleepTimerRemaining(minutes * 60L)
+    }
+
+    fun startSleepTimerEndOfSong() {
+        cancelSleepTimer()
+        val controller = currentController ?: return
+        val durationMs = controller.duration
+        if (durationMs == C.TIME_UNSET || durationMs <= 0) {
+            return
+        }
+        val remainingMs = durationMs - controller.currentPosition
+        if (remainingMs <= 0) {
+            return
+        }
+        startSleepTimerRemaining(remainingMs / 1000)
+    }
+
+    private fun startSleepTimerRemaining(remainingSeconds: Long) {
         cancelSleepTimer()
         sleepTimerJob = scope.launch {
-            var remaining = minutes * 60L
+            var remaining = remainingSeconds
             while (remaining > 0) {
                 _sleepTimerRemainingSeconds.value = remaining
-                delay(1000L.milliseconds)
+                delay(1000.milliseconds)
                 remaining--
             }
             _sleepTimerRemainingSeconds.value = null
@@ -328,40 +346,10 @@ object PlayerManager {
         }
     }
 
-    fun startSleepTimerEndOfSong() {
-        // TODO improve this
-        cancelSleepTimer()
-        val controller = currentController ?: return
-        val listener = object : Player.Listener {
-            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                controller.pause()
-                finishEndOfSongTimer()
-            }
-
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_ENDED) {
-                    controller.pause()
-                    finishEndOfSongTimer()
-                }
-            }
-
-            private fun finishEndOfSongTimer() {
-                controller.removeListener(this)
-                sleepTimerEndOfSongListener = null
-                _sleepTimerRemainingSeconds.value = null
-            }
-        }
-        sleepTimerEndOfSongListener = listener
-        controller.addListener(listener)
-        _sleepTimerRemainingSeconds.value = 0L
-    }
-
     fun cancelSleepTimer() {
         sleepTimerJob?.cancel()
         sleepTimerJob = null
-        sleepTimerEndOfSongListener?.let { listener ->
-            currentController?.removeListener(listener)
-        }
+
         sleepTimerEndOfSongListener = null
         _sleepTimerRemainingSeconds.value = null
     }
