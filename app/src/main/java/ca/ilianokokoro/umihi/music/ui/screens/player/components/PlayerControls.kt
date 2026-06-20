@@ -20,7 +20,6 @@ import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material.icons.rounded.TimerOff
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
@@ -43,7 +42,6 @@ import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlayerControls(
     modifier: Modifier = Modifier,
