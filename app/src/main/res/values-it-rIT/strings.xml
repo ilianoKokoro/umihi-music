@@ -100,16 +100,16 @@
     <string name="visibility">Visibilità</string>
     <string name="auto_update_title">Controllo Aggiornamento Automatico</string>
     <string name="auto_update_subtitle">Abilita il controllo dell\'aggiornamento automatico all\'avvio dell\'app</string>
-    <string name="sleep_timer">Sleep Timer</string>
-    <string name="sleep_timer_active">Sleep Timer Active</string>
-    <string name="sleep_timer_remaining">remaining</string>
-    <string name="cancel_timer">Cancel Timer</string>
-    <string name="sleep_timer_end_of_song">Stop playback after the current song ends</string>
-    <string name="sleep_timer_end_of_song_btn">End of Song</string>
-    <string name="sleep_timer_set_duration">Stop playback after a set time</string>
-    <string name="sleep_timer_minutes">%1$d minutes</string>
+    <string name="sleep_timer">Timer Di Spegnimento</string>
+    <string name="sleep_timer_active">Timer Di Spegnimento Attivo</string>
+    <string name="sleep_timer_remaining">rimanente</string>
+    <string name="cancel_timer">Annulla Timer</string>
+    <string name="sleep_timer_end_of_song">Ferma la riproduzione dopo la fine del brano corrente</string>
+    <string name="sleep_timer_end_of_song_btn">Fine del brano</string>
+    <string name="sleep_timer_set_duration">Ferma la riproduzione dopo un tempo impostato</string>
+    <string name="sleep_timer_minutes">%1$d minuti</string>
     <string name="sleep_timer_min_short">%1$d min</string>
-    <string name="sleep_timer_start">Start Timer</string>
-    <string name="playback_speed">Playback Speed</string>
+    <string name="sleep_timer_start">Avvia Timer</string>
+    <string name="playback_speed">Velocità Di Riproduzione</string>
     <string name="playback_speed_label">%1$.1fx</string>
 </resources>
