@@ -26,10 +26,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 object PlayerManager {
 
@@ -321,30 +323,53 @@ object PlayerManager {
 
     fun startSleepTimerEndOfSong() {
         cancelSleepTimer()
-        val controller = currentController ?: return
-        val durationMs = controller.duration
-        if (durationMs == C.TIME_UNSET || durationMs <= 0) {
-            return
-        }
-        val remainingMs = durationMs - controller.currentPosition
-        if (remainingMs <= 0) {
-            return
-        }
-        startSleepTimerRemaining(remainingMs / 1000)
-    }
 
-    private fun startSleepTimerRemaining(remainingSeconds: Long) {
-        cancelSleepTimer()
-        sleepTimerJob = scope.launch {
-            var remaining = remainingSeconds
-            while (remaining > 0) {
-                _sleepTimerRemainingSeconds.value = remaining
-                delay(1000.milliseconds)
-                remaining--
+        val controller = currentController ?: return
+
+        val listener = object : Player.Listener {
+            override fun onMediaItemTransition(
+                mediaItem: MediaItem?,
+                reason: Int
+            ) {
+                if (
+                    reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO ||
+                    reason == Player.MEDIA_ITEM_TRANSITION_REASON_REPEAT
+                ) {
+                    controller.pause()
+                    cancelSleepTimer()
+                }
             }
-            _sleepTimerRemainingSeconds.value = null
-            withContext(Dispatchers.Main) {
-                currentController?.pause()
+        }
+
+        controller.addListener(listener)
+        sleepTimerEndOfSongListener = listener
+
+        sleepTimerJob = scope.launch {
+            while (isActive) {
+                val remainingSeconds =
+                    withContext(Dispatchers.Main.immediate) {
+                        val durationMs = controller.duration
+                        val positionMs = controller.currentPosition
+
+                        if (
+                            durationMs > 0 && durationMs != C.TIME_UNSET
+                        ) {
+                            ((durationMs - positionMs) / 1000)
+                                .coerceAtLeast(0)
+                        } else {
+                            -1L
+                        }
+                    }
+
+                _sleepTimerRemainingSeconds.value = remainingSeconds
+
+                delay(
+                    if (remainingSeconds >= 0) {
+                        250.milliseconds
+                    } else {
+                        1.seconds
+                    }
+                )
             }
         }
     }
@@ -353,9 +378,44 @@ object PlayerManager {
         sleepTimerJob?.cancel()
         sleepTimerJob = null
 
+        sleepTimerEndOfSongListener?.let { listener ->
+            currentController?.removeListener(listener)
+        }
         sleepTimerEndOfSongListener = null
         _sleepTimerRemainingSeconds.value = null
     }
+
+    private fun startSleepTimerRemaining(remainingSeconds: Long) {
+        cancelSleepTimer()
+
+        val endTimeMillis = System.currentTimeMillis() + (remainingSeconds * 1000)
+
+        sleepTimerJob = scope.launch {
+            while (isActive) {
+                val millisRemaining =
+                    (endTimeMillis - System.currentTimeMillis())
+                        .coerceAtLeast(0)
+
+                val remaining =
+                    (millisRemaining + 999) / 1000
+
+                _sleepTimerRemainingSeconds.value = remaining
+
+                if (remaining <= 0) {
+                    break
+                }
+
+                delay(250.milliseconds)
+            }
+
+            _sleepTimerRemainingSeconds.value = null
+
+            withContext(Dispatchers.Main) {
+                currentController?.pause()
+            }
+        }
+    }
+
 
     private fun playIfFirstQueueItem() {
         val controller = currentController ?: return
