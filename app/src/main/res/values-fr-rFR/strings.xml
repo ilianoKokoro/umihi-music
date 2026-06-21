@@ -100,16 +100,16 @@
     <string name="visibility">Visibilité</string>
     <string name="auto_update_title">Vérification automatique des mises à jour</string>
     <string name="auto_update_subtitle">Active la vérification des mises à jour automatiquement au lancement de l\'application</string>
-    <string name="sleep_timer">Sleep Timer</string>
-    <string name="sleep_timer_active">Sleep Timer Active</string>
-    <string name="sleep_timer_remaining">remaining</string>
-    <string name="cancel_timer">Cancel Timer</string>
-    <string name="sleep_timer_end_of_song">Stop playback after the current song ends</string>
-    <string name="sleep_timer_end_of_song_btn">End of Song</string>
-    <string name="sleep_timer_set_duration">Stop playback after a set time</string>
+    <string name="sleep_timer">Minuterie de sommeil</string>
+    <string name="sleep_timer_active">Minuterie de sommeil active</string>
+    <string name="sleep_timer_remaining">restants</string>
+    <string name="cancel_timer">Annuler la minuterie</string>
+    <string name="sleep_timer_end_of_song">Arrêter la lecture après la fin de la musique en cours</string>
+    <string name="sleep_timer_end_of_song_btn">Fin de la chanson</string>
+    <string name="sleep_timer_set_duration">Arrêter la lecture après une heure définie</string>
     <string name="sleep_timer_minutes">%1$d minutes</string>
     <string name="sleep_timer_min_short">%1$d min</string>
-    <string name="sleep_timer_start">Start Timer</string>
-    <string name="playback_speed">Playback Speed</string>
+    <string name="sleep_timer_start">Démarrer le minuteur</string>
+    <string name="playback_speed">Vitesse de lecture</string>
     <string name="playback_speed_label">%1$.1fx</string>
 </resources>
