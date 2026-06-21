@@ -39,6 +39,7 @@ import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.SleepTimerBottomSheet
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.SpeedSelectorBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -106,6 +107,10 @@ fun PlayerScreen(
                         onOpenSleepTimer = {
                             playerViewModel.setSleepTimerSheetVisibility(true)
                         },
+                        onOpenSpeedSelector = {
+                            playerViewModel.setSpeedSelectorVisibility(true)
+                        },
+                        playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
@@ -158,6 +163,10 @@ fun PlayerScreen(
                         onOpenSleepTimer = {
                             playerViewModel.setSleepTimerSheetVisibility(true)
                         },
+                        onOpenSpeedSelector = {
+                            playerViewModel.setSpeedSelectorVisibility(true)
+                        },
+                        playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
@@ -166,6 +175,14 @@ fun PlayerScreen(
         }
     }
 
+
+    if (uiState.isSpeedSelectorShown) {
+        SpeedSelectorBottomSheet(
+            changeVisibility = playerViewModel::setSpeedSelectorVisibility,
+            currentSpeed = uiState.playbackSpeed,
+            onSelectSpeed = playerViewModel::setPlaybackSpeed,
+        )
+    }
 
     if (uiState.isQueueModalShown) {
         QueueBottomSheet(

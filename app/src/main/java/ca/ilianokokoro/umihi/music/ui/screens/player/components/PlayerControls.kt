@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material.icons.rounded.TimerOff
 import androidx.compose.material3.ButtonGroup
@@ -53,12 +54,14 @@ fun PlayerControls(
     onSeek: (location: Float) -> Unit,
     onOpenQueue: () -> Unit,
     onOpenSleepTimer: () -> Unit,
+    onOpenSpeedSelector: () -> Unit,
+    playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(3) { ComposeHelper.rememberInteractionSource() }
+        List(4) { ComposeHelper.rememberInteractionSource() }
 
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
@@ -216,6 +219,34 @@ fun PlayerControls(
             ButtonGroup(
                 overflowIndicator = {},
             ) {
+
+                customItem(
+                    {
+                        val isNotDefaultSpeed = playbackSpeed != 1.0f
+
+                        FilledIconToggleButton(
+                            checked = isNotDefaultSpeed,
+                            onCheckedChange = { onOpenSpeedSelector() },
+                            shapes = IconButtonDefaults.toggleableShapes(),
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier.animateWidth(
+                                interactionSource = actionButtonsControlsInteractionSources[3]
+                            ),
+                            interactionSource = actionButtonsControlsInteractionSources[3],
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Speed,
+                                contentDescription = stringResource(R.string.playback_speed),
+                            )
+                        }
+                    },
+                    {}
+                )
 
                 customItem(
                     {

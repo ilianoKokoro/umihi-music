@@ -59,6 +59,9 @@ object PlayerManager {
     private val _sleepTimerRemainingSeconds = MutableStateFlow<Long?>(null)
     val sleepTimerRemainingSeconds: StateFlow<Long?> = _sleepTimerRemainingSeconds.asStateFlow()
 
+    private val _playbackSpeed = MutableStateFlow(1.0f)
+    val playbackSpeed: StateFlow<Float> = _playbackSpeed.asStateFlow()
+
 
     @OptIn(UnstableApi::class)
     @Synchronized
@@ -372,6 +375,11 @@ object PlayerManager {
                 )
             }
         }
+    }
+
+    fun setPlaybackSpeed(speed: Float) {
+        currentController?.setPlaybackSpeed(speed)
+        _playbackSpeed.value = speed
     }
 
     fun cancelSleepTimer() {

@@ -63,6 +63,12 @@ class PlayerViewModel(application: Application) :
                 _uiState.update { it.copy(sleepTimerRemainingSeconds = seconds) }
             }
         }
+
+        viewModelScope.launch {
+            PlayerManager.playbackSpeed.collect { speed ->
+                _uiState.update { it.copy(playbackSpeed = speed) }
+            }
+        }
     }
 
 
@@ -82,6 +88,16 @@ class PlayerViewModel(application: Application) :
 
     fun cancelSleepTimer() {
         PlayerManager.cancelSleepTimer()
+    }
+
+    fun setSpeedSelectorVisibility(show: Boolean) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSpeedSelectorShown = show) }
+        }
+    }
+
+    fun setPlaybackSpeed(speed: Float) {
+        PlayerManager.setPlaybackSpeed(speed)
     }
 
     fun seekPlayer() {

@@ -13,6 +13,8 @@ data class PlayerState(
     val isQueueModalShown: Boolean = false,
     val isSleepTimerModalShown: Boolean = false,
     val sleepTimerRemainingSeconds: Long? = null,
+    val isSpeedSelectorShown: Boolean = false,
+    val playbackSpeed: Float = 1.0f,
 )
 
 data class PlaybackProgress(

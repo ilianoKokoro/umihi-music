@@ -138,7 +138,7 @@ fun SleepTimerBottomSheet(
                     onValueChange = { newValue ->
                         val rounded = newValue.roundToInt()
                         if (rounded != sliderValue) {
-                            haptic.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                            haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                         }
                         sliderValue = rounded
                     },
