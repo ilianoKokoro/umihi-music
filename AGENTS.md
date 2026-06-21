@@ -1,122 +1,63 @@
-# Umihi Music — Architecture Reference
+# Umihi Music
 
-## Overview
+Android app (Kotlin, Compose, Material 3) playing YouTube Music via InnerTube API. Single-activity MVVM, Room + DataStore, Media3 background playback, offline downloads.
 
-Android app (Kotlin, Jetpack Compose, Material 3) that plays YouTube Music through the InnerTube API. Single-activity MVVM architecture with Room + DataStore persistence, Media3 background playback, and offline downloads.
+## Non-obvious tech choices
 
-## Tech Stack
+- **Navigation:** experimental `androidx.navigation3` (`NavKey`, `NavDisplay`, `rememberNavBackStack`)
+- **DI:** Manual (no Hilt/Dagger/Koin — singletons via `Umihi` Application + ViewModel factories)
+- **HTTP:** OkHttp + kotlinx.serialization (no Retrofit)
+- **Database:** Room v6 with destructive migration
+- **Dual audio:** ANDROID_VR client primary, NewPipe Extractor fallback
 
-- **Language:** Kotlin 2.3.20
-- **UI:** Jetpack Compose + Material 3 (Material Expressive)
-- **Navigation:** Experimental `androidx.navigation3` (NavHost, NavKey, NavDisplay)
-- **State:** `ViewModel` + `MutableStateFlow` + `ApiResult<T>` sealed class
-- **Database:** Room (v6, destructive migration)
-- **Preferences:** Jetpack DataStore
-- **HTTP:** OkHttp + kotlinx.serialization
-- **Playback:** Media3 `MediaLibraryService` (ExoPlayer)
-- **Downloads:** WorkManager (max 8 concurrent, semaphore-limited)
-- **Images:** Coil
-- **DI:** Manual (no Hilt/Koin — singletons passed via Application/ViewModel)
+## Build
 
-## Architecture
-
-```
-ViewModel → Repository → DataSource → OkHttp / Room DB / DataStore
-                            ↓
-                     kotlinx.serialization JSON
-                            ↓
-                     Flow<ApiResult<T>> → StateFlow → Compose UI
+```powershell
+./gradlew assembleStandaloneRelease              # beta (default)
+./gradlew assembleStandaloneRelease -Pbeta=false  # stable
+./gradlew assembleStoreRelease -Pbeta=false       # store (updater disabled)
+# Optional: -PgitHash=<sha> → embedded in BuildConfig.COMMIT_HASH
 ```
 
-## Key Directory Layout
+`beta` defaults to `true` in `app/build.gradle.kts:10`. Output APKs: `UmihiMusic.apk` (standalone), `UmihiMusic-store.apk` (store). No linter/typechecker — Gradle compilation is the validation step.
+
+Version: `versionMajor * 10000 + versionMinor * 100 + versionPatch` → e.g. 1.12.3 → 11203. Name: `$version-$betaSuffix`.
+
+## Key structure
 
 ```
 app/src/main/java/ca/ilianokokoro/umihi/music/
-├── core/              # Business logic: HTTP client, YouTube API helpers, auth, downloader, PlayerManager
-├── data/              # Database, remote/local datasources, repositories
-├── models/            # Entities, DTOs, settings models
-├── services/          # MediaLibraryService (background playback), MediaLibraryCallback
+├── core/        # HTTP client, auth/inner tube helpers, downloader workers, PlayerManager, YoutubeDataSourceFactory
+├── data/        # Room DAOs, remote/local datasources, repositories
+├── models/      # Entities, DTOs, UmihiSettings
+├── services/    # MediaLibraryService + UmihiMediaLibraryCallback (Android Auto browsing)
 ├── ui/
-│   ├── theme/         # Material 3 colors, typography, theme
-│   ├── navigation/    # NavKeys, NavigationRoot, BottomNavBar, SharedViewModel
-│   ├── components/    # Reusable composables (mini player, song item, playlist card, dialogs, etc.)
-│   └── screens/       # Per-screen: home, search, playlist, player, auth, settings (each has Screen + ViewModel + State)
-├── error/             # ErrorActivity, crash screen
-└── extensions/        # Kotlin extension files
+│   ├── theme/   # Material 3
+│   ├── navigation/  # NavKeys (5 screens), NavigationRoot, BottomNavBar, SharedViewModel
+│   ├── components/  # Mini player, song item, playlist card, dialogs, player controls
+│   └── screens/     # home, search, playlist, player, auth, settings (each: Screen + ViewModel + State)
+├── error/       # ErrorActivity (customactivityoncrash)
+├── extensions/  # Kotlin extensions
+└── MainActivity.kt + Umihi.kt (Application)
 ```
 
-## Special Things About This App
-
-### 1. Custom InnerTube API Client
-Does **not** use the official YouTube Data API. Instead, calls YouTube's internal `youtubei/v1/browse`, `/player`, `/search`, `/playlist/create`, `/playlist/delete` endpoints, mimicking WEB_REMIX and ANDROID_VR clients. API key is hardcoded (`AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30`).
-
-### 2. Dual Audio Resolution
-- **Primary:** ANDROID_VR client → direct audio stream URL
-- **Fallback:** NewPipe Extractor library if primary fails
-- Stream URLs cached in Room per song
-
-### 3. WebView OAuth Login
-Google sign-in via WebView. Cookies captured from `CookieManager` after redirect to `music.youtube.com`. SAPISID cookie → `SAPISIDHASH` auth header for all API calls. `DataSync ID` extracted via JS injection.
-
-### 4. Auth Header Generation
-`SAPISIDHASH` = `SHA1(timestamp + sapisid + "https://music.youtube.com")`, sent as `Authorization: SAPISIDHASH <timestamp_<hash>`. Also sets `X-Goog-Api-Format-Version`, `X-YouTube-Client-Version`, `X-YouTube-Client-Name`, `X-Goog-Visitor-Id`.
-
-### 5. Custom ExoPlayer DataSource
-`YoutubeDataSourceFactory` implements `DataSource.Factory` using `ResolvingDataSource` to convert YouTube video IDs to actual audio streams at playback time.
-
-### 6. Media3 MediaLibraryService
-Background playback via `MediaLibraryService` (Android foreground service). Supports Android Auto. `UmihiMediaLibraryCallback` provides browse tree: `Root → Playlists → [Playlist → Play/Shuffle + songs]`.
-
-### 7. Two Product Flavors
-- `standalone` (default): Built-in auto-updater via GitHub releases
-- `store`: No updater, no install permissions (for app stores)
-
-### 8. Easter Egg
-Clicking the Settings tab 25 times toggles Esperanto (`eo`) locale for the entire app.
-
-### 9. Offline Downloads
-WorkManager-based. Songs stored as `.webm`, thumbnails as `.jpg`. Synthesized playlist with ID `_downloaded_` shows all downloaded content. Smart merge: remote playlist data merged with local download paths.
-
-### 10. Smart Playlist Merge
-When viewing a playlist, remote songs are merged with locally downloaded song data (thumbnails, audio paths) so downloaded songs display correctly.
-
-### 11. Update Channels
-- **Stable:** Checks latest GitHub release tag
-- **Beta:** Checks latest commit SHA on `main` branch
-- Supports semver with `-beta` suffix comparison
-
-### 12. No DI Framework
-No Hilt/Dagger/Koin. Dependencies wired manually via `Application` class and `ViewModel` factories.
-
-## Navigation
+## Navigation flow
 
 ```
-BottomNavBar: Home | Search | Settings
-Home → PlaylistScreen → PlayerScreen (ModalBottomSheet)
-     → AuthScreen
-Search → PlaylistScreen → PlayerScreen
+BottomBar: Home | Search | Settings
+Home/Search → PlaylistScreen → PlayerScreen (ModalBottomSheet)
+           → AuthScreen
 Settings → AuthScreen
 ```
 
-Navigation screens: `HomeScreenKey`, `SearchScreenKey`, `SettingsScreenKey`, `PlaylistScreenKey(data)`, `AuthScreenKey`. `ScreenUiConfig` controls bottom bar and mini player visibility per screen. Transitions: scale + fade, 200ms.
+Nav keys: `HomeScreenKey`, `SearchScreenKey`, `SettingsScreenKey`, `PlaylistScreenKey(data)`, `AuthScreenKey`. `ScreenUiConfig` controls bottom bar / mini player visibility per screen. Transitions: scale + fade, 200ms.
 
-## API Endpoints Used
+## Quirks an agent would miss
 
-| Endpoint | Purpose |
-|---|---|
-| `youtubei/v1/browse` | Browse playlists, playlist contents |
-| `youtubei/v1/player` | Get song stream URLs |
-| `youtubei/v1/search` | Search songs |
-| `youtubei/v1/playlist/create` | Create playlist |
-| `youtubei/v1/playlist/delete` | Delete playlist |
-| GitHub releases/commits API | Version checking |
-
-## Build Commands
-
-```powershell
-./gradlew assembleStandaloneRelease    # production build
-./gradlew assembleStoreRelease          # store build
-# Optional: -Pbeta=true -PgitHash=...
-```
-
-No linter/typechecker — standard Gradle build validates compilation.
+- **InnerTube API:** `youtubei/v1/{browse,player,search,playlist/create,playlist/delete}`. Hardcoded key `AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30`. Two JSON client configs: `WEB_REMIX` (mobile web) and `ANDROID_VR` (Quest 3).
+- **Auth header:** WebView OAuth → SAPISID cookie → `SAPISIDHASH <ts>_<SHA1(ts+sapisid+origin)>`. Also sent as `X-Goog-Api-Format-Version: 1`, `X-YouTube-Client-Name`, `X-YouTube-Client-Version`.
+- **Flavors:** `standalone` (default, `UPDATER_ENABLED=true`, self-updater via GitHub releases). `store` (`UPDATER_ENABLED=false`, `-store` version suffix, no install permissions).
+- **Offline:** WorkManager (max 8 concurrent, semaphore-limited). Songs → `.webm`, thumbs → `.jpg`. Synthesized playlist ID `_downloaded_`. Smart merge of remote + local paths.
+- **Update channels:** Stable (latest GitHub release tag, semver comparison with `-beta` suffix awareness). Beta (latest `main` commit SHA).
+- **ExoPlayer:** Custom `YoutubeDataSourceFactory` (ResolvingDataSource) converts video IDs → audio streams at playback time.
+- **Crowdin:** Translations at `app/src/main/res/values-*`. Use `crowdin.yml` to sync.
