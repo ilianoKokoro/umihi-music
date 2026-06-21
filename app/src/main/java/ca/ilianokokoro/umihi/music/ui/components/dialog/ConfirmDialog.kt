@@ -23,9 +23,7 @@ fun ConfirmDialog(
     onDismiss: () -> Unit
 ) {
     AlertDialog(
-        onDismissRequest = {
-            onDismiss()
-        },
+        onDismissRequest = onDismiss,
         title = {
             Text(
                 text = title
@@ -43,18 +41,14 @@ fun ConfirmDialog(
         },
         confirmButton = {
             TextButton(
-                onClick = {
-                    onConfirm()
-                },
+                onClick = onConfirm,
                 shapes = ButtonDefaults.shapes()
             ) { Text(stringResource(R.string.confirm)) }
 
         },
         dismissButton = {
             TextButton(
-                onClick = {
-                    onDismiss()
-                },
+                onClick = onDismiss,
                 shapes = ButtonDefaults.shapes()
             ) {
                 Text(stringResource(R.string.cancel))

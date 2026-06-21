@@ -186,7 +186,7 @@ fun PlayerScreen(
 
     if (uiState.isQueueModalShown) {
         QueueBottomSheet(
-            changeVisibility = { playerViewModel.setQueueVisibility(it) },
+            changeVisibility = playerViewModel::setQueueVisibility,
             songs = uiState.queue,
             currentIndex = uiState.currentIndex
         )

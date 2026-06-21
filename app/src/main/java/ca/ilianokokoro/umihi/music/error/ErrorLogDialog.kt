@@ -35,7 +35,7 @@ fun ErrorLogDialog(
     val scope = rememberCoroutineScope()
 
     AlertDialog(
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = onDismissRequest,
         title = { Text(text = dialogTitle) },
         text = { Text(text = dialogText) },
         confirmButton = {},
@@ -67,9 +67,7 @@ fun ErrorLogDialog(
                     Text(stringResource(R.string.copy_logs))
                 }
 
-                TextButton(onClick = {
-                    onDismissRequest()
-                }, shapes = ButtonDefaults.shapes()) {
+                TextButton(onClick = onDismissRequest, shapes = ButtonDefaults.shapes()) {
                     Text(stringResource(R.string.close))
                 }
             }

@@ -27,7 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.speedLabel
 import kotlin.math.roundToInt
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +68,6 @@ fun SpeedSelectorBottomSheet(
             val initialIndex = speeds.indexOf(currentSpeed).coerceAtLeast(0)
             var sliderIndex by remember { mutableFloatStateOf(initialIndex.toFloat()) }
 
-            fun Float.speedLabel(): String = "${if (this == toInt().toFloat()) toInt().toString() else toString()}x"
 
             Text(
                 text = speeds[sliderIndex.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),
@@ -78,7 +79,8 @@ fun SpeedSelectorBottomSheet(
             Slider(
                 value = sliderIndex,
                 onValueChange = { newValue ->
-                    val snapped = newValue.roundToInt().toFloat().coerceIn(0f, speeds.lastIndex.toFloat())
+                    val snapped =
+                        newValue.roundToInt().toFloat().coerceIn(0f, speeds.lastIndex.toFloat())
                     if (snapped != sliderIndex) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }

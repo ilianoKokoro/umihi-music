@@ -79,7 +79,7 @@ fun BooleanSettingItem(
 
             Switch(
                 checked = value,
-                onCheckedChange = { onToggle(it) },
+                onCheckedChange = onToggle,
             )
 
         }

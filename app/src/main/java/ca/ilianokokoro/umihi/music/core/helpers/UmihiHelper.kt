@@ -85,4 +85,12 @@ object UmihiHelper {
             }
         }
     }
+
+    fun Float.speedLabel(): String {
+        val value = String.format("%.2f", this)
+            .trimEnd('0')
+            .trimEnd('.')
+
+        return "${value}x"
+    }
 }

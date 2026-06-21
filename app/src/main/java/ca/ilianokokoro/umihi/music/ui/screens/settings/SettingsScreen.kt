@@ -171,9 +171,7 @@ fun SettingsScreen(
                                 subtitle = stringResource(R.string.keep_screen_on_title_description),
                                 leadingIcon = Icons.Outlined.StayCurrentPortrait,
                                 value = screenState.settings.keepScreenOn,
-                                onToggle = {
-                                    settingsViewModel.updateKeepScreenOnSetting(it)
-                                }
+                                onToggle = settingsViewModel::updateKeepScreenOnSetting
                             )
                         }
 
@@ -185,9 +183,7 @@ fun SettingsScreen(
                                 subtitle = stringResource(R.string.audio_offload_subtitle),
                                 leadingIcon = Icons.Outlined.Memory,
                                 value = screenState.settings.useAudioOffload,
-                                onToggle = {
-                                    settingsViewModel.updateAudioOffloadSetting(it)
-                                }
+                                onToggle = settingsViewModel::updateAudioOffloadSetting
                             )
                         }
 

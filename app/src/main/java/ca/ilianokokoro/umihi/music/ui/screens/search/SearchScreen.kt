@@ -73,12 +73,8 @@ fun SearchScreen(
                         .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                         .fillMaxWidth(),
                     value = uiState.search,
-                    onValueChange = {
-                        searchViewModel.onSearchFieldChange(it)
-                    },
-                    onSearch = {
-                        searchViewModel.search()
-                    },
+                    onValueChange = searchViewModel::onSearchFieldChange,
+                    onSearch = searchViewModel::search,
                     focusManager = focusManager,
                     focusRequester = focusRequester,
                 )

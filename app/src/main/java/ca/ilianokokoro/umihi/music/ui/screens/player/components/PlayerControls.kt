@@ -18,7 +18,6 @@ import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Timer
-import androidx.compose.material.icons.rounded.TimerOff
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.FilledIconButton
@@ -123,7 +122,7 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = { PlayerManager.skipToPrevious() },
+                            onClick = PlayerManager::skipToPrevious,
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[0],
                             modifier = Modifier
@@ -188,9 +187,7 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = {
-                                PlayerManager.skipToNext()
-                            },
+                            onClick = PlayerManager::skipToNext,
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[2],
                             modifier = Modifier
@@ -268,11 +265,7 @@ fun PlayerControls(
                             interactionSource = actionButtonsControlsInteractionSources[1],
                         ) {
                             Icon(
-                                imageVector = if (isTimerActive) {
-                                    Icons.Rounded.TimerOff
-                                } else {
-                                    Icons.Rounded.Timer
-                                },
+                                imageVector = Icons.Rounded.Timer,
                                 contentDescription = stringResource(R.string.sleep_timer),
                             )
                         }
