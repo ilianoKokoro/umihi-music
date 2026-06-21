@@ -22,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,8 @@ fun SleepTimerBottomSheet(
     onStartEndOfSong: () -> Unit,
     onCancelTimer: () -> Unit,
 ) {
+    val haptic = LocalHapticFeedback.current
+
     ModalBottomSheet(
         onDismissRequest = { changeVisibility(false) },
         sheetState = rememberBottomSheetState(
@@ -131,8 +135,12 @@ fun SleepTimerBottomSheet(
 
                 Slider(
                     value = sliderValue.toFloat(),
-                    onValueChange = {
-                        sliderValue = it.roundToInt()
+                    onValueChange = { newValue ->
+                        val rounded = newValue.roundToInt()
+                        if (rounded != sliderValue) {
+                            haptic.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                        }
+                        sliderValue = rounded
                     },
                     valueRange = range,
                     steps = Constants.Ui.Player.SleepTimer.STEP_AMOUNT - 2,
