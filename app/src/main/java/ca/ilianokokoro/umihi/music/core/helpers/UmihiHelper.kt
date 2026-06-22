@@ -9,6 +9,11 @@ import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 import okhttp3.Request
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -93,4 +98,19 @@ object UmihiHelper {
 
         return "${value}x"
     }
+
+    fun JsonElement.safeObject(): JsonObject? =
+        try {
+            this.jsonObject
+        } catch (_: Exception) {
+            null
+        }
+
+    fun JsonElement.safeArray(): JsonArray? =
+        try {
+            this.jsonArray
+        } catch (_: Exception) {
+            null
+        }
+
 }

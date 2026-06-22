@@ -7,6 +7,8 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeArray
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeObject
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
@@ -21,7 +23,6 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.Request
@@ -29,9 +30,9 @@ import org.schabi.newpipe.extractor.ServiceList
 import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
 
-object YoutubeHelper {
-    private var visitorData: String? = null // TODO use safer and more global value
+var visitorData: String? = null
 
+object YoutubeHelper {
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
 
@@ -47,20 +48,23 @@ object YoutubeHelper {
 
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
         val url =
-            thumbnailElement.jsonObject["musicThumbnailRenderer"]?.jsonObject?.get("thumbnail")?.jsonObject?.get(
-                "thumbnails"
-            )?.jsonArray?.last()?.jsonObject?.get("url")?.jsonPrimitive?.contentOrNull ?: ""
+            thumbnailElement.safeObject()?.get("musicThumbnailRenderer")
+                ?.safeObject()?.get("thumbnail")
+                ?.safeObject()?.get("thumbnails")
+                ?.safeArray()?.lastOrNull()
+                ?.safeObject()?.get("url")
+                ?.jsonPrimitive?.contentOrNull ?: ""
         return url
     }
 
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
-        return songMap.jsonObject["flexColumns"]
-            ?.jsonArray?.getOrNull(songInfoIndex.index)
-            ?.jsonObject?.get("musicResponsiveListItemFlexColumnRenderer")
-            ?.jsonObject?.get("text")
-            ?.jsonObject?.get("runs")
-            ?.jsonArray?.getOrNull(0)
-            ?.jsonObject?.get("text")
+        return songMap.safeObject()?.get("flexColumns")
+            ?.safeArray()?.getOrNull(songInfoIndex.index)
+            ?.safeObject()?.get("musicResponsiveListItemFlexColumnRenderer")
+            ?.safeObject()?.get("text")
+            ?.safeObject()?.get("runs")
+            ?.safeArray()?.getOrNull(0)
+            ?.safeObject()?.get("text")
             ?.jsonPrimitive?.contentOrNull ?: ""
     }
 
@@ -73,7 +77,7 @@ object YoutubeHelper {
 
         suspend fun parseGridRenderer(renderer: JsonObject) {
             renderer["items"]
-                ?.jsonArray
+                ?.safeArray()
                 ?.forEach { item ->
                     parsePlaylistItem(item)?.let { playlist ->
                         playlistInfos.add(playlist)
@@ -81,11 +85,11 @@ object YoutubeHelper {
                 }
 
             val continuationToken = renderer["continuations"]
-                ?.jsonArray
+                ?.safeArray()
                 ?.firstOrNull()
-                ?.jsonObject
+                ?.safeObject()
                 ?.get("nextContinuationData")
-                ?.jsonObject
+                ?.safeObject()
                 ?.get("continuation")
                 ?.jsonPrimitive
                 ?.contentOrNull
@@ -95,7 +99,39 @@ object YoutubeHelper {
                     continuationToken = continuationToken,
                     settings = settings
                 )
+                playlistInfos.addAll(
+                    extractPlaylists(
+                        jsonString = continuationJson,
+                        settings = settings
+                    )
+                )
+            }
+        }
 
+        suspend fun parseMusicLibraryRenderer(renderer: JsonObject) {
+            renderer["contents"]
+                ?.safeArray()
+                ?.forEach { item ->
+                    parseMusicLibraryItem(item)?.let { playlist ->
+                        playlistInfos.add(playlist)
+                    }
+                }
+
+            val continuationToken = renderer["continuations"]
+                ?.safeArray()
+                ?.firstOrNull()
+                ?.safeObject()
+                ?.get("nextContinuationData")
+                ?.safeObject()
+                ?.get("continuation")
+                ?.jsonPrimitive
+                ?.contentOrNull
+
+            if (continuationToken != null) {
+                val continuationJson = YoutubeRequestHelper.requestContinuation(
+                    continuationToken = continuationToken,
+                    settings = settings
+                )
                 playlistInfos.addAll(
                     extractPlaylists(
                         jsonString = continuationJson,
@@ -106,46 +142,114 @@ object YoutubeHelper {
         }
 
         val tabs = json["contents"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("singleColumnBrowseResultsRenderer")
-            ?.jsonObject
+            ?.safeObject()
             ?.get("tabs")
-            ?.jsonArray
+            ?.safeArray()
+            ?: json["contents"]
+                ?.safeObject()
+                ?.get("twoColumnBrowseResultsRenderer")
+                ?.safeObject()
+                ?.get("tabs")
+                ?.safeArray()
 
-        val selectedTab = tabs
-            ?.firstOrNull {
-                it.jsonObject["tabRenderer"]
-                    ?.jsonObject
-                    ?.get("selected")
-                    ?.jsonPrimitive
-                    ?.booleanOrNull == true
+        if (tabs != null) {
+            val selectedTab = tabs
+                .firstOrNull {
+                    it.safeObject()?.get("tabRenderer")
+                        ?.safeObject()
+                        ?.get("selected")
+                        ?.jsonPrimitive
+                        ?.booleanOrNull == true
+                }
+                ?.safeObject()?.get("tabRenderer")?.safeObject()
+
+            val sectionList = selectedTab
+                ?.get("content")
+                ?.safeObject()
+                ?.get("sectionListRenderer")
+                ?.safeObject()
+                ?.get("contents")
+                ?.safeArray()
+
+            if (sectionList != null) {
+                for (section in sectionList) {
+                    val musicLibrary =
+                        section.safeObject()?.get("musicLibraryRenderer")?.safeObject()
+                    if (musicLibrary != null) {
+                        printd("extractPlaylists: found musicLibraryRenderer")
+                        parseMusicLibraryRenderer(musicLibrary)
+                        continue
+                    }
+
+                    val gridRenderer = section.safeObject()?.get("gridRenderer")?.safeObject()
+                    if (gridRenderer != null) {
+                        printd("extractPlaylists: found gridRenderer")
+                        parseGridRenderer(gridRenderer)
+                        continue
+                    }
+
+                    val nestedSectionList = section.safeObject()
+                        ?.get("sectionListRenderer")?.safeObject()
+                        ?.get("contents")?.safeArray()
+                    if (nestedSectionList != null) {
+                        for (nested in nestedSectionList) {
+                            val nestedMusicLibrary =
+                                nested.safeObject()?.get("musicLibraryRenderer")?.safeObject()
+                            if (nestedMusicLibrary != null) {
+                                parseMusicLibraryRenderer(nestedMusicLibrary)
+                                continue
+                            }
+                            val nestedGrid =
+                                nested.safeObject()?.get("gridRenderer")?.safeObject()
+                            if (nestedGrid != null) {
+                                parseGridRenderer(nestedGrid)
+                                continue
+                            }
+                        }
+                    }
+                }
+            } else if (selectedTab != null) {
+                val tabContent = selectedTab["content"]?.safeObject()
+                val directMusicLibrary = tabContent?.get("musicLibraryRenderer")?.safeObject()
+                if (directMusicLibrary != null) {
+                    printd("extractPlaylists: found musicLibraryRenderer directly in tab")
+                    parseMusicLibraryRenderer(directMusicLibrary)
+                }
+                val directGrid = tabContent?.get("gridRenderer")?.safeObject()
+                if (directGrid != null) {
+                    printd("extractPlaylists: found gridRenderer directly in tab")
+                    parseGridRenderer(directGrid)
+                }
+                if (directMusicLibrary == null && directGrid == null) {
+                    printd("extractPlaylists: tab content has no recognizable renderer. Keys: ${tabContent?.keys}")
+                }
             }
-            ?.jsonObject
-            ?.get("tabRenderer")
-            ?.jsonObject
-
-        val sectionList = selectedTab
-            ?.get("content")
-            ?.jsonObject
-            ?.get("sectionListRenderer")
-            ?.jsonObject
-            ?.get("contents")
-            ?.jsonArray
-
-        sectionList?.forEach { section ->
-            val gridRenderer = section.jsonObject["gridRenderer"]?.jsonObject
-                ?: return@forEach
-
-            parseGridRenderer(gridRenderer)
+        } else {
+            printd("extractPlaylists: no tabbed browse result found (may be continuation response)")
         }
 
         val gridContinuation = json["continuationContents"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("gridContinuation")
-            ?.jsonObject
-
+            ?.safeObject()
         if (gridContinuation != null) {
+            printd("extractPlaylists: found continuationContents.gridContinuation")
             parseGridRenderer(gridContinuation)
+        }
+
+        val musicLibraryContinuation = json["continuationContents"]
+            ?.safeObject()
+            ?.get("musicLibraryContinuation")
+            ?.safeObject()
+        if (musicLibraryContinuation != null) {
+            printd("extractPlaylists: found continuationContents.musicLibraryContinuation")
+            parseMusicLibraryRenderer(musicLibraryContinuation)
+        }
+
+        if (playlistInfos.isEmpty() && tabs == null && gridContinuation == null && musicLibraryContinuation == null) {
+            printd("extractPlaylists: no playlists found in any recognizable structure. Root keys: ${json.keys}")
         }
 
         return playlistInfos.distinctBy {
@@ -154,12 +258,12 @@ object YoutubeHelper {
     }
 
     private fun parsePlaylistItem(item: JsonElement): PlaylistInfo? {
-        val playlistRenderer = item.jsonObject["musicTwoRowItemRenderer"]
-            ?.jsonObject
+        val playlistRenderer = item.safeObject()?.get("musicTwoRowItemRenderer")
+            ?.safeObject()
             ?: return null
 
         val navigationEndpoint = playlistRenderer["navigationEndpoint"]
-            ?.jsonObject
+            ?.safeObject()
             ?: return null
 
         val isCreatePlaylistTile =
@@ -170,18 +274,18 @@ object YoutubeHelper {
         }
 
         val browseId = navigationEndpoint["browseEndpoint"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("browseId")
             ?.jsonPrimitive
             ?.contentOrNull
             ?: return null
 
         val title = playlistRenderer["title"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("runs")
-            ?.jsonArray
+            ?.safeArray()
             ?.getOrNull(0)
-            ?.jsonObject
+            ?.safeObject()
             ?.get("text")
             ?.jsonPrimitive
             ?.contentOrNull
@@ -199,37 +303,76 @@ object YoutubeHelper {
         )
     }
 
+    private fun parseMusicLibraryItem(item: JsonElement): PlaylistInfo? {
+        val renderer = item.safeObject()?.get("musicLibraryItemRenderer")
+            ?.safeObject()
+            ?: return null
+
+        val navigationEndpoint = renderer["navigationEndpoint"]
+            ?.safeObject()
+            ?: return null
+
+        val browseId = navigationEndpoint["browseEndpoint"]
+            ?.safeObject()
+            ?.get("browseId")
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?: return null
+
+        val title = renderer["title"]
+            ?.safeObject()
+            ?.get("runs")
+            ?.safeArray()
+            ?.getOrNull(0)
+            ?.safeObject()
+            ?.get("text")
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?: return null
+
+        val thumbnailRenderer = renderer["thumbnailRenderer"]
+            ?: return null
+
+        val thumbnailUrl = getBestThumbnailUrl(thumbnailRenderer)
+
+        return PlaylistInfo(
+            id = browseId,
+            title = title,
+            coverHref = thumbnailUrl
+        )
+    }
+
 
     fun extractCreatedPlaylist(jsonString: String): PlaylistInfo? {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val renderer = json["actions"]
-            ?.jsonArray
+            ?.safeArray()
             ?.firstNotNullOfOrNull { action ->
-                action.jsonObject["handlePlaylistCreationCommand"]
-                    ?.jsonObject
+                action.safeObject()?.get("handlePlaylistCreationCommand")
+                    ?.safeObject()
                     ?.get("createdPlaylist")
-                    ?.jsonObject
+                    ?.safeObject()
                     ?.get("musicTwoRowItemRenderer")
-                    ?.jsonObject
+                    ?.safeObject()
             }
             ?: return null
 
         val title = renderer["title"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("runs")
-            ?.jsonArray
+            ?.safeArray()
             ?.getOrNull(0)
-            ?.jsonObject
+            ?.safeObject()
             ?.get("text")
             ?.jsonPrimitive
             ?.contentOrNull
             ?: return null
 
         val browseId = renderer["navigationEndpoint"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("browseEndpoint")
-            ?.jsonObject
+            ?.safeObject()
             ?.get("browseId")
             ?.jsonPrimitive
             ?.contentOrNull
@@ -250,28 +393,28 @@ object YoutubeHelper {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val tabs = json["contents"]
-            ?.jsonObject?.get("tabbedSearchResultsRenderer")
-            ?.jsonObject?.get("tabs")
-            ?.jsonArray ?: return emptyList()
+            ?.safeObject()?.get("tabbedSearchResultsRenderer")
+            ?.safeObject()?.get("tabs")
+            ?.safeArray() ?: return emptyList()
 
 
         val selectedTab = tabs.firstOrNull {
-            it.jsonObject["tabRenderer"]
-                ?.jsonObject?.get("selected")
+            it.safeObject()?.get("tabRenderer")
+                ?.safeObject()?.get("selected")
                 ?.jsonPrimitive?.booleanOrNull == true
-        }?.jsonObject?.get("tabRenderer")?.jsonObject ?: return emptyList()
+        }?.safeObject()?.get("tabRenderer")?.safeObject() ?: return emptyList()
 
         val contents = selectedTab["content"]
-            ?.jsonObject?.get("sectionListRenderer")
-            ?.jsonObject?.get("contents")
-            ?.jsonArray ?: return emptyList()
+            ?.safeObject()?.get("sectionListRenderer")
+            ?.safeObject()?.get("contents")
+            ?.safeArray() ?: return emptyList()
 
         val songRendererList =
-            contents.jsonArray
+            contents
                 .firstNotNullOfOrNull {
-                    it.jsonObject["musicShelfRenderer"]
-                        ?.jsonObject?.get("contents")
-                        ?.jsonArray
+                    it.safeObject()?.get("musicShelfRenderer")
+                        ?.safeObject()?.get("contents")
+                        ?.safeArray()
                 }
                 ?: return emptyList()
 
@@ -281,7 +424,7 @@ object YoutubeHelper {
 
     fun extractSongInfo(jsonString: String): Song {
         val json = Json.parseToJsonElement(jsonString).jsonObject
-        val details = json.jsonObject["videoDetails"]?.jsonObject
+        val details = json["videoDetails"]?.safeObject()
 
         val videoId = details?.get("videoId")?.jsonPrimitive?.contentOrNull ?: ""
         val title = details?.get("title")?.jsonPrimitive?.contentOrNull ?: ""
@@ -304,25 +447,53 @@ object YoutubeHelper {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["contents"]
-            ?.jsonObject?.get("twoColumnBrowseResultsRenderer")
-            ?.jsonObject?.get("secondaryContents")
-            ?.jsonObject?.get("sectionListRenderer")
-            ?.jsonObject?.get("contents")
-            ?.jsonArray?.getOrNull(0)
-            ?.jsonObject?.get("musicPlaylistShelfRenderer")
-            ?.jsonObject?.get("contents")
-            ?.jsonArray
-        return parseSongsFromContents(contents, settings)
+            ?.safeObject()?.get("twoColumnBrowseResultsRenderer")
+            ?.safeObject()?.get("secondaryContents")
+            ?.safeObject()?.get("sectionListRenderer")
+            ?.safeObject()?.get("contents")
+            ?.safeArray()?.getOrNull(0)
+            ?.safeObject()?.get("musicPlaylistShelfRenderer")
+            ?.safeObject()?.get("contents")
+            ?.safeArray()
+
+        if (contents != null) {
+            return parseSongsFromContents(contents, settings)
+        }
+
+        val altContents = json["contents"]
+            ?.safeObject()?.get("singleColumnBrowseResultsRenderer")
+            ?.safeObject()?.get("tabs")
+            ?.safeArray()?.firstOrNull()
+            ?.safeObject()?.get("tabRenderer")
+            ?.safeObject()?.get("content")
+            ?.safeObject()?.get("sectionListRenderer")
+            ?.safeObject()?.get("contents")
+            ?.safeArray()?.firstOrNull()
+            ?.safeObject()?.get("musicPlaylistShelfRenderer")
+            ?.safeObject()?.get("contents")
+            ?.safeArray()
+
+        if (altContents != null) {
+            return parseSongsFromContents(altContents, settings)
+        }
+
+        printd("extractSongList: could not find playlist contents. Root keys: ${json.keys}")
+
+        return emptyList()
     }
 
     suspend fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val contents = json["onResponseReceivedActions"]
-            ?.jsonArray?.getOrNull(0)
-            ?.jsonObject?.get("appendContinuationItemsAction")
-            ?.jsonObject?.get("continuationItems")
-            ?.jsonArray
+            ?.safeArray()?.getOrNull(0)
+            ?.safeObject()?.get("appendContinuationItemsAction")
+            ?.safeObject()?.get("continuationItems")
+            ?.safeArray()
+
+        if (contents == null) {
+            printd("extractContinuationSongs: no continuationItems found. Keys: ${json.keys}")
+        }
 
         return parseSongsFromContents(contents, settings)
     }
@@ -343,10 +514,10 @@ object YoutubeHelper {
     private fun extractHighQualityThumbnail(jsonString: String): String {
         val json = Json.parseToJsonElement(jsonString).jsonObject
         val url = json["videoDetails"]
-            ?.jsonObject?.get("thumbnail")
-            ?.jsonObject?.get("thumbnails")
-            ?.jsonArray?.last()
-            ?.jsonObject?.get("url")
+            ?.safeObject()?.get("thumbnail")
+            ?.safeObject()?.get("thumbnails")
+            ?.safeArray()?.lastOrNull()
+            ?.safeObject()?.get("url")
             ?.jsonPrimitive?.contentOrNull
 
         return url ?: ""
@@ -360,12 +531,12 @@ object YoutubeHelper {
         if (contents == null) return songs
 
         for (shelf in contents) {
-            val continuationContent = shelf.jsonObject["continuationItemRenderer"]
+            val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
 
             if (continuationContent != null) {
-                val token = continuationContent.jsonObject["continuationEndpoint"]
-                    ?.jsonObject?.get("continuationCommand")
-                    ?.jsonObject?.get("token")
+                val token = continuationContent.safeObject()?.get("continuationEndpoint")
+                    ?.safeObject()?.get("continuationCommand")
+                    ?.safeObject()?.get("token")
                     ?.jsonPrimitive?.contentOrNull ?: ""
 
                 val otherSongs = extractContinuationSongs(
@@ -393,13 +564,13 @@ object YoutubeHelper {
         json: JsonElement,
     ): Song? {
         val songContent =
-            json.jsonObject["musicResponsiveListItemRenderer"]?.jsonObject ?: return null
+            json.safeObject()?.get("musicResponsiveListItemRenderer")?.safeObject() ?: return null
         val thumbnailUrl = getBestThumbnailUrl(songContent["thumbnail"] ?: return null)
 
         val title = getSongInfo(songContent, SongInfoType.TITLE)
         val artist = getSongInfo(songContent, SongInfoType.ARTIST)
         val videoId = songContent["playlistItemData"]
-            ?.jsonObject?.get("videoId")
+            ?.safeObject()?.get("videoId")
             ?.jsonPrimitive?.contentOrNull ?: return null
 
 
@@ -457,17 +628,17 @@ object YoutubeHelper {
         val durationRegex = Regex("""\d+:\d{2}(:\d{2})?""")
 
         val fixedDuration = songContent["fixedColumns"]
-            ?.jsonArray
+            ?.safeArray()
             ?.firstOrNull()
-            ?.jsonObject
+            ?.safeObject()
             ?.get("musicResponsiveListItemFixedColumnRenderer")
-            ?.jsonObject
+            ?.safeObject()
             ?.get("text")
-            ?.jsonObject
+            ?.safeObject()
             ?.get("runs")
-            ?.jsonArray
+            ?.safeArray()
             ?.firstOrNull()
-            ?.jsonObject
+            ?.safeObject()
             ?.get("text")
             ?.jsonPrimitive
             ?.contentOrNull
@@ -477,20 +648,20 @@ object YoutubeHelper {
         }
 
         val flexColumns = songContent["flexColumns"]
-            ?.jsonArray
+            ?.safeArray()
             ?: return ""
 
         for (column in flexColumns) {
-            val runs = column.jsonObject["musicResponsiveListItemFlexColumnRenderer"]
-                ?.jsonObject
+            val runs = column.safeObject()?.get("musicResponsiveListItemFlexColumnRenderer")
+                ?.safeObject()
                 ?.get("text")
-                ?.jsonObject
+                ?.safeObject()
                 ?.get("runs")
-                ?.jsonArray
+                ?.safeArray()
                 ?: continue
 
             for (run in runs) {
-                val text = run.jsonObject["text"]
+                val text = run.safeObject()?.get("text")
                     ?.jsonPrimitive
                     ?.contentOrNull
                     ?: continue
@@ -599,34 +770,34 @@ object YoutubeHelper {
     ): String? {
         val root = Json.parseToJsonElement(text).jsonObject
 
-        val visitorData = root["responseContext"]
-            ?.jsonObject
+        val newVisitorData = root["responseContext"]
+            ?.safeObject()
             ?.get("visitorData")
             ?.jsonPrimitive
             ?.contentOrNull
 
-        if (YoutubeHelper.visitorData == null) {
-            YoutubeHelper.visitorData = visitorData
+        if (visitorData == null && newVisitorData != null) {
+            visitorData = newVisitorData
         }
 
         val status = root["playabilityStatus"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("status")
             ?.jsonPrimitive
             ?.contentOrNull
 
         val reason = root["playabilityStatus"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("reason")
             ?.jsonPrimitive
             ?.contentOrNull
 
         val directUrl = root["streamingData"]
-            ?.jsonObject
+            ?.safeObject()
             ?.get("adaptiveFormats")
-            ?.jsonArray
+            ?.safeArray()
             ?.asSequence()
-            ?.map { it.jsonObject }
+            ?.mapNotNull { it.safeObject() }
             ?.filter {
                 it["url"]?.jsonPrimitive?.contentOrNull?.isNotBlank() == true
             }
