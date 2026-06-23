@@ -26,9 +26,10 @@ object YoutubeAuthHelper {
             val user = buildJsonObject {
                 put("lockedSafetyMode", JsonPrimitive(false))
 
-                settings?.dataSyncId?.let {
-                    put("onBehalfOfUser", JsonPrimitive(it))
+                if (!settings?.dataSyncId.isNullOrBlank()) {
+                    put("onBehalfOfUser", JsonPrimitive(settings.dataSyncId))
                 }
+
             }
 
             val context = buildJsonObject {

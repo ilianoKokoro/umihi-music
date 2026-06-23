@@ -93,8 +93,9 @@ fun AuthScreen(
                         val dataSyncId = result
                             ?.trim('"')
                             ?.substringBefore("||")
+                            ?.takeUnless { it.isBlank() || it.equals("null", ignoreCase = true) }
 
-                        if (!dataSyncId.isNullOrBlank()) {
+                        dataSyncId?.let {
                             authViewModel.onDataSyncIdFound(dataSyncId)
                         }
                     }
@@ -106,8 +107,6 @@ fun AuthScreen(
             loadUrl(Constants.Auth.START_URL)
         }
     }
-
-
 
     Scaffold(topBar = {
         TopAppBar(
