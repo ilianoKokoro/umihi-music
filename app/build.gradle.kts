@@ -39,6 +39,7 @@ android {
         versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}${if (beta) "-beta" else ""}"
 
+        buildConfigField("boolean", "IS_BETA", "$beta")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

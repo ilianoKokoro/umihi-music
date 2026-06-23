@@ -178,14 +178,12 @@ object YoutubeHelper {
                     val musicLibrary =
                         section.safeObject()?.get("musicLibraryRenderer")?.safeObject()
                     if (musicLibrary != null) {
-                        printd("extractPlaylists: found musicLibraryRenderer")
                         parseMusicLibraryRenderer(musicLibrary)
                         continue
                     }
 
                     val gridRenderer = section.safeObject()?.get("gridRenderer")?.safeObject()
                     if (gridRenderer != null) {
-                        printd("extractPlaylists: found gridRenderer")
                         parseGridRenderer(gridRenderer)
                         continue
                     }
@@ -214,12 +212,10 @@ object YoutubeHelper {
                 val tabContent = selectedTab["content"]?.safeObject()
                 val directMusicLibrary = tabContent?.get("musicLibraryRenderer")?.safeObject()
                 if (directMusicLibrary != null) {
-                    printd("extractPlaylists: found musicLibraryRenderer directly in tab")
                     parseMusicLibraryRenderer(directMusicLibrary)
                 }
                 val directGrid = tabContent?.get("gridRenderer")?.safeObject()
                 if (directGrid != null) {
-                    printd("extractPlaylists: found gridRenderer directly in tab")
                     parseGridRenderer(directGrid)
                 }
                 if (directMusicLibrary == null && directGrid == null) {
@@ -235,7 +231,6 @@ object YoutubeHelper {
             ?.get("gridContinuation")
             ?.safeObject()
         if (gridContinuation != null) {
-            printd("extractPlaylists: found continuationContents.gridContinuation")
             parseGridRenderer(gridContinuation)
         }
 
@@ -244,7 +239,6 @@ object YoutubeHelper {
             ?.get("musicLibraryContinuation")
             ?.safeObject()
         if (musicLibraryContinuation != null) {
-            printd("extractPlaylists: found continuationContents.musicLibraryContinuation")
             parseMusicLibraryRenderer(musicLibraryContinuation)
         }
 

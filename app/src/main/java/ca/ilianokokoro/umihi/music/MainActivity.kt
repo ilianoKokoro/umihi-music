@@ -68,6 +68,14 @@ class MainActivity : ComponentActivity() {
         requestNotificationPermission()
 
         checkForUpdate()
+
+        debugPrintDataStores()
+    }
+
+    private fun debugPrintDataStores() {
+        lifecycleScope.launch {
+            DatastoreRepository(this@MainActivity).debugPrintAllPreferences()
+        }
     }
 
 

@@ -8,6 +8,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.BuildConfig
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
@@ -16,7 +19,6 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.Flow
@@ -47,7 +49,7 @@ class DatastoreRepository(private val context: Context) {
 
     val settings = context.dataStore.data.map {
         val updateChannel = it[UPDATE_CHANNEL]?.let { value -> UpdateChannel.valueOf(value) }
-            ?: UpdateChannel.Stable
+            ?: if (BuildConfig.IS_BETA) UpdateChannel.Beta else UpdateChannel.Stable
         val showPodcastPlaylist = it[SHOW_PODCAST_PLAYLIST] ?: true
         val useSpecialLanguage = it[USE_SPECIAL_LANGUAGE] ?: false
         val useAudioOffload = it[USE_AUDIO_OFFLOAD] ?: false
@@ -105,6 +107,15 @@ class DatastoreRepository(private val context: Context) {
         context.dataStore.edit {
             it[DATA_SYNC_ID] = newId
         }
+    }
+
+    suspend fun debugPrintAllPreferences() {
+        val prefs = context.dataStore.data.first()
+        UmihiHelper.printd("=== All preferences ===")
+        prefs.asMap().forEach { (key, value) ->
+            UmihiHelper.printd("  $key = $value")
+        }
+        UmihiHelper.printd("========================")
     }
 
 
