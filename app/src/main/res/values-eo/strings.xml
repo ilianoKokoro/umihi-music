@@ -100,16 +100,16 @@
     <string name="visibility">Viswibiwity</string>
     <string name="auto_update_title">Automatic Upwdate Chwecking</string>
     <string name="auto_update_subtitle">Enabwes chwecking fow upwdate automaticawy on app waunch</string>
-    <string name="sleep_timer">Sleep Timer</string>
-    <string name="sleep_timer_active">Sleep Timer Active</string>
-    <string name="sleep_timer_remaining">remaining</string>
-    <string name="cancel_timer">Cancel Timer</string>
-    <string name="sleep_timer_end_of_song">Stop playback after the current song ends</string>
-    <string name="sleep_timer_end_of_song_btn">End of Song</string>
-    <string name="sleep_timer_set_duration">Stop playback after a set time</string>
-    <string name="sleep_timer_minutes">%1$d minutes</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
-    <string name="sleep_timer_start">Start Timer</string>
-    <string name="playback_speed">Playback Speed</string>
+    <string name="sleep_timer">Sleepie Tiwma</string>
+    <string name="sleep_timer_active">Sleepie Tiwma ACTIVA</string>
+    <string name="sleep_timer_remaining">remaiwnin</string>
+    <string name="cancel_timer">Kancel Tiwma</string>
+    <string name="sleep_timer_end_of_song">Stowp pwayback afta da currwent song ends OwO</string>
+    <string name="sleep_timer_end_of_song_btn">Endie wof Songa</string>
+    <string name="sleep_timer_set_duration">Stowp pwayback afta a set tiwma</string>
+    <string name="sleep_timer_minutes">%1$d minwuites</string>
+    <string name="sleep_timer_min_short">%1$d minnie</string>
+    <string name="sleep_timer_start">Stawt Da Tiwma</string>
+    <string name="playback_speed">Pwayback Zoomies</string>
     <string name="playback_speed_label">%1$.1fx</string>
 </resources>
