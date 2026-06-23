@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Cookies
@@ -41,7 +42,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             result
                 .trim('"')
                 .substringBefore("||")
-                .takeUnless { it.isBlank() || it.equals("null", ignoreCase = true) }
+                .takeUnless { it.isNullOrInvalidId() }
                 ?.let { datastoreRepository.saveDataSyncId(it) }
         }
     }

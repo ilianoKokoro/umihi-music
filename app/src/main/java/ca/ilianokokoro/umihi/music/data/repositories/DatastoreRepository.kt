@@ -16,9 +16,12 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 
@@ -74,8 +77,18 @@ class DatastoreRepository(private val context: Context) {
         Cookies(it[COOKIES] ?: String())
     }
 
-    val dataSyncId = context.dataStore.data.map {
-        it[DATA_SYNC_ID]
+    val dataSyncId: Flow<String?> = flow {
+        context.dataStore.data.collect { prefs ->
+            val id = prefs[DATA_SYNC_ID]
+            if (id.isNullOrInvalidId()) {
+                if (id != null) {
+                    context.dataStore.edit { it.remove(DATA_SYNC_ID) }
+                }
+                emit(null)
+            } else {
+                emit(id)
+            }
+        }
     }
 
     suspend fun saveCookies(cookies: Cookies) {
@@ -85,6 +98,10 @@ class DatastoreRepository(private val context: Context) {
     }
 
     suspend fun saveDataSyncId(newId: String) {
+        if (newId.isNullOrInvalidId()) {
+            context.dataStore.edit { it.remove(DATA_SYNC_ID) }
+            return
+        }
         context.dataStore.edit {
             it[DATA_SYNC_ID] = newId
         }

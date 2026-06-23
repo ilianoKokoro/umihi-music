@@ -99,6 +99,9 @@ object UmihiHelper {
         return "${value}x"
     }
 
+    fun String?.isNullOrInvalidId(): Boolean =
+        this.isNullOrBlank() || this.equals("null", ignoreCase = true)
+
     fun JsonElement.safeObject(): JsonObject? =
         try {
             this.jsonObject
