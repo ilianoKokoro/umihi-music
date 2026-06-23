@@ -71,11 +71,11 @@ class DatastoreRepository(private val context: Context) {
     }
 
     val cookies = context.dataStore.data.map {
-        Cookies(it[COOKIES] ?: "")
+        Cookies(it[COOKIES] ?: String())
     }
 
     val dataSyncId = context.dataStore.data.map {
-        it[DATA_SYNC_ID] ?: ""
+        it[DATA_SYNC_ID]
     }
 
     suspend fun saveCookies(cookies: Cookies) {

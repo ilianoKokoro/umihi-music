@@ -36,9 +36,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun onDataSyncIdFound(dataSyncId: String) {
+    fun onDataSyncIdFound(result: String) {
         viewModelScope.launch {
-            datastoreRepository.saveDataSyncId(dataSyncId)
+            result
+                .trim('"')
+                .substringBefore("||")
+                .takeUnless { it.isBlank() || it.equals("null", ignoreCase = true) }
+                ?.let { datastoreRepository.saveDataSyncId(it) }
         }
     }
 

@@ -90,14 +90,7 @@ fun AuthScreen(
                     evaluateJavascript(
                         "window.yt?.config_?.DATASYNC_ID"
                     ) { result ->
-                        val dataSyncId = result
-                            ?.trim('"')
-                            ?.substringBefore("||")
-                            ?.takeUnless { it.isBlank() || it.equals("null", ignoreCase = true) }
-
-                        dataSyncId?.let {
-                            authViewModel.onDataSyncIdFound(dataSyncId)
-                        }
+                        authViewModel.onDataSyncIdFound(result)
                     }
 
                     authViewModel.onPageFinished(url)

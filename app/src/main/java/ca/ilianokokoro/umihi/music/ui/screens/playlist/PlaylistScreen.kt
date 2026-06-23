@@ -23,8 +23,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -65,7 +70,14 @@ fun PlaylistScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
 
+    LaunchedEffect(uiState.showingSearch) {
+        if (uiState.showingSearch) {
+            focusRequester.requestFocus()
+        }
+    }
 
     FadingStatusBarWrapper {
 
@@ -94,11 +106,16 @@ fun PlaylistScreen(
                     title = {
                         SearchBar(
                             modifier = Modifier
-                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                                .fillMaxWidth(),
+                                .focusRequester(focusRequester)
+                                .fillMaxWidth()
+                                .height(60.dp),
                             value = uiState.searchQuery,
                             onValueChange = playlistViewModel::onSearchQueryChange,
-                            onSearch = { },
+                            onSearch = {
+                                focusRequester.freeFocus()
+                            },
+                            focusManager = focusManager,
+                            focusRequester = focusRequester,
                         )
                     }
                 )
