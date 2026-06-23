@@ -6,9 +6,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -19,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
@@ -33,6 +43,7 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
+import ca.ilianokokoro.umihi.music.ui.screens.search.components.SearchBar
 
 
 @Composable
@@ -59,19 +70,67 @@ fun PlaylistScreen(
     FadingStatusBarWrapper {
 
         Scaffold(topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        playlistInfo.title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    BackButton(onBack = onBack)
-
-                }
-            )
+            if (uiState.showingSearch) {
+                TopAppBar(
+                    modifier = modifier,
+                    navigationIcon = {
+                        BackButton(onBack = onBack)
+                    },
+                    actions = {
+                        FilledIconButton(
+                            onClick = playlistViewModel::hideSearch,
+                            shapes = IconButtonDefaults.shapes(),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = stringResource(R.string.close)
+                            )
+                        }
+                    },
+                    title = {
+                        SearchBar(
+                            modifier = Modifier
+                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth(),
+                            value = uiState.searchQuery,
+                            onValueChange = playlistViewModel::onSearchQueryChange,
+                            onSearch = { },
+                        )
+                    }
+                )
+            } else {
+                TopAppBar(
+                    title = {
+                        Text(
+                            playlistInfo.title,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
+                    navigationIcon = {
+                        BackButton(onBack = onBack)
+                    },
+                    actions = {
+                        FilledIconButton(
+                            onClick = playlistViewModel::showSearch,
+                            shapes = IconButtonDefaults.shapes(),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = stringResource(R.string.search)
+                            )
+                        }
+                    }
+                )
+            }
         }) { paddingValues ->
             Column(
                 modifier = modifier
@@ -139,6 +198,7 @@ fun PlaylistScreen(
                                 contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
                             ) {
                                 item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
+
                                 item {
                                     PlaylistHeader(
                                         onOpenPlayer = onOpenPlayer,
@@ -153,8 +213,35 @@ fun PlaylistScreen(
                                     )
                                 }
 
+                                val filteredSongs = if (uiState.searchQuery.isBlank()) {
+                                    songs
+                                } else {
+                                    songs.filter { song ->
+                                        song.title.contains(
+                                            uiState.searchQuery,
+                                            ignoreCase = true
+                                        ) ||
+                                                song.artist.contains(
+                                                    uiState.searchQuery,
+                                                    ignoreCase = true
+                                                )
+                                    }
+                                }
+
+                                if (uiState.searchQuery.isNotBlank() && filteredSongs.isEmpty()) {
+                                    item {
+                                        Text(
+                                            text = stringResource(R.string.no_results),
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(32.dp)
+                                        )
+                                    }
+                                }
+
                                 items(
-                                    items = songs,
+                                    items = filteredSongs,
                                     key = { song ->
                                         song.uid
                                     }
@@ -179,6 +266,7 @@ fun PlaylistScreen(
                 }
             }
         }
-    }
 
+    }
 }
+
