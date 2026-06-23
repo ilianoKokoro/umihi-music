@@ -40,6 +40,18 @@ class PlaylistViewModel(
     )
     val uiState = _uiState.asStateFlow()
 
+    fun onSearchQueryChange(query: String) {
+        _uiState.update { it.copy(searchQuery = query) }
+    }
+
+    fun showSearch() {
+        _uiState.update { it.copy(showingSearch = true) }
+    }
+
+    fun hideSearch() {
+        _uiState.update { it.copy(showingSearch = false, searchQuery = "") }
+    }
+
     private val playlistRepository = PlaylistRepository(application)
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
     private val datastoreRepository = DatastoreRepository(application)

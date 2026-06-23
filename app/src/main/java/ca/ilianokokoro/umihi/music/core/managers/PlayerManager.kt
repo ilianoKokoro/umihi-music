@@ -355,7 +355,7 @@ object PlayerManager {
                         val positionMs = controller.currentPosition
 
                         if (
-                            durationMs > 0 && durationMs != C.TIME_UNSET
+                            durationMs > 0
                         ) {
                             ((durationMs - positionMs) / 1000)
                                 .coerceAtLeast(0)

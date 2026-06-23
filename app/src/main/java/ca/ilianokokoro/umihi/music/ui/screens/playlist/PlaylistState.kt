@@ -7,7 +7,9 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 data class PlaylistState(
     val screenState: ScreenState,
     val isRefreshing: Boolean = false,
-    val isDownloading: Boolean = false
+    val isDownloading: Boolean = false,
+    val searchQuery: String = "",
+    val showingSearch: Boolean = false
 )
 
 sealed class ScreenState {

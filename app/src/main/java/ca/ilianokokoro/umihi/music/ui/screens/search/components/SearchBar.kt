@@ -21,18 +21,25 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
 
 @Composable
 fun SearchBar(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit,
-    focusRequester: FocusRequester,
-    focusManager: FocusManager,
-    modifier: Modifier = Modifier
+    focusRequester: FocusRequester? = null,
+    focusManager: FocusManager? = null,
 ) {
-    MaterialUInput(
-        modifier = modifier
+
+    var searchModifier = modifier
+        .fillMaxWidth()
+        .minimumInteractiveComponentSize()
+
+    if (focusRequester != null) {
+        searchModifier = searchModifier
             .focusRequester(focusRequester)
-            .fillMaxWidth()
-            .minimumInteractiveComponentSize(),
+    }
+
+    MaterialUInput(
+        modifier = searchModifier,
         value = value,
         onValueChange = onValueChange,
         label = stringResource(R.string.search),
@@ -53,7 +60,7 @@ fun SearchBar(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                focusManager.clearFocus()
+                focusManager?.clearFocus()
                 onSearch()
             }
         ),
