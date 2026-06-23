@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.BuildConfig
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
@@ -97,6 +97,11 @@ class DatastoreRepository(private val context: Context) {
         context.dataStore.edit {
             it[COOKIES] = cookies.toRawCookie()
         }
+    }
+
+    suspend fun logOut() {
+        saveCookies(Cookies())
+        saveDataSyncId("")
     }
 
     suspend fun saveDataSyncId(newId: String) {
