@@ -91,12 +91,15 @@ class PlaylistDownloadWorker(
 
                                 localSongRepository.create(updatedSong)
 
-                                UmihiNotificationManager.showPlaylistDownloadProgress(
-                                    appContext,
-                                    playlist,
-                                    downloadedSongs.incrementAndGet(),
-                                    totalSongs
-                                )
+                                val downloaded = downloadedSongs.incrementAndGet()
+                                if (downloaded < totalSongs) {
+                                    UmihiNotificationManager.showPlaylistDownloadProgress(
+                                        appContext,
+                                        playlist,
+                                        downloaded,
+                                        totalSongs
+                                    )
+                                }
                             } catch (e: CancellationException) {
                                 printd("Song download canceled ${song.title}")
                                 throw e

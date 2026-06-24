@@ -69,14 +69,14 @@ class MainActivity : ComponentActivity() {
 
         checkForUpdate()
 
-        debugPrintDataStores()
+        //    debugPrintDataStores()
     }
 
-    private fun debugPrintDataStores() {
-        lifecycleScope.launch {
-            DatastoreRepository(this@MainActivity).debugPrintAllPreferences()
-        }
-    }
+//    private fun debugPrintDataStores() {
+//        lifecycleScope.launch {
+//            DatastoreRepository(this@MainActivity).debugPrintAllPreferences()
+//        }
+//    }
 
 
     override fun onStart() {
