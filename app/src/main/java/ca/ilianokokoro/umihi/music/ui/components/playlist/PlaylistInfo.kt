@@ -95,7 +95,11 @@ fun PlaylistInfo(
                 )
 
                 val alpha by animateFloatAsState(
-                    targetValue = if (animatedCount == null || animatedCount == 0) 0f else 1f,
+                    targetValue = if (animatedCount == null || animatedCount == 0) {
+                        0f
+                    } else {
+                        1f
+                    },
                     animationSpec = tween()
                 )
 
@@ -169,6 +173,15 @@ fun PlaylistInfo(
                                         text = stringResource(R.string.cancel_download),
                                         onClick = {
                                             showCancelDialog.value = true
+                                            optionsExtended = false
+                                        }
+                                    )
+                                } else if (!playlist.downloaded) {
+                                    ModernDropdownItem(
+                                        leadingIcon = Icons.Rounded.Download,
+                                        text = stringResource(R.string.download),
+                                        onClick = {
+                                            onDownloadPressed()
                                             optionsExtended = false
                                         }
                                     )
