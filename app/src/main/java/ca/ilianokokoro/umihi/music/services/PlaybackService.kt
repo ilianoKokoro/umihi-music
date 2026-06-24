@@ -1,6 +1,8 @@
 package ca.ilianokokoro.umihi.music.services
 
 import android.app.PendingIntent
+import android.content.Intent
+import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -47,6 +49,7 @@ class PlaybackService : MediaLibraryService() {
     private lateinit var exoCache: ExoCache
     private lateinit var player: Player
     private lateinit var datastoreRepository: DatastoreRepository
+    private var currentAudioSessionId = C.AUDIO_SESSION_ID_UNSET
     private val songRepository = SongRepository()
     private lateinit var playlistRepository: PlaylistRepository
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -134,6 +137,31 @@ class PlaybackService : MediaLibraryService() {
                 player.seekToNext()
                 player.prepare()
             }
+
+            // Expose audio session ID for third-party equalizer apps
+            override fun onAudioSessionIdChanged(audioSessionId: Int) {
+                if (currentAudioSessionId == audioSessionId) return
+
+                if (currentAudioSessionId > 0) {
+                    sendBroadcast(
+                        Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION).apply {
+                            putExtra(AudioEffect.EXTRA_AUDIO_SESSION, currentAudioSessionId)
+                            putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                        }
+                    )
+                }
+
+                currentAudioSessionId = audioSessionId
+
+                if (audioSessionId > 0) {
+                    sendBroadcast(
+                        Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION).apply {
+                            putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+                            putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                        }
+                    )
+                }
+            }
         })
 
         val intent = packageManager.getLaunchIntentForPackage(packageName)
@@ -171,6 +199,14 @@ class PlaybackService : MediaLibraryService() {
 
     override fun onDestroy() {
         mediaLibrarySession?.run {
+            if (currentAudioSessionId > 0) {
+                sendBroadcast(
+                    Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION).apply {
+                        putExtra(AudioEffect.EXTRA_AUDIO_SESSION, currentAudioSessionId)
+                        putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                    }
+                )
+            }
             player.release()
             exoCache.release()
             release()
