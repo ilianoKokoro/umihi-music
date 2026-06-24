@@ -136,11 +136,17 @@ object PlayerManager {
     }
 
     fun skipToNext() {
-        currentController?.seekToNextMediaItem()
+        currentController?.run {
+            seekToNextMediaItem()
+            prepare()
+        }
     }
 
     fun skipToPrevious() {
-        currentController?.seekToPreviousMediaItem()
+        currentController?.run {
+            seekToPreviousMediaItem()
+            prepare()
+        }
     }
 
     fun cycleRepeatMode() {

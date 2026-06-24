@@ -131,6 +131,8 @@ class PlaybackService : MediaLibraryService() {
             // Show toast on error
             override fun onPlayerError(error: PlaybackException) {
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
+                player.seekToNext()
+                player.prepare()
             }
         })
 
