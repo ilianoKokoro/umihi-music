@@ -42,7 +42,6 @@ fun SearchBar(
         modifier = searchModifier,
         value = value,
         onValueChange = onValueChange,
-        label = stringResource(R.string.search),
         leadingIcon = Icons.Rounded.Search,
         placeholder = stringResource(R.string.search),
         singleLine = true,
