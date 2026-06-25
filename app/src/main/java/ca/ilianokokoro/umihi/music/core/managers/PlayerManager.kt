@@ -13,6 +13,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.toSong
+import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.services.PlaybackService
@@ -34,7 +35,6 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 object PlayerManager {
-
     @Volatile
     private var controllerFuture: ListenableFuture<MediaController>? = null
 
@@ -62,6 +62,12 @@ object PlayerManager {
     private val _playbackSpeed = MutableStateFlow(1.0f)
     val playbackSpeed: StateFlow<Float> = _playbackSpeed.asStateFlow()
 
+    private val _audioInfo = MutableStateFlow(PlaybackAudioInfo())
+    val audioInfo = _audioInfo.asStateFlow()
+
+    fun updatePlaybackInfo(info: PlaybackAudioInfo) {
+        _audioInfo.value = info
+    }
 
     @OptIn(UnstableApi::class)
     @Synchronized

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
+import androidx.media3.common.Format
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
@@ -19,7 +20,9 @@ import androidx.media3.datasource.DataSourceBitmapLoader
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
+import androidx.media3.exoplayer.DecoderReuseEvaluation
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.CacheBitmapLoader
 import androidx.media3.session.MediaLibraryService
@@ -30,10 +33,12 @@ import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
+import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -94,6 +99,28 @@ class PlaybackService : MediaLibraryService() {
             .setDeviceVolumeControlEnabled(true)
             .setMediaSourceFactory(DefaultMediaSourceFactory(resolvingFactory))
             .build()
+        player.addAnalyticsListener(
+            object : AnalyticsListener {
+                override fun onAudioInputFormatChanged(
+                    eventTime: AnalyticsListener.EventTime,
+                    format: Format,
+                    decoderReuseEvaluation: DecoderReuseEvaluation?
+                ) {
+                    PlayerManager.updatePlaybackInfo(
+                        PlaybackAudioInfo(
+                            format = Constants.ExoPlayer.AUDIO_MIME_MAP[format.sampleMimeType]
+                                ?: format.sampleMimeType,
+                            sampleRate = format.sampleRate
+                                .takeIf { it != Format.NO_VALUE },
+                            bitrate = format.bitrate
+                                .takeIf { it != Format.NO_VALUE },
+                            channelCount = format.channelCount
+                                .takeIf { it != Format.NO_VALUE }
+                        )
+                    )
+                }
+            }
+        )
 
         player.trackSelectionParameters =
             player.trackSelectionParameters
@@ -127,6 +154,7 @@ class PlaybackService : MediaLibraryService() {
                 mediaItem: MediaItem?,
                 reason: Int
             ) {
+                PlayerManager.updatePlaybackInfo(PlaybackAudioInfo())
                 // Load the full res image when a new song is played
                 updateCurrentMediaItemThumbnail(mediaItem)
             }

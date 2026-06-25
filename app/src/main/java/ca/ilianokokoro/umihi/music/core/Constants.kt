@@ -97,6 +97,75 @@ object Constants {
     }
 
     object ExoPlayer {
+        val AUDIO_MIME_MAP = mapOf(
+            // AAC
+            "audio/mp4a-latm" to "aac",
+            "audio/aac" to "aac",
+            "audio/x-aac" to "aac",
+            "audio/vnd.dolby.heaac.1" to "aac",
+            "audio/vnd.dolby.heaac.2" to "aac",
+
+            // MP3
+            "audio/mpeg" to "mp3",
+
+            // M4A / MP4 audio
+            "audio/mp4" to "m4a",
+            "audio/x-m4a" to "m4a",
+
+            // FLAC
+            "audio/flac" to "flac",
+            "audio/x-flac" to "flac",
+
+            // Opus
+            "audio/opus" to "opus",
+
+            // Ogg
+            "audio/ogg" to "ogg",
+            "audio/vorbis" to "ogg",
+
+            // WAV / PCM
+            "audio/wav" to "wav",
+            "audio/x-wav" to "wav",
+            "audio/vnd.wave" to "wav",
+            "audio/raw" to "wav",
+
+            // ALAC
+            "audio/alac" to "alac",
+            "audio/x-alac" to "alac",
+
+            // Dolby
+            "audio/ac3" to "ac3",
+            "audio/eac3" to "eac3",
+            "audio/eac3-joc" to "eac3",
+            "audio/true-hd" to "thd",
+
+            // DTS
+            "audio/vnd.dts" to "dts",
+            "audio/vnd.dts.hd" to "dtshd",
+
+            // WebM
+            "audio/webm" to "webm",
+
+            // AMR
+            "audio/amr" to "amr",
+            "audio/amr-wb" to "awb",
+
+            // 3GPP
+            "audio/3gpp" to "3gp",
+            "audio/3gpp2" to "3g2",
+
+            // Windows Media Audio
+            "audio/x-ms-wma" to "wma",
+
+            // AIFF
+            "audio/x-aiff" to "aif",
+
+            // Misc legacy codecs
+            "audio/evrc" to "evrc",
+            "audio/qcelp" to "qcp",
+            "audio/x-ima-adpcm" to "ima",
+        )
+
         object Cache {
             const val NAME = "umihi-music-exoplayer"
             const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB

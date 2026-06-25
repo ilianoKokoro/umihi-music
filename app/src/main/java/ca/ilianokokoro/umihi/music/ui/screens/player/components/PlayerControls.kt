@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -40,7 +41,9 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
+import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlaybackAudioInfoPill
 
 @Composable
 fun PlayerControls(
@@ -56,6 +59,7 @@ fun PlayerControls(
     onOpenSpeedSelector: () -> Unit,
     playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
+    audioInfo: PlaybackAudioInfo = PlaybackAudioInfo(),
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
@@ -88,21 +92,35 @@ fun PlayerControls(
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp)
         ) {
-            Text(
-                text = progress.position.toTimeString(),
-                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = progress.duration.toTimeString(),
-                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = progress.position.toTimeString(),
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = progress.duration.toTimeString(),
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            PlaybackAudioInfoPill(
+                info = audioInfo,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(horizontal = 58.dp),
             )
         }
 
