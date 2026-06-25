@@ -121,4 +121,5 @@
     <string name="khz" translatable="false">%.1f kHz</string>
     <string name="unlike">Unlike</string>
     <string name="like">Like</string>
+    <string name="e" translatable="false">E</string>
 </resources>

@@ -427,12 +427,20 @@ object YoutubeHelper {
             details?.get("lengthSeconds")?.jsonPrimitive?.contentOrNull?.toInt()
                 ?: 0
 
+        val isExplicit = json["microformat"]
+            ?.safeObject()?.get("microformatDataRenderer")
+            ?.safeObject()?.get("familySafe")
+            ?.jsonPrimitive?.booleanOrNull
+            ?.let { !it }
+            ?: false
+
         return Song(
             youtubeId = videoId,
             title = title,
             artist = author,
             duration = formatSecondsForYouTubeDisplay(lengthSeconds),
-            thumbnailHref = extractHighQualityThumbnail(jsonString)
+            thumbnailHref = extractHighQualityThumbnail(jsonString),
+            isExplicit = isExplicit
         )
     }
 
@@ -572,12 +580,26 @@ object YoutubeHelper {
 
         val duration = extractDuration(songContent)
 
+        val isExplicit = songContent["badges"]
+            ?.safeArray()
+            ?.any { badge ->
+                badge.safeObject()
+                    ?.get("musicInlineBadgeRenderer")
+                    ?.safeObject()
+                    ?.get("icon")
+                    ?.safeObject()
+                    ?.get("iconType")
+                    ?.jsonPrimitive
+                    ?.contentOrNull == "MUSIC_EXPLICIT_BADGE"
+            } ?: false
+
         return Song(
             youtubeId = videoId,
             title = title,
             artist = artist,
             duration = duration,
-            thumbnailHref = thumbnailUrl
+            thumbnailHref = thumbnailUrl,
+            isExplicit = isExplicit
         )
 
     }

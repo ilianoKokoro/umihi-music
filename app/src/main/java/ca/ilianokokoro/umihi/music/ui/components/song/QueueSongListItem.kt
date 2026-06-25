@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
@@ -123,10 +124,21 @@ fun QueueSongListItem(
         },
         headlineContent = { Text(song.title, modifier = Modifier.basicMarquee()) },
         supportingContent = {
-            Text(
-                "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
-                modifier = Modifier.basicMarquee()
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp),
+            ) {
+                if (song.isExplicit) {
+                    ExplicitBadge()
+                }
+                
+                Text(
+                    "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.basicMarquee()
+                )
+            }
         },
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))

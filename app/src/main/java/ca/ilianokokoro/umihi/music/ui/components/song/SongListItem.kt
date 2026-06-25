@@ -2,11 +2,10 @@ package ca.ilianokokoro.umihi.music.ui.components.song
 
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -70,22 +69,26 @@ fun SongListItem(
         supportingContent = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight()
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
                 if (song.downloaded) {
                     Icon(
-                        modifier = Modifier
-                            .padding(end = 3.dp)
-                            .size(16.dp),
+                        modifier = Modifier.size(16.dp),
                         imageVector = Icons.Rounded.DownloadForOffline,
-                        contentDescription = stringResource(R.string.download),
+                        contentDescription = null
                     )
                 }
+
+                if (song.isExplicit) {
+                    ExplicitBadge()
+                }
+
 
                 Text(
                     text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.basicMarquee()
                 )
             }
         },

@@ -12,6 +12,7 @@ fun MediaItem?.toSong(): Song {
         title = this?.mediaMetadata?.title.toStringOrEmpty(),
         artist = this?.mediaMetadata?.artist.toStringOrEmpty(),
         thumbnailHref = this?.mediaMetadata?.artworkUri.toString(), // TODO handle if not href
-        duration = extras?.getString(Constants.ExoPlayer.SongMetadata.DURATION).toStringOrEmpty()
+        duration = extras?.getString(Constants.ExoPlayer.SongMetadata.DURATION).toStringOrEmpty(),
+        isExplicit = extras?.getBoolean(Constants.ExoPlayer.SongMetadata.IS_EXPLICIT, false) ?: false
     )
 }
