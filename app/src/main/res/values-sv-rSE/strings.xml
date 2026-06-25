@@ -111,5 +111,4 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Starta timer</string>
     <string name="playback_speed">Uppspelningshastighet</string>
-    <string name="playback_speed_label">%1$.1fx</string>
 </resources>
