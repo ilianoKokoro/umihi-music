@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">Excluir todos os downloads?</string>
     <string name="keep_screen_on_title">Manter a tela sempre ligada</string>
     <string name="keep_screen_on_title_description">Impede que a tela desligue enquanto o aplicativo estiver aberto</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Baixando Atualização…</string>
     <string name="title">Título</string>
     <string name="create">Crio</string>
