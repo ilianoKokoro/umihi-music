@@ -46,7 +46,9 @@ object ComposeHelper {
             remember { mutableIntStateOf(player?.repeatMode ?: Player.REPEAT_MODE_OFF) }
 
         DisposableEffect(player) {
-            if (player == null) return@DisposableEffect onDispose {}
+            if (player == null) {
+                return@DisposableEffect onDispose {}
+            }
 
             val listener = object : Player.Listener {
                 override fun onRepeatModeChanged(repeatMode: Int) {

@@ -296,10 +296,14 @@ class PlayerViewModel(application: Application) :
             val index = state.currentIndex
             val queue = state.queue
 
-            if (index !in queue.indices) return@update state
+            if (index !in queue.indices) {
+                return@update state
+            }
 
             val currentSong = queue[index]
-            if (currentSong.thumbnailHref == newUri.toString()) return@update state
+            if (currentSong.thumbnailHref == newUri.toString()) {
+                return@update state
+            }
 
             val updatedQueue = queue.toMutableList().apply {
                 set(index, currentSong.copy(thumbnailHref = newUri.toString()))

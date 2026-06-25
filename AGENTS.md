@@ -54,6 +54,7 @@ Nav keys: `HomeScreenKey`, `SearchScreenKey`, `SettingsScreenKey`, `PlaylistScre
 
 ## Quirks an agent would miss
 
+- **Kotlin style:** Every `if` uses braces — `if (condition) { ... }`, never single-line `if (condition) ...`.
 - **InnerTube API:** `youtubei/v1/{browse,player,search,playlist/create,playlist/delete}`. Hardcoded key `AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30`. Two JSON client configs: `WEB_REMIX` (mobile web) and `ANDROID_VR` (Quest 3).
 - **Auth header:** WebView OAuth → SAPISID cookie → `SAPISIDHASH <ts>_<SHA1(ts+sapisid+origin)>`. Also sent as `X-Goog-Api-Format-Version: 1`, `X-YouTube-Client-Name`, `X-YouTube-Client-Version`.
 - **Flavors:** `standalone` (default, `UPDATER_ENABLED=true`, self-updater via GitHub releases). `store` (`UPDATER_ENABLED=false`, `-store` version suffix, no install permissions).

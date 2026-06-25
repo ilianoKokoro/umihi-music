@@ -135,7 +135,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleViewIntent(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_VIEW) return
+        if (intent?.action != Intent.ACTION_VIEW) {
+            return
+        }
         val data: Uri = intent.data ?: return
 
         val videoId = YoutubeHelper.extractYouTubeVideoId(data.toString()) ?: return

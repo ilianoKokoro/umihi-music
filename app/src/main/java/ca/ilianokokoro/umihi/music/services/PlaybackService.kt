@@ -168,7 +168,9 @@ class PlaybackService : MediaLibraryService() {
 
             // Expose audio session ID for third-party equalizer apps
             override fun onAudioSessionIdChanged(audioSessionId: Int) {
-                if (currentAudioSessionId == audioSessionId) return
+                if (currentAudioSessionId == audioSessionId) {
+                    return
+                }
 
                 if (currentAudioSessionId > 0) {
                     sendBroadcast(
@@ -244,7 +246,9 @@ class PlaybackService : MediaLibraryService() {
     }
 
     private fun updateCurrentMediaItemThumbnail(mediaItem: MediaItem?) {
-        if (mediaItem == null) return
+        if (mediaItem == null) {
+            return
+        }
 
         val context = applicationContext
         val songId = mediaItem.mediaId

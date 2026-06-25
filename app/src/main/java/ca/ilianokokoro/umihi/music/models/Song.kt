@@ -58,7 +58,9 @@ data class Song(
 
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Song) return false
+        if (other !is Song) {
+            return false
+        }
         return this.hashCode() == other.hashCode()
     }
 

@@ -180,7 +180,9 @@ object PlayerManager {
         val controller = currentController ?: return
         val mediaItems = playlist.mediaItems
 
-        if (mediaItems.isEmpty()) return
+        if (mediaItems.isEmpty()) {
+            return
+        }
 
         controller.setMediaItems(
             mediaItems,

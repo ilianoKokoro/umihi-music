@@ -522,7 +522,9 @@ object YoutubeHelper {
         settings: UmihiSettings
     ): List<Song> {
         val songs = mutableListOf<Song>()
-        if (contents == null) return songs
+        if (contents == null) {
+            return songs
+        }
 
         for (shelf in contents) {
             val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
@@ -677,7 +679,9 @@ object YoutubeHelper {
 
         val fastUrl = resolveAndroidVrStreamUrl(song.youtubeId)
 
-        if (fastUrl != null) return fastUrl
+        if (fastUrl != null) {
+            return fastUrl
+        }
 
         printd("${song.youtubeId} : Falling back to NewPipe")
         repeat(retries) { attempt ->

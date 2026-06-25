@@ -91,7 +91,9 @@ class PlaylistRepository(application: Application) {
     }
 
     private fun mergeWithLocal(remotePlaylist: Playlist, localPlaylist: Playlist?): Playlist {
-        if (localPlaylist == null) return remotePlaylist
+        if (localPlaylist == null) {
+            return remotePlaylist
+        }
         val localMap = localPlaylist.songs.associateBy { it.youtubeId }
         val mergedSongs = remotePlaylist.songs.map { remoteSong ->
             localMap[remoteSong.youtubeId]?.copy(uid = UUID.randomUUID().toString()) ?: remoteSong

@@ -67,7 +67,9 @@ class DownloadRepository(appContext: Context) {
         val stillLinked = localPlaylistRepository.getSongIdsWithPlaylist(songIds).toSet()
         val songsToClear = mutableListOf<String>()
         playlist.songs.forEach { song ->
-            if (song.youtubeId in stillLinked) return@forEach
+            if (song.youtubeId in stillLinked) {
+                return@forEach
+            }
             songsToClear.add(song.youtubeId)
             File(
                 audioDir,
