@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">Ștergeți toate descărcările?</string>
     <string name="keep_screen_on_title">Păstraţi ecranul permanent aprins</string>
     <string name="keep_screen_on_title_description">Împiedică ecranul de la oprire în timp ce aplicația este deschisă</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Descărcare Actualizare…</string>
     <string name="title">Titlu</string>
     <string name="create">Crează</string>

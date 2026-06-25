@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">Supprimer toutes les chansons téléchargées ?</string>
     <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Téléchargement de la mise à jour...</string>
     <string name="title">Titre</string>
     <string name="create">Créer</string>

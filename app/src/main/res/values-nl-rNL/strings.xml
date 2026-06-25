@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">Alle downloads verwijderen?</string>
     <string name="keep_screen_on_title">Scherm altijd aan laten staan</string>
     <string name="keep_screen_on_title_description">Voorkomt dat het scherm wordt uitgeschakeld terwijl de app geopend is</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Aanspreektitel</string>
     <string name="create">Aanmaken</string>
