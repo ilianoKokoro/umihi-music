@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">모든 다운로드를 삭제할까요? 정말 괜찮아요?</string>
     <string name="keep_screen_on_title">화면 항상 켜두기</string>
     <string name="keep_screen_on_title_description">앱이 열려 있는 동안 화면이 꺼지지 않게 해줘요</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">업데이트 다운로드 중이에요…</string>
     <string name="title">제목</string>
     <string name="create">만들기</string>
