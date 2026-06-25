@@ -86,6 +86,7 @@ object Constants {
         const val USE_AUDIO_OFFLOAD = "use-audio-offload"
         const val KEEP_SCREEN_ON = "keep-screen-on"
         const val AUTO_UPDATE = "auto-update"
+        const val SEND_PLAYBACK_DATA = "send-playback-data"
     }
 
     object Database {

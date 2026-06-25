@@ -12,5 +12,6 @@ data class UmihiSettings(
     val showPodcastPlaylist: Boolean = true,
     val useSpecialLanguage: Boolean = false,
     val useAudioOffload: Boolean = false,
-    val keepScreenOn: Boolean = false
+    val keepScreenOn: Boolean = false,
+    val sendPlaybackData: Boolean = false
 )

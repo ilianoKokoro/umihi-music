@@ -15,6 +15,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SEND_PLAYBACK_DATA
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
@@ -39,6 +40,7 @@ class DatastoreRepository(private val context: Context) {
         val USE_AUDIO_OFFLOAD = booleanPreferencesKey(Constants.Datastore.USE_AUDIO_OFFLOAD)
         val KEEP_SCREEN_ON = booleanPreferencesKey(Constants.Datastore.KEEP_SCREEN_ON)
         val AUTO_UPDATE = booleanPreferencesKey(Constants.Datastore.AUTO_UPDATE)
+        val SEND_PLAYBACK_DATA = booleanPreferencesKey(Constants.Datastore.SEND_PLAYBACK_DATA)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -55,6 +57,7 @@ class DatastoreRepository(private val context: Context) {
         val useAudioOffload = it[USE_AUDIO_OFFLOAD] ?: false
         val keepScreenOn = it[KEEP_SCREEN_ON] ?: false
         val updateChecking = it[AUTO_UPDATE] ?: true
+        val sendPlaybackData = it[SEND_PLAYBACK_DATA] ?: false
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -67,6 +70,7 @@ class DatastoreRepository(private val context: Context) {
             useSpecialLanguage = useSpecialLanguage,
             useAudioOffload = useAudioOffload,
             keepScreenOn = keepScreenOn,
+            sendPlaybackData = sendPlaybackData,
             updateChecking = updateChecking
         )
     }
