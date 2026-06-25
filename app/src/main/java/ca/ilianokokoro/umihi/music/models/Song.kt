@@ -26,6 +26,7 @@ data class Song(
     val audioFilePath: String? = null,
     val uid: String = UUID.randomUUID().toString(),
     val isExplicit: Boolean = false,
+    val isLiked: Boolean? = null,
 ) {
     val mediaItem: MediaItem
         get() {
@@ -33,6 +34,7 @@ data class Song(
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, UUID.randomUUID().toString())
             extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_EXPLICIT, isExplicit)
+            isLiked?.let { extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_LIKED, it) }
 
             return MediaItem.Builder()
                 .setUri(youtubeUrl)

@@ -94,21 +94,30 @@ class PlayerViewModel(application: Application) :
             }
 
             val isCurrentlyLiked = _uiState.value.isLiked
+            val newLiked = !isCurrentlyLiked
 
-            _uiState.update { it.copy(isLiked = !isCurrentlyLiked, isLiking = true) }
+            _uiState.update { it.copy(isLiked = newLiked, isLiking = true) }
 
             try {
                 YoutubeRequestHelper.setLike(
                     currentSong.youtubeId,
-                    liked = !isCurrentlyLiked,
+                    liked = newLiked,
                     settings
                 )
+
+                _uiState.update { state ->
+                    val updatedQueue = state.queue.toMutableList().apply {
+                        val index = state.currentIndex
+                        if (index in indices) {
+                            set(index, this[index].copy(isLiked = newLiked))
+                        }
+                    }
+                    state.copy(isLiked = newLiked, isLiking = false, queue = updatedQueue)
+                }
             } catch (e: Exception) {
                 // Revert on failure
-                _uiState.update { it.copy(isLiked = isCurrentlyLiked) }
+                _uiState.update { it.copy(isLiked = isCurrentlyLiked, isLiking = false) }
                 printe(message = "Failed to toggle like: ${e.message}", exception = e)
-            } finally {
-                _uiState.update { it.copy(isLiking = false) }
             }
         }
     }
@@ -184,24 +193,49 @@ class PlayerViewModel(application: Application) :
     }
 
     private fun updateCurrentSong() {
+        val index = PlayerManager.getCurrentIndex()
+        val freshQueue = PlayerManager.getQueue()
 
         _uiState.update { state ->
+            val mergedQueue = freshQueue.map { freshSong ->
+                state.queue.find { it.youtubeId == freshSong.youtubeId }
+                    ?.let { existing ->
+                        if (existing.isLiked != freshSong.isLiked) {
+                            freshSong.copy(isLiked = existing.isLiked)
+                        } else {
+                            freshSong
+                        }
+                    } ?: freshSong
+            }
+
             state.copy(
-                currentIndex = PlayerManager.getCurrentIndex(),
-                queue = PlayerManager.getQueue(),
+                currentIndex = index,
+                queue = mergedQueue,
                 playbackProgress = PlaybackProgress(
                     duration = 0f,
                     position = 0f,
-                )
+                ),
+                isLiked = mergedQueue.getOrNull(index)?.isLiked ?: false
             )
         }
     }
 
     private fun updateQueue() {
         _uiState.update { state ->
+            val mergedQueue = PlayerManager.getQueue().map { freshSong ->
+                state.queue.find { it.youtubeId == freshSong.youtubeId }
+                    ?.let { existing ->
+                        if (existing.isLiked != freshSong.isLiked) {
+                            freshSong.copy(isLiked = existing.isLiked)
+                        } else {
+                            freshSong
+                        }
+                    } ?: freshSong
+            }
+
             state.copy(
                 currentIndex = PlayerManager.getCurrentIndex(),
-                queue = PlayerManager.getQueue()
+                queue = mergedQueue
             )
         }
     }

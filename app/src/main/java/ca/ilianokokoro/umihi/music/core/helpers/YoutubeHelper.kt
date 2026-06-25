@@ -593,13 +593,25 @@ object YoutubeHelper {
                     ?.contentOrNull == "MUSIC_EXPLICIT_BADGE"
             } ?: false
 
+        val isLiked = songContent["menu"]
+            ?.safeObject()?.get("menuRenderer")
+            ?.safeObject()?.get("topLevelButtons")
+            ?.safeArray()
+            ?.firstOrNull { item ->
+                item.safeObject()?.get("likeButtonRenderer") != null
+            }
+            ?.safeObject()?.get("likeButtonRenderer")
+            ?.safeObject()?.get("likeStatus")
+            ?.jsonPrimitive?.contentOrNull == "LIKE"
+
         return Song(
             youtubeId = videoId,
             title = title,
             artist = artist,
             duration = duration,
             thumbnailHref = thumbnailUrl,
-            isExplicit = isExplicit
+            isExplicit = isExplicit,
+            isLiked = isLiked
         )
 
     }
