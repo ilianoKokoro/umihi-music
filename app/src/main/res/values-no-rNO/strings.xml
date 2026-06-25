@@ -85,6 +85,8 @@
     <string name="download_clear_confirm_title">Slette alle nedlastinger?</string>
     <string name="keep_screen_on_title">Behold skjermen alltid på</string>
     <string name="keep_screen_on_title_description">Hindrer skjermen i å slå av mens appen er åpen</string>
+    <string name="send_playback_data_title">Send back data to Google</string>
+    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Laster ned oppdatering…</string>
     <string name="title">Tittel</string>
     <string name="create">Opprett</string>
