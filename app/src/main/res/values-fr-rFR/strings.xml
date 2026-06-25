@@ -80,13 +80,13 @@
     <string name="playback">Lecture</string>
     <string name="enable_audio_offload">Activer le déchargement audio</string>
     <string name="audio_offload_subtitle">Décharge le décodage audio vers le matériel dédié, améliorant la durée de vie de la batterie. Peut causer des problèmes de lecture dans certains cas.</string>
-    <string name="unknown_error">Unknown Error</string>
+    <string name="unknown_error">Erreur inconnue</string>
     <string name="download_clear_confirm_text">Cela supprimera définitivement toutes les chansons, listes de lecture et données mises en cache sur votre appareil.</string>
     <string name="download_clear_confirm_title">Supprimer toutes les chansons téléchargées ?</string>
     <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Envoyer les données à Google</string>
+    <string name="send_playback_data_description">Envoie les chansons écoutées à Youtube Music pour l\'historique, les recommandations et le récapitulatif de fin d\'année</string>
     <string name="downloading_update">Téléchargement de la mise à jour...</string>
     <string name="title">Titre</string>
     <string name="create">Créer</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Démarrer le minuteur</string>
     <string name="playback_speed">Vitesse de lecture</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Je n\'aime pas</string>
+    <string name="like">J’aime</string>
 </resources>
