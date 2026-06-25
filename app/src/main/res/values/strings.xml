@@ -119,4 +119,6 @@
     <string name="playback_speed_label" translatable="false">%1$.1fx</string>
     <string name="kbps" translatable="false">%d kbps</string>
     <string name="khz" translatable="false">%.1f kHz</string>
+    <string name="unlike">Unlike</string>
+    <string name="like">Like</string>
 </resources>

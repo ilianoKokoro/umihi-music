@@ -18,6 +18,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +32,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -33,6 +40,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
@@ -95,7 +103,13 @@ fun PlayerScreen(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    SongInfo(currentSong)
+                    SongInfo(
+                        song = currentSong,
+                        isLoggedIn = uiState.isLoggedIn,
+                        isLiked = uiState.isLiked,
+                        isLiking = uiState.isLiking,
+                        onToggleLike = playerViewModel::toggleLike,
+                    )
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
@@ -151,7 +165,13 @@ fun PlayerScreen(
                         .padding(horizontal = 32.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    SongInfo(currentSong)
+                    SongInfo(
+                        song = currentSong,
+                        isLoggedIn = uiState.isLoggedIn,
+                        isLiked = uiState.isLiked,
+                        isLiking = uiState.isLiking,
+                        onToggleLike = playerViewModel::toggleLike,
+                    )
 
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
@@ -240,23 +260,62 @@ fun Thumbnail(
 
 
 @Composable
-fun SongInfo(song: Song?) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalAlignment = Alignment.Start
+fun SongInfo(
+    song: Song?,
+    isLoggedIn: Boolean = false,
+    isLiked: Boolean = false,
+    isLiking: Boolean = false,
+    onToggleLike: () -> Unit = {},
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = song?.title ?: "",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.basicMarquee()
-        )
-        Text(
-            text = song?.artist ?: "",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.Bold
-            ),
-            modifier = Modifier.basicMarquee()
-        )
+        Column(
+            modifier = if (isLoggedIn) Modifier.weight(1f) else Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = song?.title ?: "",
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.basicMarquee()
+            )
+            Text(
+                text = song?.artist ?: "",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier.basicMarquee()
+            )
+        }
+
+        if (isLoggedIn) {
+            FilledTonalIconButton(
+                onClick = onToggleLike,
+                enabled = !isLiking,
+                shapes = IconButtonDefaults.shapes()
+            ) {
+                Icon(
+                    imageVector = if (isLiked) {
+                        Icons.Rounded.Favorite
+                    } else {
+                        Icons.Rounded.FavoriteBorder
+                    },
+                    contentDescription = if (isLiked) {
+                        stringResource(R.string.unlike)
+                    } else {
+                        stringResource(R.string.like)
+                    },
+                    tint = if (isLiked) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+            }
+        }
     }
 }

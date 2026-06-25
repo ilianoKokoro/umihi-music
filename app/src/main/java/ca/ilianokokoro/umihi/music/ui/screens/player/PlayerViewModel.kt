@@ -14,7 +14,10 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +30,7 @@ class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
+    private val datastoreRepository = DatastoreRepository(application)
 
     init {
         PlayerManager.currentController?.addListener(object : Player.Listener {
@@ -69,8 +73,45 @@ class PlayerViewModel(application: Application) :
                 _uiState.update { it.copy(playbackSpeed = speed) }
             }
         }
+
+        viewModelScope.launch {
+            val settings = datastoreRepository.getSettings()
+            _uiState.update { it.copy(isLoggedIn = !settings.cookies.isEmpty()) }
+        }
     }
 
+
+    fun toggleLike() {
+        val currentSong = _uiState.value.queue.getOrNull(_uiState.value.currentIndex) ?: return
+        if (_uiState.value.isLiking) {
+            return
+        }
+
+        viewModelScope.launch {
+            val settings = datastoreRepository.getSettings()
+            if (settings.cookies.isEmpty()) {
+                return@launch
+            }
+
+            val isCurrentlyLiked = _uiState.value.isLiked
+
+            _uiState.update { it.copy(isLiked = !isCurrentlyLiked, isLiking = true) }
+
+            try {
+                YoutubeRequestHelper.setLike(
+                    currentSong.youtubeId,
+                    liked = !isCurrentlyLiked,
+                    settings
+                )
+            } catch (e: Exception) {
+                // Revert on failure
+                _uiState.update { it.copy(isLiked = isCurrentlyLiked) }
+                printe(message = "Failed to toggle like: ${e.message}", exception = e)
+            } finally {
+                _uiState.update { it.copy(isLiking = false) }
+            }
+        }
+    }
 
     fun setSleepTimerSheetVisibility(show: Boolean) {
         viewModelScope.launch {

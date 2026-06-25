@@ -117,6 +117,43 @@ object YoutubeRequestHelper {
         )
     }
 
+    suspend fun setLike(
+        videoId: String,
+        liked: Boolean,
+        settings: UmihiSettings
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put(
+                "target",
+                buildJsonObject {
+                    put("videoId", videoId)
+                }
+            )
+        }
+
+        val url = if (liked) {
+            Constants.YoutubeApi.Like.LIKE_URL
+        } else {
+            Constants.YoutubeApi.Like.REMOVE_LIKE_URL
+        }
+
+        return requestWithBody(
+            url = url,
+            body = body,
+            settings = settings
+        )
+    }
+
     suspend fun search(query: String): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Search.URL,

@@ -207,7 +207,7 @@ object Constants {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
 
         object Browse {
-            const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}"
+            const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
 
         }
@@ -245,22 +245,27 @@ object Constants {
         }
 
         object Create {
-            const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${API_KEY}"
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${API_KEY}&prettyPrint=false"
         }
 
 
         object Delete {
-            const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${API_KEY}"
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${API_KEY}&prettyPrint=false"
         }
 
         object PlayerInfo {
             const val URL =
-                "https://www.youtube.com/youtubei/v1/player"
+                "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
 
         }
 
+        object Like {
+            const val LIKE_URL = "${ORIGIN}/youtubei/v1/like/like?prettyPrint=false"
+            const val REMOVE_LIKE_URL = "${ORIGIN}/youtubei/v1/like/removelike?prettyPrint=false"
+        }
+
         object Search {
-            const val URL = "https://music.youtube.com/youtubei/v1/search"
+            const val URL = "https://music.youtube.com/youtubei/v1/search?prettyPrint=false"
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
