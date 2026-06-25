@@ -155,6 +155,12 @@ fun PlayerControls(
                             },
                             shapes = IconButtonDefaults.toggleableShapes()
                                 .copy(checkedShape = IconButtonDefaults.shapes().shape),
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
                             interactionSource = mainButtonsControlsInteractionSources[1],
                             modifier = Modifier
                                 .weight(3f)

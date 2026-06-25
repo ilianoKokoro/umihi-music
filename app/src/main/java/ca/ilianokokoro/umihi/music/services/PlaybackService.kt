@@ -47,7 +47,7 @@ import java.util.UUID
 class PlaybackService : MediaLibraryService() {
     private var mediaLibrarySession: MediaLibrarySession? = null
     private lateinit var exoCache: ExoCache
-    private lateinit var player: Player
+    private lateinit var player: ExoPlayer
     private lateinit var datastoreRepository: DatastoreRepository
     private var currentAudioSessionId = C.AUDIO_SESSION_ID_UNSET
     private val songRepository = SongRepository()
@@ -190,7 +190,7 @@ class PlaybackService : MediaLibraryService() {
         controllerInfo: MediaSession.ControllerInfo
     ): MediaLibrarySession? = mediaLibrarySession
 
-    override fun onTaskRemoved(rootIntent: android.content.Intent?) {
+    override fun onTaskRemoved(rootIntent: Intent?) {
         val player = mediaLibrarySession?.player
         if (player == null || player.mediaItemCount == 0) {
             pauseAllPlayersAndStopSelf()
