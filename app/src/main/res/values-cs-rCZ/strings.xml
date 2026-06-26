@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Smazat všechna stahování?</string>
     <string name="keep_screen_on_title">Ponechat obrazovku zapnutou</string>
     <string name="keep_screen_on_title_description">Zabraňuje vypnutí displeje, když je aplikace otevřena</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Poslat zpět data na Google</string>
+    <string name="send_playback_data_description">Odešle přehrávané písničky zpět do YouTube Music pro historii, doporučení a ročníkovou reap</string>
     <string name="downloading_update">Stahování aktualizace…</string>
     <string name="title">Hlava 1 – Celkem</string>
     <string name="create">Vytvořit</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Začít časovač</string>
     <string name="playback_speed">Rychlost přehrávání</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Nelíbí se mi</string>
+    <string name="like">Líbí se mi</string>
 </resources>
