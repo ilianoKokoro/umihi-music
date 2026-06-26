@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Видалити всі завантаження?</string>
     <string name="keep_screen_on_title">Тримати екран Always On</string>
     <string name="keep_screen_on_title_description">Запобігає вимкненню екрану, коли програма відкрита</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Відправити назад Google</string>
+    <string name="send_playback_data_description">Надсилає пісні повернутися до музики Youtube для історії, рекомендацій та відповідей на кінець року</string>
     <string name="downloading_update">Завантаження оновлення…</string>
     <string name="title">Найменування</string>
     <string name="create">Створити</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d хв</string>
     <string name="sleep_timer_start">Запустити таймер</string>
     <string name="playback_speed">Швидкість відтворення</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">На відміну від</string>
+    <string name="like">Подобається</string>
 </resources>

@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Excluir todos os downloads?</string>
     <string name="keep_screen_on_title">Manter a tela sempre ligada</string>
     <string name="keep_screen_on_title_description">Impede que a tela desligue enquanto o aplicativo estiver aberto</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Enviar dados de volta para o Google</string>
+    <string name="send_playback_data_description">Envia músicas tocadas de volta para o Youtube Music para história, recomendações e recapitulação final de anos</string>
     <string name="downloading_update">Baixando Atualização…</string>
     <string name="title">Título</string>
     <string name="create">Crio</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Iniciar Temporizador</string>
     <string name="playback_speed">Velocidade de reprodução</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Descurtir</string>
+    <string name="like">Gostei</string>
 </resources>

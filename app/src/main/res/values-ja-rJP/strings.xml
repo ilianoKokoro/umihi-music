@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">すべてのダウンロードを削除しますか？</string>
     <string name="keep_screen_on_title">常に画面をオンにする</string>
     <string name="keep_screen_on_title_description">アプリを開いている間にディスプレイがオフになるのを防ぎます</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Google にデータを送る</string>
+    <string name="send_playback_data_description">YouTubeに再生された曲を履歴、推奨事項、そして年末の要約のために送信する</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">タイトル</string>
     <string name="create">作成</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d 分</string>
     <string name="sleep_timer_start">開始タイマー</string>
     <string name="playback_speed">再生速度</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">いいね！を解除</string>
+    <string name="like">いいね！</string>
 </resources>

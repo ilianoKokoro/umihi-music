@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">حذف جميع التنزيلات؟</string>
     <string name="keep_screen_on_title">إبقاء الشاشة دائماً قيد التشغيل</string>
     <string name="keep_screen_on_title_description">يمنع الشاشة من إيقاف التشغيل أثناء فتح التطبيق</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">إرسال بيانات العودة إلى جوجل</string>
+    <string name="send_playback_data_description">ترسل الأغاني المشغلة إلى يوتيوب موسيقى للتاريخ والتوصيات وموجز نهاية السنة</string>
     <string name="downloading_update">جاري تحميل التحديث…</string>
     <string name="title">العنوان</string>
     <string name="create">إنشاء</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">بدء المؤقت</string>
     <string name="playback_speed">سرعة التشغيل</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">خلافا</string>
+    <string name="like">إعجاب</string>
 </resources>

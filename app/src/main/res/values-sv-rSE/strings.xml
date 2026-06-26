@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Ta bort alla nedladdningar?</string>
     <string name="keep_screen_on_title">Håll skärmen alltid igång</string>
     <string name="keep_screen_on_title_description">Förhindrar att skärmen stängs av medan appen är öppen</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Skicka tillbaka data till Google</string>
+    <string name="send_playback_data_description">Skickar spelade låtar tillbaka till Youtube Music för historia, rekommendationer och år-slut-recap</string>
     <string name="downloading_update">Laddar ner uppdatering…</string>
     <string name="title">Titel</string>
     <string name="create">Skapa</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Starta timer</string>
     <string name="playback_speed">Uppspelningshastighet</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Ogilla</string>
+    <string name="like">Gilla</string>
 </resources>
