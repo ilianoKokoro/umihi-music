@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Eliminare tutti i download?</string>
     <string name="keep_screen_on_title">Mantieni Lo Schermo Sempre Acceso</string>
     <string name="keep_screen_on_title_description">Impedisce che il display si spenga mentre l\'app è aperta</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Invia dati a Google</string>
+    <string name="send_playback_data_description">Invia canzoni riprodotte a Youtube Music per storia, consigli e riap di fine anno</string>
     <string name="downloading_update">Scaricamento Aggiornamento…</string>
     <string name="title">Titolo</string>
     <string name="create">Crea</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Avvia Timer</string>
     <string name="playback_speed">Velocità Di Riproduzione</string>
-    <string name="unlike">Unlike</string>
+    <string name="unlike">A differenza</string>
     <string name="like">Like</string>
 </resources>
