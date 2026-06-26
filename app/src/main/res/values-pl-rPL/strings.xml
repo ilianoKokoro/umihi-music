@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Usunąć wszystkie pobierania?</string>
     <string name="keep_screen_on_title">Utrzymuj ekran zawsze włączony</string>
     <string name="keep_screen_on_title_description">Zapobiega wyłączeniu ekranu, gdy aplikacja jest otwarta</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Wyślij dane zwrotne do Google</string>
+    <string name="send_playback_data_description">Wysyła odtwarzane utwory z powrotem do muzyki YouTube dla historii, rekomendacji i podsumowania końca roku</string>
     <string name="downloading_update">Pobieranie aktualizacji…</string>
     <string name="title">Rozporządzenie Rady (EWG) nr 2658/87 z dnia 23 lipca 1987 r. w sprawie nomenklatury taryfowej i statystycznej oraz w sprawie Wspólnej Taryfy Celnej (Dz.U. L 256 z 7.9.1987, s. 1).</string>
     <string name="create">Utwórz</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Rozpocznij Timer</string>
     <string name="playback_speed">Prędkość odtwarzania</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Nie lubię</string>
+    <string name="like">Lubię</string>
 </resources>
