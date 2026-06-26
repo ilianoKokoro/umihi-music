@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Poista kaikki lataukset?</string>
     <string name="keep_screen_on_title">Pidä Näyttö Aina Päällä</string>
     <string name="keep_screen_on_title_description">Estää näytön sammuttamisen kun sovellus on auki</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Lähetä takaisin tiedot Googlelle</string>
+    <string name="send_playback_data_description">Sends soitetut kappaleet takaisin Youtube Music historian, suositusten ja vuoden lopussa recap</string>
     <string name="downloading_update">Ladataan Päivitystä…</string>
     <string name="title">Otsikko</string>
     <string name="create">Luo</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Käynnistä Ajastin</string>
     <string name="playback_speed">Toiston Nopeus</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Toisin</string>
+    <string name="like">Tykkää</string>
 </resources>
