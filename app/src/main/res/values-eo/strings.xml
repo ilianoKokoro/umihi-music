@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d minnie</string>
     <string name="sleep_timer_start">Stawt Da Tiwma</string>
     <string name="playback_speed">Pwayback Zoomies</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Unwike</string>
+    <string name="like">Wike</string>
 </resources>
