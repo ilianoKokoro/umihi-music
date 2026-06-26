@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Slet alle downloads?</string>
     <string name="keep_screen_on_title">Hold Skærmen Altid Tændt</string>
     <string name="keep_screen_on_title_description">Forhindrer skærmen i at slukke, mens appen er åben</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Send data tilbage til Google</string>
+    <string name="send_playback_data_description">Sender spillede sange tilbage til Youtube Musik for historie, anbefalinger og års-ende recap</string>
     <string name="downloading_update">Downloader Opdatering…</string>
     <string name="title">Titel</string>
     <string name="create">Opret</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Start Timer</string>
     <string name="playback_speed">Afspilningshastighed</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">I modsætning</string>
+    <string name="like">Ligesom</string>
 </resources>
