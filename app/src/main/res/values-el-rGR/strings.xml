@@ -113,4 +113,6 @@
     <string name="sleep_timer_min_short">%1$d λεπτά</string>
     <string name="sleep_timer_start">Έναρξη Χρονομέτρου</string>
     <string name="playback_speed">Ταχύτητα Αναπαραγωγής</string>
+    <string name="unlike">Unlike</string>
+    <string name="like">Like</string>
 </resources>

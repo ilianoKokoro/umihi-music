@@ -113,4 +113,6 @@
     <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Starta timer</string>
     <string name="playback_speed">Uppspelningshastighet</string>
+    <string name="unlike">Unlike</string>
+    <string name="like">Like</string>
 </resources>
