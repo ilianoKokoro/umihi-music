@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">Διαγραφή όλων των λήψεων?</string>
     <string name="keep_screen_on_title">Κρατήστε Την Οθόνη Πάντα Ενεργή</string>
     <string name="keep_screen_on_title_description">Αποτρέπει την απενεργοποίηση της οθόνης όταν η εφαρμογή είναι ανοιχτή</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">Αποστολή πίσω δεδομένων στο Google</string>
+    <string name="send_playback_data_description">Στέλνει τραγούδια πίσω στο Youtube Music για ιστορία, συστάσεις και ανακεφαλαίωση του τέλους του έτους</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Τίτλος</string>
     <string name="create">Δημιουργία</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d λεπτά</string>
     <string name="sleep_timer_start">Έναρξη Χρονομέτρου</string>
     <string name="playback_speed">Ταχύτητα Αναπαραγωγής</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">Σε αντίθεση</string>
+    <string name="like">Αρέσει</string>
 </resources>
