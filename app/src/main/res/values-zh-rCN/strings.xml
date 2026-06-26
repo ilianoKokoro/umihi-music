@@ -85,8 +85,8 @@
     <string name="download_clear_confirm_title">删除所有下载？</string>
     <string name="keep_screen_on_title">保持屏幕始终开启</string>
     <string name="keep_screen_on_title_description">在应用程序打开时阻止显示关闭</string>
-    <string name="send_playback_data_title">Send back data to Google</string>
-    <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_title">发送回数据到 Google</string>
+    <string name="send_playback_data_description">发送播放的歌曲回到Youtube音乐以获取历史、建议和年终回顾。</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">标题</string>
     <string name="create">创建</string>
@@ -113,6 +113,6 @@
     <string name="sleep_timer_min_short">%1$d 分钟</string>
     <string name="sleep_timer_start">启动计时器</string>
     <string name="playback_speed">回放速度</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">不匹配</string>
+    <string name="like">赞</string>
 </resources>
