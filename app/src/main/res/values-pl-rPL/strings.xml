@@ -115,16 +115,16 @@
     <string name="playback_speed">Prędkość odtwarzania</string>
     <string name="unlike">Nie lubię</string>
     <string name="like">Lubię</string>
-    <string name="song_downloaded">Song downloaded</string>
-    <string name="download_failed">Download failed</string>
-    <string name="failed_to_download_song">Failed to download %1$s - %2$s</string>
-    <string name="download_finished">Download finished</string>
-    <string name="playlist_downloaded">Playlist downloaded</string>
+    <string name="song_downloaded">Pobrano utwór</string>
+    <string name="download_failed">Pobieranie nie powiodło się</string>
+    <string name="failed_to_download_song">Nie udało się pobrać %1$s - %2$s</string>
+    <string name="download_finished">Pobieranie zakończone</string>
+    <string name="playlist_downloaded">Lista odtwarzania pobrana</string>
     <string name="number_of_songs_downloaded">%1$d of %2$d songs downloaded</string>
-    <string name="download_canceled">Download canceled</string>
-    <string name="failed_to_download_playlist">Failed to download %1$s</string>
-    <string name="playlist_progress_name">Playlist Download Progress</string>
-    <string name="playlist_progress_description">Shows live progress and completion notifications for playlist downloads</string>
-    <string name="song_alerts_name">Song Download Alerts</string>
-    <string name="song_alerts_description">Notifies about individual song download issues during playlist downloads</string>
+    <string name="download_canceled">Pobieranie anulowane</string>
+    <string name="failed_to_download_playlist">Nie udało się pobrać %1$s</string>
+    <string name="playlist_progress_name">Postęp pobierania listy odtwarzania</string>
+    <string name="playlist_progress_description">Pokazuje powiadomienia o postępach na żywo i zakończeniu pobierania list odtwarzania</string>
+    <string name="song_alerts_name">Powiadomienia o pobieraniu utworów</string>
+    <string name="song_alerts_description">Powiadamia o indywidualnych problemach z pobieraniem utworu podczas pobierania listy odtwarzania</string>
 </resources>
