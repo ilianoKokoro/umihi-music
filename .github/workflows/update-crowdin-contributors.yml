@@ -1,0 +1,31 @@
+name: Crowdin Contributors Action
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+on:
+    push:
+        branches:
+            - main
+    schedule:
+        - cron: "0 */12 * * *"
+    workflow_dispatch:
+
+jobs:
+    crowdin-contributors:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Generate Crowdin Contributors table
+              uses: andrii-bodnar/action-crowdin-contributors@v3
+              with:
+                  contributors_per_line: 5
+                  max_contributors: 50
+                  image_size: 48
+                  min_words_contributed: 1
+              env:
+                  CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+                  CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}

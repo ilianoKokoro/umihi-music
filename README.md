@@ -105,6 +105,12 @@ Join the Discord server to get update pings, know about announcements and get su
 ## Translations 🉐
 
 [![Crowdin](https://badges.crowdin.net/umihi-music/localized.svg)](https://crowdin.com/project/umihi-music)
+
+Thank you to all the people who helped translate Umihi Music
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
 <img alt="Translation status" src="https://badges.awesome-crowdin.com/translation-14810202-878334.png" />
 
 ## Star History ✨
