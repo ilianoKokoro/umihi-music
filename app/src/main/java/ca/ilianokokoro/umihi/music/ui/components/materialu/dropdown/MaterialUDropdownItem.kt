@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components.dropdown
+package ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ModernDropdownItem(
+fun MaterialUDropdownItem(
     text: String,
     onClick: () -> Unit,
     leadingIcon: ImageVector,

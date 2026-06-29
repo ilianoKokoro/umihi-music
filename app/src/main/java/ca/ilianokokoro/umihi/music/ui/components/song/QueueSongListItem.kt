@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Remove
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -34,7 +33,8 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
-import ca.ilianokokoro.umihi.music.ui.components.dropdown.ModernDropdownItem
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 
 
@@ -85,13 +85,12 @@ fun QueueSongListItem(
                         )
                     )
 
-                    DropdownMenu(
+                    MaterialUDropdown(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
-                        shape = RoundedCornerShape(24.dp),
                     ) {
 
-                        ModernDropdownItem(
+                        MaterialUDropdownItem(
                             leadingIcon = Icons.Rounded.Remove,
                             text = "Remove from queue",
                             onClick = {

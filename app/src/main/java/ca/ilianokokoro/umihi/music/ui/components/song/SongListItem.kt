@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -32,7 +30,8 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
-import ca.ilianokokoro.umihi.music.ui.components.dropdown.ModernDropdownItem
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 
 @Composable
 fun SongListItem(
@@ -99,13 +98,11 @@ fun SongListItem(
                     contentDescription = stringResource(R.string.more)
                 )
             }
-
-            DropdownMenu(
+            MaterialUDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                shape = RoundedCornerShape(24.dp),
             ) {
-                ModernDropdownItem(
+                MaterialUDropdownItem(
                     leadingIcon = Icons.Rounded.PlayCircleOutline,
                     text = stringResource(R.string.play_next),
                     onClick = {
@@ -113,7 +110,7 @@ fun SongListItem(
                         expanded = false
                     }
                 )
-                ModernDropdownItem(
+                MaterialUDropdownItem(
                     leadingIcon = Icons.AutoMirrored.Rounded.PlaylistPlay,
                     text = stringResource(R.string.add_to_queue),
                     onClick = {
@@ -122,7 +119,7 @@ fun SongListItem(
                     }
                 )
                 if (download != null && !song.downloaded) {
-                    ModernDropdownItem(
+                    MaterialUDropdownItem(
                         leadingIcon = Icons.Rounded.Download,
                         text = stringResource(R.string.download),
                         onClick = {

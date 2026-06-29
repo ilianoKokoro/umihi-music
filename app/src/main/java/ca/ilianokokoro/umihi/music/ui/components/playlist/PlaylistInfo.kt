@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.Delete
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,7 +42,8 @@ import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
-import ca.ilianokokoro.umihi.music.ui.components.dropdown.ModernDropdownItem
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 
 @Composable
 fun PlaylistInfo(
@@ -162,13 +161,12 @@ fun PlaylistInfo(
                                 contentDescription = stringResource(R.string.actions)
                             )
 
-                            DropdownMenu(
+                            MaterialUDropdown(
                                 expanded = optionsExtended,
                                 onDismissRequest = { optionsExtended = false },
-                                shape = RoundedCornerShape(24.dp),
                             ) {
                                 if (isDownloading) {
-                                    ModernDropdownItem(
+                                    MaterialUDropdownItem(
                                         leadingIcon = Icons.Rounded.Cancel,
                                         text = stringResource(R.string.cancel_download),
                                         onClick = {
@@ -177,7 +175,7 @@ fun PlaylistInfo(
                                         }
                                     )
                                 } else if (!playlist.downloaded) {
-                                    ModernDropdownItem(
+                                    MaterialUDropdownItem(
                                         leadingIcon = Icons.Rounded.Download,
                                         text = stringResource(R.string.download),
                                         onClick = {
@@ -187,7 +185,7 @@ fun PlaylistInfo(
                                     )
                                 }
 
-                                ModernDropdownItem(
+                                MaterialUDropdownItem(
                                     leadingIcon = Icons.Rounded.FileDownloadOff,
                                     text = stringResource(R.string.remove_download),
                                     onClick = {
@@ -196,7 +194,7 @@ fun PlaylistInfo(
                                     }
                                 )
 
-                                ModernDropdownItem(
+                                MaterialUDropdownItem(
                                     leadingIcon = Icons.Rounded.Delete,
                                     text = stringResource(R.string.delete_playlist),
                                     onClick = {
