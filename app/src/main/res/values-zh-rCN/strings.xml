@@ -115,4 +115,16 @@
     <string name="playback_speed">回放速度</string>
     <string name="unlike">不匹配</string>
     <string name="like">赞</string>
+    <string name="song_downloaded">Song downloaded</string>
+    <string name="download_failed">Download failed</string>
+    <string name="failed_to_download_song">Failed to download %1$s - %2$s</string>
+    <string name="download_finished">Download finished</string>
+    <string name="playlist_downloaded">Playlist downloaded</string>
+    <string name="number_of_songs_downloaded">%1$d of %2$d songs downloaded</string>
+    <string name="download_canceled">Download canceled</string>
+    <string name="failed_to_download_playlist">Failed to download %1$s</string>
+    <string name="playlist_progress_name">Playlist Download Progress</string>
+    <string name="playlist_progress_description">Shows live progress and completion notifications for playlist downloads</string>
+    <string name="song_alerts_name">Song Download Alerts</string>
+    <string name="song_alerts_description">Notifies about individual song download issues during playlist downloads</string>
 </resources>
