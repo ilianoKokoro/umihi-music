@@ -119,6 +119,7 @@ jobs:
           allowUpdates: true
           removeArtifacts: true
           generateReleaseNotes: false
+          body: ${{ github.event.head_commit.message }}
           makeLatest: false
           prerelease: true
           commit: ${{ github.sha }}
@@ -158,7 +159,6 @@ jobs:
         with:
           tag: v${{ steps.get_version.outputs.version }}
           commit: prod
-          body: ${{ github.event.head_commit.message }}
           artifacts: ./artifacts/**/*.apk
           generateReleaseNotes: true
           draft: true

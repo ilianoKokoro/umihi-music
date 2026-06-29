@@ -12,7 +12,7 @@ fun MaterialUDropdown(
     onDismissRequest: () -> Unit,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
-    if (expanded) {
+    if (expanded) { // TEMP fix for issue https://issuetracker.google.com/issues/529423493
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = onDismissRequest,
