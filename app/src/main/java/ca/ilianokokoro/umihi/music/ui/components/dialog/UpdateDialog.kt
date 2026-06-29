@@ -165,7 +165,7 @@ fun UpdateDialog(scope: CoroutineScope) {
                         scope.launch {
                             VersionManager.ignoreUpdate(
                                 version = Version(
-                                    name = releaseInfo.versionName
+                                    name = if (releaseInfo.isBeta) releaseInfo.commit else releaseInfo.versionName
                                 )
                             )
                             showDialog = false
