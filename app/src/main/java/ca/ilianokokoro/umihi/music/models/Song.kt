@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.models
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
@@ -8,6 +10,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -60,6 +63,13 @@ data class Song(
     val downloaded: Boolean
         get() = audioFilePath != null && thumbnailPath != null
 
+
+    suspend fun getThumbnailBitmap(): Bitmap? {
+        val bytes = UmihiHelper.fetchArtworkBytes(thumbnailHref)
+        return bytes?.let {
+            BitmapFactory.decodeByteArray(it, 0, it.size)
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Song) {

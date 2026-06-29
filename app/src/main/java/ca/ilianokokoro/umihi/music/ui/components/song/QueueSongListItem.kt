@@ -116,11 +116,7 @@ fun QueueSongListItem(
                                 )
                         },
                 )
-
-
             }
-
-
         },
         headlineContent = { Text(song.title, modifier = Modifier.basicMarquee()) },
         supportingContent = {
@@ -131,7 +127,7 @@ fun QueueSongListItem(
                 if (song.isExplicit) {
                     ExplicitBadge()
                 }
-                
+
                 Text(
                     "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
