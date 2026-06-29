@@ -106,8 +106,8 @@
     <string name="sleep_timer_active">Minuterie de sommeil active</string>
     <string name="sleep_timer_remaining">restants</string>
     <string name="cancel_timer">Annuler la minuterie</string>
-    <string name="sleep_timer_end_of_song">Arrêter la lecture après la fin de la musique en cours</string>
-    <string name="sleep_timer_end_of_song_btn">Fin de la chanson</string>
+    <string name="sleep_timer_end_of_song">Arrêter la lecture à la fin du titre en cours</string>
+    <string name="sleep_timer_end_of_song_btn">Fin du titre</string>
     <string name="sleep_timer_set_duration">Arrêter la lecture après une heure définie</string>
     <string name="sleep_timer_minutes">%1$d minutes</string>
     <string name="sleep_timer_min_short">%1$d min</string>
@@ -115,16 +115,16 @@
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="unlike">Je n\'aime pas</string>
     <string name="like">J’aime</string>
-    <string name="song_downloaded">Morceau téléchargé</string>
+    <string name="song_downloaded">Titre téléchargé</string>
     <string name="download_failed">Échec du téléchargement</string>
     <string name="failed_to_download_song">Impossible de télécharger %1$s - %2$s</string>
     <string name="download_finished">Téléchargement terminé</string>
     <string name="playlist_downloaded">Playlist téléchargée</string>
-    <string name="number_of_songs_downloaded">%1$d of %2$d songs downloaded</string>
+    <string name="number_of_songs_downloaded">%1$d des %2$d titres téléchargés</string>
     <string name="download_canceled">Téléchargement annulé</string>
     <string name="failed_to_download_playlist">Impossible de télécharger %1$s</string>
     <string name="playlist_progress_name">Progression du téléchargement de la playlist</string>
     <string name="playlist_progress_description">Affiche la progression en direct et les notifications d\'achèvement des téléchargements de la playlist</string>
     <string name="song_alerts_name">Alertes de téléchargement de musique</string>
-    <string name="song_alerts_description">Notifie les problèmes de téléchargement de chansons individuelles lors des téléchargements de la playlist</string>
+    <string name="song_alerts_description">Notifie les problèmes de téléchargement de titres individuels lors des téléchargements de la playlist</string>
 </resources>
