@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
@@ -43,7 +44,6 @@ import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlaybackAudioInfoPill
 
 @Composable
 fun PlayerControls(
@@ -233,106 +233,122 @@ fun PlayerControls(
             }
         }
 
+        val buttonSize = 52.dp
+        val iconSize = 24.dp
+
         Row(
             modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.Bottom,
         ) {
             ButtonGroup(
                 overflowIndicator = {},
+                horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
             ) {
-
+                // Speed — START segment
                 customItem(
                     {
                         val isNotDefaultSpeed = playbackSpeed != 1.0f
-
                         FilledIconToggleButton(
                             checked = isNotDefaultSpeed,
                             onCheckedChange = { onOpenSpeedSelector() },
-                            shapes = IconButtonDefaults.toggleableShapes(),
+                            shapes = IconButtonDefaults.toggleableShapes(
+                                shape = ButtonGroupDefaults.connectedLeadingButtonShape,
+                                pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedLeadingButtonShape,
+                            ),
                             colors = IconButtonDefaults.filledIconToggleButtonColors(
                                 checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
                                 checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
-                            modifier = Modifier.animateWidth(
-                                interactionSource = actionButtonsControlsInteractionSources[3]
-                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[3]),
                             interactionSource = actionButtonsControlsInteractionSources[3],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Speed,
                                 contentDescription = stringResource(R.string.playback_speed),
+                                modifier = Modifier.size(iconSize)
                             )
                         }
                     },
                     {}
                 )
 
+                // Sleep Timer — MIDDLE segment
                 customItem(
                     {
                         val isTimerActive = sleepTimerRemainingSeconds != null
-
                         FilledIconToggleButton(
                             checked = isTimerActive,
                             onCheckedChange = { onOpenSleepTimer() },
-                            shapes = IconButtonDefaults.toggleableShapes(),
+                            shapes = IconButtonDefaults.toggleableShapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
                             colors = IconButtonDefaults.filledIconToggleButtonColors(
                                 checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
                                 checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
-                            modifier = Modifier.animateWidth(
-                                interactionSource = actionButtonsControlsInteractionSources[1]
-                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[1]),
                             interactionSource = actionButtonsControlsInteractionSources[1],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Timer,
                                 contentDescription = stringResource(R.string.sleep_timer),
+                                modifier = Modifier.size(iconSize)
                             )
                         }
                     },
                     {}
                 )
+
+                // Queue — MIDDLE segment
                 customItem(
                     {
                         FilledIconButton(
                             onClick = onOpenQueue,
-                            shapes = IconButtonDefaults.shapes(),
-                            modifier = Modifier.animateWidth(interactionSource = actionButtonsControlsInteractionSources[0]),
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
                             colors = IconButtonDefaults.filledIconButtonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[0]),
                             interactionSource = actionButtonsControlsInteractionSources[0],
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
                                 contentDescription = stringResource(R.string.queue),
+                                modifier = Modifier.size(iconSize)
                             )
                         }
                     },
                     {}
                 )
 
-
-
+                // Repeat — END segment
                 customItem(
                     {
-
                         FilledIconToggleButton(
-                            checked = arrayOf(
-                                Player.REPEAT_MODE_ALL,
-                                Player.REPEAT_MODE_ONE
-                            ).contains(
-                                repeatMode
+                            checked = repeatMode == Player.REPEAT_MODE_ALL || repeatMode == Player.REPEAT_MODE_ONE,
+                            onCheckedChange = { PlayerManager.cycleRepeatMode() },
+                            shapes = IconButtonDefaults.toggleableShapes(
+                                shape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedTrailingButtonShape,
                             ),
-                            onCheckedChange = {
-                                PlayerManager.cycleRepeatMode()
-                            },
-                            shapes = IconButtonDefaults.toggleableShapes(),
                             colors = IconButtonDefaults.filledIconToggleButtonColors(
                                 checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
                                 checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
@@ -340,31 +356,24 @@ fun PlayerControls(
                                 contentColor = MaterialTheme.colorScheme.onSurface
 
                             ),
-                            modifier = Modifier.animateWidth(
-                                interactionSource = actionButtonsControlsInteractionSources[2]
-                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[2]),
                             interactionSource = actionButtonsControlsInteractionSources[2],
                         ) {
-                            val icon = when (repeatMode) {
-                                Player.REPEAT_MODE_OFF -> Icons.Rounded.Repeat
-                                Player.REPEAT_MODE_ALL -> Icons.Rounded.Repeat
-                                Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
-                                else -> Icons.Rounded.Repeat
-                            }
-
                             Icon(
-                                imageVector = icon,
-                                contentDescription = icon.name
+                                imageVector = when (repeatMode) {
+                                    Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
+                                    else -> Icons.Rounded.Repeat
+                                },
+                                contentDescription = null,
+                                modifier = Modifier.size(iconSize)
                             )
                         }
-
-
                     },
                     {}
                 )
             }
         }
-
-
     }
 }
