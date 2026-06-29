@@ -1,9 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
-import ca.ilianokokoro.umihi.music.models.dto.GithubCommitResponse
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,23 +14,13 @@ class GithubDatasource {
         ignoreUnknownKeys = true
     }
 
-    suspend fun getLatestRelease(): GithubReleaseResponse {
+    suspend fun getReleaseInfoByUrl(releaseUrl: String): GithubReleaseResponse {
         return try {
-            val body = get(Constants.Url.Github.Release.API)
+            val body = get(releaseUrl)
             json.decodeFromString<GithubReleaseResponse>(body)
         } catch (e: Exception) {
             UmihiHelper.printe(e.toString())
-            throw Exception("Failed to get the latest GitHub release version name", e)
-        }
-    }
-
-    suspend fun getLatestCommit(): GithubCommitResponse {
-        return try {
-            val body = get(Constants.Url.Github.Beta.API)
-            json.decodeFromString<GithubCommitResponse>(body)
-        } catch (e: Exception) {
-            UmihiHelper.printe(e.toString())
-            throw Exception("Failed to get the latest commit", e)
+            throw Exception("Failed to get the GitHub release infor for $releaseUrl", e)
         }
     }
 

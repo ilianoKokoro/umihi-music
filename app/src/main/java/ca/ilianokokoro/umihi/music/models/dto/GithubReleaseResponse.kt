@@ -13,6 +13,8 @@ data class GithubReleaseResponse(
     val tagName: String,
     val body: String,
     val assets: List<AssetsResponse>,
+    @SerialName("target_commitish")
+    val commit: String
 ) {
     val versionName: String
         get() = tagName.removePrefix("v")

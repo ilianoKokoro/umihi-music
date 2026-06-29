@@ -13,7 +13,7 @@ object Constants {
         object Github {
             object Beta {
                 const val API =
-                    "https://api.github.com/repos/ilianoKokoro/umihi-music/commits/main"
+                    "https://api.github.com/repos/ilianoKokoro/umihi-music/releases/tags/beta"
                 const val DOWNLOAD =
                     "https://github.com/ilianoKokoro/umihi-music/releases/download/beta/UmihiMusic.apk"
             }

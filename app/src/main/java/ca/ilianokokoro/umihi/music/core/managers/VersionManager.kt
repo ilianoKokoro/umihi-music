@@ -18,6 +18,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import ca.ilianokokoro.umihi.music.models.Version
@@ -79,52 +80,36 @@ object VersionManager {
         }
 
         try {
-            when (settings.updateChannel) {
-                DatastoreRepository.UpdateChannel.Stable -> {
-                    githubRepository.getLatestVersionName().collect { result ->
-                        when (result) {
-                            is ApiResult.Success -> {
-                                val release = result.data
-                                handleUpdateResult(
-                                    context = context,
-                                    manualCheck = manualCheck,
-                                    outdated = release.versionName.isNewUpdate(manualCheck),
-                                    release = release
-                                )
-                                return@collect
-                            }
+            val url = when (settings.updateChannel) {
+                UpdateChannel.Stable -> Constants.Url.Github.Release.API
+                UpdateChannel.Beta -> Constants.Url.Github.Beta.API
+            }
 
-                            is ApiResult.Error -> throw result.exception
-                            else -> Unit
+            githubRepository.getReleaseInfoByUrl(url).collect { result ->
+                when (result) {
+                    is ApiResult.Success -> {
+                        val release = result.data
+                        val outdated = when (settings.updateChannel) {
+                            UpdateChannel.Stable -> release.versionName.isNewUpdate(
+                                manualCheck
+                            )
+
+                            UpdateChannel.Beta -> BuildConfig.COMMIT_HASH.isNewUpdate(
+                                manualCheck,
+                                release.commit
+                            )
                         }
+                        handleUpdateResult(
+                            context = context,
+                            manualCheck = manualCheck,
+                            outdated = outdated,
+                            release = release
+                        )
+                        return@collect
                     }
-                }
 
-                DatastoreRepository.UpdateChannel.Beta -> {
-                    githubRepository.getLatestCommit().collect { result ->
-                        when (result) {
-                            is ApiResult.Success -> {
-                                val latestCommit = result.data
-                                handleUpdateResult(
-                                    context = context,
-                                    manualCheck = manualCheck,
-                                    outdated = BuildConfig.COMMIT_HASH.isNewUpdate(
-                                        manualCheck,
-                                        latestCommit.sha
-                                    ),
-                                    release = GithubReleaseResponse(
-                                        tagName = latestCommit.sha,
-                                        body = latestCommit.commit.message,
-                                        assets = emptyList()
-                                    )
-                                )
-                                return@collect
-                            }
-
-                            is ApiResult.Error -> throw result.exception
-                            else -> Unit
-                        }
-                    }
+                    is ApiResult.Error -> throw result.exception
+                    else -> Unit
                 }
             }
         } catch (ex: Exception) {
