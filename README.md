@@ -109,6 +109,100 @@ Join the Discord server to get update pings, know about announcements and get su
 Thank you to all the people who helped translate Umihi Music
 
 <!-- CROWDIN-CONTRIBUTORS-START -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/ilianoKokoro"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14810202/medium/aba61629e7e73789c121fe6be42f5e3f.png" />
+          <br />
+          <sub><b>ilianoKokoro</b></sub></a>
+        <br />
+        <sub><b>5684 words</b></sub>
+        <br /><sub><b><code title="Afrikaans">af</code></b>, <b><code title="Arabic">ar</code></b>, <b><code title="Catalan">ca</code></b>, <b><code title="Chinese Simplified">zh-CN</code></b>, <b><code title="Chinese Traditional">zh-TW</code></b>, <b><code title="Czech">cs</code></b>, <b><code title="Danish">da</code></b>, <b><code title="Dutch">nl</code></b>, <b><code title="Finnish">fi</code></b>, <b><code title="French">fr</code></b>, <b><code title="German">de</code></b>, <b><code title="Greek">el</code></b>, <b><code title="Hebrew">he</code></b>, <b><code title="Hungarian">hu</code></b>, <b><code title="Italian">it</code></b>, <b><code title="Japanese">ja</code></b>, <b><code title="Korean">ko</code></b>, <b><code title="LOLCAT">lol</code></b>, <b><code title="Norwegian">no</code></b>, <b><code title="Polish">pl</code></b>, <b><code title="Portuguese">pt-PT</code></b>, <b><code title="Portuguese, Brazilian">pt-BR</code></b>, <b><code title="Romanian">ro</code></b>, <b><code title="Russian">ru</code></b>, <b><code title="Serbian (Cyrillic)">sr</code></b>, <b><code title="Spanish">es-ES</code></b>, <b><code title="Swedish">sv-SE</code></b>, <b><code title="Tagalog">tl</code></b>, <b><code title="Turkish">tr</code></b>, <b><code title="Ukrainian">uk</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
+          <br />
+          <sub><b>Tusk</b></sub>
+          <br />
+          <sub><b>(frittusk)</b></sub></a>
+        <br />
+        <sub><b>569 words</b></sub>
+        <br /><sub><b><code title="LOLCAT">lol</code></b>, <b><code title="Tagalog">tl</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f009948892813d4721345dcbefc34395.jpg" />
+          <br />
+          <sub><b>Alina Ye-jin</b></sub>
+          <br />
+          <sub><b>(Alinayejin)</b></sub></a>
+        <br />
+        <sub><b>384 words</b></sub>
+        <br /><sub><b><code title="Korean">ko</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/j.bosch"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17639020/medium/d7c3db7648b323eeb5e39a3a37f110ec_default.png" />
+          <br />
+          <sub><b>j.bosch</b></sub></a>
+        <br />
+        <sub><b>289 words</b></sub>
+        <br /><sub><b><code title="Catalan">ca</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
+          <br />
+          <sub><b>Mickael81</b></sub></a>
+        <br />
+        <sub><b>124 words</b></sub>
+        <br /><sub><b><code title="French">fr</code></b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
+          <br />
+          <sub><b>Vladik01-11</b></sub></a>
+        <br />
+        <sub><b>66 words</b></sub>
+        <br /><sub><b><code title="Russian">ru</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Smashik"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16846271/medium/c9f3394aa690c57089ee523b37b7fdc7.png" />
+          <br />
+          <sub><b>Smashik</b></sub></a>
+        <br />
+        <sub><b>48 words</b></sub>
+        <br /><sub><b><code title="Russian">ru</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/jackgr545"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17760733/medium/5190b04c9be7f16d7d9417fcf00806ab.png" />
+          <br />
+          <sub><b>jackgr545</b></sub></a>
+        <br />
+        <sub><b>44 words</b></sub>
+        <br /><sub><b><code title="Chinese Traditional">zh-TW</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/GerOriki"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16268376/medium/da00e54b08cd40348231d92873a0cd0a_default.png" />
+          <br />
+          <sub><b>Ori</b></sub>
+          <br />
+          <sub><b>(GerOriki)</b></sub></a>
+        <br />
+        <sub><b>32 words</b></sub>
+        <br /><sub><b><code title="Hebrew">he</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/corrigo"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17457288/medium/ef9cc844691730917c6a23cf8a950089.jpg" />
+          <br />
+          <sub><b>corrigo</b></sub></a>
+        <br />
+        <sub><b>29 words</b></sub>
+        <br /><sub><b><code title="French">fr</code></b></sub>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <!-- CROWDIN-CONTRIBUTORS-END -->
 
 <img alt="Translation status" src="https://badges.awesome-crowdin.com/translation-14810202-878334.png" />
