@@ -1,4 +1,6 @@
 name: Crowdin Contributors Action
+permissions:
+    contents: write
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,6 +13,9 @@ on:
     schedule:
         - cron: "0 */12 * * *"
     workflow_dispatch:
+
+env:
+    BRANCH: "crowdin-readme"
 
 jobs:
     crowdin-contributors:
@@ -26,6 +31,18 @@ jobs:
                   max_contributors: 50
                   image_size: 48
                   min_words_contributed: 1
+                  include_languages: true
               env:
                   CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
                   CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+            - name: Reset ${{env.BRANCH}} branch
+              run: |
+                  git checkout -B ${{env.BRANCH}}
+
+            - uses: EndBug/add-and-commit@v10
+              with:
+                  default_author: github_actions
+                  message: "docs: update Crowdin contributors"
+                  new_branch: ${{env.BRANCH}}
+                  push: "--force origin ${{env.BRANCH}}"
