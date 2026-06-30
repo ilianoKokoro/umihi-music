@@ -62,7 +62,7 @@ class UmihiMediaLibraryCallback(
                     .setMediaId(Constants.ExoPlayer.Library.ROOT_ID)
                     .setMediaMetadata(
                         MediaMetadata.Builder()
-                            .setIsBrowsable(true)
+                            .setIsBrowsable(false)
                             .setIsPlayable(false)
                             .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
                             .build()
