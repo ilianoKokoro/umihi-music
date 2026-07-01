@@ -91,6 +91,7 @@ object DownloadHelper {
         val tempFile = File(audioDir, "${song.youtubeId}.webm.part")
 
         if (outputFile.exists()) {
+            printd("Song file ${song.title} was already downloaded")
             return@withContext outputFile.absolutePath
         }
 
