@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeAuthHelper.applyHeaders
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
@@ -172,19 +173,6 @@ object YoutubeApiClient {
         client: JsonObject? = null,
         visitorData: String? = null
     ): String = withContext(Dispatchers.IO) {
-        val requestUrl = url.toHttpUrl()
-        val origin = "${requestUrl.scheme}://${requestUrl.host}"
-
-        val headers = if (settings != null) {
-            YoutubeAuthHelper.getHeaders(settings.cookies, visitorData, client, origin)
-        } else if (visitorData != null) {
-            mapOf(
-                "X-Goog-Visitor-Id" to visitorData
-            )
-        } else {
-            mapOf()
-        }
-
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
         val requestBody = body
@@ -194,11 +182,7 @@ object YoutubeApiClient {
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
-            .apply {
-                headers.forEach { (name, value) ->
-                    addHeader(name, value)
-                }
-            }
+            .applyHeaders(url.toHttpUrl(), settings, visitorData, client)
             .build()
 
         UmihiHttpClient.client

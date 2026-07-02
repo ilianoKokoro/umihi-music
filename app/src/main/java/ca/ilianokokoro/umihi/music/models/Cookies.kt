@@ -23,5 +23,9 @@ data class Cookies(val raw: String = String()) {
         return raw.isBlank()
     }
 
+    fun isNotEmpty(): Boolean {
+        return !isEmpty()
+    }
+
     fun toRawCookie(): String = raw
 }

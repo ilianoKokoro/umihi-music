@@ -3,9 +3,13 @@ package ca.ilianokokoro.umihi.music.core.youtube
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.formatDecimal
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeAuthHelper.applyHeaders
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,29 +23,26 @@ import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Request
 import org.json.JSONObject
-import java.util.TimeZone
-import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
 object YoutubeStatsTracker {
-    // --- Attributes ---
-
-    private const val CPN_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
-    private const val CPN_LENGTH = 16
 
     private data class PlaybackTrackingUrls(
         val playbackUrl: String?,
         val watchtimeUrl: String?,
     )
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        LogHelper.printe("Unhandled error in playback stats tracking: $throwable")
+    }
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
 
     @Volatile
     private var resolveJob: Job? = null
 
     @Volatile
     private var trackingJob: Job? = null
-
 
     fun stopPlaybackTracking() {
         resolveJob?.cancel()
@@ -54,11 +55,10 @@ object YoutubeStatsTracker {
         videoId: String,
         settings: UmihiSettings,
     ) {
-        resolveJob?.cancel()
+        stopPlaybackTracking()
 
         if (!settings.sendPlaybackData || settings.cookies.isEmpty()) {
-            stopPlaybackTracking()
-            LogHelper.printd("Playback tracking skipped: sendPlaybackData=${settings.sendPlaybackData}, cookies=${!settings.cookies.isEmpty()}")
+            LogHelper.printd("Playback tracking skipped: sendPlaybackData=${settings.sendPlaybackData}, hasCookies=${settings.cookies.isNotEmpty()}")
             return
         }
 
@@ -68,7 +68,9 @@ object YoutubeStatsTracker {
                     videoId = videoId, visitorData = visitorData, settings = settings,
                 )
 
-                if (!isActive) return@launch // discard if superseded while awaiting the network call
+                if (!isActive) {
+                    return@launch
+                }
 
                 val trackingUrls = extractTrackingUrls(playerResponse)
                 val playbackUrl = trackingUrls.playbackUrl
@@ -85,16 +87,17 @@ object YoutubeStatsTracker {
                     videoId = videoId, playbackUrl = playbackUrl, watchtimeUrl = watchtimeUrl,
                     settings = settings, playlistId = null, referrer = referrer,
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                LogHelper.printe("Failed to start playback tracking: ${e.message}", exception = e)
+                LogHelper.printe(
+                    "Failed to start playback tracking for $videoId: ${e.message}",
+                    exception = e
+                )
             }
         }
     }
 
-
-    private fun generateCpn(): String = buildString {
-        repeat(CPN_LENGTH) { append(CPN_CHARS[Random.nextInt(CPN_CHARS.length)]) }
-    }
 
     private fun startPlaybackTracking(
         videoId: String,
@@ -106,11 +109,7 @@ object YoutubeStatsTracker {
     ) {
         stopPlaybackTracking()
 
-        if (!settings.sendPlaybackData || settings.cookies.isEmpty()) {
-            return
-        }
-
-        val cpn = generateCpn()
+        val cpn = UmihiHelper.Cpn.generate()
 
         scope.launch {
             sendInitPlayback(
@@ -173,7 +172,10 @@ object YoutubeStatsTracker {
                 watchtimeUrl = extractBaseUrl("videostatsWatchtimeUrl"),
             )
         } catch (e: Exception) {
-            LogHelper.printe("Failed to parse player response for tracking URLs: ${e.message}", exception = e)
+            LogHelper.printe(
+                "Failed to parse player response for tracking URLs: ${e.message}",
+                exception = e
+            )
             PlaybackTrackingUrls(null, null)
         }
     }
@@ -184,19 +186,23 @@ object YoutubeStatsTracker {
         settings: UmihiSettings,
         playlistId: String? = null,
         referrer: String? = null,
-    ): Int? = withContext(Dispatchers.IO) {
+    ): Int? {
         if (!settings.canTrack) {
-            return@withContext null
+            LogHelper.printd("Playback stats request skipped: canTrack=false")
+            return null
         }
 
-        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
-        val request = Request.Builder()
-            .url(urlBuilder.build())
-            .post(FormBody.Builder().build())
-            .applyStatsHeaders(settings)
-            .build()
+        return withContext(Dispatchers.IO) {
+            val url =
+                buildUrl(baseUrl, cpn, playlistId, referrer)?.build() ?: return@withContext null
+            val request = Request.Builder()
+                .url(url)
+                .post(FormBody.Builder().build())
+                .applyHeaders(url, settings)
+                .build()
 
-        executeRequest(request)
+            executeRequest(request)
+        }
     }
 
     private suspend fun sendWatchtimeUpdate(
@@ -207,22 +213,27 @@ object YoutubeStatsTracker {
         settings: UmihiSettings,
         playlistId: String? = null,
         referrer: String? = null,
-    ): Int? = withContext(Dispatchers.IO) {
+    ): Int? {
         if (!settings.canTrack) {
-            return@withContext null
+            LogHelper.printd("Playback stats request skipped: canTrack=false")
+            return null
         }
 
-        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
-        urlBuilder.addEncodedQueryParameter("st", st)
-        urlBuilder.addEncodedQueryParameter("et", et)
+        return withContext(Dispatchers.IO) {
+            val url = buildUrl(baseUrl, cpn, playlistId, referrer)
+                ?.addEncodedQueryParameter("st", st)
+                ?.addEncodedQueryParameter("et", et)
+                ?.build()
+                ?: return@withContext null
 
-        val request = Request.Builder()
-            .url(urlBuilder.build())
-            .post(FormBody.Builder().build())
-            .applyStatsHeaders(settings)
-            .build()
+            val request = Request.Builder()
+                .url(url)
+                .post(FormBody.Builder().build())
+                .applyHeaders(url, settings)
+                .build()
 
-        executeRequest(request)
+            executeRequest(request)
+        }
     }
 
     private suspend fun sendWatchtimeComplete(
@@ -250,70 +261,33 @@ object YoutubeStatsTracker {
         cpn: String,
         playlistId: String?,
         referrer: String?,
-    ): HttpUrl.Builder {
-        val builder = checkNotNull(baseUrl.toHttpUrlOrNull()?.newBuilder()) {
-            "Invalid playback tracking URL: $baseUrl"
+    ): HttpUrl.Builder? {
+        val builder = baseUrl.toHttpUrlOrNull()?.newBuilder()
+        if (builder == null) {
+            LogHelper.printe("Invalid playback tracking URL: $baseUrl")
+            return null
         }
 
         builder.addEncodedQueryParameter("cpn", cpn)
         builder.addEncodedQueryParameter("ver", "2")
         builder.addEncodedQueryParameter("c", "WEB_REMIX")
 
-        if (playlistId != null) {
-            builder.addEncodedQueryParameter("list", playlistId)
-        }
-
-        if (referrer != null) {
-            builder.addEncodedQueryParameter("referrer", referrer)
-        }
+        playlistId?.let { builder.addEncodedQueryParameter("list", it) }
+        referrer?.let { builder.addEncodedQueryParameter("referrer", it) }
 
         return builder
     }
 
-    private fun Request.Builder.applyStatsHeaders(settings: UmihiSettings): Request.Builder {
-        val nowMs = System.currentTimeMillis()
-        val tz = TimeZone.getDefault()
-        val utcOffsetMinutes = tz.rawOffset / 60000
 
-        val authHeaders = YoutubeAuthHelper.getHeaders(settings.cookies)
-        authHeaders.forEach { (name, value) ->
-            addHeader(name, value)
-        }
-
-        removeHeader("X-Goog-Api-Format-Version")
-        header("Content-Type", "application/x-www-form-urlencoded")
-
-        header("X-Goog-Event-Time", nowMs.toString())
-        header("X-Goog-Request-Time", nowMs.toString())
-
-        settings.dataSyncId?.let {
-            header("X-YouTube-DataSync-Id", "$it||")
-        }
-        header("X-Goog-AuthUser", "1")
-
-        visitorData?.let {
-            header("X-Goog-Visitor-Id", it)
-        }
-
-        header("X-YouTube-Utc-Offset", utcOffsetMinutes.toString())
-        header("X-YouTube-Time-Zone", tz.id)
-        header("Origin", Constants.YoutubeApi.ORIGIN)
-
-        return this
-    }
-
-    private suspend fun executeRequest(request: Request): Int? {
+    private fun executeRequest(request: Request): Int? {
         return try {
             UmihiHttpClient.client.newCall(request).execute().use { response ->
-                LogHelper.printd(
-                    "PlaybackStats: ${request.url.encodedPath}?${
-                        (request.url.encodedQuery ?: "").take(
-                            80
-                        )
-                    }... -> ${response.code}"
-                )
+                val queryPreview = (request.url.encodedQuery ?: "").take(80)
+                LogHelper.printd("PlaybackStats: ${request.url.encodedPath}?$queryPreview... -> ${response.code}")
                 response.code
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             LogHelper.printe("PlaybackStats request failed: ${e.message}", exception = e)
             null

@@ -1,14 +1,16 @@
 package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.HttpUrl
+import okhttp3.Request
 import java.security.MessageDigest
+import java.util.TimeZone
 import kotlin.text.Charsets.UTF_8
 
 object YoutubeAuthHelper {
@@ -52,13 +54,42 @@ object YoutubeAuthHelper {
         }
     }
 
-    fun getHeaders(
-        cookies: Cookies? = null,
+    fun Request.Builder.applyHeaders(
+        url: HttpUrl,
+        settings: UmihiSettings?,
         visitorData: String? = null,
         client: JsonObject? = null,
-        origin: String = Constants.YoutubeApi.ORIGIN,
+    ) = apply {
+        getHeaders(url, settings, visitorData, client).forEach { (name, value) ->
+            addHeader(name, value)
+        }
+    }
+
+    private fun getHeaders(
+        url: HttpUrl,
+        settings: UmihiSettings? = null,
+        visitorData: String? = null,
+        client: JsonObject? = null,
     ): Map<String, String> {
+        if (settings == null) {
+            return if (visitorData == null) {
+                mapOf()
+            } else {
+                mapOf(
+                    "X-Goog-Visitor-Id" to visitorData
+                )
+            }
+        }
+
+
+        val origin = "${url.scheme}://${url.host}"
+        val cookies = settings.cookies
+
         val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
+
+        val nowMs = System.currentTimeMillis()
+        val tz = TimeZone.getDefault()
+        val utcOffsetMinutes = tz.getOffset(nowMs) / 60000
 
         val headers = mutableMapOf(
             "Content-Type" to "application/json; charset=utf-8",
@@ -66,6 +97,10 @@ object YoutubeAuthHelper {
             "Referer" to "$origin/",
             "X-Goog-Api-Format-Version" to "1",
             "X-Origin" to origin,
+            "X-Goog-Event-Time" to nowMs.toString(),
+            "X-Goog-Request-Time" to nowMs.toString(),
+            "X-YouTube-Utc-Offset" to utcOffsetMinutes.toString(),
+            "X-YouTube-Time-Zone" to tz.id
         )
 
         clientToUse["clientVersion"]

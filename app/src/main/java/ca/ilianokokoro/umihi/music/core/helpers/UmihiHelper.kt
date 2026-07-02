@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
 import java.util.Locale
+import kotlin.random.Random
 
 
 object UmihiHelper {
@@ -105,4 +106,21 @@ object UmihiHelper {
             null
         }
 
+
+    object Cpn {
+        private const val CPN_CHARS =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+        private const val CPN_LENGTH = 16
+
+        fun generate(): String = buildString {
+            repeat(CPN_LENGTH) {
+                append(
+                    CPN_CHARS[Random.nextInt(
+                        CPN_CHARS.length
+                    )]
+                )
+            }
+        }
+
+    }
 }
