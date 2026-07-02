@@ -1,6 +1,6 @@
 [versions]
 agp = "9.2.1"
-kotlin = "2.4.0" # 2.3.20 for CodeQL
+kotlin = "2.4.0" # 2.3.20 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 coreKtx = "1.19.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
