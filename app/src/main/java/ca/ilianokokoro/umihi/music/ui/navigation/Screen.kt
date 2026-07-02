@@ -47,7 +47,7 @@ fun rememberScreenUiConfig(current: NavKey): ScreenUiConfig {
             is PlaylistScreenKey -> ScreenUiConfig(
                 showBottomBar = false
             )
-            
+
             AuthScreenKey -> ScreenUiConfig(
                 showBottomBar = false,
                 showMiniPlayer = false

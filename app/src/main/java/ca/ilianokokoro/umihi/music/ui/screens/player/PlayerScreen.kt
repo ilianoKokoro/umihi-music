@@ -273,7 +273,11 @@ fun SongInfo(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = if (isLoggedIn) Modifier.weight(1f) else Modifier.fillMaxWidth(),
+            modifier = if (isLoggedIn) {
+                Modifier.weight(1f)
+            } else {
+                Modifier.fillMaxWidth()
+            },
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {

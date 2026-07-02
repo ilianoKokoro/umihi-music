@@ -1,7 +1,6 @@
 package ca.ilianokokoro.umihi.music.core.managers
 
 import android.app.NotificationChannel
-import android.app.NotificationManager as AndroidNotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
@@ -12,6 +11,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlin.math.abs
+import android.app.NotificationManager as AndroidNotificationManager
 
 object NotificationManager {
     private lateinit var androidNotificationManager: AndroidNotificationManager

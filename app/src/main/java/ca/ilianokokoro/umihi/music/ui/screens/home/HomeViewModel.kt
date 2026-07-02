@@ -109,7 +109,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     }
 
                     is ApiResult.Error -> {
-                        printe(message = "Failed to load playlists", exception = apiResult.exception)
+                        printe(
+                            message = "Failed to load playlists",
+                            exception = apiResult.exception
+                        )
                         _uiState.update { currentState ->
                             currentState.copy(screenState = ScreenState.LoggedOut)
                         }

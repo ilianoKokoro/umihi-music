@@ -9,7 +9,11 @@ data class Cookies(val raw: String = String()) {
         raw.split(";")
             .mapNotNull { entry ->
                 val parts = entry.trim().split("=", limit = 2)
-                if (parts.size == 2) parts[0] to parts[1] else null
+                if (parts.size == 2) {
+                    parts[0] to parts[1]
+                } else {
+                    null
+                }
             }
             .toMap()
     }

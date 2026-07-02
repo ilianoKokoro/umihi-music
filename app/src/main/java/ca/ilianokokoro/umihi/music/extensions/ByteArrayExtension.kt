@@ -8,7 +8,9 @@ import java.io.ByteArrayOutputStream
 
 fun ByteArray.cappedTo(maxSize: Int = Constants.Ui.WEAROS_MAX_IMAGE_SIZE): ByteArray? {
     val bitmap = BitmapFactory.decodeByteArray(this, 0, size) ?: return null
-    val capped = if (bitmap.width <= maxSize && bitmap.height <= maxSize) bitmap else {
+    val capped = if (bitmap.width <= maxSize && bitmap.height <= maxSize) {
+        bitmap
+    } else {
         val scale = maxSize.toFloat() / maxOf(bitmap.width, bitmap.height)
         bitmap.scale((bitmap.width * scale).toInt(), (bitmap.height * scale).toInt())
     }

@@ -51,7 +51,11 @@ class DatastoreRepository(private val context: Context) {
 
     val settings = context.dataStore.data.map {
         val updateChannel = it[UPDATE_CHANNEL]?.let { value -> UpdateChannel.valueOf(value) }
-            ?: if (BuildConfig.IS_BETA) UpdateChannel.Beta else UpdateChannel.Stable
+            ?: if (BuildConfig.IS_BETA) {
+                UpdateChannel.Beta
+            } else {
+                UpdateChannel.Stable
+            }
         val showPodcastPlaylist = it[SHOW_PODCAST_PLAYLIST] ?: true
         val useSpecialLanguage = it[USE_SPECIAL_LANGUAGE] ?: false
         val useAudioOffload = it[USE_AUDIO_OFFLOAD] ?: false

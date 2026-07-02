@@ -3,8 +3,8 @@ package ca.ilianokokoro.umihi.music.data.repositories
 import android.app.Application
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
+import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
@@ -54,9 +54,11 @@ class PlaylistRepository(application: Application) {
             } catch (e: Exception) {
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
                 if (localPlaylist != null) {
-                    emit(ApiResult.Success(
-                        localPlaylist.copy(songs = localPlaylist.songs.filter { it.downloaded })
-                    ))
+                    emit(
+                        ApiResult.Success(
+                            localPlaylist.copy(songs = localPlaylist.songs.filter { it.downloaded })
+                        )
+                    )
                 } else {
                     emit(ApiResult.Error(e.toException()))
                 }

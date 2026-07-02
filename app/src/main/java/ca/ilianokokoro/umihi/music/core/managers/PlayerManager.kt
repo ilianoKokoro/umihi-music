@@ -236,7 +236,9 @@ object PlayerManager {
             val controller = currentController ?: return@withContext null
             val positionMs = controller.currentPosition
             val durationMs = controller.duration
-            if (positionMs <= 0 || durationMs <= 0) return@withContext null
+            if (positionMs <= 0 || durationMs <= 0) {
+                return@withContext null
+            }
             (positionMs / 1000f) to (durationMs / 1000f)
         }
     }

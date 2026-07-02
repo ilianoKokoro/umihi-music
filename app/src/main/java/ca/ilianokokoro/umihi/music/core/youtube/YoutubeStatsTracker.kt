@@ -109,7 +109,9 @@ object YoutubeStatsTracker {
     ) {
         stopPlaybackTracking()
 
-        if (!settings.sendPlaybackData || settings.cookies.isEmpty()) return
+        if (!settings.sendPlaybackData || settings.cookies.isEmpty()) {
+            return
+        }
 
         val cpn = generateCpn()
         trackingState = PlaybackTrackingState(
@@ -189,7 +191,9 @@ object YoutubeStatsTracker {
         playlistId: String? = null,
         referrer: String? = null,
     ): Int? = withContext(Dispatchers.IO) {
-        if (!settings.canTrack) return@withContext null
+        if (!settings.canTrack) {
+            return@withContext null
+        }
 
         val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
         val request = Request.Builder()
@@ -210,7 +214,9 @@ object YoutubeStatsTracker {
         playlistId: String? = null,
         referrer: String? = null,
     ): Int? = withContext(Dispatchers.IO) {
-        if (!settings.canTrack) return@withContext null
+        if (!settings.canTrack) {
+            return@withContext null
+        }
 
         val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
         urlBuilder.addEncodedQueryParameter("st", st)

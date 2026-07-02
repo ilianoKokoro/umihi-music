@@ -57,8 +57,11 @@ fun AuthScreen(
     val webView = remember {
         val themedContext = ContextThemeWrapper(
             context,
-            if (isDarkMode) R.style.Theme_WebView_Dark
-            else R.style.Theme_WebView_Light
+            if (isDarkMode) {
+                R.style.Theme_WebView_Dark
+            } else {
+                R.style.Theme_WebView_Light
+            }
         )
 
         WebView(themedContext).apply {
