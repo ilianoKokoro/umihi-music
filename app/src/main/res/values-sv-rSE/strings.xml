@@ -37,6 +37,9 @@
     <string name="playing_now">Spelar nu</string>
     <string name="up_to_date_message">Appen är uppdaterad!</string>
     <string name="update_check_failed">Det gick inte att söka efter uppdateringar</string>
+    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="minutes">%1$d minutes</string>
+    <string name="seconds">%1$d seconds</string>
     <string name="update_available">Uppdatering tillgänglig</string>
     <string name="new_version_body">En ny version är tillgänglig. (%1$s)</string>
     <string name="log_out">Logga ut</string>

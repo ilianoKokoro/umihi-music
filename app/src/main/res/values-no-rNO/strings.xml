@@ -37,6 +37,9 @@
     <string name="playing_now">Spiller nå</string>
     <string name="up_to_date_message">Appen er oppdatert!</string>
     <string name="update_check_failed">Kunne ikke se etter oppdateringer</string>
+    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="minutes">%1$d minutes</string>
+    <string name="seconds">%1$d seconds</string>
     <string name="update_available">Oppdatering tilgjengelig</string>
     <string name="new_version_body">En ny versjon er tilgjengelig. (%1$s)</string>
     <string name="log_out">Logg ut</string>

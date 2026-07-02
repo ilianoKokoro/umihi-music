@@ -37,6 +37,9 @@
     <string name="playing_now">Toistetaan Nyt</string>
     <string name="up_to_date_message">Sovellus on ajan tasalla !</string>
     <string name="update_check_failed">Päivitysten tarkistus epäonnistui</string>
+    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="minutes">%1$d minutes</string>
+    <string name="seconds">%1$d seconds</string>
     <string name="update_available">Päivitys Saatavilla</string>
     <string name="new_version_body">Uusi versio on saatavilla. (%1$s)</string>
     <string name="log_out">Kirjaudu Ulos</string>
