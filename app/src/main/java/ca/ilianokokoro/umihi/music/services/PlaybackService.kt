@@ -31,6 +31,7 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
+import ca.ilianokokoro.umihi.music.core.helpers.PlaybackStatsHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -155,11 +156,20 @@ class PlaybackService : MediaLibraryService() {
                 reason: Int
             ) {
                 PlayerManager.updatePlaybackInfo(PlaybackAudioInfo())
-                // Load the full res image when a new song is played
                 updateCurrentMediaItemThumbnail(mediaItem)
+                val songId = mediaItem?.mediaId ?: return
+                serviceScope.launch {
+                    val settings = datastoreRepository.getSettings()
+                    PlaybackStatsHelper.onPlaybackStarted(songId, settings)
+                }
             }
 
-            // Show toast on error
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_IDLE) {
+                    PlaybackStatsHelper.stopPlaybackTracking()
+                }
+            }
+
             override fun onPlayerError(error: PlaybackException) {
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
                 player.seekToNext()

@@ -99,6 +99,14 @@ object UmihiHelper {
         return "${value}x"
     }
 
+    fun Float.formatDecimal(): String {
+        return if (this == this.toLong().toFloat()) {
+            this.toLong().toString()
+        } else {
+            String.format("%.2f", this).trimEnd('0').trimEnd('.')
+        }
+    }
+
     fun String?.isNullOrInvalidId(): Boolean =
         this.isNullOrBlank() || this.equals("null", ignoreCase = true)
 

@@ -192,6 +192,12 @@ object Constants {
         const val PROGRESS_UPDATE_DELAY = 150
         const val IMAGE_TRANSITION_DELAY = 200
         val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)
+
+        object Tracking {
+            const val WATCHTIME_INTERVAL_MS = 15_000L
+            const val WATCHTIME_ADVANCE_SEC = 20f
+            const val POSITION_TOLERANCE_SEC = 1.5f
+        }
     }
 
     object YoutubeApi {
