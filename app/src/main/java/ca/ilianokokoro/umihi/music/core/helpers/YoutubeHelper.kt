@@ -5,8 +5,8 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeArray
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeObject
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase

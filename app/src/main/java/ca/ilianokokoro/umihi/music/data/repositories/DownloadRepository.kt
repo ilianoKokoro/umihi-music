@@ -11,7 +11,7 @@ import androidx.work.workDataOf
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.workers.PlaylistDownloadWorker
 import ca.ilianokokoro.umihi.music.core.workers.SongDownloadWorker
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase

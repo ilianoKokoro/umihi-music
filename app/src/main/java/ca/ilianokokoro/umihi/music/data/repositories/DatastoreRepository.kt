@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
@@ -120,11 +120,11 @@ class DatastoreRepository(private val context: Context) {
 
     suspend fun debugPrintAllPreferences() {
         val prefs = context.dataStore.data.first()
-        UmihiHelper.printd("=== All preferences ===")
+        LogHelper.printd("=== All preferences ===")
         prefs.asMap().forEach { (key, value) ->
-            UmihiHelper.printd("  $key = $value")
+            LogHelper.printd("  $key = $value")
         }
-        UmihiHelper.printd("========================")
+        LogHelper.printd("========================")
     }
 
 

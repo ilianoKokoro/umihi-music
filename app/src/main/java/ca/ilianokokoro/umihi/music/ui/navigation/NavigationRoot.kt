@@ -43,7 +43,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen

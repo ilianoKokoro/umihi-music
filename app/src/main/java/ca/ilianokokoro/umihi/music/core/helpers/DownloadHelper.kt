@@ -3,8 +3,8 @@ package ca.ilianokokoro.umihi.music.core.helpers
 import android.content.Context
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers

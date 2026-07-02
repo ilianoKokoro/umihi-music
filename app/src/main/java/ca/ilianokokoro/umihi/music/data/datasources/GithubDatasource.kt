@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +19,7 @@ class GithubDatasource {
             val body = get(releaseUrl)
             json.decodeFromString<GithubReleaseResponse>(body)
         } catch (e: Exception) {
-            UmihiHelper.printe(e.toString())
+            LogHelper.printe(e.toString())
             throw Exception("Failed to get the GitHub release infor for $releaseUrl", e)
         }
     }

@@ -1,20 +1,20 @@
 package ca.ilianokokoro.umihi.music.core.managers
 
 import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.NotificationManager as AndroidNotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlin.math.abs
 
-object UmihiNotificationManager {
-    private lateinit var notificationManager: NotificationManager
+object NotificationManager {
+    private lateinit var androidNotificationManager: AndroidNotificationManager
     private lateinit var pendingIntent: PendingIntent
 
     fun init(context: Context) {
@@ -26,8 +26,8 @@ object UmihiNotificationManager {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        androidNotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as AndroidNotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannels.entries.forEach {
@@ -38,7 +38,7 @@ object UmihiNotificationManager {
                 ).apply {
                     description = context.getString(it.descriptionRes)
                 }
-                notificationManager.createNotificationChannel(notificationChannel)
+                androidNotificationManager.createNotificationChannel(notificationChannel)
             }
         } else {
             printe("Could not start the notification channels because the android version is too old")
@@ -69,7 +69,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        notificationManager.notify(getNotificationID(playlist.info.id), notification)
+        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
@@ -87,7 +87,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        notificationManager.notify(getNotificationID(playlist.info.id), notification)
+        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
@@ -110,7 +110,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        notificationManager.notify(getNotificationID(playlist.info.id), notification)
+        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
@@ -130,7 +130,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        notificationManager.notify(getNotificationID(playlist.info.id), notification)
+        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
@@ -146,7 +146,7 @@ object UmihiNotificationManager {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
 
-        notificationManager.notify(0, summaryNotification)
+        androidNotificationManager.notify(0, summaryNotification)
     }
 
 
@@ -170,7 +170,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        notificationManager.notify(getNotificationID(song.youtubeId), notification)
+        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
     }
 
     suspend fun showSongDownloadSuccess(
@@ -188,7 +188,7 @@ object UmihiNotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        notificationManager.notify(getNotificationID(song.youtubeId), notification)
+        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
     }
 
     private fun getBaseNotification(
@@ -219,7 +219,7 @@ object UmihiNotificationManager {
             channelId = "playlist_progress",
             nameRes = R.string.playlist_progress_name,
             descriptionRes = R.string.playlist_progress_description,
-            importance = NotificationManager.IMPORTANCE_LOW,
+            importance = AndroidNotificationManager.IMPORTANCE_LOW,
             group = "PLAYLIST_GROUP"
         ),
 
@@ -227,7 +227,7 @@ object UmihiNotificationManager {
             channelId = "song_alerts",
             nameRes = (R.string.song_alerts_name),
             descriptionRes = (R.string.song_alerts_description),
-            importance = NotificationManager.IMPORTANCE_DEFAULT,
+            importance = AndroidNotificationManager.IMPORTANCE_DEFAULT,
             group = "SONG_GROUP"
         );
     }

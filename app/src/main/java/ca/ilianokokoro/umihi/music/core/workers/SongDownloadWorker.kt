@@ -7,9 +7,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printd
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
-import ca.ilianokokoro.umihi.music.core.managers.UmihiNotificationManager
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
+import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.flow.first
@@ -72,14 +72,14 @@ class SongDownloadWorker(
 
             localSongRepository.create(updatedSong)
 
-            UmihiNotificationManager.showSongDownloadSuccess(appContext, song)
+            NotificationManager.showSongDownloadSuccess(appContext, song)
 
             Result.success()
         } catch (_: CancellationException) {
             printd("Song download canceled ${song.title}")
             Result.failure()
         } catch (e: Exception) {
-            UmihiNotificationManager.showSongDownloadFailed(appContext, song)
+            NotificationManager.showSongDownloadFailed(appContext, song)
 
             printe(
                 message = "Error downloading song: ${song.youtubeId}",

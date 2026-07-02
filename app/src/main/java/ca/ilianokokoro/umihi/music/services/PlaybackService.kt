@@ -33,7 +33,7 @@ import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.PlaybackStatsHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository

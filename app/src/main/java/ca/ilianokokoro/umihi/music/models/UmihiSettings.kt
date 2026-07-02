@@ -15,5 +15,5 @@ data class UmihiSettings(
     val keepScreenOn: Boolean = false,
     val sendPlaybackData: Boolean = false
 ) {
-    val canTrack: Boolean get() = sendPlaybackData && cookies.isNotEmpty()
+    val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }

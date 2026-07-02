@@ -3,7 +3,6 @@ package ca.ilianokokoro.umihi.music.core.helpers
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
@@ -18,28 +17,10 @@ import okhttp3.Request
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths
-import kotlin.time.measureTimedValue
+import java.util.Locale
 
 
 object UmihiHelper {
-    const val TAG = "UmihiPrint"
-
-    inline fun <T> benchmark(
-        label: String,
-        block: () -> T
-    ): T {
-        val result = measureTimedValue(block)
-        printd(tag = "UmihiBench", message = "$label: ${result.duration.inWholeMilliseconds} ms")
-        return result.value
-    }
-
-    fun printd(message: String, tag: String = TAG) {
-        Log.d(tag, message)
-    }
-
-    fun printe(message: String, tag: String = TAG, exception: Exception? = null) {
-        Log.e(TAG, message, exception)
-    }
 
     fun getDownloadDirectory(context: Context, directory: String? = null): File {
         val dir = File(
@@ -85,14 +66,14 @@ object UmihiHelper {
                     stream.toByteArray().cappedTo()
                 }
             } catch (e: Exception) {
-                Log.e("Artwork", "Failed to fetch artwork: ${e.message}", e)
+                LogHelper.printe("Failed to fetch artwork: ${e.message}", exception = e)
                 null
             }
         }
     }
 
     fun Float.speedLabel(): String {
-        val value = String.format("%.2f", this)
+        val value = String.format(Locale.ROOT, "%.2f", this)
             .trimEnd('0')
             .trimEnd('.')
 
@@ -103,7 +84,7 @@ object UmihiHelper {
         return if (this == this.toLong().toFloat()) {
             this.toLong().toString()
         } else {
-            String.format("%.2f", this).trimEnd('0').trimEnd('.')
+            String.format(Locale.ROOT, "%.2f", this).trimEnd('0').trimEnd('.')
         }
     }
 

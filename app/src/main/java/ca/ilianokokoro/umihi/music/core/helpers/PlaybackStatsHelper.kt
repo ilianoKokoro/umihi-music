@@ -63,7 +63,7 @@ object PlaybackStatsHelper {
     ) {
         if (!settings.sendPlaybackData || settings.cookies.isEmpty()) {
             stopPlaybackTracking()
-            UmihiHelper.printd("Playback tracking skipped: sendPlaybackData=${settings.sendPlaybackData}, cookies=${!settings.cookies.isEmpty()}")
+            LogHelper.printd("Playback tracking skipped: sendPlaybackData=${settings.sendPlaybackData}, cookies=${!settings.cookies.isEmpty()}")
             return
         }
 
@@ -77,7 +77,7 @@ object PlaybackStatsHelper {
                 val watchtimeUrl = trackingUrls.watchtimeUrl
 
                 if (playbackUrl == null || watchtimeUrl == null) {
-                    UmihiHelper.printe("No tracking URLs in player response for $videoId")
+                    LogHelper.printe("No tracking URLs in player response for $videoId")
                     return@launch
                 }
 
@@ -88,7 +88,7 @@ object PlaybackStatsHelper {
                     settings = settings, playlistId = null, referrer = referrer,
                 )
             } catch (e: Exception) {
-                UmihiHelper.printe("Failed to start playback tracking: ${e.message}", exception = e)
+                LogHelper.printe("Failed to start playback tracking: ${e.message}", exception = e)
             }
         }
     }
@@ -121,7 +121,7 @@ object PlaybackStatsHelper {
                 baseUrl = playbackUrl, cpn = cpn, settings = settings,
                 playlistId = playlistId, referrer = referrer,
             )
-            UmihiHelper.printd("Playback tracking started for $videoId (cpn=$cpn)")
+            LogHelper.printd("Playback tracking started for $videoId (cpn=$cpn)")
         }
 
         trackingJob = scope.launch {
@@ -143,7 +143,7 @@ object PlaybackStatsHelper {
                             baseUrl = watchtimeUrl, cpn = cpn, st = st, et = et,
                             settings = settings, playlistId = playlistId, referrer = referrer,
                         )
-                        UmihiHelper.printd("Watchtime update: $st → $et ($videoId)")
+                        LogHelper.printd("Watchtime update: $st → $et ($videoId)")
 
                         lastReportedPosition = posSec
                     } else {
@@ -151,7 +151,7 @@ object PlaybackStatsHelper {
                             baseUrl = watchtimeUrl, cpn = cpn, durationSeconds = durSec,
                             settings = settings, playlistId = playlistId, referrer = referrer,
                         )
-                        UmihiHelper.printd("Watchtime complete: $durSec ($videoId)")
+                        LogHelper.printd("Watchtime complete: $durSec ($videoId)")
 
                         stopPlaybackTracking()
                     }
@@ -303,7 +303,7 @@ object PlaybackStatsHelper {
     private suspend fun executeRequest(request: Request): Int? {
         return try {
             UmihiHttpClient.client.newCall(request).execute().use { response ->
-                UmihiHelper.printd(
+                LogHelper.printd(
                     "PlaybackStats: ${request.url.encodedPath}?${
                         (request.url.encodedQuery ?: "").take(
                             80
@@ -313,7 +313,7 @@ object PlaybackStatsHelper {
                 response.code
             }
         } catch (e: Exception) {
-            UmihiHelper.printe("PlaybackStats request failed: ${e.message}", exception = e)
+            LogHelper.printe("PlaybackStats request failed: ${e.message}", exception = e)
             null
         }
     }
