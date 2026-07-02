@@ -122,6 +122,7 @@ jobs:
           body: ${{ github.event.head_commit.message }}
           makeLatest: false
           prerelease: true
+          draft: false
           commit: ${{ github.sha }}
 
   publish-github-release:
