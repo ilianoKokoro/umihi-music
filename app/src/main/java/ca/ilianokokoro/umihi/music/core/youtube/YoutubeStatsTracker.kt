@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.FormBody
 import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Request
 import org.json.JSONObject
 import java.util.TimeZone
@@ -34,45 +34,42 @@ object YoutubeStatsTracker {
         val watchtimeUrl: String?,
     )
 
-    private data class PlaybackTrackingState(
-        val videoId: String,
-        val cpn: String,
-        val watchtimeUrl: String,
-        val settings: UmihiSettings,
-        val playlistId: String? = null,
-        val referrer: String? = null,
-    )
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     @Volatile
-    private var trackingState: PlaybackTrackingState? = null
+    private var resolveJob: Job? = null
 
     @Volatile
     private var trackingJob: Job? = null
 
 
     fun stopPlaybackTracking() {
+        resolveJob?.cancel()
+        resolveJob = null
         trackingJob?.cancel()
         trackingJob = null
-        trackingState = null
     }
 
     fun onPlaybackStarted(
         videoId: String,
         settings: UmihiSettings,
     ) {
+        resolveJob?.cancel()
+
         if (!settings.sendPlaybackData || settings.cookies.isEmpty()) {
             stopPlaybackTracking()
             LogHelper.printd("Playback tracking skipped: sendPlaybackData=${settings.sendPlaybackData}, cookies=${!settings.cookies.isEmpty()}")
             return
         }
 
-        scope.launch {
+        resolveJob = scope.launch {
             try {
                 val playerResponse = YoutubeApiClient.getPlayerInfo(
                     videoId = videoId, visitorData = visitorData, settings = settings,
                 )
+
+                if (!isActive) return@launch // discard if superseded while awaiting the network call
+
                 val trackingUrls = extractTrackingUrls(playerResponse)
                 val playbackUrl = trackingUrls.playbackUrl
                 val watchtimeUrl = trackingUrls.watchtimeUrl
@@ -114,10 +111,6 @@ object YoutubeStatsTracker {
         }
 
         val cpn = generateCpn()
-        trackingState = PlaybackTrackingState(
-            videoId = videoId, cpn = cpn, watchtimeUrl = watchtimeUrl,
-            settings = settings, playlistId = playlistId, referrer = referrer,
-        )
 
         scope.launch {
             sendInitPlayback(
@@ -179,7 +172,8 @@ object YoutubeStatsTracker {
                 playbackUrl = extractBaseUrl("videostatsPlaybackUrl"),
                 watchtimeUrl = extractBaseUrl("videostatsWatchtimeUrl"),
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            LogHelper.printe("Failed to parse player response for tracking URLs: ${e.message}", exception = e)
             PlaybackTrackingUrls(null, null)
         }
     }
@@ -257,7 +251,7 @@ object YoutubeStatsTracker {
         playlistId: String?,
         referrer: String?,
     ): HttpUrl.Builder {
-        val builder = checkNotNull(baseUrl.toHttpUrl().newBuilder()) {
+        val builder = checkNotNull(baseUrl.toHttpUrlOrNull()?.newBuilder()) {
             "Invalid playback tracking URL: $baseUrl"
         }
 
@@ -278,7 +272,8 @@ object YoutubeStatsTracker {
 
     private fun Request.Builder.applyStatsHeaders(settings: UmihiSettings): Request.Builder {
         val nowMs = System.currentTimeMillis()
-        val utcOffsetMinutes = (TimeZone.getDefault()?.rawOffset ?: 0) / 60000
+        val tz = TimeZone.getDefault()
+        val utcOffsetMinutes = tz.rawOffset / 60000
 
         val authHeaders = YoutubeAuthHelper.getHeaders(settings.cookies)
         authHeaders.forEach { (name, value) ->
@@ -301,7 +296,7 @@ object YoutubeStatsTracker {
         }
 
         header("X-YouTube-Utc-Offset", utcOffsetMinutes.toString())
-        header("X-YouTube-Time-Zone", TimeZone.getDefault()?.id ?: "UTC")
+        header("X-YouTube-Time-Zone", tz.id)
         header("Origin", Constants.YoutubeApi.ORIGIN)
 
         return this
