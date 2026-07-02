@@ -1,18 +1,18 @@
 [versions]
 agp = "9.2.1"
-kotlin = "2.3.20" # 2.3.20 for CodeQL
+kotlin = "2.4.0" # 2.3.20 for CodeQL
 coreKtx = "1.19.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
-composeBom = "2026.06.00"
+composeBom = "2026.06.01"
 
 # Added librairies
 coreSplashscreen = "1.2.0"
 desugar_jdk_libs_nio = "2.1.5"
-nav3Core = "1.1.3"
+nav3Core = "1.1.4"
 nav3Lifecycle = "2.11.0"
 kotlinSerialization = "2.4.0"
 kotlinxSerializationCore = "1.11.0"
@@ -21,7 +21,7 @@ media3Exoplayer = "1.10.1"
 datastorePreferences = "1.2.1"
 webkit = "1.16.0"
 materialIconsExtended = "1.7.8"
-material3 = "1.5.0-alpha22" # 1.5.0-alpha19 last without the issue https://issuetracker.google.com/issues/529423493
+material3 = "1.5.0-alpha23" # 1.5.0-alpha19 last without the issue https://issuetracker.google.com/issues/529423493
 room = "2.8.4"
 ksp = "2.3.9"
 customactivityoncrash = "2.4.0"

@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import kotlinx.serialization.Serializable
-import java.util.UUID
+import kotlin.uuid.Uuid
 
 @Serializable
 @Immutable
@@ -27,7 +27,7 @@ data class Song(
     val thumbnailPath: String? = null,
     val streamUrl: String? = null,
     val audioFilePath: String? = null,
-    val uid: String = UUID.randomUUID().toString(),
+    val uid: String = Uuid.random().toString(),
     val isExplicit: Boolean = false,
     val isLiked: Boolean? = null,
 ) {
@@ -35,7 +35,7 @@ data class Song(
         get() {
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
-            extras.putString(Constants.ExoPlayer.SongMetadata.UID, UUID.randomUUID().toString())
+            extras.putString(Constants.ExoPlayer.SongMetadata.UID, Uuid.random().toString())
             extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_EXPLICIT, isExplicit)
             isLiked?.let { extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_LIKED, it) }
 

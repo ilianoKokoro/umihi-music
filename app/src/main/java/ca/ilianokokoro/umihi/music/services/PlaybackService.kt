@@ -47,7 +47,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.UUID
+import kotlin.uuid.Uuid
 
 @UnstableApi
 class PlaybackService : MediaLibraryService() {
@@ -324,7 +324,7 @@ class PlaybackService : MediaLibraryService() {
         val extras = mediaItem.mediaMetadata.extras
         extras?.putString(
             Constants.ExoPlayer.SongMetadata.UID,
-            UUID.randomUUID().toString()
+            Uuid.random().toString()
         )
 
         val updated = mediaItem.buildUpon()

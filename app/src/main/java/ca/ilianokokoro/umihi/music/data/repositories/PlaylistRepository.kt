@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.util.UUID
+import kotlin.uuid.Uuid
 
 class PlaylistRepository(application: Application) {
     private val playlistDataSource = PlaylistDataSource()
@@ -98,7 +98,7 @@ class PlaylistRepository(application: Application) {
         }
         val localMap = localPlaylist.songs.associateBy { it.youtubeId }
         val mergedSongs = remotePlaylist.songs.map { remoteSong ->
-            localMap[remoteSong.youtubeId]?.copy(uid = UUID.randomUUID().toString()) ?: remoteSong
+            localMap[remoteSong.youtubeId]?.copy(uid = Uuid.random().toString()) ?: remoteSong
         }
         return remotePlaylist.copy(songs = mergedSongs)
     }
