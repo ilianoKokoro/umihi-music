@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
@@ -173,19 +174,19 @@ fun SettingsScreen(
                                 value = screenState.settings.keepScreenOn,
                                 onToggle = settingsViewModel::updateKeepScreenOnSetting
                             )
-//                            Spacer(modifier = Modifier.height(4.dp))
-//                            BooleanSettingItem(
-//                                title = stringResource(R.string.send_playback_data_title),
-//                                subtitle = stringResource(R.string.send_playback_data_description),
-//                                leadingIcon = Icons.Outlined.History,
-//                                value = screenState.settings.sendPlaybackData,
-//                                onToggle = {
-//                                    settingsViewModel.updateSetting(
-//                                        PreferenceKeys.SEND_PLAYBACK_DATA,
-//                                        it
-//                                    )
-//                                }
-//                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            BooleanSettingItem(
+                                title = stringResource(R.string.send_playback_data_title),
+                                subtitle = stringResource(R.string.send_playback_data_description),
+                                leadingIcon = Icons.Outlined.History,
+                                value = screenState.settings.sendPlaybackData,
+                                onToggle = {
+                                    settingsViewModel.updateSetting(
+                                        PreferenceKeys.SEND_PLAYBACK_DATA,
+                                        it
+                                    )
+                                }
+                            )
                         }
 
                         SettingsSection(

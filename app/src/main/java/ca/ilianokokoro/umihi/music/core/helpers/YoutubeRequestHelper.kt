@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -83,7 +84,7 @@ object YoutubeRequestHelper {
             id = null,
             settings = settings
         )
-        
+
         val playlistId = playlist.id.removePrefix("VL")
 
         val body = buildJsonObject {
@@ -106,12 +107,14 @@ object YoutubeRequestHelper {
     suspend fun getPlayerInfo(
         videoId: String,
         client: JsonObject? = null,
-        visitorData: String? = null
+        visitorData: String? = null,
+        settings: UmihiSettings? = null,
     ): String {
         return requestWithContext(
             url = Constants.YoutubeApi.PlayerInfo.URL,
             idName = "videoId",
             id = videoId,
+            settings = settings,
             client = client,
             visitorData = visitorData
         )
@@ -169,8 +172,11 @@ object YoutubeRequestHelper {
         client: JsonObject? = null,
         visitorData: String? = null
     ): String = withContext(Dispatchers.IO) {
+        val requestUrl = url.toHttpUrl()
+        val origin = "${requestUrl.scheme}://${requestUrl.host}"
+
         val headers = if (settings != null) {
-            YoutubeAuthHelper.getHeaders(settings.cookies, visitorData, client)
+            YoutubeAuthHelper.getHeaders(settings.cookies, visitorData, client, origin)
         } else if (visitorData != null) {
             mapOf(
                 "X-Goog-Visitor-Id" to visitorData
@@ -200,7 +206,10 @@ object YoutubeRequestHelper {
             .execute()
             .use { response ->
                 if (!response.isSuccessful) {
-                    throw IOException("HTTP ${response.code}: ${response.message}")
+                    val bodyPreview = response.body?.string()?.take(500) ?: "null"
+                    throw IOException(
+                        "HTTP ${response.code}: ${response.message} — body=$bodyPreview"
+                    )
                 }
 
                 response.body?.string()

@@ -55,16 +55,17 @@ object YoutubeAuthHelper {
     fun getHeaders(
         cookies: Cookies? = null,
         visitorData: String? = null,
-        client: JsonObject? = null
+        client: JsonObject? = null,
+        origin: String = Constants.YoutubeApi.ORIGIN,
     ): Map<String, String> {
         val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
 
         val headers = mutableMapOf(
             "Content-Type" to "application/json; charset=utf-8",
-            "Origin" to Constants.YoutubeApi.ORIGIN,
-            "Referer" to "${Constants.YoutubeApi.ORIGIN}/",
+            "Origin" to origin,
+            "Referer" to "$origin/",
             "X-Goog-Api-Format-Version" to "1",
-            "X-Origin" to Constants.YoutubeApi.ORIGIN,
+            "X-Origin" to origin,
         )
 
         clientToUse["clientVersion"]
@@ -99,16 +100,16 @@ object YoutubeAuthHelper {
             val sapisidCookie = cookieMap["SAPISID"] ?: cookieMap["__Secure-3PAPISID"]
 
             if (sapisidCookie != null) {
-                headers["Authorization"] = generateSapisidHash(sapisidCookie)
+                headers["Authorization"] = generateSapisidHash(sapisidCookie, origin)
             }
         }
 
         return headers
     }
 
-    private fun generateSapisidHash(sapisidCookie: String): String {
+    private fun generateSapisidHash(sapisidCookie: String, origin: String): String {
         val currentTime = System.currentTimeMillis() / 1000
-        val sapisidHash = sha1("$currentTime $sapisidCookie ${Constants.YoutubeApi.ORIGIN}")
+        val sapisidHash = sha1("$currentTime $sapisidCookie $origin")
         val fullAuthToken = "${currentTime}_$sapisidHash"
         return "SAPISIDHASH $fullAuthToken SAPISID1PHASH $fullAuthToken SAPISID3PHASH $fullAuthToken"
     }
