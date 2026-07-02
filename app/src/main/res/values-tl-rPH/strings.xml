@@ -37,6 +37,9 @@
     <string name="playing_now">Naglalaro Ngayon</string>
     <string name="up_to_date_message">Ang app ay napapanahon !</string>
     <string name="update_check_failed">Nabigong suriin ang mga update</string>
+    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="minutes">%1$d minutes</string>
+    <string name="seconds">%1$d seconds</string>
     <string name="update_available">Available ang Update</string>
     <string name="new_version_body">Bagong bersyon available. (%1$s)</string>
     <string name="log_out">Mag log out</string>
