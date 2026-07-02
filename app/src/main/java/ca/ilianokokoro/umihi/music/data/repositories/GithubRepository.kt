@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.exceptions.GithubRateLimitException
 import ca.ilianokokoro.umihi.music.data.datasources.GithubDatasource
 import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
@@ -19,6 +20,9 @@ class GithubRepository {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(githubRepository.getReleaseInfoByUrl(releaseUrl)))
         }.catch { e ->
+            if (e is GithubRateLimitException) {
+                throw e
+            }
             emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }

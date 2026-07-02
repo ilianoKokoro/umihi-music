@@ -14,6 +14,7 @@ import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.exceptions.GithubRateLimitException
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
@@ -112,6 +113,21 @@ object VersionManager {
                     else -> Unit
                 }
             }
+        } catch (e: GithubRateLimitException) {
+            if (manualCheck) {
+                val formattedTime = if (e.retryAfterSeconds >= 60) {
+                    context.getString(R.string.minutes, e.retryAfterSeconds / 60)
+                } else {
+                    context.getString(R.string.seconds, e.retryAfterSeconds)
+                }
+
+                val message = context.getString(R.string.github_rate_limit_retry, formattedTime)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                }
+            }
+            printe(message = e.message.orEmpty(), exception = e)
         } catch (ex: Exception) {
             if (manualCheck) {
                 withContext(Dispatchers.Main) {
