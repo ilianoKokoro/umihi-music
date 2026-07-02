@@ -2,9 +2,9 @@ package ca.ilianokokoro.umihi.music.core.helpers
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
-import ca.ilianokokoro.umihi.music.models.UmihiSettings
-import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.formatDecimal
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,111 +22,18 @@ import java.util.TimeZone
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.formatDecimal
-import ca.ilianokokoro.umihi.music.core.helpers.visitorData
-
 object PlaybackStatsHelper {
+    // --- Attributes ---
+
     private const val CPN_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
     private const val CPN_LENGTH = 16
 
-    /**
-     * Generates a Client Playback Nonce — a 16-character random string
-     * using YouTube's CPN character set.
-     */
-    fun generateCpn(): String = buildString {
-        repeat(CPN_LENGTH) { append(CPN_CHARS[Random.nextInt(CPN_CHARS.length)]) }
-    }
-
-    /**
-     * Sends the initial playback tracking request (POST with form body).
-     * Registers that playback has started for a video.
-     *
-     * The base URL comes from the player response's
-     * `playbackTracking.videostatsPlaybackUrl.baseUrl`.
-     */
-    suspend fun sendInitPlayback(
-        baseUrl: String,
-        cpn: String,
-        settings: UmihiSettings,
-        playlistId: String? = null,
-        referrer: String? = null,
-    ): Int? = withContext(Dispatchers.IO) {
-        if (!canTrack(settings)) return@withContext null
-
-        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
-        val request = Request.Builder()
-            .url(urlBuilder.build())
-            .post(FormBody.Builder().build())
-            .applyStatsHeaders(settings)
-            .build()
-
-        executeRequest(request)
-    }
-
-    /**
-     * Sends a watchtime update request (POST with form body).
-     * Called periodically during playback to report progress.
-     *
-     * @param st  Start time(s) in seconds — comma-separated for batched reports
-     * @param et  End time(s) in seconds — comma-separated for batched reports
-     */
-    suspend fun sendWatchtimeUpdate(
-        baseUrl: String,
-        cpn: String,
-        st: String,
-        et: String,
-        settings: UmihiSettings,
-        playlistId: String? = null,
-        referrer: String? = null,
-    ): Int? = withContext(Dispatchers.IO) {
-        if (!canTrack(settings)) return@withContext null
-
-        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
-        urlBuilder.addEncodedQueryParameter("st", st)
-        urlBuilder.addEncodedQueryParameter("et", et)
-
-        val request = Request.Builder()
-            .url(urlBuilder.build())
-            .post(FormBody.Builder().build())
-            .applyStatsHeaders(settings)
-            .build()
-
-        executeRequest(request)
-    }
-
-    /**
-     * Sends the final watchtime update marking playback complete.
-     * Both st and et are set to the full duration.
-     */
-    suspend fun sendWatchtimeComplete(
-        baseUrl: String,
-        cpn: String,
-        durationSeconds: Float,
-        settings: UmihiSettings,
-        playlistId: String? = null,
-        referrer: String? = null,
-    ): Int? {
-        val durationStr = durationSeconds.formatDecimal()
-        return sendWatchtimeUpdate(
-            baseUrl = baseUrl,
-            cpn = cpn,
-            st = durationStr,
-            et = durationStr,
-            settings = settings,
-            playlistId = playlistId,
-            referrer = referrer,
-        )
-    }
-
-    // --- Internal ---
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    data class PlaybackTrackingUrls(
+    private data class PlaybackTrackingUrls(
         val playbackUrl: String?,
         val watchtimeUrl: String?,
     )
 
-    data class PlaybackTrackingState(
+    private data class PlaybackTrackingState(
         val videoId: String,
         val cpn: String,
         val watchtimeUrl: String,
@@ -142,6 +49,7 @@ object PlaybackStatsHelper {
 
     @Volatile
     private var trackingJob: Job? = null
+
 
     fun stopPlaybackTracking() {
         trackingJob?.cancel()
@@ -185,7 +93,12 @@ object PlaybackStatsHelper {
         }
     }
 
-    fun startPlaybackTracking(
+
+    private fun generateCpn(): String = buildString {
+        repeat(CPN_LENGTH) { append(CPN_CHARS[Random.nextInt(CPN_CHARS.length)]) }
+    }
+
+    private fun startPlaybackTracking(
         videoId: String,
         playbackUrl: String,
         watchtimeUrl: String,
@@ -247,23 +160,11 @@ object PlaybackStatsHelper {
         }
     }
 
-    /**
-     * Extracts the `playbackTracking` URLs from a player response JSON string.
-     *
-     * Expected structure from /youtubei/v1/player:
-     * ```json
-     * {
-     *   "playbackTracking": {
-     *     "videostatsPlaybackUrl": { "baseUrl": "https://..." },
-     *     "videostatsWatchtimeUrl": { "baseUrl": "https://..." }
-     *   }
-     * }
-     * ```
-     */
-    fun extractTrackingUrls(jsonString: String): PlaybackTrackingUrls {
+    private fun extractTrackingUrls(jsonString: String): PlaybackTrackingUrls {
         return try {
             val root = JSONObject(jsonString)
-            val tracking = root.optJSONObject("playbackTracking") ?: return PlaybackTrackingUrls(null, null)
+            val tracking =
+                root.optJSONObject("playbackTracking") ?: return PlaybackTrackingUrls(null, null)
 
             fun extractBaseUrl(key: String): String? {
                 val obj = tracking.optJSONObject(key) ?: return null
@@ -280,8 +181,67 @@ object PlaybackStatsHelper {
         }
     }
 
-    private fun canTrack(settings: UmihiSettings): Boolean {
-        return settings.sendPlaybackData && !settings.cookies.isEmpty()
+    private suspend fun sendInitPlayback(
+        baseUrl: String,
+        cpn: String,
+        settings: UmihiSettings,
+        playlistId: String? = null,
+        referrer: String? = null,
+    ): Int? = withContext(Dispatchers.IO) {
+        if (!settings.canTrack) return@withContext null
+
+        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
+        val request = Request.Builder()
+            .url(urlBuilder.build())
+            .post(FormBody.Builder().build())
+            .applyStatsHeaders(settings)
+            .build()
+
+        executeRequest(request)
+    }
+
+    private suspend fun sendWatchtimeUpdate(
+        baseUrl: String,
+        cpn: String,
+        st: String,
+        et: String,
+        settings: UmihiSettings,
+        playlistId: String? = null,
+        referrer: String? = null,
+    ): Int? = withContext(Dispatchers.IO) {
+        if (!settings.canTrack) return@withContext null
+
+        val urlBuilder = buildUrl(baseUrl, cpn, playlistId, referrer)
+        urlBuilder.addEncodedQueryParameter("st", st)
+        urlBuilder.addEncodedQueryParameter("et", et)
+
+        val request = Request.Builder()
+            .url(urlBuilder.build())
+            .post(FormBody.Builder().build())
+            .applyStatsHeaders(settings)
+            .build()
+
+        executeRequest(request)
+    }
+
+    private suspend fun sendWatchtimeComplete(
+        baseUrl: String,
+        cpn: String,
+        durationSeconds: Float,
+        settings: UmihiSettings,
+        playlistId: String? = null,
+        referrer: String? = null,
+    ): Int? {
+        val durationStr = durationSeconds.formatDecimal()
+        return sendWatchtimeUpdate(
+            baseUrl = baseUrl,
+            cpn = cpn,
+            st = durationStr,
+            et = durationStr,
+            settings = settings,
+            playlistId = playlistId,
+            referrer = referrer,
+        )
     }
 
     private fun buildUrl(
@@ -309,15 +269,10 @@ object PlaybackStatsHelper {
         return builder
     }
 
-    /**
-     * Applies headers matching YouTube Music's stats endpoint expectations.
-     * Based on observed browser traffic to /api/stats/playback.
-     */
     private fun Request.Builder.applyStatsHeaders(settings: UmihiSettings): Request.Builder {
         val nowMs = System.currentTimeMillis()
         val utcOffsetMinutes = (TimeZone.getDefault()?.rawOffset ?: 0) / 60000
 
-        // Auth / cookie headers from YoutubeAuthHelper (SAPISID hash, Cookie, etc.)
         val authHeaders = YoutubeAuthHelper.getHeaders(settings.cookies)
         authHeaders.forEach { (name, value) ->
             addHeader(name, value)
@@ -349,7 +304,11 @@ object PlaybackStatsHelper {
         return try {
             UmihiHttpClient.client.newCall(request).execute().use { response ->
                 UmihiHelper.printd(
-                    "PlaybackStats: ${request.url.encodedPath}?${(request.url.encodedQuery ?: "").take(80)}... -> ${response.code}"
+                    "PlaybackStats: ${request.url.encodedPath}?${
+                        (request.url.encodedQuery ?: "").take(
+                            80
+                        )
+                    }... -> ${response.code}"
                 )
                 response.code
             }
@@ -358,5 +317,4 @@ object PlaybackStatsHelper {
             null
         }
     }
-
 }

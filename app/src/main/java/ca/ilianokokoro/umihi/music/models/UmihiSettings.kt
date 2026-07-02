@@ -14,4 +14,6 @@ data class UmihiSettings(
     val useAudioOffload: Boolean = false,
     val keepScreenOn: Boolean = false,
     val sendPlaybackData: Boolean = false
-)
+) {
+    val canTrack: Boolean get() = sendPlaybackData && cookies.isNotEmpty()
+}
