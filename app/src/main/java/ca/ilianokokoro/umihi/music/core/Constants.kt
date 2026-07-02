@@ -170,8 +170,6 @@ object Constants {
         object Cache {
             const val NAME = "umihi-music-exoplayer"
             const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
-
-
         }
 
         object Library {
@@ -191,7 +189,7 @@ object Constants {
     }
 
     object Player {
-        const val PROGRESS_UPDATE_DELAY = 500
+        const val PROGRESS_UPDATE_DELAY = 150
         const val IMAGE_TRANSITION_DELAY = 200
         val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)
     }
