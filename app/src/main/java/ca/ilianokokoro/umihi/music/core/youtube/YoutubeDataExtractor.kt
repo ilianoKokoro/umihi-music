@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.core.helpers
+package ca.ilianokokoro.umihi.music.core.youtube
 
 import android.content.Context
 import android.widget.Toast
@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 var visitorData: String? = null
 
-object YoutubeHelper {
+object YoutubeDataExtractor {
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
 
@@ -95,7 +95,7 @@ object YoutubeHelper {
                 ?.contentOrNull
 
             if (continuationToken != null) {
-                val continuationJson = YoutubeRequestHelper.requestContinuation(
+                val continuationJson = YoutubeApiClient.requestContinuation(
                     continuationToken = continuationToken,
                     settings = settings
                 )
@@ -128,7 +128,7 @@ object YoutubeHelper {
                 ?.contentOrNull
 
             if (continuationToken != null) {
-                val continuationJson = YoutubeRequestHelper.requestContinuation(
+                val continuationJson = YoutubeApiClient.requestContinuation(
                     continuationToken = continuationToken,
                     settings = settings
                 )
@@ -544,7 +544,7 @@ object YoutubeHelper {
                     ?.jsonPrimitive?.contentOrNull ?: ""
 
                 val otherSongs = extractContinuationSongs(
-                    YoutubeRequestHelper.requestContinuation(
+                    YoutubeApiClient.requestContinuation(
                         continuationToken = token,
                         settings = settings
                     ), settings
@@ -748,7 +748,7 @@ object YoutubeHelper {
         retries: Int = Constants.YoutubeApi.RETRY_COUNT,
     ): String? = withContext(Dispatchers.IO) {
         suspend fun executeRequest(): String? {
-            val response = YoutubeRequestHelper.getPlayerInfo(
+            val response = YoutubeApiClient.getPlayerInfo(
                 videoId = videoId,
                 client = Constants.YoutubeApi.Client.ANDROID_VR,
                 visitorData = visitorData,

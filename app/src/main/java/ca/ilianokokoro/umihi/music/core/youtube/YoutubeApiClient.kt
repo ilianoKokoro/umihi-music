@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.core.helpers
+package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
@@ -18,7 +18,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-object YoutubeRequestHelper {
+object YoutubeApiClient {
     suspend fun browse(browseId: String, settings: UmihiSettings): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,

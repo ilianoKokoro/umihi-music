@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.core.helpers
+package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Cookies

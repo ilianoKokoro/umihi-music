@@ -19,10 +19,10 @@ import androidx.lifecycle.lifecycleScope
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
-import ca.ilianokokoro.umihi.music.core.helpers.YoutubeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
 
         val url = urlRegex.find(text)?.value ?: return
 
-        val videoId = YoutubeHelper.extractYouTubeVideoId(url) ?: return
+        val videoId = YoutubeDataExtractor.extractYouTubeVideoId(url) ?: return
 
         playVideoFromId(videoId)
     }
@@ -140,7 +140,7 @@ class MainActivity : ComponentActivity() {
         }
         val data: Uri = intent.data ?: return
 
-        val videoId = YoutubeHelper.extractYouTubeVideoId(data.toString()) ?: return
+        val videoId = YoutubeDataExtractor.extractYouTubeVideoId(data.toString()) ?: return
         playVideoFromId(videoId)
     }
 

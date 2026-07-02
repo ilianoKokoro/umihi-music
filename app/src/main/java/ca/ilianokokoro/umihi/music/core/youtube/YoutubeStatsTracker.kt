@@ -1,7 +1,8 @@
-package ca.ilianokokoro.umihi.music.core.helpers
+package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.formatDecimal
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -22,7 +23,7 @@ import java.util.TimeZone
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
-object PlaybackStatsHelper {
+object YoutubeStatsTracker {
     // --- Attributes ---
 
     private const val CPN_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
@@ -69,7 +70,7 @@ object PlaybackStatsHelper {
 
         scope.launch {
             try {
-                val playerResponse = YoutubeRequestHelper.getPlayerInfo(
+                val playerResponse = YoutubeApiClient.getPlayerInfo(
                     videoId = videoId, visitorData = visitorData, settings = settings,
                 )
                 val trackingUrls = extractTrackingUrls(playerResponse)

@@ -31,10 +31,10 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
-import ca.ilianokokoro.umihi.music.core.helpers.PlaybackStatsHelper
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeStatsTracker
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
@@ -160,13 +160,13 @@ class PlaybackService : MediaLibraryService() {
                 val songId = mediaItem?.mediaId ?: return
                 serviceScope.launch {
                     val settings = datastoreRepository.getSettings()
-                    PlaybackStatsHelper.onPlaybackStarted(songId, settings)
+                    YoutubeStatsTracker.onPlaybackStarted(songId, settings)
                 }
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_IDLE) {
-                    PlaybackStatsHelper.stopPlaybackTracking()
+                    YoutubeStatsTracker.stopPlaybackTracking()
                 }
             }
 

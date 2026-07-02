@@ -15,8 +15,8 @@ import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
-import ca.ilianokokoro.umihi.music.core.helpers.YoutubeRequestHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,7 +99,7 @@ class PlayerViewModel(application: Application) :
             _uiState.update { it.copy(isLiked = newLiked, isLiking = true) }
 
             try {
-                YoutubeRequestHelper.setLike(
+                YoutubeApiClient.setLike(
                     currentSong.youtubeId,
                     liked = newLiked,
                     settings
