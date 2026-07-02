@@ -37,6 +37,9 @@
     <string name="playing_now">现在播放</string>
     <string name="up_to_date_message">此应用已经是最新版本！</string>
     <string name="update_check_failed">检查更新失败</string>
+    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="minutes">%1$d minutes</string>
+    <string name="seconds">%1$d seconds</string>
     <string name="update_available">可用更新</string>
     <string name="new_version_body">有新版本可用。(%1$s)</string>
     <string name="log_out">登出</string>
