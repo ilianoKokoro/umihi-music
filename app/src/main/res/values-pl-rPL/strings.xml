@@ -37,9 +37,9 @@
     <string name="playing_now">Odtwarzanie teraz</string>
     <string name="up_to_date_message">Aplikacja jest aktualna!</string>
     <string name="update_check_failed">Nie udało się sprawdzić aktualizacji</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">Prędkość API GitHub jest ograniczona. Spróbuj ponownie w %1$s.</string>
+    <string name="minutes">%1$d minut</string>
+    <string name="seconds">%1$d sekund</string>
     <string name="update_available">Dostępna aktualizacja</string>
     <string name="new_version_body">Dostępna jest nowa wersja (%1$s)</string>
     <string name="log_out">Wyloguj</string>
