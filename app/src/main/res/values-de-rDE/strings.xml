@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Zeigt Live-Fortschritt und Vervollständigungsbenachrichtigungen für Downloads der Wiedergabeliste</string>
     <string name="song_alerts_name">Song Download Warnungen</string>
     <string name="song_alerts_description">Benachrichtigt über individuelle Probleme beim Herunterladen von Liedern während der Wiedergabeliste</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
