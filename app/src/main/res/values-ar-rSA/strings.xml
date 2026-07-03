@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">إظهار التقدم المباشر وإشعارات الإكمال لتنزيلات قائمة التشغيل</string>
     <string name="song_alerts_name">تنبيهات تنزيل الأغنية</string>
     <string name="song_alerts_description">تنبيهات حول مشاكل تحميل الأغنية الفردية أثناء تحميل قائمة التشغيل</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
