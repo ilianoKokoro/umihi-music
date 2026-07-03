@@ -17,6 +17,9 @@ captures/
 *.apk
 output-metadata.json
 
+AGENTS.md
+CLAUDE.md
+
 # IntelliJ
 *.iml
 .idea/

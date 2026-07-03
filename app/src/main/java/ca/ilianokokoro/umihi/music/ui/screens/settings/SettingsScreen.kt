@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Autorenew
+import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
@@ -204,6 +205,19 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.data_and_storage)
                         ) {
+                            BooleanSettingItem(
+                                title = stringResource(R.string.download_on_metered_title),
+                                subtitle = stringResource(R.string.download_on_metered_description),
+                                leadingIcon = Icons.Outlined.CloudDownload,
+                                value = screenState.settings.downloadOnMetered,
+                                onToggle = {
+                                    settingsViewModel.updateSetting(
+                                        PreferenceKeys.DOWNLOAD_ON_METERED,
+                                        it
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
                                 subtitle = stringResource(R.string.clear_data_message),

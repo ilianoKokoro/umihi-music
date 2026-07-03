@@ -10,8 +10,10 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.ConnectivityHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import ca.ilianokokoro.umihi.music.core.workers.PlaylistDownloadWorker
 import ca.ilianokokoro.umihi.music.core.workers.SongDownloadWorker
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
@@ -26,7 +28,7 @@ class DownloadRepository(appContext: Context) {
     private val localPlaylistRepository = AppDatabase.getInstance(_appContext).playlistRepository()
     private val localSongRepository = AppDatabase.getInstance(_appContext).songRepository()
 
-    suspend fun downloadPlaylist(playlist: Playlist) {
+    suspend fun downloadPlaylist(playlist: Playlist, useMetered: Boolean = false) {
         val existingWork = getExistingJobs(playlist.info.id)
         if (existingWork.isNotEmpty()) {
             printd("Download is already ongoing for playlist ${playlist.info.title}")
@@ -39,13 +41,17 @@ class DownloadRepository(appContext: Context) {
             )
         ).setConstraints(
             Constraints(
-                requiredNetworkType = NetworkType.CONNECTED,
+                requiredNetworkType = if (useMetered) NetworkType.CONNECTED else NetworkType.UNMETERED,
                 requiresStorageNotLow = true
             )
         ).build()
 
 
         workManager.enqueueUniqueWork(playlist.info.id, ExistingWorkPolicy.KEEP, request)
+
+        if (!useMetered && ConnectivityHelper.isMeteredNetwork(_appContext)) {
+            NotificationManager.showPlaylistDownloadWaitingForWifi(_appContext, playlist)
+        }
     }
 
     suspend fun deletePlaylist(playlist: Playlist) {
@@ -83,7 +89,7 @@ class DownloadRepository(appContext: Context) {
         localSongRepository.deleteByIds(songsToClear)
     }
 
-    suspend fun downloadSong(playlist: Playlist, song: Song) {
+    suspend fun downloadSong(playlist: Playlist, song: Song, useMetered: Boolean = false) {
         val id = "${playlist.info.id}${song.youtubeId}"
         val existingWork = getExistingJobs(id)
         if (existingWork.isNotEmpty()) {
@@ -99,7 +105,7 @@ class DownloadRepository(appContext: Context) {
             )
         ).setConstraints(
             Constraints(
-                requiredNetworkType = NetworkType.CONNECTED,
+                requiredNetworkType = if (useMetered) NetworkType.CONNECTED else NetworkType.UNMETERED,
                 requiresStorageNotLow = true
             )
         ).build()
@@ -110,6 +116,10 @@ class DownloadRepository(appContext: Context) {
             ExistingWorkPolicy.KEEP,
             request
         )
+
+        if (!useMetered && ConnectivityHelper.isMeteredNetwork(_appContext)) {
+            NotificationManager.showSongDownloadWaitingForWifi(_appContext, song)
+        }
     }
 
     fun cancelPlaylistDownload(playlist: Playlist) {

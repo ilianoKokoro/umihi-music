@@ -13,6 +13,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_ON_METERED
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SEND_PLAYBACK_DATA
@@ -41,6 +42,7 @@ class DatastoreRepository(private val context: Context) {
         val KEEP_SCREEN_ON = booleanPreferencesKey(Constants.Datastore.KEEP_SCREEN_ON)
         val AUTO_UPDATE = booleanPreferencesKey(Constants.Datastore.AUTO_UPDATE)
         val SEND_PLAYBACK_DATA = booleanPreferencesKey(Constants.Datastore.SEND_PLAYBACK_DATA)
+        val DOWNLOAD_ON_METERED = booleanPreferencesKey(Constants.Datastore.DOWNLOAD_ON_METERED)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -62,6 +64,7 @@ class DatastoreRepository(private val context: Context) {
         val keepScreenOn = it[KEEP_SCREEN_ON] ?: false
         val updateChecking = it[AUTO_UPDATE] ?: true
         val sendPlaybackData = it[SEND_PLAYBACK_DATA] ?: false
+        val downloadOnMetered = it[DOWNLOAD_ON_METERED] ?: false
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -75,7 +78,8 @@ class DatastoreRepository(private val context: Context) {
             useAudioOffload = useAudioOffload,
             keepScreenOn = keepScreenOn,
             sendPlaybackData = sendPlaybackData,
-            updateChecking = updateChecking
+            updateChecking = updateChecking,
+            downloadOnMetered = downloadOnMetered
         )
     }
 

@@ -13,7 +13,8 @@ data class UmihiSettings(
     val useSpecialLanguage: Boolean = false,
     val useAudioOffload: Boolean = false,
     val keepScreenOn: Boolean = false,
-    val sendPlaybackData: Boolean = false
+    val sendPlaybackData: Boolean = false,
+    val downloadOnMetered: Boolean = false
 ) {
     val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }

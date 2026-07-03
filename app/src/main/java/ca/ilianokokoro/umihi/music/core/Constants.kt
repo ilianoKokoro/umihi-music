@@ -87,6 +87,7 @@ object Constants {
         const val KEEP_SCREEN_ON = "keep-screen-on"
         const val AUTO_UPDATE = "auto-update"
         const val SEND_PLAYBACK_DATA = "send-playback-data"
+        const val DOWNLOAD_ON_METERED = "download-on-metered"
     }
 
     object Database {

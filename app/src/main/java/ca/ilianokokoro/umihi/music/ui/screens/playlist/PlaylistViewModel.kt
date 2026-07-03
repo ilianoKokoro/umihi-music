@@ -168,7 +168,8 @@ class PlaylistViewModel(
                 return@launch
             }
 
-            downloadRepository.downloadPlaylist(playlist)
+            val settings = datastoreRepository.getSettings()
+            downloadRepository.downloadPlaylist(playlist, settings.downloadOnMetered)
         }
     }
 
@@ -238,7 +239,8 @@ class PlaylistViewModel(
             return
         }
         viewModelScope.launch {
-            downloadRepository.downloadSong(playlist, song)
+            val settings = datastoreRepository.getSettings()
+            downloadRepository.downloadSong(playlist, song, settings.downloadOnMetered)
         }
     }
 

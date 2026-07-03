@@ -45,6 +45,29 @@ object NotificationManager {
         }
     }
 
+    fun showPlaylistDownloadWaitingForWifi(
+        context: Context,
+        playlist: Playlist,
+    ) {
+        val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
+            .setContentTitle(playlist.info.title)
+            .setContentText(
+                context.getString(
+                    R.string.waiting_for_wifi_to_download,
+                    playlist.info.title
+                )
+            )
+            .setSmallIcon(android.R.drawable.stat_sys_download)
+            .setOngoing(true)
+            .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        updateGroupSummary(context)
+    }
+
     fun showPlaylistDownloadProgress(
         context: Context,
         playlist: Playlist,
@@ -149,6 +172,23 @@ object NotificationManager {
         androidNotificationManager.notify(0, summaryNotification)
     }
 
+
+    fun showSongDownloadWaitingForWifi(
+        context: Context,
+        song: Song,
+    ) {
+        val notification = getBaseNotification(context, NotificationChannels.SONG_DOWNLOAD)
+            .setContentTitle(song.title)
+            .setContentText(context.getString(R.string.waiting_for_wifi_to_download, song.title))
+            .setSmallIcon(android.R.drawable.stat_sys_download)
+            .setOngoing(true)
+            .setGroup(NotificationChannels.SONG_DOWNLOAD.group)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
+    }
 
     fun showSongDownloadFailed(
         context: Context,
