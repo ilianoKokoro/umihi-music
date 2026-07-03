@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Показывает прогресс и уведомления о завершении загрузки плейлиста </string>
     <string name="song_alerts_name">Оповещения о загрузке песен</string>
     <string name="song_alerts_description">Уведомляет об ошибках загрузки отдельных песен во время загрузки плейлиста</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

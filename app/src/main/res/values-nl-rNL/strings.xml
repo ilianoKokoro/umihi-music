@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Toont live voortgang en voltooiingsmeldingen voor afspeellijst downloads</string>
     <string name="song_alerts_name">Nummer download waarschuwingen</string>
     <string name="song_alerts_description">Meldt over individuele downloadproblemen van het nummer tijdens het downloaden van de afspeellijst</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

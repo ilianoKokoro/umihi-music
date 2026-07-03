@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">显示播放列表下载的实时进度和完成通知</string>
     <string name="song_alerts_name">歌曲下载提醒</string>
     <string name="song_alerts_description">在播放列表下载过程中通知个人歌曲下载问题</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

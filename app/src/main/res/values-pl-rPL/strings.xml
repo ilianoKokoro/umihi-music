@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Pokazuje powiadomienia o postępach na żywo i zakończeniu pobierania list odtwarzania</string>
     <string name="song_alerts_name">Powiadomienia o pobieraniu utworów</string>
     <string name="song_alerts_description">Powiadamia o indywidualnych problemach z pobieraniem utworu podczas pobierania listy odtwarzania</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

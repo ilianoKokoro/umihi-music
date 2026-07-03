@@ -37,9 +37,9 @@
     <string name="playing_now">Pwaying Nyow</string>
     <string name="up_to_date_message">D-Da app is up to date ?-?-?!?1</string>
     <string name="update_check_failed">Faiwed to check fow updates :&lt;</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">GitHub API rate wimited. Wetry in %1$s.</string>
+    <string name="minutes">%1$d minwuites</string>
+    <string name="seconds">%1$d secwonds</string>
     <string name="update_available">Update Avaiwabwe!</string>
     <string name="new_version_body">OwO w-what\'s dis? nyew vewsion is avaiwabwe! (%1$s)</string>
     <string name="log_out">Wog Out :&lt;</string>
@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Shows wive pwogwess and compwetion notifications fow pwaywist downwoads</string>
     <string name="song_alerts_name">Swong Downwoad Awwerts</string>
     <string name="song_alerts_description">Notifies about individuaw swong downwoad issues duwing pwaywist downwoads</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

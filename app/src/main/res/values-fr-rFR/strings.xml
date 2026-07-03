@@ -37,9 +37,9 @@
     <string name="playing_now">En cours de lecture</string>
     <string name="up_to_date_message">L\'application est à jour !</string>
     <string name="update_check_failed">Échec de la vérification des mises à jour</string>
-    <string name="github_rate_limit_retry">Le taux de l\'API GitHub est limité. Réessayez dans %1$s.</string>
+    <string name="github_rate_limit_retry">Limite de requêtes de l\'API GitHub atteinte. Veuillez réessayer dans %1$s.</string>
     <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="seconds">%1$d secondes</string>
     <string name="update_available">Mise à jour disponible</string>
     <string name="new_version_body">Une nouvelle version est disponible. (%1$s)</string>
     <string name="log_out">Déconnexion</string>
@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Affiche la progression en direct et les notifications d\'achèvement des téléchargements de la playlist</string>
     <string name="song_alerts_name">Alertes de téléchargement de musique</string>
     <string name="song_alerts_description">Notifie les problèmes de téléchargement de titres individuels lors des téléchargements de la playlist</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

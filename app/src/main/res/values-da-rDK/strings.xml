@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Viser live fremskridt og fuldførelse meddelelser for afspilningsliste downloads</string>
     <string name="song_alerts_name">Advarsler Om Sangdownload</string>
     <string name="song_alerts_description">Notifikationer om individuelle problemer med sangdownload under afspilningsliste downloads</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>

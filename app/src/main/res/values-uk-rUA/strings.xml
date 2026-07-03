@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Показує сповіщення про перебіг гри і закінчення списку відтворення для завантаження</string>
     <string name="song_alerts_name">Попередження про завантаження пісні</string>
     <string name="song_alerts_description">Повідомляє про проблеми при завантаженні окремої пісні під час завантаження списку відтворення</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
