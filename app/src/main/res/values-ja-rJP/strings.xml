@@ -37,9 +37,9 @@
     <string name="playing_now">再生中</string>
     <string name="up_to_date_message">アプリは最新です！</string>
     <string name="update_check_failed">更新の確認に失敗しました</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">GitHub API レートが制限されました。 %1$s で再試行してください。</string>
+    <string name="minutes">%1$d 分</string>
+    <string name="seconds">%1$d 秒</string>
     <string name="update_available">アップデートがあります</string>
     <string name="new_version_body">新しいバージョンが利用可能です。 (%1$s)</string>
     <string name="log_out">ログアウト</string>
