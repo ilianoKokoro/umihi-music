@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Shows live progress and completion notifications for playlist downloads</string>
     <string name="song_alerts_name">Song Download Alerts</string>
     <string name="song_alerts_description">Notifies about individual song download issues during playlist downloads</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
