@@ -37,9 +37,9 @@
     <string name="playing_now">Αναπαραγωγή Τώρα</string>
     <string name="up_to_date_message">Η εφαρμογή είναι ενημερωμένη!</string>
     <string name="update_check_failed">Αποτυχία ελέγχου για ενημερώσεις</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">Περιορισμένη τιμή API GitHub. Προσπαθήστε ξανά σε %1$s.</string>
+    <string name="minutes">%1$d λεπτά</string>
+    <string name="seconds">%1$d δευτερόλεπτα</string>
     <string name="update_available">Διαθέσιμη Ενημέρωση</string>
     <string name="new_version_body">Μια νέα έκδοση είναι διαθέσιμη. (%1$s)</string>
     <string name="log_out">Αποσύνδεση</string>

@@ -37,7 +37,7 @@
     <string name="playing_now">En cours de lecture</string>
     <string name="up_to_date_message">L\'application est à jour !</string>
     <string name="update_check_failed">Échec de la vérification des mises à jour</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
+    <string name="github_rate_limit_retry">Le taux de l\'API GitHub est limité. Réessayez dans %1$s.</string>
     <string name="minutes">%1$d minutes</string>
     <string name="seconds">%1$d seconds</string>
     <string name="update_available">Mise à jour disponible</string>

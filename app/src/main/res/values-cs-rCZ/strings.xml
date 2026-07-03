@@ -37,9 +37,9 @@
     <string name="playing_now">Přehrává se nyní</string>
     <string name="up_to_date_message">Aplikace je aktuální!</string>
     <string name="update_check_failed">Nepodařilo se zkontrolovat aktualizace</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">GitHub API sazba omezená. Zkuste to znovu v %1$s.</string>
+    <string name="minutes">%1$d minut</string>
+    <string name="seconds">%1$d sekund</string>
     <string name="update_available">Dostupná aktualizace</string>
     <string name="new_version_body">Je k dispozici nová verze. (%1$s)</string>
     <string name="log_out">Odhlásit se</string>

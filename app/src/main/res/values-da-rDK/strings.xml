@@ -37,9 +37,9 @@
     <string name="playing_now">Afspiller Nu</string>
     <string name="up_to_date_message">Appen er opdateret!</string>
     <string name="update_check_failed">Mislykkedes at tjekke for opdateringer</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">GitHub API rate begrænset. Prøv igen i %1$s.</string>
+    <string name="minutes">%1$d minutter</string>
+    <string name="seconds">%1$d sekunder</string>
     <string name="update_available">Opdatering Tilgængelig</string>
     <string name="new_version_body">En ny version er tilgængelig. (%1$s)</string>
     <string name="log_out">Log Ud</string>
