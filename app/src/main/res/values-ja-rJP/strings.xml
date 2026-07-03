@@ -127,4 +127,7 @@
     <string name="song_alerts_name">歌のダウンロードアラート</string>
     <string name="song_alerts_description">プレイリストダウンロード中に個々の曲のダウンロードの問題について通知します</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Download on Mobile Data</string>
+    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
+    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
 </resources>
