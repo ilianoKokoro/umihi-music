@@ -31,7 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -267,6 +269,8 @@ fun SongInfo(
     isLiking: Boolean = false,
     onToggleLike: () -> Unit = {},
 ) {
+    val haptic = LocalHapticFeedback.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.Top,
@@ -298,7 +302,10 @@ fun SongInfo(
 
         if (isLoggedIn) {
             FilledTonalIconButton(
-                onClick = onToggleLike,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                    onToggleLike()
+                },
                 enabled = !isLiking,
                 shapes = IconButtonDefaults.shapes()
             ) {

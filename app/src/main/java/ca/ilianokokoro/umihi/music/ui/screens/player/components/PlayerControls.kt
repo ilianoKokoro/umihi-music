@@ -34,6 +34,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -66,6 +68,7 @@ fun PlayerControls(
     val actionButtonsControlsInteractionSources =
         List(4) { ComposeHelper.rememberInteractionSource() }
 
+    val hapticFeedback = LocalHapticFeedback.current
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
 
@@ -165,6 +168,7 @@ fun PlayerControls(
                         FilledIconToggleButton(
                             checked = isPlaying && !isLoading,
                             onCheckedChange = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                                 if (isPlaying) {
                                     PlayerManager.currentController?.pause()
                                 } else {

@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
@@ -26,13 +28,17 @@ fun ActionButtons(
     onShuffleClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val haptic = LocalHapticFeedback.current
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         FilledTonalButton(
             enabled = buttonEnabled,
-            onClick = onPlayClicked,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                onPlayClicked()
+            },
             modifier = Modifier.weight(1f),
             shapes = ButtonDefaults.shapes()
         ) {
@@ -46,7 +52,10 @@ fun ActionButtons(
 
         FilledTonalButton(
             enabled = buttonEnabled,
-            onClick = onShuffleClicked,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                onShuffleClicked()
+            },
             modifier = Modifier.weight(1f),
             shapes = ButtonDefaults.shapes()
         ) {
