@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">プレイリストダウンロードの進行状況と完了通知を表示する</string>
     <string name="song_alerts_name">歌のダウンロードアラート</string>
     <string name="song_alerts_description">プレイリストダウンロード中に個々の曲のダウンロードの問題について通知します</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
