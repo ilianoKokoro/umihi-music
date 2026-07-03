@@ -1,8 +1,6 @@
 package ca.ilianokokoro.umihi.music.core.workers
 
 import android.content.Context
-import androidx.annotation.OptIn
-import androidx.media3.common.util.UnstableApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -24,7 +22,6 @@ class SongDownloadWorker(
     private val localSongRepository = AppDatabase.getInstance(appContext).songRepository()
     private val songRepository = SongRepository()
 
-    @OptIn(UnstableApi::class)
     override suspend fun doWork(): Result {
         val playlistId = params.inputData.getString(PLAYLIST_KEY)
             ?: return Result.failure()

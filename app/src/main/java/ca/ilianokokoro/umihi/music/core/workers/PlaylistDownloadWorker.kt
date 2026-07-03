@@ -1,8 +1,6 @@
 package ca.ilianokokoro.umihi.music.core.workers
 
 import android.content.Context
-import androidx.annotation.OptIn
-import androidx.media3.common.util.UnstableApi
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
@@ -19,7 +17,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.atomics.AtomicInt
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.concurrent.atomics.incrementAndFetch
 import kotlin.coroutines.cancellation.CancellationException
 
 class PlaylistDownloadWorker(
@@ -32,7 +32,7 @@ class PlaylistDownloadWorker(
     private val localSongRepository = AppDatabase.getInstance(appContext).songRepository()
     private val songRepository = SongRepository()
 
-    @OptIn(UnstableApi::class)
+    @OptIn(ExperimentalAtomicApi::class)
     override suspend fun doWork(): Result {
         val playlistId = params.inputData.getString(PLAYLIST_KEY)
             ?: return Result.failure()
@@ -42,7 +42,7 @@ class PlaylistDownloadWorker(
 
         return try {
             val totalSongs = playlist.songs.size
-            val downloadedSongs = AtomicInteger(0)
+            val downloadedSongs = AtomicInt(0)
 
             NotificationManager.showPlaylistDownloadProgress(
                 appContext,
@@ -91,7 +91,7 @@ class PlaylistDownloadWorker(
 
                                 localSongRepository.create(updatedSong)
 
-                                val downloaded = downloadedSongs.incrementAndGet()
+                                val downloaded = downloadedSongs.incrementAndFetch()
                                 if (downloaded < totalSongs) {
                                     NotificationManager.showPlaylistDownloadProgress(
                                         appContext,

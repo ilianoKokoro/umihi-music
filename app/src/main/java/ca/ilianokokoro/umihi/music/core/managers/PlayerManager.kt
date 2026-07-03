@@ -69,7 +69,6 @@ object PlayerManager {
         _audioInfo.value = info
     }
 
-    @OptIn(UnstableApi::class)
     @Synchronized
     fun connectController(context: Context) {
         if (isConnected) {

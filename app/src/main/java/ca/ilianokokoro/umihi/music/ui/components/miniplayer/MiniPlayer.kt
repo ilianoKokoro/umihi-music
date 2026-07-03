@@ -17,7 +17,6 @@ import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
@@ -35,7 +34,6 @@ import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MiniPlayer(
     modifier: Modifier = Modifier,
