@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Попередження про завантаження пісні</string>
     <string name="song_alerts_description">Повідомляє про проблеми при завантаженні окремої пісні під час завантаження списку відтворення</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Download on Mobile Data</string>
+    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
+    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
 </resources>
