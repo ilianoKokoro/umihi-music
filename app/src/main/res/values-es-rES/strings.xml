@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Muestra el progreso en vivo y las notificaciones de finalización de las descargas de listas de reproducción</string>
     <string name="song_alerts_name">Alertas de descarga de canciones</string>
     <string name="song_alerts_description">Notificaciones sobre problemas de descarga de canciones individuales durante las descargas de la lista de reproducción</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
