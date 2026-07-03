@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Εμφανίζει ζωντανές ειδοποιήσεις προόδου και ολοκλήρωσης για λήψεις λίστας αναπαραγωγής</string>
     <string name="song_alerts_name">Ειδοποιήσεις Λήψης Τραγουδιού</string>
     <string name="song_alerts_description">Ειδοποιεί για μεμονωμένα ζητήματα λήψης τραγουδιού κατά τη διάρκεια λήψεων λίστας αναπαραγωγής</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
