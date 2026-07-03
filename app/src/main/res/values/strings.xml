@@ -112,7 +112,11 @@
     <string name="sleep_timer_active">Sleep Timer Active</string>
     <string name="sleep_timer_remaining">remaining</string>
     <string name="cancel_timer">Cancel Timer</string>
+    <string name="sleep_timer_end_of_song">Stop playback after the current song ends</string>
     <string name="sleep_timer_end_of_song_btn">End of Song</string>
+    <string name="sleep_timer_set_duration">Stop playback after a set time</string>
+    <string name="sleep_timer_minutes">%1$d minutes</string>
+    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Start Timer</string>
     <string name="playback_speed">Playback Speed</string>
     <string name="playback_speed_label" translatable="false">%1$.1fx</string>
@@ -120,6 +124,7 @@
     <string name="khz" translatable="false">%.1f kHz</string>
     <string name="unlike">Unlike</string>
     <string name="like">Like</string>
+    <string name="e" translatable="false">E</string>
     <string name="song_downloaded">Song downloaded</string>
     <string name="download_failed">Download failed</string>
     <string name="failed_to_download_song">Failed to download %1$s - %2$s</string>
@@ -132,5 +137,4 @@
     <string name="playlist_progress_description">Shows live progress and completion notifications for playlist downloads</string>
     <string name="song_alerts_name">Song Download Alerts</string>
     <string name="song_alerts_description">Notifies about individual song download issues during playlist downloads</string>
-    <string name="short_minutes">%1$d min</string>
 </resources>
