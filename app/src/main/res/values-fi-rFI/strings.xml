@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Näyttää suoran edistymisen ja soittolistojen latausten valmistumisen ilmoitukset</string>
     <string name="song_alerts_name">Kappaleen Lataushälytykset</string>
     <string name="song_alerts_description">Ilmoitukset yksittäisistä kappaleen latausongelmista soittolistan latausten aikana</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
