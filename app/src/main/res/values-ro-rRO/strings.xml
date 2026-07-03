@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Arată progresul live şi notificările de finalizare pentru descărcările din lista de redare</string>
     <string name="song_alerts_name">Melodie descărcați alerte</string>
     <string name="song_alerts_description">Notificări despre problemele de descărcare a melodiilor în timpul descărcărilor din lista de redare</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
