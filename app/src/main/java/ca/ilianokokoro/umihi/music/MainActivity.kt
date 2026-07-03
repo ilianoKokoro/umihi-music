@@ -67,7 +67,9 @@ class MainActivity : ComponentActivity() {
 
         requestNotificationPermission()
 
-        checkForUpdate()
+        if (savedInstanceState == null) {
+            checkForUpdate()
+        }
 
         //    debugPrintDataStores()
     }
