@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Temporizador activo</string>
     <string name="sleep_timer_remaining">restante</string>
     <string name="cancel_timer">Cancelar temporizador</string>
-    <string name="sleep_timer_end_of_song">Detener la reproducción después de que termine la canción actual</string>
     <string name="sleep_timer_end_of_song_btn">Fin de la canción</string>
-    <string name="sleep_timer_set_duration">Detener la reproducción después de un tiempo establecido</string>
-    <string name="sleep_timer_minutes">%1$d minutos</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Iniciar Temporizador</string>
     <string name="playback_speed">Velocidad de reproducción</string>
     <string name="unlike">A diferencia de</string>

@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Sleep-Timer aktiv</string>
     <string name="sleep_timer_remaining">verbleibend</string>
     <string name="cancel_timer">Timer abbrechen</string>
-    <string name="sleep_timer_end_of_song">Wiedergabe stoppen nach dem Ende des aktuellen Liedes</string>
     <string name="sleep_timer_end_of_song_btn">Ende des Songs</string>
-    <string name="sleep_timer_set_duration">Wiedergabe nach einer festgelegten Zeit stoppen</string>
-    <string name="sleep_timer_minutes">%1$d Minuten</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Timer starten</string>
     <string name="playback_speed">Wiedergabegeschwindigkeit</string>
     <string name="unlike">Anders</string>

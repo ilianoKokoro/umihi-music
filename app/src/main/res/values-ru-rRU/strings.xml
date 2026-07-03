@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Таймер сна активен</string>
     <string name="sleep_timer_remaining">оставшееся</string>
     <string name="cancel_timer">Отменить таймер</string>
-    <string name="sleep_timer_end_of_song">Остановить воспроизведение после окончания текущей песни</string>
     <string name="sleep_timer_end_of_song_btn">Конец песни</string>
-    <string name="sleep_timer_set_duration">Остановить воспроизведение после заданного времени</string>
-    <string name="sleep_timer_minutes">%1$d минут</string>
-    <string name="sleep_timer_min_short">%1$d мин</string>
     <string name="sleep_timer_start">Запустить таймер</string>
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="unlike">Не нравится</string>

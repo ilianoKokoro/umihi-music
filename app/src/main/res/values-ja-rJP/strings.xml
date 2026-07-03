@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">スリープタイマー有効</string>
     <string name="sleep_timer_remaining">残り</string>
     <string name="cancel_timer">タイマーをキャンセル</string>
-    <string name="sleep_timer_end_of_song">現在の曲が終了した後に再生を停止</string>
     <string name="sleep_timer_end_of_song_btn">曲の終わり</string>
-    <string name="sleep_timer_set_duration">設定した時間の後に再生を停止</string>
-    <string name="sleep_timer_minutes">%1$d 分</string>
-    <string name="sleep_timer_min_short">%1$d 分</string>
     <string name="sleep_timer_start">開始タイマー</string>
     <string name="playback_speed">再生速度</string>
     <string name="unlike">いいね！を解除</string>

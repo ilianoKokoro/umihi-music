@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Časovač spánku aktivní</string>
     <string name="sleep_timer_remaining">zbývá</string>
     <string name="cancel_timer">Zrušit časovač</string>
-    <string name="sleep_timer_end_of_song">Zastavit přehrávání po ukončení aktuální skladby</string>
     <string name="sleep_timer_end_of_song_btn">Konec skladby</string>
-    <string name="sleep_timer_set_duration">Zastavit přehrávání po nastaveném čase</string>
-    <string name="sleep_timer_minutes">%1$d minut</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Začít časovač</string>
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="unlike">Nelíbí se mi</string>

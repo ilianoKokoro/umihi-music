@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Sweep Tiwma Active</string>
     <string name="sleep_timer_remaining">remaiwnin</string>
     <string name="cancel_timer">Kancel Tiwma</string>
-    <string name="sleep_timer_end_of_song">Stowp pwayback afta da cuwwent song ends OwO</string>
     <string name="sleep_timer_end_of_song_btn">Endie wof Swong</string>
-    <string name="sleep_timer_set_duration">Stowp pwayback afta a set tiwma</string>
-    <string name="sleep_timer_minutes">%1$d minwuites</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Stawt Da Tiwma</string>
     <string name="playback_speed">Pwayback Spweed</string>
     <string name="unlike">Unwike</string>

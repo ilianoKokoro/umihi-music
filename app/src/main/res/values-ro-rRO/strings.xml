@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Temporizator somn activ</string>
     <string name="sleep_timer_remaining">rămas</string>
     <string name="cancel_timer">Anulează temporizator</string>
-    <string name="sleep_timer_end_of_song">Oprește redarea după ce se termină melodia curentă</string>
     <string name="sleep_timer_end_of_song_btn">Sfârșitul piesei</string>
-    <string name="sleep_timer_set_duration">Oprește redarea după un timp setat</string>
-    <string name="sleep_timer_minutes">%1$d minute</string>
-    <string name="sleep_timer_min_short">%1$d min.</string>
     <string name="sleep_timer_start">Pornire temporizator</string>
     <string name="playback_speed">Viteza de redare</string>
     <string name="unlike">Spre deosebire</string>

@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Sove Timer Aktiv</string>
     <string name="sleep_timer_remaining">resterende</string>
     <string name="cancel_timer">Annullér Timer</string>
-    <string name="sleep_timer_end_of_song">Stop afspilning efter den aktuelle sang slutter</string>
     <string name="sleep_timer_end_of_song_btn">Slut på Sangen</string>
-    <string name="sleep_timer_set_duration">Stop afspilning efter en angivet tid</string>
-    <string name="sleep_timer_minutes">%1$d minutter</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Start Timer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="unlike">I modsætning</string>

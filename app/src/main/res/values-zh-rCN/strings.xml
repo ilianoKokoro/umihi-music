@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">睡眠计时器激活</string>
     <string name="sleep_timer_remaining">剩余</string>
     <string name="cancel_timer">取消计时器</string>
-    <string name="sleep_timer_end_of_song">在当前歌曲结束后停止播放</string>
     <string name="sleep_timer_end_of_song_btn">歌曲结束</string>
-    <string name="sleep_timer_set_duration">设定时间后停止播放</string>
-    <string name="sleep_timer_minutes">%1$d 分钟</string>
-    <string name="sleep_timer_min_short">%1$d 分钟</string>
     <string name="sleep_timer_start">启动计时器</string>
     <string name="playback_speed">回放速度</string>
     <string name="unlike">不匹配</string>

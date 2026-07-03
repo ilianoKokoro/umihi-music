@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Uniajastin Aktiivinen</string>
     <string name="sleep_timer_remaining">jäljellä</string>
     <string name="cancel_timer">Peruuta Ajastin</string>
-    <string name="sleep_timer_end_of_song">Lopeta soitto nykyisen kappaleen päättymisen jälkeen</string>
     <string name="sleep_timer_end_of_song_btn">Kappaleen loppu</string>
-    <string name="sleep_timer_set_duration">Lopeta toisto tietyn ajan kuluttua</string>
-    <string name="sleep_timer_minutes">%1$d minuuttia</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Käynnistä Ajastin</string>
     <string name="playback_speed">Toiston Nopeus</string>
     <string name="unlike">Toisin</string>

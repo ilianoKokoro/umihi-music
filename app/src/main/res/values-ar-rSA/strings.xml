@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">مؤقت النوم نشط</string>
     <string name="sleep_timer_remaining">تبقى</string>
     <string name="cancel_timer">إلغاء المؤقت</string>
-    <string name="sleep_timer_end_of_song">إيقاف التشغيل بعد انتهاء الأغنية الحالية</string>
     <string name="sleep_timer_end_of_song_btn">نهاية الأغنية</string>
-    <string name="sleep_timer_set_duration">إيقاف التشغيل بعد تعيين الوقت</string>
-    <string name="sleep_timer_minutes">%1$d دقيقة</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">بدء المؤقت</string>
     <string name="playback_speed">سرعة التشغيل</string>
     <string name="unlike">خلافا</string>

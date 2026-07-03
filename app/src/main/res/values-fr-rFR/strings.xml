@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">Minuterie de sommeil active</string>
     <string name="sleep_timer_remaining">restants</string>
     <string name="cancel_timer">Annuler la minuterie</string>
-    <string name="sleep_timer_end_of_song">Arrêter la lecture à la fin du titre en cours</string>
     <string name="sleep_timer_end_of_song_btn">Fin du titre</string>
-    <string name="sleep_timer_set_duration">Arrêter la lecture après une heure définie</string>
-    <string name="sleep_timer_minutes">%1$d minutes</string>
-    <string name="sleep_timer_min_short">%1$d min</string>
     <string name="sleep_timer_start">Démarrer le minuteur</string>
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="unlike">Je n\'aime pas</string>

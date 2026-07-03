@@ -109,11 +109,7 @@
     <string name="sleep_timer_active">수면 타이머 켜짐</string>
     <string name="sleep_timer_remaining">남은 시간</string>
     <string name="cancel_timer">타이머 취소하기</string>
-    <string name="sleep_timer_end_of_song">현재 곡이 끝나면 재생을 중지해요</string>
     <string name="sleep_timer_end_of_song_btn">노래 끝</string>
-    <string name="sleep_timer_set_duration">설정된 시간 후 재생을 중지해요</string>
-    <string name="sleep_timer_minutes">%1$d 분</string>
-    <string name="sleep_timer_min_short">%1$d 분</string>
     <string name="sleep_timer_start">타이머 시작하기</string>
     <string name="playback_speed">재생 속도</string>
     <string name="unlike">Unlike</string>

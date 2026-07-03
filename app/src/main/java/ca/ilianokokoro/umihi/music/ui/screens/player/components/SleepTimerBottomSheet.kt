@@ -123,7 +123,7 @@ fun SleepTimerBottomSheet(
                 var sliderValue by remember { mutableIntStateOf(Constants.Ui.Player.SleepTimer.DEFAULT_VALUE) }
 
                 Text(
-                    text = stringResource(R.string.sleep_timer_minutes, sliderValue),
+                    text = stringResource(R.string.minutes, sliderValue),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -156,12 +156,12 @@ fun SleepTimerBottomSheet(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = stringResource(R.string.sleep_timer_min_short, minLabel),
+                        text = stringResource(R.string.short_minutes, minLabel),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        text = stringResource(R.string.sleep_timer_min_short, maxLabel),
+                        text = stringResource(R.string.short_minutes, maxLabel),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
