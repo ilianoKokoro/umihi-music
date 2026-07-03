@@ -126,4 +126,5 @@
     <string name="playlist_progress_description">Viser live-fremgang og fullføring for nedlasting av spilleliste</string>
     <string name="song_alerts_name">Last ned varsler</string>
     <string name="song_alerts_description">Foreslår om individuelle problemer med sangen nedlastingen under spillelisten</string>
+    <string name="short_minutes">%1$d min</string>
 </resources>
