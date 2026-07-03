@@ -71,19 +71,7 @@ object YoutubeAuthHelper {
         visitorData: String? = null,
         client: JsonObject? = null,
     ): Map<String, String> {
-        if (settings == null) {
-            return if (visitorData == null) {
-                mapOf()
-            } else {
-                mapOf(
-                    "X-Goog-Visitor-Id" to visitorData
-                )
-            }
-        }
-
-
         val origin = "${url.scheme}://${url.host}"
-        val cookies = settings.cookies
 
         val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
 
@@ -128,10 +116,11 @@ object YoutubeAuthHelper {
             headers["X-Goog-Visitor-Id"] = it
         }
 
-        if (cookies != null) {
-            headers["Cookie"] = cookies.toRawCookie()
 
-            val cookieMap = cookies.data
+        settings?.cookies?.let {
+            headers["Cookie"] = it.toRawCookie()
+
+            val cookieMap = it.data
             val sapisidCookie = cookieMap["SAPISID"] ?: cookieMap["__Secure-3PAPISID"]
 
             if (sapisidCookie != null) {
