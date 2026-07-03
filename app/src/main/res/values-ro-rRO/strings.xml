@@ -37,9 +37,9 @@
     <string name="playing_now">Redă acum</string>
     <string name="up_to_date_message">Aplicația este actualizată!</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat</string>
-    <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="github_rate_limit_retry">Rata API-ului GitHub este limitată. Reîncercați în %1$s.</string>
+    <string name="minutes">%1$d minute</string>
+    <string name="seconds">%1$d secunde</string>
     <string name="update_available">Actualizare disponibilă</string>
     <string name="new_version_body">Este disponibilă o versiune nouă. (%1$s)</string>
     <string name="log_out">Ieșire din cont</string>
