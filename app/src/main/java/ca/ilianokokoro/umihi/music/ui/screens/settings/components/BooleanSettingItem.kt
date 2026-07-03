@@ -84,7 +84,10 @@ fun BooleanSettingItem(
 
             Switch(
                 checked = value,
-                onCheckedChange = onToggle,
+                onCheckedChange = {
+                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                    onToggle(it)
+                },
             )
 
         }
