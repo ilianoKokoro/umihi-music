@@ -127,7 +127,7 @@
     <string name="song_alerts_name">Alertas de descarga de canciones</string>
     <string name="song_alerts_description">Notificaciones sobre problemas de descarga de canciones individuales durante las descargas de la lista de reproducción</string>
     <string name="short_minutes">%1$d min</string>
-    <string name="download_on_metered_title">Download on Mobile Data</string>
-    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
-    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="download_on_metered_title">Descargar en datos móviles</string>
+    <string name="download_on_metered_description">Permite descargar canciones y listas de reproducción usando tu plan de datos móvil</string>
+    <string name="waiting_for_wifi_to_download">Esperando a que Wi-Fi descargue %1$s</string>
 </resources>
