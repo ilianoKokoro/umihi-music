@@ -127,7 +127,7 @@
     <string name="song_alerts_name">Powiadomienia o pobieraniu utworów</string>
     <string name="song_alerts_description">Powiadamia o indywidualnych problemach z pobieraniem utworu podczas pobierania listy odtwarzania</string>
     <string name="short_minutes">%1$d min</string>
-    <string name="download_on_metered_title">Download on Mobile Data</string>
-    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
-    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="download_on_metered_title">Pobierz na dane mobilne</string>
+    <string name="download_on_metered_description">Pozwala na pobieranie utworów i list odtwarzania przy użyciu planu danych mobilnych</string>
+    <string name="waiting_for_wifi_to_download">Oczekiwanie na pobranie przez Wi-Fi %1$s</string>
 </resources>
