@@ -65,8 +65,8 @@ android {
             buildConfigField("boolean", "UPDATER_ENABLED", "true")
         }
 
-        create("store") {
-            versionNameSuffix = "-store"
+        create("stripped") {
+            versionNameSuffix = "-stripped"
             dimension = "version"
             buildConfigField("boolean", "UPDATER_ENABLED", "false")
         }
@@ -139,7 +139,7 @@ androidComponents {
             output.outputFileName.set(
                 when (flavor) {
                     "standalone" -> "UmihiMusic.apk"
-                    "store" -> "UmihiMusic-store.apk"
+                    "stripped" -> "UmihiMusic-stripped.apk"
                     else -> "UmihiMusic-$flavor.apk"
                 }
             )
