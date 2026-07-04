@@ -126,8 +126,8 @@
     <string name="playlist_progress_description">Показывает прогресс и уведомления о завершении загрузки плейлиста </string>
     <string name="song_alerts_name">Оповещения о загрузке песен</string>
     <string name="song_alerts_description">Уведомляет об ошибках загрузки отдельных песен во время загрузки плейлиста</string>
-    <string name="short_minutes">%1$d min</string>
-    <string name="download_on_metered_title">Download on Mobile Data</string>
-    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
-    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="short_minutes">%1$d мин</string>
+    <string name="download_on_metered_title">Скачать на мобильные данные</string>
+    <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного плана передачи данных</string>
+    <string name="waiting_for_wifi_to_download">Ожидание загрузки Wi-Fi %1$s</string>
 </resources>
