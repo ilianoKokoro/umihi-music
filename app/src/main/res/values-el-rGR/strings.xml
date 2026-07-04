@@ -126,8 +126,8 @@
     <string name="playlist_progress_description">Εμφανίζει ζωντανές ειδοποιήσεις προόδου και ολοκλήρωσης για λήψεις λίστας αναπαραγωγής</string>
     <string name="song_alerts_name">Ειδοποιήσεις Λήψης Τραγουδιού</string>
     <string name="song_alerts_description">Ειδοποιεί για μεμονωμένα ζητήματα λήψης τραγουδιού κατά τη διάρκεια λήψεων λίστας αναπαραγωγής</string>
-    <string name="short_minutes">%1$d min</string>
-    <string name="download_on_metered_title">Download on Mobile Data</string>
-    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
-    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="short_minutes">%1$d λεπτά</string>
+    <string name="download_on_metered_title">Λήψη δεδομένων κινητής τηλεφωνίας</string>
+    <string name="download_on_metered_description">Επιτρέπει τη λήψη τραγουδιών και λιστών αναπαραγωγής χρησιμοποιώντας το πλάνο δεδομένων κινητής τηλεφωνίας</string>
+    <string name="waiting_for_wifi_to_download">Αναμονή για λήψη του Wi-Fi %1$s</string>
 </resources>
