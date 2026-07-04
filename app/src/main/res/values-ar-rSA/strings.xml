@@ -127,7 +127,7 @@
     <string name="song_alerts_name">تنبيهات تنزيل الأغنية</string>
     <string name="song_alerts_description">تنبيهات حول مشاكل تحميل الأغنية الفردية أثناء تحميل قائمة التشغيل</string>
     <string name="short_minutes">%1$d min</string>
-    <string name="download_on_metered_title">Download on Mobile Data</string>
-    <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
-    <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="download_on_metered_title">تحميل على بيانات الجوال</string>
+    <string name="download_on_metered_description">يسمح بتحميل الأغاني وقوائم التشغيل باستخدام خطة بيانات الجوال الخاصة بك</string>
+    <string name="waiting_for_wifi_to_download">في انتظار شبكة Wi-Fi لتنزيل %1$s</string>
 </resources>
