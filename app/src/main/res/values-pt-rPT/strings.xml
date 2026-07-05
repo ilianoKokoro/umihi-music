@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Alertas de Download de Músicas</string>
     <string name="song_alerts_description">Notifica sobre issues individuais de downloads de música durante downloads de playlist</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Baixar em dados móveis</string>
+    <string name="download_on_metered_description">Permite o download de músicas e playlists usando seu plano de dados móveis</string>
+    <string name="waiting_for_wifi_to_download">Esperando que o Wi-Fi baixe %1$s</string>
 </resources>

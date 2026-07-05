@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Upozornění na stažení skladby</string>
     <string name="song_alerts_description">Upozorňuje na problémy při stahování jednotlivých skladeb</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Stáhnout v mobilních datech</string>
+    <string name="download_on_metered_description">Umožňuje stahování skladeb a playlistů pomocí vašeho mobilního datového plánu</string>
+    <string name="waiting_for_wifi_to_download">Čeká se na stažení sítě %1$s</string>
 </resources>

@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Låten ladda ner varningar</string>
     <string name="song_alerts_description">Notifierar om enskilda låthämtningsproblem under nedladdning av spellista</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Ladda ner på mobildata</string>
+    <string name="download_on_metered_description">Tillåter nedladdning av låtar och spellistor med din mobildataplan</string>
+    <string name="waiting_for_wifi_to_download">Väntar på Wi-Fi för att ladda ner %1$s</string>
 </resources>

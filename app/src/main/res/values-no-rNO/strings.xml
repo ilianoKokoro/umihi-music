@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Last ned varsler</string>
     <string name="song_alerts_description">Foreslår om individuelle problemer med sangen nedlastingen under spillelisten</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Last ned på mobildata</string>
+    <string name="download_on_metered_description">Tillater nedlasting av sanger og spillelister ved hjelp av mobildataplanen din</string>
+    <string name="waiting_for_wifi_to_download">Venter på Wi-Fi nedlasting av %1$s</string>
 </resources>

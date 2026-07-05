@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Song Download Warnungen</string>
     <string name="song_alerts_description">Benachrichtigt über individuelle Probleme beim Herunterladen von Liedern während der Wiedergabeliste</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Auf Mobile Daten herunterladen</string>
+    <string name="download_on_metered_description">Ermöglicht das Herunterladen von Liedern und Wiedergabelisten mit Ihrem mobilen Datenplan</string>
+    <string name="waiting_for_wifi_to_download">Warte auf Wi-Fi um %1$s herunterzuladen</string>
 </resources>

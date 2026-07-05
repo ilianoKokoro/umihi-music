@@ -126,5 +126,8 @@
     <string name="playlist_progress_description">Arată progresul live şi notificările de finalizare pentru descărcările din lista de redare</string>
     <string name="song_alerts_name">Melodie descărcați alerte</string>
     <string name="song_alerts_description">Notificări despre problemele de descărcare a melodiilor în timpul descărcărilor din lista de redare</string>
-    <string name="short_minutes">%1$d min</string>
+    <string name="short_minutes">%1$d min.</string>
+    <string name="download_on_metered_title">Descarcă datele mobile</string>
+    <string name="download_on_metered_description">Permite descărcarea de melodii și liste de redare folosind planul de date mobile</string>
+    <string name="waiting_for_wifi_to_download">Se așteaptă ca Wi-Fi să descarce %1$s</string>
 </resources>
