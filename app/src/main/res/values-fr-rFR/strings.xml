@@ -127,4 +127,7 @@
     <string name="song_alerts_name">Alertes de téléchargement de musique</string>
     <string name="song_alerts_description">Notifie les problèmes de téléchargement de titres individuels lors des téléchargements de la playlist</string>
     <string name="short_minutes">%1$d min</string>
+    <string name="download_on_metered_title">Télécharger via les données mobiles</string>
+    <string name="download_on_metered_description">Permet de télécharger des titres et des playlists en utilisant votre forfait de données mobiles</string>
+    <string name="waiting_for_wifi_to_download">En attente d\'une connexion Wi-Fi pour télécharger %1$s</string>
 </resources>
