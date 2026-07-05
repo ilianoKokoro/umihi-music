@@ -10,6 +10,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -301,31 +302,37 @@ fun SongInfo(
         }
 
         if (isLoggedIn) {
-            FilledTonalIconButton(
-                onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                    onToggleLike()
-                },
-                enabled = !isLiking,
-                shapes = IconButtonDefaults.shapes()
-            ) {
-                Icon(
-                    imageVector = if (isLiked) {
-                        Icons.Rounded.Favorite
-                    } else {
-                        Icons.Rounded.FavoriteBorder
+            Box(modifier = Modifier.padding(start = 8.dp)) {
+                FilledIconToggleButton(
+                    checked = isLiked,
+                    onCheckedChange = {
+                        if (isLiking) {
+                            return@FilledIconToggleButton
+                        }
+                        haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                        onToggleLike()
                     },
-                    contentDescription = if (isLiked) {
-                        stringResource(R.string.unlike)
-                    } else {
-                        stringResource(R.string.like)
-                    },
-                    tint = if (isLiked) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    }
-                )
+                    shapes = IconButtonDefaults.toggleableShapes(),
+                    colors = IconButtonDefaults.filledIconToggleButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                        checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                    ),
+                ) {
+                    Icon(
+                        imageVector = if (isLiked) {
+                            Icons.Rounded.Favorite
+                        } else {
+                            Icons.Rounded.FavoriteBorder
+                        },
+                        contentDescription = if (isLiked) {
+                            stringResource(R.string.unlike)
+                        } else {
+                            stringResource(R.string.like)
+                        }
+                    )
+                }
             }
         }
     }

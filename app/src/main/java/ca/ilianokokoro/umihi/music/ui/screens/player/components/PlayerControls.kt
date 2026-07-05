@@ -175,8 +175,7 @@ fun PlayerControls(
                                     PlayerManager.currentController?.play()
                                 }
                             },
-                            shapes = IconButtonDefaults.toggleableShapes()
-                                .copy(checkedShape = IconButtonDefaults.shapes().shape),
+                            shapes = IconButtonDefaults.toggleableShapes(),
                             colors = IconButtonDefaults.filledIconToggleButtonColors(
                                 checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
                                 checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
