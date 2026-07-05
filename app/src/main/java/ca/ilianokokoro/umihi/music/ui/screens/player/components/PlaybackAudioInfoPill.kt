@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -20,16 +21,19 @@ fun PlaybackAudioInfoPill(
     modifier: Modifier = Modifier,
 ) {
     val label = info.getDisplayLabel(LocalResources.current)
-
-    if (label.isBlank()) {
-        return
-    }
+    val hasLabel = label.isNotBlank()
 
     Surface(
-        modifier = modifier,
+        modifier = modifier.alpha(
+            if (hasLabel) {
+                1f
+            } else {
+                0f
+            }
+        ),
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     ) {
         Text(
             text = label,
