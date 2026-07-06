@@ -8,9 +8,10 @@
   <li>Download music for offline playback</li>
   <li>Search and play music without logging in</li>
   <li>Brand accounts login</li>
-  <li>Automatic update checker</li>
+  <li>Automatic in-app updates</li>
   <li>No ads</li>
   <li>Lightweight and fast</li>
   <li>Clean Material Expressive design</li>
   <li>Optimized for modern Android devices</li>
+  <li>Android Auto support</li>
 </ul>

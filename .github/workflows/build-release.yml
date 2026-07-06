@@ -163,3 +163,5 @@ jobs:
           artifacts: ./artifacts/**/*.apk
           generateReleaseNotes: true
           draft: true
+          body: |
+            ## Release v${{ steps.get_version.outputs.version }}

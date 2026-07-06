@@ -67,7 +67,7 @@ Join the Discord server to get update pings, know about announcements and get su
 - Download music for offline playback
 - Search and play music without logging in
 - Brand accounts login
-- Automatic update checker
+- Automatic in-app updates
 - No ads
 - Lightweight and fast
 - Clean Material Expressive design
