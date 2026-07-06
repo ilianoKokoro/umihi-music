@@ -20,21 +20,27 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 object YoutubeApiClient {
-    suspend fun browse(browseId: String, settings: UmihiSettings): String {
+    suspend fun browse(browseId: String, settings: UmihiSettings, fields: String? = null): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "browseId",
             id = browseId,
-            settings = settings
+            settings = settings,
+            fields = fields,
         )
     }
 
-    suspend fun requestContinuation(continuationToken: String, settings: UmihiSettings): String {
+    suspend fun requestContinuation(
+        continuationToken: String,
+        settings: UmihiSettings,
+        fields: String? = null,
+    ): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,
             idName = "continuation",
             id = continuationToken,
-            settings = settings
+            settings = settings,
+            fields = fields,
         )
     }
 
@@ -110,6 +116,7 @@ object YoutubeApiClient {
         client: JsonObject? = null,
         visitorData: String? = null,
         settings: UmihiSettings? = null,
+        fields: String? = null,
     ): String {
         return requestWithContext(
             url = Constants.YoutubeApi.PlayerInfo.URL,
@@ -117,7 +124,8 @@ object YoutubeApiClient {
             id = videoId,
             settings = settings,
             client = client,
-            visitorData = visitorData
+            visitorData = visitorData,
+            fields = fields,
         )
     }
 
@@ -171,7 +179,8 @@ object YoutubeApiClient {
         body: Any,
         settings: UmihiSettings? = null,
         client: JsonObject? = null,
-        visitorData: String? = null
+        visitorData: String? = null,
+        fields: String? = null,
     ): String = withContext(Dispatchers.IO) {
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
@@ -179,10 +188,18 @@ object YoutubeApiClient {
             .toString()
             .toRequestBody(mediaType)
 
+        val httpUrl = if (fields != null) {
+            url.toHttpUrl().newBuilder()
+                .addQueryParameter("\$fields", fields)
+                .build()
+        } else {
+            url.toHttpUrl()
+        }
+
         val request = Request.Builder()
-            .url(url)
+            .url(httpUrl)
             .post(requestBody)
-            .applyHeaders(url.toHttpUrl(), settings, visitorData, client)
+            .applyHeaders(httpUrl, settings, visitorData, client)
             .build()
 
         UmihiHttpClient.client
@@ -207,7 +224,8 @@ object YoutubeApiClient {
         id: String,
         settings: UmihiSettings? = null,
         client: JsonObject? = null,
-        visitorData: String? = null
+        visitorData: String? = null,
+        fields: String? = null,
     ): String {
         val body = YoutubeAuthHelper.buildContextBody(
             idName,
@@ -222,7 +240,8 @@ object YoutubeApiClient {
             body = body,
             settings = settings,
             client = client,
-            visitorData = visitorData
+            visitorData = visitorData,
+            fields = fields,
         )
     }
 }

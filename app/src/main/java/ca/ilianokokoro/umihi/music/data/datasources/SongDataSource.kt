@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.models.Song
@@ -7,7 +8,10 @@ import ca.ilianokokoro.umihi.music.models.Song
 class SongDataSource {
     suspend fun getSongInfo(songId: String): Song {
         return YoutubeDataExtractor.extractSongInfo(
-            YoutubeApiClient.getPlayerInfo(songId)
+            YoutubeApiClient.getPlayerInfo(
+                songId,
+                fields = Constants.YoutubeApi.PlayerInfo.Fields.SONG_INFO
+            )
         )
     }
 

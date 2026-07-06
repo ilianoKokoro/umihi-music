@@ -66,6 +66,7 @@ object YoutubeStatsTracker {
             try {
                 val playerResponse = YoutubeApiClient.getPlayerInfo(
                     videoId = videoId, visitorData = visitorData, settings = settings,
+                    fields = Constants.YoutubeApi.PlayerInfo.Fields.TRACKING,
                 )
 
                 if (!isActive) {

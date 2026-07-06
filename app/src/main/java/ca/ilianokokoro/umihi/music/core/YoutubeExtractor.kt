@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.core
 
+import ca.ilianokokoro.umihi.music.core.youtube.YoutubeAuthHelper.applyHeaders
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.schabi.newpipe.extractor.downloader.Downloader
@@ -9,22 +11,17 @@ import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 import java.io.IOException
 
 internal class YoutubeExtractor : Downloader() {
-
     private val cookieStore = HashMap<String, String>()
 
     @Throws(IOException::class, ReCaptchaException::class)
     override fun execute(request: Request): Response {
-        val url = request.url()
+        val url = request.url().toHttpUrl()
         val requestBody: RequestBody? = request.dataToSend()?.toRequestBody()
 
         val requestBuilder = okhttp3.Request.Builder()
             .url(url)
             .method(request.httpMethod(), requestBody)
-            .header("User-Agent", USER_AGENT)
-            .header("Accept", "*/*")
-            .header("Accept-Language", "en-US,en;q=0.9")
-            .header("Origin", YOUTUBE_HOST)
-            .header("Referer", "$YOUTUBE_HOST/")
+            .applyHeaders(url = url, settings = null)
 
         val cookieHeader = getCookies()
         if (cookieHeader.isNotBlank()) {
@@ -41,7 +38,7 @@ internal class YoutubeExtractor : Downloader() {
 
         UmihiHttpClient.client.newCall(requestBuilder.build()).execute().use { response ->
             if (response.code == 429) {
-                throw ReCaptchaException("YouTube rate limit / reCAPTCHA challenge", url)
+                throw ReCaptchaException("YouTube rate limit / reCAPTCHA challenge", url.toString())
             }
 
             val responseBody = response.body?.string()
@@ -85,9 +82,6 @@ internal class YoutubeExtractor : Downloader() {
     }
 
     companion object {
-        const val USER_AGENT =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
-        const val YOUTUBE_HOST = "https://www.youtube.com"
         const val RECAPTCHA_COOKIES_KEY = "recaptcha_cookies"
     }
 
