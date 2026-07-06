@@ -161,7 +161,17 @@ jobs:
           tag: v${{ steps.get_version.outputs.version }}
           commit: prod
           artifacts: ./artifacts/**/*.apk
-          generateReleaseNotes: true
+          generateReleaseNotes: false
           draft: true
           body: |
             ## Release v${{ steps.get_version.outputs.version }}
+            
+            ### Features
+            - 
+            
+            ### Bug fixes
+            - 
+            
+            ### Full Changelog
+            https://github.com/ilianoKokoro/umihi-music/compare/v${{ steps.get_version.outputs.version }}...v${{ steps.get_version.outputs.version }}
+            
