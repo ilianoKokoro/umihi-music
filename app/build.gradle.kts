@@ -28,7 +28,9 @@ kotlinExtension.jvmToolchain {
 
 android {
     namespace = "ca.ilianokokoro.umihi.music"
-    compileSdk = 37
+    compileSdk {
+        version = release(37)
+    }
     ndkVersion = "30.0.14904198"
     buildToolsVersion = "37.0.0"
 
@@ -65,7 +67,7 @@ android {
             buildConfigField("boolean", "UPDATER_ENABLED", "true")
         }
 
-        create("stripped") {
+        create("store") {
             versionNameSuffix = "-stripped"
             dimension = "version"
             buildConfigField("boolean", "UPDATER_ENABLED", "false")
@@ -139,7 +141,7 @@ androidComponents {
             output.outputFileName.set(
                 when (flavor) {
                     "standalone" -> "UmihiMusic.apk"
-                    "stripped" -> "UmihiMusic-stripped.apk"
+                    "store" -> "UmihiMusic-stripped.apk"
                     else -> "UmihiMusic-$flavor.apk"
                 }
             )
@@ -157,13 +159,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
     // Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
