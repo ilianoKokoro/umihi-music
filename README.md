@@ -55,6 +55,14 @@ effortlessly.
   </tbody>
 </table>
 
+## FAQ ❓
+
+### What is the difference between the normal APK and the
+`store` apk and which one should I download ?
+
+_The `store` version is the app version that is hosted on `F-droid` and has the updater removed. If
+you download the app directly from GitHub, download the normal version._
+
 ## Support 🛟
 
 Join the Discord server to get update pings, know about announcements and get support about problems
