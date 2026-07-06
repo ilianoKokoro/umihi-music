@@ -10,6 +10,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -28,6 +29,9 @@ class PlaylistRepository(application: Application) {
                 val remotePlaylists = playlistDataSource.retrieveAll(settings)
                 emit(ApiResult.Success(remotePlaylists))
             } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
                 val localPlaylists = localPlaylistDataSource.getAll().map { it.info }
                 emit(ApiResult.Success(localPlaylists))
             }
@@ -52,6 +56,9 @@ class PlaylistRepository(application: Application) {
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
                 emit(ApiResult.Success(mergeWithLocal(remotePlaylist, localPlaylist)))
             } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
                 if (localPlaylist != null) {
                     emit(
