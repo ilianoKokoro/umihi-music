@@ -52,11 +52,9 @@ fun QueueSongListItem(
     val innerHeight = 60.dp
 
     ListItem(
-        colors =
-            if (isCurrentSong)
-                ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
-            else
-                ListItemDefaults.colors(),
+        modifier = Modifier
+            .clip(RoundedCornerShape(18.dp))
+            .clickable(onClick = onPress),
         leadingContent = {
             Box(
                 modifier = Modifier
@@ -117,7 +115,6 @@ fun QueueSongListItem(
                 )
             }
         },
-        headlineContent = { Text(song.title, modifier = Modifier.basicMarquee()) },
         supportingContent = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -135,9 +132,13 @@ fun QueueSongListItem(
                 )
             }
         },
-        modifier = Modifier
-            .clip(RoundedCornerShape(18.dp))
-            .clickable(onClick = onPress)
+        colors = if (isCurrentSong) {
+            ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+        } else {
+            ListItemDefaults.colors()
+        },
+        verticalAlignment = Alignment.CenterVertically,
+        content = { Text(song.title, modifier = Modifier.basicMarquee()) },
     )
 
 }

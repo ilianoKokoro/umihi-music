@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,6 +46,8 @@ fun SongListItem(
     var expanded by remember { mutableStateOf(false) }
 
     ListItem(
+        modifier = modifier
+            .combinedClickable(onClick = onPress, onLongClick = { expanded = true }),
         leadingContent = {
             Box(
                 modifier = Modifier
@@ -54,40 +57,6 @@ fun SongListItem(
                 SquareImage(
                     uri = song.thumbnailPath ?: song.thumbnailHref,
                     modifier = Modifier.matchParentSize()
-                )
-            }
-        },
-        headlineContent = {
-            Text(
-                text = song.title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.basicMarquee()
-            )
-        },
-        supportingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(3.dp)
-            ) {
-                if (song.downloaded) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = Icons.Rounded.DownloadForOffline,
-                        contentDescription = null
-                    )
-                }
-
-                if (song.isExplicit) {
-                    ExplicitBadge()
-                }
-
-
-                Text(
-                    text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
                 )
             }
         },
@@ -130,7 +99,41 @@ fun SongListItem(
                 }
             }
         },
-        modifier = modifier
-            .combinedClickable(onClick = onPress, onLongClick = { expanded = true })
+        supportingContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                if (song.downloaded) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Rounded.DownloadForOffline,
+                        contentDescription = null
+                    )
+                }
+
+                if (song.isExplicit) {
+                    ExplicitBadge()
+                }
+
+
+                Text(
+                    text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.basicMarquee()
+                )
+            }
+        },
+        colors = ListItemDefaults.colors(),
+        verticalAlignment = Alignment.CenterVertically,
+        content = {
+            Text(
+                text = song.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.basicMarquee()
+            )
+        },
     )
 }
