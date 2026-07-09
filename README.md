@@ -58,6 +58,7 @@ effortlessly.
 ## FAQ ❓
 
 ### What is the difference between the normal APK and the
+
 `store` apk and which one should I download ?
 
 _The `store` version is the app version that is hosted on `F-droid` and has the updater removed. If
@@ -217,10 +218,10 @@ Thank you to all the people who helped translate Umihi Music
 
 ## Star History ✨
 
-<a href="https://www.star-history.com/#ilianoKokoro/umihi-music&Date">
+<a href="https://www.star-history.com/?type=date&repos=ilianoKokoro%2Fumihi-music">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ilianoKokoro/umihi-music&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ilianoKokoro/umihi-music&type=date&theme=dark&legend=top-left&sealed_token=k_RkJanYCwu4XqU4GYKLbX0FkxLGJLx4_dPWi_AfySTEj9eqsvnx628ff-p2z5Z0RLN1M0lmcT3wbr6bRG0__Wmie_CLrdkR7NEQ1VI9ZpgzI6Li2_uR-g" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ilianoKokoro/umihi-music&type=date&legend=top-left&sealed_token=k_RkJanYCwu4XqU4GYKLbX0FkxLGJLx4_dPWi_AfySTEj9eqsvnx628ff-p2z5Z0RLN1M0lmcT3wbr6bRG0__Wmie_CLrdkR7NEQ1VI9ZpgzI6Li2_uR-g" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ilianoKokoro/umihi-music&type=date&legend=top-left&sealed_token=k_RkJanYCwu4XqU4GYKLbX0FkxLGJLx4_dPWi_AfySTEj9eqsvnx628ff-p2z5Z0RLN1M0lmcT3wbr6bRG0__Wmie_CLrdkR7NEQ1VI9ZpgzI6Li2_uR-g" />
  </picture>
 </a>
