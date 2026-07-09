@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
@@ -232,6 +233,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
     if (showFullPlayer) {
         ModalBottomSheet(
+            sheetMaxWidth = Dp.Unspecified,
             onDismissRequest = {
                 showFullPlayer = false
             },

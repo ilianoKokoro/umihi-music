@@ -80,13 +80,19 @@ fun PlayerScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        modifier = Modifier.padding(
+            start = 8.dp,
+            end = 8.dp,
+            bottom = 10.dp
+        )
+    ) { paddingValues ->
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             Column(
                 modifier = modifier
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .fillMaxSize()
-                    .padding(end = 8.dp, start = 8.dp, top = paddingValues.calculateTopPadding()),
+                    .padding(paddingValues),
 
                 horizontalAlignment = Alignment.CenterHorizontally
 
@@ -139,12 +145,8 @@ fun PlayerScreen(
             Row(
                 modifier = modifier
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(
-                        end = 8.dp,
-                        start = 8.dp,
-                        top = paddingValues.calculateTopPadding()
-                    )
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(paddingValues),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
