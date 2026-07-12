@@ -140,7 +140,7 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="LOLCAT">lol</code></b>, <b><code title="Tagalog">tl</code></b></sub>
       </td>
       <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f009948892813d4721345dcbefc34395.jpg" />
+        <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f02d53d5d23fc5f2d367c0c319829c6c.jpg" />
           <br />
           <sub><b>Alina Ye-jin</b></sub>
           <br />
