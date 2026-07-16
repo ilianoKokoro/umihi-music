@@ -14,7 +14,7 @@ class PlaylistDataSource {
             YoutubeApiClient.browse(
                 Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
                 settings,
-                fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS,
+                //  fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS,
             ), settings
         )
     }
@@ -25,7 +25,7 @@ class PlaylistDataSource {
                 YoutubeApiClient.browse(
                     playlist.info.id,
                     settings,
-                    fields = Constants.YoutubeApi.Browse.Fields.SONGS,
+                    //   fields = Constants.YoutubeApi.Browse.Fields.SONGS,
                 ), settings
             )
         )

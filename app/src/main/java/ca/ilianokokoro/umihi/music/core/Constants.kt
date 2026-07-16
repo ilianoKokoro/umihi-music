@@ -217,23 +217,24 @@ object Constants {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
 
-            object Fields {
-                const val PLAYLISTS =
-                    "contents.singleColumnBrowseResultsRenderer.tabs," +
-                    "contents.twoColumnBrowseResultsRenderer.tabs"
-
-                const val PLAYLISTS_CONTINUATION =
-                    "continuationContents.gridContinuation," +
-                    "continuationContents.musicLibraryContinuation"
-
-                const val SONGS =
-                    "contents.twoColumnBrowseResultsRenderer" +
-                        ".secondaryContents.sectionListRenderer.contents," +
-                    "contents.singleColumnBrowseResultsRenderer" +
-                        ".tabs.tabRenderer.content.sectionListRenderer.contents"
-
-                const val SONGS_CONTINUATION = "onResponseReceivedActions"
-            }
+            // Disabled as it was causing issues
+//            object Fields {
+//                const val PLAYLISTS =
+//                    "contents.singleColumnBrowseResultsRenderer.tabs," +
+//                    "contents.twoColumnBrowseResultsRenderer.tabs"
+//
+//                const val PLAYLISTS_CONTINUATION =
+//                    "continuationContents.gridContinuation," +
+//                    "continuationContents.musicLibraryContinuation"
+//
+//                const val SONGS =
+//                    "contents.twoColumnBrowseResultsRenderer" +
+//                        ".secondaryContents.sectionListRenderer.contents," +
+//                    "contents.singleColumnBrowseResultsRenderer" +
+//                        ".tabs.tabRenderer.content.sectionListRenderer.contents"
+//
+//                const val SONGS_CONTINUATION = "onResponseReceivedActions"
+//            }
         }
 
         object Client {
@@ -281,20 +282,20 @@ object Constants {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
 
-            object Fields {
-                const val SONG_INFO =
-                    "videoDetails.videoId,videoDetails.title,videoDetails.author,videoDetails.lengthSeconds," +
-                    "videoDetails.thumbnail.thumbnails,microformat.microformatDataRenderer.familySafe"
-
-                const val TRACKING =
-                    "playbackTracking.videostatsPlaybackUrl.baseUrl," +
-                    "playbackTracking.videostatsWatchtimeUrl.baseUrl"
-
-                const val STREAM =
-                    "responseContext.visitorData,playabilityStatus.status,playabilityStatus.reason," +
-                    "streamingData.adaptiveFormats.url,streamingData.adaptiveFormats.mimeType," +
-                    "streamingData.adaptiveFormats.bitrate"
-            }
+//            object Fields {
+//                const val SONG_INFO =
+//                    "videoDetails.videoId,videoDetails.title,videoDetails.author,videoDetails.lengthSeconds," +
+//                            "videoDetails.thumbnail.thumbnails,microformat.microformatDataRenderer.familySafe"
+//
+//                const val TRACKING =
+//                    "playbackTracking.videostatsPlaybackUrl.baseUrl," +
+//                            "playbackTracking.videostatsWatchtimeUrl.baseUrl"
+//
+//                const val STREAM =
+//                    "responseContext.visitorData,playabilityStatus.status,playabilityStatus.reason," +
+//                            "streamingData.adaptiveFormats.url,streamingData.adaptiveFormats.mimeType," +
+//                            "streamingData.adaptiveFormats.bitrate"
+//            }
         }
 
         object Like {

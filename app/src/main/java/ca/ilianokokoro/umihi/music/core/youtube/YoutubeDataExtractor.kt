@@ -98,7 +98,7 @@ object YoutubeDataExtractor {
                 val continuationJson = YoutubeApiClient.requestContinuation(
                     continuationToken = continuationToken,
                     settings = settings,
-                    fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS_CONTINUATION,
+                    //   fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS_CONTINUATION,
                 )
                 playlistInfos.addAll(
                     extractPlaylists(
@@ -132,7 +132,7 @@ object YoutubeDataExtractor {
                 val continuationJson = YoutubeApiClient.requestContinuation(
                     continuationToken = continuationToken,
                     settings = settings,
-                    fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS_CONTINUATION,
+                    //  fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS_CONTINUATION,
                 )
                 playlistInfos.addAll(
                     extractPlaylists(
@@ -549,7 +549,7 @@ object YoutubeDataExtractor {
                     YoutubeApiClient.requestContinuation(
                         continuationToken = token,
                         settings = settings,
-                        fields = Constants.YoutubeApi.Browse.Fields.SONGS_CONTINUATION,
+                        // fields = Constants.YoutubeApi.Browse.Fields.SONGS_CONTINUATION,
                     ), settings
                 )
                 songs.addAll(otherSongs)
@@ -755,7 +755,7 @@ object YoutubeDataExtractor {
                 videoId = videoId,
                 client = Constants.YoutubeApi.Client.ANDROID_VR,
                 visitorData = visitorData,
-                fields = Constants.YoutubeApi.PlayerInfo.Fields.STREAM,
+                //   fields = Constants.YoutubeApi.PlayerInfo.Fields.STREAM,
             )
 
             return extractStreamFromAndroidVrResponse(response)
