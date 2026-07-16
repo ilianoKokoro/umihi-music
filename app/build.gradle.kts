@@ -3,9 +3,17 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import java.io.FileInputStream
 import java.util.Properties
 
-val versionMajor = 1
-val versionMinor = 13
-val versionPatch = 0
+val appVersionName: String = libs.versions.versionName
+    .get()
+
+val appVersionCode: Int = appVersionName
+    .split(".")
+    .let { parts ->
+        parts[0].toInt() * 10000 +
+                parts[1].toInt() * 100 +
+                parts[2].toInt()
+    }
+
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -38,8 +46,8 @@ android {
         applicationId = "ca.ilianokokoro.umihi.music"
         minSdk = 24
         targetSdk = 37
-        versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName = "${versionMajor}.${versionMinor}.${versionPatch}${if (beta) "-beta" else ""}"
+        versionCode = appVersionCode
+        versionName = "${appVersionName}${if (beta) "-beta" else ""}"
 
         buildConfigField("boolean", "IS_BETA", "$beta")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

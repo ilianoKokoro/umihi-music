@@ -144,12 +144,9 @@ jobs:
       - name: Extract version
         id: get_version
         run: |
-          versionMajor=$(grep -oP 'val\s+versionMajor\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
-          versionMinor=$(grep -oP 'val\s+versionMinor\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
-          versionPatch=$(grep -oP 'val\s+versionPatch\s*=\s*\K[0-9]+' ${{ env.MAIN_PROJECT_MODULE }}/build.gradle.kts)
-
-          version="${versionMajor}.${versionMinor}.${versionPatch}"
-
+          version=$(grep -oP 'versionName\s*=\s*"\K[^"]+' gradle/libs.versions.toml)
+          IFS='.' read -r major minor patch <<< "$version"
+                  
           echo "version=$version"
           echo "version=$version" >> $GITHUB_OUTPUT
 
