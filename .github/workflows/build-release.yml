@@ -144,9 +144,8 @@ jobs:
       - name: Extract version
         id: get_version
         run: |
-          version=$(grep -oP 'versionName\s*=\s*"\K[^"]+' gradle/libs.versions.toml)
-          IFS='.' read -r major minor patch <<< "$version"
-                  
+          version=$(grep -oP 'val\s+appVersionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
+
           echo "version=$version"
           echo "version=$version" >> $GITHUB_OUTPUT
 
@@ -162,16 +161,16 @@ jobs:
           draft: true
           body: |
             ## Release v${{ steps.get_version.outputs.version }}
-            
+
             ### Features
-            - 
-            
+            -
+
             ### Bug fixes
-            - 
-            
+            -
+
             ### Full Changelog
             https://github.com/ilianoKokoro/umihi-music/compare/v${{ steps.get_version.outputs.version }}...v${{ steps.get_version.outputs.version }}
-            
+
             ## FAQ
             ### What is the difference between the normal APK and the `store` apk and which one should I download ?
             _The `store` version is the app version that is hosted on `F-droid` and has the updater removed. If you download the app directly from GitHub, download the normal version._
