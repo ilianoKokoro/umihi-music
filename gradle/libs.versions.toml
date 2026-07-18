@@ -1,6 +1,6 @@
 [versions]
 agp = "9.3.0"
-kotlin = "2.4.0" # 2.4.0 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
+kotlin = "2.4.10" # 2.4.0 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 coreKtx = "1.19.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
