@@ -115,6 +115,25 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ## Translations 🉐
 
+<a href="https://crowdin.com/?utm_term=click-badge-add-on">
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="https://badges.crowdin.net/badge/light/crowdin-on-dark.png"
+    />
+    <source
+      media="(prefers-color-scheme: light)"
+      srcset="https://badges.crowdin.net/badge/dark/crowdin-on-light.png"
+    />
+    <img
+      src="https://badges.crowdin.net/badge/dark/crowdin-on-light.png"
+      width="140"
+      height="40"
+      alt="Crowdin | Agile localization for tech companies"
+    />
+  </picture>
+</a>
+
 [![Crowdin](https://badges.crowdin.net/umihi-music/localized.svg)](https://crowdin.com/project/umihi-music)
 
 Thank you to all the people who helped translate Umihi Music
