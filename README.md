@@ -147,7 +147,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>ilianoKokoro</b></sub></a>
         <br />
-        <sub><b>5870 words</b></sub>
+        <sub><b>5914 words</b></sub>
         <br /><sub><b><code title="Afrikaans">af</code></b>, <b><code title="Arabic">ar</code></b>, <b><code title="Catalan">ca</code></b>, <b><code title="Chinese Simplified">zh-CN</code></b>, <b><code title="Chinese Traditional">zh-TW</code></b>, <b><code title="Czech">cs</code></b>, <b><code title="Danish">da</code></b>, <b><code title="Dutch">nl</code></b>, <b><code title="Finnish">fi</code></b>, <b><code title="French">fr</code></b>, <b><code title="German">de</code></b>, <b><code title="Greek">el</code></b>, <b><code title="Hebrew">he</code></b>, <b><code title="Hungarian">hu</code></b>, <b><code title="Italian">it</code></b>, <b><code title="Japanese">ja</code></b>, <b><code title="Korean">ko</code></b>, <b><code title="LOLCAT">lol</code></b>, <b><code title="Norwegian">no</code></b>, <b><code title="Polish">pl</code></b>, <b><code title="Portuguese">pt-PT</code></b>, <b><code title="Portuguese, Brazilian">pt-BR</code></b>, <b><code title="Romanian">ro</code></b>, <b><code title="Russian">ru</code></b>, <b><code title="Serbian (Cyrillic)">sr</code></b>, <b><code title="Spanish">es-ES</code></b>, <b><code title="Swedish">sv-SE</code></b>, <b><code title="Tagalog">tl</code></b>, <b><code title="Turkish">tr</code></b>, <b><code title="Ukrainian">uk</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
       </td>
       <td align="center" valign="top">
