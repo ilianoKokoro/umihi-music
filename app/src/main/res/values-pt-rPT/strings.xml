@@ -4,7 +4,7 @@
     <string name="settings">Confirgurações</string>
     <string name="back_description">Tela anterior</string>
     <string name="no_playlists">Nenhuma playlist encontrada</string>
-    <string name="log_in_message">Por favor, faça login em sua conta YouTube para usar o aplicativo</string>
+
     <string name="playlist_cover">Capa da playlist</string>
     <string name="log_in">Iniciar sessão</string>
     <string name="empty_playlist">Sem músicas na playlist</string>

@@ -4,7 +4,7 @@
     <string name="settings">설정</string>
     <string name="back_description">이전 화면</string>
     <string name="no_playlists">재생 목록을 찾을 수 없습니다</string>
-    <string name="log_in_message">앱을 사용하려면 YouTube 계정에 로그인하세요</string>
+
     <string name="playlist_cover">재생 목록 표지</string>
     <string name="log_in">로그인하세요</string>
     <string name="empty_playlist">재생 목록에 노래 없음</string>

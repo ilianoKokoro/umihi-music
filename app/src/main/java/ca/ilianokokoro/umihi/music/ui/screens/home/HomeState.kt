@@ -10,12 +10,9 @@ data class HomeState(
 
 sealed class ScreenState {
     data class LoggedIn(
-        val playlistInfos: List<PlaylistInfo>
+        val playlistInfos: List<PlaylistInfo>,
+        val isLoggedIn: Boolean = false
     ) : ScreenState()
-
-    data object LoggedOut
-        : ScreenState()
-
 
     data object Loading : ScreenState()
     data class Error(val exception: Exception) : ScreenState()

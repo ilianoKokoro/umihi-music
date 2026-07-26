@@ -4,7 +4,7 @@
     <string name="settings">Einstellungen</string>
     <string name="back_description">Vorheriger Bildschirm</string>
     <string name="no_playlists">Keine Wiedergabelisten gefunden</string>
-    <string name="log_in_message">Bitte melden Sie sich bei Ihrem YouTube-Konto an, um die App zu nutzen</string>
+
     <string name="playlist_cover">Playlist-Cover</string>
     <string name="log_in">Anmelden</string>
     <string name="empty_playlist">Keine Titel in der Playlist</string>

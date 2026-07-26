@@ -13,8 +13,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -47,7 +45,6 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 @Composable
 fun HomeScreen(
     sharedViewModel: SharedViewModel,
-    onSettingsButtonPress: () -> Unit,
     onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
     application: Application,
     homeViewModel: HomeViewModel = viewModel(
@@ -90,7 +87,8 @@ fun HomeScreen(
             ) {
                 when (uiState.screenState) {
                     is ScreenState.LoggedIn -> {
-                        val playlists = uiState.screenState.playlistInfos
+                        val loggedIn = uiState.screenState
+                        val playlists = loggedIn.playlistInfos
 
                         if (playlists.isEmpty()) {
                             Text(
@@ -115,15 +113,17 @@ fun HomeScreen(
                                     )
 
                                 ) {
-                                    item(span = { GridItemSpan(maxLineSpan) }) {
-                                        Row(horizontalArrangement = Arrangement.End) {
-                                            MaterialUButton(
-                                                onClick = {
-                                                    createPlaylistOpen = true
-                                                },
-                                                icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
-                                                text = stringResource(R.string.create_playlist)
-                                            )
+                                    if (loggedIn.isLoggedIn) {
+                                        item(span = { GridItemSpan(maxLineSpan) }) {
+                                            Row(horizontalArrangement = Arrangement.End) {
+                                                MaterialUButton(
+                                                    onClick = {
+                                                        createPlaylistOpen = true
+                                                    },
+                                                    icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                                                    text = stringResource(R.string.create_playlist)
+                                                )
+                                            }
                                         }
                                     }
                                     itemsIndexed(
@@ -143,20 +143,6 @@ fun HomeScreen(
                                     }
                                 }
                             }
-                        }
-                    }
-
-                    ScreenState.LoggedOut -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            stringResource(R.string.log_in_message),
-                            textAlign = TextAlign.Center
-                        )
-                        FilledTonalButton(
-                            onClick = onSettingsButtonPress,
-                            shapes = ButtonDefaults.shapes()
-                        )
-                        {
-                            Text(stringResource(R.string.open_settings))
                         }
                     }
 

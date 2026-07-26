@@ -61,9 +61,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val settings = datastoreRepository.getSettings()
 
         if (settings.cookies.isEmpty()) {
-            _uiState.update { currentState ->
-                currentState.copy(screenState = ScreenState.LoggedOut)
-            }
+            applyPlaylistFiltersAndUpdateState(
+                playlists = emptyList(),
+                settings = settings
+            )
             return
         }
 
@@ -89,9 +90,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             val settings = datastoreRepository.getSettings()
 
             if (settings.cookies.isEmpty()) {
-                _uiState.update { currentState ->
-                    currentState.copy(screenState = ScreenState.LoggedOut)
-                }
+                applyPlaylistFiltersAndUpdateState(
+                    playlists = emptyList(),
+                    settings = settings
+                )
                 return
             }
 
@@ -113,9 +115,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             message = "Failed to load playlists",
                             exception = apiResult.exception
                         )
-                        _uiState.update { currentState ->
-                            currentState.copy(screenState = ScreenState.LoggedOut)
-                        }
+                        applyPlaylistFiltersAndUpdateState(
+                            playlists = emptyList(),
+                            settings = settings
+                        )
                     }
                 }
             }
@@ -142,7 +145,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         _uiState.update { currentState ->
             currentState.copy(
-                screenState = ScreenState.LoggedIn(mutablePlaylists)
+                screenState = ScreenState.LoggedIn(
+                    playlistInfos = mutablePlaylists,
+                    isLoggedIn = settings.cookies.isNotEmpty()
+                )
             )
         }
     }
@@ -153,9 +159,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 val settings = datastoreRepository.getSettings()
 
                 if (settings.cookies.isEmpty()) {
-                    _uiState.update {
-                        it.copy(screenState = ScreenState.LoggedOut)
-                    }
                     return@launch
                 }
 
@@ -178,7 +181,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
                         _uiState.update {
                             it.copy(
-                                screenState = ScreenState.LoggedIn(updatedPlaylists)
+                                screenState = currentState.copy(
+                                    playlistInfos = updatedPlaylists
+                                )
                             )
                         }
                     }

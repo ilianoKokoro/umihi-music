@@ -145,7 +145,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         is HomeScreenKey -> NavEntry(key) {
                             HomeScreen(
                                 sharedViewModel = sharedViewModel,
-                                onSettingsButtonPress = { backStack.add(SettingsScreenKey) },
                                 onPlaylistPressed = { playlist ->
                                     backStack.add(PlaylistScreenKey(playlistInfo = playlist))
                                 },

@@ -4,7 +4,7 @@
     <string name="settings">Nastavení</string>
     <string name="back_description">Předchozí obrazovka</string>
     <string name="no_playlists">Nenalezeny žádné playlisty</string>
-    <string name="log_in_message">Pro použití aplikace se přihlaste ke svému YouTube účtu</string>
+
     <string name="playlist_cover">Překrytí playlistu</string>
     <string name="log_in">Přihlásit se</string>
     <string name="empty_playlist">Žádné skladby v seznamu skladeb</string>

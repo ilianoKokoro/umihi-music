@@ -4,7 +4,7 @@
     <string name="settings">Ustawienia</string>
     <string name="back_description">Poprzedni ekran</string>
     <string name="no_playlists">Nie znaleziono list odtwarzania</string>
-    <string name="log_in_message">Zaloguj się do swojego konta YouTube aby korzystać z aplikacji</string>
+
     <string name="playlist_cover">Okładka listy odtwarzania</string>
     <string name="log_in">Zaloguj się</string>
     <string name="empty_playlist">Brak utworów na liście odtwarzania</string>
