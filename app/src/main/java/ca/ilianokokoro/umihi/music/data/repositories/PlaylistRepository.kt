@@ -89,6 +89,43 @@ class PlaylistRepository(application: Application) {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun addSongToPlaylist(
+        playlistId: String,
+        songId: String,
+        settings: UmihiSettings
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.edit(
+                        playlistId = playlistId,
+                        settings = settings,
+                        videoIdsToAdd = listOf(songId)
+                    )
+                )
+            )
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun removeSongFromPlaylist(
+        playlistId: String,
+        setVideoId: String,
+        settings: UmihiSettings
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.edit(
+                        playlistId = playlistId,
+                        settings = settings,
+                        setVideoIdsToRemove = listOf(setVideoId)
+                    )
+                )
+            )
+        }.flowOn(Dispatchers.IO)
+    }
     fun delete(
         playlist: PlaylistInfo,
         settings: UmihiSettings
@@ -99,13 +136,45 @@ class PlaylistRepository(application: Application) {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun edit(
+        playlistId: String,
+        settings: UmihiSettings,
+        title: String? = null,
+        description: String? = null,
+        privacy: Privacy? = null,
+        videoIdsToAdd: List<String>? = null,
+        setVideoIdsToRemove: List<String>? = null,
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.edit(
+                        playlistId = playlistId,
+                        settings = settings,
+                        title = title,
+                        description = description,
+                        privacy = privacy,
+                        videoIdsToAdd = videoIdsToAdd,
+                        setVideoIdsToRemove = setVideoIdsToRemove,
+                    )
+                )
+            )
+        }.flowOn(Dispatchers.IO)
+    }
     private fun mergeWithLocal(remotePlaylist: Playlist, localPlaylist: Playlist?): Playlist {
         if (localPlaylist == null) {
             return remotePlaylist
         }
         val localMap = localPlaylist.songs.associateBy { it.youtubeId }
         val mergedSongs = remotePlaylist.songs.map { remoteSong ->
-            localMap[remoteSong.youtubeId]?.copy(uid = Uuid.random().toString()) ?: remoteSong
+            val localCopy = localMap[remoteSong.youtubeId]?.copy(uid = Uuid.random().toString())
+            if (localCopy != null) {
+                remoteSong.setVideoId?.let { localCopy.setVideoId = it }
+                localCopy
+            } else {
+                remoteSong
+            }
         }
         return remotePlaylist.copy(songs = mergedSongs)
     }

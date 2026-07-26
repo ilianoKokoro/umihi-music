@@ -580,6 +580,10 @@ object YoutubeDataExtractor {
             ?.safeObject()?.get("videoId")
             ?.jsonPrimitive?.contentOrNull ?: return null
 
+        val setVideoId = songContent["playlistItemData"]
+            ?.safeObject()?.get("setVideoId")
+            ?.jsonPrimitive?.contentOrNull
+
 
         val duration = extractDuration(songContent)
 
@@ -614,8 +618,10 @@ object YoutubeDataExtractor {
             duration = duration,
             thumbnailHref = thumbnailUrl,
             isExplicit = isExplicit,
-            isLiked = isLiked
-        )
+            isLiked = isLiked,
+        ).also { song ->
+            song.setVideoId = setVideoId
+        }
 
     }
 

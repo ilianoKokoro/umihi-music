@@ -278,11 +278,22 @@ object Constants {
             const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${API_KEY}&prettyPrint=false"
         }
 
+        object GetAddToPlaylist {
+            const val URL =
+                "${ORIGIN}/youtubei/v1/playlist/get_add_to_playlist?key=${API_KEY}&prettyPrint=false"
+        }
+
+        object Edit {
+            const val URL =
+                "${ORIGIN}/youtubei/v1/browse/edit_playlist?key=${API_KEY}&prettyPrint=false"
+        }
+
         object PlayerInfo {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
 
-//            object Fields {
+            // Disabled as it was causing issues
+            //            object Fields {
 //                const val SONG_INFO =
 //                    "videoDetails.videoId,videoDetails.title,videoDetails.author,videoDetails.lengthSeconds," +
 //                            "videoDetails.thumbnail.thumbnails,microformat.microformatDataRenderer.familySafe"

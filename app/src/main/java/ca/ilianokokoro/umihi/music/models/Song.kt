@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
@@ -31,6 +32,8 @@ data class Song(
     val isExplicit: Boolean = false,
     val isLiked: Boolean? = null,
 ) {
+    @Ignore
+    var setVideoId: String? = null
     val mediaItem: MediaItem
         get() {
             val extras = Bundle()

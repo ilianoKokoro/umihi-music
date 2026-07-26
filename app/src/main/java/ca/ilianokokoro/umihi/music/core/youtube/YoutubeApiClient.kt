@@ -110,6 +110,83 @@ object YoutubeApiClient {
         )
     }
 
+    suspend fun editPlaylist(
+        playlistId: String,
+        settings: UmihiSettings,
+        title: String? = null,
+        description: String? = null,
+        privacy: Privacy? = null,
+        videoIdsToAdd: List<String>? = null,
+        setVideoIdsToRemove: List<String>? = null,
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val strippedPlaylistId = playlistId.removePrefix("VL")
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("playlistId", strippedPlaylistId)
+
+            put(
+                "actions",
+                buildJsonArray {
+                    title?.let {
+                        add(
+                            buildJsonObject {
+                                put("action", "ACTION_SET_PLAYLIST_NAME")
+                                put("playlistName", it)
+                            }
+                        )
+                    }
+                    description?.let {
+                        add(
+                            buildJsonObject {
+                                put("action", "ACTION_SET_PLAYLIST_DESCRIPTION")
+                                put("playlistDescription", it)
+                            }
+                        )
+                    }
+                    privacy?.let {
+                        add(
+                            buildJsonObject {
+                                put("action", "ACTION_SET_PLAYLIST_PRIVACY")
+                                put("playlistPrivacy", "PRIVACY_${it.value}")
+                            }
+                        )
+                    }
+                    videoIdsToAdd?.forEach { videoId ->
+                        add(
+                            buildJsonObject {
+                                put("action", "ACTION_ADD_VIDEO")
+                                put("addedVideoId", videoId)
+                            }
+                        )
+                    }
+                    setVideoIdsToRemove?.forEach { setVideoId ->
+                        add(
+                            buildJsonObject {
+                                put("action", "ACTION_REMOVE_VIDEO")
+                                put("setVideoId", setVideoId)
+                            }
+                        )
+                    }
+                }
+            )
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Edit.URL,
+            body = body,
+            settings = settings
+        )
+    }
 
     suspend fun getPlayerInfo(
         videoId: String,
@@ -161,6 +238,26 @@ object YoutubeApiClient {
 
         return requestWithBody(
             url = url,
+            body = body,
+            settings = settings
+        )
+    }
+
+    suspend fun getAddToPlaylists(settings: UmihiSettings): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.GetAddToPlaylist.URL,
             body = body,
             settings = settings
         )

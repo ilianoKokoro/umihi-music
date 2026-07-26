@@ -57,4 +57,23 @@ class PlaylistDataSource {
             settings = settings
         )
     }
+    suspend fun edit(
+        playlistId: String,
+        settings: UmihiSettings,
+        title: String? = null,
+        description: String? = null,
+        privacy: Privacy? = null,
+        videoIdsToAdd: List<String>? = null,
+        setVideoIdsToRemove: List<String>? = null,
+    ) {
+        YoutubeApiClient.editPlaylist(
+            playlistId = playlistId,
+            settings = settings,
+            title = title,
+            description = description,
+            privacy = privacy,
+            videoIdsToAdd = videoIdsToAdd,
+            setVideoIdsToRemove = setVideoIdsToRemove,
+        )
+    }
 }
