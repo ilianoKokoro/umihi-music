@@ -4,7 +4,6 @@
     <string name="settings">Asetukset</string>
     <string name="back_description">Edellinen näyttö</string>
     <string name="no_playlists">Soittolistoja ei löytynyt</string>
-    <string name="log_in_message">Ole hyvä ja kirjaudu sisään YouTube-tilillesi käyttääksesi sovellusta</string>
     <string name="playlist_cover">Soittolistan kansi</string>
     <string name="log_in">Kirjaudu Sisään</string>
     <string name="empty_playlist">Soittolistalla ei ole kappaleita</string>
