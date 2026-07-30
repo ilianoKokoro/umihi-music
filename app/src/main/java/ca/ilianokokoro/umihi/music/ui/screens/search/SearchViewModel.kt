@@ -21,9 +21,8 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     val songRepository = SongRepository()
 
 
-    fun search() {
+    fun search(query: String) {
         viewModelScope.launch {
-            val query = uiState.value.search
             if (query.isBlank()) {
                 _uiState.update {
                     _uiState.value.copy(
@@ -49,12 +48,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
 
-    }
-
-    fun onSearchFieldChange(newValue: String) {
-        _uiState.update {
-            it.copy(search = newValue)
-        }
     }
 
     companion object {
