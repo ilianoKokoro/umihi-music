@@ -4,7 +4,6 @@
     <string name="settings">设置</string>
     <string name="back_description">上一屏幕</string>
     <string name="no_playlists">未找到播放列表</string>
-    <string name="log_in_message">请登录您的 YouTube 帐户以使用此应用</string>
     <string name="playlist_cover">播放列表封面</string>
     <string name="log_in">登录</string>
     <string name="empty_playlist">播放列表中没有歌曲</string>
