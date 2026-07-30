@@ -1,10 +1,10 @@
 package ca.ilianokokoro.umihi.music.services
 
 import android.net.Uri
+import android.os.Bundle
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
-import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService.LibraryParams
@@ -14,11 +14,13 @@ import androidx.media3.session.SessionError
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Song
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -27,6 +29,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import kotlin.time.Duration.Companion.seconds
 
 @UnstableApi
 class UmihiMediaLibraryCallback(
@@ -41,13 +45,15 @@ class UmihiMediaLibraryCallback(
         session: MediaSession,
         controller: MediaSession.ControllerInfo
     ): MediaSession.ConnectionResult {
-        val commands =
-            MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS.buildUpon()
-                .add(Player.COMMAND_GET_TIMELINE)
-                .build()
+        val playerCommands =
+            MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS
+
+        val sessionCommands =
+            MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
 
         return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
-            .setAvailablePlayerCommands(commands)
+            .setAvailablePlayerCommands(playerCommands)
+            .setAvailableSessionCommands(sessionCommands)
             .build()
     }
 
@@ -146,10 +152,17 @@ class UmihiMediaLibraryCallback(
                     else -> emptyList()
                 }
 
+                val rootExtras = Bundle().apply {
+                    putBoolean(SEARCH_SUPPORTED_KEY, true)
+                }
+                val libraryParams = LibraryParams.Builder()
+                    .setExtras(rootExtras)
+                    .build()
+
                 future.set(
                     LibraryResult.ofItemList(
                         result,
-                        params
+                        libraryParams
                     )
                 )
             } catch (_: Exception) {
@@ -160,6 +173,63 @@ class UmihiMediaLibraryCallback(
         }
 
         return future
+    }
+
+    private var searchResults: List<Song> = emptyList()
+
+    override fun onSearch(
+        session: MediaLibrarySession,
+        browser: MediaSession.ControllerInfo,
+        query: String,
+        params: LibraryParams?
+    ): ListenableFuture<LibraryResult<Void>> {
+        if (query.isBlank()) {
+            searchResults = emptyList()
+            session.notifySearchResultChanged(browser, query, 0, params)
+            return Futures.immediateFuture(LibraryResult.ofVoid())
+        }
+
+        serviceScope.launch {
+            searchResults = performSearch(query)
+            session.notifySearchResultChanged(browser, query, searchResults.size, params)
+        }
+
+        return Futures.immediateFuture(LibraryResult.ofVoid())
+    }
+
+    private suspend fun performSearch(query: String): List<Song> {
+        return try {
+            val searchResult = withTimeout(3.seconds) {
+                songRepository.search(query).first { it !is ApiResult.Loading }
+            }
+            if (searchResult is ApiResult.Success) {
+                searchResult.data
+            } else {
+                AppDatabase.getInstance(service).songRepository().searchDownloaded(query)
+            }
+        } catch (_: Exception) {
+            try {
+                AppDatabase.getInstance(service).songRepository().searchDownloaded(query)
+            } catch (_: Exception) {
+                emptyList()
+            }
+        }
+    }
+
+    override fun onGetSearchResult(
+        session: MediaLibrarySession,
+        browser: MediaSession.ControllerInfo,
+        query: String,
+        page: Int,
+        pageSize: Int,
+        params: LibraryParams?
+    ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
+        return Futures.immediateFuture(
+            LibraryResult.ofItemList(
+                searchResults.map { it.mediaItem },
+                params
+            )
+        )
     }
 
     override fun onSetMediaItems(
@@ -320,5 +390,9 @@ class UmihiMediaLibraryCallback(
             .authority(service.packageName)
             .appendPath(drawableResId.toString())
             .build()
+    }
+
+    companion object {
+        private const val SEARCH_SUPPORTED_KEY = "android.media.browse.SEARCH_SUPPORTED"
     }
 }

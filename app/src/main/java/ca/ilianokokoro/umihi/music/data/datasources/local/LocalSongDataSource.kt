@@ -28,6 +28,19 @@ interface LocalSongDataSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createAll(songs: List<Song>)
 
+    @Query(
+        """
+    SELECT *
+    FROM songs
+    WHERE (title LIKE '%' || :query || '%'
+        OR artist LIKE '%' || :query || '%')
+      AND audioFilePath IS NOT NULL
+      AND thumbnailPath IS NOT NULL
+    ORDER BY title COLLATE NOCASE ASC
+"""
+    )
+    suspend fun searchDownloaded(query: String): List<Song>
+
     @Query("SELECT * FROM songs WHERE youtubeId = :songId")
     suspend fun getSong(songId: String): Song?
 
