@@ -4,7 +4,6 @@
     <string name="settings">Configuració</string>
     <string name="back_description">Pantalla anterior</string>
     <string name="no_playlists">No s\'han trobat llistes de reproducció</string>
-    <string name="log_in_message">Inicieu la sessió al vostre compte de YouTube per utilitzar l’aplicació</string>
     <string name="playlist_cover">Portada de la llista de reproducció</string>
     <string name="log_in">Iniciar sessió</string>
     <string name="empty_playlist">No hi ha cap cançó a la llista de reproducció</string>
