@@ -4,7 +4,6 @@
     <string name="settings">Paramètres</string>
     <string name="back_description">Écran précédent</string>
     <string name="no_playlists">Aucune playlist trouvée</string>
-    <string name="log_in_message">Veuillez vous connecter à votre compte YouTube pour utiliser l\'application</string>
     <string name="playlist_cover">Couverture de la playlist</string>
     <string name="log_in">Connexion</string>
     <string name="empty_playlist">Aucun titre dans la playlist</string>
