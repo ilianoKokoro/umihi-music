@@ -4,7 +4,6 @@
     <string name="settings">Налаштування</string>
     <string name="back_description">Попередній екран</string>
     <string name="no_playlists">СПИСОК плейлистів не знайдено</string>
-    <string name="log_in_message">Щоб користуватися додатком, увійдіть у свій YouTube акаунт</string>
     <string name="playlist_cover">Список обкладинок</string>
     <string name="log_in">Увійти</string>
     <string name="empty_playlist">Немає пісень у списку відтворення</string>
