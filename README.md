@@ -161,6 +161,14 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="LOLCAT">lol</code></b>, <b><code title="Tagalog">tl</code></b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
+          <br />
+          <sub><b>dsyncronized</b></sub></a>
+        <br />
+        <sub><b>466 words</b></sub>
+        <br /><sub><b><code title="Indonesian">id</code></b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f02d53d5d23fc5f2d367c0c319829c6c.jpg" />
           <br />
           <sub><b>Alina Ye-jin</b></sub>
@@ -178,6 +186,8 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>289 words</b></sub>
         <br /><sub><b><code title="Catalan">ca</code></b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
           <br />
@@ -186,8 +196,6 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>629 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
           <br />
@@ -222,6 +230,8 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>32 words</b></sub>
         <br /><sub><b><code title="Hebrew">he</code></b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/corrigo"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17457288/medium/ef9cc844691730917c6a23cf8a950089.jpg" />
           <br />
