@@ -4,7 +4,6 @@
     <string name="settings">Ajustes</string>
     <string name="back_description">Pantalla anterior</string>
     <string name="no_playlists">No se encontraron listas</string>
-    <string name="log_in_message">Por favor, inicia sesión en tu cuenta de YouTube para usar la aplicación</string>
     <string name="playlist_cover">Portada de la playlist</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="empty_playlist">No hay canciones en la lista</string>
