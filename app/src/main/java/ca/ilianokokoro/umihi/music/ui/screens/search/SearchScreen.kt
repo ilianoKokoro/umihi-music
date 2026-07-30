@@ -4,14 +4,17 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -29,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
@@ -53,7 +57,6 @@ fun SearchScreen(
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     val searchBarState = rememberContainedSearchBarState()
     val textFieldState = rememberTextFieldState()
@@ -64,105 +67,125 @@ fun SearchScreen(
             focusRequester.requestFocus()
         }
     }
-    
-    val scrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
+
     val appBarWithSearchColors =
         SearchBarDefaults.appBarWithSearchColors(
             searchBarColors = SearchBarDefaults.containedColors(state = searchBarState)
         )
 
+
     Scaffold(
         topBar = {
-            AppBarWithSearch(
-                scrollBehavior = scrollBehavior,
-                state = searchBarState,
-                colors = appBarWithSearchColors,
-                inputField = {
-                    SearchBarDefaults.InputField(
-                        textFieldState = textFieldState,
-                        searchBarState = searchBarState,
-                        colors = appBarWithSearchColors.searchBarColors.inputFieldColors,
-                        onSearch = {
-                            focusManager.clearFocus()
-                            searchViewModel.search(it)
-                        },
-                        placeholder = {
-                            Text(
-                                modifier = Modifier.clearAndSetSemantics {},
-                                text = stringResource(R.string.search)
-                            )
-                        },
-                        leadingIcon = {
-                            Icon(
-                                Icons.Rounded.Search,
-                                contentDescription = Icons.Rounded.Search.name
-                            )
-                        },
-                        modifier = Modifier.focusRequester(focusRequester),
-                    )
-                },
-            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp)
+            ) {
+                SearchBarDefaults.InputField(
+                    textFieldState = textFieldState,
+                    searchBarState = searchBarState,
+                    colors = appBarWithSearchColors.searchBarColors.inputFieldColors,
+                    onSearch = {
+                        focusManager.clearFocus()
+                        searchViewModel.search(it)
+                    },
+                    placeholder = {
+                        Text(
+                            modifier = Modifier.clearAndSetSemantics {},
+                            text = stringResource(R.string.search)
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Rounded.Search,
+                            contentDescription = Icons.Rounded.Search.name
+                        )
+                    },
+                    modifier = Modifier
+
+                        .focusRequester(focusRequester)
+                        .statusBarsPadding(),
+                )
+            }
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(top = paddingValues.calculateTopPadding())
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            when (val screenState = uiState.screenState) {
-                is ScreenState.Error -> {
-                    ErrorMessage(
-                        ex = screenState.exception,
-                        onRetry = {
-                            searchViewModel.search(textFieldState.text.toString())
-                        })
-                }
+        SearchScreenContent(
+            searchViewModel,
+            uiState,
+            textFieldState,
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
+        )
+    }
 
-                ScreenState.Loading -> {
-                    LoadingAnimation()
-                }
+}
 
-                is ScreenState.Success -> {
-                    val songs = screenState.results
-                    if (songs.isNotEmpty()) {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING),
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            items(
-                                items = songs,
-                                key = { song ->
-                                    song.uid
-                                }) {
-                                SongListItem(
-                                    song = it,
-                                    onPress = {
-                                        PlayerManager.playSong(it)
-                                    },
-                                    playNext = {
-                                        PlayerManager.addNext(it, context)
-                                    },
-                                    addToQueue = {
-                                        PlayerManager.addToQueue(it, context)
-                                    }
-                                )
-                            }
+
+@Composable
+fun SearchScreenContent(
+    searchViewModel: SearchViewModel,
+    uiState: SearchState,
+    textFieldState: TextFieldState,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        when (val screenState = uiState.screenState) {
+            is ScreenState.Error -> {
+                ErrorMessage(
+                    ex = screenState.exception,
+                    onRetry = {
+                        searchViewModel.search(textFieldState.text.toString())
+                    })
+            }
+
+            ScreenState.Loading -> {
+                LoadingAnimation()
+            }
+
+            is ScreenState.Success -> {
+                val songs = screenState.results
+                if (songs.isNotEmpty()) {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING),
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        items(
+                            items = songs,
+                            key = { song ->
+                                song.uid
+                            }) {
+                            SongListItem(
+                                song = it,
+                                onPress = {
+                                    PlayerManager.playSong(it)
+                                },
+                                playNext = {
+                                    PlayerManager.addNext(it, context)
+                                },
+                                addToQueue = {
+                                    PlayerManager.addToQueue(it, context)
+                                }
+                            )
                         }
-                    } else {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
 
-                        ) {
-                            Text(stringResource(R.string.no_results))
-                        }
+                    ) {
+                        Text(stringResource(R.string.no_results))
                     }
                 }
             }
@@ -170,4 +193,3 @@ fun SearchScreen(
     }
 
 }
-

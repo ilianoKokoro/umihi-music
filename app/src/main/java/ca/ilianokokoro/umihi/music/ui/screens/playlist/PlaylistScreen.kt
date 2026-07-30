@@ -45,10 +45,10 @@ import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.SearchBar
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
-import ca.ilianokokoro.umihi.music.ui.screens.search.components.SearchBar
 
 
 @Composable
@@ -80,7 +80,6 @@ fun PlaylistScreen(
     }
 
     FadingStatusBarWrapper {
-
         Scaffold(topBar = {
             if (uiState.showingSearch) {
                 TopAppBar(

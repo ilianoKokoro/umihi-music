@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.screens.search.components
+package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
