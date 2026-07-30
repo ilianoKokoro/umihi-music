@@ -4,7 +4,6 @@
     <string name="settings">Настройки</string>
     <string name="back_description">Предыдущий экран</string>
     <string name="no_playlists">Плейлисты не найдены</string>
-    <string name="log_in_message">Пожалуйста, войдите в свой аккаунт YouTube, чтобы использовать приложение</string>
     <string name="playlist_cover">Обложка плейлиста</string>
     <string name="log_in">Войти</string>
     <string name="empty_playlist">Нет песен в плейлисте</string>
