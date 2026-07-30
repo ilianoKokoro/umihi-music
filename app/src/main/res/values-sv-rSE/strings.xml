@@ -4,7 +4,6 @@
     <string name="settings">Inställningar</string>
     <string name="back_description">Föregående skärm</string>
     <string name="no_playlists">Inga spellistor hittades</string>
-    <string name="log_in_message">Logga in på ditt YouTube-konto för att använda appen</string>
     <string name="playlist_cover">Omslag till spellista</string>
     <string name="log_in">Logga in</string>
     <string name="empty_playlist">Inga låtar i spellistan</string>
