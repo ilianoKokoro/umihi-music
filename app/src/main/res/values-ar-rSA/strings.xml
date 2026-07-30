@@ -4,7 +4,6 @@
     <string name="settings">الإعدادات</string>
     <string name="back_description">الشاشة السابقة</string>
     <string name="no_playlists">لم يتم العثور على قوائم تشغيل</string>
-
     <string name="playlist_cover">غلاف قائمة التشغيل</string>
     <string name="log_in">تسجيل الدخول</string>
     <string name="empty_playlist">لا توجد أغاني في قائمة التشغيل</string>

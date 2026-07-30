@@ -4,7 +4,6 @@
     <string name="settings">Innstillinger</string>
     <string name="back_description">Forrige skjerm</string>
     <string name="no_playlists">Ingen spillelister funnet</string>
-
     <string name="playlist_cover">Deksel til spilleliste</string>
     <string name="log_in">Logg inn</string>
     <string name="empty_playlist">Ingen sanger i spillelisten</string>
