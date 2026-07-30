@@ -105,8 +105,7 @@ fun PlaylistScreen(
                     title = {
                         SearchBar(
                             modifier = Modifier
-                                .focusRequester(focusRequester)
-                                .fillMaxWidth(),
+                                .focusRequester(focusRequester),
                             value = uiState.searchQuery,
                             onValueChange = playlistViewModel::onSearchQueryChange,
                             onSearch = {

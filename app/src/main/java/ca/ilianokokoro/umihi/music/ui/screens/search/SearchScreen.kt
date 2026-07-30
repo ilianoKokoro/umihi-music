@@ -11,27 +11,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberContainedSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +31,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.SearchBar
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,20 +50,11 @@ fun SearchScreen(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    val searchBarState = rememberContainedSearchBarState()
-    val textFieldState = rememberTextFieldState()
-
-
     LaunchedEffect(Unit) {
-        if (textFieldState.text.isBlank()) {
+        if (uiState.search.isBlank()) {
             focusRequester.requestFocus()
         }
     }
-
-    val appBarWithSearchColors =
-        SearchBarDefaults.appBarWithSearchColors(
-            searchBarColors = SearchBarDefaults.containedColors(state = searchBarState)
-        )
 
 
     Scaffold(
@@ -80,32 +63,16 @@ fun SearchScreen(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .statusBarsPadding()
                     .padding(bottom = 4.dp)
             ) {
-                SearchBarDefaults.InputField(
-                    textFieldState = textFieldState,
-                    searchBarState = searchBarState,
-                    colors = appBarWithSearchColors.searchBarColors.inputFieldColors,
+                SearchBar(
+                    value = uiState.search,
+                    onValueChange = { searchViewModel.onSearchFieldChange(it) },
                     onSearch = {
+                        searchViewModel.search()
                         focusManager.clearFocus()
-                        searchViewModel.search(it)
-                    },
-                    placeholder = {
-                        Text(
-                            modifier = Modifier.clearAndSetSemantics {},
-                            text = stringResource(R.string.search)
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Rounded.Search,
-                            contentDescription = Icons.Rounded.Search.name
-                        )
-                    },
-                    modifier = Modifier
-
-                        .focusRequester(focusRequester)
-                        .statusBarsPadding(),
+                    }
                 )
             }
         }
@@ -113,7 +80,6 @@ fun SearchScreen(
         SearchScreenContent(
             searchViewModel,
             uiState,
-            textFieldState,
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
         )
     }
@@ -125,7 +91,6 @@ fun SearchScreen(
 fun SearchScreenContent(
     searchViewModel: SearchViewModel,
     uiState: SearchState,
-    textFieldState: TextFieldState,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -140,7 +105,7 @@ fun SearchScreenContent(
                 ErrorMessage(
                     ex = screenState.exception,
                     onRetry = {
-                        searchViewModel.search(textFieldState.text.toString())
+                        searchViewModel.search()
                     })
             }
 

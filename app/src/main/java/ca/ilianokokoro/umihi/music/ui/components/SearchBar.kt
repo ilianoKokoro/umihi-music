@@ -1,24 +1,24 @@
 package ca.ilianokokoro.umihi.music.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberContainedSearchBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
@@ -28,42 +28,43 @@ fun SearchBar(
     focusRequester: FocusRequester? = null,
     focusManager: FocusManager? = null,
 ) {
+    val textFieldState = rememberTextFieldState(value)
+    val searchBarState = rememberContainedSearchBarState()
 
-    var searchModifier = modifier
-        .fillMaxWidth()
-        .minimumInteractiveComponentSize()
+    val appBarWithSearchColors =
+        SearchBarDefaults.appBarWithSearchColors(
+            searchBarColors = SearchBarDefaults.containedColors(state = searchBarState)
+        )
 
-    if (focusRequester != null) {
-        searchModifier = searchModifier
-            .focusRequester(focusRequester)
+    LaunchedEffect(Unit) {
+        snapshotFlow { textFieldState.text.toString() }
+            .collect { newText ->
+                onValueChange(newText)
+            }
     }
 
-    MaterialUInput(
-        modifier = searchModifier,
-        value = value,
-        onValueChange = onValueChange,
-        leadingIcon = Icons.Rounded.Search,
-        placeholder = stringResource(R.string.search),
-        singleLine = true,
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            errorContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
-        ),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                focusManager?.clearFocus()
-                onSearch()
-            }
-        ),
-        maxLines = 1
-    )
+    val searchModifier = modifier
+        .let { if (focusRequester != null) it.focusRequester(focusRequester) else it }
 
+    SearchBarDefaults.InputField(
+        textFieldState = textFieldState,
+        searchBarState = searchBarState,
+        colors = appBarWithSearchColors.searchBarColors.inputFieldColors,
+        onSearch = {
+            focusManager?.clearFocus()
+            onSearch()
+        },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search)
+            )
+        },
+        leadingIcon = {
+            Icon(
+                Icons.Rounded.Search,
+                contentDescription = Icons.Rounded.Search.name
+            )
+        },
+        modifier = searchModifier,
+    )
 }
