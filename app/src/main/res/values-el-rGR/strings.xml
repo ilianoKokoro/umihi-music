@@ -4,7 +4,6 @@
     <string name="settings">Ρυθμίσεις</string>
     <string name="back_description">Προηγούμενη οθόνη</string>
     <string name="no_playlists">Δεν βρέθηκαν λίστες αναπαραγωγής</string>
-    <string name="log_in_message">Συνδεθείτε στο λογαριασμό σας στο YouTube για να χρησιμοποιήσετε την εφαρμογή</string>
     <string name="playlist_cover">Κάλυμμα λίστας αναπαραγωγής</string>
     <string name="log_in">Σύνδεση</string>
     <string name="empty_playlist">Δεν υπάρχουν τραγούδια στη λίστα αναπαραγωγής</string>
