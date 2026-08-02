@@ -171,9 +171,16 @@ class PlaybackService : MediaLibraryService() {
             }
 
             override fun onPlayerError(error: PlaybackException) {
+
+
+                if (player.hasNextMediaItem()) {
+                    player.seekToNext()
+                    player.prepare()
+                } else {
+                    player.stop()
+                }
+
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
-                player.seekToNext()
-                player.prepare()
             }
 
             // Expose audio session ID for third-party equalizer apps
