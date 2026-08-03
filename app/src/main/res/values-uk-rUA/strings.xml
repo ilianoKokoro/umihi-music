@@ -128,13 +128,13 @@
     <string name="download_on_metered_title">Завантажити з мобільного інтернету</string>
     <string name="download_on_metered_description">Дозволяє завантажувати пісні та списки відтворення за допомогою плану мобільного інтернету</string>
     <string name="waiting_for_wifi_to_download">Очікування завантаження Wi-Fi %1$s</string>
-    <string name="remove_library">Remove from library</string>
-    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="explicit">Explicit</string>
-    <string name="failed_get_local_song">Failed to get song from local repository</string>
-    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
-    <string name="failed_delete_playlist">Failed to delete the playlist</string>
-    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="remove_library">Видалити з бібліотеки</string>
+    <string name="remove_library_text">Ви впевнені, що хочете видалити цей список відтворення з бібліотеки? Додаєте його ще раз пізніше.</string>
+    <string name="remove_from_queue">Видалити з черги</string>
+    <string name="downloaded">Завантажено</string>
+    <string name="explicit">Явний</string>
+    <string name="failed_get_local_song">Не вдалося отримати пісню з локального сховища</string>
+    <string name="failed_get_to_login_cookies">Не вдалося отримати дані про куки</string>
+    <string name="failed_delete_playlist">Не вдалося вилучити плейліст</string>
+    <string name="failed_remove_from_library">Не вдалося видалити список відтворення з вашої бібліотеки</string>
 </resources>
