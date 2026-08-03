@@ -27,7 +27,6 @@
     <string name="login_success">Login success</string>
     <string name="download">Download</string>
     <string name="dot" translatable="false">•</string>
-    <string name="open_settings">Open Settings</string>
     <string name="more">more</string>
     <string name="join_discord_server">Join the Discord server</string>
     <string name="play_next">Play next</string>
@@ -115,7 +114,6 @@
     <string name="sleep_timer_end_of_song_btn">End of Song</string>
     <string name="sleep_timer_start">Start Timer</string>
     <string name="playback_speed">Playback Speed</string>
-    <string name="playback_speed_label" translatable="false">%1$.1fx</string>
     <string name="kbps" translatable="false">%d kbps</string>
     <string name="khz" translatable="false">%.1f kHz</string>
     <string name="unlike">Unlike</string>

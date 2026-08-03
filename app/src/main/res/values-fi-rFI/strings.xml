@@ -25,7 +25,6 @@
     <string name="error_log">Virhe Loki</string>
     <string name="login_success">Kirjautuminen onnistui</string>
     <string name="download">Lataa</string>
-    <string name="open_settings">Avaa Asetukset</string>
     <string name="more">lisää</string>
     <string name="join_discord_server">Liity Discord-palvelimeen</string>
     <string name="play_next">Toista seuraava</string>

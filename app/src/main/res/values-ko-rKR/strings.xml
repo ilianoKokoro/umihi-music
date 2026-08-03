@@ -25,7 +25,6 @@
     <string name="error_log">오류 로그</string>
     <string name="login_success">로그인 성공</string>
     <string name="download">다운로드</string>
-    <string name="open_settings">설정 열기</string>
     <string name="more">더 보기</string>
     <string name="join_discord_server">Discord 서버 참여</string>
     <string name="play_next">다음으로 재생</string>

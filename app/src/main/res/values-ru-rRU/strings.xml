@@ -25,7 +25,6 @@
     <string name="error_log">Журнал ошибок</string>
     <string name="login_success">Успешный вход</string>
     <string name="download">Скачать</string>
-    <string name="open_settings">Открыть настройки</string>
     <string name="more">больше</string>
     <string name="join_discord_server">Присоединиться к серверу Discord</string>
     <string name="play_next">Играть далее</string>
