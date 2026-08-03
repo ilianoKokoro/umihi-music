@@ -128,13 +128,13 @@
     <string name="download_on_metered_title">下载移动数据</string>
     <string name="download_on_metered_description">允许使用您的移动数据计划下载歌曲和播放列表</string>
     <string name="waiting_for_wifi_to_download">正在等待 Wi-Fi 下载 %1$s</string>
-    <string name="remove_library">Remove from library</string>
-    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="explicit">Explicit</string>
-    <string name="failed_get_local_song">Failed to get song from local repository</string>
-    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
-    <string name="failed_delete_playlist">Failed to delete the playlist</string>
-    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="remove_library">从库中删除</string>
+    <string name="remove_library_text">您确定要从您的媒体库中删除这个播放列表吗？您可以稍后再添加它。</string>
+    <string name="remove_from_queue">从队列中移除</string>
+    <string name="downloaded">已下载</string>
+    <string name="explicit">明确的</string>
+    <string name="failed_get_local_song">从本地资源库获取歌曲失败</string>
+    <string name="failed_get_to_login_cookies">无法登录 cookie</string>
+    <string name="failed_delete_playlist">删除播放列表失败</string>
+    <string name="failed_remove_from_library">从您的媒体库中删除播放列表失败</string>
 </resources>
