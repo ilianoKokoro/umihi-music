@@ -25,7 +25,6 @@
     <string name="error_log">Feil logg</string>
     <string name="login_success">Innlogging vellykket</string>
     <string name="download">Nedlasting</string>
-    <string name="open_settings">Åpne Innstillinger</string>
     <string name="more">mer</string>
     <string name="join_discord_server">Bli med på Discord-serveren</string>
     <string name="play_next">Spill neste</string>
@@ -129,4 +128,13 @@
     <string name="download_on_metered_title">Last ned på mobildata</string>
     <string name="download_on_metered_description">Tillater nedlasting av sanger og spillelister ved hjelp av mobildataplanen din</string>
     <string name="waiting_for_wifi_to_download">Venter på Wi-Fi nedlasting av %1$s</string>
+    <string name="remove_library">Remove from library</string>
+    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
+    <string name="remove_from_queue">Remove from queue</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Failed to get song from local repository</string>
+    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
+    <string name="failed_delete_playlist">Failed to delete the playlist</string>
+    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
 </resources>
