@@ -25,7 +25,6 @@
     <string name="error_log">Virhe Loki</string>
     <string name="login_success">Kirjautuminen onnistui</string>
     <string name="download">Lataa</string>
-    <string name="open_settings">Avaa Asetukset</string>
     <string name="more">lisää</string>
     <string name="join_discord_server">Liity Discord-palvelimeen</string>
     <string name="play_next">Toista seuraava</string>
@@ -129,4 +128,13 @@
     <string name="download_on_metered_title">Lataa mobiilidatalla</string>
     <string name="download_on_metered_description">Mahdollistaa kappaleiden ja soittolistojen lataamisen mobiilidatan avulla</string>
     <string name="waiting_for_wifi_to_download">Odotetaan Wi-Fi-yhteyden lataamista %1$s</string>
+    <string name="remove_library">Remove from library</string>
+    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
+    <string name="remove_from_queue">Remove from queue</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Failed to get song from local repository</string>
+    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
+    <string name="failed_delete_playlist">Failed to delete the playlist</string>
+    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
 </resources>
