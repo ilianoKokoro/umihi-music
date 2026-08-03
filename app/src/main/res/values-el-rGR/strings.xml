@@ -25,7 +25,6 @@
     <string name="error_log">Αρχείο Καταγραφής Σφαλμάτων</string>
     <string name="login_success">Επιτυχής σύνδεση</string>
     <string name="download">Λήψη</string>
-    <string name="open_settings">Άνοιγμα Ρυθμίσεων</string>
     <string name="more">περισσότερα</string>
     <string name="join_discord_server">Γίνετε μέλος του διακομιστή Discord</string>
     <string name="play_next">Αναπαραγωγή επόμενου</string>
@@ -129,4 +128,13 @@
     <string name="download_on_metered_title">Λήψη δεδομένων κινητής τηλεφωνίας</string>
     <string name="download_on_metered_description">Επιτρέπει τη λήψη τραγουδιών και λιστών αναπαραγωγής χρησιμοποιώντας το πλάνο δεδομένων κινητής τηλεφωνίας</string>
     <string name="waiting_for_wifi_to_download">Αναμονή για λήψη του Wi-Fi %1$s</string>
+    <string name="remove_library">Remove from library</string>
+    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
+    <string name="remove_from_queue">Remove from queue</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Failed to get song from local repository</string>
+    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
+    <string name="failed_delete_playlist">Failed to delete the playlist</string>
+    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
 </resources>
