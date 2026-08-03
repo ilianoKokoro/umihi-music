@@ -128,13 +128,13 @@
     <string name="download_on_metered_title">Télécharger via les données mobiles</string>
     <string name="download_on_metered_description">Permet de télécharger des titres et des playlists en utilisant votre forfait de données mobiles</string>
     <string name="waiting_for_wifi_to_download">En attente d\'une connexion Wi-Fi pour télécharger %1$s</string>
-    <string name="remove_library">Remove from library</string>
-    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="explicit">Explicit</string>
-    <string name="failed_get_local_song">Failed to get song from local repository</string>
-    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
-    <string name="failed_delete_playlist">Failed to delete the playlist</string>
-    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="remove_library">Retirer de la bibliothèque</string>
+    <string name="remove_library_text">Êtes-vous sûr de vouloir supprimer cette playlist de votre bibliothèque ? Vous pourrez l\'ajouter plus tard.</string>
+    <string name="remove_from_queue">Retirer de la file d\'attente</string>
+    <string name="downloaded">Téléchargé</string>
+    <string name="explicit">Explicite</string>
+    <string name="failed_get_local_song">Impossible d\'obtenir la chanson depuis le dépôt local</string>
+    <string name="failed_get_to_login_cookies">Impossible d\'accéder aux cookies de connexion</string>
+    <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
+    <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
 </resources>
