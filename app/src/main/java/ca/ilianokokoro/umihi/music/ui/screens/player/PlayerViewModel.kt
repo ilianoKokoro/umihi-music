@@ -30,6 +30,10 @@ class PlayerViewModel(application: Application) :
     AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerState())
     val uiState = _uiState.asStateFlow()
+
+    private val _playbackProgress = MutableStateFlow(PlaybackProgress())
+    val playbackProgress = _playbackProgress.asStateFlow()
+
     private val datastoreRepository = DatastoreRepository(application)
 
     init {
@@ -151,18 +155,13 @@ class PlayerViewModel(application: Application) :
     }
 
     fun seekPlayer() {
-        PlayerManager.currentController?.seekTo(_uiState.value.playbackProgress.position.toLong())
+        PlayerManager.currentController?.seekTo(_playbackProgress.value.position.toLong())
     }
 
     fun seek(location: Float) {
         viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    playbackProgress = PlaybackProgress(
-                        duration = it.playbackProgress.duration,
-                        position = location,
-                    ),
-                )
+            _playbackProgress.update {
+                it.copy(position = location)
             }
         }
     }
@@ -196,6 +195,8 @@ class PlayerViewModel(application: Application) :
         val index = PlayerManager.getCurrentIndex()
         val freshQueue = PlayerManager.getQueue()
 
+        _playbackProgress.value = PlaybackProgress()
+
         _uiState.update { state ->
             val mergedQueue = freshQueue.map { freshSong ->
                 state.queue.find { it.youtubeId == freshSong.youtubeId }
@@ -211,10 +212,6 @@ class PlayerViewModel(application: Application) :
             state.copy(
                 currentIndex = index,
                 queue = mergedQueue,
-                playbackProgress = PlaybackProgress(
-                    duration = 0f,
-                    position = 0f,
-                ),
                 isLiked = mergedQueue.getOrNull(index)?.isLiked ?: false
             )
         }
@@ -251,7 +248,7 @@ class PlayerViewModel(application: Application) :
                     val rawPosition = controller?.currentPosition
                     val rawDuration = controller?.duration
 
-                    val current = state.playbackProgress
+                    val current = _playbackProgress.value
 
                     val safeDuration = when {
                         rawDuration == null -> current.duration
@@ -273,12 +270,10 @@ class PlayerViewModel(application: Application) :
                         safePosition != current.position ||
                         safeDuration != current.duration
                     ) {
-                        _uiState.update {
-                            it.copy(
-                                playbackProgress = PlaybackProgress(
-                                    position = safePosition,
-                                    duration = safeDuration
-                                )
+                        _playbackProgress.update {
+                            PlaybackProgress(
+                                position = safePosition,
+                                duration = safeDuration
                             )
                         }
                     }

@@ -1,12 +1,12 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player
 
+import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.models.Song
 
-
+@Immutable
 data class PlayerState(
     val queue: List<Song> = emptyList(),
     val currentIndex: Int = -1,
-    val playbackProgress: PlaybackProgress = PlaybackProgress(),
     val isPlaying: Boolean = false,
     val isLoading: Boolean = true,
     val isSeekBarHeld: Boolean = false,
@@ -20,6 +20,7 @@ data class PlayerState(
     val isLiking: Boolean = false,
 )
 
+@Immutable
 data class PlaybackProgress(
     val position: Float = 0f,
     val duration: Float = 0f,

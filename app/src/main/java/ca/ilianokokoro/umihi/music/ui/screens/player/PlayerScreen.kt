@@ -45,7 +45,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
@@ -64,7 +63,6 @@ fun PlayerScreen(
     )
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
-    val playbackData = PlayerManager.audioInfo.collectAsStateWithLifecycle().value
     val orientation = LocalConfiguration.current.orientation
     val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
@@ -122,7 +120,7 @@ fun PlayerScreen(
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
-                        progress = uiState.playbackProgress,
+                        progress = playerViewModel.playbackProgress,
                         onSeek = playerViewModel::seek,
                         onSeekPlayer = playerViewModel::seekPlayer,
                         onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
@@ -137,7 +135,6 @@ fun PlayerScreen(
                         },
                         playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                        audioInfo = playbackData,
                     )
                 }
             }
@@ -181,7 +178,7 @@ fun PlayerScreen(
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
-                        progress = uiState.playbackProgress,
+                        progress = playerViewModel.playbackProgress,
                         onSeek = playerViewModel::seek,
                         onSeekPlayer = playerViewModel::seekPlayer,
                         onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
@@ -196,7 +193,6 @@ fun PlayerScreen(
                         },
                         playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                        audioInfo = playbackData,
                     )
                 }
             }

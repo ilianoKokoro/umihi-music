@@ -1,8 +1,10 @@
 package ca.ilianokokoro.umihi.music.models
 
 import android.content.res.Resources
+import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.R
 
+@Immutable
 data class PlaybackAudioInfo(
     val format: String? = null,
     val sampleRate: Int? = null,
