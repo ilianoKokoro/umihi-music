@@ -90,7 +90,7 @@ fun QueueSongListItem(
 
                         MaterialUDropdownItem(
                             leadingIcon = Icons.Rounded.Remove,
-                            text = "Remove from queue",
+                            text = stringResource(R.string.remove_from_queue),
                             onClick = {
                                 onDelete()
                                 expanded = false

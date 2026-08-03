@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.core.youtube
 import android.content.Context
 import android.widget.Toast
 import androidx.core.net.toUri
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
@@ -717,7 +718,7 @@ object YoutubeDataExtractor {
         try {
             savedSong = localSongRepository.getSong(song.youtubeId)
         } catch (ex: Exception) {
-            Toast.makeText(context, "Failed to get song from local repository", Toast.LENGTH_LONG)
+            Toast.makeText(context, context.getString(R.string.failed_get_local_song), Toast.LENGTH_LONG)
                 .show()
             printe(ex.toString())
         }

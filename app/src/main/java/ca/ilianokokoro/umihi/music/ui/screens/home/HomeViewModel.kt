@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
 
@@ -134,7 +135,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val mutablePlaylists = playlists.toMutableList()
         val downloadedPlaylist = PlaylistInfo(
             id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
-            title = "Downloaded",
+            title = application.getString(R.string.downloaded),
         )
 
         if (!settings.showPodcastPlaylist) {

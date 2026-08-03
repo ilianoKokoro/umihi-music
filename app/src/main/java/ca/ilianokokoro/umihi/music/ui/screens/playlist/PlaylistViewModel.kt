@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.work.WorkInfo
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
@@ -29,7 +30,7 @@ import kotlin.uuid.Uuid
 class PlaylistViewModel(
     private val playlistInfo: PlaylistInfo,
     private val sharedViewModel: SharedViewModel,
-    application: Application
+    private val application: Application
 ) :
     AndroidViewModel(application) {
 
@@ -178,7 +179,7 @@ class PlaylistViewModel(
             try {
                 val settings = datastoreRepository.getSettings()
                 if (settings.cookies.isEmpty()) {
-                    throw Exception("Failed to get to login cookies")
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
                 }
 
                 playlistRepository.delete(playlistInfo, settings)
@@ -187,7 +188,7 @@ class PlaylistViewModel(
                             _uiState.value.copy(
                                 screenState = when (apiResult) {
                                     is ApiResult.Error -> {
-                                        ScreenState.Error(Exception("Failed to delete the playlist"))
+                                        ScreenState.Error(Exception(application.getString(R.string.failed_delete_playlist)))
                                     }
 
                                     ApiResult.Loading -> ScreenState.Loading(playlistInfo)
@@ -219,7 +220,7 @@ class PlaylistViewModel(
             try {
                 val settings = datastoreRepository.getSettings()
                 if (settings.cookies.isEmpty()) {
-                    throw Exception("Failed to get to login cookies")
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
                 }
 
                 playlistRepository.removeFromLibrary(playlistInfo, settings)
@@ -228,7 +229,7 @@ class PlaylistViewModel(
                             _uiState.value.copy(
                                 screenState = when (apiResult) {
                                     is ApiResult.Error -> {
-                                        ScreenState.Error(Exception("Failed to remove the playlist from your library"))
+                                        ScreenState.Error(Exception(application.getString(R.string.failed_remove_from_library)))
                                     }
 
                                     ApiResult.Loading -> ScreenState.Loading(playlistInfo)
