@@ -25,7 +25,6 @@
     <string name="error_log">Ewwow Wogie</string>
     <string name="login_success">Yippe wogin! </string>
     <string name="download">Downwoad</string>
-    <string name="open_settings">OwOpen Settwings</string>
     <string name="more">mowe</string>
     <string name="join_discord_server">Join da Discawd sewvew!</string>
     <string name="play_next">Pway nyext</string>
@@ -129,4 +128,13 @@
     <string name="download_on_metered_title">Downwoad on Mobiwe Data</string>
     <string name="download_on_metered_description">Awwows downwoading swongs and pwaywists using youw mobiwe data pwan</string>
     <string name="waiting_for_wifi_to_download">Waitin fow Wi-Fi to downwoad %1$s</string>
+    <string name="remove_library">Remove from library</string>
+    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
+    <string name="remove_from_queue">Remove from queue</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Failed to get song from local repository</string>
+    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
+    <string name="failed_delete_playlist">Failed to delete the playlist</string>
+    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
 </resources>
