@@ -128,13 +128,13 @@
     <string name="download_on_metered_title">Download på mobildata</string>
     <string name="download_on_metered_description">Tillader at downloade sange og afspilningslister ved hjælp af dit mobildataabonnement</string>
     <string name="waiting_for_wifi_to_download">Venter på at Wi-Fi downloader %1$s</string>
-    <string name="remove_library">Remove from library</string>
-    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="explicit">Explicit</string>
-    <string name="failed_get_local_song">Failed to get song from local repository</string>
-    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
-    <string name="failed_delete_playlist">Failed to delete the playlist</string>
-    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="remove_library">Fjern fra bibliotek</string>
+    <string name="remove_library_text">Er du sikker på, at du vil fjerne denne afspilningsliste fra dit bibliotek? Du kan tilføje den igen senere.</string>
+    <string name="remove_from_queue">Fjern fra kø</string>
+    <string name="downloaded">Downloadet</string>
+    <string name="explicit">Eksplicit</string>
+    <string name="failed_get_local_song">Kunne ikke hente sang fra lokalt lager</string>
+    <string name="failed_get_to_login_cookies">Kunne ikke logge på cookies</string>
+    <string name="failed_delete_playlist">Kunne ikke slette spillelisten</string>
+    <string name="failed_remove_from_library">Kunne ikke fjerne spillelisten fra dit bibliotek</string>
 </resources>
