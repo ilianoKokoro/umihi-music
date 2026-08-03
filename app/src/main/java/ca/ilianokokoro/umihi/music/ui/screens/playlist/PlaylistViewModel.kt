@@ -214,6 +214,47 @@ class PlaylistViewModel(
         }
     }
 
+    fun removeFromLibrary(onBack: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception("Failed to get to login cookies")
+                }
+
+                playlistRepository.removeFromLibrary(playlistInfo, settings)
+                    .collect { apiResult ->
+                        _uiState.update { _ ->
+                            _uiState.value.copy(
+                                screenState = when (apiResult) {
+                                    is ApiResult.Error -> {
+                                        ScreenState.Error(Exception("Failed to remove the playlist from your library"))
+                                    }
+
+                                    ApiResult.Loading -> ScreenState.Loading(playlistInfo)
+                                    is ApiResult.Success -> {
+                                        onBack()
+                                        sharedViewModel.markPlaylistDeleted(
+                                            playlistInfo
+                                        )
+                                        ScreenState.Success(Playlist(PlaylistInfo()))
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+                _uiState.update {
+                    _uiState.value.copy(
+                        screenState = ScreenState.Error(ex)
+                    )
+                }
+            }
+        }
+    }
+
     fun deleteLocalPlaylist() {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {

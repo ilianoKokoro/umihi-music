@@ -136,4 +136,6 @@
     <string name="download_on_metered_title">Download on Mobile Data</string>
     <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
     <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
+    <string name="remove_library">Remove from library</string>
+    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
 </resources>

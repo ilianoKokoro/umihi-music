@@ -92,7 +92,7 @@ object Constants {
 
     object Database {
         const val NAME = "umihi-music"
-        const val VERSION = 8
+        const val VERSION = 9
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
         const val VERSIONS_TABLE = "versions"
@@ -202,12 +202,10 @@ object Constants {
     }
 
     object YoutubeApi {
-        val GENERATED_PLAYLISTS = listOf(PODCAST_PLAYLIST_ID, LIKE_PLAYLIST_ID)
         const val URL_REGEX =
             """https?://(www\.)?(youtube\.com|youtu\.be|music\.youtube\.com)/\S+"""
         const val RETRY_COUNT = 3
         const val PODCAST_PLAYLIST_ID = "VLSE"
-        const val LIKE_PLAYLIST_ID = "VLLM"
         const val RETRY_DELAY = 1000
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"

@@ -136,6 +136,16 @@ class PlaylistRepository(application: Application) {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun removeFromLibrary(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(ApiResult.Success(playlistDataSource.removeFromLibrary(playlist, settings)))
+        }.flowOn(Dispatchers.IO)
+    }
+
     fun edit(
         playlistId: String,
         settings: UmihiSettings,

@@ -243,6 +243,38 @@ object YoutubeApiClient {
         )
     }
 
+    suspend fun removePlaylistFromLibrary(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val playlistId = playlist.id.removePrefix("VL")
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put(
+                "target",
+                buildJsonObject {
+                    put("playlistId", playlistId)
+                }
+            )
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Like.REMOVE_LIKE_URL,
+            body = body,
+            settings = settings
+        )
+    }
+
     suspend fun getAddToPlaylists(settings: UmihiSettings): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,

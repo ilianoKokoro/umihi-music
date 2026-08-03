@@ -57,6 +57,16 @@ class PlaylistDataSource {
             settings = settings
         )
     }
+
+    suspend fun removeFromLibrary(
+        playlist: PlaylistInfo,
+        settings: UmihiSettings
+    ) {
+        YoutubeApiClient.removePlaylistFromLibrary(
+            playlist,
+            settings = settings
+        )
+    }
     suspend fun edit(
         playlistId: String,
         settings: UmihiSettings,

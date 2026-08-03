@@ -19,6 +19,7 @@ fun PlaylistHeader(
     onDownloadPlaylist: () -> Unit,
     onDeleteDownloadPlaylist: () -> Unit,
     onDeletePlaylist: () -> Unit,
+    onRemoveFromLibrary: () -> Unit,
     onPlayPlaylist: () -> Unit,
     onCancelDownload: () -> Unit,
     onShufflePlaylist: () -> Unit,
@@ -38,6 +39,7 @@ fun PlaylistHeader(
                 onDownloadPressed = onDownloadPlaylist,
                 onDeleteDownloadPressed = onDeleteDownloadPlaylist,
                 onDeletePressed = onDeletePlaylist,
+                onRemoveFromLibraryPressed = onRemoveFromLibrary,
                 onCancelDownload = onCancelDownload,
             )
             ActionButtons(
