@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Baixar em dados móveis</string>
     <string name="download_on_metered_description">Permite o download de músicas e playlists usando seu plano de dados móveis</string>
     <string name="waiting_for_wifi_to_download">Esperando que o Wi-Fi baixe %1$s</string>
+    <string name="remove_library">Remover da biblioteca</string>
+    <string name="remove_library_text">Tem certeza de que deseja remover esta playlist da sua biblioteca? Você pode adicioná-la novamente mais tarde.</string>
+    <string name="remove_from_queue">Remover da fila</string>
+    <string name="downloaded">Baixado</string>
+    <string name="explicit">Explicável</string>
+    <string name="failed_get_local_song">Falha ao obter a música do repositório local</string>
+    <string name="failed_get_to_login_cookies">Falha ao obter cookies de login</string>
+    <string name="failed_delete_playlist">Falha ao excluir a playlist</string>
+    <string name="failed_remove_from_library">Falha ao remover a lista de reprodução da sua biblioteca</string>
 </resources>

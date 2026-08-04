@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Downloaden via mobiele data</string>
     <string name="download_on_metered_description">Staat het downloaden van afspeellijsten en nummers toe met uw mobiele gegevensplan</string>
     <string name="waiting_for_wifi_to_download">Wachten op Wi-Fi om %1$s te downloaden</string>
+    <string name="remove_library">Verwijderen uit bibliotheek</string>
+    <string name="remove_library_text">Weet je zeker dat je deze afspeellijst uit je bibliotheek wilt verwijderen? Je kunt het later opnieuw toevoegen.</string>
+    <string name="remove_from_queue">Verwijderen uit wachtrij</string>
+    <string name="downloaded">Gedownload</string>
+    <string name="explicit">Expliciet</string>
+    <string name="failed_get_local_song">Ophalen van het nummer van de lokale repository mislukt</string>
+    <string name="failed_get_to_login_cookies">Fout bij het ophalen van login cookies</string>
+    <string name="failed_delete_playlist">Verwijderen van de afspeellijst is mislukt</string>
+    <string name="failed_remove_from_library">Verwijderen van de afspeellijst uit uw bibliotheek is mislukt</string>
 </resources>

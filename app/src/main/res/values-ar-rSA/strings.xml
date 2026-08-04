@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">تحميل على بيانات الجوال</string>
     <string name="download_on_metered_description">يسمح بتحميل الأغاني وقوائم التشغيل باستخدام خطة بيانات الجوال الخاصة بك</string>
     <string name="waiting_for_wifi_to_download">في انتظار شبكة Wi-Fi لتنزيل %1$s</string>
+    <string name="remove_library">إزالة من المكتبة</string>
+    <string name="remove_library_text">هل أنت متأكد من أنك تريد إزالة قائمة التشغيل هذه من مكتبتك؟ يمكنك إضافتها مرة أخرى لاحقاً.</string>
+    <string name="remove_from_queue">إزالة من قائمة الانتظار</string>
+    <string name="downloaded">تم التحميل</string>
+    <string name="explicit">صريحة</string>
+    <string name="failed_get_local_song">فشل الحصول على الأغنية من المستودع المحلي</string>
+    <string name="failed_get_to_login_cookies">فشل في الحصول على ملفات تعريف الارتباط لتسجيل الدخول</string>
+    <string name="failed_delete_playlist">فشل في حذف قائمة التشغيل</string>
+    <string name="failed_remove_from_library">فشل في إزالة قائمة التشغيل من مكتبتك</string>
 </resources>

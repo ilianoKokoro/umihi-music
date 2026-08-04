@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Last ned på mobildata</string>
     <string name="download_on_metered_description">Tillater nedlasting av sanger og spillelister ved hjelp av mobildataplanen din</string>
     <string name="waiting_for_wifi_to_download">Venter på Wi-Fi nedlasting av %1$s</string>
+    <string name="remove_library">Fjern fra bibliotek</string>
+    <string name="remove_library_text">Er du sikker på at du vil fjerne denne spillelisten fra biblioteket ditt? Du kan legge den til på nytt senere.</string>
+    <string name="remove_from_queue">Fjern fra køen</string>
+    <string name="downloaded">Nedlastet</string>
+    <string name="explicit">Eksplisitt</string>
+    <string name="failed_get_local_song">Klarte ikke å hente sang fra lokalt depotet</string>
+    <string name="failed_get_to_login_cookies">Kunne ikke komme til å logge inn informasjonskapsler</string>
+    <string name="failed_delete_playlist">Kan ikke slette spillelisten</string>
+    <string name="failed_remove_from_library">Kan ikke fjerne spillelisten fra biblioteket</string>
 </resources>

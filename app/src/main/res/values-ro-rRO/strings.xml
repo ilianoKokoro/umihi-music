@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Descarcă datele mobile</string>
     <string name="download_on_metered_description">Permite descărcarea de melodii și liste de redare folosind planul de date mobile</string>
     <string name="waiting_for_wifi_to_download">Se așteaptă ca Wi-Fi să descarce %1$s</string>
+    <string name="remove_library">Elimină din bibliotecă</string>
+    <string name="remove_library_text">Ești sigur că vrei să ștergi această listă de redare din bibliotecă? Poți să o adaugi din nou mai târziu.</string>
+    <string name="remove_from_queue">Elimină din coadă</string>
+    <string name="downloaded">Descărcat</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Obținerea melodiei din depozitul local a eșuat</string>
+    <string name="failed_get_to_login_cookies">Obținerea cookie-urilor nu a reușit</string>
+    <string name="failed_delete_playlist">Ștergerea listei de redare a eșuat</string>
+    <string name="failed_remove_from_library">Ștergerea playlist-ului din biblioteca dvs. a eșuat</string>
 </resources>

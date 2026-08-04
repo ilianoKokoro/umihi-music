@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Скачать на мобильные данные</string>
     <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного плана передачи данных</string>
     <string name="waiting_for_wifi_to_download">Ожидание загрузки Wi-Fi %1$s</string>
+    <string name="remove_library">Удалить из библиотеки</string>
+    <string name="remove_library_text">Вы уверены, что хотите удалить этот список воспроизведения из вашей библиотеки? Вы можете добавить его еще раз позже.</string>
+    <string name="remove_from_queue">Удалить из очереди</string>
+    <string name="downloaded">Загружено</string>
+    <string name="explicit">Ясный</string>
+    <string name="failed_get_local_song">Не удалось получить песню из локального репозитория</string>
+    <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
+    <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
+    <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
 </resources>

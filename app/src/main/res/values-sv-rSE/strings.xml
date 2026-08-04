@@ -128,4 +128,13 @@
     <string name="download_on_metered_title">Ladda ner på mobildata</string>
     <string name="download_on_metered_description">Tillåter nedladdning av låtar och spellistor med din mobildataplan</string>
     <string name="waiting_for_wifi_to_download">Väntar på Wi-Fi för att ladda ner %1$s</string>
+    <string name="remove_library">Ta bort från bibliotek</string>
+    <string name="remove_library_text">Är du säker på att du vill ta bort den här spellistan från ditt bibliotek? Du kan lägga till den igen senare.</string>
+    <string name="remove_from_queue">Ta bort från kön</string>
+    <string name="downloaded">Nedladdad</string>
+    <string name="explicit">Explicit</string>
+    <string name="failed_get_local_song">Det gick inte att hämta låten från lokal utvecklingskatalog</string>
+    <string name="failed_get_to_login_cookies">Misslyckades att få logga in cookies</string>
+    <string name="failed_delete_playlist">Det gick inte att ta bort spellistan</string>
+    <string name="failed_remove_from_library">Det gick inte att ta bort spellistan från biblioteket</string>
 </resources>
