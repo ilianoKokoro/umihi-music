@@ -133,8 +133,8 @@
     <string name="remove_from_queue">Retirer de la file d\'attente</string>
     <string name="downloaded">Téléchargé</string>
     <string name="explicit">Explicite</string>
-    <string name="failed_get_local_song">Impossible d\'obtenir la chanson depuis le dépôt local</string>
-    <string name="failed_get_to_login_cookies">Impossible d\'accéder aux cookies de connexion</string>
+    <string name="failed_get_local_song">Impossible de récupérer le titre depuis le dépôt local</string>
+    <string name="failed_get_to_login_cookies">Impossible d\'obtenir les cookies de connexion</string>
     <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
     <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
 </resources>
