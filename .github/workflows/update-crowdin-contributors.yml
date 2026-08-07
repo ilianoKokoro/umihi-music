@@ -31,6 +31,7 @@ jobs:
                   max_contributors: 50
                   image_size: 48
                   min_words_contributed: 1
+                  excluded_users: "ilianoKokoro"
                   include_languages: true
               env:
                   CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
