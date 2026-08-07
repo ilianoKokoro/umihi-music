@@ -193,7 +193,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Mickael81</b></sub></a>
         <br />
-        <sub><b>629 words</b></sub>
+        <sub><b>701 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
       <td align="center" valign="top">
