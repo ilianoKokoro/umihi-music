@@ -143,14 +143,6 @@ Thank you to all the people who helped translate Umihi Music
   <tbody>
     <tr>
       <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/ilianoKokoro"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14810202/medium/aba61629e7e73789c121fe6be42f5e3f.png" />
-          <br />
-          <sub><b>ilianoKokoro</b></sub></a>
-        <br />
-        <sub><b>5916 words</b></sub>
-        <br /><sub><b><code title="Afrikaans">af</code></b>, <b><code title="Arabic">ar</code></b>, <b><code title="Catalan">ca</code></b>, <b><code title="Chinese Simplified">zh-CN</code></b>, <b><code title="Chinese Traditional">zh-TW</code></b>, <b><code title="Czech">cs</code></b>, <b><code title="Danish">da</code></b>, <b><code title="Dutch">nl</code></b>, <b><code title="Finnish">fi</code></b>, <b><code title="French">fr</code></b>, <b><code title="German">de</code></b>, <b><code title="Greek">el</code></b>, <b><code title="Hebrew">he</code></b>, <b><code title="Hungarian">hu</code></b>, <b><code title="Italian">it</code></b>, <b><code title="Japanese">ja</code></b>, <b><code title="Korean">ko</code></b>, <b><code title="LOLCAT">lol</code></b>, <b><code title="Norwegian">no</code></b>, <b><code title="Polish">pl</code></b>, <b><code title="Portuguese">pt-PT</code></b>, <b><code title="Portuguese, Brazilian">pt-BR</code></b>, <b><code title="Romanian">ro</code></b>, <b><code title="Russian">ru</code></b>, <b><code title="Serbian (Cyrillic)">sr</code></b>, <b><code title="Spanish">es-ES</code></b>, <b><code title="Swedish">sv-SE</code></b>, <b><code title="Tagalog">tl</code></b>, <b><code title="Turkish">tr</code></b>, <b><code title="Ukrainian">uk</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
-      </td>
-      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
           <br />
           <sub><b>Tusk</b></sub>
@@ -186,8 +178,6 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>289 words</b></sub>
         <br /><sub><b><code title="Catalan">ca</code></b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
           <br />
@@ -196,6 +186,8 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>701 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
           <br />
@@ -230,8 +222,6 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>32 words</b></sub>
         <br /><sub><b><code title="Hebrew">he</code></b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/corrigo"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17457288/medium/ef9cc844691730917c6a23cf8a950089.jpg" />
           <br />
