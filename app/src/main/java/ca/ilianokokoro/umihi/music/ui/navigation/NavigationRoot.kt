@@ -48,6 +48,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.ui.components.miniplayer.MiniPlayerWrapper
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.auth.AuthScreen
+import ca.ilianokokoro.umihi.music.ui.screens.hide.HideScreen
 import ca.ilianokokoro.umihi.music.ui.screens.home.HomeScreen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistScreen
@@ -155,6 +156,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         is SettingsScreenKey -> NavEntry(key) {
                             SettingsScreen(
                                 openAuthScreen = { backStack.add(AuthScreenKey) },
+                                openHideScreen = { backStack.add(HideScreenKey) },
                                 application = app
                             )
                         }
@@ -173,6 +175,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             AuthScreen(
                                 onBack = backStack::safePop,
                                 sharedViewModel = sharedViewModel,
+                                application = app
+                            )
+                        }
+
+                        is HideScreenKey -> NavEntry(key) {
+                            HideScreen(
+                                onBack = backStack::safePop,
+                                sharedViewModel = sharedViewModel,
+                                onPlaylistPressed = { playlistInfo ->
+                                    backStack.add(PlaylistScreenKey(playlistInfo))
+                                },
                                 application = app
                             )
                         }

@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.CloudDownload
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
@@ -56,6 +56,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSectio
 @Composable
 fun SettingsScreen(
     openAuthScreen: () -> Unit,
+    openHideScreen: () -> Unit,
     application: Application,
     settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
 ) {
@@ -155,17 +156,11 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.general)
                         ) {
-                            BooleanSettingItem(
-                                title = stringResource(R.string.show_podcast_playlist_title),
-                                subtitle = stringResource(R.string.show_podcast_playlist_description),
-                                leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
-                                value = screenState.settings.showPodcastPlaylist,
-                                onToggle = {
-                                    settingsViewModel.updateSetting(
-                                        PreferenceKeys.SHOW_PODCAST_PLAYLIST,
-                                        it
-                                    )
-                                }
+                            SettingsItem(
+                                title = stringResource(R.string.show_hidden_playlists_title),
+                                subtitle = stringResource(R.string.show_hidden_playlists_description),
+                                leadingIcon = Icons.Outlined.Visibility,
+                                onClick = openHideScreen
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             BooleanSettingItem(
