@@ -312,7 +312,7 @@ fun PlaylistInfo(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        showCancelDialog.value = false
+                        showUnhideDialog.value = false
                         onUnhidePlaylist()
                     }
                 ) { Text(stringResource(R.string.confirm)) }
