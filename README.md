@@ -84,6 +84,9 @@ Join the Discord server to get update pings, know about announcements and get su
 - Clean Material Expressive design
 - Optimized for modern Android devices
 - Android Auto support
+- Create and delete playlists in app
+- Send data back to Google option for recommendations
+- Integrated Sleep timer and Speed controls
 
 ### Future features (In development)
 
