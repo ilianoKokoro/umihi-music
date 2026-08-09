@@ -237,16 +237,16 @@ fun PlaylistInfo(
                                         )
                                     }
 
-//                                    PlaylistType.SAVED -> {
-//                                        MaterialUDropdownItem(
-//                                            leadingIcon = Icons.Rounded.BookmarkRemove,
-//                                            text = stringResource(R.string.remove_library),
-//                                            onClick = {
-//                                                showRemoveFromLibraryDialog.value = true
-//                                                optionsExtended = false
-//                                            }
-//                                        )
-//                                    }
+                                    PlaylistType.SAVED -> {
+                                        MaterialUDropdownItem(
+                                            leadingIcon = Icons.Rounded.BookmarkRemove,
+                                            text = stringResource(R.string.remove_library),
+                                            onClick = {
+                                                showRemoveFromLibraryDialog.value = true
+                                                optionsExtended = false
+                                            }
+                                        )
+                                    }
 
                                     else -> {}
 
