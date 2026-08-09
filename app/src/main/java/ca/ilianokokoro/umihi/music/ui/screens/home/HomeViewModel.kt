@@ -138,10 +138,6 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
             title = application.getString(R.string.downloaded),
         )
 
-        if (!settings.showPodcastPlaylist) {
-            mutablePlaylists.removeIf { it.id == Constants.YoutubeApi.PODCAST_PLAYLIST_ID }
-        }
-
         mutablePlaylists.add(0, downloadedPlaylist)
 
         _uiState.update { currentState ->

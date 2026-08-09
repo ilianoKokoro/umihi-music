@@ -9,7 +9,6 @@ data class UmihiSettings(
     val updateChecking: Boolean = true,
     val cookies: Cookies,
     val dataSyncId: String?,
-    val showPodcastPlaylist: Boolean = true,
     val useSpecialLanguage: Boolean = false,
     val useAudioOffload: Boolean = false,
     val keepScreenOn: Boolean = false,

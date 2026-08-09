@@ -81,7 +81,6 @@ object Constants {
         const val COOKIES_KEY = "cookies"
         const val UPDATE_CHANNEL_KEY = "update-channel"
         const val DATA_SYNC_ID = "data-sync-id"
-        const val SHOW_PODCAST_PLAYLIST = "show-podcast-playlist"
         const val USE_SPECIAL_LANGUAGE = "use-special-language"
         const val USE_AUDIO_OFFLOAD = "use-audio-offload"
         const val KEEP_SCREEN_ON = "keep-screen-on"
@@ -205,7 +204,6 @@ object Constants {
         const val URL_REGEX =
             """https?://(www\.)?(youtube\.com|youtu\.be|music\.youtube\.com)/\S+"""
         const val RETRY_COUNT = 3
-        const val PODCAST_PLAYLIST_ID = "VLSE"
         const val RETRY_DELAY = 1000
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
