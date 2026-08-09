@@ -36,11 +36,11 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDro
 
 @Composable
 fun PlaylistListItem(
+    modifier: Modifier = Modifier,
     playlist: Playlist,
     onPlaylistPressed: (PlaylistInfo) -> Unit,
     onUnhidePlaylist: (() -> Unit)? = null,
     onDeletePlaylist: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showUnhideDialog by remember { mutableStateOf(false) }
