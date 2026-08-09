@@ -88,7 +88,7 @@ fun HomeScreen(
                 when (uiState.screenState) {
                     is ScreenState.LoggedIn -> {
                         val loggedIn = uiState.screenState
-                        val playlists = loggedIn.playlistInfos
+                        val playlists = loggedIn.playlistInfos.filter { !it.hidden }
 
                         if (playlists.isEmpty()) {
                             Text(

@@ -17,6 +17,8 @@ import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.FilledIconButton
@@ -56,6 +58,8 @@ fun PlaylistInfo(
     onDeletePressed: () -> Unit,
     onRemoveFromLibraryPressed: () -> Unit,
     onCancelDownload: () -> Unit,
+    onUnhidePlaylist: () -> Unit,
+    onHidePlaylist: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val songsCount = playlist.songs.count()
@@ -63,6 +67,8 @@ fun PlaylistInfo(
     val showDeleteDownloadDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
     val showCancelDialog = remember { mutableStateOf(false) }
+    val showHideDialog = remember { mutableStateOf(false) }
+    val showUnhideDialog = remember { mutableStateOf(false) }
     val showRemoveFromLibraryDialog = remember { mutableStateOf(false) }
     var optionsExtended by remember { mutableStateOf(false) }
 
@@ -199,6 +205,26 @@ fun PlaylistInfo(
                                     }
                                 )
 
+                                if (playlist.info.hidden) {
+                                    MaterialUDropdownItem(
+                                        leadingIcon = Icons.Rounded.Visibility,
+                                        text = stringResource(R.string.unhide_playlist),
+                                        onClick = {
+                                            showUnhideDialog.value = true
+                                            optionsExtended = false
+                                        }
+                                    )
+                                } else if (!playlist.info.hidden) {
+                                    MaterialUDropdownItem(
+                                        leadingIcon = Icons.Rounded.VisibilityOff,
+                                        text = stringResource(R.string.hide_playlist),
+                                        onClick = {
+                                            showHideDialog.value = true
+                                            optionsExtended = false
+                                        }
+                                    )
+                                }
+
                                 when (playlist.info.type) {
                                     PlaylistType.CREATED_BY_USER -> {
                                         MaterialUDropdownItem(
@@ -211,16 +237,16 @@ fun PlaylistInfo(
                                         )
                                     }
 
-                                    PlaylistType.SAVED -> {
-                                        MaterialUDropdownItem(
-                                            leadingIcon = Icons.Rounded.BookmarkRemove,
-                                            text = stringResource(R.string.remove_library),
-                                            onClick = {
-                                                showRemoveFromLibraryDialog.value = true
-                                                optionsExtended = false
-                                            }
-                                        )
-                                    }
+//                                    PlaylistType.SAVED -> {
+//                                        MaterialUDropdownItem(
+//                                            leadingIcon = Icons.Rounded.BookmarkRemove,
+//                                            text = stringResource(R.string.remove_library),
+//                                            onClick = {
+//                                                showRemoveFromLibraryDialog.value = true
+//                                                optionsExtended = false
+//                                            }
+//                                        )
+//                                    }
 
                                     else -> {}
 
@@ -272,6 +298,50 @@ fun PlaylistInfo(
             dismissButton = {
                 TextButton(
                     onClick = { showCancelDialog.value = false }
+                ) { Text(stringResource(R.string.cancel)) }
+            },
+            properties = DialogProperties(dismissOnClickOutside = false)
+        )
+    }
+
+    if (showUnhideDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showUnhideDialog.value = false },
+            title = { Text(stringResource(R.string.unhide_playlist)) },
+            text = { Text(stringResource(R.string.unhide_playlist_confirm_text)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showCancelDialog.value = false
+                        onUnhidePlaylist()
+                    }
+                ) { Text(stringResource(R.string.confirm)) }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showUnhideDialog.value = false }
+                ) { Text(stringResource(R.string.cancel)) }
+            },
+            properties = DialogProperties(dismissOnClickOutside = false)
+        )
+    }
+
+    if (showHideDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showHideDialog.value = false },
+            title = { Text(stringResource(R.string.hide_playlist)) },
+            text = { Text(stringResource(R.string.hide_playlist_confirm_text)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showHideDialog.value = false
+                        onHidePlaylist()
+                    }
+                ) { Text(stringResource(R.string.confirm)) }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showHideDialog.value = false }
                 ) { Text(stringResource(R.string.cancel)) }
             },
             properties = DialogProperties(dismissOnClickOutside = false)

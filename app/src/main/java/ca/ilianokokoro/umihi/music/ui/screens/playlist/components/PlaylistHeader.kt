@@ -22,6 +22,8 @@ fun PlaylistHeader(
     onRemoveFromLibrary: () -> Unit,
     onPlayPlaylist: () -> Unit,
     onCancelDownload: () -> Unit,
+    onUnhidePlaylist: () -> Unit,
+    onHidePlaylist: () -> Unit,
     onShufflePlaylist: () -> Unit,
     playlist: Playlist
 ) {
@@ -41,6 +43,8 @@ fun PlaylistHeader(
                 onDeletePressed = onDeletePlaylist,
                 onRemoveFromLibraryPressed = onRemoveFromLibrary,
                 onCancelDownload = onCancelDownload,
+                onUnhidePlaylist = onUnhidePlaylist,
+                onHidePlaylist = onHidePlaylist,
             )
             ActionButtons(
                 buttonEnabled = !playlist.songs.isEmpty(),
