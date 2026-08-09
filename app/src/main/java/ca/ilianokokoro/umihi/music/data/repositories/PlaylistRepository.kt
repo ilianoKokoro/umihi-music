@@ -27,12 +27,20 @@ class PlaylistRepository(application: Application) {
             emit(ApiResult.Loading)
             try {
                 val remotePlaylists = playlistDataSource.retrieveAll(settings)
-                emit(ApiResult.Success(remotePlaylists))
+                val hiddenIds = localPlaylistDataSource
+                    .fetchHiddenPlaylists()
+                    .map { it.info.id }
+                    .toSet()
+                emit(
+                    ApiResult.Success(
+                        remotePlaylists.filter { it.id !in hiddenIds }
+                    )
+                )
             } catch (e: Exception) {
                 if (e is CancellationException) {
                     throw e
                 }
-                val localPlaylists = localPlaylistDataSource.getAll().map { it.info }
+                val localPlaylists = localPlaylistDataSource.fetchVisiblePlaylists().map { it.info }
                 emit(ApiResult.Success(localPlaylists))
             }
         }.flowOn(Dispatchers.IO)
@@ -126,6 +134,7 @@ class PlaylistRepository(application: Application) {
             )
         }.flowOn(Dispatchers.IO)
     }
+
     fun delete(
         playlist: PlaylistInfo,
         settings: UmihiSettings
@@ -143,6 +152,30 @@ class PlaylistRepository(application: Application) {
         return flow {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(playlistDataSource.removeFromLibrary(playlist, settings)))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun hidePlaylist(playlist: PlaylistInfo): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+
+            localPlaylistDataSource.insertPlaylist(
+                playlist.copy(hidden = true)
+            )
+
+            emit(ApiResult.Success(Unit))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun unhidePlaylist(playlist: PlaylistInfo): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+
+            localPlaylistDataSource.insertPlaylist(
+                playlist.copy(hidden = false)
+            )
+
+            emit(ApiResult.Success(Unit))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -186,6 +219,9 @@ class PlaylistRepository(application: Application) {
                 remoteSong
             }
         }
-        return remotePlaylist.copy(songs = mergedSongs)
+        return remotePlaylist.copy(
+            info = remotePlaylist.info.copy(hidden = localPlaylist.info.hidden),
+            songs = mergedSongs
+        )
     }
 }

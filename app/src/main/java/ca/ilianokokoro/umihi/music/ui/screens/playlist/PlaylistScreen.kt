@@ -182,6 +182,8 @@ fun PlaylistScreen(
                             onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                             onRemoveFromLibrary = { playlistViewModel.removeFromLibrary(onBack) },
                             onCancelDownload = playlistViewModel::cancelDownload,
+                            onUnhidePlaylist = playlistViewModel::unhidePlaylist,
+                            onHidePlaylist = playlistViewModel::hidePlaylist,
                             playlist = playlistInfo
                         )
 
@@ -225,6 +227,8 @@ fun PlaylistScreen(
                                         onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                                         onRemoveFromLibrary = { playlistViewModel.removeFromLibrary(onBack) },
                                         onCancelDownload = playlistViewModel::cancelDownload,
+                                        onUnhidePlaylist = playlistViewModel::unhidePlaylist,
+                                        onHidePlaylist = playlistViewModel::hidePlaylist,
                                         playlist = playlistInfo
                                     )
                                 }

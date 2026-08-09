@@ -24,6 +24,7 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -264,6 +265,26 @@ class PlaylistViewModel(
         }
     }
 
+    fun unhidePlaylist() {
+        val playlist = getPlaylist() ?: return
+
+        viewModelScope.launch {
+            playlistRepository.unhidePlaylist(playlist.info).collect()
+            sharedViewModel.requestPlaylistRefresh()
+            getPlaylistInfoAsync()
+        }
+    }
+
+    fun hidePlaylist() {
+        val playlist = getPlaylist() ?: return
+
+        viewModelScope.launch {
+            playlistRepository.hidePlaylist(playlist.info).collect()
+            sharedViewModel.requestPlaylistRefresh()
+            getPlaylistInfoAsync()
+        }
+    }
+
     fun cancelDownload() {
         if (!uiState.value.isDownloading) {
             return
@@ -290,24 +311,30 @@ class PlaylistViewModel(
         try {
             val settings = datastoreRepository.getSettings()
 
-            playlistRepository.retrieveOne(Playlist(playlistInfo), settings)
-                .collect { apiResult ->
-                    _uiState.update { _ ->
-                        _uiState.value.copy(
-                            screenState = when (apiResult) {
-                                is ApiResult.Error -> {
-                                    ScreenState.Error(apiResult.exception)
-                                }
-
-                                ApiResult.Loading -> ScreenState.Loading(playlistInfo)
-                                is ApiResult.Success -> {
-                                    ScreenState.Success(playlist = apiResult.data)
-                                }
+            playlistRepository.retrieveOne(
+                Playlist(playlistInfo),
+                settings
+            ).collect { apiResult ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        screenState = when (apiResult) {
+                            is ApiResult.Error -> {
+                                ScreenState.Error(apiResult.exception)
                             }
-                        )
-                    }
-                }
 
+                            ApiResult.Loading -> {
+                                ScreenState.Loading(playlistInfo)
+                            }
+
+                            is ApiResult.Success -> {
+                                ScreenState.Success(
+                                    playlist = apiResult.data
+                                )
+                            }
+                        }
+                    )
+                }
+            }
         } catch (ex: Exception) {
             printe(message = ex.toString(), exception = ex)
             _uiState.update {
