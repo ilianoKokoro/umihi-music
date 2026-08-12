@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="playlists">Playlists</string>
-    <string name="settings">Settings</string>
-    <string name="back_description">Previous screen</string>
+    <string name="playlists">播放清單</string>
+    <string name="settings">設定</string>
+    <string name="back_description">上一頁</string>
     <string name="no_playlists">No playlists found</string>
-    <string name="playlist_cover">Playlist cover</string>
-    <string name="log_in">Log In</string>
-    <string name="empty_playlist">No songs in the playlist</string>
-    <string name="play">Play</string>
+    <string name="playlist_cover">播放清單封面</string>
+    <string name="log_in">登入</string>
+    <string name="empty_playlist">播放清單內沒有歌曲</string>
+    <string name="play">播放</string>
     <string name="shuffle">Shuffle</string>
     <string name="songs">%1$d songs</string>
     <string name="error">Error</string>
