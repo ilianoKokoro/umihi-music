@@ -114,7 +114,16 @@ class UmihiMediaLibraryCallback(
                             .first { it !is ApiResult.Loading }
 
                         if (playlists is ApiResult.Success) {
-                            playlists.data.map { playlist ->
+                            val mutablePlaylists = playlists.data.toMutableList()
+                            
+                            val downloadedPlaylist = PlaylistInfo(
+                                id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
+                                title = service.getString(R.string.downloaded),
+                            )
+
+                            mutablePlaylists.add(0, downloadedPlaylist)
+                            
+                            mutablePlaylists.map { playlist ->
                                 playlist.toBrowsableMediaItem()
                             }
                         } else {
