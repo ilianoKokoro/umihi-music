@@ -119,6 +119,7 @@ class UmihiMediaLibraryCallback(
                             val downloadedPlaylist = PlaylistInfo(
                                 id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
                                 title = service.getString(R.string.downloaded),
+                                coverHref = drawableUri(R.drawable.download).toString()
                             )
 
                             mutablePlaylists.add(0, downloadedPlaylist)
