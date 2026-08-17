@@ -88,7 +88,7 @@
     <string name="keep_screen_on_title_description">在应用程序打开时阻止显示关闭</string>
     <string name="send_playback_data_title">发送回数据到 Google</string>
     <string name="send_playback_data_description">发送播放的歌曲回到Youtube音乐以获取历史、建议和年终回顾。</string>
-    <string name="downloading_update">Downloading Update…</string>
+    <string name="downloading_update">正在下载更新…</string>
     <string name="title">标题</string>
     <string name="create">创建</string>
     <string name="create_playlist">创建播放列表</string>
