@@ -145,4 +145,8 @@
     <string name="your_playlists">Danh sách phát của bạn</string>
     <string name="listen_again">Nghe lại</string>
     <string name="video">Video</string>
+    <string name="force_stop">Dừng phát hoàn toàn</string>
+    <string name="force_stop_toast">Đã dừng phát và tắt trình phát ngầm</string>
+    <string name="recently_played">Nghe gần đây</string>
+    <string name="clear_history">Xóa lịch sử</string>
 </resources>

@@ -12,8 +12,10 @@ import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.HistoryRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.HomeSection
+import ca.ilianokokoro.umihi.music.models.HomeSectionItem
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -31,6 +33,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
 
     private val playlistRepository = PlaylistRepository(application)
     private val datastoreRepository = DatastoreRepository(application)
+    private val historyRepository = HistoryRepository(application)
 
     init {
         getPlaylists()
@@ -63,6 +66,14 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
     private suspend fun refreshPlaylistsOnce() = coroutineScope {
         val settings = datastoreRepository.getSettings()
 
+        val historyDeferred = async {
+            try {
+                historyRepository.getRecentSongsList(20)
+            } catch (_: Exception) {
+                emptyList()
+            }
+        }
+
         val sectionsDeferred = async {
             try {
                 val result = playlistRepository.retrieveHomeSections(settings)
@@ -87,8 +98,19 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
             }
         }
 
-        val sections = sectionsDeferred.await()
+        val recentSongs = historyDeferred.await()
+        val sections = sectionsDeferred.await().toMutableList()
         val playlists = playlistsDeferred.await()
+
+        if (recentSongs.isNotEmpty()) {
+            val historySection = HomeSection(
+                id = "recently_played",
+                title = application.getString(R.string.recently_played),
+                subtitle = null,
+                items = recentSongs.map { HomeSectionItem.SongItem(it) }
+            )
+            sections.add(0, historySection)
+        }
 
         applyFiltersAndUpdateState(
             sections = sections,
@@ -101,6 +123,14 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         try {
             _uiState.update { it.copy(screenState = ScreenState.Loading) }
             val settings = datastoreRepository.getSettings()
+
+            val historyDeferred = async {
+                try {
+                    historyRepository.getRecentSongsList(20)
+                } catch (_: Exception) {
+                    emptyList()
+                }
+            }
 
             val sectionsDeferred = async {
                 try {
@@ -128,8 +158,19 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                 }
             }
 
-            val sections = sectionsDeferred.await()
+            val recentSongs = historyDeferred.await()
+            val sections = sectionsDeferred.await().toMutableList()
             val playlists = playlistsDeferred.await()
+
+            if (recentSongs.isNotEmpty()) {
+                val historySection = HomeSection(
+                    id = "recently_played",
+                    title = application.getString(R.string.recently_played),
+                    subtitle = null,
+                    items = recentSongs.map { HomeSectionItem.SongItem(it) }
+                )
+                sections.add(0, historySection)
+            }
 
             applyFiltersAndUpdateState(
                 sections = sections,

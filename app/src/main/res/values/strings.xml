@@ -151,4 +151,8 @@
     <string name="your_playlists">Your Playlists</string>
     <string name="listen_again">Listen again</string>
     <string name="video">Video</string>
+    <string name="force_stop">Force Stop Playback</string>
+    <string name="force_stop_toast">Playback stopped completely</string>
+    <string name="recently_played">Recently Played</string>
+    <string name="clear_history">Clear History</string>
 </resources>

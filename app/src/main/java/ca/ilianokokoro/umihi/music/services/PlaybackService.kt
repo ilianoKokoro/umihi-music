@@ -39,6 +39,8 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
+import ca.ilianokokoro.umihi.music.data.repositories.HistoryRepository
+import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +57,7 @@ class PlaybackService : MediaLibraryService() {
     private lateinit var exoCache: ExoCache
     private lateinit var player: ExoPlayer
     private lateinit var datastoreRepository: DatastoreRepository
+    private lateinit var historyRepository: HistoryRepository
     private var currentAudioSessionId = C.AUDIO_SESSION_ID_UNSET
     private val songRepository = SongRepository()
     private lateinit var playlistRepository: PlaylistRepository
@@ -62,12 +65,26 @@ class PlaybackService : MediaLibraryService() {
 
     private lateinit var callback: UmihiMediaLibraryCallback
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == "ACTION_FORCE_STOP") {
+            if (::player.isInitialized) {
+                player.stop()
+                player.clearMediaItems()
+            }
+            YoutubeStatsTracker.stopPlaybackTracking()
+            stopForeground(STOP_FOREGROUND_REMOVE)
+            stopSelf()
+            return START_NOT_STICKY
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
 
     override fun onCreate() {
         super.onCreate()
 
         datastoreRepository = DatastoreRepository(applicationContext)
         playlistRepository = PlaylistRepository(application)
+        historyRepository = HistoryRepository(applicationContext)
         exoCache = ExoCache(application)
 
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
@@ -158,7 +175,9 @@ class PlaybackService : MediaLibraryService() {
                 PlayerManager.updatePlaybackInfo(PlaybackAudioInfo())
                 updateCurrentMediaItemThumbnail(mediaItem)
                 val songId = mediaItem?.mediaId ?: return
+                val song = mediaItem.toSong()
                 serviceScope.launch {
+                    historyRepository.addSongToHistory(song)
                     val settings = datastoreRepository.getSettings()
                     YoutubeStatsTracker.onPlaybackStarted(songId, settings)
                 }

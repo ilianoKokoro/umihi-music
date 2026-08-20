@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.managers
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.media3.common.C
@@ -328,6 +329,34 @@ object PlayerManager {
         currentController?.run {
             stop()
             clearMediaItems()
+        }
+    }
+
+    fun forceStop(context: Context? = null) {
+        scope.launch {
+            radioFetchJob?.cancel()
+            cancelSleepTimer()
+
+            withContext(Dispatchers.Main) {
+                currentController?.run {
+                    stop()
+                    clearMediaItems()
+                }
+            }
+
+            context?.let { ctx ->
+                try {
+                    val intent = Intent(ctx.applicationContext, PlaybackService::class.java).apply {
+                        action = "ACTION_FORCE_STOP"
+                    }
+                    ctx.startService(intent)
+                    Toast.makeText(
+                        ctx,
+                        ctx.getString(R.string.force_stop_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (_: Exception) {}
+            }
         }
     }
 

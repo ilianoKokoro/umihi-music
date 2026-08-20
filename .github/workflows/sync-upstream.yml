@@ -1,0 +1,44 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    # Chạy kiểm tra tự động hàng tuần vào Chủ nhật lúc 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Cho phép bấm nút Sync thủ công bất cứ lúc nào
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync with upstream repo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream Remote
+        run: |
+          git remote add upstream https://github.com/ilianoKokoro/umihi-music.git || true
+          git fetch upstream main
+
+      - name: Merge Upstream Changes
+        run: |
+          git merge upstream/main -m "chore(sync): merge upstream updates from ilianoKokoro/umihi-music" || {
+            echo "Merge conflict detected! Aborting automated merge so code is not corrupted."
+            git merge --abort
+            exit 1
+          }
+
+      - name: Push to main
+        run: |
+          git push origin main
