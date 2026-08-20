@@ -216,6 +216,7 @@ object Constants {
         object Browse {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
+            const val HOME_BROWSE_ID = "FEmusic_home"
 
             // Disabled as it was causing issues
 //            object Fields {
@@ -317,6 +318,8 @@ object Constants {
         object Search {
             const val URL = "https://music.youtube.com/youtubei/v1/search?prettyPrint=false"
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
+            const val FILTER_SONGS = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
+            const val FILTER_VIDEOS = "EgWKAQIQAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
 

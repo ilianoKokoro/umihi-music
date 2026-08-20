@@ -21,6 +21,7 @@ object YoutubeAuthHelper {
         settings: UmihiSettings?,
         client: JsonObject? = null,
         visitorData: String? = null,
+        params: String? = null,
     ): JsonObject {
         val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
 
@@ -44,12 +45,12 @@ object YoutubeAuthHelper {
 
             put("context", context)
 
-            if (idName != null) {
+            if (idName != null && id != null) {
                 put(idName, JsonPrimitive(id))
+            }
 
-                if (idName == "query") {
-                    put("params", JsonPrimitive(Constants.YoutubeApi.Search.FILTER))
-                }
+            if (params != null) {
+                put("params", JsonPrimitive(params))
             }
         }
     }

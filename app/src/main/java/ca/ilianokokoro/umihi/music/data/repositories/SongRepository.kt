@@ -10,13 +10,19 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
+
 class SongRepository {
     private val songDataSource = SongDataSource()
 
-    fun search(query: String): Flow<ApiResult<List<Song>>> {
+    fun search(
+        query: String,
+        filterParams: String? = null,
+        settings: UmihiSettings? = null
+    ): Flow<ApiResult<List<Song>>> {
         return flow {
             emit(ApiResult.Loading)
-            emit(ApiResult.Success(songDataSource.search(query)))
+            emit(ApiResult.Success(songDataSource.search(query, filterParams, settings)))
         }.catch { e ->
             emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)

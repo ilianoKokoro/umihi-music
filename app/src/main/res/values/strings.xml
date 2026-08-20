@@ -143,4 +143,12 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="search_all">All</string>
+    <string name="search_songs">Songs</string>
+    <string name="search_videos">Videos</string>
+    <string name="quick_picks">Quick picks</string>
+    <string name="recommended">Recommended</string>
+    <string name="your_playlists">Your Playlists</string>
+    <string name="listen_again">Listen again</string>
+    <string name="video">Video</string>
 </resources>

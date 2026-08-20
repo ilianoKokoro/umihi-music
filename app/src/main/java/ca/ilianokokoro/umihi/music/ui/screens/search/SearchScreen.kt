@@ -11,7 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MusicNote
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Videocam
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +54,6 @@ fun SearchScreen(
 ) {
     val uiState = searchViewModel.uiState.collectAsStateWithLifecycle().value
 
-
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
@@ -57,25 +63,73 @@ fun SearchScreen(
         }
     }
 
-
     Scaffold(
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.Center,
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
                     .statusBarsPadding()
                     .padding(bottom = 4.dp)
             ) {
-                SearchBar(
-                    value = uiState.search,
-                    onValueChange = { searchViewModel.onSearchFieldChange(it) },
-                    onSearch = {
-                        focusManager.clearFocus()
-                        searchViewModel.search()
-                    },
-                    modifier = Modifier.focusRequester(focusRequester)
-                )
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    SearchBar(
+                        value = uiState.search,
+                        onValueChange = { searchViewModel.onSearchFieldChange(it) },
+                        onSearch = {
+                            focusManager.clearFocus()
+                            searchViewModel.search()
+                        },
+                        modifier = Modifier.focusRequester(focusRequester)
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                ) {
+                    FilterChip(
+                        selected = uiState.activeFilter == SearchFilter.ALL,
+                        onClick = { searchViewModel.onFilterChange(SearchFilter.ALL) },
+                        label = { Text(stringResource(R.string.search_all)) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.Search,
+                                contentDescription = null,
+                                modifier = Modifier.padding(2.dp)
+                            )
+                        }
+                    )
+                    FilterChip(
+                        selected = uiState.activeFilter == SearchFilter.SONGS,
+                        onClick = { searchViewModel.onFilterChange(SearchFilter.SONGS) },
+                        label = { Text(stringResource(R.string.search_songs)) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.MusicNote,
+                                contentDescription = null,
+                                modifier = Modifier.padding(2.dp)
+                            )
+                        }
+                    )
+                    FilterChip(
+                        selected = uiState.activeFilter == SearchFilter.VIDEOS,
+                        onClick = { searchViewModel.onFilterChange(SearchFilter.VIDEOS) },
+                        label = { Text(stringResource(R.string.search_videos)) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.Videocam,
+                                contentDescription = null,
+                                modifier = Modifier.padding(2.dp)
+                            )
+                        }
+                    )
+                }
             }
         }
     ) { paddingValues ->

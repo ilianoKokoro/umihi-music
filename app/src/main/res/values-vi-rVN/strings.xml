@@ -137,4 +137,12 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="search_all">Tất cả</string>
+    <string name="search_songs">Bài hát</string>
+    <string name="search_videos">Video</string>
+    <string name="quick_picks">Lựa chọn nhanh</string>
+    <string name="recommended">Đề xuất cho bạn</string>
+    <string name="your_playlists">Danh sách phát của bạn</string>
+    <string name="listen_again">Nghe lại</string>
+    <string name="video">Video</string>
 </resources>

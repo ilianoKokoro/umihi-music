@@ -5,14 +5,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -25,7 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.models.HomeSectionItem
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
@@ -40,6 +50,7 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
+import ca.ilianokokoro.umihi.music.ui.components.song.HomeSongCard
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
 @Composable
@@ -54,6 +65,7 @@ fun HomeScreen(
 
 ) {
     val uiState = homeViewModel.uiState.collectAsStateWithLifecycle().value
+    val context = LocalContext.current
 
     var createPlaylistOpen by remember { mutableStateOf(false) }
 
@@ -89,8 +101,9 @@ fun HomeScreen(
                     is ScreenState.LoggedIn -> {
                         val loggedIn = uiState.screenState
                         val playlists = loggedIn.playlistInfos
+                        val sections = loggedIn.sections
 
-                        if (playlists.isEmpty()) {
+                        if (playlists.isEmpty() && sections.isEmpty()) {
                             Text(
                                 stringResource(R.string.no_playlists),
                                 textAlign = TextAlign.Center
@@ -98,48 +111,145 @@ fun HomeScreen(
                         } else {
                             PullToRefreshBox(
                                 isRefreshing = uiState.isRefreshing,
-                                onRefresh = homeViewModel::refreshPlaylists
+                                onRefresh = homeViewModel::refreshPlaylists,
+                                modifier = Modifier.fillMaxSize()
                             ) {
-                                LazyVerticalGrid(
+                                LazyColumn(
                                     modifier = Modifier.fillMaxSize(),
-                                    columns = GridCells.Adaptive(minSize = 150.dp),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    verticalArrangement = Arrangement.spacedBy(20.dp),
                                     contentPadding = PaddingValues(
                                         top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
                                         bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
-                                        end = 8.dp,
-                                        start = 8.dp
                                     )
-
                                 ) {
-                                    if (loggedIn.isLoggedIn) {
-                                        item(span = { GridItemSpan(maxLineSpan) }) {
-                                            Row(horizontalArrangement = Arrangement.End) {
-                                                MaterialUButton(
-                                                    onClick = {
-                                                        createPlaylistOpen = true
-                                                    },
-                                                    icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
-                                                    text = stringResource(R.string.create_playlist)
-                                                )
+                                    // 1. Render YouTube Music Recommendation Sections
+                                    sections.forEach { section ->
+                                        if (section.items.isNotEmpty()) {
+                                            item(key = "section_${section.id}_${section.title}") {
+                                                Column(modifier = Modifier.fillMaxWidth()) {
+                                                    // Section Title
+                                                    Column(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                                                    ) {
+                                                        Text(
+                                                            text = section.title,
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            fontWeight = FontWeight.Bold,
+                                                            color = MaterialTheme.colorScheme.onSurface
+                                                        )
+                                                        if (!section.subtitle.isNullOrBlank()) {
+                                                            Text(
+                                                                text = section.subtitle,
+                                                                style = MaterialTheme.typography.bodySmall,
+                                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                            )
+                                                        }
+                                                    }
+
+                                                    Spacer(modifier = Modifier.height(8.dp))
+
+                                                    // Horizontal Carousel of items
+                                                    LazyRow(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                                        contentPadding = PaddingValues(horizontal = 16.dp)
+                                                    ) {
+                                                        items(
+                                                            items = section.items,
+                                                            key = { item ->
+                                                                when (item) {
+                                                                    is HomeSectionItem.SongItem -> item.song.uid
+                                                                    is HomeSectionItem.PlaylistItem -> item.playlistInfo.id
+                                                                }
+                                                            }
+                                                        ) { item ->
+                                                            when (item) {
+                                                                is HomeSectionItem.SongItem -> {
+                                                                    HomeSongCard(
+                                                                        song = item.song,
+                                                                        onClicked = {
+                                                                            PlayerManager.playSong(item.song)
+                                                                        },
+                                                                        playNext = {
+                                                                            PlayerManager.addNext(item.song, context)
+                                                                        },
+                                                                        addToQueue = {
+                                                                            PlayerManager.addToQueue(item.song, context)
+                                                                        }
+                                                                    )
+                                                                }
+                                                                is HomeSectionItem.PlaylistItem -> {
+                                                                    PlaylistCard(
+                                                                        playlistInfo = item.playlistInfo,
+                                                                        onClicked = { onPlaylistPressed(item.playlistInfo) },
+                                                                        modifier = Modifier.width(150.dp)
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                    itemsIndexed(
-                                        items = playlists,
-                                        key = { index, playlist ->
-                                            ComposeHelper.getLazyKey(
-                                                playlist,
-                                                playlist.id,
-                                                index
-                                            )
+
+                                    // 2. Render User's Library Playlists Section
+                                    if (playlists.isNotEmpty()) {
+                                        item(key = "user_playlists_section") {
+                                            Column(modifier = Modifier.fillMaxWidth()) {
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = stringResource(R.string.your_playlists),
+                                                        style = MaterialTheme.typography.titleLarge,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.onSurface
+                                                    )
+
+                                                    if (loggedIn.isLoggedIn) {
+                                                        MaterialUButton(
+                                                            onClick = {
+                                                                createPlaylistOpen = true
+                                                            },
+                                                            icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                                                            text = stringResource(R.string.create_playlist)
+                                                        )
+                                                    }
+                                                }
+
+                                                Spacer(modifier = Modifier.height(8.dp))
+
+                                                LazyRow(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                                    contentPadding = PaddingValues(horizontal = 16.dp)
+                                                ) {
+                                                    itemsIndexed(
+                                                        items = playlists,
+                                                        key = { index, playlist ->
+                                                            ComposeHelper.getLazyKey(
+                                                                playlist,
+                                                                playlist.id,
+                                                                index
+                                                            )
+                                                        }
+                                                    ) { _, playlist ->
+                                                        PlaylistCard(
+                                                            playlistInfo = playlist,
+                                                            onClicked = { onPlaylistPressed(playlist) },
+                                                            modifier = Modifier.width(150.dp)
+                                                        )
+                                                    }
+                                                }
+                                            }
                                         }
-                                    ) { _, playlist ->
-                                        PlaylistCard(
-                                            playlistInfo = playlist,
-                                            onClicked = { onPlaylistPressed(playlist) }
-                                        )
                                     }
                                 }
                             }
@@ -167,3 +277,4 @@ fun HomeScreen(
     }
 
 }
+

@@ -4,20 +4,21 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.DownloadForOffline
-import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material.icons.rounded.Videocam
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -37,38 +39,93 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDro
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 
 @Composable
-fun SongListItem(
+fun HomeSongCard(
     song: Song,
-    onPress: () -> Unit,
+    onClicked: () -> Unit,
     playNext: () -> Unit,
     addToQueue: () -> Unit,
     modifier: Modifier = Modifier,
-    download: (() -> Unit)? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    ListItem(
+    Card(
         modifier = modifier
-            .combinedClickable(onClick = onPress, onLongClick = { expanded = true }),
-        leadingContent = {
+            .width(150.dp)
+            .combinedClickable(
+                onClick = onClicked,
+                onLongClick = { expanded = true }
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
             Box(
                 modifier = Modifier
-                    .size(60.dp)
+                    .fillMaxWidth()
                     .aspectRatio(1f)
+                    .clip(RoundedCornerShape(8.dp))
             ) {
                 SquareImage(
                     uri = song.thumbnailPath ?: song.thumbnailHref,
+                    contentDescription = song.title,
                     modifier = Modifier.matchParentSize()
                 )
+
+                if (song.isVideo) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Videocam,
+                            contentDescription = stringResource(R.string.video),
+                            modifier = Modifier.size(18.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
             }
-        },
-        trailingContent = {
-            IconButton(onClick = { expanded = true }) {
-                Icon(
-                    Icons.Rounded.MoreVert,
-                    contentDescription = stringResource(R.string.more)
+
+            Text(
+                text = song.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .basicMarquee(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp)
+            ) {
+                if (song.isExplicit) {
+                    ExplicitBadge()
+                }
+
+                Text(
+                    text = song.artist,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.basicMarquee()
                 )
             }
+
             MaterialUDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
@@ -89,62 +146,7 @@ fun SongListItem(
                         expanded = false
                     }
                 )
-                if (download != null && !song.downloaded) {
-                    MaterialUDropdownItem(
-                        leadingIcon = Icons.Rounded.Download,
-                        text = stringResource(R.string.download),
-                        onClick = {
-                            download()
-                            expanded = false
-                        }
-                    )
-                }
             }
-        },
-        supportingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(3.dp)
-            ) {
-                if (song.downloaded) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = Icons.Rounded.DownloadForOffline,
-                        contentDescription = null
-                    )
-                }
-
-                if (song.isVideo) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = Icons.Rounded.Videocam,
-                        contentDescription = stringResource(R.string.video),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-
-                if (song.isExplicit) {
-                    ExplicitBadge()
-                }
-
-
-                Text(
-                    text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
-                )
-            }
-        },
-        colors = ListItemDefaults.colors(),
-        verticalAlignment = Alignment.CenterVertically,
-        content = {
-            Text(
-                text = song.title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.basicMarquee()
-            )
-        },
-    )
+        }
+    }
 }

@@ -27,7 +27,7 @@ fun PlaylistCard(
 ) {
     Card(
         onClick = onClicked,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
@@ -36,7 +36,7 @@ fun PlaylistCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(12.dp)
-                .fillMaxSize()
+                .fillMaxWidth()
         ) {
             if (!playlistInfo.isDownloadedPlaylist) {
                 SquareImage(

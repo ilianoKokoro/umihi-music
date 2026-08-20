@@ -13,9 +13,12 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
+import ca.ilianokokoro.umihi.music.models.HomeSection
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -28,7 +31,6 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
 
     private val playlistRepository = PlaylistRepository(application)
     private val datastoreRepository = DatastoreRepository(application)
-
 
     init {
         getPlaylists()
@@ -58,77 +60,90 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         }
     }
 
-    private suspend fun refreshPlaylistsOnce() {
+    private suspend fun refreshPlaylistsOnce() = coroutineScope {
         val settings = datastoreRepository.getSettings()
 
-        if (settings.cookies.isEmpty()) {
-            applyPlaylistFiltersAndUpdateState(
-                playlists = emptyList(),
-                settings = settings
-            )
-            return
-        }
-
-        val apiResult = playlistRepository.retrieveAll(settings)
-            .first { result ->
-                result is ApiResult.Success || result is ApiResult.Error
+        val sectionsDeferred = async {
+            try {
+                val result = playlistRepository.retrieveHomeSections(settings)
+                    .first { it is ApiResult.Success || it is ApiResult.Error }
+                if (result is ApiResult.Success) result.data else emptyList()
+            } catch (_: Exception) {
+                emptyList()
             }
-
-        val playlists = when (apiResult) {
-            is ApiResult.Success -> apiResult.data.toMutableList()
-            is ApiResult.Error -> emptyList()
-            ApiResult.Loading -> return
         }
 
-        applyPlaylistFiltersAndUpdateState(
+        val playlistsDeferred = async {
+            if (settings.cookies.isEmpty()) {
+                emptyList()
+            } else {
+                try {
+                    val result = playlistRepository.retrieveAll(settings)
+                        .first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (result is ApiResult.Success) result.data else emptyList()
+                } catch (_: Exception) {
+                    emptyList()
+                }
+            }
+        }
+
+        val sections = sectionsDeferred.await()
+        val playlists = playlistsDeferred.await()
+
+        applyFiltersAndUpdateState(
+            sections = sections,
             playlists = playlists,
             settings = settings
         )
     }
 
-    suspend fun getPlaylistsSuspend() {
+    suspend fun getPlaylistsSuspend() = coroutineScope {
         try {
+            _uiState.update { it.copy(screenState = ScreenState.Loading) }
             val settings = datastoreRepository.getSettings()
 
-            if (settings.cookies.isEmpty()) {
-                applyPlaylistFiltersAndUpdateState(
-                    playlists = emptyList(),
-                    settings = settings
-                )
-                return
+            val sectionsDeferred = async {
+                try {
+                    val result = playlistRepository.retrieveHomeSections(settings)
+                        .first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (result is ApiResult.Success) result.data else emptyList()
+                } catch (e: Exception) {
+                    printe("Failed to load home sections: ${e.message}", e)
+                    emptyList()
+                }
             }
 
-            playlistRepository.retrieveAll(settings).collect { apiResult ->
-                when (apiResult) {
-                    ApiResult.Loading -> {
-                        _uiState.update { currentState ->
-                            currentState.copy(screenState = ScreenState.Loading)
-                        }
-                    }
-
-                    is ApiResult.Success -> {
-                        val playlists = apiResult.data.toMutableList()
-                        applyPlaylistFiltersAndUpdateState(playlists, settings)
-                    }
-
-                    is ApiResult.Error -> {
-                        printe(
-                            message = "Failed to load playlists",
-                            exception = apiResult.exception
-                        )
-                        applyPlaylistFiltersAndUpdateState(
-                            playlists = emptyList(),
-                            settings = settings
-                        )
+            val playlistsDeferred = async {
+                if (settings.cookies.isEmpty()) {
+                    emptyList()
+                } else {
+                    try {
+                        val result = playlistRepository.retrieveAll(settings)
+                            .first { it is ApiResult.Success || it is ApiResult.Error }
+                        if (result is ApiResult.Success) result.data else emptyList()
+                    } catch (e: Exception) {
+                        printe("Failed to load playlists: ${e.message}", e)
+                        emptyList()
                     }
                 }
             }
+
+            val sections = sectionsDeferred.await()
+            val playlists = playlistsDeferred.await()
+
+            applyFiltersAndUpdateState(
+                sections = sections,
+                playlists = playlists,
+                settings = settings
+            )
         } catch (ex: Exception) {
             printe(message = ex.toString(), exception = ex)
+            _uiState.update { it.copy(screenState = ScreenState.Error(ex)) }
         }
     }
 
-    private fun applyPlaylistFiltersAndUpdateState(
+    private fun applyFiltersAndUpdateState(
+        sections: List<HomeSection>,
         playlists: List<PlaylistInfo>,
         settings: UmihiSettings
     ) {
@@ -147,6 +162,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         _uiState.update { currentState ->
             currentState.copy(
                 screenState = ScreenState.LoggedIn(
+                    sections = sections,
                     playlistInfos = mutablePlaylists,
                     isLoggedIn = settings.cookies.isNotEmpty()
                 )

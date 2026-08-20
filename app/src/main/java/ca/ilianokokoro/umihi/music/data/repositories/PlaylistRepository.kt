@@ -6,6 +6,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.extensions.toException
+import ca.ilianokokoro.umihi.music.models.HomeSection
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
@@ -21,6 +22,21 @@ class PlaylistRepository(application: Application) {
     private val playlistDataSource = PlaylistDataSource()
     private val localPlaylistDataSource = AppDatabase.getInstance(application).playlistRepository()
     private val localSongDataSource = AppDatabase.getInstance(application).songRepository()
+
+    fun retrieveHomeSections(settings: UmihiSettings): Flow<ApiResult<List<HomeSection>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            try {
+                val sections = playlistDataSource.retrieveHomeSections(settings)
+                emit(ApiResult.Success(sections))
+            } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
+                emit(ApiResult.Error(e.toException()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {

@@ -3,12 +3,20 @@ package ca.ilianokokoro.umihi.music.data.datasources
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
+import ca.ilianokokoro.umihi.music.models.HomeSection
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 class PlaylistDataSource {
+    suspend fun retrieveHomeSections(settings: UmihiSettings): List<HomeSection> {
+        return YoutubeDataExtractor.extractHomeSections(
+            YoutubeApiClient.browseHome(settings),
+            settings
+        )
+    }
+
     suspend fun retrieveAll(settings: UmihiSettings): List<PlaylistInfo> {
         return YoutubeDataExtractor.extractPlaylists(
             YoutubeApiClient.browse(

@@ -292,14 +292,27 @@ object YoutubeApiClient {
             url = Constants.YoutubeApi.GetAddToPlaylist.URL,
             body = body,
             settings = settings
+    suspend fun browseHome(settings: UmihiSettings? = null, fields: String? = null): String {
+        return requestWithContext(
+            url = Constants.YoutubeApi.Browse.URL,
+            idName = "browseId",
+            id = Constants.YoutubeApi.Browse.HOME_BROWSE_ID,
+            settings = settings,
+            fields = fields,
         )
     }
 
-    suspend fun search(query: String): String {
+    suspend fun search(
+        query: String,
+        filterParams: String? = null,
+        settings: UmihiSettings? = null
+    ): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Search.URL,
             idName = "query",
-            id = query
+            id = query,
+            settings = settings,
+            params = filterParams
         )
     }
 
@@ -355,13 +368,15 @@ object YoutubeApiClient {
         client: JsonObject? = null,
         visitorData: String? = null,
         fields: String? = null,
+        params: String? = null,
     ): String {
         val body = YoutubeAuthHelper.buildContextBody(
-            idName,
-            id,
-            settings,
-            client,
-            visitorData
+            idName = idName,
+            id = id,
+            settings = settings,
+            client = client,
+            visitorData = visitorData,
+            params = params
         )
 
         return requestWithBody(

@@ -4,6 +4,8 @@ import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.models.Song
 
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
+
 class SongDataSource {
     suspend fun getSongInfo(songId: String): Song {
         return YoutubeDataExtractor.extractSongInfo(
@@ -14,10 +16,16 @@ class SongDataSource {
         )
     }
 
-    suspend fun search(query: String): List<Song> {
+    suspend fun search(
+        query: String,
+        filterParams: String? = null,
+        settings: UmihiSettings? = null
+    ): List<Song> {
         return YoutubeDataExtractor.extractSearchResults(
             YoutubeApiClient.search(
-                query
+                query = query,
+                filterParams = filterParams,
+                settings = settings
             )
         )
     }
