@@ -16,14 +16,14 @@ on:
   workflow_dispatch:
     inputs:
       build_type:
-        description: 'Build Type (all, release, debug)'
+        description: 'Build Type (release, debug, all)'
         required: true
-        default: 'all'
+        default: 'release'
         type: choice
         options:
-          - all
           - release
           - debug
+          - all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -33,9 +33,13 @@ jobs:
   build:
     name: Build APK
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
       packages: write
+
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configuration-cache=false -Dorg.gradle.parallel=false -Xmx4096m"
 
     steps:
       - name: Checkout Repository
@@ -53,43 +57,46 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Configure Keystore (if secrets provided)
+      - name: Configure Keystore
         id: keystore-setup
         run: |
+          mkdir -p app
           if [ -n "${{ secrets.SIGNING_KEY }}" ]; then
-            echo "Signing secret found. Setting up keystore..."
-            mkdir -p app
+            echo "Using provided secret signing key..."
             echo "${{ secrets.SIGNING_KEY }}" | base64 -d > app/release-key.jks
             echo "storeFile=release-key.jks" > keystore.properties
             echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
             echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
             echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
-            echo "signed=true" >> $GITHUB_OUTPUT
           else
-            echo "No signing secret provided. Will build with default/debug keys."
-            echo "signed=false" >> $GITHUB_OUTPUT
+            echo "Generating self-signed release keystore for CI build..."
+            keytool -genkey -v -keystore app/release-key.jks -alias umihirelease -keyalg RSA -keysize 2048 -validity 10000 -storepass umihipass -keypass umihipass -dname "CN=UmihiMusic, OU=App, O=Umihi, L=Local, S=State, C=VN"
+            echo "storeFile=release-key.jks" > keystore.properties
+            echo "storePassword=umihipass" >> keystore.properties
+            echo "keyAlias=umihirelease" >> keystore.properties
+            echo "keyPassword=umihipass" >> keystore.properties
           fi
 
       - name: Build APKs
         run: |
-          BUILD_TYPE="${{ github.event.inputs.build_type || 'all' }}"
+          BUILD_TYPE="${{ github.event.inputs.build_type || 'release' }}"
           
           if [[ "$BUILD_TYPE" == "debug" ]]; then
-            ./gradlew assembleStandaloneDebug -Pbeta=true -PgitHash=${{ github.sha }} --stacktrace
-          elif [[ "$BUILD_TYPE" == "release" ]]; then
-            ./gradlew assembleStandaloneRelease -Pbeta=false -PgitHash=${{ github.sha }} --stacktrace
+            ./gradlew assembleStandaloneDebug -Pbeta=true -PgitHash=${{ github.sha }} --no-daemon --no-configuration-cache --stacktrace
+          elif [[ "$BUILD_TYPE" == "all" ]]; then
+            ./gradlew assembleStandaloneRelease -Pbeta=false -PgitHash=${{ github.sha }} --no-daemon --no-configuration-cache --stacktrace
+            ./gradlew assembleStandaloneDebug -Pbeta=true -PgitHash=${{ github.sha }} --no-daemon --no-configuration-cache --stacktrace
           else
-            ./gradlew assembleStandaloneDebug assembleStandaloneRelease -Pbeta=true -PgitHash=${{ github.sha }} --stacktrace
+            ./gradlew assembleStandaloneRelease -Pbeta=false -PgitHash=${{ github.sha }} --no-daemon --no-configuration-cache --stacktrace
           fi
 
       - name: Prepare APK Artifacts
         run: |
           mkdir -p output-apks
           
-          # Find all generated APKs and copy with readable names
           find app/build/outputs/apk -name "*.apk" | while read -r apk; do
             filename=$(basename "$apk")
-            echo "Found APK: $apk"
+            echo "Found APK: $apk -> output-apks/$filename"
             cp "$apk" "output-apks/$filename"
           done
           
