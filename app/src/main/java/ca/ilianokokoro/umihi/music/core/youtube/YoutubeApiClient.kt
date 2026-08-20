@@ -292,6 +292,9 @@ object YoutubeApiClient {
             url = Constants.YoutubeApi.GetAddToPlaylist.URL,
             body = body,
             settings = settings
+        )
+    }
+
     suspend fun browseHome(settings: UmihiSettings? = null, fields: String? = null): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Browse.URL,

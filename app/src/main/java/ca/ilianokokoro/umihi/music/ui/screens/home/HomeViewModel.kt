@@ -108,7 +108,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                         .first { it is ApiResult.Success || it is ApiResult.Error }
                     if (result is ApiResult.Success) result.data else emptyList()
                 } catch (e: Exception) {
-                    printe("Failed to load home sections: ${e.message}", e)
+                    printe(message = "Failed to load home sections: ${e.message}", exception = e)
                     emptyList()
                 }
             }
@@ -122,7 +122,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                             .first { it is ApiResult.Success || it is ApiResult.Error }
                         if (result is ApiResult.Success) result.data else emptyList()
                     } catch (e: Exception) {
-                        printe("Failed to load playlists: ${e.message}", e)
+                        printe(message = "Failed to load playlists: ${e.message}", exception = e)
                         emptyList()
                     }
                 }
