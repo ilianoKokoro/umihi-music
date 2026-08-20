@@ -10,6 +10,7 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -326,10 +327,10 @@ object YoutubeApiClient {
         fields: String? = null,
     ): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
-            context = Constants.YoutubeApi.Client.WEB_REMIX,
             idName = "videoId",
             id = videoId,
-            settings = settings
+            settings = settings,
+            client = Constants.YoutubeApi.Client.WEB_REMIX
         )
 
         val body = buildJsonObject {
