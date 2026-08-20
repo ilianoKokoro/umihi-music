@@ -13,6 +13,8 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.toSong
+import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
@@ -50,8 +52,10 @@ object PlayerManager {
     private val isConnected: Boolean
         get() = controller?.isConnected == true
 
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    private val songRepository = SongRepository()
+    private var radioFetchJob: Job? = null
 
     private var sleepTimerJob: Job? = null
     private var sleepTimerEndOfSongListener: Player.Listener? = null
@@ -167,6 +171,7 @@ object PlayerManager {
 
 
     fun playMediaItem(mediaItem: MediaItem) {
+        radioFetchJob?.cancel()
         currentController?.run {
             setMediaItem(mediaItem)
             prepare()
@@ -176,6 +181,7 @@ object PlayerManager {
 
 
     fun playPlaylist(playlist: Playlist, index: Int = 0) {
+        radioFetchJob?.cancel()
         val controller = currentController ?: return
         val mediaItems = playlist.mediaItems
 
@@ -207,6 +213,7 @@ object PlayerManager {
         startIndex: Int = 0,
         startPositionMs: Long = 0L
     ) {
+        radioFetchJob?.cancel()
         if (mediaItems.isEmpty()) {
             return
         }
@@ -222,12 +229,39 @@ object PlayerManager {
         }
     }
 
-    fun playSong(song: Song) {
+    fun playSong(song: Song, autoRadio: Boolean = true) {
         val controller = currentController ?: return
+
+        radioFetchJob?.cancel()
 
         controller.setMediaItem(song.mediaItem)
         controller.prepare()
         controller.play()
+
+        if (!autoRadio || song.youtubeId.isBlank()) {
+            return
+        }
+
+        radioFetchJob = scope.launch {
+            try {
+                songRepository.getRelatedSongs(song.youtubeId).collect { result ->
+                    if (result is ApiResult.Success) {
+                        val relatedSongs = result.data.filter { it.youtubeId != song.youtubeId }
+                        if (relatedSongs.isNotEmpty()) {
+                            withContext(Dispatchers.Main) {
+                                val activeController = currentController ?: return@withContext
+                                if (activeController.currentMediaItem?.mediaId == song.youtubeId) {
+                                    val mediaItems = relatedSongs.map { it.mediaItem }
+                                    activeController.addMediaItems(mediaItems)
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (_: Exception) {
+                // Ignore radio fetch errors; playback of current song continues
+            }
+        }
     }
 
     suspend fun getPlaybackPosition(): Pair<Float, Float>? {
@@ -290,6 +324,7 @@ object PlayerManager {
     }
 
     fun clearQueue() {
+        radioFetchJob?.cancel()
         currentController?.run {
             stop()
             clearMediaItems()

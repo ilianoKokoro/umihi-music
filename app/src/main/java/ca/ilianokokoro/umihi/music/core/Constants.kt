@@ -322,6 +322,9 @@ object Constants {
             const val FILTER_VIDEOS = "EgWKAQIQAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
+        object Next {
+            const val URL = "${ORIGIN}/youtubei/v1/next?key=${API_KEY}&prettyPrint=false"
+        }
 
     }
 }

@@ -36,4 +36,16 @@ class SongRepository {
             emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getRelatedSongs(
+        videoId: String,
+        settings: UmihiSettings? = null
+    ): Flow<ApiResult<List<Song>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(ApiResult.Success(songDataSource.getRelatedSongs(videoId, settings)))
+        }.catch { e ->
+            emit(ApiResult.Error(e.toException()))
+        }.flowOn(Dispatchers.IO)
+    }
 }

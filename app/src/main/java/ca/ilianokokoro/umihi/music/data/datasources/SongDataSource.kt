@@ -29,4 +29,16 @@ class SongDataSource {
             )
         )
     }
+
+    suspend fun getRelatedSongs(
+        videoId: String,
+        settings: UmihiSettings? = null
+    ): List<Song> {
+        return YoutubeDataExtractor.extractRelatedSongs(
+            YoutubeApiClient.getNext(
+                videoId = videoId,
+                settings = settings
+            )
+        )
+    }
 }

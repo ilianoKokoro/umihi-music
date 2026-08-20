@@ -319,6 +319,37 @@ object YoutubeApiClient {
         )
     }
 
+    suspend fun getNext(
+        videoId: String,
+        playlistId: String? = "RDAMVM$videoId",
+        settings: UmihiSettings? = null,
+        fields: String? = null,
+    ): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            context = Constants.YoutubeApi.Client.WEB_REMIX,
+            idName = "videoId",
+            id = videoId,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+            if (playlistId != null) {
+                put("playlistId", JsonPrimitive(playlistId))
+            }
+            put("isAudioOnly", JsonPrimitive(true))
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Next.URL,
+            body = body,
+            settings = settings,
+            fields = fields
+        )
+    }
+
     private suspend fun requestWithBody(
         url: String,
         body: Any,
