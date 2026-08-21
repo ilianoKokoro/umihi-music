@@ -38,6 +38,36 @@ class PlaylistRepository(application: Application) {
         }.flowOn(Dispatchers.IO)
     }
 
+    fun retrieveChartsSections(settings: UmihiSettings): Flow<ApiResult<List<HomeSection>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            try {
+                val sections = playlistDataSource.retrieveChartsSections(settings)
+                emit(ApiResult.Success(sections))
+            } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
+                emit(ApiResult.Error(e.toException()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun retrieveMoodSections(query: String, title: String, settings: UmihiSettings): Flow<ApiResult<List<HomeSection>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            try {
+                val sections = playlistDataSource.retrieveMoodSections(query, title, settings)
+                emit(ApiResult.Success(sections))
+            } catch (e: Exception) {
+                if (e is CancellationException) {
+                    throw e
+                }
+                emit(ApiResult.Error(e.toException()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {
             emit(ApiResult.Loading)

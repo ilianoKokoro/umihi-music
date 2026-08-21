@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
@@ -46,7 +47,9 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.AVAILABLE_COUNTRIES
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
+import ca.ilianokokoro.umihi.music.ui.components.dialog.CountrySelectDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
@@ -188,6 +191,18 @@ fun SettingsScreen(
                                     )
                                 }
                             )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            val currentCountryOption = AVAILABLE_COUNTRIES.find {
+                                it.code.equals(screenState.settings.countryCode, ignoreCase = true)
+                            } ?: AVAILABLE_COUNTRIES.first()
+                            SettingsItem(
+                                title = stringResource(R.string.select_country_region),
+                                subtitle = "${currentCountryOption.flag}  ${currentCountryOption.name}",
+                                leadingIcon = Icons.Outlined.Language,
+                                onClick = {
+                                    settingsViewModel.updateShowCountrySelectDialog(true)
+                                }
+                            )
                         }
 
                         SettingsSection(
@@ -267,7 +282,18 @@ fun SettingsScreen(
                             }
                         }
 
-                        if (uiState.showUpdateChannelDialog) {
+                        if (uiState.showCountrySelectDialog) {
+                            CountrySelectDialog(
+                                selectedCountryCode = screenState.settings.countryCode,
+                                onSelect = { newCode ->
+                                    settingsViewModel.updateCountryCode(newCode)
+                                    settingsViewModel.updateShowCountrySelectDialog(false)
+                                },
+                                onClose = {
+                                    settingsViewModel.updateShowCountrySelectDialog(false)
+                                }
+                            )
+                        } else if (uiState.showUpdateChannelDialog) {
                             UpdateChannelDialog(
                                 selectedOption = screenState.settings.updateChannel,
                                 onChange = {

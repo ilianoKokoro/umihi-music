@@ -23,7 +23,19 @@ object YoutubeAuthHelper {
         visitorData: String? = null,
         params: String? = null,
     ): JsonObject {
-        val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
+        val baseClient = client ?: Constants.YoutubeApi.Client.WEB_REMIX
+
+        val countryCode = when (val code = settings?.countryCode) {
+            null, "", "SYSTEM" -> java.util.Locale.getDefault().country.ifBlank { "VN" }
+            else -> code
+        }
+        val languageCode = java.util.Locale.getDefault().language.ifBlank { "vi" }
+
+        val clientToUse = buildJsonObject {
+            baseClient.forEach { (k, v) -> put(k, v) }
+            put("hl", JsonPrimitive(languageCode))
+            put("gl", JsonPrimitive(countryCode))
+        }
 
         return buildJsonObject {
             val user = buildJsonObject {
@@ -80,10 +92,17 @@ object YoutubeAuthHelper {
         val tz = TimeZone.getDefault()
         val utcOffsetMinutes = tz.getOffset(nowMs) / 60000
 
+        val countryCode = when (val code = settings?.countryCode) {
+            null, "", "SYSTEM" -> java.util.Locale.getDefault().country.ifBlank { "VN" }
+            else -> code
+        }
+        val languageCode = java.util.Locale.getDefault().language.ifBlank { "vi" }
+
         val headers = mutableMapOf(
             "Content-Type" to "application/json; charset=utf-8",
             "Origin" to origin,
             "Referer" to "$origin/",
+            "Accept-Language" to "$languageCode-$countryCode,$languageCode;q=0.9,en;q=0.8",
             "X-Goog-Api-Format-Version" to "1",
             "X-Origin" to origin,
             "X-Goog-Event-Time" to nowMs.toString(),

@@ -149,4 +149,13 @@
     <string name="force_stop_toast">Đã dừng phát và tắt trình phát ngầm</string>
     <string name="recently_played">Nghe gần đây</string>
     <string name="clear_history">Xóa lịch sử</string>
+    <string name="select_country_region">Quốc gia &amp; Vùng đề xuất</string>
+    <string name="category_for_you">Dành cho bạn</string>
+    <string name="category_charts">Thịnh hành &amp; BXH</string>
+    <string name="category_chill">Thư giãn</string>
+    <string name="category_workout">Năng lượng</string>
+    <string name="category_focus">Tập trung</string>
+    <string name="category_sleep">Ngủ &amp; Lofi</string>
+    <string name="mix_from_artist">Mix: %1$s &amp; tương tự</string>
+    <string name="top_charts">Bảng xếp hạng</string>
 </resources>

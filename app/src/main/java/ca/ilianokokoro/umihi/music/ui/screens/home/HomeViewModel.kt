@@ -34,8 +34,15 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
     private val playlistRepository = PlaylistRepository(application)
     private val datastoreRepository = DatastoreRepository(application)
     private val historyRepository = HistoryRepository(application)
+    private val songDataSource = ca.ilianokokoro.umihi.music.data.datasources.SongDataSource()
 
     init {
+        getPlaylists()
+    }
+
+    fun selectCategory(category: HomeCategory) {
+        if (_uiState.value.selectedCategory == category) return
+        _uiState.update { it.copy(selectedCategory = category) }
         getPlaylists()
     }
 
@@ -65,24 +72,9 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
 
     private suspend fun refreshPlaylistsOnce() = coroutineScope {
         val settings = datastoreRepository.getSettings()
+        val category = _uiState.value.selectedCategory
 
-        val historyDeferred = async {
-            try {
-                historyRepository.getRecentSongsList(20)
-            } catch (_: Exception) {
-                emptyList()
-            }
-        }
-
-        val sectionsDeferred = async {
-            try {
-                val result = playlistRepository.retrieveHomeSections(settings)
-                    .first { it is ApiResult.Success || it is ApiResult.Error }
-                if (result is ApiResult.Success) result.data else emptyList()
-            } catch (_: Exception) {
-                emptyList()
-            }
-        }
+        val sectionsDeferred = async { fetchSectionsForCategory(category, settings) }
 
         val playlistsDeferred = async {
             if (settings.cookies.isEmpty()) {
@@ -98,19 +90,8 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
             }
         }
 
-        val recentSongs = historyDeferred.await()
-        val sections = sectionsDeferred.await().toMutableList()
+        val sections = sectionsDeferred.await()
         val playlists = playlistsDeferred.await()
-
-        if (recentSongs.isNotEmpty()) {
-            val historySection = HomeSection(
-                id = "recently_played",
-                title = application.getString(R.string.recently_played),
-                subtitle = null,
-                items = recentSongs.map { HomeSectionItem.SongItem(it) }
-            )
-            sections.add(0, historySection)
-        }
 
         applyFiltersAndUpdateState(
             sections = sections,
@@ -123,25 +104,9 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         try {
             _uiState.update { it.copy(screenState = ScreenState.Loading) }
             val settings = datastoreRepository.getSettings()
+            val category = _uiState.value.selectedCategory
 
-            val historyDeferred = async {
-                try {
-                    historyRepository.getRecentSongsList(20)
-                } catch (_: Exception) {
-                    emptyList()
-                }
-            }
-
-            val sectionsDeferred = async {
-                try {
-                    val result = playlistRepository.retrieveHomeSections(settings)
-                        .first { it is ApiResult.Success || it is ApiResult.Error }
-                    if (result is ApiResult.Success) result.data else emptyList()
-                } catch (e: Exception) {
-                    printe(message = "Failed to load home sections: ${e.message}", exception = e)
-                    emptyList()
-                }
-            }
+            val sectionsDeferred = async { fetchSectionsForCategory(category, settings) }
 
             val playlistsDeferred = async {
                 if (settings.cookies.isEmpty()) {
@@ -158,19 +123,8 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                 }
             }
 
-            val recentSongs = historyDeferred.await()
-            val sections = sectionsDeferred.await().toMutableList()
+            val sections = sectionsDeferred.await()
             val playlists = playlistsDeferred.await()
-
-            if (recentSongs.isNotEmpty()) {
-                val historySection = HomeSection(
-                    id = "recently_played",
-                    title = application.getString(R.string.recently_played),
-                    subtitle = null,
-                    items = recentSongs.map { HomeSectionItem.SongItem(it) }
-                )
-                sections.add(0, historySection)
-            }
 
             applyFiltersAndUpdateState(
                 sections = sections,
@@ -180,6 +134,131 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         } catch (ex: Exception) {
             printe(message = ex.toString(), exception = ex)
             _uiState.update { it.copy(screenState = ScreenState.Error(ex)) }
+        }
+    }
+
+    private suspend fun fetchSectionsForCategory(
+        category: HomeCategory,
+        settings: UmihiSettings
+    ): List<HomeSection> = coroutineScope {
+        when (category) {
+            HomeCategory.FOR_YOU -> {
+                val historyDeferred = async {
+                    try { historyRepository.getRecentSongsList(30) } catch (_: Exception) { emptyList() }
+                }
+                val homeSectionsDeferred = async {
+                    try {
+                        val res = playlistRepository.retrieveHomeSections(settings)
+                            .first { it is ApiResult.Success || it is ApiResult.Error }
+                        if (res is ApiResult.Success) res.data else emptyList()
+                    } catch (_: Exception) { emptyList() }
+                }
+
+                val recentSongs = historyDeferred.await()
+                val homeSections = homeSectionsDeferred.await()
+                val dynamicSections = mutableListOf<HomeSection>()
+
+                if (recentSongs.isNotEmpty()) {
+                    dynamicSections.add(
+                        HomeSection(
+                            id = "recently_played",
+                            title = application.getString(R.string.recently_played),
+                            subtitle = null,
+                            items = recentSongs.take(15).map { HomeSectionItem.SongItem(it) }
+                        )
+                    )
+
+                    val topArtists = recentSongs
+                        .map { it.artist.trim() }
+                        .filter { it.isNotBlank() }
+                        .groupingBy { it }
+                        .eachCount()
+                        .toList()
+                        .sortedByDescending { it.second }
+                        .map { it.first }
+                        .take(2)
+
+                    for (artist in topArtists) {
+                        val artistSong = recentSongs.firstOrNull { it.artist.contains(artist, ignoreCase = true) }
+                        if (artistSong != null && artistSong.youtubeId.isNotBlank()) {
+                            try {
+                                val related = songDataSource.getRelatedSongs(artistSong.youtubeId, settings)
+                                if (related.isNotEmpty()) {
+                                    val mixTitle = String.format(application.getString(R.string.mix_from_artist), artist)
+                                    dynamicSections.add(
+                                        HomeSection(
+                                            id = "mix_$artist",
+                                            title = mixTitle,
+                                            subtitle = null,
+                                            items = related.take(15).map { HomeSectionItem.SongItem(it) }
+                                        )
+                                    )
+                                }
+                            } catch (_: Exception) {}
+                        }
+                    }
+                }
+
+                dynamicSections + homeSections
+            }
+
+            HomeCategory.CHARTS -> {
+                try {
+                    val res = playlistRepository.retrieveChartsSections(settings)
+                        .first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (res is ApiResult.Success && res.data.isNotEmpty()) {
+                        res.data
+                    } else {
+                        emptyList()
+                    }
+                } catch (_: Exception) {
+                    emptyList()
+                }
+            }
+
+            HomeCategory.CHILL -> {
+                try {
+                    val res = playlistRepository.retrieveMoodSections(
+                        "Chill Acoustic Lofi Relax songs",
+                        application.getString(R.string.category_chill),
+                        settings
+                    ).first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (res is ApiResult.Success) res.data else emptyList()
+                } catch (_: Exception) { emptyList() }
+            }
+
+            HomeCategory.WORKOUT -> {
+                try {
+                    val res = playlistRepository.retrieveMoodSections(
+                        "Workout gym EDM dance energy music",
+                        application.getString(R.string.category_workout),
+                        settings
+                    ).first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (res is ApiResult.Success) res.data else emptyList()
+                } catch (_: Exception) { emptyList() }
+            }
+
+            HomeCategory.FOCUS -> {
+                try {
+                    val res = playlistRepository.retrieveMoodSections(
+                        "Focus study piano classical deep work lofi",
+                        application.getString(R.string.category_focus),
+                        settings
+                    ).first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (res is ApiResult.Success) res.data else emptyList()
+                } catch (_: Exception) { emptyList() }
+            }
+
+            HomeCategory.SLEEP -> {
+                try {
+                    val res = playlistRepository.retrieveMoodSections(
+                        "Sleep rain relax calm bedtime lofi",
+                        application.getString(R.string.category_sleep),
+                        settings
+                    ).first { it is ApiResult.Success || it is ApiResult.Error }
+                    if (res is ApiResult.Success) res.data else emptyList()
+                } catch (_: Exception) { emptyList() }
+            }
         }
     }
 

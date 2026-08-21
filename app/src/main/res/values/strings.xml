@@ -155,4 +155,13 @@
     <string name="force_stop_toast">Playback stopped completely</string>
     <string name="recently_played">Recently Played</string>
     <string name="clear_history">Clear History</string>
+    <string name="select_country_region">Content Country / Region</string>
+    <string name="category_for_you">For You</string>
+    <string name="category_charts">Charts &amp; Trending</string>
+    <string name="category_chill">Chill</string>
+    <string name="category_workout">Workout</string>
+    <string name="category_focus">Focus</string>
+    <string name="category_sleep">Sleep &amp; Relax</string>
+    <string name="mix_from_artist">Mix: %1$s &amp; Similar</string>
+    <string name="top_charts">Top Charts</string>
 </resources>

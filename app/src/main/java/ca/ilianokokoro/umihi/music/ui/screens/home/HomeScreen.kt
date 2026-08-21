@@ -16,8 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -116,12 +119,42 @@ fun HomeScreen(
                             ) {
                                 LazyColumn(
                                     modifier = Modifier.fillMaxSize(),
-                                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp),
                                     contentPadding = PaddingValues(
                                         top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
                                         bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
                                     )
                                 ) {
+                                    // Category Filter Chips
+                                    item(key = "category_filter_chips") {
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            contentPadding = PaddingValues(horizontal = 16.dp),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            items(HomeCategory.entries) { category ->
+                                                val isSelected = category == uiState.selectedCategory
+                                                FilterChip(
+                                                    selected = isSelected,
+                                                    onClick = { homeViewModel.selectCategory(category) },
+                                                    label = {
+                                                        Text(
+                                                            text = "${category.iconEmoji} ${stringResource(category.titleRes)}",
+                                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                                        )
+                                                    },
+                                                    shape = RoundedCornerShape(20.dp),
+                                                    colors = FilterChipDefaults.filterChipColors(
+                                                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+
                                     // 1. Render YouTube Music Recommendation Sections
                                     sections.forEach { section ->
                                         if (section.items.isNotEmpty()) {

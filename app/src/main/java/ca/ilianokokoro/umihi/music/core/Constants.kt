@@ -88,6 +88,7 @@ object Constants {
         const val AUTO_UPDATE = "auto-update"
         const val SEND_PLAYBACK_DATA = "send-playback-data"
         const val DOWNLOAD_ON_METERED = "download-on-metered"
+        const val COUNTRY_CODE_KEY = "country-code"
     }
 
     object Database {
@@ -217,6 +218,9 @@ object Constants {
             const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
             const val HOME_BROWSE_ID = "FEmusic_home"
+            const val CHARTS_BROWSE_ID = "FEmusic_charts"
+            const val EXPLORE_BROWSE_ID = "FEmusic_explore"
+            const val MOODS_AND_GENRES_BROWSE_ID = "FEmusic_moods_and_genres"
 
             // Disabled as it was causing issues
 //            object Fields {

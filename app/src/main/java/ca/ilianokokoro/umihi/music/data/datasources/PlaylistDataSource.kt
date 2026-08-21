@@ -17,6 +17,44 @@ class PlaylistDataSource {
         )
     }
 
+    suspend fun retrieveChartsSections(settings: UmihiSettings): List<HomeSection> {
+        return try {
+            val result = YoutubeDataExtractor.extractHomeSections(
+                YoutubeApiClient.browse(Constants.YoutubeApi.Browse.CHARTS_BROWSE_ID, settings),
+                settings
+            )
+            if (result.isNotEmpty()) result else retrieveHomeSections(settings)
+        } catch (_: Exception) {
+            retrieveHomeSections(settings)
+        }
+    }
+
+    suspend fun retrieveMoodSections(query: String, title: String, settings: UmihiSettings): List<HomeSection> {
+        return try {
+            val songs = YoutubeDataExtractor.extractSearchResults(
+                YoutubeApiClient.search(
+                    query = query,
+                    filterParams = Constants.YoutubeApi.Search.FILTER_SONGS,
+                    settings = settings
+                )
+            )
+            if (songs.isNotEmpty()) {
+                listOf(
+                    HomeSection(
+                        id = query,
+                        title = title,
+                        subtitle = null,
+                        items = songs.map { ca.ilianokokoro.umihi.music.models.HomeSectionItem.SongItem(it) }
+                    )
+                )
+            } else {
+                emptyList()
+            }
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
+
     suspend fun retrieveAll(settings: UmihiSettings): List<PlaylistInfo> {
         return YoutubeDataExtractor.extractPlaylists(
             YoutubeApiClient.browse(
