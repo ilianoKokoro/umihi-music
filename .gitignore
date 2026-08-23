@@ -1,48 +1,72 @@
-# Gradle files
+```
+# Gradle
 .gradle/
+!gradle/wrapper/
+
+# Build artifacts
 build/
-.kotlin/sessions/*.salive
+!build/
+*.jar
+*.war
+*.ear
+*.class
+*.o
+*.obj
+*.so
+*.dll
+*.exe
 
-# Local configuration file (sdk path, etc)
-local.properties
+# Dependencies
+node_modules/
+vendor/bundle/
+.libs/
 
-# Log/OS Files
+# Environment
+.env
+.env.local
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
 *.log
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
-
-AGENTS.md
-CLAUDE.md
-
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
-
-# Keystore files
-*.jks
-*.keystore
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
-hprof*.
-
-# Extras
+# OS
 .DS_Store
-*.dm
+Thumbs.db
 
-# Schemas
-/app/schemas/*
+# Coverage
+coverage/
+htmlcov/
+.coverage
 
-# GitHub
-keystore.properties
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage*
+.nox/
+.pytest_cache/
+.mypy_cache/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+.DS_Store
+Thumbs.db
+```

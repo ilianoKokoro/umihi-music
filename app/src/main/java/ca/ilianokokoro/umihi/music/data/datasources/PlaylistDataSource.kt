@@ -59,8 +59,7 @@ class PlaylistDataSource {
         return YoutubeDataExtractor.extractPlaylists(
             YoutubeApiClient.browse(
                 Constants.YoutubeApi.Browse.PLAYLIST_BROWSE_ID,
-                settings,
-                //  fields = Constants.YoutubeApi.Browse.Fields.PLAYLISTS,
+                settings
             ), settings
         )
     }
@@ -70,8 +69,7 @@ class PlaylistDataSource {
             songs = YoutubeDataExtractor.extractSongList(
                 YoutubeApiClient.browse(
                     playlist.info.id,
-                    settings,
-                    //   fields = Constants.YoutubeApi.Browse.Fields.SONGS,
+                    settings
                 ), settings
             )
         )

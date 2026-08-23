@@ -43,6 +43,7 @@ android {
         versionName = "${appVersionName}${if (beta) "-beta" else ""}"
 
         buildConfigField("boolean", "IS_BETA", "$beta")
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
