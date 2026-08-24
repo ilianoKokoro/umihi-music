@@ -14,7 +14,14 @@ class ExoCache(private val context: Context) {
     private val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
     
     fun getCacheSize(): Long {
-        return DatastoreRepository(context).settings.first().exoPlayerCacheSizeMB.toLong() * 1024L * 1024L
+        val sizeMB = try {
+            kotlinx.coroutines.runBlocking {
+                DatastoreRepository(context).settings.first().exoPlayerCacheSizeMB
+            }
+        } catch (_: Exception) {
+            Constants.ExoPlayer.Cache.DEFAULT_SIZE_MB.toInt()
+        }
+        return sizeMB.toLong() * 1024L * 1024L
     }
     
     val cache: SimpleCache by lazy {

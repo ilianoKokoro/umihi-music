@@ -373,6 +373,46 @@ fun SettingsScreen(
                                     settingsViewModel.updateShowDownloadDeleteConfirm(false)
                                 }
                             )
+                        } else if (uiState.showCacheSizeInputDialog) {
+                            val initialSize = when (uiState.cacheTypeForInput) {
+                                CacheType.AUDIO -> screenState.settings.exoPlayerCacheSizeMB
+                                CacheType.THUMBNAIL -> screenState.settings.thumbnailCacheSizeMB
+                            }
+                            CacheSizeInputDialog(
+                                cacheType = uiState.cacheTypeForInput,
+                                initialSizeMB = initialSize,
+                                onConfirm = { sizeMB ->
+                                    settingsViewModel.saveCacheSize(sizeMB, uiState.cacheTypeForInput)
+                                    settingsViewModel.updateShowCacheSizeInputDialog(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowCacheSizeInputDialog(false)
+                                }
+                            )
+                        } else if (uiState.showAudioCacheClearConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.clear_audio_cache),
+                                text = stringResource(R.string.clear_audio_cache_message),
+                                onConfirm = {
+                                    settingsViewModel.clearAudioCache()
+                                    settingsViewModel.updateShowAudioCacheClearConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowAudioCacheClearConfirm(false)
+                                }
+                            )
+                        } else if (uiState.showThumbnailCacheClearConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.clear_thumbnail_cache),
+                                text = stringResource(R.string.clear_thumbnail_cache_message),
+                                onConfirm = {
+                                    settingsViewModel.clearThumbnailCache()
+                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(false)
+                                }
+                            )
                         }
                     }
                 }
