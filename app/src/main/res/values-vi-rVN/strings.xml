@@ -158,4 +158,45 @@
     <string name="category_sleep">Ngủ &amp; Lofi</string>
     <string name="mix_from_artist">Mix: %1$s &amp; tương tự</string>
     <string name="top_charts">Bảng xếp hạng</string>
+
+    <!-- Cache Management -->
+    <string name="cache_management">Quản lý bộ nhớ đệm</string>
+    <string name="exoplayer_cache_title">Dung lượng Cache bài hát</string>
+    <string name="exoplayer_cache_description">Lưu trữ đệm bài hát giúp phát mượt mà (50–2000 MB)</string>
+    <string name="thumbnail_cache_title">Dung lượng Cache ảnh bìa</string>
+    <string name="thumbnail_cache_description">Lưu trữ đệm ảnh đại diện video/bài hát (20–500 MB)</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="set_cache_size">Cài đặt dung lượng Cache</string>
+    <string name="enter_cache_size_mb">Nhập dung lượng cache theo MB</string>
+    <string name="invalid_cache_size">Dung lượng không hợp lệ. Phải nằm trong khoảng từ %1$d đến %2$d MB.</string>
+    <string name="cache_saved">Đã lưu cài đặt dung lượng cache</string>
+    <string name="clear_audio_cache">Xóa bộ nhớ đệm bài hát</string>
+    <string name="clear_audio_cache_message">Xóa toàn bộ dữ liệu bài hát đã lưu tạm trên thiết bị</string>
+    <string name="clear_thumbnail_cache">Xóa bộ nhớ đệm ảnh bìa</string>
+    <string name="clear_thumbnail_cache_message">Xóa toàn bộ hình ảnh bìa đã lưu tạm trên thiết bị</string>
+    <string name="audio_cache_cleared">Đã xóa bộ nhớ đệm bài hát</string>
+    <string name="thumbnail_cache_cleared">Đã xóa bộ nhớ đệm ảnh bìa</string>
+    <string name="save">Lưu</string>
+
+    <!-- Recommendation Enhancements -->
+    <string name="greeting_morning">Chào buổi sáng</string>
+    <string name="greeting_afternoon">Chào buổi chiều</string>
+    <string name="greeting_evening">Chào buổi tối</string>
+    <string name="greeting_night">Đêm muộn &amp; Thư giãn</string>
+    <string name="context_morning_title">☕ Cà phê sáng &amp; Năng lượng tích cực</string>
+    <string name="context_afternoon_title">💻 Tập trung làm việc &amp; Học tập</string>
+    <string name="context_evening_title">🌇 Thư giãn buổi tối</string>
+    <string name="context_night_title">🌙 Nhạc đêm nhẹ nhàng &amp; Ru ngủ</string>
+    <string name="supermix_title">✨ My Supermix (Tuyển tập vô tận)</string>
+    <string name="supermix_subtitle">Tuyển tập kết hợp bài hát yêu thích &amp; đề xuất</string>
+    <string name="daily_mix_title">💿 Daily Mix %1$d</string>
+    <string name="forgotten_favorites_title">⏳ Giai điệu bạn đã quên</string>
+    <string name="forgotten_favorites_subtitle">Những bài hát bạn từng nghe rất nhiều</string>
+    <string name="discover_weekly_title">🌱 Khám phá bài hát mới</string>
+    <string name="discover_weekly_subtitle">Tuyển chọn các bài hát mới theo gu âm nhạc của bạn</string>
+    <string name="favorite_artists_title">🎤 Nghệ sĩ bạn nghe nhiều nhất</string>
+    <string name="top_charts_title">🔥 Bảng xếp hạng Top 100</string>
+    <string name="trending_tiktok_title">🎵 Thịnh hành &amp; Hot TikTok</string>
+    <string name="movie_ost_title">🎬 Nhạc Phim Hay Nhất (OST)</string>
+    <string name="cafe_acoustic_title">☕ Acoustic Quán Cà Phê</string>
 </resources>

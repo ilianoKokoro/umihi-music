@@ -52,6 +52,7 @@ import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
+import ca.ilianokokoro.umihi.music.ui.components.artist.ArtistCard
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 import ca.ilianokokoro.umihi.music.ui.components.song.HomeSongCard
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
@@ -125,6 +126,23 @@ fun HomeScreen(
                                         bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
                                     )
                                 ) {
+                                    // Time-based Greeting Header
+                                    item(key = "time_greeting_header") {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 16.dp, vertical = 2.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = "${uiState.timeGreetingEmoji}  ${stringResource(uiState.timeGreetingRes)}",
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+                                    }
+
                                     // Category Filter Chips
                                     item(key = "category_filter_chips") {
                                         LazyRow(
@@ -193,8 +211,9 @@ fun HomeScreen(
                                                             items = section.items,
                                                             key = { item ->
                                                                 when (item) {
-                                                                    is HomeSectionItem.SongItem -> item.song.uid
-                                                                    is HomeSectionItem.PlaylistItem -> item.playlistInfo.id
+                                                                    is HomeSectionItem.SongItem -> "song_${item.song.youtubeId}_${item.song.uid}_${item.rank}"
+                                                                    is HomeSectionItem.PlaylistItem -> "playlist_${item.playlistInfo.id}"
+                                                                    is HomeSectionItem.ArtistItem -> "artist_${item.name}"
                                                                 }
                                                             }
                                                         ) { item ->
@@ -202,6 +221,7 @@ fun HomeScreen(
                                                                 is HomeSectionItem.SongItem -> {
                                                                     HomeSongCard(
                                                                         song = item.song,
+                                                                        rank = item.rank,
                                                                         onClicked = {
                                                                             PlayerManager.playSong(item.song)
                                                                         },
@@ -218,6 +238,19 @@ fun HomeScreen(
                                                                         playlistInfo = item.playlistInfo,
                                                                         onClicked = { onPlaylistPressed(item.playlistInfo) },
                                                                         modifier = Modifier.width(150.dp)
+                                                                    )
+                                                                }
+                                                                is HomeSectionItem.ArtistItem -> {
+                                                                    ArtistCard(
+                                                                        name = item.name,
+                                                                        thumbnailHref = item.thumbnailHref,
+                                                                        songCount = item.songCount,
+                                                                        onClicked = {
+                                                                            val artistSong = section.songs.firstOrNull { it.artist.contains(item.name, ignoreCase = true) }
+                                                                            if (artistSong != null) {
+                                                                                PlayerManager.playSong(artistSong)
+                                                                            }
+                                                                        }
                                                                     )
                                                                 }
                                                             }

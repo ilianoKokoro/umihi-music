@@ -3,8 +3,9 @@ package ca.ilianokokoro.umihi.music.models
 import androidx.compose.runtime.Immutable
 
 sealed interface HomeSectionItem {
-    data class SongItem(val song: Song) : HomeSectionItem
+    data class SongItem(val song: Song, val rank: Int? = null) : HomeSectionItem
     data class PlaylistItem(val playlistInfo: PlaylistInfo) : HomeSectionItem
+    data class ArtistItem(val name: String, val thumbnailHref: String?, val songCount: Int = 0) : HomeSectionItem
 }
 
 @Immutable

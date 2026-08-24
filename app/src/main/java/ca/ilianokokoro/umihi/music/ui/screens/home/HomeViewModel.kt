@@ -137,14 +137,44 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         }
     }
 
+    private fun getTimeGreeting(): Pair<Int, String> {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        return when (hour) {
+            in 5..11 -> R.string.greeting_morning to "☀️"
+            in 12..17 -> R.string.greeting_afternoon to "🌤️"
+            in 18..22 -> R.string.greeting_evening to "🌆"
+            else -> R.string.greeting_night to "🌙"
+        }
+    }
+
+    private suspend fun fetchContextualTimeShelf(settings: UmihiSettings): List<HomeSection> {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        val (query, titleRes) = when (hour) {
+            in 5..11 -> "Acoustic Pop Morning Coffee Chill Songs" to R.string.context_morning_title
+            in 12..17 -> "Deep Focus Study Piano Work Lofi Beats" to R.string.context_afternoon_title
+            in 18..22 -> "Evening Wind Down Chillout Pop Songs" to R.string.context_evening_title
+            else -> "Night Sleep Rain Lofi Bedtime Relax Music" to R.string.context_night_title
+        }
+        return try {
+            val res = playlistRepository.retrieveMoodSections(query, application.getString(titleRes), settings)
+                .first { it is ApiResult.Success || it is ApiResult.Error }
+            if (res is ApiResult.Success) res.data else emptyList()
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
+
     private suspend fun fetchSectionsForCategory(
         category: HomeCategory,
         settings: UmihiSettings
     ): List<HomeSection> = coroutineScope {
+        val (greetingRes, greetingEmoji) = getTimeGreeting()
+        _uiState.update { it.copy(timeGreetingRes = greetingRes, timeGreetingEmoji = greetingEmoji) }
+
         when (category) {
             HomeCategory.FOR_YOU -> {
                 val historyDeferred = async {
-                    try { historyRepository.getRecentSongsList(30) } catch (_: Exception) { emptyList() }
+                    try { historyRepository.getRecentSongsList(50) } catch (_: Exception) { emptyList() }
                 }
                 val homeSectionsDeferred = async {
                     try {
@@ -153,12 +183,29 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                         if (res is ApiResult.Success) res.data else emptyList()
                     } catch (_: Exception) { emptyList() }
                 }
+                val contextualDeferred = async {
+                    fetchContextualTimeShelf(settings)
+                }
+                val trendingShelfDeferred = async {
+                    try {
+                        val res = playlistRepository.retrieveMoodSections(
+                            "Trending Viral TikTok Hits Vietnam Pop",
+                            application.getString(R.string.trending_tiktok_title),
+                            settings
+                        ).first { it is ApiResult.Success || it is ApiResult.Error }
+                        if (res is ApiResult.Success) res.data else emptyList()
+                    } catch (_: Exception) { emptyList() }
+                }
 
                 val recentSongs = historyDeferred.await()
                 val homeSections = homeSectionsDeferred.await()
+                val contextualSections = contextualDeferred.await()
+                val trendingSections = trendingShelfDeferred.await()
+
                 val dynamicSections = mutableListOf<HomeSection>()
 
                 if (recentSongs.isNotEmpty()) {
+                    // 1. Recently Played (up to 15 songs)
                     dynamicSections.add(
                         HomeSection(
                             id = "recently_played",
@@ -168,37 +215,86 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                         )
                     )
 
-                    val topArtists = recentSongs
+                    // 2. Favorite Artists Shelf
+                    val artistCounts = recentSongs
                         .map { it.artist.trim() }
                         .filter { it.isNotBlank() }
                         .groupingBy { it }
                         .eachCount()
                         .toList()
                         .sortedByDescending { it.second }
-                        .map { it.first }
-                        .take(2)
+                        .take(6)
 
-                    for (artist in topArtists) {
+                    if (artistCounts.isNotEmpty()) {
+                        val artistItems = artistCounts.mapNotNull { (artistName, count) ->
+                            val representativeSong = recentSongs.firstOrNull { it.artist.contains(artistName, ignoreCase = true) }
+                            representativeSong?.let {
+                                HomeSectionItem.ArtistItem(
+                                    name = artistName,
+                                    thumbnailHref = it.thumbnailPath ?: it.thumbnailHref,
+                                    songCount = count
+                                )
+                            }
+                        }
+                        if (artistItems.isNotEmpty()) {
+                            dynamicSections.add(
+                                HomeSection(
+                                    id = "favorite_artists",
+                                    title = application.getString(R.string.favorite_artists_title),
+                                    subtitle = null,
+                                    items = artistItems
+                                )
+                            )
+                        }
+                    }
+
+                    // 3. Daily Mix 1, 2, 3
+                    val top3Artists = artistCounts.take(3).map { it.first }
+                    for ((index, artist) in top3Artists.withIndex()) {
                         val artistSong = recentSongs.firstOrNull { it.artist.contains(artist, ignoreCase = true) }
                         if (artistSong != null && artistSong.youtubeId.isNotBlank()) {
                             try {
                                 val related = songDataSource.getRelatedSongs(artistSong.youtubeId, settings)
                                 if (related.isNotEmpty()) {
-                                    val mixTitle = String.format(application.getString(R.string.mix_from_artist), artist)
+                                    val mixTitle = String.format(application.getString(R.string.daily_mix_title), index + 1) + " • $artist"
+                                    val artistOwnSongs = recentSongs.filter { it.artist.contains(artist, ignoreCase = true) }.take(5)
+                                    val blended = (artistOwnSongs + related.filter { rel -> artistOwnSongs.none { it.youtubeId == rel.youtubeId } }).distinctBy { it.youtubeId }.take(20)
                                     dynamicSections.add(
                                         HomeSection(
-                                            id = "mix_$artist",
+                                            id = "daily_mix_${index + 1}",
                                             title = mixTitle,
-                                            subtitle = null,
-                                            items = related.take(15).map { HomeSectionItem.SongItem(it) }
+                                            subtitle = application.getString(R.string.supermix_subtitle),
+                                            items = blended.map { HomeSectionItem.SongItem(it) }
                                         )
                                     )
                                 }
                             } catch (_: Exception) {}
                         }
                     }
+
+                    // 4. Forgotten Favorites (older songs from history)
+                    if (recentSongs.size > 15) {
+                        val olderSongs = recentSongs.drop(12).take(15)
+                        if (olderSongs.isNotEmpty()) {
+                            dynamicSections.add(
+                                HomeSection(
+                                    id = "forgotten_favorites",
+                                    title = application.getString(R.string.forgotten_favorites_title),
+                                    subtitle = application.getString(R.string.forgotten_favorites_subtitle),
+                                    items = olderSongs.map { HomeSectionItem.SongItem(it) }
+                                )
+                            )
+                        }
+                    }
                 }
 
+                // 5. Add Contextual Time Shelf (Coffee morning / Deep focus / Night chill)
+                dynamicSections.addAll(contextualSections)
+
+                // 6. Add Trending / Themed Shelf
+                dynamicSections.addAll(trendingSections)
+
+                // 7. Add YouTube Music official recommendation sections
                 dynamicSections + homeSections
             }
 
@@ -206,10 +302,16 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                 try {
                     val res = playlistRepository.retrieveChartsSections(settings)
                         .first { it is ApiResult.Success || it is ApiResult.Error }
-                    if (res is ApiResult.Success && res.data.isNotEmpty()) {
-                        res.data
-                    } else {
-                        emptyList()
+                    val rawSections = if (res is ApiResult.Success && res.data.isNotEmpty()) res.data else emptyList()
+                    rawSections.map { section ->
+                        val rankedItems = section.items.mapIndexed { idx, item ->
+                            if (item is HomeSectionItem.SongItem) {
+                                item.copy(rank = idx + 1)
+                            } else {
+                                item
+                            }
+                        }
+                        section.copy(items = rankedItems)
                     }
                 } catch (_: Exception) {
                     emptyList()

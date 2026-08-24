@@ -16,7 +16,9 @@ enum class HomeCategory(val titleRes: Int, val iconEmoji: String) {
 data class HomeState(
     val screenState: ScreenState = ScreenState.Loading,
     val isRefreshing: Boolean = false,
-    val selectedCategory: HomeCategory = HomeCategory.FOR_YOU
+    val selectedCategory: HomeCategory = HomeCategory.FOR_YOU,
+    val timeGreetingRes: Int = R.string.greeting_morning,
+    val timeGreetingEmoji: String = "☀️"
 )
 
 sealed class ScreenState {

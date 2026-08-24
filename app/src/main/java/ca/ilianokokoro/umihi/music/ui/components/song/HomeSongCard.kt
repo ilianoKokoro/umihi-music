@@ -32,6 +32,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
@@ -45,6 +47,7 @@ fun HomeSongCard(
     playNext: () -> Unit,
     addToQueue: () -> Unit,
     modifier: Modifier = Modifier,
+    rank: Int? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -76,6 +79,30 @@ fun HomeSongCard(
                     contentDescription = song.title,
                     modifier = Modifier.matchParentSize()
                 )
+
+                if (rank != null) {
+                    val (badgeBg, badgeTextColor) = when (rank) {
+                        1 -> Color(0xFFFFD700) to Color.Black
+                        2 -> Color(0xFFC0C0C0) to Color.Black
+                        3 -> Color(0xFFCD7F32) to Color.White
+                        else -> MaterialTheme.colorScheme.primaryContainer to MaterialTheme.colorScheme.onPrimaryContainer
+                    }
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(4.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .androidx.compose.foundation.background(badgeBg)
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "#$rank",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = badgeTextColor
+                        )
+                    }
+                }
 
                 if (song.isVideo) {
                     Box(

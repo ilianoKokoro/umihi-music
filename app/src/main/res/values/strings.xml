@@ -183,4 +183,26 @@
     <string name="audio_cache_cleared">Audio Cache Cleared</string>
     <string name="thumbnail_cache_cleared">Thumbnail Cache Cleared</string>
     <string name="save">Save</string>
+    
+    <!-- Recommendation Enhancements -->
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_night">Late night chill</string>
+    <string name="context_morning_title">☕ Morning Coffee &amp; Good Vibes</string>
+    <string name="context_afternoon_title">💻 Deep Focus &amp; Study Music</string>
+    <string name="context_evening_title">🌇 Evening Wind Down</string>
+    <string name="context_night_title">🌙 Night Sleep &amp; Relaxing Beats</string>
+    <string name="supermix_title">✨ My Supermix</string>
+    <string name="supermix_subtitle">Endless blended mix of your favorites &amp; recommendations</string>
+    <string name="daily_mix_title">💿 Daily Mix %1$d</string>
+    <string name="forgotten_favorites_title">⏳ Forgotten Favorites</string>
+    <string name="forgotten_favorites_subtitle">Songs you used to love</string>
+    <string name="discover_weekly_title">🌱 Discover New Songs</string>
+    <string name="discover_weekly_subtitle">Hand-picked fresh songs for your taste</string>
+    <string name="favorite_artists_title">🎤 Your Favorite Artists</string>
+    <string name="top_charts_title">🔥 Top 100 Charts</string>
+    <string name="trending_tiktok_title">🎵 Trending &amp; Viral Hits</string>
+    <string name="movie_ost_title">🎬 Best Movie &amp; Drama OSTs</string>
+    <string name="cafe_acoustic_title">☕ Cafe Acoustic Chill</string>
 </resources>
