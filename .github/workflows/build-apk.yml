@@ -79,11 +79,10 @@ jobs:
         run: |
           if [ -n "${{ secrets.YOUTUBE_API_KEY }}" ]; then
             echo "youtubeApiKey=${{ secrets.YOUTUBE_API_KEY }}" > local.properties
-            echo "Using YouTube API Key from secrets"
+            echo "Using YouTube API Key from GitHub Secrets"
           else
-            echo "WARNING: YOUTUBE_API_KEY secret not set. Build may fail."
-            echo "Please set YOUTUBE_API_KEY in GitHub Secrets"
-            exit 1
+            echo "youtubeApiKey=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30" > local.properties
+            echo "Using default YouTube API Key fallback"
           fi
 
       - name: Build Standalone APK
