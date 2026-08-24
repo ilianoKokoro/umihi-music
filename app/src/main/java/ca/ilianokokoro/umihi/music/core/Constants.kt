@@ -233,8 +233,6 @@ object Constants {
             const val CHARTS_BROWSE_ID = "FEmusic_charts"
             const val EXPLORE_BROWSE_ID = "FEmusic_explore"
             const val MOODS_AND_GENRES_BROWSE_ID = "FEmusic_moods_and_genres"
-
-            // Disabled as it was causing issues - Removed commented code for cleaner codebase
         }
 
         object Client {
@@ -291,8 +289,6 @@ object Constants {
         object PlayerInfo {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
-
-            // Disabled as it was causing issues - Removed commented code for cleaner codebase
         }
 
         object Like {
