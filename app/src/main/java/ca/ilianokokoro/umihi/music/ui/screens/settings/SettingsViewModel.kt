@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -21,10 +22,12 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
+import ca.ilianokokoro.umihi.music.ui.screens.settings.CacheType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
@@ -99,6 +102,94 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     showDownloadDeleteConfirm = value
                 )
             }
+        }
+    }
+
+    fun updateShowCacheSizeInputDialog(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showCacheSizeInputDialog = show,
+                    cacheTypeForInput = cacheType
+                )
+            }
+        }
+    }
+
+    fun updateShowAudioCacheClearConfirm(value: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showAudioCacheClearConfirm = value
+                )
+            }
+        }
+    }
+
+    fun updateShowThumbnailCacheClearConfirm(value: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showThumbnailCacheClearConfirm = value
+                )
+            }
+        }
+    }
+
+    fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
+        viewModelScope.launch {
+            val (key, min, max) = when (cacheType) {
+                CacheType.AUDIO -> Triple(
+                    DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE,
+                    Constants.ExoPlayer.Cache.MIN_SIZE_MB.toInt(),
+                    Constants.ExoPlayer.Cache.MAX_SIZE_MB.toInt()
+                )
+                CacheType.THUMBNAIL -> Triple(
+                    DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
+                    Constants.ExoPlayer.ThumbnailCache.MIN_SIZE_MB.toInt(),
+                    Constants.ExoPlayer.ThumbnailCache.MAX_SIZE_MB.toInt()
+                )
+            }
+            
+            if (sizeMB in min..max) {
+                datastoreRepository.save(key, sizeMB)
+                Toast.makeText(
+                    _application,
+                    _application.getString(R.string.cache_saved),
+                    Toast.LENGTH_SHORT
+                ).show()
+                getSettings()
+            } else {
+                Toast.makeText(
+                    _application,
+                    _application.getString(R.string.invalid_cache_size, min, max),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    fun clearAudioCache() {
+        viewModelScope.launch {
+            ExoCache(_application).clear()
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.audio_cache_cleared),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun clearThumbnailCache() {
+        viewModelScope.launch {
+            // Clear thumbnail cache directory
+            val thumbnailCacheDir = File(_application.cacheDir, Constants.Downloads.THUMBNAILS_FOLDER)
+            thumbnailCacheDir.deleteRecursively()
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.thumbnail_cache_cleared),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

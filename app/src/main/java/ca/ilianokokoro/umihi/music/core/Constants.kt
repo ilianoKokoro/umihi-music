@@ -90,6 +90,8 @@ object Constants {
         const val SEND_PLAYBACK_DATA = "send-playback-data"
         const val DOWNLOAD_ON_METERED = "download-on-metered"
         const val COUNTRY_CODE_KEY = "country-code"
+        const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
+        const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
     }
 
     object Database {
@@ -172,7 +174,16 @@ object Constants {
 
         object Cache {
             const val NAME = "umihi-music-exoplayer"
-            const val SIZE: Long = 350L * 1024L * 1024L // 350 MB - Optimized for older devices (Android 7+)
+            const val DEFAULT_SIZE_MB = 350L
+            const val MIN_SIZE_MB = 50L
+            const val MAX_SIZE_MB = 2000L
+            val SIZE: Long get() = DEFAULT_SIZE_MB * 1024L * 1024L // Default 350 MB - Optimized for older devices (Android 7+)
+        }
+
+        object ThumbnailCache {
+            const val DEFAULT_SIZE_MB = 100L
+            const val MIN_SIZE_MB = 20L
+            const val MAX_SIZE_MB = 500L
         }
 
         object Library {

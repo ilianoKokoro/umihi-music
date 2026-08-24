@@ -1,52 +1,59 @@
-```
-# Gradle
-.gradle/
-!gradle/wrapper/
-
-# Build artifacts
-build/
-!build/
+```kotlin
+# Kotlin/Android specific
+*.class
 *.jar
 *.war
 *.ear
-*.class
-*.o
-*.obj
-*.so
-*.dll
-*.exe
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.7z
+*.rar
+*.gz
+*.bz2
+*.xz
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
 
-# Dependencies
-node_modules/
-vendor/bundle/
-.libs/
+# Android build outputs
+build/
+.gradle/
+captures/
+.externalNativeBuild
+.cxx/
+*.keystore
+*.jks
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*.tmp
 
 # Environment
 .env
 .env.local
 .env.*
-!.env.example
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
 
 # Logs
 *.log
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Python
+# Dependencies
+node_modules/
 __pycache__/
 *.pyc
 *.pyo
@@ -55,18 +62,87 @@ __pycache__/
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage*
-.nox/
-.pytest_cache/
-.mypy_cache/
+.conda/
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Distribution / packaging
+*.tar.*
+*.whl
+*.egg
+*.egg-info/
+dist/
+bin/
+target/
+
+# Debug symbols
+*.pdb
+*.idb
+*.dylib
+
+# Generated files
+gen/
+generated/
+out/
+
+# Local configuration
+local.properties
+gradle.properties
+key.properties
+
+# Testing
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+nyc_output/
+coverage/
 
 # Temporary files
 *.tmp
 *.temp
-*~
-.DS_Store
-Thumbs.db
+*.bak
+*.backup
+
+# MyPy cache
+.mypy_cache/
+.pytest_cache/
+
+# Java/Kotlin caches
+*.idx
+*.ijc
+*.jar.pack
+*.jar.pack.gz
+*.jar.pack.xz
+*.jar.pack.lzma
+*.jar.pack.bz2
+*.jar.pack.7z
+*.jar.pack.rar
+*.jar.pack.tar
+*.jar.pack.tar.gz
+*.jar.pack.tar.bz2
+*.jar.pack.tar.xz
+*.jar.pack.tar.zst
+*.jar.pack.tar.lz4
+*.jar.pack.tar.lzh
+*.jar.pack.tar.cab
+*.jar.pack.tar.arj
+*.jar.pack.tar.rpm
+*.jar.pack.tar.deb
+*.jar.pack.tar.Z
+*.jar.pack.tar.lz
+*.jar.pack.tar.lzo
 ```

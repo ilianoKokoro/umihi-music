@@ -164,4 +164,23 @@
     <string name="category_sleep">Sleep &amp; Relax</string>
     <string name="mix_from_artist">Mix: %1$s &amp; Similar</string>
     <string name="top_charts">Top Charts</string>
+    
+    <!-- Cache Management -->
+    <string name="cache_management">Cache Management</string>
+    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="exoplayer_cache_description">Cached audio data for smoother playback (50–2000 MB)</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="thumbnail_cache_description">Cached video thumbnails (20–500 MB)</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="set_cache_size">Set Cache Size</string>
+    <string name="enter_cache_size_mb">Enter cache size in MB</string>
+    <string name="invalid_cache_size">Invalid cache size. Must be between %1$d and %2$d MB.</string>
+    <string name="cache_saved">Cache size saved</string>
+    <string name="clear_audio_cache">Clear Audio Cache</string>
+    <string name="clear_audio_cache_message">Remove all cached audio data from this device</string>
+    <string name="clear_thumbnail_cache">Clear Thumbnail Cache</string>
+    <string name="clear_thumbnail_cache_message">Remove all cached thumbnail images from this device</string>
+    <string name="audio_cache_cleared">Audio Cache Cleared</string>
+    <string name="thumbnail_cache_cleared">Thumbnail Cache Cleared</string>
+    <string name="save">Save</string>
 </resources>
