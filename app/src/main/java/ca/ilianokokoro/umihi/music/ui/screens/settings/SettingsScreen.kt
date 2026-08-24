@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Memory
@@ -51,6 +52,8 @@ import ca.ilianokokoro.umihi.music.ui.components.dialog.AVAILABLE_COUNTRIES
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.CountrySelectDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
+import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
+import ca.ilianokokoro.umihi.music.ui.screens.settings.CacheType
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
@@ -239,6 +242,58 @@ fun SettingsScreen(
                                 leadingIcon = Icons.Outlined.Delete,
                                 onClick = {
                                     settingsViewModel.updateShowDownloadDeleteConfirm(true)
+                                }
+                            )
+                        }
+
+                        SettingsSection(
+                            title = stringResource(R.string.cache_management)
+                        ) {
+                            SettingsItem(
+                                title = stringResource(R.string.exoplayer_cache_title),
+                                subtitle = stringResource(
+                                    R.string.cache_size_mb,
+                                    screenState.settings.exoPlayerCacheSizeMB
+                                ),
+                                leadingIcon = Icons.Outlined.Memory,
+                                onClick = {
+                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                        true,
+                                        CacheType.AUDIO
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.clear_audio_cache),
+                                subtitle = stringResource(R.string.clear_audio_cache_message),
+                                leadingIcon = Icons.Outlined.Delete,
+                                onClick = {
+                                    settingsViewModel.updateShowAudioCacheClearConfirm(true)
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.thumbnail_cache_title),
+                                subtitle = stringResource(
+                                    R.string.cache_size_mb,
+                                    screenState.settings.thumbnailCacheSizeMB
+                                ),
+                                leadingIcon = Icons.Outlined.Image,
+                                onClick = {
+                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                        true,
+                                        CacheType.THUMBNAIL
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.clear_thumbnail_cache),
+                                subtitle = stringResource(R.string.clear_thumbnail_cache_message),
+                                leadingIcon = Icons.Outlined.Delete,
+                                onClick = {
+                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(true)
                                 }
                             )
                         }

@@ -15,6 +15,14 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+// Load YouTube API Key from local.properties
+val localPropertiesFile: File = rootProject.file("local.properties")
+val localProperties = Properties()
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+val youtubeApiKey: String = localProperties.getProperty("youtubeApiKey", "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30")
+
 
 plugins {
     alias(libs.plugins.android.application)
@@ -43,6 +51,7 @@ android {
         versionName = "${appVersionName}${if (beta) "-beta" else ""}"
 
         buildConfigField("boolean", "IS_BETA", "$beta")
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"$youtubeApiKey\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

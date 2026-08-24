@@ -9,10 +9,7 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 class SongDataSource {
     suspend fun getSongInfo(songId: String): Song {
         return YoutubeDataExtractor.extractSongInfo(
-            YoutubeApiClient.getPlayerInfo(
-                songId,
-                //  fields = Constants.YoutubeApi.PlayerInfo.Fields.SONG_INFO
-            )
+            YoutubeApiClient.getPlayerInfo(songId)
         )
     }
 

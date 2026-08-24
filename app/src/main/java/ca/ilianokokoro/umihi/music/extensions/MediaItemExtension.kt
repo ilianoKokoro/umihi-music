@@ -11,7 +11,7 @@ fun MediaItem?.toSong(): Song {
         youtubeId = this?.mediaId.toStringOrEmpty(),
         title = this?.mediaMetadata?.title.toStringOrEmpty(),
         artist = this?.mediaMetadata?.artist.toStringOrEmpty(),
-        thumbnailHref = this?.mediaMetadata?.artworkUri.toString(), // TODO handle if not href
+        thumbnailHref = this?.mediaMetadata?.artworkUri?.toString().orEmpty(),
         duration = extras?.getString(Constants.ExoPlayer.SongMetadata.DURATION).toStringOrEmpty(),
         isExplicit = extras?.getBoolean(Constants.ExoPlayer.SongMetadata.IS_EXPLICIT, false)
             ?: false,

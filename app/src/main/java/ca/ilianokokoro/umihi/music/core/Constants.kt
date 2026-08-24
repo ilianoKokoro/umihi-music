@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.core
 
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.BuildConfig
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -29,7 +30,7 @@ object Constants {
     }
 
     object Downloads {
-        const val MAX_CONCURRENT_DOWNLOADS = 8
+        const val MAX_CONCURRENT_DOWNLOADS = 4 // Reduced for better performance on older devices (Android 7+)
         const val DIRECTORY = "downloads"
         const val THUMBNAILS_FOLDER = "thumbnails_downloads"
         const val AUDIO_FILES_FOLDER = "audio_files_downloads"
@@ -89,6 +90,8 @@ object Constants {
         const val SEND_PLAYBACK_DATA = "send-playback-data"
         const val DOWNLOAD_ON_METERED = "download-on-metered"
         const val COUNTRY_CODE_KEY = "country-code"
+        const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
+        const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
     }
 
     object Database {
@@ -171,7 +174,16 @@ object Constants {
 
         object Cache {
             const val NAME = "umihi-music-exoplayer"
-            const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
+            const val DEFAULT_SIZE_MB = 350L
+            const val MIN_SIZE_MB = 50L
+            const val MAX_SIZE_MB = 2000L
+            val SIZE: Long get() = DEFAULT_SIZE_MB * 1024L * 1024L // Default 350 MB - Optimized for older devices (Android 7+)
+        }
+
+        object ThumbnailCache {
+            const val DEFAULT_SIZE_MB = 100L
+            const val MIN_SIZE_MB = 20L
+            const val MAX_SIZE_MB = 500L
         }
 
         object Library {
@@ -210,36 +222,17 @@ object Constants {
         const val RETRY_DELAY = 1000
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
-        const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
+        // API Key is now loaded from BuildConfig for security
         const val USER_AGENT =
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
 
         object Browse {
-            const val URL = "${ORIGIN}/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false"
+            const val URL = "${ORIGIN}/youtubei/v1/browse?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
             const val PLAYLIST_BROWSE_ID = "FEmusic_liked_playlists"
             const val HOME_BROWSE_ID = "FEmusic_home"
             const val CHARTS_BROWSE_ID = "FEmusic_charts"
             const val EXPLORE_BROWSE_ID = "FEmusic_explore"
             const val MOODS_AND_GENRES_BROWSE_ID = "FEmusic_moods_and_genres"
-
-            // Disabled as it was causing issues
-//            object Fields {
-//                const val PLAYLISTS =
-//                    "contents.singleColumnBrowseResultsRenderer.tabs," +
-//                    "contents.twoColumnBrowseResultsRenderer.tabs"
-//
-//                const val PLAYLISTS_CONTINUATION =
-//                    "continuationContents.gridContinuation," +
-//                    "continuationContents.musicLibraryContinuation"
-//
-//                const val SONGS =
-//                    "contents.twoColumnBrowseResultsRenderer" +
-//                        ".secondaryContents.sectionListRenderer.contents," +
-//                    "contents.singleColumnBrowseResultsRenderer" +
-//                        ".tabs.tabRenderer.content.sectionListRenderer.contents"
-//
-//                const val SONGS_CONTINUATION = "onResponseReceivedActions"
-//            }
         }
 
         object Client {
@@ -275,43 +268,27 @@ object Constants {
         }
 
         object Create {
-            const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${API_KEY}&prettyPrint=false"
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/create?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
         }
 
 
         object Delete {
-            const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${API_KEY}&prettyPrint=false"
+            const val URL = "${ORIGIN}/youtubei/v1/playlist/delete?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
         }
 
         object GetAddToPlaylist {
             const val URL =
-                "${ORIGIN}/youtubei/v1/playlist/get_add_to_playlist?key=${API_KEY}&prettyPrint=false"
+                "${ORIGIN}/youtubei/v1/playlist/get_add_to_playlist?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
         }
 
         object Edit {
             const val URL =
-                "${ORIGIN}/youtubei/v1/browse/edit_playlist?key=${API_KEY}&prettyPrint=false"
+                "${ORIGIN}/youtubei/v1/browse/edit_playlist?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
         }
 
         object PlayerInfo {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
-
-            // Disabled as it was causing issues
-            //            object Fields {
-//                const val SONG_INFO =
-//                    "videoDetails.videoId,videoDetails.title,videoDetails.author,videoDetails.lengthSeconds," +
-//                            "videoDetails.thumbnail.thumbnails,microformat.microformatDataRenderer.familySafe"
-//
-//                const val TRACKING =
-//                    "playbackTracking.videostatsPlaybackUrl.baseUrl," +
-//                            "playbackTracking.videostatsWatchtimeUrl.baseUrl"
-//
-//                const val STREAM =
-//                    "responseContext.visitorData,playabilityStatus.status,playabilityStatus.reason," +
-//                            "streamingData.adaptiveFormats.url,streamingData.adaptiveFormats.mimeType," +
-//                            "streamingData.adaptiveFormats.bitrate"
-//            }
         }
 
         object Like {
@@ -327,7 +304,7 @@ object Constants {
         }
 
         object Next {
-            const val URL = "${ORIGIN}/youtubei/v1/next?key=${API_KEY}&prettyPrint=false"
+            const val URL = "${ORIGIN}/youtubei/v1/next?key=${BuildConfig.YOUTUBE_API_KEY}&prettyPrint=false"
         }
 
     }

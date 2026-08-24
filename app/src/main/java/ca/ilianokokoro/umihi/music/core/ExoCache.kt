@@ -5,13 +5,21 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import kotlinx.coroutines.flow.first
 import java.io.File
 
 @UnstableApi
 class ExoCache(private val context: Context) {
     private val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
+    
+    fun getCacheSize(): Long {
+        return DatastoreRepository(context).settings.first().exoPlayerCacheSizeMB.toLong() * 1024L * 1024L
+    }
+    
     val cache: SimpleCache by lazy {
-        val cacheEvictor = LeastRecentlyUsedCacheEvictor(Constants.ExoPlayer.Cache.SIZE)
+        val cacheSize = getCacheSize()
+        val cacheEvictor = LeastRecentlyUsedCacheEvictor(cacheSize)
         SimpleCache(
             cacheDir,
             cacheEvictor,

@@ -75,6 +75,17 @@ jobs:
             echo "keyPassword=umihipass" >> keystore.properties
           fi
 
+      - name: Configure YouTube API Key
+        run: |
+          if [ -n "${{ secrets.YOUTUBE_API_KEY }}" ]; then
+            echo "youtubeApiKey=${{ secrets.YOUTUBE_API_KEY }}" > local.properties
+            echo "Using YouTube API Key from secrets"
+          else
+            echo "WARNING: YOUTUBE_API_KEY secret not set. Build may fail."
+            echo "Please set YOUTUBE_API_KEY in GitHub Secrets"
+            exit 1
+          fi
+
       - name: Build Standalone APK
         run: |
           BUILD_TYPE="${{ github.event.inputs.build_type || 'release' }}"
