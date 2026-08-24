@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -92,7 +93,7 @@ fun HomeSongCard(
                             .align(Alignment.TopStart)
                             .padding(4.dp)
                             .clip(RoundedCornerShape(6.dp))
-                            .androidx.compose.foundation.background(badgeBg)
+                            .background(badgeBg)
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
                         Text(

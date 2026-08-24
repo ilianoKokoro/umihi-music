@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,7 +53,7 @@ fun ArtistCard(
                 SquareImage(
                     uri = thumbnailHref,
                     contentDescription = name,
-                    contentScale = ContentScale.Crop,
+                    cornerRadius = 45.dp,
                     modifier = Modifier.matchParentSize()
                 )
             } else {
