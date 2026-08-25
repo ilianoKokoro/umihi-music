@@ -137,6 +137,49 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         return !state.settings.cookies.isEmpty()
     }
 
+    fun updateShowCacheSizeInputDialog(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {
+        _uiState.update {
+            it.copy(
+                showCacheSizeInputDialog = show,
+                cacheTypeForInput = cacheType
+            )
+        }
+    }
+
+    fun updateShowAudioCacheClearConfirm(show: Boolean) {
+        _uiState.update { it.copy(showAudioCacheClearConfirm = show) }
+    }
+
+    fun updateShowThumbnailCacheClearConfirm(show: Boolean) {
+        _uiState.update { it.copy(showThumbnailCacheClearConfirm = show) }
+    }
+
+    fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
+        viewModelScope.launch {
+            when (cacheType) {
+                CacheType.AUDIO -> updateSetting(DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE, sizeMB)
+                CacheType.THUMBNAIL -> updateSetting(DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE, sizeMB)
+            }
+            Toast.makeText(_application, _application.getString(R.string.cache_saved), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    fun clearAudioCache() {
+        viewModelScope.launch {
+            ExoCache(_application).clear()
+            Toast.makeText(_application, _application.getString(R.string.audio_cache_cleared), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun clearThumbnailCache() {
+        viewModelScope.launch {
+            val thumbDir = UmihiHelper.getDownloadDirectory(_application, "thumbnails")
+            thumbDir.deleteRecursively()
+            Toast.makeText(_application, _application.getString(R.string.thumbnail_cache_cleared), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
         viewModelScope.launch {
             datastoreRepository.save(
