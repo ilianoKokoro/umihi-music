@@ -19,6 +19,8 @@ Compose**.
 Designed for simplicity and smooth performance, Umihi Music lets you enjoy your favorite tracks
 effortlessly.
 
+> 📖 **[View Enhanced Features & What's New](FEATURES.md)** (In-App Volume Boost 125%, Smart Daily Mixes, Regional Charts, Cache Controls, Full Localization).
+
 ## Download 📥
 
 <table>
