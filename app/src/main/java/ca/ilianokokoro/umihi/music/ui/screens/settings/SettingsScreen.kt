@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
+import androidx.compose.material.icons.outlined.StopCircle
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.MaterialTheme
@@ -149,6 +150,13 @@ fun SettingsScreen(
                                 subtitle = stringResource(R.string.clear_login_message),
                                 leadingIcon = Icons.Outlined.Delete,
                                 onClick = settingsViewModel::clearLogins
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.force_stop),
+                                subtitle = stringResource(R.string.force_stop_toast),
+                                leadingIcon = Icons.Outlined.StopCircle,
+                                onClick = settingsViewModel::forceStopPlayback
                             )
                         }
 

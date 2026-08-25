@@ -143,4 +143,8 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    
+    <!-- Force Stop -->
+    <string name="force_stop">Force Stop Playback</string>
+    <string name="force_stop_toast">Stopped playback and killed background service</string>
 </resources>

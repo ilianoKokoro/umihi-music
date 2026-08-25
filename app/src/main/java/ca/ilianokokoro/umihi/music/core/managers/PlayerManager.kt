@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.core.managers
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.media3.common.C
@@ -463,5 +464,16 @@ object PlayerManager {
     private fun clearDeadController() {
         controller = null
         _controllerState.value = null
+    }
+
+    fun forceStopPlayback(context: Context) {
+        scope.launch {
+            withContext(Dispatchers.Main) {
+                currentController?.stop()
+                currentController?.clearMediaItems()
+            }
+            val intent = Intent(context, PlaybackService::class.java)
+            context.stopService(intent)
+        }
     }
 }

@@ -137,6 +137,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         return !state.settings.cookies.isEmpty()
     }
 
+    fun forceStopPlayback() {
+        PlayerManager.forceStopPlayback(_application)
+        Toast.makeText(
+            _application,
+            _application.getString(R.string.force_stop_toast),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
         viewModelScope.launch {
             datastoreRepository.save(
