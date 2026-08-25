@@ -51,6 +51,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.SleepTimerBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.SpeedSelectorBottomSheet
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.VolumeBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -133,8 +134,12 @@ fun PlayerScreen(
                         onOpenSpeedSelector = {
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
+                        onOpenVolume = {
+                            playerViewModel.setVolumeSheetVisibility(true)
+                        },
                         playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+                        appVolume = uiState.appVolume,
                     )
                 }
             }
@@ -191,8 +196,12 @@ fun PlayerScreen(
                         onOpenSpeedSelector = {
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
+                        onOpenVolume = {
+                            playerViewModel.setVolumeSheetVisibility(true)
+                        },
                         playbackSpeed = uiState.playbackSpeed,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+                        appVolume = uiState.appVolume,
                     )
                 }
             }
@@ -206,6 +215,14 @@ fun PlayerScreen(
             changeVisibility = playerViewModel::setSpeedSelectorVisibility,
             currentSpeed = uiState.playbackSpeed,
             onSelectSpeed = playerViewModel::setPlaybackSpeed,
+        )
+    }
+
+    if (uiState.isVolumeSheetShown) {
+        VolumeBottomSheet(
+            changeVisibility = playerViewModel::setVolumeSheetVisibility,
+            currentVolume = uiState.appVolume,
+            onVolumeChange = playerViewModel::setAppVolume,
         )
     }
 

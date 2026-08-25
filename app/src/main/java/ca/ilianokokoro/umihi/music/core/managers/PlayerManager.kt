@@ -14,7 +14,8 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.toSong
-import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.models.Playlist
@@ -44,6 +45,20 @@ object PlayerManager {
     @Volatile
     private var controller: MediaController? = null
 
+    @Volatile
+    private var activePlaybackService: PlaybackService? = null
+
+    fun registerPlaybackService(service: PlaybackService) {
+        activePlaybackService = service
+        service.applyAppVolume(_appVolume.value)
+    }
+
+    fun unregisterPlaybackService(service: PlaybackService) {
+        if (activePlaybackService == service) {
+            activePlaybackService = null
+        }
+    }
+
     private val _controllerState = MutableStateFlow<MediaController?>(null)
     val controllerState: StateFlow<MediaController?> = _controllerState.asStateFlow()
 
@@ -66,6 +81,33 @@ object PlayerManager {
 
     private val _playbackSpeed = MutableStateFlow(1.0f)
     val playbackSpeed: StateFlow<Float> = _playbackSpeed.asStateFlow()
+
+    private val _appVolume = MutableStateFlow(Constants.Player.Volume.DEFAULT_PERCENT)
+    val appVolume: StateFlow<Int> = _appVolume.asStateFlow()
+
+    fun setInitialVolume(volumePercent: Int) {
+        _appVolume.value = volumePercent.coerceIn(
+            Constants.Player.Volume.MIN_PERCENT,
+            Constants.Player.Volume.MAX_PERCENT
+        )
+    }
+
+    fun setAppVolume(volumePercent: Int, context: Context? = null) {
+        val clamped = volumePercent.coerceIn(
+            Constants.Player.Volume.MIN_PERCENT,
+            Constants.Player.Volume.MAX_PERCENT
+        )
+        _appVolume.value = clamped
+        activePlaybackService?.applyAppVolume(clamped)
+        context?.let { ctx ->
+            scope.launch {
+                DatastoreRepository(ctx.applicationContext).save(
+                    DatastoreRepository.PreferenceKeys.APP_VOLUME,
+                    clamped
+                )
+            }
+        }
+    }
 
     private val _audioInfo = MutableStateFlow(PlaybackAudioInfo())
     val audioInfo = _audioInfo.asStateFlow()

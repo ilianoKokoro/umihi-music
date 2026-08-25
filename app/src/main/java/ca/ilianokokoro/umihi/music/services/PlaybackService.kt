@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.services
 import android.app.PendingIntent
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -59,6 +60,8 @@ class PlaybackService : MediaLibraryService() {
     private lateinit var datastoreRepository: DatastoreRepository
     private lateinit var historyRepository: HistoryRepository
     private var currentAudioSessionId = C.AUDIO_SESSION_ID_UNSET
+    private var loudnessEnhancer: LoudnessEnhancer? = null
+    private var currentVolumePercent: Int = 100
     private val songRepository = SongRepository()
     private lateinit var playlistRepository: PlaylistRepository
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -202,7 +205,7 @@ class PlaybackService : MediaLibraryService() {
                 Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
             }
 
-            // Expose audio session ID for third-party equalizer apps
+            // Expose audio session ID for third-party equalizer apps and LoudnessEnhancer
             override fun onAudioSessionIdChanged(audioSessionId: Int) {
                 if (currentAudioSessionId == audioSessionId) {
                     return
@@ -217,6 +220,11 @@ class PlaybackService : MediaLibraryService() {
                     )
                 }
 
+                try {
+                    loudnessEnhancer?.release()
+                    loudnessEnhancer = null
+                } catch (_: Exception) {}
+
                 currentAudioSessionId = audioSessionId
 
                 if (audioSessionId > 0) {
@@ -226,6 +234,12 @@ class PlaybackService : MediaLibraryService() {
                             putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
                         }
                     )
+                    try {
+                        loudnessEnhancer = LoudnessEnhancer(audioSessionId)
+                        applyAppVolume(currentVolumePercent)
+                    } catch (e: Exception) {
+                        printe("Failed to create LoudnessEnhancer: ${e.message}", e)
+                    }
                 }
             }
         })
@@ -250,6 +264,41 @@ class PlaybackService : MediaLibraryService() {
             .setSessionActivity(pendingIntent)
             .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader.Builder(this).build()))
             .build()
+
+        PlayerManager.registerPlaybackService(this)
+        serviceScope.launch {
+            val settings = datastoreRepository.getSettings()
+            withContext(Dispatchers.Main) {
+                PlayerManager.setInitialVolume(settings.appVolume)
+                applyAppVolume(settings.appVolume)
+            }
+        }
+    }
+
+    fun applyAppVolume(volumePercent: Int) {
+        currentVolumePercent = volumePercent.coerceIn(
+            Constants.Player.Volume.MIN_PERCENT,
+            Constants.Player.Volume.MAX_PERCENT
+        )
+        if (!::player.isInitialized) return
+
+        if (currentVolumePercent <= Constants.Player.Volume.BOOST_THRESHOLD) {
+            player.volume = currentVolumePercent / 100f
+            try {
+                loudnessEnhancer?.enabled = false
+            } catch (_: Exception) {}
+        } else {
+            player.volume = 1.0f
+            val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
+            // Each 1% boost corresponds to 16 mB gain (up to 400 mB / ~4dB boost)
+            val gainmB = boostPercent * 16
+            try {
+                loudnessEnhancer?.setTargetGain(gainmB)
+                loudnessEnhancer?.enabled = true
+            } catch (e: Exception) {
+                printe("Failed to set LoudnessEnhancer target gain: ${e.message}", e)
+            }
+        }
     }
 
     override fun onGetSession(
@@ -264,6 +313,12 @@ class PlaybackService : MediaLibraryService() {
     }
 
     override fun onDestroy() {
+        PlayerManager.unregisterPlaybackService(this)
+        try {
+            loudnessEnhancer?.release()
+            loudnessEnhancer = null
+        } catch (_: Exception) {}
+
         mediaLibrarySession?.run {
             if (currentAudioSessionId > 0) {
                 sendBroadcast(

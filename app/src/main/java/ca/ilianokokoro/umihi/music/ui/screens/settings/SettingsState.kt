@@ -10,7 +10,8 @@ data class SettingsState(
     val showCacheSizeInputDialog: Boolean = false,
     val cacheTypeForInput: CacheType = CacheType.AUDIO,
     val showAudioCacheClearConfirm: Boolean = false,
-    val showThumbnailCacheClearConfirm: Boolean = false
+    val showThumbnailCacheClearConfirm: Boolean = false,
+    val showVolumeDialog: Boolean = false
 )
 
 enum class CacheType {

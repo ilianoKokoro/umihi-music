@@ -242,6 +242,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         return !state.settings.cookies.isEmpty()
     }
 
+    fun updateShowVolumeDialog(show: Boolean) {
+        _uiState.update { it.copy(showVolumeDialog = show) }
+    }
+
+    fun setAppVolume(volume: Int) {
+        PlayerManager.setAppVolume(volume, _application)
+        getSettings()
+    }
+
     fun <T> updateSetting(key: Preferences.Key<T>, value: T) {
         viewModelScope.launch {
             datastoreRepository.save(

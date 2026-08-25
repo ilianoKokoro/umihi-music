@@ -15,6 +15,8 @@ data class PlayerState(
     val sleepTimerRemainingSeconds: Long? = null,
     val isSpeedSelectorShown: Boolean = false,
     val playbackSpeed: Float = 1.0f,
+    val isVolumeSheetShown: Boolean = false,
+    val appVolume: Int = 100,
     val isLoggedIn: Boolean = false,
     val isLiked: Boolean = false,
     val isLiking: Boolean = false,

@@ -92,6 +92,7 @@ object Constants {
         const val COUNTRY_CODE_KEY = "country-code"
         const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
         const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
+        const val APP_VOLUME_KEY = "app-volume"
     }
 
     object Database {
@@ -206,6 +207,13 @@ object Constants {
         const val PROGRESS_UPDATE_DELAY = 150
         const val IMAGE_TRANSITION_DELAY = 200
         val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)
+
+        object Volume {
+            const val DEFAULT_PERCENT = 100
+            const val MIN_PERCENT = 0
+            const val MAX_PERCENT = 125
+            const val BOOST_THRESHOLD = 100
+        }
 
         object Tracking {
             const val WATCHTIME_INTERVAL_MS = 15_000L

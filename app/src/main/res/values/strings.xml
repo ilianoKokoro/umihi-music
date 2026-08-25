@@ -205,4 +205,9 @@
     <string name="trending_tiktok_title">🎵 Trending &amp; Viral Hits</string>
     <string name="movie_ost_title">🎬 Best Movie &amp; Drama OSTs</string>
     <string name="cafe_acoustic_title">☕ Cafe Acoustic Chill</string>
+    
+    <!-- In-App Volume Control -->
+    <string name="in_app_volume">In-App Volume</string>
+    <string name="in_app_volume_desc">Independent in-app audio volume control (Supports volume boost up to 125% for Android 7+)</string>
+    <string name="volume_boost_badge">Boost</string>
 </resources>

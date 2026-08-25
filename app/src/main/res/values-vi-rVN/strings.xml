@@ -199,4 +199,9 @@
     <string name="trending_tiktok_title">🎵 Thịnh hành &amp; Hot TikTok</string>
     <string name="movie_ost_title">🎬 Nhạc Phim Hay Nhất (OST)</string>
     <string name="cafe_acoustic_title">☕ Acoustic Quán Cà Phê</string>
+
+    <!-- In-App Volume Control -->
+    <string name="in_app_volume">Âm lượng ứng dụng</string>
+    <string name="in_app_volume_desc">Tùy chỉnh âm lượng âm thanh độc lập cho ứng dụng (Hỗ trợ tăng âm lượng lên tới 125% cho Android 7+)</string>
+    <string name="volume_boost_badge">Tăng cường</string>
 </resources>

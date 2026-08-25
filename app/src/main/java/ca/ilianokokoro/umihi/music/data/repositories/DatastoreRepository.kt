@@ -50,6 +50,7 @@ class DatastoreRepository(private val context: Context) {
         val COUNTRY_CODE = stringPreferencesKey(Constants.Datastore.COUNTRY_CODE_KEY)
         val EXOPLAYER_CACHE_SIZE = intPreferencesKey(Constants.Datastore.EXOPLAYER_CACHE_SIZE_KEY)
         val THUMBNAIL_CACHE_SIZE = intPreferencesKey(Constants.Datastore.THUMBNAIL_CACHE_SIZE_KEY)
+        val APP_VOLUME = intPreferencesKey(Constants.Datastore.APP_VOLUME_KEY)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -75,6 +76,7 @@ class DatastoreRepository(private val context: Context) {
         val countryCode = it[COUNTRY_CODE] ?: "VN"
         val exoPlayerCacheSize = it[EXOPLAYER_CACHE_SIZE] ?: Constants.ExoPlayer.Cache.DEFAULT_SIZE_MB.toInt()
         val thumbnailCacheSize = it[THUMBNAIL_CACHE_SIZE] ?: Constants.ExoPlayer.ThumbnailCache.DEFAULT_SIZE_MB.toInt()
+        val appVolume = it[APP_VOLUME] ?: Constants.Player.Volume.DEFAULT_PERCENT
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -92,7 +94,8 @@ class DatastoreRepository(private val context: Context) {
             downloadOnMetered = downloadOnMetered,
             countryCode = countryCode,
             exoPlayerCacheSizeMB = exoPlayerCacheSize,
-            thumbnailCacheSizeMB = thumbnailCacheSize
+            thumbnailCacheSizeMB = thumbnailCacheSize,
+            appVolume = appVolume
         )
     }
 

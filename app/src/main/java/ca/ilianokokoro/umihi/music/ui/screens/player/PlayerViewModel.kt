@@ -79,9 +79,25 @@ class PlayerViewModel(application: Application) :
         }
 
         viewModelScope.launch {
+            PlayerManager.appVolume.collect { volume ->
+                _uiState.update { it.copy(appVolume = volume) }
+            }
+        }
+
+        viewModelScope.launch {
             val settings = datastoreRepository.getSettings()
             _uiState.update { it.copy(isLoggedIn = !settings.cookies.isEmpty()) }
         }
+    }
+
+    fun setVolumeSheetVisibility(show: Boolean) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isVolumeSheetShown = show) }
+        }
+    }
+
+    fun setAppVolume(volume: Int) {
+        PlayerManager.setAppVolume(volume, getApplication())
     }
 
 

@@ -17,7 +17,8 @@ data class UmihiSettings(
     val downloadOnMetered: Boolean = false,
     val countryCode: String = "VN",
     val exoPlayerCacheSizeMB: Int = 350,
-    val thumbnailCacheSizeMB: Int = 100
+    val thumbnailCacheSizeMB: Int = 100,
+    val appVolume: Int = 100
 ) {
     val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }
