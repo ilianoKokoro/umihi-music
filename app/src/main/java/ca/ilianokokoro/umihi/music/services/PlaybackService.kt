@@ -238,7 +238,7 @@ class PlaybackService : MediaLibraryService() {
                         loudnessEnhancer = LoudnessEnhancer(audioSessionId)
                         applyAppVolume(currentVolumePercent)
                     } catch (e: Exception) {
-                        printe("Failed to create LoudnessEnhancer: ${e.message}", e)
+                        printe(message = "Failed to create LoudnessEnhancer: ${e.message}", exception = e)
                     }
                 }
             }
@@ -296,7 +296,7 @@ class PlaybackService : MediaLibraryService() {
                 loudnessEnhancer?.setTargetGain(gainmB)
                 loudnessEnhancer?.enabled = true
             } catch (e: Exception) {
-                printe("Failed to set LoudnessEnhancer target gain: ${e.message}", e)
+                printe(message = "Failed to set LoudnessEnhancer target gain: ${e.message}", exception = e)
             }
         }
     }

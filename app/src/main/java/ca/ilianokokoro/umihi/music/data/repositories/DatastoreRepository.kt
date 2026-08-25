@@ -25,6 +25,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COUNTRY_CODE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.APP_VOLUME
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.Flow
