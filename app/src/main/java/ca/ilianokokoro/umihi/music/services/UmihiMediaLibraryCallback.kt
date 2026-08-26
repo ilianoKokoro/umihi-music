@@ -51,7 +51,7 @@ class UmihiMediaLibraryCallback(
         val sessionCommands =
             MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
 
-        return MediaSession.ConnectionResult.AcceptedResultBuilder(session)
+        return MediaSession.ConnectionResult.AcceptedResultBuilder(session, controller)
             .setAvailablePlayerCommands(playerCommands)
             .setAvailableSessionCommands(sessionCommands)
             .build()
