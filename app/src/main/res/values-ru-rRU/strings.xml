@@ -88,7 +88,7 @@
     <string name="keep_screen_on_title_description">Предотвращает отключение дисплея при открытии приложения</string>
     <string name="send_playback_data_title">Отправить обратно данные в Google</string>
     <string name="send_playback_data_description">Отправляет песни обратно на Youtube Music для истории, рекомендаций и показов на конец года</string>
-    <string name="downloading_update">Загрузка обновления...</string>
+    <string name="downloading_update">Загрузка обновления…</string>
     <string name="title">Заголовок</string>
     <string name="create">Создать</string>
     <string name="create_playlist">Создать плейлист</string>
