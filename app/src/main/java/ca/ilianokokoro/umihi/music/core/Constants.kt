@@ -184,8 +184,6 @@ object Constants {
         object SongMetadata {
             const val DURATION = "duration"
             const val UID = "uid"
-            const val IS_EXPLICIT = "is-explicit"
-            const val IS_LIKED = "is-liked"
         }
     }
 

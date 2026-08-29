@@ -114,7 +114,17 @@ class UmihiMediaLibraryCallback(
                             .first { it !is ApiResult.Loading }
 
                         if (playlists is ApiResult.Success) {
-                            playlists.data.map { playlist ->
+                            val mutablePlaylists = playlists.data.toMutableList()
+
+                            val downloadedPlaylist = PlaylistInfo(
+                                id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
+                                title = service.getString(R.string.downloaded),
+                                coverHref = drawableUri(R.drawable.download).toString()
+                            )
+
+                            mutablePlaylists.add(0, downloadedPlaylist)
+
+                            mutablePlaylists.map { playlist ->
                                 playlist.toBrowsableMediaItem()
                             }
                         } else {
@@ -137,7 +147,7 @@ class UmihiMediaLibraryCallback(
                             )
                             .first { it !is ApiResult.Loading }
 
-                        if (result is ApiResult.Success) {
+                        if (result is ApiResult.Success && result.data.songs.isNotEmpty()) {
                             listOf(
                                 playPlaylistMediaItem(playlistId),
                                 shufflePlaylistMediaItem(playlistId)
@@ -356,7 +366,7 @@ class UmihiMediaLibraryCallback(
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(service.getString(R.string.play))
-                    .setArtworkUri(drawableUri(androidx.media3.session.R.drawable.media3_icon_play))
+                    .setArtworkUri(drawableUri(R.drawable.play))
                     .setIsBrowsable(false)
                     .setIsPlayable(true)
                     .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
@@ -373,7 +383,7 @@ class UmihiMediaLibraryCallback(
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(service.getString(R.string.shuffle))
-                    .setArtworkUri(drawableUri(androidx.media3.session.R.drawable.media3_icon_shuffle_on))
+                    .setArtworkUri(drawableUri(R.drawable.shuffle))
                     .setIsBrowsable(false)
                     .setIsPlayable(true)
                     .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)

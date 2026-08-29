@@ -5,8 +5,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
+import androidx.media3.common.HeartRating
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaConstants
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -35,12 +38,27 @@ data class Song(
     @Ignore
     var setVideoId: String? = null
     val mediaItem: MediaItem
+        @UnstableApi
         get() {
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, Uuid.random().toString())
-            extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_EXPLICIT, isExplicit)
-            isLiked?.let { extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_LIKED, it) }
+            if (isExplicit) {
+                extras.putLong(
+                    MediaConstants.EXTRAS_KEY_IS_EXPLICIT,
+                    MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT
+                )
+            }
+            val rating = isLiked?.let { HeartRating(it) } ?: HeartRating()
+
+            extras.putLong(
+                MediaConstants.EXTRAS_KEY_DOWNLOAD_STATUS,
+                if (downloaded) {
+                    MediaConstants.EXTRAS_VALUE_STATUS_DOWNLOADED
+                } else {
+                    MediaConstants.EXTRAS_VALUE_STATUS_NOT_DOWNLOADED
+                }
+            )
 
             return MediaItem.Builder()
                 .setUri(youtubeUrl)
@@ -53,6 +71,7 @@ data class Song(
                         .setIsBrowsable(false)
                         .setIsPlayable(true)
                         .setArtworkUri((thumbnailPath ?: thumbnailHref).toUri())
+                        .setUserRating(rating)
                         .setExtras(extras)
                         .build()
 
