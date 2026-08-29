@@ -147,7 +147,7 @@ class UmihiMediaLibraryCallback(
                             )
                             .first { it !is ApiResult.Loading }
 
-                        if (result is ApiResult.Success) {
+                        if (result is ApiResult.Success && result.data.songs.isNotEmpty()) {
                             listOf(
                                 playPlaylistMediaItem(playlistId),
                                 shufflePlaylistMediaItem(playlistId)
