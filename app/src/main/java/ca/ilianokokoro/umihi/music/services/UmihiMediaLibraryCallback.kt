@@ -115,7 +115,7 @@ class UmihiMediaLibraryCallback(
 
                         if (playlists is ApiResult.Success) {
                             val mutablePlaylists = playlists.data.toMutableList()
-                            
+
                             val downloadedPlaylist = PlaylistInfo(
                                 id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
                                 title = service.getString(R.string.downloaded),
@@ -123,7 +123,7 @@ class UmihiMediaLibraryCallback(
                             )
 
                             mutablePlaylists.add(0, downloadedPlaylist)
-                            
+
                             mutablePlaylists.map { playlist ->
                                 playlist.toBrowsableMediaItem()
                             }
@@ -366,7 +366,7 @@ class UmihiMediaLibraryCallback(
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(service.getString(R.string.play))
-                    .setArtworkUri(drawableUri(androidx.media3.session.R.drawable.media3_icon_play))
+                    .setArtworkUri(drawableUri(R.drawable.play))
                     .setIsBrowsable(false)
                     .setIsPlayable(true)
                     .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
@@ -383,7 +383,7 @@ class UmihiMediaLibraryCallback(
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(service.getString(R.string.shuffle))
-                    .setArtworkUri(drawableUri(androidx.media3.session.R.drawable.media3_icon_shuffle_on))
+                    .setArtworkUri(drawableUri(R.drawable.shuffle))
                     .setIsBrowsable(false)
                     .setIsPlayable(true)
                     .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
