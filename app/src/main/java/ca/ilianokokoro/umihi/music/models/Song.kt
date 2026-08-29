@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.media3.common.HeartRating
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaConstants
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -37,17 +38,27 @@ data class Song(
     @Ignore
     var setVideoId: String? = null
     val mediaItem: MediaItem
+        @UnstableApi
         get() {
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, Uuid.random().toString())
             if (isExplicit) {
-                extras.putLong(MediaConstants.EXTRAS_KEY_IS_EXPLICIT, MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT)
+                extras.putLong(
+                    MediaConstants.EXTRAS_KEY_IS_EXPLICIT,
+                    MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT
+                )
             }
             val rating = isLiked?.let { HeartRating(it) } ?: HeartRating()
-            if (downloaded) {
-                extras.putLong(MediaConstants.EXTRAS_KEY_DOWNLOAD_STATUS, MediaConstants.EXTRAS_VALUE_STATUS_DOWNLOADED)
-            }
+
+            extras.putLong(
+                MediaConstants.EXTRAS_KEY_DOWNLOAD_STATUS,
+                if (downloaded) {
+                    MediaConstants.EXTRAS_VALUE_STATUS_DOWNLOADED
+                } else {
+                    MediaConstants.EXTRAS_VALUE_STATUS_NOT_DOWNLOADED
+                }
+            )
 
             return MediaItem.Builder()
                 .setUri(youtubeUrl)
