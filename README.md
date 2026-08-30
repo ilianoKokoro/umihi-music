@@ -178,7 +178,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>dsyncronized</b></sub></a>
         <br />
-        <sub><b>466 words</b></sub>
+        <sub><b>469 words</b></sub>
         <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
