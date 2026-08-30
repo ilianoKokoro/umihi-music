@@ -142,12 +142,12 @@
     <string name="repeat_all">Upprepa alla</string>
     <string name="repeat_off">Upprepa Av</string>
     <string name="no_wifi_for_online_playlist">Det går inte att ladda spellistan. Se till att du är ansluten till internet.</string>
-    <string name="cache_management">Cache Management</string>
-    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="cache_management">Cache-hantering</string>
+    <string name="exoplayer_cache_title">Ljudcache storlek</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache size settings saved</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
-    <string name="cache_cleared">Cache Cleared</string>
+    <string name="cache_saved">Inställningar för cachestorlek sparade</string>
+    <string name="clear_cache">Rensa cache</string>
+    <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
+    <string name="cache_cleared">Cachen rensad</string>
 </resources>
