@@ -32,6 +32,7 @@
     <string name="retry">Forsøg igen</string>
     <string name="play_next_toast">Afspiller denne sang næste</string>
     <string name="added_queue_toast">Tilføjet sang til køen</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Afspiller Nu</string>
     <string name="up_to_date_message">Appen er opdateret!</string>
     <string name="update_check_failed">Mislykkedes at tjekke for opdateringer</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">Kunne ikke logge på cookies</string>
     <string name="failed_delete_playlist">Kunne ikke slette spillelisten</string>
     <string name="failed_remove_from_library">Kunne ikke fjerne spillelisten fra dit bibliotek</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Gentag En</string>
+    <string name="repeat_all">Gentag Alle</string>
+    <string name="repeat_off">Gentag Fra</string>
 </resources>
