@@ -170,22 +170,6 @@ object Constants {
             "audio/x-ima-adpcm" to "ima",
         )
 
-        object Cache {
-            const val NAME = "umihi-music-exoplayer"
-            const val DEFAULT_SIZE_MB = 350L
-            const val MIN_SIZE_MB = 50L
-            const val MAX_SIZE_MB = 2000L
-            const val SIZE: Long = DEFAULT_SIZE_MB * 1024L * 1024L
-        }
-
-        object ThumbnailCache {
-            const val NAME = "umihi-music-thumbnails"
-            const val DEFAULT_SIZE_MB = 100L
-            const val MIN_SIZE_MB = 20L
-            const val MAX_SIZE_MB = 500L
-            const val SIZE: Long = DEFAULT_SIZE_MB * 1024L * 1024L
-        }
-
         object Library {
             const val ROOT_ID = "root"
             const val PLAYLIST_ROOT = "root_playlist"
@@ -197,6 +181,23 @@ object Constants {
         object SongMetadata {
             const val DURATION = "duration"
             const val UID = "uid"
+        }
+    }
+
+    object Cache {
+        object Audio {
+            const val DIRECTORY = "umihi-music-exoplayer"
+            const val DEFAULT_SIZE_MB = 350
+            const val MIN_SIZE_MB = 50
+            const val MAX_SIZE_MB = 2000
+
+        }
+
+        object Thumbnail {
+            const val DEFAULT_SIZE_MB = 100
+            const val MIN_SIZE_MB = 20
+            const val MAX_SIZE_MB = 500
+
         }
     }
 

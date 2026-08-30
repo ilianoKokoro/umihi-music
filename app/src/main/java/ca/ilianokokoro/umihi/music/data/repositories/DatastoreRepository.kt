@@ -14,16 +14,16 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.isNullOrInvalidId
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
-import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_ON_METERED
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_ON_METERED
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SEND_PLAYBACK_DATA
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SHOW_PODCAST_PLAYLIST
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.UPDATE_CHANNEL
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
-import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
-import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.Flow
@@ -70,8 +70,10 @@ class DatastoreRepository(private val context: Context) {
         val updateChecking = it[AUTO_UPDATE] ?: true
         val sendPlaybackData = it[SEND_PLAYBACK_DATA] ?: false
         val downloadOnMetered = it[DOWNLOAD_ON_METERED] ?: false
-        val exoPlayerCacheSize = it[EXOPLAYER_CACHE_SIZE] ?: Constants.ExoPlayer.Cache.DEFAULT_SIZE_MB.toInt()
-        val thumbnailCacheSize = it[THUMBNAIL_CACHE_SIZE] ?: Constants.ExoPlayer.ThumbnailCache.DEFAULT_SIZE_MB.toInt()
+        val exoPlayerCacheSize =
+            it[EXOPLAYER_CACHE_SIZE] ?: Constants.Cache.Audio.DEFAULT_SIZE_MB
+        val thumbnailCacheSize =
+            it[THUMBNAIL_CACHE_SIZE] ?: Constants.Cache.Thumbnail.DEFAULT_SIZE_MB
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 

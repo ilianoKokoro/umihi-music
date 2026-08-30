@@ -11,19 +11,19 @@ import java.io.File
 
 @UnstableApi
 class ExoCache(private val context: Context) {
-    private val cacheDir = File(context.cacheDir, Constants.ExoPlayer.Cache.NAME)
-    
+    private val cacheDir = File(context.cacheDir, Constants.Cache.Audio.DIRECTORY)
+
     fun getCacheSize(): Long {
         val sizeMB = try {
             kotlinx.coroutines.runBlocking {
                 DatastoreRepository(context).settings.first().exoPlayerCacheSizeMB
             }
         } catch (_: Exception) {
-            Constants.ExoPlayer.Cache.DEFAULT_SIZE_MB.toInt()
+            Constants.Cache.Audio.DEFAULT_SIZE_MB
         }
         return sizeMB.toLong() * 1024L * 1024L
     }
-    
+
     val cache: SimpleCache by lazy {
         val cacheSize = getCacheSize()
         val cacheEvictor = LeastRecentlyUsedCacheEvictor(cacheSize)

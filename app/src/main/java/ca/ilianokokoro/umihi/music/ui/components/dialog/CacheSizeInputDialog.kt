@@ -35,13 +35,14 @@ fun CacheSizeInputDialog(
     val (titleRes, minVal, maxVal) = when (cacheType) {
         CacheType.AUDIO -> Triple(
             R.string.exoplayer_cache_title,
-            Constants.ExoPlayer.Cache.MIN_SIZE_MB.toInt(),
-            Constants.ExoPlayer.Cache.MAX_SIZE_MB.toInt()
+            Constants.Cache.Audio.MIN_SIZE_MB,
+            Constants.Cache.Audio.MAX_SIZE_MB
         )
+
         CacheType.THUMBNAIL -> Triple(
             R.string.thumbnail_cache_title,
-            Constants.ExoPlayer.ThumbnailCache.MIN_SIZE_MB.toInt(),
-            Constants.ExoPlayer.ThumbnailCache.MAX_SIZE_MB.toInt()
+            Constants.Cache.Thumbnail.MIN_SIZE_MB,
+            Constants.Cache.Thumbnail.MAX_SIZE_MB
         )
     }
 
