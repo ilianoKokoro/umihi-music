@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -159,10 +160,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     sizeMB
                 )
 
-                CacheType.THUMBNAIL -> updateSetting(
-                    DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
-                    sizeMB
-                )
+                CacheType.THUMBNAIL -> {
+                    updateSetting(
+                        DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
+                        sizeMB
+                    )
+                    CoilImageLoader.reset(_application)
+                }
             }
             Toast.makeText(
                 _application,
@@ -176,9 +180,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun clearCache() {
         viewModelScope.launch {
             ExoCache(_application).clear()
-            val thumbDir =
-                UmihiHelper.getDownloadDirectory(_application, "thumbnails")// TODO double check
-            thumbDir.deleteRecursively()
+            CoilImageLoader.clear(_application)
             Toast.makeText(
                 _application,
                 _application.getString(R.string.cache_cleared),
