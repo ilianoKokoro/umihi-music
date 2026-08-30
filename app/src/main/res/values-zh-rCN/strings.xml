@@ -32,6 +32,7 @@
     <string name="retry">重试</string>
     <string name="play_next_toast">在下方播放这首歌曲</string>
     <string name="added_queue_toast">添加歌曲到队列</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">现在播放</string>
     <string name="up_to_date_message">此应用已经是最新版本！</string>
     <string name="update_check_failed">检查更新失败</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">无法登录 cookie</string>
     <string name="failed_delete_playlist">删除播放列表失败</string>
     <string name="failed_remove_from_library">从您的媒体库中删除播放列表失败</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">重复一个</string>
+    <string name="repeat_all">全部重复</string>
+    <string name="repeat_off">关闭重复</string>
 </resources>
