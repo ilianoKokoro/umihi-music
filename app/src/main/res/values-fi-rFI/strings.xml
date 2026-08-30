@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Peruuta käynnissä olevan soittolistan lataus?</string>
     <string name="remove_download">Poista Lataus</string>
     <string name="cancel_download">Peruuta Lataus</string>
+    <string name="hide_playlist">Piilota Soittolista</string>
+    <string name="unhide_playlist">Näytä Soittolista</string>
+    <string name="hide_playlist_confirm_text">Piilota tämä soittolista? Soittolistaa ei näytetä aloitusnäytössä</string>
+    <string name="unhide_playlist_confirm_text">Näytä tämä soittolista? Soittolista näytetään aloitusnäytössä</string>
     <string name="general">Yleiset</string>
-    <string name="show_podcast_playlist_title">Näytä Podcastin Soittolista</string>
-    <string name="show_podcast_playlist_description">Vaihtaa myöhemmän soittolistan jaksojen näkyvyyttä</string>
+    <string name="show_hidden_playlists_title">Näytä Piilotetut Soittolistat</string>
+    <string name="show_hidden_playlists_description">Näytä kaikki piilotetut soittolistasi</string>
+    <string name="hidden_playlists">Piilotetut Soittolistat</string>
+    <string name="no_hidden_playlists">Ei piilotettuja soittolistoja</string>
     <string name="special_language_disabled">Erikoiskieli Pois Käytöstä</string>
     <string name="special_language_enabled">Erikoiskieli Käytössä</string>
     <string name="reorder">Järjestä</string>
