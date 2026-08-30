@@ -32,6 +32,7 @@
     <string name="retry">Försök igen</string>
     <string name="play_next_toast">Spela upp den här låten nästa</string>
     <string name="added_queue_toast">Lade till låt i kön</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Spelar nu</string>
     <string name="up_to_date_message">Appen är uppdaterad!</string>
     <string name="update_check_failed">Det gick inte att söka efter uppdateringar</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">Misslyckades att få logga in cookies</string>
     <string name="failed_delete_playlist">Det gick inte att ta bort spellistan</string>
     <string name="failed_remove_from_library">Det gick inte att ta bort spellistan från biblioteket</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Upprepa en</string>
+    <string name="repeat_all">Upprepa alla</string>
+    <string name="repeat_off">Upprepa Av</string>
 </resources>
