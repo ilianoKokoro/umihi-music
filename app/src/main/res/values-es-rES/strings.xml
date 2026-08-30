@@ -73,9 +73,15 @@
     <string name="cancel_playlist_download_text">¿Cancelar la descarga de la lista de reproducción en curso?</string>
     <string name="remove_download">Eliminar descarga</string>
     <string name="cancel_download">Cancelar descarga</string>
+    <string name="hide_playlist">Ocultar playlist</string>
+    <string name="unhide_playlist">Mostrar lista</string>
+    <string name="hide_playlist_confirm_text">¿Ocultar esta lista? La lista de reproducción no se mostrará en la pantalla de inicio</string>
+    <string name="unhide_playlist_confirm_text">¿Mostrar esta lista? La lista de reproducción se mostrará en la pantalla de inicio</string>
     <string name="general">General</string>
-    <string name="show_podcast_playlist_title">Mostrar lista de reproducción de Podcast</string>
-    <string name="show_podcast_playlist_description">Activa la visibilidad de la lista de reproducción \'Episodios para posteriores\'</string>
+    <string name="show_hidden_playlists_title">Mostrar listas ocultas</string>
+    <string name="show_hidden_playlists_description">Ver todas tus listas ocultas</string>
+    <string name="hidden_playlists">Listas ocultas</string>
+    <string name="no_hidden_playlists">No hay listas ocultas</string>
     <string name="special_language_disabled">Idioma especial desactivado</string>
     <string name="special_language_enabled">Idioma especial habilitado</string>
     <string name="reorder">Reordenar</string>
