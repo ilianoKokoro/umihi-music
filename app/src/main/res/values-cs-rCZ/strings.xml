@@ -32,6 +32,7 @@
     <string name="retry">Opakovat</string>
     <string name="play_next_toast">Přehrává tuto skladbu dále</string>
     <string name="added_queue_toast">Přidána skladba do fronty</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Přehrává se nyní</string>
     <string name="up_to_date_message">Aplikace je aktuální!</string>
     <string name="update_check_failed">Nepodařilo se zkontrolovat aktualizace</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">Nepodařilo se přihlásit soubory cookie</string>
     <string name="failed_delete_playlist">Nepodařilo se odstranit seznam skladeb</string>
     <string name="failed_remove_from_library">Nepodařilo se odstranit playlist z vaší knihovny</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Opakovat jednu</string>
+    <string name="repeat_all">Opakovat vše</string>
+    <string name="repeat_off">Opakování vypnuto</string>
 </resources>
