@@ -32,6 +32,7 @@
     <string name="retry">Wetwy</string>
     <string name="play_next_toast">Pwaying dis bwanger nyext</string>
     <string name="added_queue_toast">Mowe bwangers in dis quwue</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Pwaying Nyow</string>
     <string name="up_to_date_message">D-Da app is up to date ?-?-?!?1</string>
     <string name="update_check_failed">Faiwed to check fow updates :&lt;</string>
