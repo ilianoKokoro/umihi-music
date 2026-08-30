@@ -32,7 +32,7 @@
     <string name="retry">Ponów próbę</string>
     <string name="play_next_toast">Odtwarzanie tej piosenki następne</string>
     <string name="added_queue_toast">Dodano utwór do kolejki</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Kolejka losowa</string>
     <string name="playing_now">Odtwarzanie teraz</string>
     <string name="up_to_date_message">Aplikacja jest aktualna!</string>
     <string name="update_check_failed">Nie udało się sprawdzić aktualizacji</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Powtórz jeden</string>
     <string name="repeat_all">Powtórz wszystko</string>
     <string name="repeat_off">Powtórz wył</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
