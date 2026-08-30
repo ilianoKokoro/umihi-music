@@ -33,6 +33,7 @@
     <string name="retry">Reintentar</string>
     <string name="play_next_toast">Reproduciendo esta canción siguiente</string>
     <string name="added_queue_toast">Añadida canción a la cola</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Jugando ahora</string>
     <string name="up_to_date_message">¡La aplicación está actualizada!</string>
     <string name="update_check_failed">Error al comprobar actualizaciones</string>
@@ -138,7 +139,7 @@
     <string name="failed_get_to_login_cookies">Error al acceder a las cookies</string>
     <string name="failed_delete_playlist">Error al eliminar la lista de reproducción</string>
     <string name="failed_remove_from_library">Error al eliminar la lista de reproducción de tu biblioteca</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Repetir uno</string>
+    <string name="repeat_all">Repetir todo</string>
+    <string name="repeat_off">Repetir</string>
 </resources>
