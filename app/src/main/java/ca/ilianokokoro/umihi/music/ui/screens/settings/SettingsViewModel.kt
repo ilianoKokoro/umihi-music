@@ -208,13 +208,8 @@ class SettingsViewModel(
         }
     }
 
-    // Hidden playlists
-
     fun updateShowHiddenPlaylistsSheet(show: Boolean) {
         _uiState.update { it.copy(showHiddenPlaylistsSheet = show) }
-        if (show) {
-            getHiddenPlaylists()
-        }
     }
 
     fun getHiddenPlaylists() {

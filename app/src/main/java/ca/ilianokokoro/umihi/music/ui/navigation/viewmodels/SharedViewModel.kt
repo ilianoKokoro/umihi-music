@@ -31,15 +31,4 @@ class SharedViewModel : ViewModel() {
     fun consumePlaylistRefresh() {
         _playlistRefreshNeeded.value = false
     }
-
-    private val _hiddenPlaylistRefreshNeeded = MutableStateFlow(false)
-    val hiddenPlaylistRefreshNeeded = _hiddenPlaylistRefreshNeeded.asStateFlow()
-
-    fun requestHiddenPlaylistRefresh() {
-        _hiddenPlaylistRefreshNeeded.value = true
-    }
-
-    fun consumeHiddenPlaylistRefresh() {
-        _hiddenPlaylistRefreshNeeded.value = false
-    }
 }

@@ -270,7 +270,6 @@ class PlaylistViewModel(
 
         viewModelScope.launch {
             playlistRepository.unhidePlaylist(playlist.info).collect()
-            sharedViewModel.requestHiddenPlaylistRefresh()
             sharedViewModel.requestPlaylistRefresh()
             getPlaylistInfoAsync()
         }
@@ -284,7 +283,6 @@ class PlaylistViewModel(
                 if (result is ApiResult.Success) {
                     onBack()
                     sharedViewModel.requestPlaylistRefresh()
-                    sharedViewModel.requestHiddenPlaylistRefresh()
                 }
             }
         }
