@@ -269,9 +269,12 @@ class PlaylistViewModel(
         val playlist = getPlaylist() ?: return
 
         viewModelScope.launch {
-            playlistRepository.unhidePlaylist(playlist.info).collect()
-            sharedViewModel.requestPlaylistRefresh()
-            getPlaylistInfoAsync()
+            playlistRepository.unhidePlaylist(playlist.info).collect { result ->
+                if (result is ApiResult.Success) {
+                    sharedViewModel.requestPlaylistRefresh()
+                    getPlaylistInfoAsync()
+                }
+            }
         }
     }
 

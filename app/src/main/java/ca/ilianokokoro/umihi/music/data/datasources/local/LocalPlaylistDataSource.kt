@@ -22,12 +22,6 @@ interface LocalPlaylistDataSource {
     @Query("SELECT * FROM playlists WHERE hidden = 1")
     suspend fun fetchHiddenPlaylists(): List<Playlist>
 
-    @Query("UPDATE playlists SET hidden = :hidden WHERE id = :playlistId")
-    suspend fun setPlaylistVisibility(
-        playlistId: String,
-        hidden: Boolean
-    ): Int
-
     @Query("SELECT id FROM playlists")
     suspend fun getAllPlaylistIds(): List<String>
 

@@ -230,9 +230,8 @@ class SettingsViewModel(
 
     fun unhidePlaylist(playlist: Playlist) {
         viewModelScope.launch {
-            localPlaylistRepository.setPlaylistVisibility(
-                playlistId = playlist.info.id,
-                hidden = false
+            localPlaylistRepository.insertPlaylist(
+                playlist.info.copy(hidden = false)
             )
             sharedViewModel.requestPlaylistRefresh()
             getHiddenPlaylists()
