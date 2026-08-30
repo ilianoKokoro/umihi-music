@@ -294,17 +294,20 @@ object PlayerManager {
         val controller = currentController ?: return
 
         val currentIndex = controller.currentMediaItemIndex
-        if (currentIndex < 0 || controller.mediaItemCount <= 1) return
+        if (currentIndex < 0 || controller.mediaItemCount <= 1) {
+            return
+        }
 
-        val currentSong = controller.getMediaItemAt(currentIndex)
-        val restOfQueue = (0 until controller.mediaItemCount)
-            .filter { it != currentIndex }
-            .map { controller.getMediaItemAt(it) }
+        if (currentIndex != 0) {
+            controller.moveMediaItem(currentIndex, 0)
+        }
+
+        val trailing = (1 until controller.mediaItemCount)
+            .map(controller::getMediaItemAt)
             .shuffled()
 
-        val newQueue = listOf(currentSong) + restOfQueue
-        controller.setMediaItems(newQueue, 0, C.TIME_UNSET)
-        controller.seekToDefaultPosition(0)
+        controller.removeMediaItems(1, controller.mediaItemCount)
+        controller.addMediaItems(trailing.shuffled())
 
         context?.let {
             Toast.makeText(
