@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.Speed
@@ -35,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,9 +68,10 @@ fun PlayerControls(
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(4) { ComposeHelper.rememberInteractionSource() }
+        List(5) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
+    val context = LocalContext.current
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
 
@@ -299,6 +302,34 @@ fun PlayerControls(
                     {}
                 )
 
+                // Shuffle — MIDDLE segment
+                customItem(
+                    {
+                        FilledIconButton(
+                            onClick = { PlayerManager.shuffleQueue(context) },
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[4]),
+                            interactionSource = actionButtonsControlsInteractionSources[4],
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Shuffle,
+                                contentDescription = stringResource(R.string.shuffle),
+                                modifier = Modifier.size(iconSize)
+                            )
+                        }
+                    },
+                    {}
+                )
+
                 // Repeat — END segment
                 customItem(
                     {
@@ -322,12 +353,19 @@ fun PlayerControls(
                                 .animateWidth(interactionSource = actionButtonsControlsInteractionSources[2]),
                             interactionSource = actionButtonsControlsInteractionSources[2],
                         ) {
+                            val repeatDescription = stringResource(
+                                when (repeatMode) {
+                                    Player.REPEAT_MODE_ONE -> R.string.repeat_one
+                                    Player.REPEAT_MODE_ALL -> R.string.repeat_all
+                                    else -> R.string.repeat_off
+                                }
+                            )
                             Icon(
                                 imageVector = when (repeatMode) {
                                     Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
                                     else -> Icons.Rounded.Repeat
                                 },
-                                contentDescription = null,
+                                contentDescription = repeatDescription,
                                 modifier = Modifier.size(iconSize)
                             )
                         }

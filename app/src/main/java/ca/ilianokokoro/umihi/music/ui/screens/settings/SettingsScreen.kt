@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
@@ -46,6 +47,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
@@ -223,6 +225,49 @@ fun SettingsScreen(
                             )
                         }
 
+                        SettingsSection(
+                            title = stringResource(R.string.cache_management)
+                        ) {
+                            SettingsItem(
+                                title = stringResource(R.string.exoplayer_cache_title),
+                                subtitle = stringResource(
+                                    R.string.cache_size_mb,
+                                    screenState.settings.exoPlayerCacheSizeMB
+                                ),
+                                leadingIcon = Icons.Outlined.Memory,
+                                onClick = {
+                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                        true,
+                                        CacheType.AUDIO
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.thumbnail_cache_title),
+                                subtitle = stringResource(
+                                    R.string.cache_size_mb,
+                                    screenState.settings.thumbnailCacheSizeMB
+                                ),
+                                leadingIcon = Icons.Outlined.Image,
+                                onClick = {
+                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                        true,
+                                        CacheType.THUMBNAIL
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingsItem(
+                                title = stringResource(R.string.clear_cache),
+                                subtitle = stringResource(R.string.clear_cache_message),
+                                leadingIcon = Icons.Outlined.Delete,
+                                onClick = {
+                                    settingsViewModel.updateShowCacheClearConfirm(true)
+                                }
+                            )
+                        }
+
                         if (BuildConfig.UPDATER_ENABLED) {
                             SettingsSection(
                                 title = stringResource(R.string.updates)
@@ -285,6 +330,33 @@ fun SettingsScreen(
                                 },
                                 onDismiss = {
                                     settingsViewModel.updateShowDownloadDeleteConfirm(false)
+                                }
+                            )
+                        } else if (uiState.showCacheSizeInputDialog) {
+                            val initialSize = when (uiState.cacheTypeForInput) {
+                                CacheType.AUDIO -> screenState.settings.exoPlayerCacheSizeMB
+                                CacheType.THUMBNAIL -> screenState.settings.thumbnailCacheSizeMB
+                            }
+                            CacheSizeInputDialog(
+                                cacheType = uiState.cacheTypeForInput,
+                                initialSizeMB = initialSize,
+                                onConfirm = { sizeMB ->
+                                    settingsViewModel.saveCacheSize(
+                                        sizeMB,
+                                        uiState.cacheTypeForInput
+                                    )
+                                }
+                            )
+                        } else if (uiState.showCacheClearConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.clear_cache),
+                                text = stringResource(R.string.clear_cache_message),
+                                onConfirm = {
+                                    settingsViewModel.clearCache()
+                                    settingsViewModel.updateShowCacheClearConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowCacheClearConfirm(false)
                                 }
                             )
                         }

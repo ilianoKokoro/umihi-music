@@ -69,6 +69,7 @@ object PlayerManager {
         _audioInfo.value = info
     }
 
+    @OptIn(UnstableApi::class)
     @Synchronized
     fun connectController(context: Context) {
         if (isConnected) {
@@ -286,6 +287,34 @@ object PlayerManager {
 
         if (index in 0 until controller.mediaItemCount) {
             controller.removeMediaItem(index)
+        }
+    }
+
+    fun shuffleQueue(context: Context? = null) {
+        val controller = currentController ?: return
+
+        val currentIndex = controller.currentMediaItemIndex
+        if (currentIndex < 0 || controller.mediaItemCount <= 1) {
+            return
+        }
+
+        if (currentIndex != 0) {
+            controller.moveMediaItem(currentIndex, 0)
+        }
+
+        val trailing = (1 until controller.mediaItemCount)
+            .map(controller::getMediaItemAt)
+            .shuffled()
+
+        controller.removeMediaItems(1, controller.mediaItemCount)
+        controller.addMediaItems(trailing.shuffled())
+
+        context?.let {
+            Toast.makeText(
+                it,
+                it.getString(R.string.shuffled_queue_toast),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

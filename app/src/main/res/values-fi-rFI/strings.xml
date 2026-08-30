@@ -32,6 +32,7 @@
     <string name="retry">Yritä Uudelleen</string>
     <string name="play_next_toast">Soita tätä kappaletta seuraava</string>
     <string name="added_queue_toast">Kappale lisätty jonoon</string>
+    <string name="shuffled_queue_toast">Jono sekoitettu</string>
     <string name="playing_now">Toistetaan Nyt</string>
     <string name="up_to_date_message">Sovellus on ajan tasalla !</string>
     <string name="update_check_failed">Päivitysten tarkistus epäonnistui</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Evästeiden kirjautuminen epäonnistui</string>
     <string name="failed_delete_playlist">Soittolistan poistaminen epäonnistui</string>
     <string name="failed_remove_from_library">Soittolistan poistaminen kirjastostasi ei onnistunut</string>
+    <string name="repeat_one">Toista Yksi</string>
+    <string name="repeat_all">Toista Kaikki</string>
+    <string name="repeat_off">Toista Pois Käytöstä</string>
+    <string name="no_wifi_for_online_playlist">Soittolistaa ei voitu ladata. Varmista, että olet yhteydessä internetiin.</string>
+    <string name="cache_management">Välimuistin Hallinta</string>
+    <string name="exoplayer_cache_title">Äänen Välimuistin Koko</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d Mt</string>
+    <string name="cache_saved">Välimuistin kokoasetukset tallennettu</string>
+    <string name="clear_cache">Tyhjennä Välimuisti</string>
+    <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
+    <string name="cache_cleared">Välimuisti Tyhjennetty</string>
 </resources>

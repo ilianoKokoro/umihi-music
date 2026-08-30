@@ -32,6 +32,7 @@
     <string name="retry">Réessayer</string>
     <string name="play_next_toast">Lecture de ce titre suivant</string>
     <string name="added_queue_toast">Ajout du titre à la file d\'attente</string>
+    <string name="shuffled_queue_toast">File d\'attente aléatoire</string>
     <string name="playing_now">En cours de lecture</string>
     <string name="up_to_date_message">L\'application est à jour !</string>
     <string name="update_check_failed">Échec de la vérification des mises à jour</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Impossible d\'obtenir les cookies de connexion</string>
     <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
     <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
+    <string name="repeat_one">Répéter un</string>
+    <string name="repeat_all">Tout répéter</string>
+    <string name="repeat_off">Répéter désactivé</string>
+    <string name="no_wifi_for_online_playlist">Impossible de charger la playlist. Assurez-vous que vous êtes connecté à Internet.</string>
+    <string name="cache_management">Gestion du cache</string>
+    <string name="exoplayer_cache_title">Taille du cache audio</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Paramètres de taille de cache enregistrés</string>
+    <string name="clear_cache">Vider le cache</string>
+    <string name="clear_cache_message">Supprimer toutes les données audio et miniature mises en cache de cet appareil</string>
+    <string name="cache_cleared">Cache effacé</string>
 </resources>

@@ -32,6 +32,7 @@
     <string name="retry">재시도</string>
     <string name="play_next_toast">이 노래가 다음에 재생됩니다</string>
     <string name="added_queue_toast">노래가 대기열에 추가되었습니다</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">음악이 지금 재생 중입니다</string>
     <string name="up_to_date_message">앱은 이미 최신 버전입니다!</string>
     <string name="update_check_failed">업데이트 확인 중 문제가 발생했습니다</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="cache_management">Cache Management</string>
+    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Cache size settings saved</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
+    <string name="cache_cleared">Cache Cleared</string>
 </resources>

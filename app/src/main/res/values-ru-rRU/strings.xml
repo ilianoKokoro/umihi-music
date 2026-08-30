@@ -32,6 +32,7 @@
     <string name="retry">Повторить</string>
     <string name="play_next_toast">Проигрывать следующую песню</string>
     <string name="added_queue_toast">Песня добавлена в очередь</string>
+    <string name="shuffled_queue_toast">Очередь перемешивается</string>
     <string name="playing_now">Играет сейчас</string>
     <string name="up_to_date_message">Приложение актуальное !</string>
     <string name="update_check_failed">Не удалось проверить обновления</string>
@@ -88,7 +89,7 @@
     <string name="keep_screen_on_title_description">Предотвращает отключение дисплея при открытии приложения</string>
     <string name="send_playback_data_title">Отправить обратно данные в Google</string>
     <string name="send_playback_data_description">Отправляет песни обратно на Youtube Music для истории, рекомендаций и показов на конец года</string>
-    <string name="downloading_update">Загрузка обновления...</string>
+    <string name="downloading_update">Загрузка обновления…</string>
     <string name="title">Заголовок</string>
     <string name="create">Создать</string>
     <string name="create_playlist">Создать плейлист</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
     <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
     <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
+    <string name="repeat_one">Повторить один</string>
+    <string name="repeat_all">Повторить все</string>
+    <string name="repeat_off">Повтор выключен</string>
+    <string name="no_wifi_for_online_playlist">Не удается загрузить плейлист. Убедитесь, что вы подключены к Интернету.</string>
+    <string name="cache_management">Управление кэшем</string>
+    <string name="exoplayer_cache_title">Размер кэша аудио</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d МБ</string>
+    <string name="cache_saved">Настройки размера кэша сохранены</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
+    <string name="cache_cleared">Кэш очищен</string>
 </resources>

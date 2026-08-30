@@ -32,6 +32,7 @@
     <string name="retry">重试</string>
     <string name="play_next_toast">在下方播放这首歌曲</string>
     <string name="added_queue_toast">添加歌曲到队列</string>
+    <string name="shuffled_queue_toast">队列已排序</string>
     <string name="playing_now">现在播放</string>
     <string name="up_to_date_message">此应用已经是最新版本！</string>
     <string name="update_check_failed">检查更新失败</string>
@@ -88,7 +89,7 @@
     <string name="keep_screen_on_title_description">在应用程序打开时阻止显示关闭</string>
     <string name="send_playback_data_title">发送回数据到 Google</string>
     <string name="send_playback_data_description">发送播放的歌曲回到Youtube音乐以获取历史、建议和年终回顾。</string>
-    <string name="downloading_update">Downloading Update…</string>
+    <string name="downloading_update">正在下载更新…</string>
     <string name="title">标题</string>
     <string name="create">创建</string>
     <string name="create_playlist">创建播放列表</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">无法登录 cookie</string>
     <string name="failed_delete_playlist">删除播放列表失败</string>
     <string name="failed_remove_from_library">从您的媒体库中删除播放列表失败</string>
+    <string name="repeat_one">重复一个</string>
+    <string name="repeat_all">全部重复</string>
+    <string name="repeat_off">关闭重复</string>
+    <string name="no_wifi_for_online_playlist">无法加载播放列表。请确保您已连接到互联网。</string>
+    <string name="cache_management">缓存管理</string>
+    <string name="exoplayer_cache_title">音频缓存大小</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">缓存大小设置已保存</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
+    <string name="cache_cleared">缓存已清除</string>
 </resources>

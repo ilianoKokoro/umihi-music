@@ -17,7 +17,8 @@
     <string name="error_screen_title">Se ha producido un error</string>
     <string name="restart_application">Reiniciar aplicación</string>
     <string name="error_details">Detalles del error</string>
-    <string name="user_error_request">Please report this crash by creating an issue on GitHub or posting in the Umihi Music Discord.\nMake sure to include the logs from the \'Error Details\' button.</string>
+    <string name="user_error_request">Por favor, informa sobre este fallo creando un issue en GitHub o publicándolo en el Discord de Umihi Music.
+\nAsegúrate de incluir los registros que aparecen en el botón \"Detalles del error\".</string>
     <string name="close">Cerrar</string>
     <string name="copy_logs">Copiar registros</string>
     <string name="copied">Copiado</string>
@@ -32,6 +33,7 @@
     <string name="retry">Reintentar</string>
     <string name="play_next_toast">Reproduciendo esta canción siguiente</string>
     <string name="added_queue_toast">Añadida canción a la cola</string>
+    <string name="shuffled_queue_toast">Cola mezclada</string>
     <string name="playing_now">Jugando ahora</string>
     <string name="up_to_date_message">¡La aplicación está actualizada!</string>
     <string name="update_check_failed">Error al comprobar actualizaciones</string>
@@ -137,4 +139,16 @@
     <string name="failed_get_to_login_cookies">Error al acceder a las cookies</string>
     <string name="failed_delete_playlist">Error al eliminar la lista de reproducción</string>
     <string name="failed_remove_from_library">Error al eliminar la lista de reproducción de tu biblioteca</string>
+    <string name="repeat_one">Repetir uno</string>
+    <string name="repeat_all">Repetir todo</string>
+    <string name="repeat_off">Repetir</string>
+    <string name="no_wifi_for_online_playlist">No se puede cargar la lista de reproducción. Asegúrese de que está conectado a Internet.</string>
+    <string name="cache_management">Administración de caché</string>
+    <string name="exoplayer_cache_title">Tamaño de caché de audio</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Ajustes de tamaño de caché guardados</string>
+    <string name="clear_cache">Limpiar caché</string>
+    <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
+    <string name="cache_cleared">Caché limpiada</string>
 </resources>

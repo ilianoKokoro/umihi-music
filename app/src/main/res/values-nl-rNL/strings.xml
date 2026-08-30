@@ -32,6 +32,7 @@
     <string name="retry">Opnieuw</string>
     <string name="play_next_toast">Dit nummer wordt afgespeeld volgende</string>
     <string name="added_queue_toast">Nummer toegevoegd aan de wachtrij</string>
+    <string name="shuffled_queue_toast">Wachtrij verschoven</string>
     <string name="playing_now">Speelt nu</string>
     <string name="up_to_date_message">De app is up-to-date!</string>
     <string name="update_check_failed">Controleren op updates mislukt</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Fout bij het ophalen van login cookies</string>
     <string name="failed_delete_playlist">Verwijderen van de afspeellijst is mislukt</string>
     <string name="failed_remove_from_library">Verwijderen van de afspeellijst uit uw bibliotheek is mislukt</string>
+    <string name="repeat_one">Eén herhalen</string>
+    <string name="repeat_all">Alles herhalen</string>
+    <string name="repeat_off">Herhalen uit</string>
+    <string name="no_wifi_for_online_playlist">Kan de afspeellijst niet laden. Zorg ervoor dat je verbonden bent met het internet.</string>
+    <string name="cache_management">Cache beheer</string>
+    <string name="exoplayer_cache_title">Audio cache grootte</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Cache grootte instellingen opgeslagen</string>
+    <string name="clear_cache">Cache legen</string>
+    <string name="clear_cache_message">Verwijder alle gegevens in de cache en miniatuurafbeelding van dit apparaat</string>
+    <string name="cache_cleared">Cache gewist</string>
 </resources>

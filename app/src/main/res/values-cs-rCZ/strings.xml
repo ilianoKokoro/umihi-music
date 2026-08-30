@@ -32,6 +32,7 @@
     <string name="retry">Opakovat</string>
     <string name="play_next_toast">Přehrává tuto skladbu dále</string>
     <string name="added_queue_toast">Přidána skladba do fronty</string>
+    <string name="shuffled_queue_toast">Fronta zamíchána</string>
     <string name="playing_now">Přehrává se nyní</string>
     <string name="up_to_date_message">Aplikace je aktuální!</string>
     <string name="update_check_failed">Nepodařilo se zkontrolovat aktualizace</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Nepodařilo se přihlásit soubory cookie</string>
     <string name="failed_delete_playlist">Nepodařilo se odstranit seznam skladeb</string>
     <string name="failed_remove_from_library">Nepodařilo se odstranit playlist z vaší knihovny</string>
+    <string name="repeat_one">Opakovat jednu</string>
+    <string name="repeat_all">Opakovat vše</string>
+    <string name="repeat_off">Opakování vypnuto</string>
+    <string name="no_wifi_for_online_playlist">Nelze načíst seznam skladeb. Ujistěte se, že jste připojeni k internetu.</string>
+    <string name="cache_management">Správa mezipaměti</string>
+    <string name="exoplayer_cache_title">Velikost vyrovnávací paměti zvuku</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Nastavení velikosti mezipaměti uložena</string>
+    <string name="clear_cache">Vymazat mezipaměť</string>
+    <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
+    <string name="cache_cleared">Mezipaměť vymazána</string>
 </resources>

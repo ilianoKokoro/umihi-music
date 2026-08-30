@@ -32,6 +32,7 @@
     <string name="retry">Ulitin</string>
     <string name="play_next_toast">Isusunod \'tong kanta</string>
     <string name="added_queue_toast">Nagdagdag ng kanta sa pila</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Naglalaro Ngayon</string>
     <string name="up_to_date_message">Ang app ay napapanahon !</string>
     <string name="update_check_failed">Nabigong suriin ang mga update</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="cache_management">Cache Management</string>
+    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Cache size settings saved</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
+    <string name="cache_cleared">Cache Cleared</string>
 </resources>

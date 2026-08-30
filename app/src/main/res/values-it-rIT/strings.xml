@@ -32,6 +32,7 @@
     <string name="retry">Riprova</string>
     <string name="play_next_toast">Riproduzione prossima di questo brano</string>
     <string name="added_queue_toast">Aggiunto il brano alla coda</string>
+    <string name="shuffled_queue_toast">Coda mischiata</string>
     <string name="playing_now">Riproduzione Ora</string>
     <string name="up_to_date_message">L\'app è aggiornata!</string>
     <string name="update_check_failed">Impossibile controllare gli aggiornamenti</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Impossibile accedere ai cookie di login</string>
     <string name="failed_delete_playlist">Impossibile eliminare la scaletta</string>
     <string name="failed_remove_from_library">Impossibile rimuovere la playlist dalla tua libreria</string>
+    <string name="repeat_one">Ripeti Uno</string>
+    <string name="repeat_all">Ripeti Tutto</string>
+    <string name="repeat_off">Ripeti Off</string>
+    <string name="no_wifi_for_online_playlist">Impossibile caricare la playlist. Assicurati di essere connesso a internet.</string>
+    <string name="cache_management">Gestione Cache</string>
+    <string name="exoplayer_cache_title">Dimensione Cache Audio</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Impostazioni dimensione cache salvate</string>
+    <string name="clear_cache">Cancella Cache</string>
+    <string name="clear_cache_message">Rimuovi tutti i dati audio e miniature nella cache da questo dispositivo</string>
+    <string name="cache_cleared">Cache Cancellata</string>
 </resources>

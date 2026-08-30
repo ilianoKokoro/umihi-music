@@ -32,6 +32,7 @@
     <string name="retry">Reîncercați</string>
     <string name="play_next_toast">Se redă melodia următoare</string>
     <string name="added_queue_toast">Melodie adăugată în coadă</string>
+    <string name="shuffled_queue_toast">Coada de amestecat</string>
     <string name="playing_now">Redă acum</string>
     <string name="up_to_date_message">Aplicația este actualizată!</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat</string>
@@ -137,4 +138,16 @@
     <string name="failed_get_to_login_cookies">Obținerea cookie-urilor nu a reușit</string>
     <string name="failed_delete_playlist">Ștergerea listei de redare a eșuat</string>
     <string name="failed_remove_from_library">Ștergerea playlist-ului din biblioteca dvs. a eșuat</string>
+    <string name="repeat_one">Repetă unu</string>
+    <string name="repeat_all">Repetă tot</string>
+    <string name="repeat_off">Repetare oprită</string>
+    <string name="no_wifi_for_online_playlist">Imposibil de încărcat lista de redare. Asigură-te că ești conectat la internet.</string>
+    <string name="cache_management">Gestionare cache</string>
+    <string name="exoplayer_cache_title">Dimensiune cache audio</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Setări de dimensiune cache salvate</string>
+    <string name="clear_cache">Curăță Cache</string>
+    <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
+    <string name="cache_cleared">Memoria cache ștearsă</string>
 </resources>
