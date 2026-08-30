@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Batalkan unduhan playlist?</string>
     <string name="remove_download">Hapus Unduhan</string>
     <string name="cancel_download">Batalkan Unduhan</string>
+    <string name="hide_playlist">Hide Playlist</string>
+    <string name="unhide_playlist">Unhide Playlist</string>
+    <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
+    <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>
     <string name="general">Umum</string>
-    <string name="show_podcast_playlist_title">Tampilkan Playlist Podcast</string>
-    <string name="show_podcast_playlist_description">Mengatur visibilitas playlist \'Episodes for Later\'</string>
+    <string name="show_hidden_playlists_title">Show Hidden Playlists</string>
+    <string name="show_hidden_playlists_description">View all your hidden playlists</string>
+    <string name="hidden_playlists">Hidden Playlists</string>
+    <string name="no_hidden_playlists">No hidden playlists</string>
     <string name="special_language_disabled">Bahasa Spesial Dinonaktifkan</string>
     <string name="special_language_enabled">Bahasa Spesial Aktif</string>
     <string name="reorder">Ubah Urutan</string>
