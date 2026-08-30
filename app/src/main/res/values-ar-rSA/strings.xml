@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">فشل في الحصول على ملفات تعريف الارتباط لتسجيل الدخول</string>
     <string name="failed_delete_playlist">فشل في حذف قائمة التشغيل</string>
     <string name="failed_remove_from_library">فشل في إزالة قائمة التشغيل من مكتبتك</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
