@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Annuleer de huidige download afspeellijst?</string>
     <string name="remove_download">Verwijder download</string>
     <string name="cancel_download">Download annuleren</string>
+    <string name="hide_playlist">Afspeellijst verbergen</string>
+    <string name="unhide_playlist">Afspeellijst tonen</string>
+    <string name="hide_playlist_confirm_text">Deze afspeellijst verbergen? De afspeellijst wordt niet getoond op het startscherm</string>
+    <string name="unhide_playlist_confirm_text">Afspeellijst tonen? De afspeellijst zal getoond worden op het startscherm</string>
     <string name="general">Algemeen</string>
-    <string name="show_podcast_playlist_title">Toon Afspeellijst van Podcast</string>
-    <string name="show_podcast_playlist_description">Schakelt de zichtbaarheid van de \'afleveringen voor later\' afspeellijst aan</string>
+    <string name="show_hidden_playlists_title">Verborgen afspeellijsten tonen</string>
+    <string name="show_hidden_playlists_description">Bekijk al je verborgen afspeellijsten</string>
+    <string name="hidden_playlists">Verborgen afspeellijsten</string>
+    <string name="no_hidden_playlists">Geen verborgen afspeellijsten</string>
     <string name="special_language_disabled">Speciale taal uitgeschakeld</string>
     <string name="special_language_enabled">Speciale taal ingeschakeld</string>
     <string name="reorder">Herordenen</string>
