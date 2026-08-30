@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Annuller den igangværende afspilningsliste download?</string>
     <string name="remove_download">Fjern Download</string>
     <string name="cancel_download">Annuller Download</string>
+    <string name="hide_playlist">Skjul Spilleliste</string>
+    <string name="unhide_playlist">Vis Spilleliste</string>
+    <string name="hide_playlist_confirm_text">Skjul denne afspilningsliste? Spillelisten vil ikke blive vist på startskærmen</string>
+    <string name="unhide_playlist_confirm_text">Vis denne afspilningsliste? Spillelisten vil blive vist på startskærmen</string>
     <string name="general">Generelt</string>
-    <string name="show_podcast_playlist_title">Vis Podcast- Spilleliste</string>
-    <string name="show_podcast_playlist_description">Slår synligheden af \'Episoder til senere\' spilleliste til og fra</string>
+    <string name="show_hidden_playlists_title">Vis Skjulte Spillelister</string>
+    <string name="show_hidden_playlists_description">Se alle dine skjulte afspilningslister</string>
+    <string name="hidden_playlists">Skjulte Spillelister</string>
+    <string name="no_hidden_playlists">Ingen skjulte afspilningslister</string>
     <string name="special_language_disabled">Særligt Sprog Deaktiveret</string>
     <string name="special_language_enabled">Særligt Sprog Aktiveret</string>
     <string name="reorder">Genbestil</string>
