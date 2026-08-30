@@ -32,6 +32,7 @@
     <string name="retry">重試</string>
     <string name="play_next_toast">接著播放這首</string>
     <string name="added_queue_toast">已加入歌曲至播放佇列</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">正在播放</string>
     <string name="up_to_date_message">已更新到最新版！</string>
     <string name="update_check_failed">無法檢查更新</string>
