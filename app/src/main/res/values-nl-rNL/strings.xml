@@ -32,7 +32,7 @@
     <string name="retry">Opnieuw</string>
     <string name="play_next_toast">Dit nummer wordt afgespeeld volgende</string>
     <string name="added_queue_toast">Nummer toegevoegd aan de wachtrij</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Wachtrij verschoven</string>
     <string name="playing_now">Speelt nu</string>
     <string name="up_to_date_message">De app is up-to-date!</string>
     <string name="update_check_failed">Controleren op updates mislukt</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Eén herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="repeat_off">Herhalen uit</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
