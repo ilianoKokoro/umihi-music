@@ -5,12 +5,17 @@ import android.os.Bundle
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.CommandButton
 import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService.LibraryParams
 import androidx.media3.session.MediaLibraryService.MediaLibrarySession
 import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaSession.ConnectionResult
+import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionError
+import androidx.media3.session.SessionResult
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -39,22 +44,72 @@ class UmihiMediaLibraryCallback(
     private val datastoreRepository: DatastoreRepository,
     private val songRepository: SongRepository,
     private val playlistRepository: PlaylistRepository
-) : MediaLibrarySession.Callback {
+) : MediaLibrarySession.Callback, Player.Listener {
+
+    private var mediaLibrarySession: MediaLibrarySession? = null
+
+    fun setMediaLibrarySession(session: MediaLibrarySession) {
+        mediaLibrarySession = session
+        updateRepeatButton()
+    }
+
+    override fun onRepeatModeChanged(repeatMode: Int) {
+        updateRepeatButton()
+    }
+
+    private fun updateRepeatButton() {
+        val session = mediaLibrarySession ?: return
+        val mode = session.player.repeatMode
+        val button = repeatCommandButton(mode)
+        session.setCustomLayout(listOf(button))
+    }
+
+    private fun repeatCommandButton(mode: Int): CommandButton {
+        val (icon, displayName) = when (mode) {
+            Player.REPEAT_MODE_ONE -> CommandButton.ICON_REPEAT_ONE to service.getString(R.string.repeat_one)
+            Player.REPEAT_MODE_ALL -> CommandButton.ICON_REPEAT_ALL to service.getString(R.string.repeat_all)
+            else -> CommandButton.ICON_REPEAT_OFF to service.getString(R.string.repeat_off)
+        }
+        return CommandButton.Builder(icon)
+            .setDisplayName(displayName)
+            .setSessionCommand(SessionCommand(COMMAND_REPEAT, Bundle.EMPTY))
+            .build()
+    }
 
     override fun onConnect(
         session: MediaSession,
-        controller: MediaSession.ControllerInfo
-    ): MediaSession.ConnectionResult {
-        val playerCommands =
-            MediaSession.ConnectionResult.DEFAULT_PLAYER_COMMANDS
+        controller: MediaSession.ControllerInfo,
+    ): ConnectionResult {
 
-        val sessionCommands =
-            MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
+        return if (controller.isTrusted) {
+            ConnectionResult.accept(
+                ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
+                    .buildUpon()
+                    .add(SessionCommand(COMMAND_REPEAT, Bundle.EMPTY))
+                    .build(),
+                ConnectionResult.DEFAULT_PLAYER_COMMANDS
+            )
+        } else {
+            ConnectionResult.reject()
+        }
 
-        return MediaSession.ConnectionResult.AcceptedResultBuilder(session, controller)
-            .setAvailablePlayerCommands(playerCommands)
-            .setAvailableSessionCommands(sessionCommands)
-            .build()
+    }
+
+    override fun onCustomCommand(
+        session: MediaSession,
+        controller: MediaSession.ControllerInfo,
+        customCommand: SessionCommand,
+        args: Bundle,
+    ): ListenableFuture<SessionResult> {
+        if (customCommand.customAction == COMMAND_REPEAT) {
+            val current = session.player.repeatMode
+            session.player.repeatMode = when (current) {
+                Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
+                Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
+                else -> Player.REPEAT_MODE_OFF
+            }
+        }
+        return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
     }
 
     override fun onGetLibraryRoot(
@@ -404,5 +459,6 @@ class UmihiMediaLibraryCallback(
 
     companion object {
         private const val SEARCH_SUPPORTED_KEY = "android.media.browse.SEARCH_SUPPORTED"
+        private const val COMMAND_REPEAT = "REPEAT"
     }
 }

@@ -322,12 +322,19 @@ fun PlayerControls(
                                 .animateWidth(interactionSource = actionButtonsControlsInteractionSources[2]),
                             interactionSource = actionButtonsControlsInteractionSources[2],
                         ) {
+                            val repeatDescription = stringResource(
+                                when (repeatMode) {
+                                    Player.REPEAT_MODE_ONE -> R.string.repeat_one
+                                    Player.REPEAT_MODE_ALL -> R.string.repeat_all
+                                    else -> R.string.repeat_off
+                                }
+                            )
                             Icon(
                                 imageVector = when (repeatMode) {
                                     Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
                                     else -> Icons.Rounded.Repeat
                                 },
-                                contentDescription = null,
+                                contentDescription = repeatDescription,
                                 modifier = Modifier.size(iconSize)
                             )
                         }

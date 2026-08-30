@@ -231,6 +231,9 @@ class PlaybackService : MediaLibraryService() {
             .setSessionActivity(pendingIntent)
             .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader.Builder(this).build()))
             .build()
+
+        callback.setMediaLibrarySession(mediaLibrarySession!!)
+        player.addListener(callback)
     }
 
     override fun onGetSession(
