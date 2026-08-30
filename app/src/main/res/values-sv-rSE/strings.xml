@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Avbryt den pågående nedladdningen av spellistan ?</string>
     <string name="remove_download">Ta bort nedladdning</string>
     <string name="cancel_download">Avbryt nedladdning</string>
+    <string name="hide_playlist">Dölj spellista</string>
+    <string name="unhide_playlist">Visa spellista</string>
+    <string name="hide_playlist_confirm_text">Dölj den här spellistan? Spellistan visas inte på startskärmen</string>
+    <string name="unhide_playlist_confirm_text">Visa den här spellistan? Spellistan kommer att visas på startskärmen</string>
     <string name="general">Allmänt</string>
-    <string name="show_podcast_playlist_title">Visa poddsändningslista</string>
-    <string name="show_podcast_playlist_description">Växlar synligheten av \'Episodes for Later\' Spellista</string>
+    <string name="show_hidden_playlists_title">Visa dolda spellistor</string>
+    <string name="show_hidden_playlists_description">Visa alla dina dolda spellistor</string>
+    <string name="hidden_playlists">Dolda spellistor</string>
+    <string name="no_hidden_playlists">Inga dolda spellistor</string>
     <string name="special_language_disabled">Specialspråk inaktiverat</string>
     <string name="special_language_enabled">Specialspråk aktiverat</string>
     <string name="reorder">Omordna</string>
