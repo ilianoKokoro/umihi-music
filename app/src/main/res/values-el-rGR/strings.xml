@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Απέτυχε η λήψη των cookies σύνδεσης</string>
     <string name="failed_delete_playlist">Αποτυχία διαγραφής της λίστας αναπαραγωγής</string>
     <string name="failed_remove_from_library">Αποτυχία κατάργησης της λίστας αναπαραγωγής από τη βιβλιοθήκη σας</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
