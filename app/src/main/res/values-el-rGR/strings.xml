@@ -32,6 +32,7 @@
     <string name="retry">Επανάληψη</string>
     <string name="play_next_toast">Παίζοντας αυτό το τραγούδι επόμενο</string>
     <string name="added_queue_toast">Προστέθηκε τραγούδι στην ουρά</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Αναπαραγωγή Τώρα</string>
     <string name="up_to_date_message">Η εφαρμογή είναι ενημερωμένη!</string>
     <string name="update_check_failed">Αποτυχία ελέγχου για ενημερώσεις</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">Απέτυχε η λήψη των cookies σύνδεσης</string>
     <string name="failed_delete_playlist">Αποτυχία διαγραφής της λίστας αναπαραγωγής</string>
     <string name="failed_remove_from_library">Αποτυχία κατάργησης της λίστας αναπαραγωγής από τη βιβλιοθήκη σας</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Επανάληψη Ενός</string>
+    <string name="repeat_all">Επανάληψη Όλων</string>
+    <string name="repeat_off">Απενεργοποιημένη Επανάληψη</string>
 </resources>
