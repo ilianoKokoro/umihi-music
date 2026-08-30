@@ -32,6 +32,7 @@
     <string name="retry">Thử lại</string>
     <string name="play_next_toast">Phát bài này kế tiếp</string>
     <string name="added_queue_toast">Đã thêm vào hàng chờ</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Phát Ngay</string>
     <string name="up_to_date_message">Ứng dụng này đã được cập nhật!</string>
     <string name="update_check_failed">Lỗi khi kiểm tra cập nhật</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Không thể tải cookie đăng nhập</string>
     <string name="failed_delete_playlist">Không thể xóa danh sách phát</string>
     <string name="failed_remove_from_library">Không thể xóa danh sách phát khỏi thư viện của bạn</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>

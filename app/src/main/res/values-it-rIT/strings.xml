@@ -32,6 +32,7 @@
     <string name="retry">Riprova</string>
     <string name="play_next_toast">Riproduzione prossima di questo brano</string>
     <string name="added_queue_toast">Aggiunto il brano alla coda</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Riproduzione Ora</string>
     <string name="up_to_date_message">L\'app è aggiornata!</string>
     <string name="update_check_failed">Impossibile controllare gli aggiornamenti</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Impossibile accedere ai cookie di login</string>
     <string name="failed_delete_playlist">Impossibile eliminare la scaletta</string>
     <string name="failed_remove_from_library">Impossibile rimuovere la playlist dalla tua libreria</string>
+    <string name="repeat_one">Ripeti Uno</string>
+    <string name="repeat_all">Ripeti Tutto</string>
+    <string name="repeat_off">Ripeti Off</string>
 </resources>

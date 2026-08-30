@@ -32,6 +32,7 @@
     <string name="retry">Wiederholen</string>
     <string name="play_next_toast">Wiedergabe dieses Liedes als nächstes</string>
     <string name="added_queue_toast">Lied zur Warteschlange hinzugefügt</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Jetzt abspielen</string>
     <string name="up_to_date_message">Die App ist aktuell !</string>
     <string name="update_check_failed">Fehler bei der Suche nach Updates</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Fehler beim Anmelden von Cookies</string>
     <string name="failed_delete_playlist">Fehler beim Löschen der Wiedergabeliste</string>
     <string name="failed_remove_from_library">Fehler beim Entfernen der Wiedergabeliste aus deiner Bibliothek</string>
+    <string name="repeat_one">Wiederholen</string>
+    <string name="repeat_all">Alle wiederholen</string>
+    <string name="repeat_off">Wiederholen aus</string>
 </resources>

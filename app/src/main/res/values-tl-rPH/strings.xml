@@ -32,6 +32,7 @@
     <string name="retry">Ulitin</string>
     <string name="play_next_toast">Isusunod \'tong kanta</string>
     <string name="added_queue_toast">Nagdagdag ng kanta sa pila</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Naglalaro Ngayon</string>
     <string name="up_to_date_message">Ang app ay napapanahon !</string>
     <string name="update_check_failed">Nabigong suriin ang mga update</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>

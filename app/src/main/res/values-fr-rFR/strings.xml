@@ -32,6 +32,7 @@
     <string name="retry">Réessayer</string>
     <string name="play_next_toast">Lecture de ce titre suivant</string>
     <string name="added_queue_toast">Ajout du titre à la file d\'attente</string>
+    <string name="shuffled_queue_toast">File d\'attente aléatoire</string>
     <string name="playing_now">En cours de lecture</string>
     <string name="up_to_date_message">L\'application est à jour !</string>
     <string name="update_check_failed">Échec de la vérification des mises à jour</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Impossible d\'obtenir les cookies de connexion</string>
     <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
     <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
+    <string name="repeat_one">Répéter un</string>
+    <string name="repeat_all">Tout répéter</string>
+    <string name="repeat_off">Répéter désactivé</string>
 </resources>

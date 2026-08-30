@@ -32,6 +32,7 @@
     <string name="retry">Opnieuw</string>
     <string name="play_next_toast">Dit nummer wordt afgespeeld volgende</string>
     <string name="added_queue_toast">Nummer toegevoegd aan de wachtrij</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Speelt nu</string>
     <string name="up_to_date_message">De app is up-to-date!</string>
     <string name="update_check_failed">Controleren op updates mislukt</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Fout bij het ophalen van login cookies</string>
     <string name="failed_delete_playlist">Verwijderen van de afspeellijst is mislukt</string>
     <string name="failed_remove_from_library">Verwijderen van de afspeellijst uit uw bibliotheek is mislukt</string>
+    <string name="repeat_one">Eén herhalen</string>
+    <string name="repeat_all">Alles herhalen</string>
+    <string name="repeat_off">Herhalen uit</string>
 </resources>

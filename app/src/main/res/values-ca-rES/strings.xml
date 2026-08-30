@@ -32,6 +32,7 @@
     <string name="retry">Reintentar</string>
     <string name="play_next_toast">Reproduint aquesta cançó a continuació</string>
     <string name="added_queue_toast">S’ha afegit la cançó a la cua de reproducció</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Reproduint ara</string>
     <string name="up_to_date_message">L’aplicació està actualitzada!</string>
     <string name="update_check_failed">No s’ha pogut comprovar si hi ha actualitzacions</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>

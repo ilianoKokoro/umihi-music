@@ -32,6 +32,7 @@
     <string name="retry">Повторить</string>
     <string name="play_next_toast">Проигрывать следующую песню</string>
     <string name="added_queue_toast">Песня добавлена в очередь</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Играет сейчас</string>
     <string name="up_to_date_message">Приложение актуальное !</string>
     <string name="update_check_failed">Не удалось проверить обновления</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
     <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
     <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
+    <string name="repeat_one">Повторить один</string>
+    <string name="repeat_all">Повторить все</string>
+    <string name="repeat_off">Повтор выключен</string>
 </resources>
