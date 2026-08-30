@@ -289,6 +289,31 @@ object PlayerManager {
         }
     }
 
+    fun shuffleQueue(context: Context? = null) {
+        val controller = currentController ?: return
+
+        val currentIndex = controller.currentMediaItemIndex
+        if (currentIndex < 0 || controller.mediaItemCount <= 1) return
+
+        val currentSong = controller.getMediaItemAt(currentIndex)
+        val restOfQueue = (0 until controller.mediaItemCount)
+            .filter { it != currentIndex }
+            .map { controller.getMediaItemAt(it) }
+            .shuffled()
+
+        val newQueue = listOf(currentSong) + restOfQueue
+        controller.setMediaItems(newQueue, 0, C.TIME_UNSET)
+        controller.seekToDefaultPosition(0)
+
+        context?.let {
+            Toast.makeText(
+                it,
+                it.getString(R.string.shuffled_queue_toast),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     fun clearQueue() {
         currentController?.run {
             stop()
