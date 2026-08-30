@@ -32,6 +32,7 @@
     <string name="retry">إعادة المحاولة</string>
     <string name="play_next_toast">تشغيل هذه الأغنية بعد</string>
     <string name="added_queue_toast">تم إضافة الأغنية إلى قائمة الانتظار</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">تشغيل الآن</string>
     <string name="up_to_date_message">التطبيق محدث!</string>
     <string name="update_check_failed">فشل التحقق من وجود تحديثات</string>
@@ -137,7 +138,7 @@
     <string name="failed_get_to_login_cookies">فشل في الحصول على ملفات تعريف الارتباط لتسجيل الدخول</string>
     <string name="failed_delete_playlist">فشل في حذف قائمة التشغيل</string>
     <string name="failed_remove_from_library">فشل في إزالة قائمة التشغيل من مكتبتك</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">تكرار واحد</string>
+    <string name="repeat_all">كرر الكل</string>
+    <string name="repeat_off">إيقاف التكرار</string>
 </resources>
