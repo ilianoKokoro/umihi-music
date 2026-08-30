@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">إلغاء تحميل قائمة التشغيل الحالية؟</string>
     <string name="remove_download">إزالة التحميل</string>
     <string name="cancel_download">إلغاء التحميل</string>
+    <string name="hide_playlist">إخفاء قائمة التشغيل</string>
+    <string name="unhide_playlist">إلغاء إخفاء قائمة التشغيل</string>
+    <string name="hide_playlist_confirm_text">إخفاء قائمة التشغيل هذه؟ لن تظهر قائمة التشغيل في الشاشة الرئيسية</string>
+    <string name="unhide_playlist_confirm_text">إلغاء إخفاء قائمة التشغيل هذه؟ سيتم عرض قائمة التشغيل في الشاشة الرئيسية</string>
     <string name="general">عام</string>
-
-
+    <string name="show_hidden_playlists_title">إظهار قوائم التشغيل المخفية</string>
+    <string name="show_hidden_playlists_description">عرض جميع قوائم التشغيل المخفية</string>
+    <string name="hidden_playlists">قوائم التشغيل المخفية</string>
+    <string name="no_hidden_playlists">لا توجد قوائم تشغيل مخفية</string>
     <string name="special_language_disabled">اللغة الخاصة معطلة</string>
     <string name="special_language_enabled">اللغة الخاصة ممكنة</string>
     <string name="reorder">إعادة ترتيب</string>

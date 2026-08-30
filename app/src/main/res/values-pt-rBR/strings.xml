@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Deseja cancelar o download da playlist em andamento?</string>
     <string name="remove_download">Remover download</string>
     <string name="cancel_download">Cancelar download</string>
+    <string name="hide_playlist">Ocultar playlist</string>
+    <string name="unhide_playlist">Reexibir playlist</string>
+    <string name="hide_playlist_confirm_text">Ocultar esta playlist? A playlist não aparecerá na tela inicial</string>
+    <string name="unhide_playlist_confirm_text">Reexibir esta playlist? A playlist será exibida na tela inicial</string>
     <string name="general">Gerais</string>
-
-
+    <string name="show_hidden_playlists_title">Mostrar playlists ocultas</string>
+    <string name="show_hidden_playlists_description">Veja todas as suas playlists ocultas</string>
+    <string name="hidden_playlists">Playlists ocultas</string>
+    <string name="no_hidden_playlists">Nenhuma playlist oculta</string>
     <string name="special_language_disabled">Idioma especial desativado</string>
     <string name="special_language_enabled">Idioma especial ativado</string>
     <string name="reorder">Reordenar</string>

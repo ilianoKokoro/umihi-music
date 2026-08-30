@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Скасувати поточне завантаження плейліста?</string>
     <string name="remove_download">Видалити завантаження</string>
     <string name="cancel_download">Скасувати завантаження</string>
+    <string name="hide_playlist">Приховати список відтворення</string>
+    <string name="unhide_playlist">Показати список відтворення</string>
+    <string name="hide_playlist_confirm_text">Приховати цей список відтворення? Список відтворення не буде показано на головному екрані</string>
+    <string name="unhide_playlist_confirm_text">Ви не сховати цей список відтворення? Список відтворення буде показано на головному екрані</string>
     <string name="general">Загальні налаштування</string>
-
-
+    <string name="show_hidden_playlists_title">Показати приховані плейлисти</string>
+    <string name="show_hidden_playlists_description">Переглянути всі приховані списки відтворення</string>
+    <string name="hidden_playlists">Приховані списки відтворення</string>
+    <string name="no_hidden_playlists">Немає прихованих списків відтворення</string>
     <string name="special_language_disabled">Спеціальна мова заборонена</string>
     <string name="special_language_enabled">Спеціальна мова увімкнена</string>
     <string name="reorder">Змінити порядок</string>

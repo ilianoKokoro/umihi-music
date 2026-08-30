@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">進行中のプレイリストのダウンロードをキャンセルしますか？</string>
     <string name="remove_download">ダウンロードを削除</string>
     <string name="cancel_download">ダウンロードをキャンセル</string>
+    <string name="hide_playlist">プレイリストを隠す</string>
+    <string name="unhide_playlist">プレイリストの非表示を解除</string>
+    <string name="hide_playlist_confirm_text">このプレイリストを非表示にしますか？プレイリストはホーム画面に表示されません</string>
+    <string name="unhide_playlist_confirm_text">このプレイリストを再表示しますか？プレイリストはホーム画面に表示されます</string>
     <string name="general">全般</string>
-
-
+    <string name="show_hidden_playlists_title">非表示プレイリストを表示</string>
+    <string name="show_hidden_playlists_description">非表示のプレイリストをすべて表示</string>
+    <string name="hidden_playlists">非表示プレイリスト</string>
+    <string name="no_hidden_playlists">非表示のプレイリストはありません</string>
     <string name="special_language_disabled">特殊な言語は無効です</string>
     <string name="special_language_enabled">特別な言語を有効にする</string>
     <string name="reorder">並び替え</string>

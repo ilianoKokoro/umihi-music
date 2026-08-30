@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Anulować pobieranie bieżącej playlisty?</string>
     <string name="remove_download">Usuń pobranie</string>
     <string name="cancel_download">Anuluj pobieranie</string>
+    <string name="hide_playlist">Ukryj listę odtwarzania</string>
+    <string name="unhide_playlist">Odkryj playlistę</string>
+    <string name="hide_playlist_confirm_text">Ukryj tę playlistę? Lista odtwarzania nie będzie wyświetlana na ekranie głównym</string>
+    <string name="unhide_playlist_confirm_text">Odkryć tę playlistę? Lista odtwarzania będzie wyświetlana na ekranie głównym</string>
     <string name="general">Ogólny</string>
-
-
+    <string name="show_hidden_playlists_title">Pokaż ukryte listy odtwarzania</string>
+    <string name="show_hidden_playlists_description">Zobacz wszystkie ukryte listy odtwarzania</string>
+    <string name="hidden_playlists">Ukryte playlisty</string>
+    <string name="no_hidden_playlists">Brak ukrytych list odtwarzania</string>
     <string name="special_language_disabled">Język specjalny wyłączony</string>
     <string name="special_language_enabled">Język specjalny włączony</string>
     <string name="reorder">Zmień kolejność</string>

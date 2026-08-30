@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Zrušit probíhající stahování playlistu?</string>
     <string name="remove_download">Odstranit stahování</string>
     <string name="cancel_download">Zrušit stahování</string>
+    <string name="hide_playlist">Skrýt seznam skladeb</string>
+    <string name="unhide_playlist">Odkrýt seznam skladeb</string>
+    <string name="hide_playlist_confirm_text">Skrýt tento seznam skladeb? Seznam skladeb nebude zobrazen na domovské obrazovce</string>
+    <string name="unhide_playlist_confirm_text">Odskočit tento seznam skladeb? Seznam skladeb bude zobrazen na domovské obrazovce</string>
     <string name="general">Obecná ustanovení</string>
-
-
+    <string name="show_hidden_playlists_title">Zobrazit skryté seznamy skladeb</string>
+    <string name="show_hidden_playlists_description">Zobrazit všechny vaše skryté seznamy skladeb</string>
+    <string name="hidden_playlists">Skryté seznamy skladeb</string>
+    <string name="no_hidden_playlists">Žádné skryté seznamy skladeb</string>
     <string name="special_language_disabled">Speciální jazyk zakázán</string>
     <string name="special_language_enabled">Speciální jazyk povolen</string>
     <string name="reorder">Změnit pořadí</string>

@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Kanselahin ang kasalukuyang pag-download ng playlist ?</string>
     <string name="remove_download">Alisin ang Download</string>
     <string name="cancel_download">Kanselahin ang Download</string>
+    <string name="hide_playlist">Hide Playlist</string>
+    <string name="unhide_playlist">Unhide Playlist</string>
+    <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
+    <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>
     <string name="general">General</string>
-
-
+    <string name="show_hidden_playlists_title">Show Hidden Playlists</string>
+    <string name="show_hidden_playlists_description">View all your hidden playlists</string>
+    <string name="hidden_playlists">Hidden Playlists</string>
+    <string name="no_hidden_playlists">No hidden playlists</string>
     <string name="special_language_disabled">Special Language Disabled</string>
     <string name="special_language_enabled">Special Language Enabled</string>
     <string name="reorder">Reorder</string>

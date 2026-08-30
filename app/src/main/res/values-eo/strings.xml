@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Nyooo, cancew da owngoing pwaywist downwoad ? ^0^</string>
     <string name="remove_download">Wemove Downowoad</string>
     <string name="cancel_download">Kwancel Downowoad</string>
+    <string name="hide_playlist">Hide Pwaywist</string>
+    <string name="unhide_playlist">Unhide Pwaywist</string>
+    <string name="hide_playlist_confirm_text">Hide dis pwaywist? Da pwaywist wiw nyot be shown in da home scween</string>
+    <string name="unhide_playlist_confirm_text">Unhide dis pwaywist? Da pwaywist wiw be shown in da home scween</string>
     <string name="general">Genyewaw</string>
-
-
+    <string name="show_hidden_playlists_title">Show Hidden Pwaywists</string>
+    <string name="show_hidden_playlists_description">View aww youw hidden pwaywists</string>
+    <string name="hidden_playlists">Hidden Pwaywists</string>
+    <string name="no_hidden_playlists">Nyo hidden pwaywists</string>
     <string name="special_language_disabled">Speciaw Language Disabwed ;w;</string>
     <string name="special_language_enabled">Speciaw Language Enabwed :3</string>
     <string name="reorder">Weowdew</string>

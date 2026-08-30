@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">取消正在下载的播放列表？</string>
     <string name="remove_download">移除下载</string>
     <string name="cancel_download">取消下载</string>
+    <string name="hide_playlist">隐藏播放列表</string>
+    <string name="unhide_playlist">取消隐藏播放列表</string>
+    <string name="hide_playlist_confirm_text">隐藏此播放列表吗？将不会在主屏幕中显示</string>
+    <string name="unhide_playlist_confirm_text">取消隐藏此播放列表吗？将在主屏幕中显示</string>
     <string name="general">A. 概况</string>
-
-
+    <string name="show_hidden_playlists_title">显示隐藏播放列表</string>
+    <string name="show_hidden_playlists_description">查看您所有的隐藏播放列表</string>
+    <string name="hidden_playlists">隐藏播放列表</string>
+    <string name="no_hidden_playlists">没有隐藏播放列表</string>
     <string name="special_language_disabled">特殊语言已禁用</string>
     <string name="special_language_enabled">启用特殊语言</string>
     <string name="reorder">重新排序</string>
