@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Nyooo, cancew da owngoing pwaywist downwoad ? ^0^</string>
     <string name="remove_download">Wemove Downowoad</string>
     <string name="cancel_download">Kwancel Downowoad</string>
+    <string name="hide_playlist">Hide Playlist</string>
+    <string name="unhide_playlist">Unhide Playlist</string>
+    <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
+    <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>
     <string name="general">Genyewaw</string>
-    <string name="show_podcast_playlist_title">Show Podcast Pwaywist</string>
-    <string name="show_podcast_playlist_description">Toggwes da v-visibiwity of da \'Episodes fow Watew\' Pwaywist :3</string>
+    <string name="show_hidden_playlists_title">Show Hidden Playlists</string>
+    <string name="show_hidden_playlists_description">View all your hidden playlists</string>
+    <string name="hidden_playlists">Hidden Playlists</string>
+    <string name="no_hidden_playlists">No hidden playlists</string>
     <string name="special_language_disabled">Speciaw Language Disabwed ;w;</string>
     <string name="special_language_enabled">Speciaw Language Enabwed :3</string>
     <string name="reorder">Weowdew</string>
