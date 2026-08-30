@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Impossible d\'obtenir les cookies de connexion</string>
     <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
     <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
