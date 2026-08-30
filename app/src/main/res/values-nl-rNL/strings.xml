@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Fout bij het ophalen van login cookies</string>
     <string name="failed_delete_playlist">Verwijderen van de afspeellijst is mislukt</string>
     <string name="failed_remove_from_library">Verwijderen van de afspeellijst uit uw bibliotheek is mislukt</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
