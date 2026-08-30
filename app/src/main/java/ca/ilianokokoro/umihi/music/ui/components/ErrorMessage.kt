@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.extensions.isNetworkError
 
 @Composable
 fun ErrorMessage(
@@ -27,7 +28,11 @@ fun ErrorMessage(
     errorMessage: String? = null,
     onRetry: () -> Unit,
 ) {
-    val message = errorMessage ?: ex.localizedMessage.orEmpty()
+    val friendlyMessage = if (ex.isNetworkError()) {
+        stringResource(R.string.no_wifi_for_online_playlist)
+    } else {
+        errorMessage ?: ex.localizedMessage.orEmpty()
+    }
 
     Column(
         modifier = modifier
@@ -47,7 +52,7 @@ fun ErrorMessage(
         )
 
         Text(
-            text = message,
+            text = friendlyMessage,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center
