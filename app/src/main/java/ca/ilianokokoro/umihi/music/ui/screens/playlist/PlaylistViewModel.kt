@@ -276,13 +276,17 @@ class PlaylistViewModel(
         }
     }
 
-    fun hidePlaylist() {
+    fun hidePlaylist(onBack: () -> Unit) {
         val playlist = getPlaylist() ?: return
 
         viewModelScope.launch {
-            playlistRepository.hidePlaylist(playlist.info).collect()
-            sharedViewModel.requestPlaylistRefresh()
-            getPlaylistInfoAsync()
+            playlistRepository.hidePlaylist(playlist.info).collect { result ->
+                if (result is ApiResult.Success) {
+                    onBack()
+                    sharedViewModel.requestPlaylistRefresh()
+                    sharedViewModel.requestHiddenPlaylistRefresh()
+                }
+            }
         }
     }
 
