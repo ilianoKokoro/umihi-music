@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Kunne ikke logge på cookies</string>
     <string name="failed_delete_playlist">Kunne ikke slette spillelisten</string>
     <string name="failed_remove_from_library">Kunne ikke fjerne spillelisten fra dit bibliotek</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
