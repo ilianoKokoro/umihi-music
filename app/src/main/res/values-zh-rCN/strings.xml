@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">无法登录 cookie</string>
     <string name="failed_delete_playlist">删除播放列表失败</string>
     <string name="failed_remove_from_library">从您的媒体库中删除播放列表失败</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
