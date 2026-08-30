@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Отменить загрузку списка воспроизведения ?</string>
     <string name="remove_download">Удалить загрузку</string>
     <string name="cancel_download">Отменить загрузку</string>
+    <string name="hide_playlist">Скрыть плейлист</string>
+    <string name="unhide_playlist">Показать плейлист</string>
+    <string name="hide_playlist_confirm_text">Скрыть этот плейлист? Плейлист не будет показан на домашнем экране</string>
+    <string name="unhide_playlist_confirm_text">Показать этот плейлист? Плейлист будет показан на домашнем экране</string>
     <string name="general">Общее</string>
-    <string name="show_podcast_playlist_title">Показать плейлист сохраненных выпусков</string>
-    <string name="show_podcast_playlist_description">Переключает видимость плейлиста \'Сохраненные выпуски\'</string>
+    <string name="show_hidden_playlists_title">Показать скрытые плейлисты</string>
+    <string name="show_hidden_playlists_description">Посмотреть все ваши скрытые плейлисты</string>
+    <string name="hidden_playlists">Скрытые плейлисты</string>
+    <string name="no_hidden_playlists">Нет скрытых плейлистов</string>
     <string name="special_language_disabled">Специальные языки отключены</string>
     <string name="special_language_enabled">Специальные языки включены</string>
     <string name="reorder">Изменить порядок</string>
