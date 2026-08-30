@@ -73,8 +73,8 @@
     <string name="remove_download">Odstranit stahování</string>
     <string name="cancel_download">Zrušit stahování</string>
     <string name="general">Obecná ustanovení</string>
-    <string name="show_podcast_playlist_title">Zobrazit seznam stop Podcast</string>
-    <string name="show_podcast_playlist_description">Přepíná viditelnost \"epizody pro pozdější\" playlistu</string>
+
+
     <string name="special_language_disabled">Speciální jazyk zakázán</string>
     <string name="special_language_enabled">Speciální jazyk povolen</string>
     <string name="reorder">Změnit pořadí</string>

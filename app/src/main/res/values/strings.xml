@@ -4,7 +4,6 @@
     <string name="settings">Settings</string>
     <string name="back_description">Previous screen</string>
     <string name="no_playlists">No playlists found</string>
-
     <string name="playlist_cover">Playlist cover</string>
     <string name="log_in">Log In</string>
     <string name="empty_playlist">No songs in the playlist</string>
@@ -76,9 +75,15 @@
     <string name="cancel_playlist_download_text">Cancel the ongoing playlist download ?</string>
     <string name="remove_download">Remove Download</string>
     <string name="cancel_download">Cancel Download</string>
+    <string name="hide_playlist">Hide Playlist</string>
+    <string name="unhide_playlist">Unhide Playlist</string>
+    <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
+    <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>
     <string name="general">General</string>
-    <string name="show_podcast_playlist_title">Show Podcast Playlist</string>
-    <string name="show_podcast_playlist_description">Toggles the visibility of the \'Episodes for Later\' Playlist</string>
+    <string name="show_hidden_playlists_title">Show Hidden Playlists</string>
+    <string name="show_hidden_playlists_description">View all your hidden playlists</string>
+    <string name="hidden_playlists">Hidden Playlists</string>
+    <string name="no_hidden_playlists">No hidden playlists</string>
     <string name="special_language_disabled">Special Language Disabled</string>
     <string name="special_language_enabled">Special Language Enabled</string>
     <string name="reorder">Reorder</string>

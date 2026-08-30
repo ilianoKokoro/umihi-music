@@ -154,6 +154,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
                         is SettingsScreenKey -> NavEntry(key) {
                             SettingsScreen(
+                                sharedViewModel = sharedViewModel,
                                 openAuthScreen = { backStack.add(AuthScreenKey) },
                                 application = app
                             )

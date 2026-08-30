@@ -73,8 +73,8 @@
     <string name="remove_download">Κατάργηση Λήψης</string>
     <string name="cancel_download">Ακύρωση Λήψης</string>
     <string name="general">Γενικά</string>
-    <string name="show_podcast_playlist_title">Εμφάνιση Λίστας Εκπομπής Podcast</string>
-    <string name="show_podcast_playlist_description">Εναλλάσσει την ορατότητα της λίστας \'Επεισόδια για Αργότερα\'</string>
+
+
     <string name="special_language_disabled">Ειδική Γλώσσα Απενεργοποιημένη</string>
     <string name="special_language_enabled">Ειδική Γλώσσα Ενεργοποιημένη</string>
     <string name="reorder">Αναδιάταξη</string>

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.FeaturedPlayList
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.Autorenew
@@ -25,6 +24,7 @@ import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,7 +50,9 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.HiddenPlaylistsBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
@@ -59,7 +61,10 @@ import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSectio
 fun SettingsScreen(
     openAuthScreen: () -> Unit,
     application: Application,
-    settingsViewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory(application))
+    sharedViewModel: SharedViewModel,
+    settingsViewModel: SettingsViewModel = viewModel(
+        factory = SettingsViewModel.Factory(sharedViewModel, application)
+    )
 ) {
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
 
@@ -69,6 +74,7 @@ fun SettingsScreen(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 settingsViewModel.getSettings()
+                settingsViewModel.getHiddenPlaylists()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -157,16 +163,12 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.general)
                         ) {
-                            BooleanSettingItem(
-                                title = stringResource(R.string.show_podcast_playlist_title),
-                                subtitle = stringResource(R.string.show_podcast_playlist_description),
-                                leadingIcon = Icons.AutoMirrored.Outlined.FeaturedPlayList,
-                                value = screenState.settings.showPodcastPlaylist,
-                                onToggle = {
-                                    settingsViewModel.updateSetting(
-                                        PreferenceKeys.SHOW_PODCAST_PLAYLIST,
-                                        it
-                                    )
+                            SettingsItem(
+                                title = stringResource(R.string.show_hidden_playlists_title),
+                                subtitle = stringResource(R.string.show_hidden_playlists_description),
+                                leadingIcon = Icons.Outlined.Visibility,
+                                onClick = {
+                                    settingsViewModel.updateShowHiddenPlaylistsSheet(true)
                                 }
                             )
                             Spacer(modifier = Modifier.height(4.dp))
@@ -364,10 +366,19 @@ fun SettingsScreen(
                                     settingsViewModel.updateShowCacheClearConfirm(false)
                                 }
                             )
+                        } else if (uiState.showHiddenPlaylistsSheet) {
+                            HiddenPlaylistsBottomSheet(
+                                playlists = uiState.hiddenPlaylists,
+                                onUnhidePlaylist = { settingsViewModel.unhidePlaylist(it) },
+                                onDismiss = { settingsViewModel.updateShowHiddenPlaylistsSheet(false) }
+                            )
                         }
+
                     }
                 }
             }
         }
     }
+
+
 }

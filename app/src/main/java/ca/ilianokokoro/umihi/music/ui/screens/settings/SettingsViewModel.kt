@@ -15,6 +15,7 @@ import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
@@ -22,12 +23,17 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
+import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+class SettingsViewModel(
+    private val sharedViewModel: SharedViewModel,
+    application: Application
+) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(SettingsState())
     val uiState = _uiState.asStateFlow()
 
@@ -35,6 +41,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
+    private val localPlaylistRepository =
+        AppDatabase.getInstance(application).playlistRepository()
 
     fun logOut() {
         viewModelScope.launch {
@@ -200,10 +208,43 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateShowHiddenPlaylistsSheet(show: Boolean) {
+        _uiState.update { it.copy(showHiddenPlaylistsSheet = show) }
+    }
+
+    fun getHiddenPlaylists() {
+        viewModelScope.launch {
+            try {
+                val playlists = localPlaylistRepository.fetchHiddenPlaylists()
+                _uiState.update {
+                    it.copy(
+                        hiddenPlaylists = playlists
+                    )
+                }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+                _uiState.update { it.copy(hiddenPlaylists = listOf()) }
+            }
+        }
+    }
+
+    fun unhidePlaylist(playlist: Playlist) {
+        viewModelScope.launch {
+            localPlaylistRepository.insertPlaylist(
+                playlist.info.copy(hidden = false)
+            )
+            sharedViewModel.requestPlaylistRefresh()
+            getHiddenPlaylists()
+        }
+    }
+
     companion object {
-        fun Factory(application: Application): ViewModelProvider.Factory = viewModelFactory {
+        fun Factory(
+            sharedViewModel: SharedViewModel,
+            application: Application
+        ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                SettingsViewModel(application)
+                SettingsViewModel(sharedViewModel, application)
             }
         }
     }

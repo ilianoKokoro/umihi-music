@@ -73,8 +73,8 @@
     <string name="remove_download">Poista Lataus</string>
     <string name="cancel_download">Peruuta Lataus</string>
     <string name="general">Yleiset</string>
-    <string name="show_podcast_playlist_title">Näytä Podcastin Soittolista</string>
-    <string name="show_podcast_playlist_description">Vaihtaa myöhemmän soittolistan jaksojen näkyvyyttä</string>
+
+
     <string name="special_language_disabled">Erikoiskieli Pois Käytöstä</string>
     <string name="special_language_enabled">Erikoiskieli Käytössä</string>
     <string name="reorder">Järjestä</string>

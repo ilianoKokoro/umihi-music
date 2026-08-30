@@ -73,8 +73,8 @@
     <string name="remove_download">Hapus Unduhan</string>
     <string name="cancel_download">Batalkan Unduhan</string>
     <string name="general">Umum</string>
-    <string name="show_podcast_playlist_title">Tampilkan Playlist Podcast</string>
-    <string name="show_podcast_playlist_description">Mengatur visibilitas playlist \'Episodes for Later\'</string>
+
+
     <string name="special_language_disabled">Bahasa Spesial Dinonaktifkan</string>
     <string name="special_language_enabled">Bahasa Spesial Aktif</string>
     <string name="reorder">Ubah Urutan</string>

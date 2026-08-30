@@ -74,8 +74,8 @@
     <string name="remove_download">Eliminar descarga</string>
     <string name="cancel_download">Cancelar descarga</string>
     <string name="general">General</string>
-    <string name="show_podcast_playlist_title">Mostrar lista de reproducción de Podcast</string>
-    <string name="show_podcast_playlist_description">Activa la visibilidad de la lista de reproducción \'Episodios para posteriores\'</string>
+
+
     <string name="special_language_disabled">Idioma especial desactivado</string>
     <string name="special_language_enabled">Idioma especial habilitado</string>
     <string name="reorder">Reordenar</string>

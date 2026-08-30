@@ -73,8 +73,8 @@
     <string name="remove_download">Verwijder download</string>
     <string name="cancel_download">Download annuleren</string>
     <string name="general">Algemeen</string>
-    <string name="show_podcast_playlist_title">Toon Afspeellijst van Podcast</string>
-    <string name="show_podcast_playlist_description">Schakelt de zichtbaarheid van de \'afleveringen voor later\' afspeellijst aan</string>
+
+
     <string name="special_language_disabled">Speciale taal uitgeschakeld</string>
     <string name="special_language_enabled">Speciale taal ingeschakeld</string>
     <string name="reorder">Herordenen</string>

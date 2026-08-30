@@ -73,8 +73,8 @@
     <string name="remove_download">Удалить загрузку</string>
     <string name="cancel_download">Отменить загрузку</string>
     <string name="general">Общее</string>
-    <string name="show_podcast_playlist_title">Показать плейлист сохраненных выпусков</string>
-    <string name="show_podcast_playlist_description">Переключает видимость плейлиста \'Сохраненные выпуски\'</string>
+
+
     <string name="special_language_disabled">Специальные языки отключены</string>
     <string name="special_language_enabled">Специальные языки включены</string>
     <string name="reorder">Изменить порядок</string>
