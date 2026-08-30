@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Ακυρώστε τη συνεχιζόμενη λήψη λίστας αναπαραγωγής?</string>
     <string name="remove_download">Κατάργηση Λήψης</string>
     <string name="cancel_download">Ακύρωση Λήψης</string>
+    <string name="hide_playlist">Απόκρυψη Λίστας Αναπαραγωγής</string>
+    <string name="unhide_playlist">Επανεμφάνιση Λίστας Αναπαραγωγής</string>
+    <string name="hide_playlist_confirm_text">Απόκρυψη αυτής της λίστας αναπαραγωγής? Η λίστα αναπαραγωγής δεν θα εμφανιστεί στην αρχική οθόνη</string>
+    <string name="unhide_playlist_confirm_text">Επανεμφάνιση αυτής της λίστας αναπαραγωγής? Η λίστα αναπαραγωγής θα εμφανιστεί στην αρχική οθόνη</string>
     <string name="general">Γενικά</string>
-    <string name="show_podcast_playlist_title">Εμφάνιση Λίστας Εκπομπής Podcast</string>
-    <string name="show_podcast_playlist_description">Εναλλάσσει την ορατότητα της λίστας \'Επεισόδια για Αργότερα\'</string>
+    <string name="show_hidden_playlists_title">Εμφάνιση Κρυφών Λιστών Αναπαραγωγής</string>
+    <string name="show_hidden_playlists_description">Δείτε όλες τις κρυφές λίστες αναπαραγωγής</string>
+    <string name="hidden_playlists">Κρυφές Λίστες Αναπαραγωγής</string>
+    <string name="no_hidden_playlists">Δεν υπάρχουν κρυφές λίστες αναπαραγωγής</string>
     <string name="special_language_disabled">Ειδική Γλώσσα Απενεργοποιημένη</string>
     <string name="special_language_enabled">Ειδική Γλώσσα Ενεργοποιημένη</string>
     <string name="reorder">Αναδιάταξη</string>
