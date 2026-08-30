@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Vil du avbryte nedlasting av spillelisten?</string>
     <string name="remove_download">Fjern nedlasting</string>
     <string name="cancel_download">Avbryt nedlasting</string>
+    <string name="hide_playlist">Skjul spilleliste</string>
+    <string name="unhide_playlist">Vis spilleliste</string>
+    <string name="hide_playlist_confirm_text">Skjul denne spillelisten? Spillelisten vil ikke bli vist i startskjermen</string>
+    <string name="unhide_playlist_confirm_text">Vis denne spillelisten? Spillelisten vil bli vist i startskjermen</string>
     <string name="general">Generelt</string>
-    <string name="show_podcast_playlist_title">Vis Podcast spilleliste</string>
-    <string name="show_podcast_playlist_description">Aktiverer eller deaktiverer synligheten til \'Episodes for senere \' spillelisten</string>
+    <string name="show_hidden_playlists_title">Vis skjulte spillelister</string>
+    <string name="show_hidden_playlists_description">Vis alle dine skjulte spillelister</string>
+    <string name="hidden_playlists">Skjulte Spillelister</string>
+    <string name="no_hidden_playlists">Ingen skjulte spillelister</string>
     <string name="special_language_disabled">Spesialspråk deaktivert</string>
     <string name="special_language_enabled">Spesialspråk er aktivert</string>
     <string name="reorder">Omorganiser</string>
