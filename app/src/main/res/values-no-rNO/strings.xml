@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Kunne ikke komme til å logge inn informasjonskapsler</string>
     <string name="failed_delete_playlist">Kan ikke slette spillelisten</string>
     <string name="failed_remove_from_library">Kan ikke fjerne spillelisten fra biblioteket</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
