@@ -32,7 +32,7 @@
     <string name="retry">Επανάληψη</string>
     <string name="play_next_toast">Παίζοντας αυτό το τραγούδι επόμενο</string>
     <string name="added_queue_toast">Προστέθηκε τραγούδι στην ουρά</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Ανακατέψτε την ουρά</string>
     <string name="playing_now">Αναπαραγωγή Τώρα</string>
     <string name="up_to_date_message">Η εφαρμογή είναι ενημερωμένη!</string>
     <string name="update_check_failed">Αποτυχία ελέγχου για ενημερώσεις</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Επανάληψη Ενός</string>
     <string name="repeat_all">Επανάληψη Όλων</string>
     <string name="repeat_off">Απενεργοποιημένη Επανάληψη</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>

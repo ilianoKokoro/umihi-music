@@ -141,4 +141,5 @@
     <string name="repeat_one">Ulangi Satu</string>
     <string name="repeat_all">Ulangi Semua</string>
     <string name="repeat_off">Jangan Ulangi</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>

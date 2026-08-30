@@ -32,7 +32,7 @@
     <string name="retry">Повторити спробу</string>
     <string name="play_next_toast">Відтворення наступної пісні</string>
     <string name="added_queue_toast">Додано пісню до черги</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Черга перетасована</string>
     <string name="playing_now">Грає зараз</string>
     <string name="up_to_date_message">Додаток в актуальному стані!</string>
     <string name="update_check_failed">Не вдалося перевірити наявність оновлень</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Повторити один раз</string>
     <string name="repeat_all">Повторити всі</string>
     <string name="repeat_off">Повтор вимкнено</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>

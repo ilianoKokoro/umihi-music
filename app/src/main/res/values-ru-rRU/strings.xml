@@ -32,7 +32,7 @@
     <string name="retry">Повторить</string>
     <string name="play_next_toast">Проигрывать следующую песню</string>
     <string name="added_queue_toast">Песня добавлена в очередь</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Очередь перемешивается</string>
     <string name="playing_now">Играет сейчас</string>
     <string name="up_to_date_message">Приложение актуальное !</string>
     <string name="update_check_failed">Не удалось проверить обновления</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Повторить один</string>
     <string name="repeat_all">Повторить все</string>
     <string name="repeat_off">Повтор выключен</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
