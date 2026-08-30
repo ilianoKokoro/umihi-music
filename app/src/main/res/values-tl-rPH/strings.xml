@@ -32,6 +32,7 @@
     <string name="retry">Ulitin</string>
     <string name="play_next_toast">Isusunod \'tong kanta</string>
     <string name="added_queue_toast">Nagdagdag ng kanta sa pila</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Naglalaro Ngayon</string>
     <string name="up_to_date_message">Ang app ay napapanahon !</string>
     <string name="update_check_failed">Nabigong suriin ang mga update</string>
