@@ -47,10 +47,9 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
-import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
-import ca.ilianokokoro.umihi.music.ui.screens.settings.CacheType
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
@@ -265,20 +264,11 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             SettingsItem(
-                                title = stringResource(R.string.clear_audio_cache),
-                                subtitle = stringResource(R.string.clear_audio_cache_message),
+                                title = stringResource(R.string.clear_cache),
+                                subtitle = stringResource(R.string.clear_cache_message),
                                 leadingIcon = Icons.Outlined.Delete,
                                 onClick = {
-                                    settingsViewModel.updateShowAudioCacheClearConfirm(true)
-                                }
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            SettingsItem(
-                                title = stringResource(R.string.clear_thumbnail_cache),
-                                subtitle = stringResource(R.string.clear_thumbnail_cache_message),
-                                leadingIcon = Icons.Outlined.Delete,
-                                onClick = {
-                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(true)
+                                    settingsViewModel.updateShowCacheClearConfirm(true)
                                 }
                             )
                         }
@@ -356,35 +346,26 @@ fun SettingsScreen(
                                 cacheType = uiState.cacheTypeForInput,
                                 initialSizeMB = initialSize,
                                 onConfirm = { sizeMB ->
-                                    settingsViewModel.saveCacheSize(sizeMB, uiState.cacheTypeForInput)
+                                    settingsViewModel.saveCacheSize(
+                                        sizeMB,
+                                        uiState.cacheTypeForInput
+                                    )
                                     settingsViewModel.updateShowCacheSizeInputDialog(false)
                                 },
                                 onDismiss = {
                                     settingsViewModel.updateShowCacheSizeInputDialog(false)
                                 }
                             )
-                        } else if (uiState.showAudioCacheClearConfirm) {
+                        } else if (uiState.showCacheClearConfirm) {
                             ConfirmDialog(
-                                title = stringResource(R.string.clear_audio_cache),
-                                text = stringResource(R.string.clear_audio_cache_message),
+                                title = stringResource(R.string.clear_cache),
+                                text = stringResource(R.string.clear_cache_message),
                                 onConfirm = {
-                                    settingsViewModel.clearAudioCache()
-                                    settingsViewModel.updateShowAudioCacheClearConfirm(false)
+                                    settingsViewModel.clearCache()
+                                    settingsViewModel.updateShowCacheClearConfirm(false)
                                 },
                                 onDismiss = {
-                                    settingsViewModel.updateShowAudioCacheClearConfirm(false)
-                                }
-                            )
-                        } else if (uiState.showThumbnailCacheClearConfirm) {
-                            ConfirmDialog(
-                                title = stringResource(R.string.clear_thumbnail_cache),
-                                text = stringResource(R.string.clear_thumbnail_cache_message),
-                                onConfirm = {
-                                    settingsViewModel.clearThumbnailCache()
-                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(false)
-                                },
-                                onDismiss = {
-                                    settingsViewModel.updateShowThumbnailCacheClearConfirm(false)
+                                    settingsViewModel.updateShowCacheClearConfirm(false)
                                 }
                             )
                         }

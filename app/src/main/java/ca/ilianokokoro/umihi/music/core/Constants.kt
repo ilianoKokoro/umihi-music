@@ -187,17 +187,16 @@ object Constants {
     object Cache {
         object Audio {
             const val DIRECTORY = "umihi-music-exoplayer"
-            const val DEFAULT_SIZE_MB = 350
-            const val MIN_SIZE_MB = 50
-            const val MAX_SIZE_MB = 2000
+            const val DEFAULT_SIZE_MB = 512
+            const val MIN_SIZE_MB = 128
+            const val MAX_SIZE_MB = 2048
 
         }
 
         object Thumbnail {
-            const val DEFAULT_SIZE_MB = 100
-            const val MIN_SIZE_MB = 20
-            const val MAX_SIZE_MB = 500
-
+            const val DEFAULT_SIZE_MB = 64
+            const val MIN_SIZE_MB = 16
+            const val MAX_SIZE_MB = 256
         }
     }
 

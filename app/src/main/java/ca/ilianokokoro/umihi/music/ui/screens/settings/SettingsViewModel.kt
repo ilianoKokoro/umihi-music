@@ -146,37 +146,44 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun updateShowAudioCacheClearConfirm(show: Boolean) {
-        _uiState.update { it.copy(showAudioCacheClearConfirm = show) }
+    fun updateShowCacheClearConfirm(show: Boolean) {
+        _uiState.update { it.copy(showCacheClearConfirm = show) }
     }
 
-    fun updateShowThumbnailCacheClearConfirm(show: Boolean) {
-        _uiState.update { it.copy(showThumbnailCacheClearConfirm = show) }
-    }
 
     fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
         viewModelScope.launch {
             when (cacheType) {
-                CacheType.AUDIO -> updateSetting(DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE, sizeMB)
-                CacheType.THUMBNAIL -> updateSetting(DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE, sizeMB)
+                CacheType.AUDIO -> updateSetting(
+                    DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE,
+                    sizeMB
+                )
+
+                CacheType.THUMBNAIL -> updateSetting(
+                    DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
+                    sizeMB
+                )
             }
-            Toast.makeText(_application, _application.getString(R.string.cache_saved), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.cache_saved),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     @OptIn(UnstableApi::class)
-    fun clearAudioCache() {
+    fun clearCache() {
         viewModelScope.launch {
             ExoCache(_application).clear()
-            Toast.makeText(_application, _application.getString(R.string.audio_cache_cleared), Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun clearThumbnailCache() {
-        viewModelScope.launch {
-            val thumbDir = UmihiHelper.getDownloadDirectory(_application, "thumbnails")
+            val thumbDir =
+                UmihiHelper.getDownloadDirectory(_application, "thumbnails")// TODO double check
             thumbDir.deleteRecursively()
-            Toast.makeText(_application, _application.getString(R.string.thumbnail_cache_cleared), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.cache_cleared),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
