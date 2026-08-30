@@ -32,6 +32,7 @@
     <string name="retry">Coba Ulang</string>
     <string name="play_next_toast">Memutarkan lagu ini selanjutnya</string>
     <string name="added_queue_toast">Lagu ditambahkan ke antrean</string>
+    <string name="shuffled_queue_toast">Antrean teracak</string>
     <string name="playing_now">Sedang diputar</string>
     <string name="up_to_date_message">Aplikasi sudah versi terbaru!</string>
     <string name="update_check_failed">Gagal untuk mengecek update</string>
@@ -128,16 +129,16 @@
     <string name="download_on_metered_title">Unduh melalui Data Seluler</string>
     <string name="download_on_metered_description">Mengizinkan pengunduhan lagu dan playlist melalui data seluler</string>
     <string name="waiting_for_wifi_to_download">Menunggu untuk koneksi Wi-Fi untuk mengunduh %1$s</string>
-    <string name="remove_library">Remove from library</string>
-    <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="explicit">Explicit</string>
-    <string name="failed_get_local_song">Failed to get song from local repository</string>
-    <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
-    <string name="failed_delete_playlist">Failed to delete the playlist</string>
-    <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
-    <string name="repeat_one">Repeat One</string>
-    <string name="repeat_all">Repeat All</string>
-    <string name="repeat_off">Repeat Off</string>
+    <string name="remove_library">Hapus dari koleksi</string>
+    <string name="remove_library_text">Apakah anda yakin untuk menghapus playlist ini dari koleksi? Anda dapat menambahkannya lagi.</string>
+    <string name="remove_from_queue">Hapus dari antrean</string>
+    <string name="downloaded">Terunduh</string>
+    <string name="explicit">Mengandung bahasa kasar</string>
+    <string name="failed_get_local_song">Gagal untuk mendapat lagu dari repositori lokal</string>
+    <string name="failed_get_to_login_cookies">Gagal untuk mendapat cookie login</string>
+    <string name="failed_delete_playlist">Gagal untuk menghapus playlist</string>
+    <string name="failed_remove_from_library">Gagal untuk menghapus playlist dari koleksi anda</string>
+    <string name="repeat_one">Ulangi Satu</string>
+    <string name="repeat_all">Ulangi Semua</string>
+    <string name="repeat_off">Jangan Ulangi</string>
 </resources>
