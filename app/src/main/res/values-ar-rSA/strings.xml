@@ -142,12 +142,12 @@
     <string name="repeat_all">كرر الكل</string>
     <string name="repeat_off">إيقاف التكرار</string>
     <string name="no_wifi_for_online_playlist">غير قادر على تحميل قائمة التشغيل. تأكد من أنك متصل بالإنترنت.</string>
-    <string name="cache_management">Cache Management</string>
-    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="cache_management">إدارة ذاكرة التخزين المؤقت</string>
+    <string name="exoplayer_cache_title">حجم ذاكرة التخزين المؤقت للصوت</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
-    <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache size settings saved</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
-    <string name="cache_cleared">Cache Cleared</string>
+    <string name="cache_size_mb">%1$d ميغابايت</string>
+    <string name="cache_saved">تم حفظ إعدادات حجم ذاكرة التخزين المؤقت</string>
+    <string name="clear_cache">مسح ذاكرة التخزين المؤقت</string>
+    <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
+    <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
 </resources>
