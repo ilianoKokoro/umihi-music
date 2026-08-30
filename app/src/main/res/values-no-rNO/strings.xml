@@ -32,7 +32,7 @@
     <string name="retry">Prøv igjen</string>
     <string name="play_next_toast">Spiller denne sangen neste</string>
     <string name="added_queue_toast">Lagt til sang i køen</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Kø stokkes</string>
     <string name="playing_now">Spiller nå</string>
     <string name="up_to_date_message">Appen er oppdatert!</string>
     <string name="update_check_failed">Kunne ikke se etter oppdateringer</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Gjenta én</string>
     <string name="repeat_all">Gjenta Alle</string>
     <string name="repeat_off">Repeter av</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
