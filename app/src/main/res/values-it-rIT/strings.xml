@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Annullare il download della playlist in corso?</string>
     <string name="remove_download">Rimuovi Download</string>
     <string name="cancel_download">Annulla Download</string>
+    <string name="hide_playlist">Nascondi Scaletta</string>
+    <string name="unhide_playlist">Mostra Scaletta</string>
+    <string name="hide_playlist_confirm_text">Nascondi questa playlist? La playlist non verrà mostrata nella schermata iniziale</string>
+    <string name="unhide_playlist_confirm_text">Mostra questa playlist? La playlist verrà mostrata nella schermata iniziale</string>
     <string name="general">Generale</string>
-    <string name="show_podcast_playlist_title">Mostra Scaletta Podcast</string>
-    <string name="show_podcast_playlist_description">Commuta la visibilità della scaletta \'Episodi per Later\'</string>
+    <string name="show_hidden_playlists_title">Mostra Scalette Nascoste</string>
+    <string name="show_hidden_playlists_description">Visualizza tutte le tue playlist nascoste</string>
+    <string name="hidden_playlists">Scalette Nascoste</string>
+    <string name="no_hidden_playlists">Nessuna playlist nascosta</string>
     <string name="special_language_disabled">Lingua Speciale Disabilitata</string>
     <string name="special_language_enabled">Lingua Speciale Abilitata</string>
     <string name="reorder">Riordina</string>
