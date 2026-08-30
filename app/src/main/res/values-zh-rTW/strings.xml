@@ -73,8 +73,8 @@
     <string name="remove_download">移除下載</string>
     <string name="cancel_download">取消下載</string>
     <string name="general">一般</string>
-    <string name="show_podcast_playlist_title">顯示 Podcast 播放清單</string>
-    <string name="show_podcast_playlist_description">切換顯示「稍後播放的集數」播放清單</string>
+
+
     <string name="special_language_disabled">特殊語言未啟用</string>
     <string name="special_language_enabled">特殊語言已啟用</string>
     <string name="reorder">重新排序</string>

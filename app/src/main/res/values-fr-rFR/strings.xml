@@ -73,8 +73,8 @@
     <string name="remove_download">Supprimer le téléchargement</string>
     <string name="cancel_download">Annuler le téléchargement</string>
     <string name="general">Général</string>
-    <string name="show_podcast_playlist_title">Afficher la playlist du Podcast</string>
-    <string name="show_podcast_playlist_description">Active ou désactive l\'affichage de la playlist « Épisodes à regarder plus tard »</string>
+
+
     <string name="special_language_disabled">Langue spéciale désactivée</string>
     <string name="special_language_enabled">Langue spéciale activée</string>
     <string name="reorder">Réorganiser</string>

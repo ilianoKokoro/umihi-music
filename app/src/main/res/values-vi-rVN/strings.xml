@@ -73,8 +73,8 @@
     <string name="remove_download">Xoá bản tải về</string>
     <string name="cancel_download">Huỷ tải về</string>
     <string name="general">Tổng quan</string>
-    <string name="show_podcast_playlist_title">Hiển thị danh sách podcast</string>
-    <string name="show_podcast_playlist_description">Bật/tắt hiển thị danh sách phát \'Tập phim để xem sau\'</string>
+
+
     <string name="special_language_disabled">Tắt ngôn ngữ đặc biệt</string>
     <string name="special_language_enabled">Bật ngôn ngữ đặc biệt</string>
     <string name="reorder">Sắp xếp</string>

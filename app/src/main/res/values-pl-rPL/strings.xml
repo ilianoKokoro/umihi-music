@@ -73,8 +73,8 @@
     <string name="remove_download">Usuń pobranie</string>
     <string name="cancel_download">Anuluj pobieranie</string>
     <string name="general">Ogólny</string>
-    <string name="show_podcast_playlist_title">Pokaż listę odtwarzania podcastu</string>
-    <string name="show_podcast_playlist_description">Przełącza widoczność listy odtwarzania \'Odcinki do późniejszych\'</string>
+
+
     <string name="special_language_disabled">Język specjalny wyłączony</string>
     <string name="special_language_enabled">Język specjalny włączony</string>
     <string name="reorder">Zmień kolejność</string>

@@ -73,8 +73,8 @@
     <string name="remove_download">Видалити завантаження</string>
     <string name="cancel_download">Скасувати завантаження</string>
     <string name="general">Загальні налаштування</string>
-    <string name="show_podcast_playlist_title">Показати список Podcast Playlist</string>
-    <string name="show_podcast_playlist_description">Перемикає видимість \"Епізодів для списку відтворення пізніше</string>
+
+
     <string name="special_language_disabled">Спеціальна мова заборонена</string>
     <string name="special_language_enabled">Спеціальна мова увімкнена</string>
     <string name="reorder">Змінити порядок</string>

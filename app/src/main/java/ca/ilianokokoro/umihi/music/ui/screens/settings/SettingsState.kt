@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
+import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 data class SettingsState(
@@ -9,6 +10,8 @@ data class SettingsState(
     val showCacheSizeInputDialog: Boolean = false,
     val cacheTypeForInput: CacheType = CacheType.AUDIO,
     val showCacheClearConfirm: Boolean = false,
+    val showHiddenPlaylistsSheet: Boolean = false,
+    val hiddenPlaylists: List<Playlist> = emptyList(),
 )
 
 enum class CacheType {

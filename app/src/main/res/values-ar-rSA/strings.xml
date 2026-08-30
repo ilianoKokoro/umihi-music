@@ -73,8 +73,8 @@
     <string name="remove_download">إزالة التحميل</string>
     <string name="cancel_download">إلغاء التحميل</string>
     <string name="general">عام</string>
-    <string name="show_podcast_playlist_title">إظهار قائمة تشغيل Podcast</string>
-    <string name="show_podcast_playlist_description">تبديل رؤية \"الحلقات لاحقاً\" قائمة التشغيل</string>
+
+
     <string name="special_language_disabled">اللغة الخاصة معطلة</string>
     <string name="special_language_enabled">اللغة الخاصة ممكنة</string>
     <string name="reorder">إعادة ترتيب</string>

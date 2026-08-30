@@ -24,13 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.AlertDialog
-import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 
@@ -109,66 +107,26 @@ fun PlaylistListItem(
         }
     )
     if (showUnhideDialog) {
-        AlertDialog(
-            onDismissRequest = { showUnhideDialog = false },
-            title = {
-                Text(stringResource(R.string.unhide_playlist))
+        ConfirmDialog(
+            title = stringResource(R.string.unhide_playlist),
+            text = stringResource(R.string.unhide_playlist_confirm_text),
+            onConfirm = {
+                showUnhideDialog = false
+                onUnhidePlaylist?.invoke()
             },
-            text = {
-                Text(stringResource(R.string.unhide_playlist_confirm_text))
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        showUnhideDialog = false
-                        onUnhidePlaylist?.invoke()
-                    }
-                ) {
-                    Text(stringResource(R.string.confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = { showUnhideDialog = false }
-                ) {
-                    Text(stringResource(R.string.cancel))
-                }
-            },
-            properties = DialogProperties(
-                dismissOnClickOutside = false
-            )
+            onDismiss = { showUnhideDialog = false }
         )
     }
 
     if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = {
-                Text(stringResource(R.string.delete_playlist))
+        ConfirmDialog(
+            title = stringResource(R.string.delete_playlist),
+            text = stringResource(R.string.delete_playlist_text),
+            onConfirm = {
+                showDeleteDialog = false
+                onDeletePlaylist?.invoke()
             },
-            text = {
-                Text(stringResource(R.string.delete_playlist_text))
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        showDeleteDialog = false
-                        onDeletePlaylist?.invoke()
-                    }
-                ) {
-                    Text(stringResource(R.string.confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = { showDeleteDialog = false }
-                ) {
-                    Text(stringResource(R.string.cancel))
-                }
-            },
-            properties = DialogProperties(
-                dismissOnClickOutside = false
-            )
+            onDismiss = { showDeleteDialog = false }
         )
     }
 }

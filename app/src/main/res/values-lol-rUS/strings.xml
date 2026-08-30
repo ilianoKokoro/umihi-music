@@ -70,7 +70,7 @@
     <string name="remove_download">Remove Download</string>
     <string name="cancel_download">Cancel Download</string>
     <string name="general">General</string>
-    <string name="show_podcast_playlist_title">Show Podcast Playlist</string>
-    <string name="show_podcast_playlist_description">Toggles the visibility of the \'Episodes for Later\' Playlist</string>
+
+
     <string name="unknown_error">Unknown Error</string>
 </resources>

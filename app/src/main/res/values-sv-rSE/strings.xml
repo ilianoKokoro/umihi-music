@@ -73,8 +73,8 @@
     <string name="remove_download">Ta bort nedladdning</string>
     <string name="cancel_download">Avbryt nedladdning</string>
     <string name="general">Allmänt</string>
-    <string name="show_podcast_playlist_title">Visa poddsändningslista</string>
-    <string name="show_podcast_playlist_description">Växlar synligheten av \'Episodes for Later\' Spellista</string>
+
+
     <string name="special_language_disabled">Specialspråk inaktiverat</string>
     <string name="special_language_enabled">Specialspråk aktiverat</string>
     <string name="reorder">Omordna</string>

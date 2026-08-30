@@ -21,9 +21,6 @@ data class PlaylistScreenKey(val playlistInfo: PlaylistInfo) : NavKey
 @Serializable
 data object AuthScreenKey : NavKey
 
-@Serializable
-data object HideScreenKey : NavKey
-
 
 data class ScreenUiConfig(
     val showBottomBar: Boolean = true,
@@ -54,10 +51,6 @@ fun rememberScreenUiConfig(current: NavKey): ScreenUiConfig {
             AuthScreenKey -> ScreenUiConfig(
                 showBottomBar = false,
                 showMiniPlayer = false
-            )
-
-            HideScreenKey -> ScreenUiConfig(
-                showBottomBar = false,
             )
 
             else -> ScreenUiConfig()

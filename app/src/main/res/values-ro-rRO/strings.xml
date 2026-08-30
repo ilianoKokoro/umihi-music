@@ -73,8 +73,8 @@
     <string name="remove_download">Elimină Descărcare</string>
     <string name="cancel_download">Anulează descărcarea</string>
     <string name="general">Generalități</string>
-    <string name="show_podcast_playlist_title">Arată lista de redare Podcast</string>
-    <string name="show_podcast_playlist_description">Activează/dezactivează vizibilitatea listei de redare \'Episoade pentru mai târziu\'</string>
+
+
     <string name="special_language_disabled">Limbă specială dezactivată</string>
     <string name="special_language_enabled">Limbă specială activată</string>
     <string name="reorder">Reordonare</string>

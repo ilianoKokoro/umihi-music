@@ -73,8 +73,8 @@
     <string name="remove_download">Rimuovi Download</string>
     <string name="cancel_download">Annulla Download</string>
     <string name="general">Generale</string>
-    <string name="show_podcast_playlist_title">Mostra Scaletta Podcast</string>
-    <string name="show_podcast_playlist_description">Commuta la visibilità della scaletta \'Episodi per Later\'</string>
+
+
     <string name="special_language_disabled">Lingua Speciale Disabilitata</string>
     <string name="special_language_enabled">Lingua Speciale Abilitata</string>
     <string name="reorder">Riordina</string>

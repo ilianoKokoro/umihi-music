@@ -73,8 +73,8 @@
     <string name="remove_download">Download entfernen</string>
     <string name="cancel_download">Download abbrechen</string>
     <string name="general">Allgemein</string>
-    <string name="show_podcast_playlist_title">Podcast-Playlist anzeigen</string>
-    <string name="show_podcast_playlist_description">Schaltet die Sichtbarkeit der \'Episoden für später\' Playlist ein</string>
+
+
     <string name="special_language_disabled">Sondersprache deaktiviert</string>
     <string name="special_language_enabled">Sondersprache aktiviert</string>
     <string name="reorder">Umsortieren</string>
