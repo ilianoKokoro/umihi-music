@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
     <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
     <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
