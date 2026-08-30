@@ -142,12 +142,12 @@
     <string name="repeat_all">Wepeat Aww</string>
     <string name="repeat_off">Wepeat Off</string>
     <string name="no_wifi_for_online_playlist">Unabwe to woad da pwaywist. Make suwe you\'we connyected to da intewnet.</string>
-    <string name="cache_management">Cache Management</string>
-    <string name="exoplayer_cache_title">Audio Cache Size</string>
-    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_management">Cache Managemwent</string>
+    <string name="exoplayer_cache_title">Awwdio Cache Size</string>
+    <string name="thumbnail_cache_title">Thumbnaiv Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache size settings saved</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
-    <string name="cache_cleared">Cache Cleared</string>
+    <string name="cache_saved">Cache size settwings saved</string>
+    <string name="clear_cache">Cweaw Cache</string>
+    <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
+    <string name="cache_cleared">Cache Cweawed</string>
 </resources>
