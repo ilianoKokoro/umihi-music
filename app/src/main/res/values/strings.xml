@@ -155,6 +155,5 @@
     <string name="cache_saved">Cache size settings saved</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
-    <string name="save">Save</string>
     <string name="cache_cleared">Cache Cleared</string>
 </resources>

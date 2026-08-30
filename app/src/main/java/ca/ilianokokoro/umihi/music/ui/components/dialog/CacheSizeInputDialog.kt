@@ -30,38 +30,44 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.screens.settings.CacheType
 import kotlin.math.roundToInt
 
+private data class CacheSizeConfig(
+    val titleRes: Int,
+    val minVal: Int,
+    val maxVal: Int,
+    val step: Int,
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CacheSizeInputDialog(
     cacheType: CacheType,
     initialSizeMB: Int,
     onConfirm: (Int) -> Unit,
-    onDismiss: () -> Unit
 ) {
-    // NOTE: onDismiss is called in onDismissRequest but is redundant since the call site
-    // already sets showCacheSizeInputDialog=false in onConfirm. Kept for API compatibility.
-    val (titleRes, minVal, maxVal) = when (cacheType) {
-        CacheType.AUDIO -> Triple(
+    val config = when (cacheType) {
+        CacheType.AUDIO -> CacheSizeConfig(
             R.string.exoplayer_cache_title,
             Constants.Cache.Audio.MIN_SIZE_MB,
-            Constants.Cache.Audio.MAX_SIZE_MB
+            Constants.Cache.Audio.MAX_SIZE_MB,
+            Constants.Cache.Audio.STEP_MB
         )
 
-        CacheType.THUMBNAIL -> Triple(
+        CacheType.THUMBNAIL -> CacheSizeConfig(
             R.string.thumbnail_cache_title,
             Constants.Cache.Thumbnail.MIN_SIZE_MB,
-            Constants.Cache.Thumbnail.MAX_SIZE_MB
+            Constants.Cache.Thumbnail.MAX_SIZE_MB,
+            Constants.Cache.Thumbnail.STEP_MB
         )
     }
 
-    val initialIndex = initialSizeMB.coerceIn(minVal, maxVal)
+    val initialIndex = initialSizeMB.coerceIn(config.minVal, config.maxVal)
     var sliderValue by remember { mutableFloatStateOf(initialIndex.toFloat()) }
-    val currentValue = sliderValue.roundToInt().coerceIn(minVal, maxVal)
+    val currentValue = ((sliderValue - config.minVal) / config.step).roundToInt()
+        .coerceIn(0, (config.maxVal - config.minVal) / config.step) * config.step + config.minVal
 
     ModalBottomSheet(
         onDismissRequest = {
             onConfirm(currentValue)
-            onDismiss()
         },
         sheetState = rememberBottomSheetState(
             initialValue = SheetValue.Expanded,
@@ -76,7 +82,7 @@ fun CacheSizeInputDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(titleRes),
+                text = stringResource(config.titleRes),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
@@ -95,15 +101,15 @@ fun CacheSizeInputDialog(
                 value = sliderValue,
                 onValueChange = { newValue ->
                     val snapped = newValue.roundToInt()
-                        .coerceIn(minVal, maxVal)
+                        .coerceIn(config.minVal, config.maxVal)
                         .toFloat()
                     if (snapped != sliderValue) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
                     sliderValue = snapped
                 },
-                valueRange = minVal.toFloat()..maxVal.toFloat(),
-                steps = (maxVal - minVal) - 1,
+                valueRange = config.minVal.toFloat()..config.maxVal.toFloat(),
+                steps = ((config.maxVal - config.minVal) / config.step) - 1,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -112,12 +118,12 @@ fun CacheSizeInputDialog(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = stringResource(R.string.cache_size_mb, minVal),
+                    text = stringResource(R.string.cache_size_mb, config.minVal),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = stringResource(R.string.cache_size_mb, maxVal),
+                    text = stringResource(R.string.cache_size_mb, config.maxVal),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

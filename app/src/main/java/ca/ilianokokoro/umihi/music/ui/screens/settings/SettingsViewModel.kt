@@ -168,6 +168,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     CoilImageLoader.reset(_application)
                 }
             }
+            updateShowCacheSizeInputDialog(false)
             Toast.makeText(
                 _application,
                 _application.getString(R.string.cache_saved),
