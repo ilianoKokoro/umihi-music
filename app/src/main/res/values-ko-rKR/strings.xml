@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">지금 하고 있는 플레이리스트 다운로드를 취소할까요?</string>
     <string name="remove_download">다운로드 삭제하기</string>
     <string name="cancel_download">다운로드 취소하기</string>
+    <string name="hide_playlist">Hide Playlist</string>
+    <string name="unhide_playlist">Unhide Playlist</string>
+    <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
+    <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>
     <string name="general">일반</string>
-    <string name="show_podcast_playlist_title">팟캐스트 재생목록 보기</string>
-    <string name="show_podcast_playlist_description">\'나중에 들을 에피소드\' 재생목록 보여주기 켜고 끄는 거예요</string>
+    <string name="show_hidden_playlists_title">Show Hidden Playlists</string>
+    <string name="show_hidden_playlists_description">View all your hidden playlists</string>
+    <string name="hidden_playlists">Hidden Playlists</string>
+    <string name="no_hidden_playlists">No hidden playlists</string>
     <string name="special_language_disabled">특수 언어가 꺼졌어요</string>
     <string name="special_language_enabled">특수 언어가 켜졌어요</string>
     <string name="reorder">순서 바꾸기</string>
