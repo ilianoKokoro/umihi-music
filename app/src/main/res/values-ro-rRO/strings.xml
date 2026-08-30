@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Anulați descărcarea în curs de desfășurare?</string>
     <string name="remove_download">Elimină Descărcare</string>
     <string name="cancel_download">Anulează descărcarea</string>
+    <string name="hide_playlist">Ascunde Playlist</string>
+    <string name="unhide_playlist">Reafișează Playlist</string>
+    <string name="hide_playlist_confirm_text">Ascunde această listă de redare? Lista de redare nu va fi afișată pe ecranul principal</string>
+    <string name="unhide_playlist_confirm_text">Vrei să ștergi această listă de redare? Lista de redare va fi afișată în ecranul de pornire</string>
     <string name="general">Generalități</string>
-    <string name="show_podcast_playlist_title">Arată lista de redare Podcast</string>
-    <string name="show_podcast_playlist_description">Activează/dezactivează vizibilitatea listei de redare \'Episoade pentru mai târziu\'</string>
+    <string name="show_hidden_playlists_title">Arată Listele de redare ascunse</string>
+    <string name="show_hidden_playlists_description">Vezi toate listele tale de redare ascunse</string>
+    <string name="hidden_playlists">Playlisturi ascunse</string>
+    <string name="no_hidden_playlists">Fără liste de redare ascunse</string>
     <string name="special_language_disabled">Limbă specială dezactivată</string>
     <string name="special_language_enabled">Limbă specială activată</string>
     <string name="reorder">Reordonare</string>
