@@ -32,7 +32,7 @@
     <string name="retry">Opakovat</string>
     <string name="play_next_toast">Přehrává tuto skladbu dále</string>
     <string name="added_queue_toast">Přidána skladba do fronty</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Fronta zamíchána</string>
     <string name="playing_now">Přehrává se nyní</string>
     <string name="up_to_date_message">Aplikace je aktuální!</string>
     <string name="update_check_failed">Nepodařilo se zkontrolovat aktualizace</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Opakovat jednu</string>
     <string name="repeat_all">Opakovat vše</string>
     <string name="repeat_off">Opakování vypnuto</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
