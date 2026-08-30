@@ -72,9 +72,15 @@
     <string name="cancel_playlist_download_text">Download der Playlist abbrechen ?</string>
     <string name="remove_download">Download entfernen</string>
     <string name="cancel_download">Download abbrechen</string>
+    <string name="hide_playlist">Playlist ausblenden</string>
+    <string name="unhide_playlist">Wiedergabeliste anzeigen</string>
+    <string name="hide_playlist_confirm_text">Wiedergabeliste ausblenden? Die Wiedergabeliste wird nicht auf dem Startbildschirm angezeigt</string>
+    <string name="unhide_playlist_confirm_text">Wiedergabeliste freigeben? Die Wiedergabeliste wird auf dem Startbildschirm angezeigt</string>
     <string name="general">Allgemein</string>
-    <string name="show_podcast_playlist_title">Podcast-Playlist anzeigen</string>
-    <string name="show_podcast_playlist_description">Schaltet die Sichtbarkeit der \'Episoden für später\' Playlist ein</string>
+    <string name="show_hidden_playlists_title">Versteckte Playlisten anzeigen</string>
+    <string name="show_hidden_playlists_description">Alle versteckten Playlisten anzeigen</string>
+    <string name="hidden_playlists">Versteckte Wiedergabelisten</string>
+    <string name="no_hidden_playlists">Keine versteckten Wiedergabelisten</string>
     <string name="special_language_disabled">Sondersprache deaktiviert</string>
     <string name="special_language_enabled">Sondersprache aktiviert</string>
     <string name="reorder">Umsortieren</string>
