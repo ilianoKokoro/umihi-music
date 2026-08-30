@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -135,6 +136,58 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             return false
         }
         return !state.settings.cookies.isEmpty()
+    }
+
+    fun updateShowCacheSizeInputDialog(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {
+        _uiState.update {
+            it.copy(
+                showCacheSizeInputDialog = show,
+                cacheTypeForInput = cacheType
+            )
+        }
+    }
+
+    fun updateShowCacheClearConfirm(show: Boolean) {
+        _uiState.update { it.copy(showCacheClearConfirm = show) }
+    }
+
+
+    fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
+        viewModelScope.launch {
+            when (cacheType) {
+                CacheType.AUDIO -> updateSetting(
+                    DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE,
+                    sizeMB
+                )
+
+                CacheType.THUMBNAIL -> {
+                    updateSetting(
+                        DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
+                        sizeMB
+                    )
+                    CoilImageLoader.reset(_application)
+                }
+            }
+            updateShowCacheSizeInputDialog(false)
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.cache_saved),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    fun clearCache() {
+        viewModelScope.launch {
+            ExoCache(_application).clear()
+            CoilImageLoader.clear(_application)
+            Toast.makeText(
+                _application,
+                _application.getString(R.string.cache_cleared),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     fun <T> updateSetting(key: Preferences.Key<T>, value: T) {

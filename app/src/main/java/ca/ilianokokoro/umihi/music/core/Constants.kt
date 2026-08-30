@@ -88,6 +88,8 @@ object Constants {
         const val AUTO_UPDATE = "auto-update"
         const val SEND_PLAYBACK_DATA = "send-playback-data"
         const val DOWNLOAD_ON_METERED = "download-on-metered"
+        const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
+        const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
     }
 
     object Database {
@@ -168,11 +170,6 @@ object Constants {
             "audio/x-ima-adpcm" to "ima",
         )
 
-        object Cache {
-            const val NAME = "umihi-music-exoplayer"
-            const val SIZE: Long = 1000L * 1024L * 1024L // 1000 MB
-        }
-
         object Library {
             const val ROOT_ID = "root"
             const val PLAYLIST_ROOT = "root_playlist"
@@ -184,6 +181,23 @@ object Constants {
         object SongMetadata {
             const val DURATION = "duration"
             const val UID = "uid"
+        }
+    }
+
+    object Cache {
+        object Audio {
+            const val DIRECTORY = "umihi-music-exoplayer"
+            const val DEFAULT_SIZE_MB = 500
+            const val MIN_SIZE_MB = 100
+            const val MAX_SIZE_MB = 2000
+            const val STEP_MB = 100
+        }
+
+        object Thumbnail {
+            const val DEFAULT_SIZE_MB = 50
+            const val MIN_SIZE_MB = 20
+            const val MAX_SIZE_MB = 500
+            const val STEP_MB = 20
         }
     }
 
