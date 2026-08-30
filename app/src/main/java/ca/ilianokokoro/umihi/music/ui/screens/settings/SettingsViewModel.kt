@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
@@ -24,7 +23,6 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
-import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +41,6 @@ class SettingsViewModel(
     private val _application = application
     private val datastoreRepository = DatastoreRepository(application)
     private val downloadRepository = DownloadRepository(application)
-    private val playlistRepository = PlaylistRepository(application)
     private val localPlaylistRepository =
         AppDatabase.getInstance(application).playlistRepository()
 
@@ -222,7 +219,6 @@ class SettingsViewModel(
 
     fun getHiddenPlaylists() {
         viewModelScope.launch {
-            _uiState.update { it.copy(hiddenPlaylists = listOf()) }
             try {
                 val playlists = localPlaylistRepository.fetchHiddenPlaylists()
                 _uiState.update {
@@ -245,31 +241,6 @@ class SettingsViewModel(
             )
             sharedViewModel.requestPlaylistRefresh()
             getHiddenPlaylists()
-        }
-    }
-
-    fun deletePlaylist(playlist: Playlist) {
-        viewModelScope.launch {
-            try {
-                val settings = datastoreRepository.getSettings()
-                if (settings.cookies.isEmpty()) {
-                    Toast.makeText(
-                        _application,
-                        _application.getString(R.string.failed_get_to_login_cookies),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@launch
-                }
-
-                playlistRepository.delete(playlist.info, settings).collect { result ->
-                    if (result is ApiResult.Success) {
-                        sharedViewModel.requestPlaylistRefresh()
-                        getHiddenPlaylists()
-                    }
-                }
-            } catch (ex: Exception) {
-                printe(message = ex.toString(), exception = ex)
-            }
         }
     }
 

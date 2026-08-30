@@ -74,6 +74,7 @@ fun SettingsScreen(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 settingsViewModel.getSettings()
+                settingsViewModel.getHiddenPlaylists()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -369,7 +370,6 @@ fun SettingsScreen(
                             HiddenPlaylistsBottomSheet(
                                 playlists = uiState.hiddenPlaylists,
                                 onUnhidePlaylist = { settingsViewModel.unhidePlaylist(it) },
-                                onDeletePlaylist = { settingsViewModel.deletePlaylist(it) },
                                 onDismiss = { settingsViewModel.updateShowHiddenPlaylistsSheet(false) }
                             )
                         }

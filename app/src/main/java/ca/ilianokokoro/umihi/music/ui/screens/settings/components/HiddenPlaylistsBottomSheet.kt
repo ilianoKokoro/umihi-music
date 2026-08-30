@@ -31,7 +31,6 @@ import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistListItem
 fun HiddenPlaylistsBottomSheet(
     playlists: List<Playlist>,
     onUnhidePlaylist: (Playlist) -> Unit,
-    onDeletePlaylist: (Playlist) -> Unit,
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberBottomSheetState(
@@ -83,9 +82,7 @@ fun HiddenPlaylistsBottomSheet(
                         ) { playlist ->
                             PlaylistListItem(
                                 playlist = playlist,
-                                onPlaylistPressed = {},
-                                onUnhidePlaylist = { onUnhidePlaylist(playlist) },
-                                onDeletePlaylist = { onDeletePlaylist(playlist) }
+                                onUnhidePlaylist = { onUnhidePlaylist(playlist) }
                             )
                         }
                     }
