@@ -141,4 +141,5 @@
     <string name="repeat_one">Répéter un</string>
     <string name="repeat_all">Tout répéter</string>
     <string name="repeat_off">Répéter désactivé</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
