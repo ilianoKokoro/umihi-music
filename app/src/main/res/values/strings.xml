@@ -34,6 +34,7 @@
     <string name="retry">Retry</string>
     <string name="play_next_toast">Playing this song next</string>
     <string name="added_queue_toast">Added song to the queue</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Playing Now</string>
     <string name="up_to_date_message">The app is up to date !</string>
     <string name="update_check_failed">Failed to check for updates</string>
@@ -146,6 +147,7 @@
     <string name="repeat_one">Repeat One</string>
     <string name="repeat_all">Repeat All</string>
     <string name="repeat_off">Repeat Off</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
     
     <!-- Cache Management -->
     <string name="cache_management">Cache Management</string>

@@ -32,6 +32,7 @@
     <string name="retry">Reîncercați</string>
     <string name="play_next_toast">Se redă melodia următoare</string>
     <string name="added_queue_toast">Melodie adăugată în coadă</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">Redă acum</string>
     <string name="up_to_date_message">Aplicația este actualizată!</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">Obținerea cookie-urilor nu a reușit</string>
     <string name="failed_delete_playlist">Ștergerea listei de redare a eșuat</string>
     <string name="failed_remove_from_library">Ștergerea playlist-ului din biblioteca dvs. a eșuat</string>
+    <string name="repeat_one">Repetă unu</string>
+    <string name="repeat_all">Repetă tot</string>
+    <string name="repeat_off">Repetare oprită</string>
 </resources>

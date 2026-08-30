@@ -32,6 +32,7 @@
     <string name="retry">重試</string>
     <string name="play_next_toast">接著播放這首</string>
     <string name="added_queue_toast">已加入歌曲至播放佇列</string>
+    <string name="shuffled_queue_toast">Queue shuffled</string>
     <string name="playing_now">正在播放</string>
     <string name="up_to_date_message">已更新到最新版！</string>
     <string name="update_check_failed">無法檢查更新</string>
@@ -137,4 +138,7 @@
     <string name="failed_get_to_login_cookies">無法取得登入用 cookie</string>
     <string name="failed_delete_playlist">無法刪除播放清單</string>
     <string name="failed_remove_from_library">無法從音樂庫中移除播放清單</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>

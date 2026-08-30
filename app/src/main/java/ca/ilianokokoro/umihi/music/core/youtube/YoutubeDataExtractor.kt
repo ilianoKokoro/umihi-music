@@ -718,7 +718,11 @@ object YoutubeDataExtractor {
         try {
             savedSong = localSongRepository.getSong(song.youtubeId)
         } catch (ex: Exception) {
-            Toast.makeText(context, context.getString(R.string.failed_get_local_song), Toast.LENGTH_LONG)
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_get_local_song),
+                Toast.LENGTH_LONG
+            )
                 .show()
             printe(ex.toString())
         }

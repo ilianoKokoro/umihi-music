@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Explicit
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.FilledIconToggleButton
@@ -284,11 +285,23 @@ fun SongInfo(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = song?.title ?: "",
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.basicMarquee()
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                if (song?.isExplicit == true) {
+                    Icon(
+                        imageVector = Icons.Rounded.Explicit,
+                        contentDescription = stringResource(R.string.explicit),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                Text(
+                    text = song?.title ?: "",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.basicMarquee()
+                )
+            }
             Text(
                 text = song?.artist ?: "",
                 style = MaterialTheme.typography.bodyMedium.copy(
