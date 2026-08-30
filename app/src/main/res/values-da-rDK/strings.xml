@@ -142,12 +142,12 @@
     <string name="repeat_all">Gentag Alle</string>
     <string name="repeat_off">Gentag Fra</string>
     <string name="no_wifi_for_online_playlist">Kan ikke indlæse spillelisten. Sørg for at du er forbundet til internettet.</string>
-    <string name="cache_management">Cache Management</string>
-    <string name="exoplayer_cache_title">Audio Cache Size</string>
+    <string name="cache_management">Cache Håndtering</string>
+    <string name="exoplayer_cache_title">Lyd Cache Størrelse</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache size settings saved</string>
-    <string name="clear_cache">Clear Cache</string>
-    <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
-    <string name="cache_cleared">Cache Cleared</string>
+    <string name="cache_saved">Cache størrelse indstillinger gemt</string>
+    <string name="clear_cache">Ryd Cache</string>
+    <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
+    <string name="cache_cleared">Cache Ryddet</string>
 </resources>
