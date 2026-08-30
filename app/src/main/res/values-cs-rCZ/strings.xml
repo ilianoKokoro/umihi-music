@@ -141,5 +141,13 @@
     <string name="repeat_one">Opakovat jednu</string>
     <string name="repeat_all">Opakovat vše</string>
     <string name="repeat_off">Opakování vypnuto</string>
-    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="no_wifi_for_online_playlist">Nelze načíst seznam skladeb. Ujistěte se, že jste připojeni k internetu.</string>
+    <string name="cache_management">Správa mezipaměti</string>
+    <string name="exoplayer_cache_title">Velikost vyrovnávací paměti zvuku</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Nastavení velikosti mezipaměti uložena</string>
+    <string name="clear_cache">Vymazat mezipaměť</string>
+    <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
+    <string name="cache_cleared">Mezipaměť vymazána</string>
 </resources>

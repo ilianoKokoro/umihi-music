@@ -141,5 +141,13 @@
     <string name="repeat_one">Wiederholen</string>
     <string name="repeat_all">Alle wiederholen</string>
     <string name="repeat_off">Wiederholen aus</string>
-    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="no_wifi_for_online_playlist">Die Playlist konnte nicht geladen werden. Stellen Sie sicher, dass Sie mit dem Internet verbunden sind.</string>
+    <string name="cache_management">Cache-Verwaltung</string>
+    <string name="exoplayer_cache_title">Audio-Cache-Größe</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Cache-Größeneinstellungen gespeichert</string>
+    <string name="clear_cache">Cache leeren</string>
+    <string name="clear_cache_message">Entferne alle zwischengespeicherten Audio- und Thumbnail Daten von diesem Gerät</string>
+    <string name="cache_cleared">Cache gelöscht</string>
 </resources>

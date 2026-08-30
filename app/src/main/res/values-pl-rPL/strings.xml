@@ -141,5 +141,13 @@
     <string name="repeat_one">Powtórz jeden</string>
     <string name="repeat_all">Powtórz wszystko</string>
     <string name="repeat_off">Powtórz wył</string>
-    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="no_wifi_for_online_playlist">Nie można załadować playlisty. Upewnij się, że jesteś połączony z Internetem.</string>
+    <string name="cache_management">Zarządzanie pamięcią podręczną</string>
+    <string name="exoplayer_cache_title">Rozmiar pamięci podręcznej dźwięku</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">Zapisano ustawienia rozmiaru pamięci podręcznej</string>
+    <string name="clear_cache">Usuń pamięć podręczną</string>
+    <string name="clear_cache_message">Usuń wszystkie dane z pamięci podręcznej dźwięku i miniatur z tego urządzenia</string>
+    <string name="cache_cleared">Wyczyszczono pamięć podręczną</string>
 </resources>

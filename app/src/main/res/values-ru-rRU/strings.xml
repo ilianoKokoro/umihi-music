@@ -141,5 +141,13 @@
     <string name="repeat_one">Повторить один</string>
     <string name="repeat_all">Повторить все</string>
     <string name="repeat_off">Повтор выключен</string>
-    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="no_wifi_for_online_playlist">Не удается загрузить плейлист. Убедитесь, что вы подключены к Интернету.</string>
+    <string name="cache_management">Управление кэшем</string>
+    <string name="exoplayer_cache_title">Размер кэша аудио</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d МБ</string>
+    <string name="cache_saved">Настройки размера кэша сохранены</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
+    <string name="cache_cleared">Кэш очищен</string>
 </resources>

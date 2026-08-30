@@ -141,5 +141,13 @@
     <string name="repeat_one">1回繰り返す</string>
     <string name="repeat_all">すべて繰り返す</string>
     <string name="repeat_off">繰り返しオフ</string>
-    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
+    <string name="no_wifi_for_online_playlist">プレイリストを読み込めません。インターネットに接続していることを確認してください。</string>
+    <string name="cache_management">キャッシュ管理</string>
+    <string name="exoplayer_cache_title">オーディオキャッシュサイズ</string>
+    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_saved">キャッシュサイズの設定を保存しました</string>
+    <string name="clear_cache">キャッシュをクリア</string>
+    <string name="clear_cache_message">このデバイスからキャッシュされたオーディオとサムネイルデータをすべて削除します</string>
+    <string name="cache_cleared">キャッシュが消去されました</string>
 </resources>
