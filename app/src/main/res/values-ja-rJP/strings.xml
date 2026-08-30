@@ -32,7 +32,7 @@
     <string name="retry">再試行する</string>
     <string name="play_next_toast">次にこの曲を再生する</string>
     <string name="added_queue_toast">キューに曲を追加しました</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">キューシャッフル中</string>
     <string name="playing_now">再生中</string>
     <string name="up_to_date_message">アプリは最新です！</string>
     <string name="update_check_failed">更新の確認に失敗しました</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">1回繰り返す</string>
     <string name="repeat_all">すべて繰り返す</string>
     <string name="repeat_off">繰り返しオフ</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
