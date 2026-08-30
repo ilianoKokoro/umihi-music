@@ -32,7 +32,7 @@
     <string name="retry">Repetir</string>
     <string name="play_next_toast">Reproduzindo esta música a seguir</string>
     <string name="added_queue_toast">Música adicionada à fila</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Fila embaralhada</string>
     <string name="playing_now">Reproduzindo Agora</string>
     <string name="up_to_date_message">O aplicativo está atualizado !</string>
     <string name="update_check_failed">Não foi possível verificar se há atualizações</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Repetir uma vez</string>
     <string name="repeat_all">Repetir todos</string>
     <string name="repeat_off">Repetir desligado</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
