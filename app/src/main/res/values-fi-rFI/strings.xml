@@ -32,7 +32,7 @@
     <string name="retry">Yritä Uudelleen</string>
     <string name="play_next_toast">Soita tätä kappaletta seuraava</string>
     <string name="added_queue_toast">Kappale lisätty jonoon</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">Jono sekoitettu</string>
     <string name="playing_now">Toistetaan Nyt</string>
     <string name="up_to_date_message">Sovellus on ajan tasalla !</string>
     <string name="update_check_failed">Päivitysten tarkistus epäonnistui</string>
@@ -141,4 +141,5 @@
     <string name="repeat_one">Toista Yksi</string>
     <string name="repeat_all">Toista Kaikki</string>
     <string name="repeat_off">Toista Pois Käytöstä</string>
+    <string name="no_wifi_for_online_playlist">Unable to load the playlist. Make sure you\'re connected to the internet.</string>
 </resources>
