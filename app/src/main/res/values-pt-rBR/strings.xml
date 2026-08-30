@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Falha ao obter cookies de login</string>
     <string name="failed_delete_playlist">Falha ao excluir a playlist</string>
     <string name="failed_remove_from_library">Falha ao remover a lista de reprodução da sua biblioteca</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
