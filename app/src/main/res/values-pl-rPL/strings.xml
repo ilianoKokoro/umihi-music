@@ -137,4 +137,7 @@
     <string name="failed_get_to_login_cookies">Nie udało się zalogować ciasteczek</string>
     <string name="failed_delete_playlist">Nie udało się usunąć listy odtwarzania</string>
     <string name="failed_remove_from_library">Nie udało się usunąć listy odtwarzania z biblioteki</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
+    <string name="repeat_off">Repeat Off</string>
 </resources>
