@@ -152,7 +152,6 @@
     <string name="exoplayer_cache_title">Audio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="enter_cache_size_mb">Enter cache size in MB</string>
     <string name="cache_saved">Cache size settings saved</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>

@@ -350,7 +350,6 @@ fun SettingsScreen(
                                         sizeMB,
                                         uiState.cacheTypeForInput
                                     )
-                                    settingsViewModel.updateShowCacheSizeInputDialog(false)
                                 },
                                 onDismiss = {
                                     settingsViewModel.updateShowCacheSizeInputDialog(false)
