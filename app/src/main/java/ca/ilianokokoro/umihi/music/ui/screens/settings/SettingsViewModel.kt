@@ -177,11 +177,6 @@ class SettingsViewModel(
                 }
             }
             updateShowCacheSizeInputDialog(false)
-            Toast.makeText(
-                _application,
-                _application.getString(R.string.cache_saved),
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
