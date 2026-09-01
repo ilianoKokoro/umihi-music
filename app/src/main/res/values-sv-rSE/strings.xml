@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Skickar spelade låtar tillbaka till Youtube Music för historia, rekommendationer och år-slut-recap</string>
     <string name="downloading_update">Laddar ner uppdatering…</string>
     <string name="title">Titel</string>
+    <string name="description">Description</string>
     <string name="create">Skapa</string>
     <string name="create_playlist">Skapa spellista</string>
     <string name="privacy_unlisted">Olistad</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
