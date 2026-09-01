@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Sends soitetut kappaleet takaisin Youtube Music historian, suositusten ja vuoden lopussa recap</string>
     <string name="downloading_update">Ladataan Päivitystä…</string>
     <string name="title">Otsikko</string>
-    <string name="description">Description</string>
+    <string name="description">Kuvaus</string>
     <string name="create">Luo</string>
     <string name="create_playlist">Luo soittolista</string>
     <string name="privacy_unlisted">Listaamaton</string>
@@ -157,5 +157,5 @@
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Tilavuus</string>
 </resources>
