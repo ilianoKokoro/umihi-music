@@ -161,4 +161,5 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
