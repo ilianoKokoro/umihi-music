@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Στέλνει τραγούδια πίσω στο Youtube Music για ιστορία, συστάσεις και ανακεφαλαίωση του τέλους του έτους</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Τίτλος</string>
+    <string name="description">Description</string>
     <string name="create">Δημιουργία</string>
     <string name="create_playlist">Δημιουργία λίστας αναπαραγωγής</string>
     <string name="privacy_unlisted">Μη Καταχωρημένο</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">Εκκαθάριση Προσωρινής Αποθήκευσης</string>
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
