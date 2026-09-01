@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Trimiteți melodiile redate înapoi la Muzica Youtube pentru istorie, recomandări și recuperări de la sfârșitul anului</string>
     <string name="downloading_update">Descărcare Actualizare…</string>
     <string name="title">Titlu</string>
+    <string name="description">Description</string>
     <string name="create">Crează</string>
     <string name="create_playlist">Creare listă</string>
     <string name="privacy_unlisted">Nelistate</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">Curăță Cache</string>
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
