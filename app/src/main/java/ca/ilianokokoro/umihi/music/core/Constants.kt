@@ -250,40 +250,32 @@ object Constants {
         }
 
         object Client {
-            val WEB_REMIX =
-                buildJsonObject {
-                    put("clientName", JsonPrimitive("WEB_REMIX"))
-                    put("clientVersion", JsonPrimitive("1.20260707.12.00"))
-                    put("userAgent", JsonPrimitive(USER_AGENT))
-                    put("xClientName", JsonPrimitive("67"))
-                    put("platform", JsonPrimitive("DESKTOP"))
-                }
-
-
-            val TVHTML5_SIMPLY_EMBEDDED_PLAYER =
-                buildJsonObject {
-                    put("clientName", JsonPrimitive("TVHTML5_SIMPLY_EMBEDDED_PLAYER"))
-                    put("clientVersion", JsonPrimitive("2.0"))
-                    put("xClientName", JsonPrimitive("85"))
-                    put("platform", JsonPrimitive("TV"))
-                    put(
-                        "userAgent",
-                        JsonPrimitive("Mozilla/5.0 (PlayStation; PlayStation 4/12.02) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
-                    )
-                }
+            val WEB_REMIX = buildJsonObject {
+                put("clientName", JsonPrimitive("WEB_REMIX"))
+                put("clientVersion", JsonPrimitive("1.20260707.12.00"))
+                put("xClientName", JsonPrimitive("67"))
+                put("userAgent", JsonPrimitive(USER_AGENT))
+                put("platform", JsonPrimitive("DESKTOP"))
+            }
 
             val VISION_OS = buildJsonObject {
                 put("clientName", JsonPrimitive("VISIONOS"))
-                put("clientVersion", JsonPrimitive("1.02"))
-                put("clientId", JsonPrimitive("101"))
+                put("clientVersion", JsonPrimitive("0.1"))
+                put("xClientName", JsonPrimitive("101"))
                 put(
                     "userAgent",
-                    JsonPrimitive("Mozilla/5.0 (Macintosh; Intel Mac OS X 15_7_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15")
+                    JsonPrimitive("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15")
                 )
-                put("osVersion", JsonPrimitive("26.5.23O47"))
+                put("osName", JsonPrimitive("visionOS"))
+                put("osVersion", JsonPrimitive("1.3.21O771"))
+                put("deviceMake", JsonPrimitive("Apple"))
+                put("deviceModel", JsonPrimitive("RealityDevice14,1"))
+                put("platform", JsonPrimitive("DESKTOP"))
             }
 
-            val FALLBACK_ORDER = listOf(TVHTML5_SIMPLY_EMBEDDED_PLAYER, WEB_REMIX, VISION_OS)
+            val FALLBACK_ORDER = listOf(
+                VISION_OS
+            )
         }
 
         object Create {

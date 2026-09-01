@@ -910,7 +910,7 @@ object YoutubeDataExtractor {
         return bestAudioStream.content
     }
 
-    private fun extractStreamFromRawResponse(
+    private suspend fun extractStreamFromRawResponse(
         text: String,
     ): String {
         val root = Json.parseToJsonElement(text).jsonObject
@@ -961,6 +961,10 @@ object YoutubeDataExtractor {
 
         if (directUrl == null) {
             throw Exception("($status) $reason")
+        }
+
+        if (!isYoutubeUrlValid(directUrl)) {
+            throw Exception("($status) Url was invalid")
         }
 
         return directUrl
