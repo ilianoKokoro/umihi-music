@@ -156,4 +156,5 @@
     <string name="clear_cache">Curăță Cache</string>
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
