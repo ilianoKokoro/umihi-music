@@ -5,9 +5,9 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 data class SettingsState(
     val screenState: ScreenState = ScreenState.Loading,
-    val showUpdateChannelDialog: Boolean = false,
+    val showUpdateChannelSheet: Boolean = false,
     val showDownloadDeleteConfirm: Boolean = false,
-    val showCacheSizeInputDialog: Boolean = false,
+    val showCacheSizeInputSheet: Boolean = false,
     val cacheTypeForInput: CacheType = CacheType.AUDIO,
     val showCacheClearConfirm: Boolean = false,
     val showHiddenPlaylistsSheet: Boolean = false,

@@ -77,11 +77,11 @@ class SettingsViewModel(
         }
     }
 
-    fun updateShowUpdateChannelDialog(value: Boolean) {
+    fun updateShowUpdateChannelSheet(value: Boolean) {
         viewModelScope.launch {
             _uiState.update {
                 _uiState.value.copy(
-                    showUpdateChannelDialog = value
+                    showUpdateChannelSheet = value
                 )
             }
         }
@@ -146,10 +146,10 @@ class SettingsViewModel(
         return !state.settings.cookies.isEmpty()
     }
 
-    fun updateShowCacheSizeInputDialog(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {
+    fun updateShowCacheSizeInputSheet(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {
         _uiState.update {
             it.copy(
-                showCacheSizeInputDialog = show,
+                showCacheSizeInputSheet = show,
                 cacheTypeForInput = cacheType
             )
         }
@@ -175,7 +175,7 @@ class SettingsViewModel(
                     CoilImageLoader.reset(_application)
                 }
             }
-            updateShowCacheSizeInputDialog(false)
+            updateShowCacheSizeInputSheet(false)
         }
     }
 

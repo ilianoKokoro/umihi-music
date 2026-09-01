@@ -243,7 +243,7 @@ fun SettingsScreen(
                                 ),
                                 leadingIcon = Icons.Outlined.Memory,
                                 onClick = {
-                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                    settingsViewModel.updateShowCacheSizeInputSheet(
                                         true,
                                         CacheType.AUDIO
                                     )
@@ -258,7 +258,7 @@ fun SettingsScreen(
                                 ),
                                 leadingIcon = Icons.Outlined.Image,
                                 onClick = {
-                                    settingsViewModel.updateShowCacheSizeInputDialog(
+                                    settingsViewModel.updateShowCacheSizeInputSheet(
                                         true,
                                         CacheType.THUMBNAIL
                                     )
@@ -308,13 +308,13 @@ fun SettingsScreen(
                                     ),
                                     leadingIcon = Icons.Outlined.SystemUpdate,
                                     onClick = {
-                                        settingsViewModel.updateShowUpdateChannelDialog(true)
+                                        settingsViewModel.updateShowUpdateChannelSheet(true)
                                     }
                                 )
                             }
                         }
 
-                        if (uiState.showUpdateChannelDialog) {
+                        if (uiState.showUpdateChannelSheet) {
                             UpdateChannelBottomSheet(
                                 selectedOption = screenState.settings.updateChannel,
                                 onChange = {
@@ -324,7 +324,7 @@ fun SettingsScreen(
                                     )
                                 },
                                 onClose = {
-                                    settingsViewModel.updateShowUpdateChannelDialog(false)
+                                    settingsViewModel.updateShowUpdateChannelSheet(false)
                                 }
                             )
                         } else if (uiState.showDownloadDeleteConfirm) {
@@ -339,7 +339,7 @@ fun SettingsScreen(
                                     settingsViewModel.updateShowDownloadDeleteConfirm(false)
                                 }
                             )
-                        } else if (uiState.showCacheSizeInputDialog) {
+                        } else if (uiState.showCacheSizeInputSheet) {
                             val initialSize = when (uiState.cacheTypeForInput) {
                                 CacheType.AUDIO -> screenState.settings.exoPlayerCacheSizeMB
                                 CacheType.THUMBNAIL -> screenState.settings.thumbnailCacheSizeMB
