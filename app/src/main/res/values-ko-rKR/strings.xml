@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Sends played songs back to Youtube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">업데이트 다운로드 중이에요…</string>
     <string name="title">제목</string>
+    <string name="description">Description</string>
     <string name="create">만들기</string>
     <string name="create_playlist">플레이리스트 만들기</string>
     <string name="privacy_unlisted">미등록</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
