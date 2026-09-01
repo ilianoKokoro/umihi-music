@@ -156,4 +156,5 @@
     <string name="clear_cache">Vymazat mezipaměť</string>
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
