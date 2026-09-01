@@ -64,7 +64,7 @@ fun VolumeBottomSheet(
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
 
-    var sliderValue by remember(currentVolume) {
+    var sliderValue by remember {
         mutableFloatStateOf(currentVolume.toFloat())
     }
 
@@ -145,10 +145,8 @@ fun VolumeBottomSheet(
                 value = sliderValue,
                 onValueChange = { newValue ->
                     val rounded = newValue.roundToInt()
-                    if (rounded == 0 || rounded == 50 || rounded == 100 || rounded == 150 || rounded == 200) {
-                        if (sliderValue.roundToInt() != rounded) {
-                            haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-                        }
+                    if (Constants.Player.Volume.PRESETS.contains(rounded) && sliderValue.roundToInt() != rounded) {
+                        haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                     }
                     sliderValue = newValue
                     onVolumeChange(rounded)
@@ -171,17 +169,11 @@ fun VolumeBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val presets = listOf(
-                    0 to "0%",
-                    50 to "50%",
-                    100 to "100%",
-                    150 to "150%",
-                    200 to "200%"
-                )
+                val presets = Constants.Player.Volume.PRESETS.map { it to "$it%" }
 
                 presets.forEach { (percent, label) ->
                     val isSelected = sliderValue.roundToInt() == percent
-                    val isBoostButton = percent > 100
+                    val isBoostButton = percent > Constants.Player.Volume.BOOST_THRESHOLD
 
                     Surface(
                         shape = RoundedCornerShape(12.dp),

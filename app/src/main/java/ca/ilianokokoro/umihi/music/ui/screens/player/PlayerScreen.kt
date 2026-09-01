@@ -215,17 +215,13 @@ fun PlayerScreen(
             currentSpeed = uiState.playbackSpeed,
             onSelectSpeed = playerViewModel::setPlaybackSpeed,
         )
-    }
-
-    if (uiState.isQueueModalShown) {
+    } else if (uiState.isQueueModalShown) {
         QueueBottomSheet(
             changeVisibility = playerViewModel::setQueueVisibility,
             songs = uiState.queue,
             currentIndex = uiState.currentIndex
         )
-    }
-
-    if (uiState.isSleepTimerModalShown) {
+    } else if (uiState.isSleepTimerModalShown) {
         SleepTimerBottomSheet(
             changeVisibility = playerViewModel::setSleepTimerSheetVisibility,
             activeRemainingSeconds = uiState.sleepTimerRemainingSeconds,
@@ -233,9 +229,7 @@ fun PlayerScreen(
             onStartEndOfSong = playerViewModel::startSleepTimerEndOfSong,
             onCancelTimer = playerViewModel::cancelSleepTimer,
         )
-    }
-
-    if (uiState.showVolumeDialog) {
+    } else if (uiState.showVolumeDialog) {
         VolumeBottomSheet(
             changeVisibility = playerViewModel::updateShowVolumeDialog,
             currentVolume = uiState.appVolume,

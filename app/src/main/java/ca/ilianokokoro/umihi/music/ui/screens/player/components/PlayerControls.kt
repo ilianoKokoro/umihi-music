@@ -14,7 +14,6 @@ import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.automirrored.rounded.VolumeDown
 import androidx.compose.material.icons.automirrored.rounded.VolumeMute
 import androidx.compose.material.icons.automirrored.rounded.VolumeUp
-import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Repeat
@@ -313,9 +312,9 @@ fun PlayerControls(
                     {
                         val isBoosted = appVolume > 100
                         val isMuted = appVolume <= 0
+                        val activeColors = IconButtonDefaults.filledIconToggleButtonColors()
                         val volumeIcon = when {
                             isMuted -> Icons.AutoMirrored.Rounded.VolumeMute
-                            isBoosted -> Icons.Rounded.Bolt
                             appVolume <= 50 -> Icons.AutoMirrored.Rounded.VolumeDown
                             else -> Icons.AutoMirrored.Rounded.VolumeUp
                         }
@@ -327,8 +326,8 @@ fun PlayerControls(
                                 pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                             ),
                             colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = if (isBoosted) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
-                                contentColor = if (isBoosted) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurface
+                                containerColor = if (isBoosted) activeColors.checkedContainerColor else MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = if (isBoosted) activeColors.checkedContentColor else MaterialTheme.colorScheme.onSurface
                             ),
                             modifier = Modifier
                                 .size(buttonSize)

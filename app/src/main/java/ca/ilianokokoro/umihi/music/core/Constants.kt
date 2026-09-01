@@ -217,6 +217,7 @@ object Constants {
             const val MAX_PERCENT = 200
             const val DEFAULT_PERCENT = 100
             const val BOOST_THRESHOLD = 100
+            val PRESETS = listOf(0, 50, 100, 150, 200)
         }
     }
 
