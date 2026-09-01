@@ -251,32 +251,36 @@ object Constants {
             val WEB_REMIX =
                 buildJsonObject {
                     put("clientName", JsonPrimitive("WEB_REMIX"))
-                    put("clientVersion", JsonPrimitive("1.20250212.01.00"))
+                    put("clientVersion", JsonPrimitive("1.20260707.12.00"))
                     put("userAgent", JsonPrimitive(USER_AGENT))
                     put("xClientName", JsonPrimitive("67"))
+                    put("platform", JsonPrimitive("DESKTOP"))
                 }
 
-            val ANDROID_VR = buildJsonObject {
-                put("clientName", JsonPrimitive("ANDROID_VR"))
-                put("clientVersion", JsonPrimitive("1.61.48"))
-                put("clientId", JsonPrimitive("28"))
 
+            val TVHTML5_SIMPLY_EMBEDDED_PLAYER =
+                buildJsonObject {
+                    put("clientName", JsonPrimitive("TVHTML5_SIMPLY_EMBEDDED_PLAYER"))
+                    put("clientVersion", JsonPrimitive("2.0"))
+                    put("xClientName", JsonPrimitive("85"))
+                    put("platform", JsonPrimitive("TV"))
                 put(
                     "userAgent",
-                    JsonPrimitive(
-                        "com.google.android.apps.youtube.vr.oculus/1.61.48 (Linux; U; Android 12; en_US; Quest 3; Build/SQ3A.220605.009.A1; Cronet/132.0.6808.3)"
-                    )
+                        JsonPrimitive("Mozilla/5.0 (PlayStation; PlayStation 4/12.02) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
                 )
+                }
 
-                put("osName", JsonPrimitive("Android"))
-                put("osVersion", JsonPrimitive("12"))
-                put("deviceMake", JsonPrimitive("Oculus"))
-                put("deviceModel", JsonPrimitive("Quest 3"))
-                put("androidSdkVersion", JsonPrimitive("32"))
-                put("buildId", JsonPrimitive("SQ3A.220605.009.A1"))
-                put("cronetVersion", JsonPrimitive("132.0.6808.3"))
-                put("packageName", JsonPrimitive("com.google.android.apps.youtube.vr.oculus"))
+            val VISION_OS = buildJsonObject {
+                put("clientName", JsonPrimitive("VISIONOS"))
+                put("clientVersion", JsonPrimitive("1.02"))
+                put("clientId", JsonPrimitive("101"))
+                put(
+                    "userAgent",
+                    JsonPrimitive("Mozilla/5.0 (Macintosh; Intel Mac OS X 15_7_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15")
+                )
+                put("osVersion", JsonPrimitive("26.5.23O47"))
             }
+
         }
 
         object Create {

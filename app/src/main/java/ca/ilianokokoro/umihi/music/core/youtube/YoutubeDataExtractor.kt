@@ -11,6 +11,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeArray
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeObject
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
+import ca.ilianokokoro.umihi.music.extensions.getClientName
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.models.Song
@@ -409,9 +410,7 @@ object YoutubeDataExtractor {
 
         val hasLikeEndpoint = toggleRenderer["toggledServiceEndpoint"]
             ?.safeObject()?.get("likeEndpoint") != null
-        if (hasLikeEndpoint) return true
-
-        return toggleRenderer["toggledText"]
+        return hasLikeEndpoint || toggleRenderer["toggledText"]
             ?.safeObject()?.get("runs")?.safeArray()
             ?.any { run ->
                 run.safeObject()?.get("text")?.jsonPrimitive
@@ -806,7 +805,7 @@ object YoutubeDataExtractor {
     ): String {
         var lastError: Throwable? = null
 
-        val fastUrl = resolveAndroidVrStreamUrl(song.youtubeId)
+        val fastUrl = resolveAnonymousStreamUrl(song.youtubeId)
 
         if (fastUrl != null) {
             return fastUrl
@@ -838,19 +837,20 @@ object YoutubeDataExtractor {
         )
     }
 
-    private suspend fun resolveAndroidVrStreamUrl(
+    private suspend fun resolveAnonymousStreamUrl(
         videoId: String,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT,
+        client: JsonObject = Constants.YoutubeApi.Client.VISION_OS
     ): String? = withContext(Dispatchers.IO) {
         suspend fun executeRequest(): String? {
             val response = YoutubeApiClient.getPlayerInfo(
                 videoId = videoId,
-                client = Constants.YoutubeApi.Client.ANDROID_VR,
+                client = client,
                 visitorData = visitorData,
                 //   fields = Constants.YoutubeApi.PlayerInfo.Fields.STREAM,
             )
 
-            return extractStreamFromAndroidVrResponse(response)
+            return extractStreamFromRawResponse(response)
         }
 
         repeat(retries) { attempt ->
@@ -871,7 +871,7 @@ object YoutubeDataExtractor {
             }
 
             printd(
-                "Retrying ANDROID_VR with updated visitorData " +
+                "Retrying ${client.getClientName()} with updated visitorData " +
                         "(${attempt + 1}/$retries)"
             )
         }
@@ -893,7 +893,7 @@ object YoutubeDataExtractor {
         return bestAudioStream.content
     }
 
-    private fun extractStreamFromAndroidVrResponse(
+    private fun extractStreamFromRawResponse(
         text: String,
     ): String? {
         val root = Json.parseToJsonElement(text).jsonObject
@@ -943,7 +943,7 @@ object YoutubeDataExtractor {
             ?.contentOrNull
 
         if (reason != null) {
-            printe("ANDROID_VR Failed ($status). Reason : $reason ")
+            printe("Stream extraction failed ($status). Reason : $reason ")
         }
 
         return directUrl
