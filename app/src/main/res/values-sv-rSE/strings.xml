@@ -156,4 +156,5 @@
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
