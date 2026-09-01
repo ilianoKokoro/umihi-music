@@ -157,4 +157,5 @@
     <string name="clear_cache">Limpiar caché</string>
     <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
     <string name="cache_cleared">Caché limpiada</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
