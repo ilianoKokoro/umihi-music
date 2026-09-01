@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">YouTubeに再生された曲を履歴、推奨事項、そして年末の要約のために送信する</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">タイトル</string>
-    <string name="description">Description</string>
+    <string name="description">説明</string>
     <string name="create">作成</string>
     <string name="create_playlist">プレイリストを作成</string>
     <string name="privacy_unlisted">リストにありません</string>
@@ -157,5 +157,5 @@
     <string name="clear_cache">キャッシュをクリア</string>
     <string name="clear_cache_message">このデバイスからキャッシュされたオーディオとサムネイルデータをすべて削除します</string>
     <string name="cache_cleared">キャッシュが消去されました</string>
-    <string name="volume">Volume</string>
+    <string name="volume">音量</string>
 </resources>
