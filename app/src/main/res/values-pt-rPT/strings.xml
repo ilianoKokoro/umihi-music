@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Envia músicas tocadas de volta para o Youtube Music para história, recomendações e recapitulação final de anos</string>
     <string name="downloading_update">Baixando Atualização…</string>
     <string name="title">Título</string>
-    <string name="description">Description</string>
+    <string name="description">Descrição:</string>
     <string name="create">Crio</string>
     <string name="create_playlist">Criar playlist</string>
     <string name="privacy_unlisted">Não-listado</string>
