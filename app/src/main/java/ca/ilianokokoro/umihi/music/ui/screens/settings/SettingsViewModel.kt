@@ -158,8 +158,7 @@ class SettingsViewModel(
     fun updateShowCacheClearConfirm(show: Boolean) {
         _uiState.update { it.copy(showCacheClearConfirm = show) }
     }
-
-
+    
     fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
         viewModelScope.launch {
             when (cacheType) {

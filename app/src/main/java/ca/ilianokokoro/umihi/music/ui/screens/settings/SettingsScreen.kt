@@ -373,7 +373,6 @@ fun SettingsScreen(
                                 onDismiss = { settingsViewModel.updateShowHiddenPlaylistsSheet(false) }
                             )
                         }
-
                     }
                 }
             }

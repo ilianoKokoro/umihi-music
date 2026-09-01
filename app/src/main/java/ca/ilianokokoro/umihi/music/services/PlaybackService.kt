@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.services
 import android.app.PendingIntent
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -59,6 +60,8 @@ class PlaybackService : MediaLibraryService() {
     private val songRepository = SongRepository()
     private lateinit var playlistRepository: PlaylistRepository
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var loudnessEnhancer: LoudnessEnhancer? = null
+    private var currentVolumePercent: Int = Constants.Player.Volume.DEFAULT_PERCENT
 
     private lateinit var callback: UmihiMediaLibraryCallback
 
@@ -201,6 +204,13 @@ class PlaybackService : MediaLibraryService() {
                 currentAudioSessionId = audioSessionId
 
                 if (audioSessionId > 0) {
+                    try {
+                        loudnessEnhancer?.release()
+                        loudnessEnhancer = LoudnessEnhancer(audioSessionId)
+                        applyAppVolume(currentVolumePercent)
+                    } catch (e: Exception) {
+                        printe(message = "Failed to initialize LoudnessEnhancer: ${e.message}", exception = e)
+                    }
                     sendBroadcast(
                         Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION).apply {
                             putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
@@ -234,6 +244,41 @@ class PlaybackService : MediaLibraryService() {
 
         callback.setMediaLibrarySession(mediaLibrarySession!!)
         player.addListener(callback)
+
+        PlayerManager.registerPlaybackService(this)
+        serviceScope.launch {
+            val settings = datastoreRepository.getSettings()
+            withContext(Dispatchers.Main) {
+                PlayerManager.setInitialVolume(settings.appVolume)
+                applyAppVolume(settings.appVolume)
+            }
+        }
+    }
+
+    fun applyAppVolume(volumePercent: Int) {
+        currentVolumePercent = volumePercent.coerceIn(
+            Constants.Player.Volume.MIN_PERCENT,
+            Constants.Player.Volume.MAX_PERCENT
+        )
+        if (!::player.isInitialized) return
+
+        if (currentVolumePercent <= Constants.Player.Volume.BOOST_THRESHOLD) {
+            player.volume = currentVolumePercent / 100f
+            try {
+                loudnessEnhancer?.enabled = false
+            } catch (_: Exception) {}
+        } else {
+            player.volume = 1.0f
+            val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
+            // Each 1% boost corresponds to 10 mB gain (up to 1000 mB / ~10dB boost at 200%)
+            val gainmB = boostPercent * 10
+            try {
+                loudnessEnhancer?.setTargetGain(gainmB)
+                loudnessEnhancer?.enabled = true
+            } catch (e: Exception) {
+                printe(message = "Failed to set LoudnessEnhancer target gain: ${e.message}", exception = e)
+            }
+        }
     }
 
     override fun onGetSession(
@@ -248,6 +293,11 @@ class PlaybackService : MediaLibraryService() {
     }
 
     override fun onDestroy() {
+        PlayerManager.unregisterPlaybackService()
+        try {
+            loudnessEnhancer?.release()
+            loudnessEnhancer = null
+        } catch (_: Exception) {}
         mediaLibrarySession?.run {
             if (currentAudioSessionId > 0) {
                 sendBroadcast(
