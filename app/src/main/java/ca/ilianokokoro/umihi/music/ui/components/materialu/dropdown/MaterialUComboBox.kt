@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,11 +20,11 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialUComboBox(
+    modifier: Modifier = Modifier,
     value: String,
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     onDismissRequest: () -> Unit = { onExpandedChange(false) },
-    modifier: Modifier = Modifier,
     label: String? = null,
     leadingIcon: ImageVector? = null,
     content: @Composable ColumnScope.() -> Unit,

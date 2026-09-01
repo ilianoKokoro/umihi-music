@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Timer
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
@@ -32,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,40 +95,34 @@ fun SleepTimerBottomSheet(
                     }
                 }
 
-                Button(
+                MaterialUButton(
                     onClick = {
                         onCancelTimer()
                         changeVisibility(false)
                     },
                     modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(stringResource(R.string.cancel_timer))
-                }
-            } else {
-                SheetHeader(
-                    icon = Icons.Rounded.Timer,
-                    title = stringResource(R.string.sleep_timer),
+                    text = stringResource(R.string.cancel_timer),
+                    size = MaterialUButtonSize.Small,
                 )
-
-                FilledTonalButton(
-                    onClick = {
-                        onStartEndOfSong()
-                        changeVisibility(false)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(stringResource(R.string.sleep_timer_end_of_song_btn))
-                }
-
-
+            } else {
                 var sliderValue by remember { mutableIntStateOf(Constants.Ui.Player.SleepTimer.DEFAULT_VALUE) }
 
-                Text(
-                    text = stringResource(R.string.minutes, sliderValue),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    SheetHeader(
+                        icon = Icons.Rounded.Timer,
+                        title = stringResource(R.string.sleep_timer),
+                    )
+                    Text(
+                        text = stringResource(R.string.minutes, sliderValue),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
 
 
                 val range =
@@ -167,15 +162,26 @@ fun SleepTimerBottomSheet(
                     )
                 }
 
-                Button(
+                MaterialUButton(
                     onClick = {
                         onStartTimer(sliderValue)
                         changeVisibility(false)
                     },
                     modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(stringResource(R.string.sleep_timer_start))
-                }
+                    text = stringResource(R.string.sleep_timer_start),
+                    size = MaterialUButtonSize.Small,
+                )
+
+                MaterialUButton(
+                    onClick = {
+                        onStartEndOfSong()
+                        changeVisibility(false)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.sleep_timer_end_of_song_btn),
+                    size = MaterialUButtonSize.Small,
+                    variant = MaterialUButtonVariant.Tonal,
+                )
             }
         }
     }

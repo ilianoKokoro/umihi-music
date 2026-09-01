@@ -83,19 +83,24 @@ fun CacheSizeInputBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            SheetHeader(
-                icon = Icons.Outlined.Storage,
-                title = stringResource(config.titleRes),
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-            )
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                SheetHeader(
+                    icon = Icons.Outlined.Storage,
+                    title = stringResource(config.titleRes),
+                )
+                Text(
+                    text = stringResource(R.string.cache_size_mb, currentValue),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
 
             val haptic = LocalHapticFeedback.current
-            Text(
-                text = stringResource(R.string.cache_size_mb, currentValue),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
 
             Slider(
                 value = sliderValue,

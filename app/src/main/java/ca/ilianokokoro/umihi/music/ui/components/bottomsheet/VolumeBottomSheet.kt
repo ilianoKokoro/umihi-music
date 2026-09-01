@@ -1,7 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.VolumeUp
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +16,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -38,6 +34,9 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -93,7 +92,7 @@ fun VolumeBottomSheet(
             ) {
                 SheetHeader(
                     icon = Icons.AutoMirrored.Rounded.VolumeUp,
-                    title = stringResource(R.string.in_app_volume),
+                    title = stringResource(R.string.volume),
                     tint = accentColor,
                 )
 
@@ -141,37 +140,20 @@ fun VolumeBottomSheet(
 
                 presets.forEach { (percent, label) ->
                     val isSelected = sliderValue.roundToInt() == percent
-                    val isBoostButton = percent > Constants.Player.Volume.BOOST_THRESHOLD
 
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = when {
-                            isSelected && isBoostButton -> MaterialTheme.colorScheme.error
-                            isSelected -> MaterialTheme.colorScheme.primary
-                            isBoostButton -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
-                            else -> MaterialTheme.colorScheme.surfaceContainer
+                    MaterialUButton(
+                        size = MaterialUButtonSize.ExtraSmall,
+                        variant = when {
+                            isSelected -> MaterialUButtonVariant.Filled
+                            else -> MaterialUButtonVariant.Tonal
                         },
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                                sliderValue = percent.toFloat()
-                                onVolumeChange(percent)
-                            }
-                    ) {
-                        Text(
-                            text = label,
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            color = when {
-                                isSelected && isBoostButton -> MaterialTheme.colorScheme.onError
-                                isSelected -> MaterialTheme.colorScheme.onPrimary
-                                isBoostButton -> MaterialTheme.colorScheme.onErrorContainer
-                                else -> MaterialTheme.colorScheme.onSurfaceVariant
-                            },
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
-                        )
-                    }
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                            sliderValue = percent.toFloat()
+                            onVolumeChange(percent)
+                        },
+                        text = label
+                    )
                 }
             }
         }

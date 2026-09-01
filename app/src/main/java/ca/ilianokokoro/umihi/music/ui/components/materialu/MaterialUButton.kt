@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,13 +30,13 @@ enum class MaterialUButtonSize(
     val height: Dp,
     val horizontalPadding: Dp,
     val iconSize: Dp,
-    val textScale: Float
+    val iconSpacing: Dp
 ) {
-    ExtraSmall(32.dp, 12.dp, 16.dp, 0.85f),
-    Small(40.dp, 16.dp, 18.dp, 0.95f),
-    Medium(56.dp, 20.dp, 22.dp, 1f),
-    Large(72.dp, 28.dp, 26.dp, 1.15f),
-    ExtraLarge(112.dp, 40.dp, 32.dp, 1.35f)
+    ExtraSmall(32.dp, 16.dp, 20.dp, 8.dp),
+    Small(40.dp, 16.dp, 20.dp, 8.dp),
+    Medium(56.dp, 24.dp, 24.dp, 8.dp),
+    Large(96.dp, 48.dp, 32.dp, 12.dp),
+    ExtraLarge(136.dp, 64.dp, 40.dp, 16.dp)
 }
 
 enum class MaterialUButtonVariant {
@@ -44,6 +45,18 @@ enum class MaterialUButtonVariant {
     Elevated,
     Outlined,
     Text
+}
+
+@Composable
+private fun MaterialUButtonSize.textStyle(): TextStyle {
+    val typography = MaterialTheme.typography
+    return when (this) {
+        MaterialUButtonSize.ExtraSmall,
+        MaterialUButtonSize.Small -> typography.labelLarge
+        MaterialUButtonSize.Medium -> typography.titleMedium
+        MaterialUButtonSize.Large -> typography.headlineSmall
+        MaterialUButtonSize.ExtraLarge -> typography.headlineLarge
+    }
 }
 
 
@@ -71,7 +84,7 @@ fun MaterialUButton(
 
     val content: @Composable RowScope.() -> Unit = {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(size.iconSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (icon != null) {
@@ -86,10 +99,7 @@ fun MaterialUButton(
             if (hasText) {
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = MaterialTheme.typography.labelLarge.fontSize * size.textScale
-                    ),
+                    style = size.textStyle().copy(fontWeight = FontWeight.SemiBold),
                     maxLines = 1
                 )
             }

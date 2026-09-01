@@ -57,24 +57,27 @@ fun SpeedSelectorBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            SheetHeader(
-                icon = Icons.Rounded.Speed,
-                title = stringResource(R.string.playback_speed),
-                modifier = Modifier.fillMaxWidth(),
-            )
-
             val haptic = LocalHapticFeedback.current
             val speeds = Constants.Player.SPEEDS
             val initialIndex = speeds.indexOf(currentSpeed).coerceAtLeast(0)
             var sliderIndex by remember { mutableFloatStateOf(initialIndex.toFloat()) }
 
-
-            Text(
-                text = speeds[sliderIndex.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                SheetHeader(
+                    icon = Icons.Rounded.Speed,
+                    title = stringResource(R.string.playback_speed),
+                )
+                Text(
+                    text = speeds[sliderIndex.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
 
             Slider(
                 value = sliderIndex,

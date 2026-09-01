@@ -336,7 +336,7 @@ fun PlayerControls(
                         ) {
                             Icon(
                                 imageVector = volumeIcon,
-                                contentDescription = stringResource(R.string.in_app_volume),
+                                contentDescription = stringResource(R.string.volume),
                                 modifier = Modifier.size(iconSize)
                             )
                         }
