@@ -156,4 +156,5 @@
     <string name="clear_cache">Hapus Cache</string>
     <string name="clear_cache_message">Hapus semua data cache audio dan thumbnail dari perangkat ini</string>
     <string name="cache_cleared">Cache Telah Terhapuskan</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
