@@ -18,6 +18,8 @@ data class PlayerState(
     val isLoggedIn: Boolean = false,
     val isLiked: Boolean = false,
     val isLiking: Boolean = false,
+    val showVolumeDialog: Boolean = false,
+    val appVolume: Int = 100,
 )
 
 @Immutable

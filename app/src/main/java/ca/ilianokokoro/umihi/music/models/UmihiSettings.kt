@@ -16,7 +16,8 @@ data class UmihiSettings(
     val sendPlaybackData: Boolean = false,
     val downloadOnMetered: Boolean = false,
     val exoPlayerCacheSizeMB: Int = Constants.Cache.Audio.DEFAULT_SIZE_MB,
-    val thumbnailCacheSizeMB: Int = Constants.Cache.Thumbnail.DEFAULT_SIZE_MB
+    val thumbnailCacheSizeMB: Int = Constants.Cache.Thumbnail.DEFAULT_SIZE_MB,
+    val appVolume: Int = Constants.Player.Volume.DEFAULT_PERCENT
 ) {
     val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }

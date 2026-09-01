@@ -89,6 +89,7 @@ object Constants {
         const val DOWNLOAD_ON_METERED = "download-on-metered"
         const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
         const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
+        const val APP_VOLUME_KEY = "app-volume"
     }
 
     object Database {
@@ -209,6 +210,13 @@ object Constants {
             const val WATCHTIME_INTERVAL_MS = 15_000L
             const val WATCHTIME_ADVANCE_SEC = 20f
             const val POSITION_TOLERANCE_SEC = 1.5f
+        }
+
+        object Volume {
+            const val MIN_PERCENT = 0
+            const val MAX_PERCENT = 200
+            const val DEFAULT_PERCENT = 100
+            const val BOOST_THRESHOLD = 100
         }
     }
 

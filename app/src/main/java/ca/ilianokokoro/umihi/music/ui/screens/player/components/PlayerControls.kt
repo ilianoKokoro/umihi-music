@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.automirrored.rounded.VolumeDown
+import androidx.compose.material.icons.automirrored.rounded.VolumeMute
+import androidx.compose.material.icons.automirrored.rounded.VolumeUp
+import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Repeat
@@ -60,6 +64,7 @@ fun PlayerControls(
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
     onOpenQueue: () -> Unit,
+    onOpenVolume: () -> Unit,
     onOpenSleepTimer: () -> Unit,
     onOpenSpeedSelector: () -> Unit,
     playbackSpeed: Float,
@@ -68,12 +73,13 @@ fun PlayerControls(
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(5) { ComposeHelper.rememberInteractionSource() }
+        List(6) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
+    val appVolume by PlayerManager.appVolume.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
@@ -295,6 +301,43 @@ fun PlayerControls(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
                                 contentDescription = stringResource(R.string.queue),
+                                modifier = Modifier.size(iconSize)
+                            )
+                        }
+                    },
+                    {}
+                )
+
+                // Volume — MIDDLE segment
+                customItem(
+                    {
+                        val isBoosted = appVolume > 100
+                        val isMuted = appVolume <= 0
+                        val volumeIcon = when {
+                            isMuted -> Icons.AutoMirrored.Rounded.VolumeMute
+                            isBoosted -> Icons.Rounded.Bolt
+                            appVolume <= 50 -> Icons.AutoMirrored.Rounded.VolumeDown
+                            else -> Icons.AutoMirrored.Rounded.VolumeUp
+                        }
+
+                        FilledIconButton(
+                            onClick = onOpenVolume,
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = if (isBoosted) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = if (isBoosted) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[5]),
+                            interactionSource = actionButtonsControlsInteractionSources[5],
+                        ) {
+                            Icon(
+                                imageVector = volumeIcon,
+                                contentDescription = stringResource(R.string.in_app_volume),
                                 modifier = Modifier.size(iconSize)
                             )
                         }

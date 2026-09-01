@@ -14,7 +14,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
+import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.outlined.Autorenew
+import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
@@ -51,6 +53,7 @@ import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.HiddenPlaylistsBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
@@ -197,6 +200,15 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.playback)
                         ) {
+                            SettingsItem(
+                                title = stringResource(R.string.in_app_volume),
+                                subtitle = "${screenState.settings.appVolume}%" + if (screenState.settings.appVolume > 100) " (${stringResource(R.string.volume_boost_badge)})" else "",
+                                leadingIcon = if (screenState.settings.appVolume > 100) Icons.Outlined.Bolt else Icons.AutoMirrored.Outlined.VolumeUp,
+                                onClick = {
+                                    settingsViewModel.updateShowVolumeDialog(true)
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
                             BooleanSettingItem(
                                 title = stringResource(R.string.enable_audio_offload),
                                 subtitle = stringResource(R.string.audio_offload_subtitle),
@@ -371,6 +383,12 @@ fun SettingsScreen(
                                 playlists = uiState.hiddenPlaylists,
                                 onUnhidePlaylist = { settingsViewModel.unhidePlaylist(it) },
                                 onDismiss = { settingsViewModel.updateShowHiddenPlaylistsSheet(false) }
+                            )
+                        } else if (uiState.showVolumeDialog) {
+                            VolumeBottomSheet(
+                                changeVisibility = settingsViewModel::updateShowVolumeDialog,
+                                currentVolume = screenState.settings.appVolume,
+                                onVolumeChange = settingsViewModel::setAppVolume
                             )
                         }
 

@@ -52,19 +52,24 @@ jobs:
 
       - name: Set up Keystore
         if: matrix.language == 'java-kotlin'
-        run:
-          echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.MAIN_PROJECT_MODULE }}/${{
-          env.STORE_FILE }}
+        run: |
+          mkdir -p ${{ env.MAIN_PROJECT_MODULE }}
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > ${{ env.MAIN_PROJECT_MODULE }}/${{ env.STORE_FILE }}
+            echo "storeFile=${{ env.STORE_FILE }}" > keystore.properties
+            echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
+            echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+          else
+            DUMMY_PASS=$(date +%s | sha256sum | base64 | head -c 16)
+            keytool -genkey -v -keystore ${{ env.MAIN_PROJECT_MODULE }}/${{ env.STORE_FILE }} -alias dummyrelease -keyalg RSA -keysize 2048 -validity 10000 -storepass "$DUMMY_PASS" -keypass "$DUMMY_PASS" -dname "CN=UmihiMusic, OU=App, O=Umihi, L=Local, S=State, C=VN"
+            echo "storeFile=${{ env.STORE_FILE }}" > keystore.properties
+            echo "storePassword=$DUMMY_PASS" >> keystore.properties
+            echo "keyAlias=dummyrelease" >> keystore.properties
+            echo "keyPassword=$DUMMY_PASS" >> keystore.properties
+          fi
         env:
           KEYSTORE_BASE64: ${{ secrets.SIGNING_KEY }}
-
-      - name: Create keystore.properties
-        if: matrix.language == 'java-kotlin'
-        run: |
-          echo "storeFile=${{ env.STORE_FILE }}" > keystore.properties
-          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" >> keystore.properties
-          echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4

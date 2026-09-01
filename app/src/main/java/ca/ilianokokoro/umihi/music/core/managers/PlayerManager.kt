@@ -12,6 +12,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
 import ca.ilianokokoro.umihi.music.models.Playlist
@@ -64,6 +66,35 @@ object PlayerManager {
 
     private val _audioInfo = MutableStateFlow(PlaybackAudioInfo())
     val audioInfo = _audioInfo.asStateFlow()
+
+    private var playbackService: PlaybackService? = null
+
+    private val _appVolume = MutableStateFlow(Constants.Player.Volume.DEFAULT_PERCENT)
+    val appVolume: StateFlow<Int> = _appVolume.asStateFlow()
+
+    fun registerPlaybackService(service: PlaybackService) {
+        playbackService = service
+    }
+
+    fun unregisterPlaybackService() {
+        playbackService = null
+    }
+
+    fun setInitialVolume(volume: Int) {
+        _appVolume.value = volume
+    }
+
+    fun setAppVolume(volume: Int, context: Context) {
+        val clamped = volume.coerceIn(Constants.Player.Volume.MIN_PERCENT, Constants.Player.Volume.MAX_PERCENT)
+        _appVolume.value = clamped
+        playbackService?.applyAppVolume(clamped)
+        scope.launch {
+            DatastoreRepository(context.applicationContext).save(
+                DatastoreRepository.PreferenceKeys.APP_VOLUME,
+                clamped
+            )
+        }
+    }
 
     fun updatePlaybackInfo(info: PlaybackAudioInfo) {
         _audioInfo.value = info

@@ -52,6 +52,7 @@ import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.SleepTimerBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.SpeedSelectorBottomSheet
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.VolumeBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -128,6 +129,9 @@ fun PlayerScreen(
                         onOpenQueue = {
                             playerViewModel.setQueueVisibility(true)
                         },
+                        onOpenVolume = {
+                            playerViewModel.updateShowVolumeDialog(true)
+                        },
                         onOpenSleepTimer = {
                             playerViewModel.setSleepTimerSheetVisibility(true)
                         },
@@ -186,6 +190,9 @@ fun PlayerScreen(
                         onOpenQueue = {
                             playerViewModel.setQueueVisibility(true)
                         },
+                        onOpenVolume = {
+                            playerViewModel.updateShowVolumeDialog(true)
+                        },
                         onOpenSleepTimer = {
                             playerViewModel.setSleepTimerSheetVisibility(true)
                         },
@@ -225,6 +232,14 @@ fun PlayerScreen(
             onStartTimer = playerViewModel::startSleepTimer,
             onStartEndOfSong = playerViewModel::startSleepTimerEndOfSong,
             onCancelTimer = playerViewModel::cancelSleepTimer,
+        )
+    }
+
+    if (uiState.showVolumeDialog) {
+        VolumeBottomSheet(
+            changeVisibility = playerViewModel::updateShowVolumeDialog,
+            currentVolume = uiState.appVolume,
+            onVolumeChange = playerViewModel::setAppVolume
         )
     }
 }

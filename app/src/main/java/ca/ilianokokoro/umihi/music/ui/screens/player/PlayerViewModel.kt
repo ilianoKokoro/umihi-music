@@ -79,6 +79,12 @@ class PlayerViewModel(application: Application) :
         }
 
         viewModelScope.launch {
+            PlayerManager.appVolume.collect { volume ->
+                _uiState.update { it.copy(appVolume = volume) }
+            }
+        }
+
+        viewModelScope.launch {
             val settings = datastoreRepository.getSettings()
             _uiState.update { it.copy(isLoggedIn = !settings.cookies.isEmpty()) }
         }
@@ -340,6 +346,14 @@ class PlayerViewModel(application: Application) :
 
             state.copy(queue = updatedQueue)
         }
+    }
+
+    fun updateShowVolumeDialog(value: Boolean) {
+        _uiState.update { it.copy(showVolumeDialog = value) }
+    }
+
+    fun setAppVolume(volume: Int) {
+        PlayerManager.setAppVolume(volume, getApplication<Application>())
     }
 
     companion object {
