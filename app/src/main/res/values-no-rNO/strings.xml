@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Sender spilte sanger tilbake til YouTube-musikk for historie, anbefalinger og årets recap</string>
     <string name="downloading_update">Laster ned oppdatering…</string>
     <string name="title">Tittel</string>
-    <string name="description">Description</string>
+    <string name="description">Beskrivelse</string>
     <string name="create">Opprett</string>
     <string name="create_playlist">Lag spilleliste</string>
     <string name="privacy_unlisted">Unotert</string>
@@ -157,5 +157,5 @@
     <string name="clear_cache">Tøm hurtiglager</string>
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Volum</string>
 </resources>
