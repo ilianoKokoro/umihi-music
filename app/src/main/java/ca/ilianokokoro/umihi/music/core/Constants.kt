@@ -217,6 +217,8 @@ object Constants {
             """https?://(www\.)?(youtube\.com|youtu\.be|music\.youtube\.com)/\S+"""
         const val RETRY_COUNT = 3
         const val RETRY_DELAY = 1000
+        const val SOFT_TRIES_PER_CLIENT = 2
+        const val HARD_TRIES_PER_CLIENT = 5
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
@@ -264,10 +266,10 @@ object Constants {
                     put("clientVersion", JsonPrimitive("2.0"))
                     put("xClientName", JsonPrimitive("85"))
                     put("platform", JsonPrimitive("TV"))
-                put(
-                    "userAgent",
+                    put(
+                        "userAgent",
                         JsonPrimitive("Mozilla/5.0 (PlayStation; PlayStation 4/12.02) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15")
-                )
+                    )
                 }
 
             val VISION_OS = buildJsonObject {
@@ -281,6 +283,7 @@ object Constants {
                 put("osVersion", JsonPrimitive("26.5.23O47"))
             }
 
+            val FALLBACK_ORDER = listOf(TVHTML5_SIMPLY_EMBEDDED_PLAYER, WEB_REMIX, VISION_OS)
         }
 
         object Create {

@@ -839,41 +839,58 @@ object YoutubeDataExtractor {
 
     private suspend fun resolveAnonymousStreamUrl(
         videoId: String,
-        retries: Int = Constants.YoutubeApi.RETRY_COUNT,
-        client: JsonObject = Constants.YoutubeApi.Client.VISION_OS
     ): String? = withContext(Dispatchers.IO) {
-        suspend fun executeRequest(): String? {
+        suspend fun executeRequest(client: JsonObject): String {
             val response = YoutubeApiClient.getPlayerInfo(
                 videoId = videoId,
                 client = client,
                 visitorData = visitorData,
-                //   fields = Constants.YoutubeApi.PlayerInfo.Fields.STREAM,
             )
 
             return extractStreamFromRawResponse(response)
         }
 
-        repeat(retries) { attempt ->
-            val previousVisitorData = visitorData
+        val softCap = Constants.YoutubeApi.SOFT_TRIES_PER_CLIENT
+        val hardCap = Constants.YoutubeApi.HARD_TRIES_PER_CLIENT
 
-            executeRequest()?.let {
-                return@withContext it
+        var totalRequests = 0
+
+        for (client in Constants.YoutubeApi.Client.FALLBACK_ORDER) {
+            val clientName = client.getClientName()
+            var hardTries = 0
+            var softTries = 0
+
+            while (hardTries < hardCap && softTries < softCap) {
+                val previousVisitorData = visitorData
+
+                totalRequests++
+                val errorMessage = try {
+                    val stream = executeRequest(client)
+                    printd(
+                        "[$clientName] Resolved stream in $totalRequests total request(s)"
+                    )
+                    return@withContext stream
+
+                } catch (ex: Exception) {
+                    ex.message
+                }
+
+                val visitorDataUpdated = previousVisitorData != visitorData
+                hardTries++
+
+                if (visitorDataUpdated) {
+                    printd(
+                        "[$clientName] Updating visitor data"
+                    )
+                    continue
+                }
+
+                softTries++
+
+                printe(
+                    "[${clientName}] $errorMessage"
+                )
             }
-
-            val visitorDataUpdated =
-                previousVisitorData != visitorData
-
-            val isLastAttempt =
-                attempt >= retries - 1
-
-            if (!visitorDataUpdated || isLastAttempt) {
-                return@repeat
-            }
-
-            printd(
-                "Retrying ${client.getClientName()} with updated visitorData " +
-                        "(${attempt + 1}/$retries)"
-            )
         }
 
         null
@@ -895,7 +912,7 @@ object YoutubeDataExtractor {
 
     private fun extractStreamFromRawResponse(
         text: String,
-    ): String? {
+    ): String {
         val root = Json.parseToJsonElement(text).jsonObject
 
         val newVisitorData = root["responseContext"]
@@ -904,7 +921,7 @@ object YoutubeDataExtractor {
             ?.jsonPrimitive
             ?.contentOrNull
 
-        if (visitorData == null && newVisitorData != null) {
+        if (newVisitorData != null && newVisitorData != visitorData) {
             visitorData = newVisitorData
         }
 
@@ -942,8 +959,8 @@ object YoutubeDataExtractor {
             ?.jsonPrimitive
             ?.contentOrNull
 
-        if (reason != null) {
-            printe("Stream extraction failed ($status). Reason : $reason ")
+        if (directUrl == null) {
+            throw Exception("($status) $reason")
         }
 
         return directUrl
