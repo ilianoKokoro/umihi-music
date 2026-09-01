@@ -146,6 +146,14 @@ Thank you to all the people who helped translate Umihi Music
   <tbody>
     <tr>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
+          <br />
+          <sub><b>dsyncronized</b></sub></a>
+        <br />
+        <sub><b>608 words</b></sub>
+        <br /><sub><b><code title="Indonesian">id</code></b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
           <br />
           <sub><b>Tusk</b></sub>
@@ -154,14 +162,6 @@ Thank you to all the people who helped translate Umihi Music
         <br />
         <sub><b>569 words</b></sub>
         <br /><sub><b><code title="LOLCAT">lol</code></b>, <b><code title="Tagalog">tl</code></b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
-          <br />
-          <sub><b>dsyncronized</b></sub></a>
-        <br />
-        <sub><b>526 words</b></sub>
-        <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Ngoloc2k4"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14376790/medium/377e386305520b65a52aa16294ad65f0.jpeg" />
