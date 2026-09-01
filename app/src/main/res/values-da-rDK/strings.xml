@@ -156,4 +156,5 @@
     <string name="clear_cache">Ryd Cache</string>
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
