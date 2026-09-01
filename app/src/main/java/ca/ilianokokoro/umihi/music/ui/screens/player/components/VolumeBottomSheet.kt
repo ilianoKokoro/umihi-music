@@ -1,9 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player.components
 
-import android.content.Context
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
@@ -21,25 +17,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.VolumeDown
 import androidx.compose.material.icons.automirrored.outlined.VolumeMute
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.outlined.VolumeOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -49,13 +42,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import kotlinx.coroutines.launch
@@ -69,9 +61,13 @@ fun VolumeBottomSheet(
     onVolumeChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState =
+        rememberBottomSheetState(
+            enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
+            initialValue = SheetValue.Hidden
+        )
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
 
     var sliderValue by remember(currentVolume) {
         mutableFloatStateOf(currentVolume.toFloat())
@@ -79,22 +75,9 @@ fun VolumeBottomSheet(
 
     val isBoosted = sliderValue > Constants.Player.Volume.BOOST_THRESHOLD
 
-    fun triggerHaptic() {
-        try {
-            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator?.vibrate(VibrationEffect.createOneShot(15, VibrationEffect.DEFAULT_AMPLITUDE))
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator?.vibrate(15)
-            }
-        } catch (_: Exception) {}
-    }
-
     val volumeIcon: ImageVector = when {
         sliderValue <= 0f -> Icons.AutoMirrored.Outlined.VolumeMute
         sliderValue <= 30f -> Icons.AutoMirrored.Outlined.VolumeDown
-        isBoosted -> Icons.Filled.Bolt
         else -> Icons.AutoMirrored.Outlined.VolumeUp
     }
 
@@ -146,9 +129,8 @@ fun VolumeBottomSheet(
                     }
                     Text(
                         text = stringResource(R.string.in_app_volume),
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -195,7 +177,7 @@ fun VolumeBottomSheet(
                     val rounded = newValue.roundToInt()
                     if (rounded == 0 || rounded == 50 || rounded == 100 || rounded == 150 || rounded == 200) {
                         if (sliderValue.roundToInt() != rounded) {
-                            triggerHaptic()
+                            haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                         }
                     }
                     sliderValue = newValue
@@ -223,8 +205,8 @@ fun VolumeBottomSheet(
                     0 to "0%",
                     50 to "50%",
                     100 to "100%",
-                    150 to "⚡ 150%",
-                    200 to "⚡ 200%"
+                    150 to "150%",
+                    200 to "200%"
                 )
 
                 presets.forEach { (percent, label) ->
@@ -242,7 +224,7 @@ fun VolumeBottomSheet(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .clickable {
-                                triggerHaptic()
+                                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                                 sliderValue = percent.toFloat()
                                 onVolumeChange(percent)
                             }
