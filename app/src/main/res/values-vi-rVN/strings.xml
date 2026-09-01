@@ -156,4 +156,5 @@
     <string name="clear_cache">Xóa bộ nhớ đệm</string>
     <string name="clear_cache_message">Xoá toàn bộ bộ nhớ đệm cả âm thanh và hình thu nhỏ khỏi thiết bị này</string>
     <string name="cache_cleared">Đã xóa bộ nhớ đệm</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
