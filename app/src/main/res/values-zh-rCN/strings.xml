@@ -156,4 +156,5 @@
     <string name="clear_cache">清除缓存</string>
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
