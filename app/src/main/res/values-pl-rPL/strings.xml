@@ -156,4 +156,5 @@
     <string name="clear_cache">Usuń pamięć podręczną</string>
     <string name="clear_cache_message">Usuń wszystkie dane z pamięci podręcznej dźwięku i miniatur z tego urządzenia</string>
     <string name="cache_cleared">Wyczyszczono pamięć podręczną</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
