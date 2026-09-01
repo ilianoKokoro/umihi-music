@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Renvoie les titres écoutés vers YouTube Music pour l\'historique, les recommandations et le bilan de fin d\'année</string>
     <string name="downloading_update">Téléchargement de la mise à jour…</string>
     <string name="title">Titre</string>
-    <string name="description">Description</string>
+    <string name="description">Libellé</string>
     <string name="create">Créer</string>
     <string name="create_playlist">Créer une playlist</string>
     <string name="privacy_unlisted">Non répertorié</string>
