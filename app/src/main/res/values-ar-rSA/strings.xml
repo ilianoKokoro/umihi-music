@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">ترسل الأغاني المشغلة إلى يوتيوب موسيقى للتاريخ والتوصيات وموجز نهاية السنة</string>
     <string name="downloading_update">جاري تحميل التحديث…</string>
     <string name="title">العنوان</string>
+    <string name="description">Description</string>
     <string name="create">إنشاء</string>
     <string name="create_playlist">إنشاء قائمة تشغيل</string>
     <string name="privacy_unlisted">غير مدرج</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">مسح ذاكرة التخزين المؤقت</string>
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
