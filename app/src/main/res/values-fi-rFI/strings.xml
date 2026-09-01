@@ -156,4 +156,5 @@
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
