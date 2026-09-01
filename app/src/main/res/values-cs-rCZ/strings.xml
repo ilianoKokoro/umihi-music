@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Odešle přehrávané písničky zpět do YouTube Music pro historii, doporučení a ročníkovou reap</string>
     <string name="downloading_update">Stahování aktualizace…</string>
     <string name="title">Hlava 1 – Celkem</string>
-    <string name="description">Description</string>
+    <string name="description">L 343, 22.12.2009, s. 1).</string>
     <string name="create">Vytvořit</string>
     <string name="create_playlist">Vytvořit seznam skladeb</string>
     <string name="privacy_unlisted">Neuvedeno</string>
@@ -157,5 +157,5 @@
     <string name="clear_cache">Vymazat mezipaměť</string>
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Objem</string>
 </resources>
