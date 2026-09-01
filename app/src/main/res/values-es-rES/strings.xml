@@ -98,6 +98,7 @@
     <string name="send_playback_data_description">Envía canciones reproducidas a Youtube Music para la historia, las recomendaciones y el resumen final</string>
     <string name="downloading_update">Descargando actualización…</string>
     <string name="title">Título</string>
+    <string name="description">Description</string>
     <string name="create">Crear</string>
     <string name="create_playlist">Crear lista</string>
     <string name="privacy_unlisted">Sin enumerar</string>
@@ -157,5 +158,5 @@
     <string name="clear_cache">Limpiar caché</string>
     <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
     <string name="cache_cleared">Caché limpiada</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
