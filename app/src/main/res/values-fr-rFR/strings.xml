@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Renvoie les titres écoutés vers YouTube Music pour l\'historique, les recommandations et le bilan de fin d\'année</string>
     <string name="downloading_update">Téléchargement de la mise à jour…</string>
     <string name="title">Titre</string>
+    <string name="description">Libellé</string>
     <string name="create">Créer</string>
     <string name="create_playlist">Créer une playlist</string>
     <string name="privacy_unlisted">Non répertorié</string>
@@ -156,4 +157,5 @@
     <string name="clear_cache">Vider le cache</string>
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>
+    <string name="volume">Volume</string>
 </resources>

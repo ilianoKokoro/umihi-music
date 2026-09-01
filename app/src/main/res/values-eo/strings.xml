@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Sends pwayed swongs back to YouTube Music fow histowy, wecommendations and yeaw-end wecap</string>
     <string name="downloading_update">Downwoadin Upwdate :3…</string>
     <string name="title">Titwle</string>
+    <string name="description">Description</string>
     <string name="create">Cweate</string>
     <string name="create_playlist">Cweate pwaywist</string>
     <string name="privacy_unlisted">Unwisted</string>
@@ -156,4 +157,5 @@
     <string name="clear_cache">Cweaw Cache</string>
     <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
     <string name="cache_cleared">Cache Cweawed</string>
+    <string name="volume">Volume</string>
 </resources>

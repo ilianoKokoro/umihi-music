@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Sendet Songs zurück an Youtube Music für Geschichte, Empfehlungen und Jahresende recap</string>
     <string name="downloading_update">Update wird heruntergeladen…</string>
     <string name="title">Titel</string>
+    <string name="description">Beschreibung</string>
     <string name="create">Anlegen</string>
     <string name="create_playlist">Playlist erstellen</string>
     <string name="privacy_unlisted">Nicht gelistet</string>
@@ -156,4 +157,5 @@
     <string name="clear_cache">Cache leeren</string>
     <string name="clear_cache_message">Entferne alle zwischengespeicherten Audio- und Thumbnail Daten von diesem Gerät</string>
     <string name="cache_cleared">Cache gelöscht</string>
+    <string name="volume">Lautstärke</string>
 </resources>

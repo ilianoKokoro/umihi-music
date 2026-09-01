@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Отправляет песни обратно на Youtube Music для истории, рекомендаций и показов на конец года</string>
     <string name="downloading_update">Загрузка обновления…</string>
     <string name="title">Заголовок</string>
+    <string name="description">Описание</string>
     <string name="create">Создать</string>
     <string name="create_playlist">Создать плейлист</string>
     <string name="privacy_unlisted">Не занесено</string>
@@ -156,4 +157,5 @@
     <string name="clear_cache">Очистить кэш</string>
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>
+    <string name="volume">Объем</string>
 </resources>

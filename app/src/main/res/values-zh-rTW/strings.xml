@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">將播放的歌曲資料和記錄回傳到 YouTube Music，YouTube Music 會依此資料存取歷史記錄、生成推薦和年度回顧</string>
     <string name="downloading_update">正在下載更新…</string>
     <string name="title">標題</string>
+    <string name="description">Description</string>
     <string name="create">建立</string>
     <string name="create_playlist">建立播放清單</string>
     <string name="privacy_unlisted">已隱藏</string>
@@ -156,4 +157,5 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
+    <string name="volume">Volume</string>
 </resources>
