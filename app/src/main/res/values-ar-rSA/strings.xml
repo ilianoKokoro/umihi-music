@@ -156,4 +156,5 @@
     <string name="clear_cache">مسح ذاكرة التخزين المؤقت</string>
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
