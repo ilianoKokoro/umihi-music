@@ -156,4 +156,5 @@
     <string name="clear_cache">Очистити кеш</string>
     <string name="clear_cache_message">Вилучити всі кешовані дані та мініатюри з цього пристрою</string>
     <string name="cache_cleared">Кеш очищено</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
