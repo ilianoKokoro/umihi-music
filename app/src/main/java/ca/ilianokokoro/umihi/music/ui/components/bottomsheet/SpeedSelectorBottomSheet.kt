@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.screens.player.components
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

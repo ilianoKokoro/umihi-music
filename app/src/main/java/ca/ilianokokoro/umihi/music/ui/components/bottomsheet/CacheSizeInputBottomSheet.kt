@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components.dialog
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +41,7 @@ private data class CacheSizeConfig(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CacheSizeInputDialog(
+fun CacheSizeInputBottomSheet(
     cacheType: CacheType,
     initialSizeMB: Int,
     onConfirm: (Int) -> Unit,

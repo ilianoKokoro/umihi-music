@@ -37,7 +37,7 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.components.dialog.PlaylistCreationDialog
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
@@ -154,7 +154,7 @@ fun HomeScreen(
 
                 }
                 if (createPlaylistOpen) {
-                    PlaylistCreationDialog(
+                    PlaylistCreationBottomSheet(
                         onClose = { createPlaylistOpen = false },
                         onConfirm = { title, description, privacy ->
                             homeViewModel.createPlaylist(title, description, privacy)

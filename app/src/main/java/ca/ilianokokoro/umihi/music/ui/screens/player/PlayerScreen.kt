@@ -48,11 +48,11 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SleepTimerBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.QueueBottomSheet
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.SleepTimerBottomSheet
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.SpeedSelectorBottomSheet
-import ca.ilianokokoro.umihi.music.ui.screens.player.components.VolumeBottomSheet
 
 @Composable
 fun PlayerScreen(
@@ -68,7 +68,7 @@ fun PlayerScreen(
     val orientation = LocalConfiguration.current.orientation
     val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
-    // Close the screen in resumed with an empty queue
+    // Close the screen if resumed with an empty queue
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->

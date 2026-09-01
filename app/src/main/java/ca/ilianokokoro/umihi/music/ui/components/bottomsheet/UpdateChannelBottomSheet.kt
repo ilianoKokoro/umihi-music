@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components.dialog
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,7 @@ import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateChannelDialog(
+fun UpdateChannelBottomSheet(
     selectedOption: UpdateChannel,
     onChange: (newChannel: UpdateChannel) -> Unit,
     onClose: () -> Unit

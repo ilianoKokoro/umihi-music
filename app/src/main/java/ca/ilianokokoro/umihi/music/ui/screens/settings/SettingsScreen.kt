@@ -47,9 +47,9 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
-import ca.ilianokokoro.umihi.music.ui.components.dialog.CacheSizeInputDialog
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.CacheSizeInputBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
-import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateChannelDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.HiddenPlaylistsBottomSheet
@@ -315,7 +315,7 @@ fun SettingsScreen(
                         }
 
                         if (uiState.showUpdateChannelDialog) {
-                            UpdateChannelDialog(
+                            UpdateChannelBottomSheet(
                                 selectedOption = screenState.settings.updateChannel,
                                 onChange = {
                                     settingsViewModel.updateSetting(
@@ -344,7 +344,7 @@ fun SettingsScreen(
                                 CacheType.AUDIO -> screenState.settings.exoPlayerCacheSizeMB
                                 CacheType.THUMBNAIL -> screenState.settings.thumbnailCacheSizeMB
                             }
-                            CacheSizeInputDialog(
+                            CacheSizeInputBottomSheet(
                                 cacheType = uiState.cacheTypeForInput,
                                 initialSizeMB = initialSize,
                                 onConfirm = { sizeMB ->
