@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Sender spillede sange tilbage til Youtube Musik for historie, anbefalinger og års-ende recap</string>
     <string name="downloading_update">Downloader Opdatering…</string>
     <string name="title">Titel</string>
-    <string name="description">Description</string>
+    <string name="description">Varebeskrivelse</string>
     <string name="create">Opret</string>
     <string name="create_playlist">Opret afspilningsliste</string>
     <string name="privacy_unlisted">Ulistet</string>
@@ -157,5 +157,5 @@
     <string name="clear_cache">Ryd Cache</string>
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Lydstyrke</string>
 </resources>
