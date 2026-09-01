@@ -158,16 +158,7 @@ class SettingsViewModel(
     fun updateShowCacheClearConfirm(show: Boolean) {
         _uiState.update { it.copy(showCacheClearConfirm = show) }
     }
-
-    fun updateShowVolumeDialog(show: Boolean) {
-        _uiState.update { it.copy(showVolumeDialog = show) }
-    }
-
-    fun setAppVolume(volume: Int) {
-        PlayerManager.setAppVolume(volume, _application)
-    }
-
-
+    
     fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
         viewModelScope.launch {
             when (cacheType) {

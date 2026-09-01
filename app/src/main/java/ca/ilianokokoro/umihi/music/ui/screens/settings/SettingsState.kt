@@ -12,7 +12,6 @@ data class SettingsState(
     val showCacheClearConfirm: Boolean = false,
     val showHiddenPlaylistsSheet: Boolean = false,
     val hiddenPlaylists: List<Playlist> = emptyList(),
-    val showVolumeDialog: Boolean = false,
 )
 
 enum class CacheType {
