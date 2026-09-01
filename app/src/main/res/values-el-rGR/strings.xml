@@ -156,4 +156,5 @@
     <string name="clear_cache">Εκκαθάριση Προσωρινής Αποθήκευσης</string>
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
