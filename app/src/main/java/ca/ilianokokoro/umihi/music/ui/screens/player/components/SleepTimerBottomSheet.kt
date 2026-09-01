@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -29,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,10 +65,9 @@ fun SleepTimerBottomSheet(
                 val minutes = activeRemainingSeconds / 60
                 val seconds = activeRemainingSeconds % 60
 
-                Text(
-                    text = stringResource(R.string.sleep_timer_active),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
+                SheetHeader(
+                    icon = Icons.Rounded.Timer,
+                    title = stringResource(R.string.sleep_timer_active),
                 )
 
                 Surface(
@@ -102,12 +104,10 @@ fun SleepTimerBottomSheet(
                     Text(stringResource(R.string.cancel_timer))
                 }
             } else {
-                Text(
-                    text = stringResource(R.string.sleep_timer),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
+                SheetHeader(
+                    icon = Icons.Rounded.Timer,
+                    title = stringResource(R.string.sleep_timer),
                 )
-
 
                 FilledTonalButton(
                     onClick = {

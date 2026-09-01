@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
+import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import kotlinx.coroutines.launch
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -81,10 +83,10 @@ fun QueueBottomSheet(
             modifier = modifier
                 .fillMaxSize()
         ) {
-            Text(
-                modifier = modifier.padding(start = 8.dp, bottom = 12.dp),
-                text = stringResource(R.string.playing_now),
-                style = MaterialTheme.typography.titleLarge
+            SheetHeader(
+                icon = Icons.AutoMirrored.Rounded.QueueMusic,
+                title = stringResource(R.string.playing_now),
+                modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp),
             )
 
             LazyColumn(
