@@ -156,4 +156,5 @@
     <string name="clear_cache">Tøm hurtiglager</string>
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
+    <string name="in_app_volume">In-App Volume</string>
 </resources>
