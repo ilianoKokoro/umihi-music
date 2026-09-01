@@ -97,6 +97,7 @@
     <string name="send_playback_data_description">Stuurt afgespeelde nummers terug naar Youtube Muziek voor geschiedenis, aanbevelingen en samenvatting van het jaar</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Aanspreektitel</string>
+    <string name="description">Description</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
@@ -156,5 +157,5 @@
     <string name="clear_cache">Cache legen</string>
     <string name="clear_cache_message">Verwijder alle gegevens in de cache en miniatuurafbeelding van dit apparaat</string>
     <string name="cache_cleared">Cache gewist</string>
-    <string name="in_app_volume">In-App Volume</string>
+    <string name="volume">Volume</string>
 </resources>
