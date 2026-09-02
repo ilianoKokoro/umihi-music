@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>
     <string name="volume">Objem</string>
+    <string name="download_aborted_message">Stahování bylo přerušeno kvůli ztrátě připojení</string>
 </resources>
