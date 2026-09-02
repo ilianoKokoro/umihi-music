@@ -209,7 +209,10 @@ class PlaybackService : MediaLibraryService() {
                         loudnessEnhancer = LoudnessEnhancer(audioSessionId)
                         applyAppVolume(currentVolumePercent)
                     } catch (e: Exception) {
-                        printe(message = "Failed to initialize LoudnessEnhancer: ${e.message}", exception = e)
+                        printe(
+                            message = "Failed to initialize LoudnessEnhancer: ${e.message}",
+                            exception = e
+                        )
                     }
                     sendBroadcast(
                         Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION).apply {
@@ -266,7 +269,8 @@ class PlaybackService : MediaLibraryService() {
             player.volume = currentVolumePercent / 100f
             try {
                 loudnessEnhancer?.enabled = false
-            } catch (_: Exception) {}
+            } catch (_: Exception) {
+            }
         } else {
             player.volume = 1.0f
             val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
@@ -276,7 +280,10 @@ class PlaybackService : MediaLibraryService() {
                 loudnessEnhancer?.setTargetGain(gainmB)
                 loudnessEnhancer?.enabled = true
             } catch (e: Exception) {
-                printe(message = "Failed to set LoudnessEnhancer target gain: ${e.message}", exception = e)
+                printe(
+                    message = "Failed to set LoudnessEnhancer target gain: ${e.message}",
+                    exception = e
+                )
             }
         }
     }
@@ -297,7 +304,8 @@ class PlaybackService : MediaLibraryService() {
         try {
             loudnessEnhancer?.release()
             loudnessEnhancer = null
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
         mediaLibrarySession?.run {
             if (currentAudioSessionId > 0) {
                 sendBroadcast(

@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,21 +45,13 @@ fun MaterialUComboBox(
                 leadingIcon = leadingIcon,
                 trailingIcon = Icons.Rounded.KeyboardArrowDown,
             )
-
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .clip(RoundedCornerShape(20.dp))
-                    .clickable(onClick = { onExpandedChange(!expanded) })
-            )
         }
 
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = onDismissRequest,
             shape = RoundedCornerShape(24.dp),
-        ) {
-            content()
-        }
+            content = content
+        )
     }
 }

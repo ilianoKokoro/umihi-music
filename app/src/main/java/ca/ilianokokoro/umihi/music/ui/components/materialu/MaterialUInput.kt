@@ -86,10 +86,10 @@ fun MaterialUInput(
                 Icon(
                     imageVector = it,
                     contentDescription = null,
-                    modifier = Modifier.clickable(
-                        enabled = onTrailingIconClick != null
-                    ) {
-                        onTrailingIconClick?.invoke()
+                    modifier = if (onTrailingIconClick != null) {
+                        Modifier.clickable { onTrailingIconClick() }
+                    } else {
+                        Modifier
                     }
                 )
             }

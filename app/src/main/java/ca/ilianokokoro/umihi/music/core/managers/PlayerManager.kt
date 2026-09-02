@@ -36,6 +36,7 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
+@UnstableApi
 object PlayerManager {
     @Volatile
     private var controllerFuture: ListenableFuture<MediaController>? = null
@@ -85,7 +86,10 @@ object PlayerManager {
     }
 
     fun setAppVolume(volume: Int, context: Context) {
-        val clamped = volume.coerceIn(Constants.Player.Volume.MIN_PERCENT, Constants.Player.Volume.MAX_PERCENT)
+        val clamped = volume.coerceIn(
+            Constants.Player.Volume.MIN_PERCENT,
+            Constants.Player.Volume.MAX_PERCENT
+        )
         _appVolume.value = clamped
         playbackService?.applyAppVolume(clamped)
         scope.launch {
