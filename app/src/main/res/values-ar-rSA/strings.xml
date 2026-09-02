@@ -158,4 +158,5 @@
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
     <string name="volume">حجم</string>
+    <string name="download_aborted_message">تم إحباط التحميل بسبب فقدان الصلة</string>
 </resources>
