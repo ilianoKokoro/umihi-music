@@ -9,13 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +31,9 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.findActivity
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getShortErrorFromLog
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
+import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 
 @Composable
@@ -95,43 +94,41 @@ fun ErrorScreen() {
             )
 
             Spacer(Modifier.height(32.dp))
-
-
-
-
-            FilledTonalButton(
+            
+            MaterialUButton(
                 onClick = { isDialogShown = true },
-                shapes = ButtonDefaults.shapes(),
-            ) {
-                Text(stringResource(R.string.view_details))
-            }
+                text = stringResource(R.string.view_details),
+                variant = MaterialUButtonVariant.Tonal,
+                size = MaterialUButtonSize.Small
+            )
 
-            Button(
+            MaterialUButton(
                 onClick = {
                     if (activity != null && config != null) {
                         CustomActivityOnCrash.restartApplication(activity, config)
                     }
                 },
-                shapes = ButtonDefaults.shapes(),
-            ) {
-                Text(stringResource(R.string.restart_application))
-            }
+                text = stringResource(R.string.restart_application),
+                variant = MaterialUButtonVariant.Filled,
+                size = MaterialUButtonSize.Small
+            )
 
-            OutlinedButton(
+            MaterialUButton(
                 onClick = {
                     runCatching {
                         uriHandler.openUri(Constants.Url.DISCORD_INVITE)
                     }
                 },
-                shapes = ButtonDefaults.shapes(),
-            ) {
-                Text(stringResource(R.string.join_discord_server))
-            }
+                text = stringResource(R.string.join_discord_server),
+                variant = MaterialUButtonVariant.Outlined,
+                size = MaterialUButtonSize.Small
+            )
+
         }
     }
 
     if (isDialogShown) {
-        ErrorLogDialog(
+        ErrorLogBottomSheet(
             context = context,
             onDismissRequest = { isDialogShown = false },
             dialogTitle = stringResource(R.string.error_details),
