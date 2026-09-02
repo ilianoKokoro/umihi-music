@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Mengirim lagu yang diputar ke Youtube Music untuk riwayat, rekomendasi, dan rekap akhir tahun</string>
     <string name="downloading_update">Mengunduh Update…</string>
     <string name="title">Judul</string>
-    <string name="description">Description</string>
+    <string name="description">Deskripsi</string>
     <string name="create">Buat</string>
     <string name="create_playlist">Buat playlist</string>
     <string name="privacy_unlisted">Tidak terdaftar</string>
