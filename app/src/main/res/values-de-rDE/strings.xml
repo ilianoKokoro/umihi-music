@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Entferne alle zwischengespeicherten Audio- und Thumbnail Daten von diesem Gerät</string>
     <string name="cache_cleared">Cache gelöscht</string>
     <string name="volume">Lautstärke</string>
+    <string name="download_aborted_message">Download wegen Verbindungsverlust abgebrochen</string>
 </resources>
