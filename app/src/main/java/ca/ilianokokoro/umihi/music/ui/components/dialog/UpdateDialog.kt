@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.dialog
 
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,11 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
 import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.net.SocketException
 
 
 @Composable
@@ -117,36 +120,45 @@ fun UpdateDialog(scope: CoroutineScope) {
             },
             confirmButton = {
                 if (!isDownloading) {
+                    val downloadAbortedMessage = stringResource(R.string.download_aborted_message)
                     TextButton(
                         onClick = {
-
-
                             scope.launch {
+                                try {
+                                    val granted = VersionManager.requestInstallPermissions(
+                                        activity = context as ComponentActivity
+                                    )
 
-                                val granted = VersionManager.requestInstallPermissions(
-                                    activity = context as ComponentActivity
-                                )
-
-                                if (!granted) {
-                                    isDownloading = false
-                                    return@launch
-                                }
-
-                                isDownloading = true
-                                downloadProgress = 0f
-
-                                val apkFile = VersionManager.downloadApk(
-                                    context = context,
-                                    release = releaseInfo,
-                                    onProgress = { progress ->
-                                        downloadProgress = progress
+                                    if (!granted) {
+                                        isDownloading = false
+                                        return@launch
                                     }
-                                )
 
-                                VersionManager.installApk(
-                                    context = context,
-                                    apkFile = apkFile
-                                )
+                                    isDownloading = true
+                                    downloadProgress = 0f
+
+                                    val apkFile = VersionManager.downloadApk(
+                                        context = context,
+                                        release = releaseInfo,
+                                        onProgress = { progress ->
+                                            downloadProgress = progress
+                                        }
+                                    )
+
+                                    VersionManager.installApk(
+                                        context = context,
+                                        apkFile = apkFile
+                                    )
+                                } catch (ex: Exception) {
+                                    val message = if (ex is SocketException) {
+                                        downloadAbortedMessage
+                                    } else {
+                                        ex.message.toString()
+                                    }
+
+                                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                                    LogHelper.printe(ex.toString())
+                                }
 
                                 isDownloading = false
                                 showDialog = false
