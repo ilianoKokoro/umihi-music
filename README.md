@@ -160,8 +160,8 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>606 words</b></sub>
-        <br /><sub><b><code title="Vietnamese">vi</code></b></sub>
+        <sub><b>608 words</b></sub>
+        <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
