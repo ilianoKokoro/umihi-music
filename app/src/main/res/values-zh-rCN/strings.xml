@@ -158,4 +158,5 @@
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>
     <string name="volume">音量</string>
+    <string name="download_aborted_message">由于连接丢失而中止下载</string>
 </resources>
