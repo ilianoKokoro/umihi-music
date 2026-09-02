@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Remover todos os dados em cache de áudio e miniatura deste dispositivo</string>
     <string name="cache_cleared">Cache limpo</string>
     <string name="volume">Volume</string>
+    <string name="download_aborted_message">Download abortado devido à perda de connexion</string>
 </resources>
