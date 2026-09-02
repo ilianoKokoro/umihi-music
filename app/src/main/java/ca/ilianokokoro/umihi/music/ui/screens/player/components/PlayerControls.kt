@@ -109,7 +109,10 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = PlayerManager::skipToPrevious,
+                            onClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                                PlayerManager.skipToPrevious()
+                            },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[0],
                             modifier = Modifier
@@ -180,7 +183,10 @@ fun PlayerControls(
                 customItem(
                     {
                         FilledIconButton(
-                            onClick = PlayerManager::skipToNext,
+                            onClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                                PlayerManager.skipToNext()
+                            },
                             shapes = IconButtonDefaults.shapes(),
                             interactionSource = mainButtonsControlsInteractionSources[2],
                             modifier = Modifier
