@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Вилучити всі кешовані дані та мініатюри з цього пристрою</string>
     <string name="cache_cleared">Кеш очищено</string>
     <string name="volume">Об\'єм</string>
+    <string name="download_aborted_message">Завантаження перервано через втрату паралельної гри</string>
 </resources>
