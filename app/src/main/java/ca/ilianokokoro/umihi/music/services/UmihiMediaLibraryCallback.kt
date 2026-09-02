@@ -203,12 +203,14 @@ class UmihiMediaLibraryCallback(
                             .first { it !is ApiResult.Loading }
 
                         if (result is ApiResult.Success && result.data.songs.isNotEmpty()) {
-                            listOf(
-                                playPlaylistMediaItem(playlistId),
-                                shufflePlaylistMediaItem(playlistId)
-                            ) + result.data.songs.map { song ->
-                                song.mediaItem
+                            val songItems = buildList {
+                                add(playPlaylistMediaItem(playlistId))
+                                add(shufflePlaylistMediaItem(playlistId))
+                                result.data.songs.forEach { song ->
+                                    add(song.getPlayableMediaItem())
+                                }
                             }
+                            songItems
                         } else {
                             emptyList()
                         }
@@ -289,12 +291,23 @@ class UmihiMediaLibraryCallback(
         pageSize: Int,
         params: LibraryParams?
     ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-        return Futures.immediateFuture(
-            LibraryResult.ofItemList(
-                searchResults.map { it.mediaItem },
-                params
+        val future = SettableFuture.create<LibraryResult<ImmutableList<MediaItem>>>()
+
+        serviceScope.launch {
+            val items = buildList {
+                searchResults.forEach { song ->
+                    add(song.getPlayableMediaItem())
+                }
+            }
+            future.set(
+                LibraryResult.ofItemList(
+                    items,
+                    params
+                )
             )
-        )
+        }
+
+        return future
     }
 
     override fun onSetMediaItems(
@@ -383,8 +396,10 @@ class UmihiMediaLibraryCallback(
             result.data.songs
         }
 
-        return songs.map { song ->
-            song.mediaItem
+        return buildList {
+            songs.forEach { song ->
+                add(song.getPlayableMediaItem())
+            }
         }
     }
 
@@ -405,7 +420,7 @@ class UmihiMediaLibraryCallback(
             }
 
         if (songResult is ApiResult.Success) {
-            return songResult.data.mediaItem
+            return songResult.data.getPlayableMediaItem()
         }
 
         return mediaItem.buildUpon()

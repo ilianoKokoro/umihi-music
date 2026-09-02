@@ -17,6 +17,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import kotlinx.serialization.Serializable
 import kotlin.uuid.Uuid
+import java.io.File
 
 @Serializable
 @Immutable
@@ -84,6 +85,26 @@ data class Song(
         get() = "${Constants.YoutubeApi.YOUTUBE_URL_PREFIX}${youtubeId}"
     val downloaded: Boolean
         get() = audioFilePath != null && thumbnailPath != null
+
+
+    suspend fun getPlayableMediaItem(): MediaItem {
+        val base = mediaItem
+        val localThumbnailPath = thumbnailPath ?: return base
+
+        return runCatching {
+            val file = File(localThumbnailPath)
+            if (!file.exists()) {
+                return base
+            }
+            base.buildUpon()
+                .setMediaMetadata(
+                    base.mediaMetadata.buildUpon()
+                        .setArtworkData(file.readBytes(), MediaMetadata.PICTURE_TYPE_FRONT_COVER)
+                        .build()
+                )
+                .build()
+        }.getOrDefault(base)
+    }
 
 
     suspend fun getThumbnailBitmap(): Bitmap? {
