@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
     <string name="volume">Tilavuus</string>
+    <string name="download_aborted_message">Lataus keskeytetty, koska yhteys on menetetty</string>
 </resources>
