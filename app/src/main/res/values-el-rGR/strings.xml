@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
     <string name="volume">Όγκος</string>
+    <string name="download_aborted_message">Η λήψη ματαιώθηκε λόγω απώλειας της σύνδεσης</string>
 </resources>

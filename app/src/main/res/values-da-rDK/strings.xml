@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
     <string name="volume">Lydstyrke</string>
+    <string name="download_aborted_message">Download afbrudt på grund af tab af forbindelse</string>
 </resources>

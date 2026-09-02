@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
     <string name="volume">Volum</string>
+    <string name="download_aborted_message">Descărcare anulată din cauza pierderii conexiunii</string>
 </resources>

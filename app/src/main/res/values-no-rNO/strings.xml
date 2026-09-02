@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
     <string name="volume">Volum</string>
+    <string name="download_aborted_message">Nedlasting avbrutt på grunn av manglende forbindelse</string>
 </resources>

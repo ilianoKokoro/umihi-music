@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Usuń wszystkie dane z pamięci podręcznej dźwięku i miniatur z tego urządzenia</string>
     <string name="cache_cleared">Wyczyszczono pamięć podręczną</string>
     <string name="volume">Objętość</string>
+    <string name="download_aborted_message">Pobieranie przerwane z powodu utraty połączenia</string>
 </resources>
