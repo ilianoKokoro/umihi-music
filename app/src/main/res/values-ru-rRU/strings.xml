@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
+    <string name="download_aborted_message">Загрузка прервана из-за потери связи</string>
 </resources>
