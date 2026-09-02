@@ -2,6 +2,8 @@ package ca.ilianokokoro.umihi.music.core.workers
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -11,12 +13,14 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import kotlinx.coroutines.withContext
 import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.incrementAndFetch
@@ -124,9 +128,25 @@ class PlaylistDownloadWorker(
 
             Result.success()
         } catch (_: CancellationException) {
-            NotificationManager.showPlaylistDownloadCanceled(appContext, playlist)
-            printd("Playlist download canceled ${playlist.info.title}")
-            Result.failure()
+            val isUserCancelled = withContext(NonCancellable) {
+                try {
+                    WorkManager.getInstance(appContext)
+                        .getWorkInfoById(params.id)
+                        .get()
+                        ?.state == WorkInfo.State.CANCELLED
+                } catch (e: Exception) {
+                    false
+                }
+            }
+
+            if (isUserCancelled) {
+                NotificationManager.showPlaylistDownloadCanceled(appContext, playlist)
+                printd("Playlist download canceled ${playlist.info.title}")
+                Result.failure()
+            } else {
+                printd("Playlist download interrupted, retrying ${playlist.info.title}")
+                Result.retry()
+            }
         } catch (e: Exception) {
             NotificationManager.showPlaylistDownloadFailure(appContext, playlist)
             printe(message = e.toString(), exception = e)

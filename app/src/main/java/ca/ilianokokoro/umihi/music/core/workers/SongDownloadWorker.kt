@@ -2,6 +2,8 @@ package ca.ilianokokoro.umihi.music.core.workers
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
@@ -10,7 +12,9 @@ import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.cancellation.CancellationException
 
 class SongDownloadWorker(
@@ -73,8 +77,24 @@ class SongDownloadWorker(
 
             Result.success()
         } catch (_: CancellationException) {
-            printd("Song download canceled ${song.title}")
-            Result.failure()
+            val isUserCancelled = withContext(NonCancellable) {
+                try {
+                    WorkManager.getInstance(appContext)
+                        .getWorkInfoById(params.id)
+                        .get()
+                        ?.state == WorkInfo.State.CANCELLED
+                } catch (e: Exception) {
+                    false
+                }
+            }
+
+            if (isUserCancelled) {
+                printd("Song download canceled ${song.title}")
+                Result.failure()
+            } else {
+                printd("Song download interrupted, retrying ${song.title}")
+                Result.retry()
+            }
         } catch (e: Exception) {
             NotificationManager.showSongDownloadFailed(appContext, song)
 
