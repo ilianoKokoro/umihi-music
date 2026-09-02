@@ -118,8 +118,8 @@
     <string name="sleep_timer_end_of_song_btn">노래 끝</string>
     <string name="sleep_timer_start">타이머 시작하기</string>
     <string name="playback_speed">재생 속도</string>
-    <string name="unlike">Unlike</string>
-    <string name="like">Like</string>
+    <string name="unlike">싫어요</string>
+    <string name="like">좋아요</string>
     <string name="song_downloaded">Song downloaded</string>
     <string name="download_failed">Download failed</string>
     <string name="failed_to_download_song">Failed to download %1$s - %2$s</string>
