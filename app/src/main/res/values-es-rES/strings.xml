@@ -95,7 +95,7 @@
     <string name="keep_screen_on_title">Mantener la pantalla siempre encendida</string>
     <string name="keep_screen_on_title_description">Evita que la pantalla se apague mientras la aplicación está abierta</string>
     <string name="send_playback_data_title">Enviar datos a Google</string>
-    <string name="send_playback_data_description">Envía canciones reproducidas a Youtube Music para la historia, las recomendaciones y el resumen final</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Descargando actualización…</string>
     <string name="title">Título</string>
     <string name="description">Descripción</string>
@@ -159,5 +159,5 @@
     <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
     <string name="cache_cleared">Caché limpiada</string>
     <string name="volume">Volumen</string>
-    <string name="download_aborted_message">Descarga abortada debido a la pérdida de conexión</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
