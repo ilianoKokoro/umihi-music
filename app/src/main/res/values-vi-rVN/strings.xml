@@ -97,7 +97,7 @@
     <string name="send_playback_data_description">Gửi các bài hát đã phát về YouTube Music để xem lịch sử, đề xuất và tổng kết cuối năm</string>
     <string name="downloading_update">Đang Tải Bản Cập Nhật…</string>
     <string name="title">Tiêu đề</string>
-    <string name="description">Description</string>
+    <string name="description">Mô tả</string>
     <string name="create">Tạo</string>
     <string name="create_playlist">Tạo danh sách phát</string>
     <string name="privacy_unlisted">Không được liệt kê</string>
@@ -157,6 +157,6 @@
     <string name="clear_cache">Xóa bộ nhớ đệm</string>
     <string name="clear_cache_message">Xoá toàn bộ bộ nhớ đệm cả âm thanh và hình thu nhỏ khỏi thiết bị này</string>
     <string name="cache_cleared">Đã xóa bộ nhớ đệm</string>
-    <string name="volume">Volume</string>
-    <string name="download_aborted_message">Download aborted due to loss of connexion</string>
+    <string name="volume">Âm lượng</string>
+    <string name="download_aborted_message">Quá trình tải xuống đã bị hủy do mất kết nối</string>
 </resources>
