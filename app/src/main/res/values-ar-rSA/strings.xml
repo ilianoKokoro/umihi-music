@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">إبقاء الشاشة دائماً قيد التشغيل</string>
     <string name="keep_screen_on_title_description">يمنع الشاشة من إيقاف التشغيل أثناء فتح التطبيق</string>
     <string name="send_playback_data_title">إرسال بيانات العودة إلى جوجل</string>
-    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_description">ترسل الأغاني المشغلة إلى يوتيوب موسيقى للتاريخ والتوصيات وموجز نهاية السنة</string>
     <string name="downloading_update">جاري تحميل التحديث…</string>
     <string name="title">العنوان</string>
     <string name="description">الوصف</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
     <string name="volume">حجم</string>
-    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="download_aborted_message">تم إحباط التحميل بسبب فقدان الاتصال</string>
 </resources>
