@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Тримати екран Always On</string>
     <string name="keep_screen_on_title_description">Запобігає вимкненню екрану, коли програма відкрита</string>
     <string name="send_playback_data_title">Відправити назад Google</string>
-    <string name="send_playback_data_description">Надсилає пісні повернутися до музики Youtube для історії, рекомендацій та відповідей на кінець року</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Завантаження оновлення…</string>
     <string name="title">Найменування</string>
     <string name="description">Опис</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Вилучити всі кешовані дані та мініатюри з цього пристрою</string>
     <string name="cache_cleared">Кеш очищено</string>
     <string name="volume">Об\'єм</string>
-    <string name="download_aborted_message">Завантаження перервано через втрату паралельної гри</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
