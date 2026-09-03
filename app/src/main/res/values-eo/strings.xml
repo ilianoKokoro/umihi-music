@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Keep Scween Always On</string>
     <string name="keep_screen_on_title_description">Pwevents tha dispway fwom tuwnin off while tha app is owpen</string>
     <string name="send_playback_data_title">Send back dwata to Googwe</string>
-    <string name="send_playback_data_description">Sends pwayed swongs back to YouTube Music fow histowy, wecommendations and yeaw-end wecap</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Downwoadin Upwdate :3…</string>
     <string name="title">Titwle</string>
     <string name="description">Description</string>
@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
     <string name="cache_cleared">Cache Cweawed</string>
     <string name="volume">Volume</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
