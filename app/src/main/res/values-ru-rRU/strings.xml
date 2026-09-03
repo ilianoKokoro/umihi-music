@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Экран всегда включен</string>
     <string name="keep_screen_on_title_description">Предотвращает отключение дисплея при открытии приложения</string>
     <string name="send_playback_data_title">Отправить обратно данные в Google</string>
-    <string name="send_playback_data_description">Отправляет песни обратно на Youtube Music для истории, рекомендаций и показов на конец года</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Загрузка обновления…</string>
     <string name="title">Заголовок</string>
     <string name="description">Описание</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
-    <string name="download_aborted_message">Загрузка прервана из-за потери связи</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
