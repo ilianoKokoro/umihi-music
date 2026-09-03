@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Håll skärmen alltid igång</string>
     <string name="keep_screen_on_title_description">Förhindrar att skärmen stängs av medan appen är öppen</string>
     <string name="send_playback_data_title">Skicka tillbaka data till Google</string>
-    <string name="send_playback_data_description">Skickar spelade låtar tillbaka till Youtube Music för historia, rekommendationer och år-slut-recap</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Laddar ner uppdatering…</string>
     <string name="title">Titel</string>
     <string name="description">Beskrivning</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
     <string name="volume">Volym</string>
-    <string name="download_aborted_message">Nedladdningen avbröts på grund av förlust av connexion</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
