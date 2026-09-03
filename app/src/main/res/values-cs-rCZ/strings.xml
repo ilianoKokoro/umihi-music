@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Ponechat obrazovku zapnutou</string>
     <string name="keep_screen_on_title_description">Zabraňuje vypnutí displeje, když je aplikace otevřena</string>
     <string name="send_playback_data_title">Poslat zpět data na Google</string>
-    <string name="send_playback_data_description">Odešle přehrávané písničky zpět do YouTube Music pro historii, doporučení a ročníkovou reap</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Stahování aktualizace…</string>
     <string name="title">Hlava 1 – Celkem</string>
     <string name="description">L 343, 22.12.2009, s. 1).</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>
     <string name="volume">Objem</string>
-    <string name="download_aborted_message">Stahování bylo přerušeno kvůli ztrátě připojení</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
