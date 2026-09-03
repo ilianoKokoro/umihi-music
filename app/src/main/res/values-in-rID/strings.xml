@@ -158,4 +158,5 @@
     <string name="clear_cache_message">Hapus semua data cache audio dan thumbnail dari perangkat ini</string>
     <string name="cache_cleared">Cache Telah Terhapuskan</string>
     <string name="volume">Volume</string>
+    <string name="download_aborted_message">Proses unduh digugurkan sebab kehilangan koneksi</string>
 </resources>
