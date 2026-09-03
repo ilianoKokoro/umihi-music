@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Păstraţi ecranul permanent aprins</string>
     <string name="keep_screen_on_title_description">Împiedică ecranul de la oprire în timp ce aplicația este deschisă</string>
     <string name="send_playback_data_title">Trimite înapoi date către Google</string>
-    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_description">Trimite melodiile redate înapoi la YouTube Music pentru istorie, recomandări și recapitulare la sfârșitul anului</string>
     <string name="downloading_update">Descărcare Actualizare…</string>
     <string name="title">Titlu</string>
     <string name="description">Descriere</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
     <string name="volume">Volum</string>
-    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="download_aborted_message">Descărcare anulată din cauza pierderii conexiunii</string>
 </resources>
