@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Behold skjermen alltid på</string>
     <string name="keep_screen_on_title_description">Hindrer skjermen i å slå av mens appen er åpen</string>
     <string name="send_playback_data_title">Send returdata til Google</string>
-    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_description">Sender spilte sanger tilbake til YouTube Music for historie, anbefalinger og årets recap</string>
     <string name="downloading_update">Laster ned oppdatering…</string>
     <string name="title">Tittel</string>
     <string name="description">Beskrivelse</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
     <string name="volume">Volum</string>
-    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="download_aborted_message">Nedlasting avbrutt grunnet tap av tilkobling</string>
 </resources>
