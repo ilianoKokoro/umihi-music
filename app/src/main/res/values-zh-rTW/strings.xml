@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">保持螢幕點亮</string>
     <string name="keep_screen_on_title_description">應用程式打開的期間不熄滅螢幕</string>
     <string name="send_playback_data_title">回傳資料給 Google</string>
-    <string name="send_playback_data_description">將播放的歌曲資料和記錄回傳到 YouTube Music，YouTube Music 會依此資料存取歷史記錄、生成推薦和年度回顧</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">正在下載更新…</string>
     <string name="title">標題</string>
     <string name="description">Description</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
     <string name="volume">Volume</string>
-    <string name="download_aborted_message">Download aborted due to loss of connexion</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
