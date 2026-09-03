@@ -95,7 +95,7 @@
     <string name="keep_screen_on_title">Mantener la pantalla siempre encendida</string>
     <string name="keep_screen_on_title_description">Evita que la pantalla se apague mientras la aplicación está abierta</string>
     <string name="send_playback_data_title">Enviar datos a Google</string>
-    <string name="send_playback_data_description">Envía canciones reproducidas a Youtube Music para la historia, las recomendaciones y el resumen final</string>
+    <string name="send_playback_data_description">Envía canciones reproducidas a YouTube Music para su historia, recomendaciones y resumen final</string>
     <string name="downloading_update">Descargando actualización…</string>
     <string name="title">Título</string>
     <string name="description">Descripción</string>

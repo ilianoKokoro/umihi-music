@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">常に画面をオンにする</string>
     <string name="keep_screen_on_title_description">アプリを開いている間にディスプレイがオフになるのを防ぎます</string>
     <string name="send_playback_data_title">Google にデータを送る</string>
-    <string name="send_playback_data_description">YouTubeに再生された曲を履歴、推奨事項、そして年末の要約のために送信する</string>
+    <string name="send_playback_data_description">再生された曲をYouTubeに送信し、歴史、推奨事項、年末の要約を確認します。</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">タイトル</string>
     <string name="description">説明</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">このデバイスからキャッシュされたオーディオとサムネイルデータをすべて削除します</string>
     <string name="cache_cleared">キャッシュが消去されました</string>
     <string name="volume">音量</string>
-    <string name="download_aborted_message">ダウンロードが中止されました。接続が失われました。</string>
+    <string name="download_aborted_message">接続が切断されたため、ダウンロードは中断されました</string>
 </resources>

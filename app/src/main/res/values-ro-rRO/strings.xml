@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Păstraţi ecranul permanent aprins</string>
     <string name="keep_screen_on_title_description">Împiedică ecranul de la oprire în timp ce aplicația este deschisă</string>
     <string name="send_playback_data_title">Trimite înapoi date către Google</string>
-    <string name="send_playback_data_description">Trimiteți melodiile redate înapoi la Muzica Youtube pentru istorie, recomandări și recuperări de la sfârșitul anului</string>
+    <string name="send_playback_data_description">Trimite melodiile redate înapoi la YouTube Music pentru istorie, recomandări și recapitulare la sfârșitul anului</string>
     <string name="downloading_update">Descărcare Actualizare…</string>
     <string name="title">Titlu</string>
     <string name="description">Descriere</string>

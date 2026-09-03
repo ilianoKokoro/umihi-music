@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Manter a tela sempre ligada</string>
     <string name="keep_screen_on_title_description">Impede que a tela desligue enquanto o aplicativo estiver aberto</string>
     <string name="send_playback_data_title">Enviar dados de volta para o Google</string>
-    <string name="send_playback_data_description">Envia músicas tocadas de volta para o Youtube Music para história, recomendações e recapitulação final de anos</string>
+    <string name="send_playback_data_description">Envia músicas tocadas de volta para música do YouTube para história, recomendações e recapitulação do ano</string>
     <string name="downloading_update">Baixando Atualização…</string>
     <string name="title">Título</string>
     <string name="description">Descrição:</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Remover todos os dados em cache de áudio e miniatura deste dispositivo</string>
     <string name="cache_cleared">Cache limpo</string>
     <string name="volume">Volume</string>
-    <string name="download_aborted_message">Download abortado devido à perda de connexion</string>
+    <string name="download_aborted_message">Download cancelado devido à perda de conexão</string>
 </resources>

@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Scherm altijd aan laten staan</string>
     <string name="keep_screen_on_title_description">Voorkomt dat het scherm wordt uitgeschakeld terwijl de app geopend is</string>
     <string name="send_playback_data_title">Stuur terug gegevens naar Google</string>
-    <string name="send_playback_data_description">Stuurt afgespeelde nummers terug naar Youtube Muziek voor geschiedenis, aanbevelingen en samenvatting van het jaar</string>
+    <string name="send_playback_data_description">Stuurt afgespeelde nummers terug naar YouTube muziek voor geschiedenis, aanbevelingen en eindejaarsrecap</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Aanspreektitel</string>
     <string name="description">Beschrijving</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Verwijder alle gegevens in de cache en miniatuurafbeelding van dit apparaat</string>
     <string name="cache_cleared">Cache gewist</string>
     <string name="volume">Volume</string>
-    <string name="download_aborted_message">Download afgebroken als gevolg van verlies van verbinding</string>
+    <string name="download_aborted_message">Download afgebroken als gevolg van het wegvallen van de verbinding</string>
 </resources>

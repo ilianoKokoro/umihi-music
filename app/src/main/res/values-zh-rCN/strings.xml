@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">保持屏幕始终开启</string>
     <string name="keep_screen_on_title_description">在应用程序打开时阻止显示关闭</string>
     <string name="send_playback_data_title">发送回数据到 Google</string>
-    <string name="send_playback_data_description">发送播放的歌曲回到Youtube音乐以获取历史、建议和年终回顾。</string>
+    <string name="send_playback_data_description">发送播放的歌曲回到YouTube音乐以供历史参考、建议和年终回顾。</string>
     <string name="downloading_update">正在下载更新…</string>
     <string name="title">标题</string>
     <string name="description">描述</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>
     <string name="volume">音量</string>
-    <string name="download_aborted_message">由于连接丢失而中止下载</string>
+    <string name="download_aborted_message">由于连接丢失，下载已中止</string>
 </resources>

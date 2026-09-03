@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Ponechat obrazovku zapnutou</string>
     <string name="keep_screen_on_title_description">Zabraňuje vypnutí displeje, když je aplikace otevřena</string>
     <string name="send_playback_data_title">Poslat zpět data na Google</string>
-    <string name="send_playback_data_description">Odešle přehrávané písničky zpět do YouTube Music pro historii, doporučení a ročníkovou reap</string>
+    <string name="send_playback_data_description">Odešle přehrávané písničky zpět na YouTube Music pro historii, doporučení a ročníkovou reap</string>
     <string name="downloading_update">Stahování aktualizace…</string>
     <string name="title">Hlava 1 – Celkem</string>
     <string name="description">L 343, 22.12.2009, s. 1).</string>
