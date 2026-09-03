@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Hold Skærmen Altid Tændt</string>
     <string name="keep_screen_on_title_description">Forhindrer skærmen i at slukke, mens appen er åben</string>
     <string name="send_playback_data_title">Send data tilbage til Google</string>
-    <string name="send_playback_data_description">Sender spillede sange tilbage til Youtube Musik for historie, anbefalinger og års-ende recap</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Downloader Opdatering…</string>
     <string name="title">Titel</string>
     <string name="description">Varebeskrivelse</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
     <string name="volume">Lydstyrke</string>
-    <string name="download_aborted_message">Download afbrudt på grund af tab af forbindelse</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
