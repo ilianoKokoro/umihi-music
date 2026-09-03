@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
     <string name="send_playback_data_title">Envoyer les données à Google</string>
-    <string name="send_playback_data_description">Renvoie les titres écoutés vers YouTube Music pour l\'historique, les recommandations et le bilan de fin d\'année</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Téléchargement de la mise à jour…</string>
     <string name="title">Titre</string>
     <string name="description">Libellé</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>
     <string name="volume">Volume</string>
-    <string name="download_aborted_message">Téléchargement interrompu suite à une perte de connexion</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
 </resources>
