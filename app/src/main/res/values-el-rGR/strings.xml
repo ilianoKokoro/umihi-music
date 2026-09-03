@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Κρατήστε Την Οθόνη Πάντα Ενεργή</string>
     <string name="keep_screen_on_title_description">Αποτρέπει την απενεργοποίηση της οθόνης όταν η εφαρμογή είναι ανοιχτή</string>
     <string name="send_playback_data_title">Αποστολή πίσω δεδομένων στο Google</string>
-    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_description">Στέλνει τραγούδια πίσω στο YouTube Music για ιστορία, συστάσεις και ανακεφαλαίωση στο τέλος του έτους</string>
     <string name="downloading_update">Downloading Update…</string>
     <string name="title">Τίτλος</string>
     <string name="description">Περιγραφή</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
     <string name="volume">Όγκος</string>
-    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="download_aborted_message">Η λήψη ματαιώθηκε λόγω απώλειας σύνδεσης</string>
 </resources>
