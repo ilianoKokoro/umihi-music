@@ -94,7 +94,7 @@
     <string name="keep_screen_on_title">Pidä Näyttö Aina Päällä</string>
     <string name="keep_screen_on_title_description">Estää näytön sammuttamisen kun sovellus on auki</string>
     <string name="send_playback_data_title">Lähetä takaisin tiedot Googlelle</string>
-    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
+    <string name="send_playback_data_description">Lähettää soitetut kappaleet takaisin YouTube-musiikkiin historian, suositusten ja vuoden lopun kertaus</string>
     <string name="downloading_update">Ladataan Päivitystä…</string>
     <string name="title">Otsikko</string>
     <string name="description">Kuvaus</string>
@@ -158,5 +158,5 @@
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
     <string name="volume">Tilavuus</string>
-    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="download_aborted_message">Lataus keskeytettiin yhteyden menetyksen vuoksi</string>
 </resources>
