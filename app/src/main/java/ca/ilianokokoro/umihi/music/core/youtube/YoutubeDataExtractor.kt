@@ -12,6 +12,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeArray
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeObject
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.extensions.getClientName
+import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.models.Song
@@ -50,14 +51,24 @@ object YoutubeDataExtractor {
     }
 
     fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
-        val url =
-            thumbnailElement.safeObject()?.get("musicThumbnailRenderer")
-                ?.safeObject()?.get("thumbnail")
-                ?.safeObject()?.get("thumbnails")
-                ?.safeArray()?.lastOrNull()
-                ?.safeObject()?.get("url")
-                ?.jsonPrimitive?.contentOrNull ?: ""
-        return url
+        val obj = thumbnailElement.safeObject() ?: return ""
+
+        val fromMusicRenderer = obj["musicThumbnailRenderer"]
+            ?.safeObject()?.get("thumbnail")
+            ?.safeObject()?.get("thumbnails")
+            ?.safeArray()?.lastOrNull()
+            ?.safeObject()?.get("url")
+            ?.jsonPrimitive?.contentOrNull
+
+        val fromDirectThumbnails = obj["thumbnails"]
+            ?.safeArray()?.lastOrNull()
+            ?.safeObject()?.get("url")
+            ?.jsonPrimitive?.contentOrNull
+
+        return fromMusicRenderer
+            ?: fromDirectThumbnails
+            ?: obj["url"]?.jsonPrimitive?.contentOrNull
+            ?: ""
     }
 
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
@@ -418,6 +429,164 @@ object YoutubeDataExtractor {
             } == true
     }
 
+
+    private val ADD_TO_PLAYLIST_RENDERER_KEYS: Set<String> = setOf(
+        "playlistAddToOptionRenderer",
+        "addToPlaylistItemRenderer",
+        "musicResponsiveListItemRenderer",
+        "musicTwoRowItemRenderer",
+    )
+
+    fun extractAddToPlaylistOptions(jsonString: String): List<AddToPlaylistOption> {
+        val json = Json.parseToJsonElement(jsonString).jsonObject
+
+        val root = json["contents"]
+            ?.safeArray()
+            ?.firstNotNullOfOrNull { it.safeObject()?.get("addToPlaylistRenderer") }
+            ?: return emptyList()
+
+        val collected = mutableListOf<AddToPlaylistOption>()
+        collectAddToPlaylistOptions(root, collected)
+
+        val seen = mutableSetOf<String>()
+        return collected
+            .filter { !isLikedMusicPlaylist(it.playlistId) }
+            .filter { seen.add(it.playlistId) }
+    }
+
+    private fun isLikedMusicPlaylist(playlistId: String): Boolean {
+        val normalizedId = playlistId.removePrefix("VL")
+        return normalizedId == "LM"
+    }
+
+    private fun collectAddToPlaylistOptions(value: JsonElement?, sink: MutableList<AddToPlaylistOption>) {
+        when (value) {
+            is JsonObject -> {
+                ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
+                    value[key]?.safeObject()?.let { renderer ->
+                        parseAddToPlaylistOption(renderer)?.let { sink.add(it) }
+                    }
+                }
+                value.forEach { (_, child) -> collectAddToPlaylistOptions(child, sink) }
+            }
+
+            is JsonArray -> value.forEach { collectAddToPlaylistOptions(it, sink) }
+
+            else -> Unit
+        }
+    }
+
+    private fun parseAddToPlaylistOption(renderer: JsonObject): AddToPlaylistOption? {
+        val playlistId = findAddToPlaylistPlaylistId(renderer) ?: return null
+        val title = extractOptionText(
+            renderer,
+            "title",
+            "text",
+            "label",
+            "primaryText",
+            "header",
+            "flexColumns",
+        ) ?: return null
+        if (title == "Create new playlist" || title == "New playlist") {
+            return null
+        }
+
+        return AddToPlaylistOption(
+            playlistId = playlistId,
+            title = title,
+            subtitle = extractOptionText(renderer, "subtitle", "secondaryText"),
+            containsSelectedVideos = extractAddToPlaylistSelectedState(renderer),
+            thumbnailUrl = getBestThumbnailUrl(
+                renderer["thumbnail"]
+                    ?: renderer["thumbnails"]
+                    ?: JsonObject(emptyMap())
+            )
+                .takeIf { it.isNotBlank() },
+        )
+    }
+
+    private fun findAddToPlaylistPlaylistId(value: JsonElement?): String? {
+        when (value) {
+            is JsonObject -> {
+                value["playlistId"]?.jsonPrimitive?.contentOrNull?.let { id ->
+                    if (id.isNotBlank()) return id
+                }
+                value["browseId"]?.jsonPrimitive?.contentOrNull?.let { id ->
+                    if (id.startsWith("VL") || id.startsWith("PL")) return id
+                }
+                value.forEach { (_, child) ->
+                    findAddToPlaylistPlaylistId(child)?.let { return it }
+                }
+            }
+
+            is JsonArray -> value.forEach {
+                findAddToPlaylistPlaylistId(it)?.let { id -> return id }
+            }
+
+            else -> Unit
+        }
+        return null
+    }
+
+    private fun extractOptionText(renderer: JsonObject, vararg keys: String): String? {
+        for (key in keys) {
+            if (key == "flexColumns") {
+                val text = renderer["flexColumns"]
+                    ?.safeArray()
+                    ?.firstOrNull()
+                    ?.safeObject()
+                    ?.get("musicResponsiveListItemFlexColumnRenderer")
+                    ?.safeObject()
+                    ?.get("text")
+                extractTextValue(text)?.let { return it }
+                continue
+            }
+
+            extractTextValue(renderer[key])?.let { return it }
+        }
+        extractTextValue(renderer["runs"])?.let { return it }
+        return null
+    }
+
+    private fun extractAddToPlaylistSelectedState(renderer: JsonObject): Boolean {
+        listOf("selected", "isSelected", "checked").forEach { key ->
+            renderer[key]?.jsonPrimitive?.booleanOrNull?.let { return it }
+        }
+        renderer["toggled"]?.jsonPrimitive?.booleanOrNull?.let { return it }
+
+        val checkStatus = renderer["checkStatus"]?.jsonPrimitive?.contentOrNull
+        if (checkStatus != null) {
+            val normalized = checkStatus.uppercase()
+            if (normalized.contains("UNCHECK") || normalized.contains("UNSELECTED")) {
+                return false
+            }
+            return normalized.contains("CHECKED") || normalized.contains("SELECTED")
+        }
+
+        return renderer["containsSelectedVideos"]
+            ?.jsonPrimitive
+            ?.contentOrNull == "ALL"
+    }
+
+    private fun extractTextValue(element: JsonElement?): String? {
+        if (element is JsonArray) {
+            return element.mapNotNull { run ->
+                run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+            }
+                .joinToString("")
+                .takeIf { it.isNotBlank() }
+        }
+
+        val obj = element?.safeObject() ?: return null
+        return obj["runs"]
+            ?.safeArray()
+            ?.mapNotNull { run ->
+                run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+            }
+            ?.joinToString("")
+            ?.takeIf { it.isNotBlank() }
+            ?: obj["simpleText"]?.jsonPrimitive?.contentOrNull
+    }
 
     fun extractCreatedPlaylist(jsonString: String): PlaylistInfo? {
         val json = Json.parseToJsonElement(jsonString).jsonObject

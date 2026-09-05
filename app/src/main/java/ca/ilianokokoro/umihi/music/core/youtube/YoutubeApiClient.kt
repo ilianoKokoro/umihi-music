@@ -10,6 +10,7 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -70,7 +71,7 @@ object YoutubeApiClient {
             put(
                 "videoIds",
                 buildJsonArray {
-                    songs.forEach { it.youtubeId }
+                    songs.forEach { add(it.youtubeId) }
                 }
             )
         }
@@ -275,7 +276,10 @@ object YoutubeApiClient {
         )
     }
 
-    suspend fun getAddToPlaylists(settings: UmihiSettings): String {
+    suspend fun getAddToPlaylists(
+        videoId: String,
+        settings: UmihiSettings
+    ): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
             id = null,
@@ -286,6 +290,14 @@ object YoutubeApiClient {
             baseBody.forEach { (key, value) ->
                 put(key, value)
             }
+
+            put(
+                "videoIds",
+                buildJsonArray {
+                    add(videoId)
+                }
+            )
+            put("excludeWatchLater", false)
         }
 
         return requestWithBody(
