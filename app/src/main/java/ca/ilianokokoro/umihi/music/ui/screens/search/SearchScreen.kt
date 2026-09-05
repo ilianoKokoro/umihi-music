@@ -16,7 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -30,9 +33,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.SearchBar
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,6 +51,8 @@ fun SearchScreen(
 
 ) {
     val uiState = searchViewModel.uiState.collectAsStateWithLifecycle().value
+    val isLoggedIn = uiState.isLoggedIn
+    var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
 
 
     val focusRequester = remember { FocusRequester() }
@@ -82,10 +89,19 @@ fun SearchScreen(
         SearchScreenContent(
             searchViewModel,
             uiState,
+            isLoggedIn,
+            onAddToPlaylist = { addToPlaylistSong = it },
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
         )
     }
 
+    addToPlaylistSong?.let { song ->
+        AddToPlaylistBottomSheet(
+            song = song,
+            application = application,
+            onClose = { addToPlaylistSong = null },
+        )
+    }
 }
 
 
@@ -93,7 +109,9 @@ fun SearchScreen(
 fun SearchScreenContent(
     searchViewModel: SearchViewModel,
     uiState: SearchState,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
+    onAddToPlaylist: (Song) -> Unit = {},
 ) {
     val context = LocalContext.current
     Column(
@@ -140,6 +158,11 @@ fun SearchScreenContent(
                                 },
                                 addToQueue = {
                                     PlayerManager.addToQueue(it, context)
+                                },
+                                addToPlaylist = if (isLoggedIn) {
+                                    { onAddToPlaylist(it) }
+                                } else {
+                                    null
                                 }
                             )
                         }

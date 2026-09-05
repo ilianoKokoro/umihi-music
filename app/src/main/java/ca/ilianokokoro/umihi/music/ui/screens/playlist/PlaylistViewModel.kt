@@ -19,10 +19,12 @@ import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -41,6 +43,9 @@ class PlaylistViewModel(
         )
     )
     val uiState = _uiState.asStateFlow()
+
+    val isUserEditablePlaylist: Boolean
+        get() = playlistInfo.type == PlaylistType.CREATED_BY_USER
 
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
@@ -61,9 +66,18 @@ class PlaylistViewModel(
 
     init {
         observeSongDownloads()
+        observeLoginState()
         viewModelScope.launch {
             getPlaylistInfoAsync()
             observerDownloadJob()
+        }
+    }
+
+    private fun observeLoginState() {
+        viewModelScope.launch {
+            datastoreRepository.cookies.collect { cookies ->
+                _uiState.update { it.copy(isLoggedIn = cookies.isNotEmpty()) }
+            }
         }
     }
 
@@ -313,9 +327,45 @@ class PlaylistViewModel(
         }
     }
 
+    fun removeSongFromPlaylist(song: Song) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
+                }
+
+                val result = playlistRepository.toggleSongInPlaylist(
+                    playlistId = playlistInfo.id,
+                    song = song,
+                    settings = settings,
+                    currentlyContains = true,
+                ).firstOrNull { it is ApiResult.Success }
+
+                if (result == null) {
+                    throw Exception(application.getString(R.string.failed_remove_from_library))
+                }
+
+                getPlaylistInfoAsync()
+                sharedViewModel.requestPlaylistRefresh()
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+                _uiState.update { currentState ->
+                    currentState.copy(screenState = ScreenState.Error(ex))
+                }
+            }
+        }
+    }
+
     private suspend fun getPlaylistInfoAsync() {
         try {
             val settings = datastoreRepository.getSettings()
+
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoggedIn = settings.cookies.isNotEmpty()
+                )
+            }
 
             playlistRepository.retrieveOne(
                 Playlist(playlistInfo),

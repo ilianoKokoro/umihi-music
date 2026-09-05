@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +19,20 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private val _uiState = MutableStateFlow(SearchState())
     val uiState = _uiState.asStateFlow()
 
+    private val datastoreRepository = DatastoreRepository(application)
     val songRepository = SongRepository()
+
+    init {
+        observeLoginState()
+    }
+
+    private fun observeLoginState() {
+        viewModelScope.launch {
+            datastoreRepository.cookies.collect { cookies ->
+                _uiState.update { it.copy(isLoggedIn = cookies.isNotEmpty()) }
+            }
+        }
+    }
 
 
     fun search() {

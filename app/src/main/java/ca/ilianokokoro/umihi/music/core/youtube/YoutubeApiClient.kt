@@ -10,6 +10,7 @@ import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -70,7 +71,7 @@ object YoutubeApiClient {
             put(
                 "videoIds",
                 buildJsonArray {
-                    songs.forEach { it.youtubeId }
+                    songs.forEach { add(it.youtubeId) }
                 }
             )
         }
@@ -117,7 +118,7 @@ object YoutubeApiClient {
         description: String? = null,
         privacy: Privacy? = null,
         videoIdsToAdd: List<String>? = null,
-        setVideoIdsToRemove: List<String>? = null,
+        videosToRemove: List<Pair<String, String?>>? = null,
     ): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
@@ -169,11 +170,14 @@ object YoutubeApiClient {
                             }
                         )
                     }
-                    setVideoIdsToRemove?.forEach { setVideoId ->
+                    videosToRemove?.forEach { (videoId, setVideoId) ->
                         add(
                             buildJsonObject {
                                 put("action", "ACTION_REMOVE_VIDEO")
-                                put("setVideoId", setVideoId)
+                                put("removedVideoId", videoId)
+                                if (setVideoId != null) {
+                                    put("setVideoId", setVideoId)
+                                }
                             }
                         )
                     }
@@ -275,7 +279,10 @@ object YoutubeApiClient {
         )
     }
 
-    suspend fun getAddToPlaylists(settings: UmihiSettings): String {
+    suspend fun getAddToPlaylists(
+        videoId: String,
+        settings: UmihiSettings
+    ): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
             id = null,
@@ -286,6 +293,14 @@ object YoutubeApiClient {
             baseBody.forEach { (key, value) ->
                 put(key, value)
             }
+
+            put(
+                "videoIds",
+                buildJsonArray {
+                    add(videoId)
+                }
+            )
+            put("excludeWatchLater", false)
         }
 
         return requestWithBody(

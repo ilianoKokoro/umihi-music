@@ -6,9 +6,11 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.extensions.toException
+import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -118,7 +120,8 @@ class PlaylistRepository(application: Application) {
 
     fun removeSongFromPlaylist(
         playlistId: String,
-        setVideoId: String,
+        videoId: String,
+        setVideoId: String?,
         settings: UmihiSettings
     ): Flow<ApiResult<Unit>> {
         return flow {
@@ -128,10 +131,51 @@ class PlaylistRepository(application: Application) {
                     playlistDataSource.edit(
                         playlistId = playlistId,
                         settings = settings,
-                        setVideoIdsToRemove = listOf(setVideoId)
+                        videosToRemove = listOf(videoId to setVideoId)
                     )
                 )
             )
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun retrieveAddToPlaylistOptions(
+        videoId: String,
+        settings: UmihiSettings
+    ): Flow<ApiResult<List<AddToPlaylistOption>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            emit(
+                ApiResult.Success(
+                    playlistDataSource.retrieveAddToPlaylistOptions(videoId, settings)
+                )
+            )
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun toggleSongInPlaylist(
+        playlistId: String,
+        song: Song,
+        settings: UmihiSettings,
+        currentlyContains: Boolean,
+    ): Flow<ApiResult<Unit>> {
+        return flow {
+            emit(ApiResult.Loading)
+            if (currentlyContains) {
+                val setVideoId = song.setVideoId
+                    ?: playlistDataSource.findSetVideoId(playlistId, song.youtubeId, settings)
+                playlistDataSource.edit(
+                    playlistId = playlistId,
+                    settings = settings,
+                    videosToRemove = listOf(song.youtubeId to setVideoId),
+                )
+            } else {
+                playlistDataSource.edit(
+                    playlistId = playlistId,
+                    settings = settings,
+                    videoIdsToAdd = listOf(song.youtubeId),
+                )
+            }
+            emit(ApiResult.Success(Unit))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -186,7 +230,7 @@ class PlaylistRepository(application: Application) {
         description: String? = null,
         privacy: Privacy? = null,
         videoIdsToAdd: List<String>? = null,
-        setVideoIdsToRemove: List<String>? = null,
+        videosToRemove: List<Pair<String, String?>>? = null,
     ): Flow<ApiResult<Unit>> {
         return flow {
             emit(ApiResult.Loading)
@@ -199,7 +243,7 @@ class PlaylistRepository(application: Application) {
                         description = description,
                         privacy = privacy,
                         videoIdsToAdd = videoIdsToAdd,
-                        setVideoIdsToRemove = setVideoIdsToRemove,
+                        videosToRemove = videosToRemove,
                     )
                 )
             )

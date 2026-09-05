@@ -24,7 +24,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -41,11 +44,14 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.SearchBar
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.AddToPlaylistBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
@@ -70,6 +76,9 @@ fun PlaylistScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val isLoggedIn = uiState.isLoggedIn
+    var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
+    var songToRemove by remember { mutableStateOf<Song?>(null) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
@@ -278,6 +287,14 @@ fun PlaylistScreen(
                                         )
                                     }, download = {
                                         playlistViewModel.downloadSong(song)
+                                    }, addToPlaylist = if (isLoggedIn) {
+                                        { addToPlaylistSong = song }
+                                    } else {
+                                        null
+                                    }, removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
+                                        { songToRemove = song }
+                                    } else {
+                                        null
                                     })
                                 }
                             }
@@ -287,6 +304,30 @@ fun PlaylistScreen(
             }
         }
 
+    }
+
+    addToPlaylistSong?.let { song ->
+        AddToPlaylistBottomSheet(
+            song = song,
+            application = application,
+            onClose = { addToPlaylistSong = null },
+            onStateChanged = {
+                playlistViewModel.refreshPlaylistInfo()
+                sharedViewModel.requestPlaylistRefresh()
+            },
+        )
+    }
+
+    songToRemove?.let { song ->
+        ConfirmDialog(
+            title = stringResource(R.string.remove_from_playlist),
+            text = stringResource(R.string.remove_song_from_playlist_confirm_text),
+            onConfirm = {
+                playlistViewModel.removeSongFromPlaylist(song)
+                songToRemove = null
+            },
+            onDismiss = { songToRemove = null }
+        )
     }
 }
 

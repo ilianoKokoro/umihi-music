@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
+import androidx.compose.material.icons.rounded.PlaylistRemove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -42,6 +44,8 @@ fun SongListItem(
     addToQueue: () -> Unit,
     modifier: Modifier = Modifier,
     download: (() -> Unit)? = null,
+    addToPlaylist: (() -> Unit)? = null,
+    removeFromPlaylist: (() -> Unit)? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -87,6 +91,26 @@ fun SongListItem(
                         expanded = false
                     }
                 )
+                if (addToPlaylist != null) {
+                    MaterialUDropdownItem(
+                        leadingIcon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                        text = stringResource(R.string.add_to_playlist),
+                        onClick = {
+                            addToPlaylist()
+                            expanded = false
+                        }
+                    )
+                }
+                if (removeFromPlaylist != null) {
+                    MaterialUDropdownItem(
+                        leadingIcon = Icons.Rounded.PlaylistRemove,
+                        text = stringResource(R.string.remove_from_playlist),
+                        onClick = {
+                            removeFromPlaylist()
+                            expanded = false
+                        }
+                    )
+                }
                 if (download != null && !song.downloaded) {
                     MaterialUDropdownItem(
                         leadingIcon = Icons.Rounded.Download,
