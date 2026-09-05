@@ -19,6 +19,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +42,9 @@ class PlaylistViewModel(
         )
     )
     val uiState = _uiState.asStateFlow()
+
+    val isUserEditablePlaylist: Boolean
+        get() = playlistInfo.type == PlaylistType.CREATED_BY_USER
 
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
@@ -310,6 +314,33 @@ class PlaylistViewModel(
         viewModelScope.launch {
             val settings = datastoreRepository.getSettings()
             downloadRepository.downloadSong(playlist, song, settings.downloadOnMetered)
+        }
+    }
+
+    fun removeSongFromPlaylist(song: Song) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
+                }
+
+                playlistRepository.toggleSongInPlaylist(
+                    playlistId = playlistInfo.id,
+                    song = song,
+                    settings = settings,
+                    currentlyContains = true,
+                ).collect { apiResult ->
+                    if (apiResult is ApiResult.Error) {
+                        throw apiResult.exception
+                    }
+                }
+
+                getPlaylistInfoAsync()
+                sharedViewModel.requestPlaylistRefresh()
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
         }
     }
 

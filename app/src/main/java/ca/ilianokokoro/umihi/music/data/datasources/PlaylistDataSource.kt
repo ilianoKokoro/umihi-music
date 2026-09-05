@@ -101,7 +101,7 @@ class PlaylistDataSource {
         description: String? = null,
         privacy: Privacy? = null,
         videoIdsToAdd: List<String>? = null,
-        setVideoIdsToRemove: List<String>? = null,
+        videosToRemove: List<Pair<String, String?>>? = null,
     ) {
         YoutubeApiClient.editPlaylist(
             playlistId = playlistId,
@@ -110,7 +110,7 @@ class PlaylistDataSource {
             description = description,
             privacy = privacy,
             videoIdsToAdd = videoIdsToAdd,
-            setVideoIdsToRemove = setVideoIdsToRemove,
+            videosToRemove = videosToRemove,
         )
     }
 }

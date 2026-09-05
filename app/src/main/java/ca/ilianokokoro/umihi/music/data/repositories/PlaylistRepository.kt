@@ -120,7 +120,8 @@ class PlaylistRepository(application: Application) {
 
     fun removeSongFromPlaylist(
         playlistId: String,
-        setVideoId: String,
+        videoId: String,
+        setVideoId: String?,
         settings: UmihiSettings
     ): Flow<ApiResult<Unit>> {
         return flow {
@@ -130,7 +131,7 @@ class PlaylistRepository(application: Application) {
                     playlistDataSource.edit(
                         playlistId = playlistId,
                         settings = settings,
-                        setVideoIdsToRemove = listOf(setVideoId)
+                        videosToRemove = listOf(videoId to setVideoId)
                     )
                 )
             )
@@ -165,7 +166,7 @@ class PlaylistRepository(application: Application) {
                 playlistDataSource.edit(
                     playlistId = playlistId,
                     settings = settings,
-                    setVideoIdsToRemove = listOf(setVideoId),
+                    videosToRemove = listOf(song.youtubeId to setVideoId),
                 )
             } else {
                 playlistDataSource.edit(
@@ -229,7 +230,7 @@ class PlaylistRepository(application: Application) {
         description: String? = null,
         privacy: Privacy? = null,
         videoIdsToAdd: List<String>? = null,
-        setVideoIdsToRemove: List<String>? = null,
+        videosToRemove: List<Pair<String, String?>>? = null,
     ): Flow<ApiResult<Unit>> {
         return flow {
             emit(ApiResult.Loading)
@@ -242,7 +243,7 @@ class PlaylistRepository(application: Application) {
                         description = description,
                         privacy = privacy,
                         videoIdsToAdd = videoIdsToAdd,
-                        setVideoIdsToRemove = setVideoIdsToRemove,
+                        videosToRemove = videosToRemove,
                     )
                 )
             )

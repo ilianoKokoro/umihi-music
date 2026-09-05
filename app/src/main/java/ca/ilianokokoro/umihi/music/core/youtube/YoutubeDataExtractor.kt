@@ -831,8 +831,12 @@ object YoutubeDataExtractor {
             ?.jsonPrimitive?.contentOrNull ?: return null
 
         val setVideoId = songContent["playlistItemData"]
-            ?.safeObject()?.get("setVideoId")
+            ?.safeObject()?.get("playlistSetVideoId")
             ?.jsonPrimitive?.contentOrNull
+            ?: songContent["playlistItemData"]
+                ?.safeObject()?.get("setVideoId")
+                ?.jsonPrimitive?.contentOrNull
+            ?: extractRemovalSetVideoId(json)
 
 
         val duration = extractDuration(songContent)
@@ -873,6 +877,26 @@ object YoutubeDataExtractor {
             song.setVideoId = setVideoId
         }
 
+    }
+
+    private fun extractRemovalSetVideoId(element: JsonElement): String? {
+        val jsonObject = element.safeObject() ?: return null
+        val actions = jsonObject["playlistEditEndpoint"]
+            ?.safeObject()?.get("actions")
+            ?.safeArray()
+        if (actions != null) {
+            for (action in actions) {
+                val actionObject = action.safeObject() ?: continue
+                if (actionObject.get("action")?.jsonPrimitive?.contentOrNull == "ACTION_REMOVE_VIDEO") {
+                    actionObject.get("setVideoId")
+                        ?.jsonPrimitive?.contentOrNull?.let { return it }
+                }
+            }
+        }
+        for (value in jsonObject.values) {
+            extractRemovalSetVideoId(value)?.let { return it }
+        }
+        return null
     }
 
 

@@ -118,7 +118,7 @@ object YoutubeApiClient {
         description: String? = null,
         privacy: Privacy? = null,
         videoIdsToAdd: List<String>? = null,
-        setVideoIdsToRemove: List<String>? = null,
+        videosToRemove: List<Pair<String, String?>>? = null,
     ): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
@@ -170,11 +170,14 @@ object YoutubeApiClient {
                             }
                         )
                     }
-                    setVideoIdsToRemove?.forEach { setVideoId ->
+                    videosToRemove?.forEach { (videoId, setVideoId) ->
                         add(
                             buildJsonObject {
                                 put("action", "ACTION_REMOVE_VIDEO")
-                                put("setVideoId", setVideoId)
+                                put("removedVideoId", videoId)
+                                if (setVideoId != null) {
+                                    put("setVideoId", setVideoId)
+                                }
                             }
                         )
                     }
