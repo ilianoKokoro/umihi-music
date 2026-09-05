@@ -146,40 +146,48 @@ fun AddToPlaylistBottomSheet(
                 }
 
                 is AddToPlaylistScreenState.Success -> {
-                    AddToPlaylistCreateRow(
-                        enabled = !uiState.submitting,
-                        onClick = { createPlaylistOpen = true },
-                    )
-                    if (screenState.options.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.no_playlists_found),
-                            modifier = Modifier.padding(24.dp),
+                    if (uiState.submitting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(vertical = 32.dp)
                         )
                     } else {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 420.dp),
-                        ) {
-                            items(
-                                items = screenState.options,
-                                key = { option -> option.playlistId },
-                            ) { option ->
-                                AddToPlaylistRow(
-                                    option = option,
-                                    checked = uiState.isChecked(option),
-                                    enabled = !uiState.submitting,
-                                    onToggle = {
-                                        addToPlaylistViewModel.toggle(option.playlistId)
-                                    },
-                                )
+                        AddToPlaylistCreateRow(
+                            onClick = { createPlaylistOpen = true },
+                        )
+                        if (screenState.options.isEmpty()) {
+                            Text(
+                                text = stringResource(R.string.no_playlists_found),
+                                modifier = Modifier.padding(24.dp),
+                            )
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(max = 420.dp),
+                            ) {
+                                items(
+                                    items = screenState.options,
+                                    key = { option -> option.playlistId },
+                                ) { option ->
+                                    AddToPlaylistRow(
+                                        option = option,
+                                        checked = uiState.isChecked(option),
+                                        onToggle = {
+                                            addToPlaylistViewModel.toggle(option.playlistId)
+                                        },
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
 
-            if (uiState.screenState is AddToPlaylistScreenState.Success) {
+            val showControls = uiState.screenState is AddToPlaylistScreenState.Success ||
+                uiState.screenState is AddToPlaylistScreenState.Loading
+            val controlsEnabled = showControls && !uiState.submitting
+
+            if (showControls) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -194,7 +202,7 @@ fun AddToPlaylistBottomSheet(
                         text = stringResource(R.string.cancel),
                         size = MaterialUButtonSize.Small,
                         variant = MaterialUButtonVariant.Tonal,
-                        enabled = !uiState.submitting,
+                        enabled = controlsEnabled,
                     )
                     MaterialUButton(
                         onClick = {
@@ -211,7 +219,7 @@ fun AddToPlaylistBottomSheet(
                         text = stringResource(R.string.confirm),
                         size = MaterialUButtonSize.Small,
                         variant = MaterialUButtonVariant.Filled,
-                        enabled = uiState.hasPendingChanges && !uiState.submitting,
+                        enabled = controlsEnabled && uiState.hasPendingChanges,
                     )
                 }
             }
@@ -238,13 +246,12 @@ fun AddToPlaylistBottomSheet(
 private fun AddToPlaylistRow(
     option: AddToPlaylistOption,
     checked: Boolean,
-    enabled: Boolean,
     onToggle: () -> Unit,
 ) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(enabled = enabled, onClick = onToggle),
+            .clickable(onClick = onToggle),
         leadingContent = option.thumbnailUrl?.let { url ->
             {
                 Box(
@@ -264,7 +271,6 @@ private fun AddToPlaylistRow(
             Checkbox(
                 checked = checked,
                 onCheckedChange = { onToggle() },
-                enabled = enabled,
             )
         },
         colors = ListItemDefaults.colors(
@@ -293,13 +299,12 @@ private fun AddToPlaylistRow(
 
 @Composable
 private fun AddToPlaylistCreateRow(
-    enabled: Boolean,
     onClick: () -> Unit,
 ) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(enabled = enabled, onClick = onClick),
+            .clickable(onClick = onClick),
         leadingContent = {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.PlaylistAdd,
