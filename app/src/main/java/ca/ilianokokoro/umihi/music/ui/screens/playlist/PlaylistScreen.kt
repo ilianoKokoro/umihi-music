@@ -76,6 +76,7 @@ fun PlaylistScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val isLoggedIn = uiState.isLoggedIn
     var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
     var songToRemove by remember { mutableStateOf<Song?>(null) }
     val focusRequester = remember { FocusRequester() }
@@ -286,9 +287,11 @@ fun PlaylistScreen(
                                         )
                                     }, download = {
                                         playlistViewModel.downloadSong(song)
-                                    }, addToPlaylist = {
-                                        addToPlaylistSong = song
-                                    }, removeFromPlaylist = if (playlistViewModel.isUserEditablePlaylist) {
+                                    }, addToPlaylist = if (isLoggedIn) {
+                                        { addToPlaylistSong = song }
+                                    } else {
+                                        null
+                                    }, removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
                                         { songToRemove = song }
                                     } else {
                                         null
