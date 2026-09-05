@@ -95,6 +95,5 @@ data class AddToPlaylistOption(
     val playlistId: String,
     val title: String,
     val subtitle: String? = null,
-    val containsSelectedVideos: Boolean = false,
     val thumbnailUrl: String? = null,
 )

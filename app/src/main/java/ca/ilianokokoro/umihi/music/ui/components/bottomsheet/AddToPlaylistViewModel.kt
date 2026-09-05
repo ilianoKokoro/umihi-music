@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
+import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,17 +35,22 @@ data class AddToPlaylistUiState(
         get() = pendingToggles.isNotEmpty()
 
     fun isChecked(option: AddToPlaylistOption): Boolean =
-        option.containsSelectedVideos != (option.playlistId in pendingToggles)
+        option.playlistId in pendingToggles
 }
 
-class AddToPlaylistViewModel(application: Application) : AndroidViewModel(application) {
+class AddToPlaylistViewModel(
+    private val application: Application,
+) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(AddToPlaylistUiState())
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository(application)
     private val datastoreRepository = DatastoreRepository(application)
 
+    private var currentVideoId: String? = null
+
     fun load(videoId: String) {
+        currentVideoId = videoId
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
@@ -88,6 +96,81 @@ class AddToPlaylistViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    fun createPlaylist(
+        title: String,
+        description: String,
+        privacy: Privacy,
+        onStateChanged: () -> Unit = {},
+    ) {
+        viewModelScope.launch {
+            if (_uiState.value.submitting) {
+                return@launch
+            }
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
+                }
+
+                _uiState.update { it.copy(submitting = true) }
+                var createdPlaylist: PlaylistInfo? = null
+                playlistRepository.create(title, description, privacy, settings)
+                    .collect { apiResult ->
+                        when (apiResult) {
+                            is ApiResult.Error -> throw apiResult.exception
+                            ApiResult.Loading -> Unit
+                            is ApiResult.Success -> createdPlaylist = apiResult.data
+                        }
+                    }
+                onStateChanged()
+
+                val videoId = currentVideoId
+                if (videoId == null) {
+                    _uiState.update { it.copy(submitting = false) }
+                    return@launch
+                }
+                playlistRepository.retrieveAddToPlaylistOptions(videoId, settings)
+                    .collect { apiResult ->
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                submitting = false,
+                                screenState = when (apiResult) {
+                                    is ApiResult.Error -> AddToPlaylistScreenState.Error(apiResult.exception)
+                                    ApiResult.Loading -> AddToPlaylistScreenState.Loading
+                                    is ApiResult.Success -> AddToPlaylistScreenState.Success(
+                                        createdPlaylist?.let { info ->
+                                            buildList {
+                                                if (apiResult.data.none { it.playlistId == info.id }) {
+                                                    add(
+                                                        AddToPlaylistOption(
+                                                            playlistId = info.id,
+                                                            title = info.title,
+                                                            thumbnailUrl = info.coverHref
+                                                                .takeIf { it.isNotBlank() },
+                                                        )
+                                                    )
+                                                }
+                                                addAll(apiResult.data)
+                                            }
+                                        } ?: apiResult.data
+                                    )
+                                }
+                            )
+                        }
+                    }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        screenState = AddToPlaylistScreenState.Error(e),
+                        submitting = false,
+                    )
+                }
+            }
+        }
+    }
+
     fun confirm(
         song: Song,
         onStateChanged: () -> Unit = {},
@@ -110,12 +193,11 @@ class AddToPlaylistViewModel(application: Application) : AndroidViewModel(applic
             try {
                 val settings = datastoreRepository.getSettings()
                 current.pendingToggles.forEach { playlistId ->
-                    val option = success.options.first { it.playlistId == playlistId }
                     playlistRepository.toggleSongInPlaylist(
                         playlistId = playlistId,
                         song = song,
                         settings = settings,
-                        currentlyContains = option.containsSelectedVideos,
+                        currentlyContains = false,
                     ).collect { apiResult ->
                         if (apiResult is ApiResult.Error) {
                             throw apiResult.exception

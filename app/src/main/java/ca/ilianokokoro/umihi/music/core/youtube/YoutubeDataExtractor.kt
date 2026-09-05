@@ -561,7 +561,6 @@ object YoutubeDataExtractor {
             playlistId = playlistId,
             title = title,
             subtitle = extractOptionText(renderer, "subtitle", "secondaryText"),
-            containsSelectedVideos = extractAddToPlaylistSelectedState(renderer),
             thumbnailUrl = thumbnailUrl,
         )
     }
@@ -607,26 +606,6 @@ object YoutubeDataExtractor {
         }
         extractTextValue(renderer["runs"])?.let { return it }
         return null
-    }
-
-    private fun extractAddToPlaylistSelectedState(renderer: JsonObject): Boolean {
-        listOf("selected", "isSelected", "checked").forEach { key ->
-            renderer[key]?.jsonPrimitive?.booleanOrNull?.let { return it }
-        }
-        renderer["toggled"]?.jsonPrimitive?.booleanOrNull?.let { return it }
-
-        val checkStatus = renderer["checkStatus"]?.jsonPrimitive?.contentOrNull
-        if (checkStatus != null) {
-            val normalized = checkStatus.uppercase()
-            if (normalized.contains("UNCHECK") || normalized.contains("UNSELECTED")) {
-                return false
-            }
-            return normalized.contains("CHECKED") || normalized.contains("SELECTED")
-        }
-
-        return renderer["containsSelectedVideos"]
-            ?.jsonPrimitive
-            ?.contentOrNull == "ALL"
     }
 
     private fun extractTextValue(element: JsonElement?): String? {
