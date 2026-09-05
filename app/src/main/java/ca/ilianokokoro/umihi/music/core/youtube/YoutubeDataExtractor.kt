@@ -54,11 +54,26 @@ object YoutubeDataExtractor {
         val obj = thumbnailElement.safeObject() ?: return ""
 
         val fromMusicRenderer = obj["musicThumbnailRenderer"]
-            ?.safeObject()?.get("thumbnail")
-            ?.safeObject()?.get("thumbnails")
-            ?.safeArray()?.lastOrNull()
-            ?.safeObject()?.get("url")
-            ?.jsonPrimitive?.contentOrNull
+            ?.safeObject()
+            ?.let { it["thumbnail"] ?: it["thumbnails"] }
+            ?.let { getBestThumbnailUrl(it) }
+            ?.takeIf { it.isNotBlank() }
+
+        val fromCroppedSquareRenderer = obj["croppedSquareThumbnailRenderer"]
+            ?.safeObject()
+            ?.let { it["thumbnail"] ?: it["thumbnails"] }
+            ?.let { getBestThumbnailUrl(it) }
+            ?.takeIf { it.isNotBlank() }
+
+        val fromThumbnailRenderer = obj["thumbnailRenderer"]
+            ?.safeObject()
+            ?.let { it["thumbnail"] ?: it["thumbnails"] }
+            ?.let { getBestThumbnailUrl(it) }
+            ?.takeIf { it.isNotBlank() }
+
+        val fromThumbnail = obj["thumbnail"]
+            ?.let { getBestThumbnailUrl(it) }
+            ?.takeIf { it.isNotBlank() }
 
         val fromDirectThumbnails = obj["thumbnails"]
             ?.safeArray()?.lastOrNull()
@@ -66,9 +81,46 @@ object YoutubeDataExtractor {
             ?.jsonPrimitive?.contentOrNull
 
         return fromMusicRenderer
+            ?: fromCroppedSquareRenderer
+            ?: fromThumbnailRenderer
+            ?: fromThumbnail
             ?: fromDirectThumbnails
             ?: obj["url"]?.jsonPrimitive?.contentOrNull
             ?: ""
+    }
+
+    private fun findAnyThumbnailUrl(element: JsonElement?): String? {
+        when (element) {
+            is JsonObject -> {
+                element["url"]?.jsonPrimitive?.contentOrNull
+                    ?.takeIf { it.isNotBlank() }
+                    ?.let { return it }
+
+                val rendererCandidate = element["musicThumbnailRenderer"]
+                    ?: element["croppedSquareThumbnailRenderer"]
+                    ?: element["thumbnailRenderer"]
+                if (rendererCandidate != null) {
+                    getBestThumbnailUrl(rendererCandidate)
+                        .takeIf { it.isNotBlank() }
+                        ?.let { return it }
+                }
+
+                element["thumbnail"]?.let {
+                    getBestThumbnailUrl(it).takeIf { url -> url.isNotBlank() }?.let { return it }
+                }
+
+                element.forEach { (_, child) ->
+                    findAnyThumbnailUrl(child)?.let { return it }
+                }
+            }
+
+            is JsonArray -> element.forEach {
+                findAnyThumbnailUrl(it)?.let { url -> return url }
+            }
+
+            else -> Unit
+        }
+        return null
     }
 
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
@@ -491,17 +543,26 @@ object YoutubeDataExtractor {
             return null
         }
 
+        val thumbnail = renderer["thumbnail"]
+            ?: renderer["thumbnailRenderer"]
+            ?: renderer["foregroundThumbnail"]
+            ?: renderer["thumbnails"]
+
+        val thumbnailUrl = getBestThumbnailUrl(thumbnail ?: JsonObject(emptyMap()))
+            .ifBlank { findAnyThumbnailUrl(renderer).orEmpty() }
+            .takeIf { it.isNotBlank() }
+
+        printd(
+            "add-to-playlist option \"$title\" ($playlistId) " +
+                "thumbnail=${thumbnailUrl ?: "MISSING"}"
+        )
+
         return AddToPlaylistOption(
             playlistId = playlistId,
             title = title,
             subtitle = extractOptionText(renderer, "subtitle", "secondaryText"),
             containsSelectedVideos = extractAddToPlaylistSelectedState(renderer),
-            thumbnailUrl = getBestThumbnailUrl(
-                renderer["thumbnail"]
-                    ?: renderer["thumbnails"]
-                    ?: JsonObject(emptyMap())
-            )
-                .takeIf { it.isNotBlank() },
+            thumbnailUrl = thumbnailUrl,
         )
     }
 
