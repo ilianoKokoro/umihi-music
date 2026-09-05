@@ -61,6 +61,10 @@ class AddToPlaylistViewModel(
             }
             try {
                 val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
+                }
+
                 playlistRepository.retrieveAddToPlaylistOptions(videoId, settings)
                     .collect { apiResult ->
                         _uiState.update { currentState ->
@@ -192,6 +196,10 @@ class AddToPlaylistViewModel(
             _uiState.update { it.copy(submitting = true) }
             try {
                 val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    throw Exception(application.getString(R.string.failed_get_to_login_cookies))
+                }
+
                 current.pendingToggles.forEach { playlistId ->
                     playlistRepository.toggleSongInPlaylist(
                         playlistId = playlistId,

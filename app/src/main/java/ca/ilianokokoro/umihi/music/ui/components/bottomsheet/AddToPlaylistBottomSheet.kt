@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -184,7 +184,7 @@ fun AddToPlaylistBottomSheet(
             }
 
             val showControls = uiState.screenState is AddToPlaylistScreenState.Success ||
-                uiState.screenState is AddToPlaylistScreenState.Loading
+                    uiState.screenState is AddToPlaylistScreenState.Loading
             val controlsEnabled = showControls && !uiState.submitting
 
             if (showControls) {
@@ -192,7 +192,7 @@ fun AddToPlaylistBottomSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, top = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     MaterialUButton(
                         onClick = {
@@ -307,7 +307,7 @@ private fun AddToPlaylistCreateRow(
             .clickable(onClick = onClick),
         leadingContent = {
             Icon(
-                imageVector = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                imageVector = Icons.Rounded.Add,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
             )

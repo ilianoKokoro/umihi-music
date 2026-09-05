@@ -340,6 +340,9 @@ class PlaylistViewModel(
                 sharedViewModel.requestPlaylistRefresh()
             } catch (ex: Exception) {
                 printe(message = ex.toString(), exception = ex)
+                _uiState.update { currentState ->
+                    currentState.copy(screenState = ScreenState.Error(ex))
+                }
             }
         }
     }
