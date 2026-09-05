@@ -9,7 +9,8 @@ data class PlaylistState(
     val isRefreshing: Boolean = false,
     val isDownloading: Boolean = false,
     val searchQuery: String = "",
-    val showingSearch: Boolean = false
+    val showingSearch: Boolean = false,
+    val isLoggedIn: Boolean = false
 )
 
 sealed class ScreenState {

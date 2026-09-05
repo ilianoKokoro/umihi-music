@@ -51,6 +51,7 @@ fun SearchScreen(
 
 ) {
     val uiState = searchViewModel.uiState.collectAsStateWithLifecycle().value
+    val isLoggedIn = uiState.isLoggedIn
     var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
 
 
@@ -88,6 +89,7 @@ fun SearchScreen(
         SearchScreenContent(
             searchViewModel,
             uiState,
+            isLoggedIn,
             onAddToPlaylist = { addToPlaylistSong = it },
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
         )
@@ -107,6 +109,7 @@ fun SearchScreen(
 fun SearchScreenContent(
     searchViewModel: SearchViewModel,
     uiState: SearchState,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onAddToPlaylist: (Song) -> Unit = {},
 ) {
@@ -156,8 +159,10 @@ fun SearchScreenContent(
                                 addToQueue = {
                                     PlayerManager.addToQueue(it, context)
                                 },
-                                addToPlaylist = {
-                                    onAddToPlaylist(it)
+                                addToPlaylist = if (isLoggedIn) {
+                                    { onAddToPlaylist(it) }
+                                } else {
+                                    null
                                 }
                             )
                         }

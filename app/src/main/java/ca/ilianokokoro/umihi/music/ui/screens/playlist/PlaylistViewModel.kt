@@ -24,6 +24,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -65,9 +66,18 @@ class PlaylistViewModel(
 
     init {
         observeSongDownloads()
+        observeLoginState()
         viewModelScope.launch {
             getPlaylistInfoAsync()
             observerDownloadJob()
+        }
+    }
+
+    private fun observeLoginState() {
+        viewModelScope.launch {
+            datastoreRepository.cookies.collect { cookies ->
+                _uiState.update { it.copy(isLoggedIn = cookies.isNotEmpty()) }
+            }
         }
     }
 
@@ -325,15 +335,15 @@ class PlaylistViewModel(
                     throw Exception(application.getString(R.string.failed_get_to_login_cookies))
                 }
 
-                playlistRepository.toggleSongInPlaylist(
+                val result = playlistRepository.toggleSongInPlaylist(
                     playlistId = playlistInfo.id,
                     song = song,
                     settings = settings,
                     currentlyContains = true,
-                ).collect { apiResult ->
-                    if (apiResult is ApiResult.Error) {
-                        throw apiResult.exception
-                    }
+                ).firstOrNull { it is ApiResult.Success }
+
+                if (result == null) {
+                    throw Exception(application.getString(R.string.failed_remove_from_library))
                 }
 
                 getPlaylistInfoAsync()
@@ -350,6 +360,12 @@ class PlaylistViewModel(
     private suspend fun getPlaylistInfoAsync() {
         try {
             val settings = datastoreRepository.getSettings()
+
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoggedIn = settings.cookies.isNotEmpty()
+                )
+            }
 
             playlistRepository.retrieveOne(
                 Playlist(playlistInfo),

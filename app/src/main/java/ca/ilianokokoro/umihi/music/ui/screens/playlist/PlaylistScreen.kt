@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -57,6 +59,7 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
 
+@OptIn(UnstableApi::class)
 @Composable
 fun PlaylistScreen(
     sharedViewModel: SharedViewModel,
@@ -76,6 +79,7 @@ fun PlaylistScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val isLoggedIn = uiState.isLoggedIn
     var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
     var songToRemove by remember { mutableStateOf<Song?>(null) }
     val focusRequester = remember { FocusRequester() }
@@ -233,7 +237,11 @@ fun PlaylistScreen(
                                         onPlayPlaylist = playlistViewModel::playPlaylist,
                                         onDeleteDownloadPlaylist = playlistViewModel::deleteLocalPlaylist,
                                         onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
-                                        onRemoveFromLibrary = { playlistViewModel.removeFromLibrary(onBack) },
+                                        onRemoveFromLibrary = {
+                                            playlistViewModel.removeFromLibrary(
+                                                onBack
+                                            )
+                                        },
                                         onCancelDownload = playlistViewModel::cancelDownload,
                                         onUnhidePlaylist = playlistViewModel::unhidePlaylist,
                                         onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
@@ -274,25 +282,34 @@ fun PlaylistScreen(
                                         song.uid
                                     }
                                 ) { song ->
-                                    SongListItem(song, onPress = {
-                                        onOpenPlayer()
-                                        playlistViewModel.playPlaylist(song)
-                                    }, playNext = {
-                                        PlayerManager.addNext(song, application)
-                                    }, addToQueue = {
-                                        PlayerManager.addToQueue(
-                                            song,
-                                            application
-                                        )
-                                    }, download = {
-                                        playlistViewModel.downloadSong(song)
-                                    }, addToPlaylist = {
-                                        addToPlaylistSong = song
-                                    }, removeFromPlaylist = if (playlistViewModel.isUserEditablePlaylist) {
-                                        { songToRemove = song }
-                                    } else {
-                                        null
-                                    })
+                                    SongListItem(
+                                        song,
+                                        onPress = {
+                                            onOpenPlayer()
+                                            playlistViewModel.playPlaylist(song)
+                                        },
+                                        playNext = {
+                                            PlayerManager.addNext(song, application)
+                                        },
+                                        addToQueue = {
+                                            PlayerManager.addToQueue(
+                                                song,
+                                                application
+                                            )
+                                        },
+                                        download = {
+                                            playlistViewModel.downloadSong(song)
+                                        },
+                                        addToPlaylist = if (isLoggedIn) {
+                                            { addToPlaylistSong = song }
+                                        } else {
+                                            null
+                                        },
+                                        removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
+                                            { songToRemove = song }
+                                        } else {
+                                            null
+                                        })
                                 }
                             }
                         }
