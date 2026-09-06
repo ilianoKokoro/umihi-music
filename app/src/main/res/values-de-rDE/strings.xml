@@ -29,6 +29,10 @@
     <string name="join_discord_server">Trete dem Discord Server bei</string>
     <string name="play_next">Nächste Wiedergabe</string>
     <string name="add_to_queue">Zur Warteschlange hinzufügen</string>
+    <string name="add_to_playlist">Zur Playlist hinzufügen</string>
+    <string name="no_playlists_found">Keine Wiedergabelisten gefunden</string>
+    <string name="remove_from_playlist">Aus Wiedergabeliste entfernen</string>
+    <string name="remove_song_from_playlist_confirm_text">Diesen Song aus der Playlist entfernen?</string>
     <string name="retry">Wiederholen</string>
     <string name="play_next_toast">Wiedergabe dieses Liedes als nächstes</string>
     <string name="added_queue_toast">Lied zur Warteschlange hinzugefügt</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Fehler beim Anmelden von Cookies</string>
     <string name="failed_delete_playlist">Fehler beim Löschen der Wiedergabeliste</string>
     <string name="failed_remove_from_library">Fehler beim Entfernen der Wiedergabeliste aus deiner Bibliothek</string>
+    <string name="failed_remove_song_from_playlist">Fehler beim Entfernen des Titels von der Playlist</string>
     <string name="repeat_one">Wiederholen</string>
     <string name="repeat_all">Alle wiederholen</string>
     <string name="repeat_off">Wiederholen aus</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cache gelöscht</string>
     <string name="volume">Lautstärke</string>
     <string name="download_aborted_message">Download wegen Verbindungsverlust abgebrochen</string>
+    <string name="pause">Pause</string>
 </resources>

@@ -29,6 +29,10 @@
     <string name="join_discord_server">Bergabung dalam server Discord</string>
     <string name="play_next">Putar selanjutnya</string>
     <string name="add_to_queue">Tambah ke antrean</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="no_playlists_found">Tidak ada playlist</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Remove this song from the playlist?</string>
     <string name="retry">Coba Ulang</string>
     <string name="play_next_toast">Memutarkan lagu ini selanjutnya</string>
     <string name="added_queue_toast">Lagu ditambahkan ke antrean</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Gagal untuk mendapat cookie login</string>
     <string name="failed_delete_playlist">Gagal untuk menghapus playlist</string>
     <string name="failed_remove_from_library">Gagal untuk menghapus playlist dari koleksi anda</string>
+    <string name="failed_remove_song_from_playlist">Failed to remove the song from the playlist</string>
     <string name="repeat_one">Ulangi Satu</string>
     <string name="repeat_all">Ulangi Semua</string>
     <string name="repeat_off">Jangan Ulangi</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cache Telah Terhapuskan</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Unduhan dibatalkan sebab kehilangan koneksi</string>
+    <string name="pause">Pause</string>
 </resources>

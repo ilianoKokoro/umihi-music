@@ -29,6 +29,10 @@
     <string name="join_discord_server">Alătură-te serverului Discord</string>
     <string name="play_next">Redă următorul</string>
     <string name="add_to_queue">Adaugă în coadă</string>
+    <string name="add_to_playlist">Adaugă la playlist</string>
+    <string name="no_playlists_found">Nicio listă de redare găsită</string>
+    <string name="remove_from_playlist">Elimină din playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Eliminați această melodie din lista de redare?</string>
     <string name="retry">Reîncercați</string>
     <string name="play_next_toast">Se redă melodia următoare</string>
     <string name="added_queue_toast">Melodie adăugată în coadă</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Obținerea cookie-urilor nu a reușit</string>
     <string name="failed_delete_playlist">Ștergerea listei de redare a eșuat</string>
     <string name="failed_remove_from_library">Ștergerea playlist-ului din biblioteca dvs. a eșuat</string>
+    <string name="failed_remove_song_from_playlist">Ștergerea melodiei din lista de redare a eșuat</string>
     <string name="repeat_one">Repetă unu</string>
     <string name="repeat_all">Repetă tot</string>
     <string name="repeat_off">Repetare oprită</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Memoria cache ștearsă</string>
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Descărcare anulată din cauza pierderii conexiunii</string>
+    <string name="pause">Întrerupeți</string>
 </resources>

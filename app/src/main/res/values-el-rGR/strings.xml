@@ -29,6 +29,10 @@
     <string name="join_discord_server">Γίνετε μέλος του διακομιστή Discord</string>
     <string name="play_next">Αναπαραγωγή επόμενου</string>
     <string name="add_to_queue">Προσθήκη στην ουρά</string>
+    <string name="add_to_playlist">Προσθήκη στη λίστα αναπαραγωγής</string>
+    <string name="no_playlists_found">Δεν βρέθηκαν λίστες αναπαραγωγής</string>
+    <string name="remove_from_playlist">Αφαίρεση από τη λίστα αναπαραγωγής</string>
+    <string name="remove_song_from_playlist_confirm_text">Αφαίρεση αυτού του τραγουδιού από τη λίστα?</string>
     <string name="retry">Επανάληψη</string>
     <string name="play_next_toast">Παίζοντας αυτό το τραγούδι επόμενο</string>
     <string name="added_queue_toast">Προστέθηκε τραγούδι στην ουρά</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Απέτυχε η λήψη των cookies σύνδεσης</string>
     <string name="failed_delete_playlist">Αποτυχία διαγραφής της λίστας αναπαραγωγής</string>
     <string name="failed_remove_from_library">Αποτυχία κατάργησης της λίστας αναπαραγωγής από τη βιβλιοθήκη σας</string>
+    <string name="failed_remove_song_from_playlist">Αποτυχία κατάργησης του τραγουδιού από τη λίστα αναπαραγωγής</string>
     <string name="repeat_one">Επανάληψη Ενός</string>
     <string name="repeat_all">Επανάληψη Όλων</string>
     <string name="repeat_off">Απενεργοποιημένη Επανάληψη</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
     <string name="volume">Όγκος</string>
     <string name="download_aborted_message">Η λήψη ματαιώθηκε λόγω απώλειας σύνδεσης</string>
+    <string name="pause">Παύση</string>
 </resources>

@@ -29,6 +29,10 @@
     <string name="join_discord_server">加入 Discord 服务器</string>
     <string name="play_next">播放下一个</string>
     <string name="add_to_queue">添加到队列</string>
+    <string name="add_to_playlist">添加到播放列表</string>
+    <string name="no_playlists_found">未找到播放列表</string>
+    <string name="remove_from_playlist">从播放列表删除</string>
+    <string name="remove_song_from_playlist_confirm_text">从播放列表中删除这首歌？</string>
     <string name="retry">重试</string>
     <string name="play_next_toast">在下方播放这首歌曲</string>
     <string name="added_queue_toast">添加歌曲到队列</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">无法登录 cookie</string>
     <string name="failed_delete_playlist">删除播放列表失败</string>
     <string name="failed_remove_from_library">从您的媒体库中删除播放列表失败</string>
+    <string name="failed_remove_song_from_playlist">从播放列表中删除歌曲失败</string>
     <string name="repeat_one">重复一个</string>
     <string name="repeat_all">全部重复</string>
     <string name="repeat_off">关闭重复</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">缓存已清除</string>
     <string name="volume">音量</string>
     <string name="download_aborted_message">由于连接丢失，下载已中止</string>
+    <string name="pause">暂停</string>
 </resources>
