@@ -29,6 +29,10 @@
     <string name="join_discord_server">Приєднатися до сервера Discord</string>
     <string name="play_next">Відтворити наступною</string>
     <string name="add_to_queue">Додати до черги</string>
+    <string name="add_to_playlist">Додати до списку відтворення</string>
+    <string name="no_playlists_found">СПИСОК плейлистів не знайдено</string>
+    <string name="remove_from_playlist">Видалити зі списку відтворення</string>
+    <string name="remove_song_from_playlist_confirm_text">Видалити цю пісню зі списку відтворення?</string>
     <string name="retry">Повторити спробу</string>
     <string name="play_next_toast">Відтворення наступної пісні</string>
     <string name="added_queue_toast">Додано пісню до черги</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Не вдалося отримати дані про куки</string>
     <string name="failed_delete_playlist">Не вдалося вилучити плейліст</string>
     <string name="failed_remove_from_library">Не вдалося видалити список відтворення з вашої бібліотеки</string>
+    <string name="failed_remove_song_from_playlist">Помилка при видаленні пісні зі списку відтворення</string>
     <string name="repeat_one">Повторити один раз</string>
     <string name="repeat_all">Повторити всі</string>
     <string name="repeat_off">Повтор вимкнено</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Кеш очищено</string>
     <string name="volume">Об\'єм</string>
     <string name="download_aborted_message">Завантаження перервано через втрату підключення</string>
+    <string name="pause">Пауза</string>
 </resources>
