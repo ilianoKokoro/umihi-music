@@ -29,6 +29,10 @@
     <string name="join_discord_server">Discordサーバーに参加する</string>
     <string name="play_next">次に再生</string>
     <string name="add_to_queue">キューに追加</string>
+    <string name="add_to_playlist">プレイリストに追加</string>
+    <string name="no_playlists_found">プレイリストが見つかりません</string>
+    <string name="remove_from_playlist">プレイリストから削除</string>
+    <string name="remove_song_from_playlist_confirm_text">この曲をプレイリストから削除しますか？</string>
     <string name="retry">再試行する</string>
     <string name="play_next_toast">次にこの曲を再生する</string>
     <string name="added_queue_toast">キューに曲を追加しました</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Cookieのログインに失敗しました</string>
     <string name="failed_delete_playlist">プレイリストの削除に失敗しました</string>
     <string name="failed_remove_from_library">ライブラリからプレイリストを削除できませんでした</string>
+    <string name="failed_remove_song_from_playlist">プレイリストから曲を削除できませんでした</string>
     <string name="repeat_one">1回繰り返す</string>
     <string name="repeat_all">すべて繰り返す</string>
     <string name="repeat_off">繰り返しオフ</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">キャッシュが消去されました</string>
     <string name="volume">音量</string>
     <string name="download_aborted_message">接続が切断されたため、ダウンロードは中断されました</string>
+    <string name="pause">一時停止</string>
 </resources>
