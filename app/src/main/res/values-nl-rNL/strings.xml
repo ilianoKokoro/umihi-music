@@ -29,6 +29,10 @@
     <string name="join_discord_server">Deelnemen aan de Discord server</string>
     <string name="play_next">Volgende afspelen</string>
     <string name="add_to_queue">Toevoegen aan wachtrij</string>
+    <string name="add_to_playlist">Toevoegen aan afspeellijst</string>
+    <string name="no_playlists_found">Geen afspeellijsten gevonden</string>
+    <string name="remove_from_playlist">Verwijderen uit afspeellijst</string>
+    <string name="remove_song_from_playlist_confirm_text">Dit nummer uit de afspeellijst verwijderen?</string>
     <string name="retry">Opnieuw</string>
     <string name="play_next_toast">Dit nummer wordt afgespeeld volgende</string>
     <string name="added_queue_toast">Nummer toegevoegd aan de wachtrij</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Fout bij het ophalen van login cookies</string>
     <string name="failed_delete_playlist">Verwijderen van de afspeellijst is mislukt</string>
     <string name="failed_remove_from_library">Verwijderen van de afspeellijst uit uw bibliotheek is mislukt</string>
+    <string name="failed_remove_song_from_playlist">Verwijderen van het nummer uit de afspeellijst is mislukt</string>
     <string name="repeat_one">Eén herhalen</string>
     <string name="repeat_all">Alles herhalen</string>
     <string name="repeat_off">Herhalen uit</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cache gewist</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download afgebroken als gevolg van het wegvallen van de verbinding</string>
+    <string name="pause">Onderbreken</string>
 </resources>

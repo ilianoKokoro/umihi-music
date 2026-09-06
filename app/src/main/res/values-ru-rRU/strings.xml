@@ -29,6 +29,10 @@
     <string name="join_discord_server">Присоединиться к серверу Discord</string>
     <string name="play_next">Играть далее</string>
     <string name="add_to_queue">Добавить в очередь</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="no_playlists_found">Плейлисты не найдены</string>
+    <string name="remove_from_playlist">Удалить из плейлиста</string>
+    <string name="remove_song_from_playlist_confirm_text">Удалить эту песню из плейлиста?</string>
     <string name="retry">Повторить</string>
     <string name="play_next_toast">Проигрывать следующую песню</string>
     <string name="added_queue_toast">Песня добавлена в очередь</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
     <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
     <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
+    <string name="failed_remove_song_from_playlist">Не удалось удалить песню из списка воспроизведения</string>
     <string name="repeat_one">Повторить один</string>
     <string name="repeat_all">Повторить все</string>
     <string name="repeat_off">Повтор выключен</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
+    <string name="pause">Пауза</string>
 </resources>

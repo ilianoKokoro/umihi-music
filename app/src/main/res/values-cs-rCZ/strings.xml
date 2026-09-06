@@ -29,6 +29,10 @@
     <string name="join_discord_server">Připojte se k Discord serveru</string>
     <string name="play_next">Přehrát další</string>
     <string name="add_to_queue">Přidat do fronty</string>
+    <string name="add_to_playlist">Přidat do playlistu</string>
+    <string name="no_playlists_found">Nenalezeny žádné playlisty</string>
+    <string name="remove_from_playlist">Odstranit ze seznamu skladeb</string>
+    <string name="remove_song_from_playlist_confirm_text">Odstranit tuto skladbu ze seznamu skladeb?</string>
     <string name="retry">Opakovat</string>
     <string name="play_next_toast">Přehrává tuto skladbu dále</string>
     <string name="added_queue_toast">Přidána skladba do fronty</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Nepodařilo se přihlásit soubory cookie</string>
     <string name="failed_delete_playlist">Nepodařilo se odstranit seznam skladeb</string>
     <string name="failed_remove_from_library">Nepodařilo se odstranit playlist z vaší knihovny</string>
+    <string name="failed_remove_song_from_playlist">Nepodařilo se odstranit skladbu ze seznamu skladeb</string>
     <string name="repeat_one">Opakovat jednu</string>
     <string name="repeat_all">Opakovat vše</string>
     <string name="repeat_off">Opakování vypnuto</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Mezipaměť vymazána</string>
     <string name="volume">Objem</string>
     <string name="download_aborted_message">Stahování bylo přerušeno kvůli ztrátě připojení</string>
+    <string name="pause">Pozastavit</string>
 </resources>

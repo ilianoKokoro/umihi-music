@@ -29,6 +29,10 @@
     <string name="join_discord_server">Liity Discord-palvelimeen</string>
     <string name="play_next">Toista seuraava</string>
     <string name="add_to_queue">Lisää jonoon</string>
+    <string name="add_to_playlist">Lisää soittolistaan</string>
+    <string name="no_playlists_found">Soittolistoja ei löytynyt</string>
+    <string name="remove_from_playlist">Poista soittolistalta</string>
+    <string name="remove_song_from_playlist_confirm_text">Poista tämä kappale soittolistalta?</string>
     <string name="retry">Yritä Uudelleen</string>
     <string name="play_next_toast">Soita tätä kappaletta seuraava</string>
     <string name="added_queue_toast">Kappale lisätty jonoon</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Evästeiden kirjautuminen epäonnistui</string>
     <string name="failed_delete_playlist">Soittolistan poistaminen epäonnistui</string>
     <string name="failed_remove_from_library">Soittolistan poistaminen kirjastostasi ei onnistunut</string>
+    <string name="failed_remove_song_from_playlist">Kappaleen poistaminen soittolistalta ei onnistunut</string>
     <string name="repeat_one">Toista Yksi</string>
     <string name="repeat_all">Toista Kaikki</string>
     <string name="repeat_off">Toista Pois Käytöstä</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
     <string name="volume">Tilavuus</string>
     <string name="download_aborted_message">Lataus keskeytettiin yhteyden menetyksen vuoksi</string>
+    <string name="pause">Tauko</string>
 </resources>
