@@ -29,6 +29,10 @@
     <string name="join_discord_server">加入 Discord 伺服器</string>
     <string name="play_next">播放下一首</string>
     <string name="add_to_queue">新增到佇列</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="no_playlists_found">找不到播放清單</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Remove this song from the playlist?</string>
     <string name="retry">重試</string>
     <string name="play_next_toast">接著播放這首</string>
     <string name="added_queue_toast">已加入歌曲至播放佇列</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">無法取得登入用 cookie</string>
     <string name="failed_delete_playlist">無法刪除播放清單</string>
     <string name="failed_remove_from_library">無法從音樂庫中移除播放清單</string>
+    <string name="failed_remove_song_from_playlist">Failed to remove the song from the playlist</string>
     <string name="repeat_one">Repeat One</string>
     <string name="repeat_all">Repeat All</string>
     <string name="repeat_off">Repeat Off</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cache Cleared</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="pause">Pause</string>
 </resources>
