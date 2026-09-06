@@ -29,6 +29,10 @@
     <string name="join_discord_server">الانضمام إلى خادم ديسكورد</string>
     <string name="play_next">تشغيل التالي</string>
     <string name="add_to_queue">إضافة إلى قائمة الانتظار</string>
+    <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
+    <string name="no_playlists_found">لم يتم العثور على قوائم تشغيل</string>
+    <string name="remove_from_playlist">إزالة من قائمة التشغيل</string>
+    <string name="remove_song_from_playlist_confirm_text">إزالة هذه الأغنية من قائمة التشغيل؟</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="play_next_toast">تشغيل هذه الأغنية بعد</string>
     <string name="added_queue_toast">تم إضافة الأغنية إلى قائمة الانتظار</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">فشل في الحصول على ملفات تعريف الارتباط لتسجيل الدخول</string>
     <string name="failed_delete_playlist">فشل في حذف قائمة التشغيل</string>
     <string name="failed_remove_from_library">فشل في إزالة قائمة التشغيل من مكتبتك</string>
+    <string name="failed_remove_song_from_playlist">فشل في إزالة الأغنية من قائمة التشغيل</string>
     <string name="repeat_one">تكرار واحد</string>
     <string name="repeat_all">كرر الكل</string>
     <string name="repeat_off">إيقاف التكرار</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
     <string name="volume">حجم</string>
     <string name="download_aborted_message">تم إحباط التحميل بسبب فقدان الاتصال</string>
+    <string name="pause">إيقاف</string>
 </resources>
