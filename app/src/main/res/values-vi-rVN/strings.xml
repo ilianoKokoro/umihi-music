@@ -29,6 +29,10 @@
     <string name="join_discord_server">Tham gia máy chủ Discord</string>
     <string name="play_next">Phát kế tiếp</string>
     <string name="add_to_queue">Thêm vào hàng chờ</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="no_playlists_found">Không tìm thấy danh sách phát</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Remove this song from the playlist?</string>
     <string name="retry">Thử lại</string>
     <string name="play_next_toast">Phát bài này kế tiếp</string>
     <string name="added_queue_toast">Đã thêm vào hàng chờ</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Không thể tải cookie đăng nhập</string>
     <string name="failed_delete_playlist">Không thể xóa danh sách phát</string>
     <string name="failed_remove_from_library">Không thể xóa danh sách phát khỏi thư viện của bạn</string>
+    <string name="failed_remove_song_from_playlist">Failed to remove the song from the playlist</string>
     <string name="repeat_one">Lặp lại một lần</string>
     <string name="repeat_all">Lặp lại tất cả</string>
     <string name="repeat_off">Tắt lặp lại</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Đã xóa bộ nhớ đệm</string>
     <string name="volume">Âm lượng</string>
     <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="pause">Pause</string>
 </resources>
