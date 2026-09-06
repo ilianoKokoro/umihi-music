@@ -140,9 +140,16 @@ fun MiniPlayer(
                                 } else {
                                     Icons.Rounded.PlayArrow
                                 }
+
+                                val text = if (isPlaying) {
+                                    R.string.pause
+                                } else {
+                                    R.string.play
+                                }
+
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = stringResource(R.string.play),
+                                    contentDescription = stringResource(text),
                                     modifier = Modifier.size(20.dp)
                                 )
                             }

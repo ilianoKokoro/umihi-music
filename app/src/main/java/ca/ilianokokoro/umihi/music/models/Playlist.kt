@@ -89,3 +89,11 @@ data class PlaylistSongCrossRef(
     val songId: String
 
 )
+
+@Immutable
+data class AddToPlaylistOption(
+    val playlistId: String,
+    val title: String,
+    val subtitle: String? = null,
+    val thumbnailUrl: String? = null,
+)
