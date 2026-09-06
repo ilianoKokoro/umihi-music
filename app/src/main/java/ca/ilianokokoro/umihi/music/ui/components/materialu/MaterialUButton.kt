@@ -68,7 +68,8 @@ fun MaterialUButton(
     onClick: () -> Unit,
     enabled: Boolean = true,
     size: MaterialUButtonSize = MaterialUButtonSize.Medium,
-    variant: MaterialUButtonVariant = MaterialUButtonVariant.Filled
+    variant: MaterialUButtonVariant = MaterialUButtonVariant.Filled,
+    iconContentDescription: String? = null
 ) {
     val hasText = !text.isNullOrBlank()
     val iconOnly = icon != null && !hasText
@@ -90,7 +91,7 @@ fun MaterialUButton(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = text,
+                    contentDescription = if (iconOnly) iconContentDescription else null,
                     modifier = Modifier.size(size.iconSize),
                     tint = LocalContentColor.current
                 )

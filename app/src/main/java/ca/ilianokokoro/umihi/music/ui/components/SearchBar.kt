@@ -62,7 +62,7 @@ fun SearchBar(
         leadingIcon = {
             Icon(
                 Icons.Rounded.Search,
-                contentDescription = Icons.Rounded.Search.name
+                contentDescription = null
             )
         },
         modifier = searchModifier,

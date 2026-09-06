@@ -169,7 +169,7 @@ fun PlayerControls(
                                 }
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = icon.name,
+                                    contentDescription = stringResource(R.string.play),
                                     modifier = Modifier.size(50.dp)
                                 )
                             }

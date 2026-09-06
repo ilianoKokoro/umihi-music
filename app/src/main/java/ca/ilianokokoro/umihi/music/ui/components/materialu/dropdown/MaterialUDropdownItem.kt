@@ -30,6 +30,6 @@ fun MaterialUDropdownItem(
         modifier = Modifier
             .padding(horizontal = 2.dp)
             .clip(RoundedCornerShape(12.dp)),
-        leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = text) },
+        leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null) },
     )
 }
