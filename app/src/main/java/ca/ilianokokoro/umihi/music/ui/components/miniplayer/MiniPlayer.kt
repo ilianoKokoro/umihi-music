@@ -142,7 +142,7 @@ fun MiniPlayer(
                                 }
                                 Icon(
                                     imageVector = icon,
-                                    contentDescription = icon.name,
+                                    contentDescription = stringResource(R.string.play),
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
