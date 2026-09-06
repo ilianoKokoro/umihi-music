@@ -29,10 +29,10 @@
     <string name="join_discord_server">Join da Discawd sewvew!</string>
     <string name="play_next">Pway nyext</string>
     <string name="add_to_queue">Mowe 2 QwQue pwease</string>
-    <string name="add_to_playlist">Add to playlist</string>
+    <string name="add_to_playlist">Add 2 pwaywist</string>
     <string name="no_playlists_found">Nyo pwaywists fwound ^3^</string>
-    <string name="remove_from_playlist">Remove from playlist</string>
-    <string name="remove_song_from_playlist_confirm_text">Remove this song from the playlist?</string>
+    <string name="remove_from_playlist">Wemove fwom pwaywist</string>
+    <string name="remove_song_from_playlist_confirm_text">Wemove dis swong fwom da pwaywist?</string>
     <string name="retry">Wetwy</string>
     <string name="play_next_toast">Pwaying dis bwanger nyext</string>
     <string name="added_queue_toast">Mowe bwangers in dis quwue</string>
@@ -149,7 +149,7 @@
     <string name="failed_get_to_login_cookies">Faiwed to get to wogin cookies</string>
     <string name="failed_delete_playlist">Faiwed to dewete da pwaywist</string>
     <string name="failed_remove_from_library">Faiwed to wemove da pwaywist fwom youw wibwawy</string>
-    <string name="failed_remove_song_from_playlist">Failed to remove the song from the playlist</string>
+    <string name="failed_remove_song_from_playlist">Faiwed to wemove da swong fwom da pwaywist</string>
     <string name="repeat_one">Wepeat Wun</string>
     <string name="repeat_all">Wepeat Aww</string>
     <string name="repeat_off">Wepeat Off</string>
