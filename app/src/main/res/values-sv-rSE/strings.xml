@@ -29,6 +29,10 @@
     <string name="join_discord_server">Gå med i Discord-servern</string>
     <string name="play_next">Spela nästa</string>
     <string name="add_to_queue">Lägg till i kö</string>
+    <string name="add_to_playlist">Lägg till i spellistan</string>
+    <string name="no_playlists_found">Inga spellistor hittades</string>
+    <string name="remove_from_playlist">Ta bort från spellistan</string>
+    <string name="remove_song_from_playlist_confirm_text">Ta bort denna låt från spellistan?</string>
     <string name="retry">Försök igen</string>
     <string name="play_next_toast">Spela upp den här låten nästa</string>
     <string name="added_queue_toast">Lade till låt i kön</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Misslyckades att få logga in cookies</string>
     <string name="failed_delete_playlist">Det gick inte att ta bort spellistan</string>
     <string name="failed_remove_from_library">Det gick inte att ta bort spellistan från biblioteket</string>
+    <string name="failed_remove_song_from_playlist">Det gick inte att ta bort låten från spellistan</string>
     <string name="repeat_one">Upprepa en</string>
     <string name="repeat_all">Upprepa alla</string>
     <string name="repeat_off">Upprepa Av</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cachen rensad</string>
     <string name="volume">Volym</string>
     <string name="download_aborted_message">Nedladdningen avbröts på grund av förlust av anslutning</string>
+    <string name="pause">Pausa</string>
 </resources>
