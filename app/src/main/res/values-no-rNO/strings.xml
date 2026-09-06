@@ -29,6 +29,10 @@
     <string name="join_discord_server">Bli med på Discord-serveren</string>
     <string name="play_next">Spill neste</string>
     <string name="add_to_queue">Legg til i køen</string>
+    <string name="add_to_playlist">Legg til i spilleliste</string>
+    <string name="no_playlists_found">Ingen spillelister funnet</string>
+    <string name="remove_from_playlist">Fjern fra spillelisten</string>
+    <string name="remove_song_from_playlist_confirm_text">Fjerne denne sangen fra spillelisten?</string>
     <string name="retry">Prøv igjen</string>
     <string name="play_next_toast">Spiller denne sangen neste</string>
     <string name="added_queue_toast">Lagt til sang i køen</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Kunne ikke komme til å logge inn informasjonskapsler</string>
     <string name="failed_delete_playlist">Kan ikke slette spillelisten</string>
     <string name="failed_remove_from_library">Kan ikke fjerne spillelisten fra biblioteket</string>
+    <string name="failed_remove_song_from_playlist">Kan ikke fjerne sangen fra spillelisten</string>
     <string name="repeat_one">Gjenta én</string>
     <string name="repeat_all">Gjenta Alle</string>
     <string name="repeat_off">Repeter av</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Hurtiglager tømt</string>
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Nedlasting avbrutt grunnet tap av tilkobling</string>
+    <string name="pause">pause</string>
 </resources>
