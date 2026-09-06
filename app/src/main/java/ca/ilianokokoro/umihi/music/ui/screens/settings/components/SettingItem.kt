@@ -50,7 +50,7 @@ fun SettingsItem(
             ) {
                 Icon(
                     imageVector = leadingIcon,
-                    contentDescription = leadingIcon.name,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.secondary
                 )
 
@@ -82,7 +82,7 @@ fun SettingsItem(
                 ) {
                     Icon(
                         imageVector = trailingIcon,
-                        contentDescription = trailingIcon.name,
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

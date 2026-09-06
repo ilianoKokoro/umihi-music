@@ -58,7 +58,7 @@ fun BooleanSettingItem(
             ) {
                 Icon(
                     imageVector = leadingIcon,
-                    contentDescription = leadingIcon.name,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.secondary
                 )
 
