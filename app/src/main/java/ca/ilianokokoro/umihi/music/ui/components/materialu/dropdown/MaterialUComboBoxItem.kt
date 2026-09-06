@@ -32,7 +32,7 @@ fun MaterialUComboBoxItem(
             .clip(RoundedCornerShape(12.dp)),
         leadingIcon = leadingIcon?.let {
             {
-                Icon(imageVector = it, contentDescription = text)
+                Icon(imageVector = it, contentDescription = null)
             }
         },
     )

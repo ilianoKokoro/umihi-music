@@ -88,7 +88,7 @@ fun PlaylistInfo(
         } else {
             Icon(
                 imageVector = Icons.Rounded.Download,
-                contentDescription = stringResource(R.string.download),
+                contentDescription = null,
                 modifier = Modifier.size(150.dp)
             )
         }
