@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -20,28 +20,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-sealed class AddToPlaylistScreenState {
-    data object Loading : AddToPlaylistScreenState()
-    data class Success(val options: List<AddToPlaylistOption>) : AddToPlaylistScreenState()
-    data class Error(val exception: Exception) : AddToPlaylistScreenState()
-}
-
-data class AddToPlaylistUiState(
-    val screenState: AddToPlaylistScreenState = AddToPlaylistScreenState.Loading,
-    val pendingToggles: Set<String> = emptySet(),
-    val submitting: Boolean = false,
-) {
-    val hasPendingChanges: Boolean
-        get() = pendingToggles.isNotEmpty()
-
-    fun isChecked(option: AddToPlaylistOption): Boolean =
-        option.playlistId in pendingToggles
-}
 
 class AddToPlaylistViewModel(
     private val application: Application,
 ) : AndroidViewModel(application) {
-    private val _uiState = MutableStateFlow(AddToPlaylistUiState())
+    private val _uiState = MutableStateFlow(AddToPlaylistState())
     val uiState = _uiState.asStateFlow()
 
     private val playlistRepository = PlaylistRepository(application)
@@ -72,7 +55,9 @@ class AddToPlaylistViewModel(
                                 screenState = when (apiResult) {
                                     is ApiResult.Error -> AddToPlaylistScreenState.Error(apiResult.exception)
                                     ApiResult.Loading -> AddToPlaylistScreenState.Loading
-                                    is ApiResult.Success -> AddToPlaylistScreenState.Success(apiResult.data)
+                                    is ApiResult.Success -> AddToPlaylistScreenState.Success(
+                                        apiResult.data
+                                    )
                                 }
                             )
                         }
@@ -138,6 +123,9 @@ class AddToPlaylistViewModel(
                         _uiState.update { currentState ->
                             currentState.copy(
                                 submitting = false,
+                                pendingToggles = createdPlaylist?.let { info ->
+                                    currentState.pendingToggles + info.id
+                                } ?: currentState.pendingToggles,
                                 screenState = when (apiResult) {
                                     is ApiResult.Error -> AddToPlaylistScreenState.Error(apiResult.exception)
                                     ApiResult.Loading -> AddToPlaylistScreenState.Loading

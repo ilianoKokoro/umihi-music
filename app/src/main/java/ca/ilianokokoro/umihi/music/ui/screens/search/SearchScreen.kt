@@ -37,7 +37,7 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.SearchBar
-import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.AddToPlaylistBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist
 
 import android.app.Application
 import androidx.compose.foundation.clickable
@@ -48,6 +48,7 @@ import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant

@@ -343,7 +343,7 @@ class PlaylistViewModel(
                 ).firstOrNull { it is ApiResult.Success }
 
                 if (result == null) {
-                    throw Exception(application.getString(R.string.failed_remove_from_library))
+                    throw Exception(application.getString(R.string.failed_remove_song_from_playlist))
                 }
 
                 getPlaylistInfoAsync()
