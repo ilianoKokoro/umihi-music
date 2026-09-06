@@ -29,6 +29,10 @@
     <string name="join_discord_server">Entre no servidor do Discord</string>
     <string name="play_next">Reproduzir próxima</string>
     <string name="add_to_queue">Adicionar à fila</string>
+    <string name="add_to_playlist">Adicionar à playlist</string>
+    <string name="no_playlists_found">Nenhuma playlist encontrada</string>
+    <string name="remove_from_playlist">Remover da playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Remover esta música da playlist?</string>
     <string name="retry">Repetir</string>
     <string name="play_next_toast">Reproduzindo esta música a seguir</string>
     <string name="added_queue_toast">Música adicionada à fila</string>
@@ -145,6 +149,7 @@
     <string name="failed_get_to_login_cookies">Falha ao obter cookies de login</string>
     <string name="failed_delete_playlist">Falha ao excluir a playlist</string>
     <string name="failed_remove_from_library">Falha ao remover a lista de reprodução da sua biblioteca</string>
+    <string name="failed_remove_song_from_playlist">Falha ao remover a música da playlist</string>
     <string name="repeat_one">Repetir uma vez</string>
     <string name="repeat_all">Repetir todos</string>
     <string name="repeat_off">Repetir desligado</string>
@@ -159,4 +164,5 @@
     <string name="cache_cleared">Cache limpo</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download cancelado devido à perda de conexão</string>
+    <string name="pause">Suspender</string>
 </resources>
