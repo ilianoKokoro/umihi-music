@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.services
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -37,7 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlin.time.Duration.Companion.seconds
 
-@UnstableApi
+@OptIn(UnstableApi::class)
 class UmihiMediaLibraryCallback(
     private val service: PlaybackService,
     private val serviceScope: CoroutineScope,

@@ -36,7 +36,6 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-@UnstableApi
 object PlayerManager {
     @Volatile
     private var controllerFuture: ListenableFuture<MediaController>? = null
@@ -104,7 +103,6 @@ object PlayerManager {
         _audioInfo.value = info
     }
 
-    @OptIn(UnstableApi::class)
     @Synchronized
     fun connectController(context: Context) {
         if (isConnected) {

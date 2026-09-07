@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.core
 
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
@@ -9,7 +10,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import kotlinx.coroutines.flow.first
 import java.io.File
 
-@UnstableApi
+@OptIn(UnstableApi::class)
 class ExoCache(private val context: Context) {
     private val cacheDir = File(context.cacheDir, Constants.Cache.Audio.DIRECTORY)
 

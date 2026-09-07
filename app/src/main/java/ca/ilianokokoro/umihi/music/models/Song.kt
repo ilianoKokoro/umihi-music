@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.models
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import androidx.annotation.OptIn
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
 import androidx.media3.common.HeartRating
@@ -16,11 +17,12 @@ import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import kotlinx.serialization.Serializable
-import kotlin.uuid.Uuid
 import java.io.File
+import kotlin.uuid.Uuid
 
 @Serializable
 @Immutable
+@OptIn(UnstableApi::class)
 @Entity(tableName = Constants.Database.SONGS_TABLE)
 data class Song(
     @PrimaryKey
@@ -39,7 +41,6 @@ data class Song(
     @Ignore
     var setVideoId: String? = null
     val mediaItem: MediaItem
-        @UnstableApi
         get() {
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)

@@ -4,14 +4,12 @@ import android.app.Application
 import android.webkit.CookieManager
 import android.webkit.WebStorage
 import android.widget.Toast
-import androidx.annotation.OptIn
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.ExoCache
@@ -98,7 +96,6 @@ class SettingsViewModel(
     }
 
 
-    @OptIn(UnstableApi::class)
     fun clearDownloads() {
         viewModelScope.launch {
             downloadRepository.cancelAllWorks()
@@ -179,7 +176,6 @@ class SettingsViewModel(
         }
     }
 
-    @OptIn(UnstableApi::class)
     fun clearCache() {
         viewModelScope.launch {
             ExoCache(_application).clear()

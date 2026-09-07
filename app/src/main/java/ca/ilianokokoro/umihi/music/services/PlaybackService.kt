@@ -6,6 +6,7 @@ import android.media.audiofx.AudioEffect
 import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -50,7 +51,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.uuid.Uuid
 
-@UnstableApi
+@OptIn(UnstableApi::class)
 class PlaybackService : MediaLibraryService() {
     private var mediaLibrarySession: MediaLibrarySession? = null
     private lateinit var exoCache: ExoCache

@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.screens.player.components
 
-import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +46,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -55,7 +53,6 @@ import ca.ilianokokoro.umihi.music.extensions.toTimeString
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
 import kotlinx.coroutines.flow.StateFlow
 
-@OptIn(UnstableApi::class)
 @Composable
 fun PlayerControls(
     modifier: Modifier = Modifier,
@@ -435,7 +432,6 @@ fun PlayerControls(
     }
 }
 
-@OptIn(UnstableApi::class)
 @Composable
 private fun SeekBar(
     progress: StateFlow<PlaybackProgress>,
