@@ -5,15 +5,16 @@
 <p><br><b>Features:</b></p>
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
+  <li>Create and delete playlists in app</li>
+  <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>
   <li>Search and play music without logging in</li>
+  <li>Send data back to Google option for recommendations</li>
+  <li>Integrated sleep timer, speed controls and volume slider</li>
   <li>Brand accounts login</li>
-  <li>No ads</li>
   <li>Lightweight and fast</li>
   <li>Clean Material Expressive design</li>
   <li>Optimized for modern Android devices</li>
-  <li>Android Auto support</li>
-  <li>Create and delete playlists in app</li>
-  <li>Send data back to Google option for recommendations</li>
-  <li>Integrated Sleep timer and Speed controls</li>
+  <li>Full Android Auto support</li>
+  <li>No ads</li>
 </ul>

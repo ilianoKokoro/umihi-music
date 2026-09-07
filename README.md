@@ -31,9 +31,9 @@ effortlessly.
       </td>
     </tr>
     <tr>
-      <td align="center">
-        <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/ilianoKokoro/umihi-music/">
-          <img src="https://i.postimg.cc/X7JRYDCT/badge-obtainium.png" height="50" alt="Get Umihi Music on Obtainium">
+     <td align="center">
+        <a href="https://f-droid.org/en/packages/ca.ilianokokoro.umihi.music/index.html">
+          <img src="https://i.postimg.cc/W40DXrrQ/get-it-on-ezgif-com-compress-png.png" height="50" alt="Get Umihi Music on F-droid">
         </a>
       </td>
       <td align="center">
@@ -44,13 +44,13 @@ effortlessly.
     </tr>
     <tr>
       <td align="center">
-        <a href="https://www.openapk.net/umihi-music/ca.ilianokokoro.umihi.music/">
-          <img src="https://www.openapk.net/images/openapk-badge.png" height="75" alt="Get Umihi Music on OpenAPK">
+        <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/ilianoKokoro/umihi-music/">
+          <img src="https://i.postimg.cc/X7JRYDCT/badge-obtainium.png" height="50" alt="Get Umihi Music on Obtainium">
         </a>
       </td>
       <td align="center">
-        <a href="https://unclouded.app/apps/umihi-music">
-          <img src="https://i.postimg.cc/rp63gVP0/badge-unclouded.png" height="50" alt="Get Umihi Music on Unclouded">
+        <a href="https://www.openapk.net/umihi-music/ca.ilianokokoro.umihi.music/">
+          <img src="https://www.openapk.net/images/openapk-badge.png" height="75" alt="Get Umihi Music on OpenAPK">
         </a>
       </td>
     </tr>
@@ -74,23 +74,25 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ## Features ✨
 
-- Play your YouTube / YT Music playlists
-- Download music for offline playback
-- Search and play music without logging in
-- Brand accounts login
-- Automatic in-app updates
-- No ads
-- Lightweight and fast
-- Clean Material Expressive design
-- Optimized for modern Android devices
-- Android Auto support
-- Create and delete playlists in app
-- Send data back to Google option for recommendations
-- Integrated Sleep timer and Speed controls
+<ul>
+  <li>Play your YouTube / YT Music playlists</li>
+  <li>Create and delete playlists in app</li>
+  <li>Add and remove songs from your playlists</li>
+  <li>Download music for offline playback</li>
+  <li>Search and play music without logging in</li>
+  <li>Send data back to Google option for recommendations</li>
+  <li>Integrated sleep timer, speed controls and volume slider</li>
+  <li>Brand accounts login</li>
+  <li>Lightweight and fast</li>
+  <li>Clean Material Expressive design</li>
+  <li>Optimized for modern Android devices</li>
+  <li>Full Android Auto support</li>
+  <li>No ads</li>
+</ul>
 
 ### Future features (In development)
 
-- [ ] Playlist editing
+- [ ] Lyrics in the player
 
 ## Screenshots 🖼️
 
