@@ -193,7 +193,7 @@ fun AddToPlaylistBottomSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, top = 12.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End),
                 ) {
                     MaterialUButton(
                         onClick = {
