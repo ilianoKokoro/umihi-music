@@ -357,6 +357,11 @@ object YoutubeDataExtractor {
             ?.contentOrNull
             ?: return null
 
+        val subtitle = playlistRenderer["subtitle"]
+            ?.safeObject()
+            ?.get("runs")
+            ?.safeArray()
+
         val thumbnailRenderer = playlistRenderer["thumbnailRenderer"]
             ?: return null
 
@@ -368,7 +373,7 @@ object YoutubeDataExtractor {
             coverHref = thumbnailUrl,
             type = detectPlaylistType(playlistRenderer)
         )
-        playlistInfo.songCount = extractSongCountFromSubtitle(playlistRenderer)
+        playlistInfo.songCount = extractTrackCount(subtitle)
         return playlistInfo
     }
 
@@ -410,7 +415,13 @@ object YoutubeDataExtractor {
             coverHref = thumbnailUrl,
             type = detectPlaylistType(renderer)
         )
-        playlistInfo.songCount = extractSongCountFromSubtitle(renderer)
+
+        val subtitle = renderer["subtitle"]
+            ?.safeObject()
+            ?.get("runs")
+            ?.safeArray()
+
+        playlistInfo.songCount = extractTrackCount(subtitle)
         return playlistInfo
     }
 
@@ -639,16 +650,14 @@ object YoutubeDataExtractor {
             ?: obj["simpleText"]?.jsonPrimitive?.contentOrNull
     }
 
-    private fun extractSongCountFromSubtitle(renderer: JsonObject): Int? {
-        return extractTrackCount(extractTextValue(renderer["subtitle"]))
-    }
-
-
-    fun extractTrackCount(text: String?): Int? {
-        val trackCountRegex = Regex("""•\s*([\d,. ]+)""")
-
-        return text
-            ?.let { trackCountRegex.find(it)?.groupValues?.get(1) }
+    fun extractTrackCount(runs: JsonArray?): Int? {
+        return runs
+            ?.getOrNull(2)
+            ?.safeObject()
+            ?.get("text")
+            ?.jsonPrimitive
+            ?.contentOrNull
+            ?.substringBefore(' ')
             ?.filter(Char::isDigit)
             ?.toIntOrNull()
     }

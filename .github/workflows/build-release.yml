@@ -52,6 +52,9 @@ jobs:
           echo "keyAlias=${{ secrets.ALIAS }}" >> keystore.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
 
+      - name: Run tests
+        run: ./gradlew test
+
       - name: Build APKs
         run: |
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
