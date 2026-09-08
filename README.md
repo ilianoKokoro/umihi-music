@@ -200,7 +200,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Mickael81</b></sub></a>
         <br />
-        <sub><b>865 words</b></sub>
+        <sub><b>933 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -264,6 +264,16 @@ Thank you to all the people who helped translate Umihi Music
         <br />
         <sub><b>28 words</b></sub>
         <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/DefinitelyRus"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17880897/medium/f3615934c30de959c6fdc01a4836d60d.jpeg" />
+          <br />
+          <sub><b>Rus</b></sub>
+          <br />
+          <sub><b>(DefinitelyRus)</b></sub></a>
+        <br />
+        <sub><b>1 words</b></sub>
+        <br /><sub><b><code title="Tagalog">tl</code></b></sub>
       </td>
     </tr>
   </tbody>
