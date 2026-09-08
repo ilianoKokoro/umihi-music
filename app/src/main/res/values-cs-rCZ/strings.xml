@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Velikost vyrovnávací paměti zvuku</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Nastavení velikosti mezipaměti uložena</string>
     <string name="clear_cache">Vymazat mezipaměť</string>
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>
     <string name="volume">Objem</string>
     <string name="download_aborted_message">Stahování bylo přerušeno kvůli ztrátě připojení</string>
     <string name="pause">Pozastavit</string>
+    <string name="diagnostics">Diagnostics</string>
+    <string name="show_logs">Show logs</string>
+    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
+    <string name="export_logs">Export logs</string>
+    <string name="clear_logs">Clear logs</string>
 </resources>
