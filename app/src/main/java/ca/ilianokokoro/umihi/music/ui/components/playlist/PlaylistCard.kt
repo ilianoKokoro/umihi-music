@@ -59,19 +59,19 @@ fun PlaylistCard(
                 textAlign = TextAlign.Center
             )
 
-            playlistInfo.songCount?.let { songCount ->
-                Text(
-                    text = stringResource(R.string.songs, songCount),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 2.dp),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = playlistInfo.songCount?.let { songCount ->
+                    stringResource(R.string.songs, songCount)
+                }.orEmpty(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

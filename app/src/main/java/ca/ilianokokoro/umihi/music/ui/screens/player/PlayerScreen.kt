@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Explicit
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.FilledIconToggleButton
@@ -52,6 +51,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SleepTimerBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 
 @Composable
@@ -299,11 +299,7 @@ fun SongInfo(
                 horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 if (song?.isExplicit == true) {
-                    Icon(
-                        imageVector = Icons.Rounded.Explicit,
-                        contentDescription = stringResource(R.string.explicit),
-                        modifier = Modifier.size(20.dp)
-                    )
+                    ExplicitBadge()
                 }
                 Text(
                     text = song?.title ?: "",
