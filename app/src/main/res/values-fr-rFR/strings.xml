@@ -32,7 +32,7 @@
     <string name="add_to_playlist">Ajouter à la playlist</string>
     <string name="no_playlists_found">Aucune playlist trouvée</string>
     <string name="remove_from_playlist">Retirer de la playlist</string>
-    <string name="remove_song_from_playlist_confirm_text">Supprimer cette chanson de la playlist ?</string>
+    <string name="remove_song_from_playlist_confirm_text">Supprimer ce titre de la playlist ?</string>
     <string name="retry">Réessayer</string>
     <string name="play_next_toast">Lecture de ce titre suivant</string>
     <string name="added_queue_toast">Ajout du titre à la file d\'attente</string>
@@ -98,7 +98,7 @@
     <string name="keep_screen_on_title">Garder l\'écran toujours allumé</string>
     <string name="keep_screen_on_title_description">Empêche l\'écran de s\'éteindre lorsque l\'application est ouverte</string>
     <string name="send_playback_data_title">Envoyer les données à Google</string>
-    <string name="send_playback_data_description">Envoie les chansons jouées vers YouTube Music pour l\'historique, les recommandations et le récapitulatif de fin d\'année</string>
+    <string name="send_playback_data_description">Renvoie les titres écoutés vers YouTube Music pour l\'historique, les recommandations et le bilan de fin d\'année</string>
     <string name="downloading_update">Téléchargement de la mise à jour…</string>
     <string name="title">Titre</string>
     <string name="description">Description</string>
@@ -149,7 +149,7 @@
     <string name="failed_get_to_login_cookies">Impossible d\'obtenir les cookies de connexion</string>
     <string name="failed_delete_playlist">Impossible de supprimer la playlist</string>
     <string name="failed_remove_from_library">Impossible de supprimer la playlist de votre bibliothèque</string>
-    <string name="failed_remove_song_from_playlist">Impossible de supprimer la chanson de la playlist</string>
+    <string name="failed_remove_song_from_playlist">Impossible de supprimer le morceau de la playlist</string>
     <string name="repeat_one">Répéter un</string>
     <string name="repeat_all">Tout répéter</string>
     <string name="repeat_off">Répéter désactivé</string>
