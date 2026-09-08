@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">音频缓存大小</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">缓存大小设置已保存</string>
+
     <string name="clear_cache">清除缓存</string>
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>

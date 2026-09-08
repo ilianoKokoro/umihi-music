@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Lyd Cache Størrelse</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache størrelse indstillinger gemt</string>
+
     <string name="clear_cache">Ryd Cache</string>
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>

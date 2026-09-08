@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">オーディオキャッシュサイズ</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">キャッシュサイズの設定を保存しました</string>
+
     <string name="clear_cache">キャッシュをクリア</string>
     <string name="clear_cache_message">このデバイスからキャッシュされたオーディオとサムネイルデータをすべて削除します</string>
     <string name="cache_cleared">キャッシュが消去されました</string>

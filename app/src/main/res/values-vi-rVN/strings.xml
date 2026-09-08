@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Kích thước bộ nhớ đệm âm thanh</string>
     <string name="thumbnail_cache_title">Kích thước bộ nhớ đệm ảnh thu nhỏ</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Đã lưu lại các cài đặt kích thước bộ nhớ đệm</string>
+
     <string name="clear_cache">Xóa bộ nhớ đệm</string>
     <string name="clear_cache_message">Xoá toàn bộ bộ nhớ đệm cả âm thanh và hình thu nhỏ khỏi thiết bị này</string>
     <string name="cache_cleared">Đã xóa bộ nhớ đệm</string>

@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Ukuran Cache Audio</string>
     <string name="thumbnail_cache_title">Ukuran Cache Thumbnail</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Seting ukuran cache telah tersimpan</string>
+
     <string name="clear_cache">Hapus Cache</string>
     <string name="clear_cache_message">Hapus semua data cache audio dan thumbnail dari perangkat ini</string>
     <string name="cache_cleared">Cache Telah Terhapuskan</string>

@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">حجم ذاكرة التخزين المؤقت للصوت</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d ميغابايت</string>
-    <string name="cache_saved">تم حفظ إعدادات حجم ذاكرة التخزين المؤقت</string>
+
     <string name="clear_cache">مسح ذاكرة التخزين المؤقت</string>
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>

@@ -8,6 +8,16 @@ on:
       - prod
 
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: "Which build type to use for the APK"
+        required: true
+        default: "release"
+        type: choice
+        options:
+          - release
+          - debug
+          - diagnostic
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -56,29 +66,45 @@ jobs:
         run: ./gradlew test
 
       - name: Build APKs
+        env:
+          build_type: ${{ inputs.build_type || 'release' }}
         run: |
+          case "$build_type" in
+            debug)
+              GRADLE_VARIANT="Debug"
+              ;;
+            diagnostic)
+              GRADLE_VARIANT="Diagnostic"
+              ;;
+            *)
+              GRADLE_VARIANT="Release"
+              ;;
+          esac
+
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
             ./gradlew \
-              assembleStandaloneRelease \
-              assembleStoreRelease \
+              assembleStandalone${GRADLE_VARIANT} \
+              assembleStore${GRADLE_VARIANT} \
               -Pbeta=false \
               -PgitHash=${{ github.sha }}
           else
             ./gradlew \
-              assembleStandaloneRelease \
+              assembleStandalone${GRADLE_VARIANT} \
               -Pbeta=true \
               -PgitHash=${{ github.sha }}
           fi
 
       - name: Collect APKs
+        env:
+          build_type: ${{ inputs.build_type || 'release' }}
         run: |
           mkdir -p release-apks
 
-          cp app/build/outputs/apk/standalone/release/${{env.APK_FILE_NAME}}.apk \
+          cp app/build/outputs/apk/standalone/$build_type/${{env.APK_FILE_NAME}}.apk \
             release-apks/${{env.APK_FILE_NAME}}.apk
 
           if [[ "${{ github.ref_name }}" == "prod" ]]; then
-            cp app/build/outputs/apk/store/release/${{env.APK_FILE_NAME}}-store.apk \
+            cp app/build/outputs/apk/store/$build_type/${{env.APK_FILE_NAME}}-store.apk \
               release-apks/${{env.APK_FILE_NAME}}-store.apk
           fi
 
@@ -93,7 +119,7 @@ jobs:
     permissions:
       packages: write
       contents: write
-    if: github.ref_name != 'prod'
+    if: github.ref_name != 'prod' && (github.event_name != 'workflow_dispatch' || inputs.build_type == 'release')
     needs:
       - build-android-apk
     runs-on: ubuntu-latest
@@ -132,7 +158,7 @@ jobs:
     permissions:
       packages: write
       contents: write
-    if: github.ref_name == 'prod'
+    if: github.ref_name == 'prod' && (github.event_name != 'workflow_dispatch' || inputs.build_type == 'release')
     needs:
       - build-android-apk
     runs-on: ubuntu-latest

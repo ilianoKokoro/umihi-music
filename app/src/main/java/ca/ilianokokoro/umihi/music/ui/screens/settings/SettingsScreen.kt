@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
+import androidx.compose.material.icons.automirrored.outlined.TextSnippet
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
@@ -42,12 +43,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.DiagnosticLog
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.CacheSizeInputBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.DiagnosticsLogBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
@@ -132,6 +135,22 @@ fun SettingsScreen(
                                 onClick = { }
                             )
                         }
+
+                        if (BuildConfig.BUILD_TYPE == DiagnosticLog.DIAGNOSTIC_BUILD_TYPE) {
+                            SettingsSection(
+                                title = stringResource(R.string.diagnostics)
+                            ) {
+                                SettingsItem(
+                                    title = stringResource(R.string.show_logs),
+                                    subtitle = stringResource(R.string.view_the_recorded_diagnostics_logs),
+                                    leadingIcon = Icons.AutoMirrored.Outlined.TextSnippet,
+                                    onClick = {
+                                        settingsViewModel.updateShowDiagnosticsLogsSheet(true)
+                                    }
+                                )
+                            }
+                        }
+
 
                         SettingsSection(
                             title = stringResource(R.string.account)
@@ -371,6 +390,14 @@ fun SettingsScreen(
                                 playlists = uiState.hiddenPlaylists,
                                 onUnhidePlaylist = { settingsViewModel.unhidePlaylist(it) },
                                 onDismiss = { settingsViewModel.updateShowHiddenPlaylistsSheet(false) }
+                            )
+                        } else if (uiState.showDiagnosticsLogsSheet) {
+                            DiagnosticsLogBottomSheet(
+                                onExport = { DiagnosticLog.share(application) },
+                                onClear = { DiagnosticLog.clear() },
+                                onDismiss = {
+                                    settingsViewModel.updateShowDiagnosticsLogsSheet(false)
+                                }
                             )
                         }
                     }

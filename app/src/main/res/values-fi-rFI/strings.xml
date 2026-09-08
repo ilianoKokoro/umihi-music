@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Äänen Välimuistin Koko</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d Mt</string>
-    <string name="cache_saved">Välimuistin kokoasetukset tallennettu</string>
+
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>

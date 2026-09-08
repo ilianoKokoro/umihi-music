@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Awwdio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnaiv Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Cache size settwings saved</string>
+
     <string name="clear_cache">Cweaw Cache</string>
     <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
     <string name="cache_cleared">Cache Cweawed</string>

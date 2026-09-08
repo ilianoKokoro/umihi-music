@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Размер кэша аудио</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d МБ</string>
-    <string name="cache_saved">Настройки размера кэша сохранены</string>
+
     <string name="clear_cache">Очистить кэш</string>
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>

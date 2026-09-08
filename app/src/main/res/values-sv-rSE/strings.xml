@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Ljudcache storlek</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Inställningar för cachestorlek sparade</string>
+
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>

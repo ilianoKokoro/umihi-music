@@ -202,6 +202,10 @@ class SettingsViewModel(
         _uiState.update { it.copy(showHiddenPlaylistsSheet = show) }
     }
 
+    fun updateShowDiagnosticsLogsSheet(show: Boolean) {
+        _uiState.update { it.copy(showDiagnosticsLogsSheet = show) }
+    }
+
     fun getHiddenPlaylists() {
         viewModelScope.launch {
             try {

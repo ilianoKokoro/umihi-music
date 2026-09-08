@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Taille du cache audio</string>
     <string name="thumbnail_cache_title">Taille du cache des miniatures</string>
     <string name="cache_size_mb">%1$d Mo</string>
-    <string name="cache_saved">Paramètres de taille du cache enregistrés</string>
+
     <string name="clear_cache">Vider le cache</string>
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>

@@ -87,6 +87,18 @@ android {
                 signingConfig = it
             }
         }
+
+        debug {
+            isDebuggable = true
+        }
+
+        create("diagnostic") {
+            initWith(getByName("release"))
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            versionNameSuffix = "-diagnostic"
+        }
     }
 
     // Universal APK only

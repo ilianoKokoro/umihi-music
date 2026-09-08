@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Dimensiune cache audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Setări de dimensiune cache salvate</string>
+
     <string name="clear_cache">Curăță Cache</string>
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>

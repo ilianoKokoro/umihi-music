@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Розмір кеша аудіо</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Налаштування розміру кешу збережено</string>
+
     <string name="clear_cache">Очистити кеш</string>
     <string name="clear_cache_message">Вилучити всі кешовані дані та мініатюри з цього пристрою</string>
     <string name="cache_cleared">Кеш очищено</string>

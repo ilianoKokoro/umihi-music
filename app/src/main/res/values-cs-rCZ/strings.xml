@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Velikost vyrovnávací paměti zvuku</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Nastavení velikosti mezipaměti uložena</string>
+
     <string name="clear_cache">Vymazat mezipaměť</string>
     <string name="clear_cache_message">Odstranit všechny uložené audio a náhledy z tohoto zařízení</string>
     <string name="cache_cleared">Mezipaměť vymazána</string>

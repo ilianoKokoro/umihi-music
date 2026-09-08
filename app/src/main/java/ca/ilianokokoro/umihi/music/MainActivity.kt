@@ -18,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.DiagnosticLog
 import ca.ilianokokoro.umihi.music.core.YoutubeExtractor
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
@@ -69,6 +70,7 @@ class MainActivity : ComponentActivity() {
 
         if (savedInstanceState == null) {
             checkForUpdate()
+            DiagnosticLog.initialize(this)
         }
 
         //    debugPrintDataStores()

@@ -158,7 +158,7 @@
     <string name="exoplayer_cache_title">Μέγεθος Προσωρινής Μνήμης</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_saved">Ρυθμίσεις μεγέθους λανθάνουσας μνήμης αποθηκεύτηκαν</string>
+
     <string name="clear_cache">Εκκαθάριση Προσωρινής Αποθήκευσης</string>
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
