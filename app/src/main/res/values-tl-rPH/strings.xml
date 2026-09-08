@@ -112,7 +112,7 @@
     <string name="check_update_setting_description">Checks for new updates from GitHub</string>
     <string name="updates">Updates</string>
     <string name="current_version">Current Version</string>
-    <string name="visibility">Visibility</string>
+    <string name="visibility">Pagkakita</string>
     <string name="auto_update_title">Automatic Update Checking</string>
     <string name="auto_update_subtitle">Enables checking for update automatically on app launch</string>
     <string name="sleep_timer">Sleep Timer</string>
