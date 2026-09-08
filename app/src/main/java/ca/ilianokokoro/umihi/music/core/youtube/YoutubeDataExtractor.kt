@@ -740,18 +740,21 @@ object YoutubeDataExtractor {
     suspend fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
-        val contents = json["contents"]
+        val sectionList = json["contents"]
             ?.safeObject()?.get("twoColumnBrowseResultsRenderer")
             ?.safeObject()?.get("secondaryContents")
             ?.safeObject()?.get("sectionListRenderer")
-            ?.safeObject()?.get("contents")
-            ?.safeArray()?.getOrNull(0)
-            ?.safeObject()?.get("musicPlaylistShelfRenderer")
-            ?.safeObject()?.get("contents")
+            ?.safeObject()
+
+        val shelfContents = sectionList
+            ?.get("contents")
+            ?.safeArray()
+            ?.firstNotNullOfOrNull { it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject() }
+            ?.get("contents")
             ?.safeArray()
 
-        if (contents != null) {
-            return parseSongsFromContents(contents, settings)
+        if (shelfContents != null) {
+            return parseSongsFromContents(shelfContents, settings)
         }
 
         val altContents = json["contents"]
@@ -779,17 +782,48 @@ object YoutubeDataExtractor {
     suspend fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
-        val contents = json["onResponseReceivedActions"]
+        val appendItems = json["onResponseReceivedActions"]
             ?.safeArray()?.getOrNull(0)
             ?.safeObject()?.get("appendContinuationItemsAction")
             ?.safeObject()?.get("continuationItems")
             ?.safeArray()
 
-        if (contents == null) {
-            printd("extractContinuationSongs: no continuationItems found. Keys: ${json.keys}")
+        if (appendItems != null) {
+            return parseSongsFromContents(appendItems, settings)
         }
 
-        return parseSongsFromContents(contents, settings)
+        val continuationContents = json["continuationContents"]?.safeObject()
+
+        val playlistShelfContents = continuationContents
+            ?.get("musicPlaylistShelfContinuation")
+            ?.safeObject()
+            ?.get("contents")
+            ?.safeArray()
+
+        if (playlistShelfContents != null) {
+            return parseSongsFromContents(playlistShelfContents, settings)
+        }
+
+        val sectionListContents = continuationContents
+            ?.get("sectionListContinuation")
+            ?.safeObject()
+            ?.get("contents")
+            ?.safeArray()
+
+        if (sectionListContents != null) {
+            val shelfContentsInSection = sectionListContents
+                .firstNotNullOfOrNull { it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject() }
+                ?.get("contents")
+                ?.safeArray()
+            return parseSongsFromContents(shelfContentsInSection, settings)
+        }
+
+        printd(
+            "extractContinuationSongs: no continuationItems found. " +
+                    "Keys: ${json.keys} | continuationContents keys: ${continuationContents?.keys}"
+        )
+
+        return emptyList()
     }
 
 
@@ -830,19 +864,35 @@ object YoutubeDataExtractor {
             val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
 
             if (continuationContent != null) {
-                val token = continuationContent.safeObject()?.get("continuationEndpoint")
-                    ?.safeObject()?.get("continuationCommand")
-                    ?.safeObject()?.get("token")
-                    ?.jsonPrimitive?.contentOrNull ?: ""
+                val continuationObject = continuationContent.safeObject()?.get("continuationEndpoint")
+                    ?.safeObject()
+                val token = continuationObject
+                    ?.get("continuationCommand")
+                    ?.safeObject()
+                    ?.get("token")
+                    ?.jsonPrimitive?.contentOrNull
+                    ?: continuationObject
+                        ?.get("commandExecutorCommand")
+                        ?.safeObject()
+                        ?.get("commands")
+                        ?.safeArray()
+                        ?.firstOrNull { it.safeObject()?.get("continuationCommand") != null }
+                        ?.safeObject()
+                        ?.get("continuationCommand")
+                        ?.safeObject()
+                        ?.get("token")
+                        ?.jsonPrimitive?.contentOrNull
 
-                val otherSongs = extractContinuationSongs(
-                    YoutubeApiClient.requestContinuation(
-                        continuationToken = token,
-                        settings = settings,
-                        // fields = Constants.YoutubeApi.Browse.Fields.SONGS_CONTINUATION,
-                    ), settings
-                )
-                songs.addAll(otherSongs)
+                if (token != null) {
+                    songs.addAll(
+                        extractContinuationSongs(
+                            YoutubeApiClient.requestContinuation(
+                                continuationToken = token,
+                                settings = settings,
+                            ), settings
+                        )
+                    )
+                }
 
                 continue
             }
