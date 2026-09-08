@@ -60,9 +60,11 @@ fun PlaylistInfo(
     onCancelDownload: () -> Unit,
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
+    isLoading: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    val songsCount = playlist.songs.count()
+    val totalCount = playlist.info.songCount
+    val songsCount = if (isLoading) totalCount ?: 0 else playlist.songs.count()
     var animatedCount by remember { mutableStateOf<Int?>(null) }
     val showDeleteDownloadDialog = remember { mutableStateOf(false) }
     val showDeleteDialog = remember { mutableStateOf(false) }
@@ -143,7 +145,7 @@ fun PlaylistInfo(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
-                            enabled = alpha != 0F
+                            enabled = !isLoading && alpha != 0F
                         ) {
                             if (playlist.downloaded) {
                                 Icon(

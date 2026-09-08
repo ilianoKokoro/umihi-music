@@ -25,6 +25,7 @@ fun PlaylistHeader(
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
     onShufflePlaylist: () -> Unit,
+    isLoading: Boolean = false,
     playlist: Playlist
 ) {
     Surface(
@@ -45,6 +46,7 @@ fun PlaylistHeader(
                 onCancelDownload = onCancelDownload,
                 onUnhidePlaylist = onUnhidePlaylist,
                 onHidePlaylist = onHidePlaylist,
+                isLoading = isLoading,
             )
             ActionButtons(
                 buttonEnabled = !playlist.songs.isEmpty(),

@@ -9,12 +9,16 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun LoadingAnimation() {
+fun LoadingAnimation(progress: (() -> Float)? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularWavyProgressIndicator()
+        if (progress != null) {
+            CircularWavyProgressIndicator(progress = progress)
+        } else {
+            CircularWavyProgressIndicator()
+        }
     }
 }

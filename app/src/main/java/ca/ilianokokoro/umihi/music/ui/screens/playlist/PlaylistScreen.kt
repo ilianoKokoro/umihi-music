@@ -1,6 +1,8 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -193,11 +195,26 @@ fun PlaylistScreen(
                             onCancelDownload = playlistViewModel::cancelDownload,
                             onUnhidePlaylist = playlistViewModel::unhidePlaylist,
                             onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
+                            isLoading = uiState.screenState is ScreenState.Loading,
                             playlist = playlistInfo
                         )
 
                         if (uiState.screenState is ScreenState.Loading) {
-                            LoadingAnimation()
+                            val totalCount = playlistInfo.info.songCount
+                            val targetFraction =
+                                if (totalCount != null && totalCount > 0) {
+                                    (uiState.loadedSongsCount.toFloat() / totalCount)
+                                        .coerceIn(0f, 1f)
+                                } else {
+                                    null
+                                }
+                            val animatedFraction by animateFloatAsState(
+                                targetValue = targetFraction ?: 0f,
+                                animationSpec = tween(durationMillis = 600)
+                            )
+                            LoadingAnimation(
+                                progress = targetFraction?.let { { animatedFraction } }
+                            )
                         } else {
                             Column(
                                 verticalArrangement = Arrangement.Center,

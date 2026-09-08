@@ -20,14 +20,18 @@ class PlaylistDataSource {
         )
     }
 
-    suspend fun retrieveOne(playlist: Playlist, settings: UmihiSettings): Playlist {
+    suspend fun retrieveOne(
+        playlist: Playlist,
+        settings: UmihiSettings,
+        onProgress: (Int) -> Unit = {}
+    ): Playlist {
         return playlist.copy(
             songs = YoutubeDataExtractor.extractSongList(
                 YoutubeApiClient.browse(
                     playlist.info.id,
                     settings,
                     //   fields = Constants.YoutubeApi.Browse.Fields.SONGS,
-                ), settings
+                ), settings, onProgress
             )
         )
     }

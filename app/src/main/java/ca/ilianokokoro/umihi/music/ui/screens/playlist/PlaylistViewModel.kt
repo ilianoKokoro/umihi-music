@@ -369,10 +369,20 @@ class PlaylistViewModel(
 
             playlistRepository.retrieveOne(
                 Playlist(playlistInfo),
-                settings
+                settings,
+                onProgress = { loadedCount ->
+                    _uiState.update { currentState ->
+                        currentState.copy(loadedSongsCount = loadedCount)
+                    }
+                }
             ).collect { apiResult ->
                 _uiState.update { currentState ->
                     currentState.copy(
+                        loadedSongsCount = when (apiResult) {
+                            is ApiResult.Error -> currentState.loadedSongsCount
+                            ApiResult.Loading -> 0
+                            is ApiResult.Success -> apiResult.data.songs.size
+                        },
                         screenState = when (apiResult) {
                             is ApiResult.Error -> {
                                 ScreenState.Error(apiResult.exception)

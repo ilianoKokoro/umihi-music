@@ -53,7 +53,8 @@ class PlaylistRepository(application: Application) {
 
     fun retrieveOne(
         playlist: Playlist,
-        settings: UmihiSettings
+        settings: UmihiSettings,
+        onProgress: (Int) -> Unit = {}
     ): Flow<ApiResult<Playlist>> {
         return flow {
             emit(ApiResult.Loading)
@@ -65,7 +66,7 @@ class PlaylistRepository(application: Application) {
             }
 
             try {
-                val remotePlaylist = playlistDataSource.retrieveOne(playlist, settings)
+                val remotePlaylist = playlistDataSource.retrieveOne(playlist, settings, onProgress)
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
                 emit(ApiResult.Success(mergeWithLocal(remotePlaylist, localPlaylist)))
             } catch (e: Exception) {

@@ -773,7 +773,11 @@ object YoutubeDataExtractor {
     }
 
 
-    suspend fun extractSongList(jsonString: String, settings: UmihiSettings): List<Song> {
+    suspend fun extractSongList(
+        jsonString: String,
+        settings: UmihiSettings,
+        onProgress: (Int) -> Unit = {}
+    ): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val sectionList = json["contents"]
@@ -792,7 +796,7 @@ object YoutubeDataExtractor {
             ?.safeArray()
 
         if (shelfContents != null) {
-            return parseSongsFromContents(shelfContents, settings)
+            return parseSongsFromContents(shelfContents, settings, onProgress)
         }
 
         val altContents = json["contents"]
@@ -809,7 +813,7 @@ object YoutubeDataExtractor {
             ?.safeArray()
 
         if (altContents != null) {
-            return parseSongsFromContents(altContents, settings)
+            return parseSongsFromContents(altContents, settings, onProgress)
         }
 
         printd("extractSongList: could not find playlist contents. Root keys: ${json.keys}")
@@ -817,7 +821,7 @@ object YoutubeDataExtractor {
         return emptyList()
     }
 
-    suspend fun extractContinuationSongs(jsonString: String, settings: UmihiSettings): List<Song> {
+    private fun extractContinuationContents(jsonString: String): JsonArray? {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val appendItems = json["onResponseReceivedActions"]
@@ -827,7 +831,7 @@ object YoutubeDataExtractor {
             ?.safeArray()
 
         if (appendItems != null) {
-            return parseSongsFromContents(appendItems, settings)
+            return appendItems
         }
 
         val continuationContents = json["continuationContents"]?.safeObject()
@@ -839,7 +843,7 @@ object YoutubeDataExtractor {
             ?.safeArray()
 
         if (playlistShelfContents != null) {
-            return parseSongsFromContents(playlistShelfContents, settings)
+            return playlistShelfContents
         }
 
         val sectionListContents = continuationContents
@@ -855,7 +859,9 @@ object YoutubeDataExtractor {
                 }
                 ?.get("contents")
                 ?.safeArray()
-            return parseSongsFromContents(shelfContentsInSection, settings)
+            if (shelfContentsInSection != null) {
+                return shelfContentsInSection
+            }
         }
 
         printd(
@@ -863,7 +869,7 @@ object YoutubeDataExtractor {
                     "Keys: ${json.keys} | continuationContents keys: ${continuationContents?.keys}"
         )
 
-        return emptyList()
+        return null
     }
 
 
@@ -893,9 +899,10 @@ object YoutubeDataExtractor {
 
     private suspend fun parseSongsFromContents(
         contents: JsonArray?,
-        settings: UmihiSettings
+        settings: UmihiSettings,
+        onProgress: (Int) -> Unit,
+        songs: MutableList<Song> = mutableListOf()
     ): List<Song> {
-        val songs = mutableListOf<Song>()
         if (contents == null) {
             return songs
         }
@@ -925,13 +932,16 @@ object YoutubeDataExtractor {
                         ?.jsonPrimitive?.contentOrNull
 
                 if (token != null) {
-                    songs.addAll(
-                        extractContinuationSongs(
+                    parseSongsFromContents(
+                        extractContinuationContents(
                             YoutubeApiClient.requestContinuation(
                                 continuationToken = token,
                                 settings = settings,
-                            ), settings
-                        )
+                            )
+                        ),
+                        settings,
+                        onProgress,
+                        songs
                     )
                 }
 
@@ -943,6 +953,7 @@ object YoutubeDataExtractor {
             songs.add(
                 song
             )
+            onProgress(songs.size)
         }
 
         return songs
