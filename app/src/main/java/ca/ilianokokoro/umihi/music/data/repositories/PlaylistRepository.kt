@@ -24,6 +24,9 @@ class PlaylistRepository(application: Application) {
     private val localPlaylistDataSource = AppDatabase.getInstance(application).playlistRepository()
     private val localSongDataSource = AppDatabase.getInstance(application).songRepository()
 
+    suspend fun getDownloadedSongsCount(): Int =
+        localSongDataSource.countDownloadedSongs()
+
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {
             emit(ApiResult.Loading)

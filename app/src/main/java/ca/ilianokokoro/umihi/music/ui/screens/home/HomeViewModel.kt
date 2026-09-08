@@ -128,15 +128,22 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         }
     }
 
-    private fun applyPlaylistFiltersAndUpdateState(
+    private suspend fun applyPlaylistFiltersAndUpdateState(
         playlists: List<PlaylistInfo>,
         settings: UmihiSettings
     ) {
         val mutablePlaylists = playlists.toMutableList()
+        val downloadedCount = try {
+            playlistRepository.getDownloadedSongsCount()
+        } catch (ex: Exception) {
+            printe(message = ex.toString(), exception = ex)
+            0
+        }
         val downloadedPlaylist = PlaylistInfo(
             id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
-            title = application.getString(R.string.downloaded),
+            title = application.getString(R.string.downloaded)
         )
+        downloadedPlaylist.songCount = downloadedCount
 
         mutablePlaylists.add(0, downloadedPlaylist)
 

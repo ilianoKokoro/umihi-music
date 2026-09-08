@@ -25,6 +25,16 @@ interface LocalSongDataSource {
     )
     suspend fun getDownloadedSongs(): List<Song>
 
+    @Query(
+        """
+    SELECT COUNT(*)
+    FROM songs
+    WHERE audioFilePath IS NOT NULL
+      AND thumbnailPath IS NOT NULL
+"""
+    )
+    suspend fun countDownloadedSongs(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createAll(songs: List<Song>)
 

@@ -105,8 +105,12 @@ object YoutubeDataExtractor {
                         ?.let { return it }
                 }
 
-                element["thumbnail"]?.let {
-                    getBestThumbnailUrl(it).takeIf { url -> url.isNotBlank() }?.let { return it }
+                val thumbnail = element["thumbnail"]
+                    ?.let(::getBestThumbnailUrl)
+                    ?.takeIf(String::isNotBlank)
+
+                if (thumbnail != null) {
+                    return thumbnail
                 }
 
                 element.forEach { (_, child) ->
@@ -358,12 +362,14 @@ object YoutubeDataExtractor {
 
         val thumbnailUrl = getBestThumbnailUrl(thumbnailRenderer)
 
-        return PlaylistInfo(
+        val playlistInfo = PlaylistInfo(
             id = browseId,
             title = title,
             coverHref = thumbnailUrl,
             type = detectPlaylistType(playlistRenderer)
         )
+        playlistInfo.songCount = extractSongCountFromSubtitle(playlistRenderer)
+        return playlistInfo
     }
 
     private fun parseMusicLibraryItem(item: JsonElement): PlaylistInfo? {
@@ -398,12 +404,14 @@ object YoutubeDataExtractor {
 
         val thumbnailUrl = getBestThumbnailUrl(thumbnailRenderer)
 
-        return PlaylistInfo(
+        val playlistInfo = PlaylistInfo(
             id = browseId,
             title = title,
             coverHref = thumbnailUrl,
             type = detectPlaylistType(renderer)
         )
+        playlistInfo.songCount = extractSongCountFromSubtitle(renderer)
+        return playlistInfo
     }
 
 
@@ -511,7 +519,10 @@ object YoutubeDataExtractor {
         return normalizedId == "LM"
     }
 
-    private fun collectAddToPlaylistOptions(value: JsonElement?, sink: MutableList<AddToPlaylistOption>) {
+    private fun collectAddToPlaylistOptions(
+        value: JsonElement?,
+        sink: MutableList<AddToPlaylistOption>
+    ) {
         when (value) {
             is JsonObject -> {
                 ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
@@ -554,7 +565,7 @@ object YoutubeDataExtractor {
 
         printd(
             "add-to-playlist option \"$title\" ($playlistId) " +
-                "thumbnail=${thumbnailUrl ?: "MISSING"}"
+                    "thumbnail=${thumbnailUrl ?: "MISSING"}"
         )
 
         return AddToPlaylistOption(
@@ -628,6 +639,33 @@ object YoutubeDataExtractor {
             ?: obj["simpleText"]?.jsonPrimitive?.contentOrNull
     }
 
+    private fun extractSongCountFromSubtitle(renderer: JsonObject): Int? {
+        return extractTrackCount(extractTextValue(renderer["subtitle"]))
+    }
+
+    fun extractTrackCount(text: String?): Int? {
+        if (text == null) {
+            return null
+        }
+
+        val number = buildString {
+            var foundDigit = false
+
+            for (char in text) {
+                if (char.isDigit()) {
+                    append(char)
+                    foundDigit = true
+                } else if (foundDigit && (char == ',' || char == '.' || char == ' ')) {
+                    continue
+                } else if (foundDigit) {
+                    break
+                }
+            }
+        }
+
+        return number.toIntOrNull()
+    }
+
     fun extractCreatedPlaylist(jsonString: String): PlaylistInfo? {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
@@ -667,12 +705,14 @@ object YoutubeDataExtractor {
             renderer["thumbnailRenderer"] ?: return null
         )
 
-        return PlaylistInfo(
+        val playlistInfo = PlaylistInfo(
             id = browseId,
             title = title,
             coverHref = thumbnailUrl,
             type = PlaylistType.CREATED_BY_USER
         )
+        playlistInfo.songCount = 0
+        return playlistInfo
     }
 
     fun extractSearchResults(jsonString: String): List<Song> {
@@ -749,7 +789,9 @@ object YoutubeDataExtractor {
         val shelfContents = sectionList
             ?.get("contents")
             ?.safeArray()
-            ?.firstNotNullOfOrNull { it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject() }
+            ?.firstNotNullOfOrNull {
+                it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject()
+            }
             ?.get("contents")
             ?.safeArray()
 
@@ -812,7 +854,9 @@ object YoutubeDataExtractor {
 
         if (sectionListContents != null) {
             val shelfContentsInSection = sectionListContents
-                .firstNotNullOfOrNull { it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject() }
+                .firstNotNullOfOrNull {
+                    it.safeObject()?.get("musicPlaylistShelfRenderer")?.safeObject()
+                }
                 ?.get("contents")
                 ?.safeArray()
             return parseSongsFromContents(shelfContentsInSection, settings)
@@ -864,8 +908,9 @@ object YoutubeDataExtractor {
             val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
 
             if (continuationContent != null) {
-                val continuationObject = continuationContent.safeObject()?.get("continuationEndpoint")
-                    ?.safeObject()
+                val continuationObject =
+                    continuationContent.safeObject()?.get("continuationEndpoint")
+                        ?.safeObject()
                 val token = continuationObject
                     ?.get("continuationCommand")
                     ?.safeObject()
@@ -977,8 +1022,8 @@ object YoutubeDataExtractor {
         if (actions != null) {
             for (action in actions) {
                 val actionObject = action.safeObject() ?: continue
-                if (actionObject.get("action")?.jsonPrimitive?.contentOrNull == "ACTION_REMOVE_VIDEO") {
-                    actionObject.get("setVideoId")
+                if (actionObject["action"]?.jsonPrimitive?.contentOrNull == "ACTION_REMOVE_VIDEO") {
+                    actionObject["setVideoId"]
                         ?.jsonPrimitive?.contentOrNull?.let { return it }
                 }
             }
