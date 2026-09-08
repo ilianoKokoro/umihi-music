@@ -162,6 +162,9 @@ dependencies {
     implementation(libs.material3)
     debugImplementation(libs.androidx.ui.tooling)
 
+    // Tests
+    testImplementation(libs.junit)
+
     // Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
 

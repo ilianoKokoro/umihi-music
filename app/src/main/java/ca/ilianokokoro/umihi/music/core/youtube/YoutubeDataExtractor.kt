@@ -643,27 +643,14 @@ object YoutubeDataExtractor {
         return extractTrackCount(extractTextValue(renderer["subtitle"]))
     }
 
+
     fun extractTrackCount(text: String?): Int? {
-        if (text == null) {
-            return null
-        }
+        val trackCountRegex = Regex("""•\s*([\d,. ]+)""")
 
-        val number = buildString {
-            var foundDigit = false
-
-            for (char in text) {
-                if (char.isDigit()) {
-                    append(char)
-                    foundDigit = true
-                } else if (foundDigit && (char == ',' || char == '.' || char == ' ')) {
-                    continue
-                } else if (foundDigit) {
-                    break
-                }
-            }
-        }
-
-        return number.toIntOrNull()
+        return text
+            ?.let { trackCountRegex.find(it)?.groupValues?.get(1) }
+            ?.filter(Char::isDigit)
+            ?.toIntOrNull()
     }
 
     fun extractCreatedPlaylist(jsonString: String): PlaylistInfo? {
