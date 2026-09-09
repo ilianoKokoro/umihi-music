@@ -164,9 +164,9 @@
     <string name="volume">حجم</string>
     <string name="download_aborted_message">تم إحباط التحميل بسبب فقدان الاتصال</string>
     <string name="pause">إيقاف</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">التشخيص</string>
+    <string name="show_logs">إظهار السجلات</string>
+    <string name="view_the_recorded_diagnostics_logs">عرض آخر سجلات التشخيص المسجلة</string>
+    <string name="export_logs">تصدير السجلات</string>
+    <string name="clear_logs">مسح السجلات</string>
 </resources>
