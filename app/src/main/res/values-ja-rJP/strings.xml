@@ -164,9 +164,9 @@
     <string name="volume">音量</string>
     <string name="download_aborted_message">接続が切断されたため、ダウンロードは中断されました</string>
     <string name="pause">一時停止</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">診断</string>
+    <string name="show_logs">ログを表示</string>
+    <string name="view_the_recorded_diagnostics_logs">最後に記録された診断ログを見る</string>
+    <string name="export_logs">ログをエクスポート</string>
+    <string name="clear_logs">ログの消去</string>
 </resources>
