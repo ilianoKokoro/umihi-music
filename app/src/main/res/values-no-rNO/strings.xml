@@ -164,9 +164,9 @@
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Nedlasting avbrutt grunnet tap av tilkobling</string>
     <string name="pause">pause</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostikk</string>
+    <string name="show_logs">Vis logger</string>
+    <string name="view_the_recorded_diagnostics_logs">Se siste registrerte diagnostikk-logger</string>
+    <string name="export_logs">Eksporter logger</string>
+    <string name="clear_logs">Fjern logger</string>
 </resources>
