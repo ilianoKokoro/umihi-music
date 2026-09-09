@@ -164,9 +164,9 @@
     <string name="volume">Lautstärke</string>
     <string name="download_aborted_message">Download wegen Verbindungsverlust abgebrochen</string>
     <string name="pause">Pause</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnose</string>
+    <string name="show_logs">Logs anzeigen</string>
+    <string name="view_the_recorded_diagnostics_logs">Die zuletzt aufgezeichneten Diagnoseprotokolle anzeigen</string>
+    <string name="export_logs">Logs exportieren</string>
+    <string name="clear_logs">Logs löschen</string>
 </resources>
