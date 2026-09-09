@@ -164,9 +164,9 @@
     <string name="volume">Объем</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
     <string name="pause">Пауза</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Диагностика</string>
+    <string name="show_logs">Показать логи</string>
+    <string name="view_the_recorded_diagnostics_logs">Просмотреть последние записанные журналы диагностики</string>
+    <string name="export_logs">Экспорт журналов</string>
+    <string name="clear_logs">Очистить журналы</string>
 </resources>
