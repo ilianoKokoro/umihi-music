@@ -164,9 +164,9 @@
     <string name="volume">Objętość</string>
     <string name="download_aborted_message">Pobieranie przerwane z powodu utraty połączenia</string>
     <string name="pause">Wstrzymaj</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostyka</string>
+    <string name="show_logs">Pokaż logi</string>
+    <string name="view_the_recorded_diagnostics_logs">Zobacz ostatnie nagrane dzienniki diagnostyczne</string>
+    <string name="export_logs">Eksportuj logi</string>
+    <string name="clear_logs">Wyczyść logi</string>
 </resources>
