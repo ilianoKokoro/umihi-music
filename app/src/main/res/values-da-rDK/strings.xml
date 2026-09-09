@@ -164,9 +164,9 @@
     <string name="volume">Lydstyrke</string>
     <string name="download_aborted_message">Download afbrudt på grund af tab af forbindelse</string>
     <string name="pause">Pause</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="show_logs">Vis logs</string>
+    <string name="view_the_recorded_diagnostics_logs">Se de sidst optagede diagnoselogger</string>
+    <string name="export_logs">Eksporter logs</string>
+    <string name="clear_logs">Ryd logs</string>
 </resources>
