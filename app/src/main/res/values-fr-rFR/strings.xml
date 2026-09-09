@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Taille du cache audio</string>
     <string name="thumbnail_cache_title">Taille du cache des miniatures</string>
     <string name="cache_size_mb">%1$d Mo</string>
-
     <string name="clear_cache">Vider le cache</string>
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Téléchargement interrompu suite à une perte de connexion</string>
     <string name="pause">Mettre en pause</string>
+    <string name="diagnostics">Diagnostics</string>
+    <string name="show_logs">Afficher les logs</string>
+    <string name="view_the_recorded_diagnostics_logs">Voir les derniers journaux de diagnostics enregistrés</string>
+    <string name="export_logs">Exporter les logs</string>
+    <string name="clear_logs">Effacer les logs</string>
 </resources>

@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Ljudcache storlek</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
     <string name="volume">Volym</string>
     <string name="download_aborted_message">Nedladdningen avbröts på grund av förlust av anslutning</string>
     <string name="pause">Pausa</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="show_logs">Visa loggar</string>
+    <string name="view_the_recorded_diagnostics_logs">Visa de senaste inspelade diagnostikloggarna</string>
+    <string name="export_logs">Exportera loggar</string>
+    <string name="clear_logs">Rensa loggar</string>
 </resources>

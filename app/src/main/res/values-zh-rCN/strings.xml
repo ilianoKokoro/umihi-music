@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">音频缓存大小</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">清除缓存</string>
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>
     <string name="volume">音量</string>
     <string name="download_aborted_message">由于连接丢失，下载已中止</string>
     <string name="pause">暂停</string>
+    <string name="diagnostics">诊断信息</string>
+    <string name="show_logs">显示日志</string>
+    <string name="view_the_recorded_diagnostics_logs">查看上次记录的诊断日志</string>
+    <string name="export_logs">导出日志</string>
+    <string name="clear_logs">清除日志</string>
 </resources>

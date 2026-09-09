@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Lyd Cache Størrelse</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Ryd Cache</string>
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
     <string name="volume">Lydstyrke</string>
     <string name="download_aborted_message">Download afbrudt på grund af tab af forbindelse</string>
     <string name="pause">Pause</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="show_logs">Vis logs</string>
+    <string name="view_the_recorded_diagnostics_logs">Se de sidst optagede diagnoselogger</string>
+    <string name="export_logs">Eksporter logs</string>
+    <string name="clear_logs">Ryd logs</string>
 </resources>

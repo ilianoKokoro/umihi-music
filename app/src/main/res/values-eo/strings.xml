@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Awwdio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnaiv Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Cweaw Cache</string>
     <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
     <string name="cache_cleared">Cache Cweawed</string>
     <string name="volume">Vowume</string>
     <string name="download_aborted_message">Downwoad abowted due to woss of connyection</string>
     <string name="pause">Pwause</string>
+    <string name="diagnostics">Diagnostics</string>
+    <string name="show_logs">Show logs</string>
+    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
+    <string name="export_logs">Export logs</string>
+    <string name="clear_logs">Clear logs</string>
 </resources>

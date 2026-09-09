@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Äänen Välimuistin Koko</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d Mt</string>
-
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
     <string name="volume">Tilavuus</string>
     <string name="download_aborted_message">Lataus keskeytettiin yhteyden menetyksen vuoksi</string>
     <string name="pause">Tauko</string>
+    <string name="diagnostics">Diagnostiikka</string>
+    <string name="show_logs">Näytä lokit</string>
+    <string name="view_the_recorded_diagnostics_logs">Näytä viimeisimmät tallennetut diagnostiikan lokit</string>
+    <string name="export_logs">Vie lokit</string>
+    <string name="clear_logs">Tyhjennä lokit</string>
 </resources>

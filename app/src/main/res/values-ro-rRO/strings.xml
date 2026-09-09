@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Dimensiune cache audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Curăță Cache</string>
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Descărcare anulată din cauza pierderii conexiunii</string>
     <string name="pause">Întrerupeți</string>
+    <string name="diagnostics">Diagnosticare</string>
+    <string name="show_logs">Arată jurnalele</string>
+    <string name="view_the_recorded_diagnostics_logs">Vezi ultimele jurnale de diagnosticare înregistrate</string>
+    <string name="export_logs">Exportă jurnalele</string>
+    <string name="clear_logs">Șterge jurnalele</string>
 </resources>

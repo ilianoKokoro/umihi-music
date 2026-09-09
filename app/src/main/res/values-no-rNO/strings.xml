@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Lydhurtiglagerstørrelse for lyd</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Tøm hurtiglager</string>
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Nedlasting avbrutt grunnet tap av tilkobling</string>
     <string name="pause">pause</string>
+    <string name="diagnostics">Diagnostikk</string>
+    <string name="show_logs">Vis logger</string>
+    <string name="view_the_recorded_diagnostics_logs">Se siste registrerte diagnostikk-logger</string>
+    <string name="export_logs">Eksporter logger</string>
+    <string name="clear_logs">Fjern logger</string>
 </resources>

@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Размер кэша аудио</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d МБ</string>
-
     <string name="clear_cache">Очистить кэш</string>
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
     <string name="pause">Пауза</string>
+    <string name="diagnostics">Диагностика</string>
+    <string name="show_logs">Показать логи</string>
+    <string name="view_the_recorded_diagnostics_logs">Просмотреть последние записанные журналы диагностики</string>
+    <string name="export_logs">Экспорт журналов</string>
+    <string name="clear_logs">Очистить журналы</string>
 </resources>

@@ -158,11 +158,15 @@
     <string name="exoplayer_cache_title">Rozmiar pamięci podręcznej dźwięku</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-
     <string name="clear_cache">Usuń pamięć podręczną</string>
     <string name="clear_cache_message">Usuń wszystkie dane z pamięci podręcznej dźwięku i miniatur z tego urządzenia</string>
     <string name="cache_cleared">Wyczyszczono pamięć podręczną</string>
     <string name="volume">Objętość</string>
     <string name="download_aborted_message">Pobieranie przerwane z powodu utraty połączenia</string>
     <string name="pause">Wstrzymaj</string>
+    <string name="diagnostics">Diagnostyka</string>
+    <string name="show_logs">Pokaż logi</string>
+    <string name="view_the_recorded_diagnostics_logs">Zobacz ostatnie nagrane dzienniki diagnostyczne</string>
+    <string name="export_logs">Eksportuj logi</string>
+    <string name="clear_logs">Wyczyść logi</string>
 </resources>
