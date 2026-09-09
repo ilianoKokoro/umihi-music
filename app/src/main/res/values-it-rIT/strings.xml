@@ -164,9 +164,9 @@
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download interrotto a causa della perdita di connessione</string>
     <string name="pause">Pausa</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostica</string>
+    <string name="show_logs">Mostra log</string>
+    <string name="view_the_recorded_diagnostics_logs">Visualizza gli ultimi registri diagnostici registrati</string>
+    <string name="export_logs">Esporta log</string>
+    <string name="clear_logs">Cancella log</string>
 </resources>
