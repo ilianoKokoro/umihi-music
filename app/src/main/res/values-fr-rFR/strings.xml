@@ -165,8 +165,8 @@
     <string name="download_aborted_message">Téléchargement interrompu suite à une perte de connexion</string>
     <string name="pause">Mettre en pause</string>
     <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="show_logs">Afficher les logs</string>
+    <string name="view_the_recorded_diagnostics_logs">Voir les derniers journaux de diagnostics enregistrés</string>
+    <string name="export_logs">Exporter les logs</string>
+    <string name="clear_logs">Effacer les logs</string>
 </resources>
