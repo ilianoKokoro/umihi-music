@@ -164,9 +164,9 @@
     <string name="volume">Volym</string>
     <string name="download_aborted_message">Nedladdningen avbröts på grund av förlust av anslutning</string>
     <string name="pause">Pausa</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="show_logs">Visa loggar</string>
+    <string name="view_the_recorded_diagnostics_logs">Visa de senaste inspelade diagnostikloggarna</string>
+    <string name="export_logs">Exportera loggar</string>
+    <string name="clear_logs">Rensa loggar</string>
 </resources>
