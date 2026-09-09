@@ -81,19 +81,13 @@ class UmihiMediaLibraryCallback(
         session: MediaSession,
         controller: MediaSession.ControllerInfo,
     ): ConnectionResult {
-
-        return if (controller.isTrusted) {
-            ConnectionResult.accept(
-                ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
-                    .buildUpon()
-                    .add(SessionCommand(COMMAND_REPEAT, Bundle.EMPTY))
-                    .build(),
-                ConnectionResult.DEFAULT_PLAYER_COMMANDS
-            )
-        } else {
-            ConnectionResult.reject()
-        }
-
+        return ConnectionResult.accept(
+            ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS
+                .buildUpon()
+                .add(SessionCommand(COMMAND_REPEAT, Bundle.EMPTY))
+                .build(),
+            ConnectionResult.DEFAULT_PLAYER_COMMANDS
+        )
     }
 
     override fun onCustomCommand(
