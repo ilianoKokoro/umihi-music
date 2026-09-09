@@ -164,9 +164,9 @@
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download afgebroken als gevolg van het wegvallen van de verbinding</string>
     <string name="pause">Onderbreken</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnose</string>
+    <string name="show_logs">Logs tonen</string>
+    <string name="view_the_recorded_diagnostics_logs">Bekijk de laatst opgenomen diagnostische logs</string>
+    <string name="export_logs">Logs exporteren</string>
+    <string name="clear_logs">Logs wissen</string>
 </resources>
