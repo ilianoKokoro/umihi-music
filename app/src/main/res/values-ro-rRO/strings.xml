@@ -164,9 +164,9 @@
     <string name="volume">Volum</string>
     <string name="download_aborted_message">Descărcare anulată din cauza pierderii conexiunii</string>
     <string name="pause">Întrerupeți</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnosticare</string>
+    <string name="show_logs">Arată jurnalele</string>
+    <string name="view_the_recorded_diagnostics_logs">Vezi ultimele jurnale de diagnosticare înregistrate</string>
+    <string name="export_logs">Exportă jurnalele</string>
+    <string name="clear_logs">Șterge jurnalele</string>
 </resources>
