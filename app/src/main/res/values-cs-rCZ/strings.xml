@@ -164,9 +164,9 @@
     <string name="volume">Objem</string>
     <string name="download_aborted_message">Stahování bylo přerušeno kvůli ztrátě připojení</string>
     <string name="pause">Pozastavit</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diagnostika</string>
+    <string name="show_logs">Zobrazit logy</string>
+    <string name="view_the_recorded_diagnostics_logs">Zobrazit poslední zaznamenané diagnostické protokoly</string>
+    <string name="export_logs">Exportovat protokoly</string>
+    <string name="clear_logs">Vymazat záznamy</string>
 </resources>
