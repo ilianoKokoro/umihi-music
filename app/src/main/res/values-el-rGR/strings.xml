@@ -164,9 +164,9 @@
     <string name="volume">Όγκος</string>
     <string name="download_aborted_message">Η λήψη ματαιώθηκε λόγω απώλειας σύνδεσης</string>
     <string name="pause">Παύση</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Διαγνωστικά</string>
+    <string name="show_logs">Εμφάνιση αρχείων καταγραφής</string>
+    <string name="view_the_recorded_diagnostics_logs">Δείτε τα τελευταία καταγεγραμμένα αρχεία καταγραφής διαγνωστικών</string>
+    <string name="export_logs">Εξαγωγή αρχείων καταγραφής</string>
+    <string name="clear_logs">Εκκαθάριση αρχείων καταγραφής</string>
 </resources>
