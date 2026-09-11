@@ -13,6 +13,7 @@ data class SettingsState(
     val showHiddenPlaylistsSheet: Boolean = false,
     val hiddenPlaylists: List<Playlist> = emptyList(),
     val showDiagnosticsLogsSheet: Boolean = false,
+    val showThemeSelectorSheet: Boolean = false,
 )
 
 enum class CacheType {
