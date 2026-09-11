@@ -3,15 +3,20 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 import android.app.Application
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.FastForward
+import androidx.compose.material.icons.rounded.FastRewind
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.FilledIconToggleButton
@@ -30,14 +37,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -102,7 +119,9 @@ fun PlayerScreen(
                     href = currentSong?.thumbnailHref.toString(),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .weight(1f)
+                        .weight(1f),
+                    onSeekBackward = { playerViewModel.seekBy(-10_000L) },
+                    onSeekForward = { playerViewModel.seekBy(10_000L) }
                 )
                 Column(
                     modifier = Modifier
@@ -161,7 +180,9 @@ fun PlayerScreen(
                         href = currentSong?.thumbnailHref.toString(),
                         modifier = Modifier
                             .fillMaxSize()
-                            .weight(1f)
+                            .weight(1f),
+                        onSeekBackward = { playerViewModel.seekBy(-10_000L) },
+                        onSeekForward = { playerViewModel.seekBy(10_000L) }
                     )
                 }
 
@@ -238,33 +259,168 @@ fun PlayerScreen(
     }
 }
 
+private enum class SeekDirection { BACKWARD, FORWARD }
+
+private data class SeekFeedback(
+    val direction: SeekDirection,
+    val seconds: Int,
+    val timestamp: Long = System.currentTimeMillis()
+)
+
 @Composable
 fun Thumbnail(
     href: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSeekBackward: () -> Unit = {},
+    onSeekForward: () -> Unit = {},
 ) {
+    var seekFeedback by remember { mutableStateOf<SeekFeedback?>(null) }
+    val haptic = LocalHapticFeedback.current
+
+    LaunchedEffect(seekFeedback?.timestamp) {
+        if (seekFeedback != null) {
+            delay(650)
+            seekFeedback = null
+        }
+    }
+
     BoxWithConstraints(
         modifier = modifier.padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
         val size = minOf(maxWidth, maxHeight)
 
-        AnimatedContent(
-            targetState = href,
-            transitionSpec = {
-                fadeIn(
-                    animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
-                ).togetherWith(
-                    fadeOut(
-                        animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
+        Box(
+            modifier = Modifier
+                .size(size)
+                .clip(RoundedCornerShape(12.dp))
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onDoubleTap = { offset ->
+                            val isLeft = offset.x < this.size.width / 2f
+                            val direction = if (isLeft) SeekDirection.BACKWARD else SeekDirection.FORWARD
+                            val now = System.currentTimeMillis()
+                            val current = seekFeedback
+                            val newSeconds = if (current != null && current.direction == direction && (now - current.timestamp) < 700) {
+                                current.seconds + 10
+                            } else {
+                                10
+                            }
+                            seekFeedback = SeekFeedback(direction, newSeconds, now)
+                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                            if (isLeft) {
+                                onSeekBackward()
+                            } else {
+                                onSeekForward()
+                            }
+                        }
                     )
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            AnimatedContent(
+                targetState = href,
+                transitionSpec = {
+                    fadeIn(
+                        animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
+                    ).togetherWith(
+                        fadeOut(
+                            animationSpec = tween(Constants.Player.IMAGE_TRANSITION_DELAY)
+                        )
+                    )
+                }
+            ) { targetState ->
+                SquareImage(
+                    uri = targetState,
+                    modifier = Modifier.size(size)
                 )
             }
-        ) { targetState ->
-            SquareImage(
-                uri = targetState,
-                modifier = Modifier.size(size)
-            )
+
+            // Seek backward overlay (left half)
+            AnimatedVisibility(
+                visible = seekFeedback?.direction == SeekDirection.BACKWARD,
+                enter = fadeIn() + scaleIn(initialScale = 0.8f),
+                exit = fadeOut(animationSpec = tween(200)) + scaleOut(targetScale = 0.8f),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f)
+                    .align(Alignment.CenterStart)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0.6f),
+                                    Color.Black.copy(alpha = 0.3f),
+                                    Color.Transparent
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.FastRewind,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(36.dp)
+                        )
+                        Text(
+                            text = "-${seekFeedback?.seconds ?: 10}s",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                }
+            }
+
+            // Seek forward overlay (right half)
+            AnimatedVisibility(
+                visible = seekFeedback?.direction == SeekDirection.FORWARD,
+                enter = fadeIn() + scaleIn(initialScale = 0.8f),
+                exit = fadeOut(animationSpec = tween(200)) + scaleOut(targetScale = 0.8f),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f)
+                    .align(Alignment.CenterEnd)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.3f),
+                                    Color.Black.copy(alpha = 0.6f)
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.FastForward,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(36.dp)
+                        )
+                        Text(
+                            text = "+${seekFeedback?.seconds ?: 10}s",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                }
+            }
         }
     }
 }
