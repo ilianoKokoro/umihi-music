@@ -36,13 +36,13 @@
     <string name="retry">재시도</string>
     <string name="play_next_toast">이 노래가 다음에 재생됩니다</string>
     <string name="added_queue_toast">노래가 대기열에 추가되었습니다</string>
-    <string name="shuffled_queue_toast">Queue shuffled</string>
+    <string name="shuffled_queue_toast">대기열을 셔플했습니다</string>
     <string name="playing_now">음악이 지금 재생 중입니다</string>
     <string name="up_to_date_message">앱은 이미 최신 버전입니다!</string>
     <string name="update_check_failed">업데이트 확인 중 문제가 발생했습니다</string>
     <string name="github_rate_limit_retry">GitHub API rate limited. Retry in %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="minutes">%1$d 분</string>
+    <string name="seconds">%1$d 초</string>
     <string name="update_available">업데이트가 있습니다</string>
     <string name="new_version_body">새 버전이 있습니다. (%1$s)</string>
     <string name="log_out">로그아웃</string>
@@ -76,7 +76,7 @@
     <string name="cancel_playlist_download_text">지금 하고 있는 플레이리스트 다운로드를 취소할까요?</string>
     <string name="remove_download">다운로드 삭제하기</string>
     <string name="cancel_download">다운로드 취소하기</string>
-    <string name="hide_playlist">Hide Playlist</string>
+    <string name="hide_playlist">재생목록 숨기기</string>
     <string name="unhide_playlist">Unhide Playlist</string>
     <string name="hide_playlist_confirm_text">Hide this playlist? The playlist will not be shown in the home screen</string>
     <string name="unhide_playlist_confirm_text">Unhide this playlist? The playlist will be shown in the home screen</string>

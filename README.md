@@ -154,7 +154,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>671 words</b></sub>
+        <sub><b>679 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -200,7 +200,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Mickael81</b></sub></a>
         <br />
-        <sub><b>933 words</b></sub>
+        <sub><b>958 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -218,7 +218,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(DefinitelyRus)</b></sub></a>
         <br />
-        <sub><b>128 words</b></sub>
+        <sub><b>234 words</b></sub>
         <br /><sub><b><code title="Tagalog">tl</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -254,7 +254,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Akiro9982)</b></sub></a>
         <br />
-        <sub><b>34 words</b></sub>
+        <sub><b>42 words</b></sub>
         <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
       </td>
       <td align="center" valign="top">
