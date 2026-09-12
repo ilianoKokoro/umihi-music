@@ -169,4 +169,9 @@
     <string name="view_the_recorded_diagnostics_logs">Xem nhật ký chẩn đoán được ghi lại gần đây nhất</string>
     <string name="export_logs">Xuất nhật ký</string>
     <string name="clear_logs">Xoá nhật ký</string>
+    <string name="theme">Giao diện</string>
+    <string name="choose_theme">Chọn giao diện</string>
+    <string name="theme_dark">Tối</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_system">Theo hệ thống</string>
 </resources>

@@ -174,4 +174,9 @@
     <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
     <string name="export_logs">Export logs</string>
     <string name="clear_logs">Clear logs</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>
