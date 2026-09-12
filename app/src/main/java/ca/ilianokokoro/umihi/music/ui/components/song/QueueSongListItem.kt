@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -128,7 +127,6 @@ fun QueueSongListItem(
                     "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
                 )
             }
         },
@@ -138,7 +136,13 @@ fun QueueSongListItem(
             ListItemDefaults.colors()
         },
         verticalAlignment = Alignment.CenterVertically,
-        content = { Text(song.title, modifier = Modifier.basicMarquee()) },
+        content = {
+            Text(
+                text = song.title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
     )
 
 }
