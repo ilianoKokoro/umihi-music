@@ -1,10 +1,10 @@
 [versions]
 agp = "9.4.0"
-kotlin = "2.4.20" # 2.4.0 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
+kotlin = "2.4.20" # 2.4.20 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 coreKtx = "1.19.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
-composeBom = "2026.08.00"
+composeBom = "2026.09.00"
 
 # Added librairies
 coreSplashscreen = "1.2.0"
@@ -14,12 +14,12 @@ nav3Lifecycle = "2.11.0"
 kotlinSerialization = "2.4.20"
 kotlinxSerializationCore = "1.11.0"
 coil = "3.6.2"
-media3Exoplayer = "1.11.0"
+media3Exoplayer = "1.11.1"
 datastorePreferences = "1.2.1"
 webkit = "1.17.0"
 materialIconsExtended = "1.7.8"
-material3 = "1.5.0-alpha27"
-room = "2.8.4"
+material3 = "1.5.0-alpha28"
+room = "2.8.5"
 ksp = "2.3.11"
 customactivityoncrash = "2.4.0"
 workRuntimeKtx = "2.11.2"
