@@ -104,6 +104,7 @@
     <string name="description">Опис</string>
     <string name="create">Створити</string>
     <string name="create_playlist">Створити плейліст</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Поза списком</string>
     <string name="privacy_public">Загальнодоступна</string>
     <string name="privacy_private">Приватний</string>
