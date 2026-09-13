@@ -104,6 +104,7 @@
     <string name="description">Περιγραφή</string>
     <string name="create">Δημιουργία</string>
     <string name="create_playlist">Δημιουργία λίστας αναπαραγωγής</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Μη Καταχωρημένο</string>
     <string name="privacy_public">Δημόσιο</string>
     <string name="privacy_private">Ιδιωτικό</string>
