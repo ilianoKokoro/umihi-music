@@ -104,6 +104,7 @@
     <string name="description">L 343, 22.12.2009, s. 1).</string>
     <string name="create">Vytvořit</string>
     <string name="create_playlist">Vytvořit seznam skladeb</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Neuvedeno</string>
     <string name="privacy_public">Veřejnost</string>
     <string name="privacy_private">Soukromé</string>
