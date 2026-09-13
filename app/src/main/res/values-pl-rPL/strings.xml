@@ -104,6 +104,7 @@
     <string name="description">Opis</string>
     <string name="create">Utwórz</string>
     <string name="create_playlist">Utwórz playlistę</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Niewymienione</string>
     <string name="privacy_public">Publiczne</string>
     <string name="privacy_private">Prywatny</string>
