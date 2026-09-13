@@ -104,6 +104,7 @@
     <string name="description">描述</string>
     <string name="create">创建</string>
     <string name="create_playlist">创建播放列表</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">未上架</string>
     <string name="privacy_public">公开的</string>
     <string name="privacy_private">非公开的</string>
