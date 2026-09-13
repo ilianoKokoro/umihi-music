@@ -104,6 +104,7 @@
     <string name="description">Mô tả</string>
     <string name="create">Tạo</string>
     <string name="create_playlist">Tạo danh sách phát</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Không được liệt kê</string>
     <string name="privacy_public">Công khai</string>
     <string name="privacy_private">Riêng tư</string>
