@@ -148,6 +148,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onPlaylistPressed = { playlist ->
                                     backStack.add(PlaylistScreenKey(playlistInfo = playlist))
                                 },
+                                onLoginPressed = { backStack.add(AuthScreenKey) },
                                 application = app
                             )
                         }

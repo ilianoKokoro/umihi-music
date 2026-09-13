@@ -37,6 +37,7 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.LoginBanner
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
@@ -46,6 +47,7 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 fun HomeScreen(
     sharedViewModel: SharedViewModel,
     onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
+    onLoginPressed: () -> Unit,
     application: Application,
     homeViewModel: HomeViewModel = viewModel(
         factory =
@@ -113,8 +115,8 @@ fun HomeScreen(
                                     )
 
                                 ) {
-                                    if (loggedIn.isLoggedIn) {
-                                        item(span = { GridItemSpan(maxLineSpan) }) {
+                                    item(span = { GridItemSpan(maxLineSpan) }) {
+                                        if (loggedIn.isLoggedIn) {
                                             Row(horizontalArrangement = Arrangement.End) {
                                                 MaterialUButton(
                                                     onClick = {
@@ -124,6 +126,10 @@ fun HomeScreen(
                                                     text = stringResource(R.string.create_playlist)
                                                 )
                                             }
+                                        } else {
+                                            LoginBanner(
+                                                onLoginPressed = onLoginPressed
+                                            )
                                         }
                                     }
                                     itemsIndexed(
