@@ -105,7 +105,7 @@
     <string name="description">Descripción</string>
     <string name="create">Crear</string>
     <string name="create_playlist">Crear lista</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Inicia sesión para acceder a tus playlists</string>
     <string name="privacy_unlisted">Sin enumerar</string>
     <string name="privacy_public">Público</string>
     <string name="privacy_private">Privado</string>
