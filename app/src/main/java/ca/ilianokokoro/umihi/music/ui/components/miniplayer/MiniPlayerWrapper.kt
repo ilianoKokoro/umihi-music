@@ -31,6 +31,7 @@ import ca.ilianokokoro.umihi.music.extensions.toSong
 fun MiniPlayerWrapper(
     modifier: Modifier = Modifier,
     onMiniPlayerPressed: () -> Unit,
+    onDismiss: () -> Unit = { PlayerManager.clearQueue() },
     showMiniPlayer: Boolean,
 ) {
     val player by PlayerManager.controllerState.collectAsStateWithLifecycle()
@@ -92,6 +93,7 @@ fun MiniPlayerWrapper(
         MiniPlayer(
             currentSong = song,
             onClick = onMiniPlayerPressed,
+            onDismiss = onDismiss,
             onPlayPause = {
                 if (player?.isPlaying == true) {
                     player?.pause()
