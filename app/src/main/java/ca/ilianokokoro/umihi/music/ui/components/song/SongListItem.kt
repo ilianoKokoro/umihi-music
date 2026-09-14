@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -145,7 +144,6 @@ fun SongListItem(
                     text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
                 )
             }
         },
@@ -154,9 +152,8 @@ fun SongListItem(
         content = {
             Text(
                 text = song.title,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.basicMarquee()
             )
         },
     )

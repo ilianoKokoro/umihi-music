@@ -164,6 +164,15 @@ class PlayerViewModel(application: Application) :
         PlayerManager.currentController?.seekTo(_playbackProgress.value.position.toLong())
     }
 
+    fun seekBy(offsetMs: Long) {
+        val current = _playbackProgress.value.position
+        val duration = _playbackProgress.value.duration
+        val maxDuration = if (duration > 0f) duration else Float.MAX_VALUE
+        val newPos = (current + offsetMs).coerceIn(0f, maxDuration)
+        _playbackProgress.update { it.copy(position = newPos) }
+        PlayerManager.currentController?.seekTo(newPos.toLong())
+    }
+
     fun seek(location: Float) {
         viewModelScope.launch {
             _playbackProgress.update {
