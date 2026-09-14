@@ -280,9 +280,9 @@ class PlaybackService : MediaLibraryService() {
             player.volume = 1.0f
             val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
             // Each 1% boost corresponds to 10 mB gain (up to 1000 mB / ~10dB boost at 200%)
-            val gainmB = boostPercent * 10
+            val gainMb = boostPercent * 10
             try {
-                loudnessEnhancer?.setTargetGain(gainmB)
+                loudnessEnhancer?.setTargetGain(gainMb)
                 loudnessEnhancer?.enabled = true
             } catch (e: Exception) {
                 printe(
@@ -426,8 +426,8 @@ private class AlwaysAvailableSkipCommandsPlayer(player: Player) : ForwardingPlay
 
     override fun getAvailableCommands(): Player.Commands {
         return super.getAvailableCommands().buildUpon()
-            .add(Player.COMMAND_SEEK_TO_NEXT)
-            .add(Player.COMMAND_SEEK_TO_PREVIOUS)
+            .add(COMMAND_SEEK_TO_NEXT)
+            .add(COMMAND_SEEK_TO_PREVIOUS)
             .build()
     }
 }

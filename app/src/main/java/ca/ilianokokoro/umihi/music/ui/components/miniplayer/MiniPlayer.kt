@@ -2,10 +2,15 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -24,15 +29,21 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import kotlin.math.roundToInt
 
 @Composable
 fun MiniPlayer(
@@ -42,14 +53,47 @@ fun MiniPlayer(
     onPlayPause: () -> Unit,
     onSkipNext: () -> Unit,
     onSkipPrevious: () -> Unit,
+    onClose: () -> Unit,
     isPlaying: Boolean,
     isLoading: Boolean,
 ) {
     val controlsInteractionSources = List(3) { ComposeHelper.rememberInteractionSource() }
 
+    val density = LocalDensity.current
+
+    val dismissOffset = with(density) {
+        Constants.Ui.MiniPlayer.HEIGHT.toPx() * 1.5f
+    }
+
+    val state = remember {
+        AnchoredDraggableState(
+            initialValue = 0f,
+            anchors = DraggableAnchors {
+                0f at 0f
+                dismissOffset at dismissOffset
+            },
+        )
+    }
+
+    LaunchedEffect(state.settledValue) {
+        if (state.settledValue == dismissOffset) {
+            onClose()
+        }
+    }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .offset {
+                IntOffset(
+                    x = 0,
+                    y = state.requireOffset().roundToInt()
+                )
+            }
+            .anchoredDraggable(
+                state = state,
+                orientation = Orientation.Vertical
+            )
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
