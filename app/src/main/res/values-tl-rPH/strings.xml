@@ -104,6 +104,7 @@
     <string name="description">Paglalarawan</string>
     <string name="create">Gumawa</string>
     <string name="create_playlist">Gumawa ng playlist</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Hindi nakalista</string>
     <string name="privacy_public">Pampubliko</string>
     <string name="privacy_private">Pribado</string>

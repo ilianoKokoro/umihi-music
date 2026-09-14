@@ -104,6 +104,7 @@
     <string name="description">Beskrivning</string>
     <string name="create">Skapa</string>
     <string name="create_playlist">Skapa spellista</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Olistad</string>
     <string name="privacy_public">Publik</string>
     <string name="privacy_private">Privat</string>

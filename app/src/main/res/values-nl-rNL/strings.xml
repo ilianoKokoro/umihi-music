@@ -104,6 +104,7 @@
     <string name="description">Beschrijving</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
     <string name="privacy_public">Openbaar</string>
     <string name="privacy_private">Privé</string>

@@ -104,6 +104,7 @@
     <string name="description">説明</string>
     <string name="create">作成</string>
     <string name="create_playlist">プレイリストを作成</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">リストにありません</string>
     <string name="privacy_public">公開</string>
     <string name="privacy_private">非公開</string>

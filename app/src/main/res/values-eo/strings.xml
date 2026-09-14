@@ -104,6 +104,7 @@
     <string name="description">Descwiption</string>
     <string name="create">Cweate</string>
     <string name="create_playlist">Cweate pwaywist</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Unwisted</string>
     <string name="privacy_public">Pubwic</string>
     <string name="privacy_private">Pwivate</string>

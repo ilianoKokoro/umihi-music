@@ -104,6 +104,7 @@
     <string name="description">Description</string>
     <string name="create">만들기</string>
     <string name="create_playlist">플레이리스트 만들기</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">미등록</string>
     <string name="privacy_public">공개</string>
     <string name="privacy_private">비공개</string>

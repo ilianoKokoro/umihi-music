@@ -104,6 +104,7 @@
     <string name="description">Varebeskrivelse</string>
     <string name="create">Opret</string>
     <string name="create_playlist">Opret afspilningsliste</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Ulistet</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>

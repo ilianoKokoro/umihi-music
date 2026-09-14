@@ -104,6 +104,7 @@
     <string name="description">Deskripsi</string>
     <string name="create">Buat</string>
     <string name="create_playlist">Buat playlist</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Tidak terdaftar</string>
     <string name="privacy_public">Publik</string>
     <string name="privacy_private">Pribadi</string>

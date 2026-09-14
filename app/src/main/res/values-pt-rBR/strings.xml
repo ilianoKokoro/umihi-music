@@ -104,6 +104,7 @@
     <string name="description">Descrição:</string>
     <string name="create">Crio</string>
     <string name="create_playlist">Criar playlist</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Não-listado</string>
     <string name="privacy_public">Público</string>
     <string name="privacy_private">Privado</string>
