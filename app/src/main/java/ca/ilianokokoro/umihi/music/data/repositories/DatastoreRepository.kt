@@ -24,7 +24,9 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_AUDIO_OFFLOAD
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.APP_VOLUME
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THEME_MODE
 import ca.ilianokokoro.umihi.music.models.Cookies
+import ca.ilianokokoro.umihi.music.models.ThemeMode
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -48,6 +50,7 @@ class DatastoreRepository(private val context: Context) {
         val EXOPLAYER_CACHE_SIZE = intPreferencesKey(Constants.Datastore.EXOPLAYER_CACHE_SIZE_KEY)
         val THUMBNAIL_CACHE_SIZE = intPreferencesKey(Constants.Datastore.THUMBNAIL_CACHE_SIZE_KEY)
         val APP_VOLUME = intPreferencesKey(Constants.Datastore.APP_VOLUME_KEY)
+        val THEME_MODE = stringPreferencesKey(Constants.Datastore.THEME_MODE_KEY)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -74,6 +77,7 @@ class DatastoreRepository(private val context: Context) {
         val thumbnailCacheSize =
             it[THUMBNAIL_CACHE_SIZE] ?: Constants.Cache.Thumbnail.DEFAULT_SIZE_MB
         val appVolume = it[APP_VOLUME] ?: Constants.Player.Volume.DEFAULT_PERCENT
+        val themeMode = it[THEME_MODE]?.let { modeStr -> ThemeMode.fromString(modeStr) } ?: ThemeMode.DARK
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
 
@@ -90,7 +94,8 @@ class DatastoreRepository(private val context: Context) {
             downloadOnMetered = downloadOnMetered,
             exoPlayerCacheSizeMB = exoPlayerCacheSize,
             thumbnailCacheSizeMB = thumbnailCacheSize,
-            appVolume = appVolume
+            appVolume = appVolume,
+            themeMode = themeMode
         )
     }
 
