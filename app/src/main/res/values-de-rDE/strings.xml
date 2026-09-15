@@ -56,7 +56,7 @@
     <string name="account">Konto</string>
     <string name="clear_data_message">Entferne alle heruntergeladenen Lieder und zwischengespeicherten Daten von diesem Gerät</string>
     <string name="clear_login_message">Löscht alle gespeicherten Konten und Login-Informationen</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Dadurch werden Sie abgemeldet und alle gespeicherten YouTube-Konten, Cookies und Authentifizierungs-Token dauerhaft von diesem Gerät entfernt. Sie müssen sich erneut anmelden, um Ihr Konto nutzen zu können.</string>
     <string name="login_info_cleared">Anmeldeinformationen gelöscht</string>
     <string name="downloads_cleared">Downloads gelöscht</string>
     <string name="invalid_navkey">Ungültiger NavKey : %1$s</string>
