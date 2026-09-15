@@ -32,10 +32,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -167,7 +170,7 @@ fun PlayerControls(
                                 } else {
                                     Icons.Rounded.PlayArrow
                                 }
-                                
+
                                 val text = if (isPlaying) {
                                     R.string.pause
                                 } else {
@@ -443,22 +446,32 @@ private fun SeekBar(
     val progressValue by progress.collectAsStateWithLifecycle()
     val audioInfo by PlayerManager.audioInfo.collectAsStateWithLifecycle()
 
+    val sliderState = remember(progressValue.duration) {
+        SliderState(
+            value = progressValue.position,
+            trackRange = 0f..progressValue.duration,
+        )
+    }
+
+    LaunchedEffect(progressValue.position, sliderState) {
+        if (sliderState.value != progressValue.position) {
+            sliderState.value = progressValue.position
+        }
+    }
+
     Column(modifier = modifier) {
         Slider(
-            value = progressValue.position,
-            valueRange = 0f..progressValue.duration,
-
+            state = sliderState,
             onValueChange = { newValue ->
                 onUpdateSeekBarHeldState(true)
+                sliderState.value = newValue
                 onSeek(newValue)
             },
-
             onValueChangeFinished = {
                 onSeekPlayer()
                 onUpdateSeekBarHeldState(false)
             },
-
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = 10.dp),
         )
 
         Box(
