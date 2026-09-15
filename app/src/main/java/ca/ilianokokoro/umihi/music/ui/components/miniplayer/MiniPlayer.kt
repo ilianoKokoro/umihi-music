@@ -4,8 +4,9 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.animateToWithDecay
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
+import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,7 +47,21 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.roundToInt
+
+private sealed interface MiniPlayerDragEvent {
+    data class Move(val rawOffset: Float) : MiniPlayerDragEvent
+
+    data class End(val velocityY: Float) : MiniPlayerDragEvent
+}
+
+private enum class MiniPlayerAnchor { Expanded, Dismissed }
+
+private const val DISMISS_POSITIONAL_THRESHOLD = 0.4f
 
 @Composable
 fun MiniPlayer(
@@ -65,18 +83,22 @@ fun MiniPlayer(
         Constants.Ui.MiniPlayer.HEIGHT.toPx() * 1.5f
     }
 
-    val state = remember {
+    val minFlingVelocity = with(density) {
+        125.dp.toPx()
+    }
+
+    val state = remember(dismissOffset) {
         AnchoredDraggableState(
-            initialValue = 0f,
+            initialValue = MiniPlayerAnchor.Expanded,
             anchors = DraggableAnchors {
-                0f at 0f
-                dismissOffset at dismissOffset
+                MiniPlayerAnchor.Expanded at 0f
+                MiniPlayerAnchor.Dismissed at dismissOffset
             },
         )
     }
 
     LaunchedEffect(state.settledValue) {
-        if (state.settledValue == dismissOffset) {
+        if (state.settledValue == MiniPlayerAnchor.Dismissed) {
             onClose()
         }
     }
@@ -90,10 +112,76 @@ fun MiniPlayer(
                     y = state.requireOffset().roundToInt()
                 )
             }
-            .anchoredDraggable(
-                state = state,
-                orientation = Orientation.Vertical
-            )
+            .pointerInput(state, dismissOffset) {
+                val touchSlop = viewConfiguration.touchSlop
+                val dragEvents = Channel<MiniPlayerDragEvent>(Channel.UNLIMITED)
+
+                coroutineScope {
+                    launch {
+                        while (true) {
+                            var releaseVelocity = 0f
+
+                            state.anchoredDrag {
+                                for (event in dragEvents) {
+                                    when (event) {
+                                        is MiniPlayerDragEvent.Move -> {
+                                            dragTo(
+                                                (event.rawOffset - touchSlop).coerceIn(
+                                                    0f,
+                                                    dismissOffset
+                                                )
+                                            )
+                                        }
+
+                                        is MiniPlayerDragEvent.End -> {
+                                            releaseVelocity = event.velocityY
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            val target = when {
+                                releaseVelocity <= -minFlingVelocity -> MiniPlayerAnchor.Expanded
+                                releaseVelocity >= minFlingVelocity -> MiniPlayerAnchor.Dismissed
+                                state.requireOffset() >= dismissOffset * DISMISS_POSITIONAL_THRESHOLD ->
+                                    MiniPlayerAnchor.Dismissed
+
+                                else -> MiniPlayerAnchor.Expanded
+                            }
+                            state.animateToWithDecay(target, releaseVelocity)
+                        }
+                    }
+
+                    awaitEachGesture {
+                        val down = awaitFirstDown(requireUnconsumed = false)
+                        val pointerId = down.id
+                        val velocityTracker = VelocityTracker().also {
+                            it.addPosition(down.uptimeMillis, down.position)
+                        }
+
+                        var rawOffset = 0f
+
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.firstOrNull { it.id == pointerId } ?: break
+                            if (!change.pressed) break
+
+                            velocityTracker.addPosition(change.uptimeMillis, change.position)
+                            rawOffset += change.positionChangeIgnoreConsumed().y
+
+                            if (abs(rawOffset) >= touchSlop) {
+                                dragEvents.trySend(MiniPlayerDragEvent.Move(rawOffset))
+                                change.consume()
+                            }
+                        }
+
+                        dragEvents.trySend(
+                            MiniPlayerDragEvent.End(velocityTracker.calculateVelocity().y)
+                        )
+                    }
+                }
+            }
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
