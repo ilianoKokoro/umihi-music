@@ -56,6 +56,7 @@
     <string name="account">Akawnt</string>
     <string name="clear_data_message">Tinatanggal ang lahat ng na-download na kanta at cache</string>
     <string name="clear_login_message">I-clear ang lahat ng naka-save na account at impormasyon sa pag-login</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Na-clear ang Impormasyon sa Pag-login</string>
     <string name="downloads_cleared">Na-clear ang mga Download</string>
     <string name="invalid_navkey">Hindi wastong NavKey: %1$s</string>
