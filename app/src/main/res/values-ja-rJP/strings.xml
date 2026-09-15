@@ -56,7 +56,7 @@
     <string name="account">アカウント</string>
     <string name="clear_data_message">このデバイスからダウンロードしたすべての曲とキャッシュされたデータを削除します</string>
     <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します。</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">これにより、保存されているすべてのYouTubeアカウント、クッキー、および認証トークンがこのデバイスから完全に削除されます。 アカウントを使用するには再度ログインする必要があります。</string>
     <string name="login_info_cleared">ログイン情報を消去しました</string>
     <string name="downloads_cleared">ダウンロードを消去しました</string>
     <string name="invalid_navkey">無効なナビキー: %1$s</string>
