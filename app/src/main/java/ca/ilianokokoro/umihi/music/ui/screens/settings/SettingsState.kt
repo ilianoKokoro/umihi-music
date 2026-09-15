@@ -8,6 +8,7 @@ data class SettingsState(
     val showUpdateChannelSheet: Boolean = false,
     val showDownloadDeleteConfirm: Boolean = false,
     val showCacheSizeInputSheet: Boolean = false,
+    val showLoginClearConfirm: Boolean = false,
     val cacheTypeForInput: CacheType = CacheType.AUDIO,
     val showCacheClearConfirm: Boolean = false,
     val showHiddenPlaylistsSheet: Boolean = false,
