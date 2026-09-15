@@ -56,7 +56,7 @@
     <string name="account">Konto</string>
     <string name="clear_data_message">Fjern alle nedlastede sanger og mellomlagrede data fra denne enheten</string>
     <string name="clear_login_message">Fjerner alle de lagrede kontoene og innloggings informasjonen</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Dette vil logge deg ut og permanent fjerne alle lagrede YouTube-kontoer, informasjonskapsler og autentiseringstokener fra denne enheten. Du må logge inn på nytt for å bruke kontoen din.</string>
     <string name="login_info_cleared">Innloggingsinformasjon fjernet</string>
     <string name="downloads_cleared">Nedlastinger fjernet</string>
     <string name="invalid_navkey">Ugyldig marinnøkkel : %1$s</string>
