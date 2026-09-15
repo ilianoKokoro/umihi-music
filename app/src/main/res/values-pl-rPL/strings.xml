@@ -56,6 +56,7 @@
     <string name="account">Konto</string>
     <string name="clear_data_message">Usuń wszystkie pobrane utwory i dane pamięci podręcznej z tego urządzenia</string>
     <string name="clear_login_message">Czyści wszystkie zapisane konta i dane logowania</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Wyczyszczono dane logowania</string>
     <string name="downloads_cleared">Pobieranie wyczyszczone</string>
     <string name="invalid_navkey">Nieprawidłowy NavKey : %1$s</string>
