@@ -84,13 +84,16 @@ fun CacheSizeInputBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 SheetHeader(
                     icon = Icons.Outlined.Storage,
                     title = stringResource(config.titleRes),
+                    modifier = Modifier.weight(1f),
                 )
                 Text(
                     text = stringResource(R.string.cache_size_mb, currentValue),

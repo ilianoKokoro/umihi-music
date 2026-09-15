@@ -93,6 +93,7 @@ fun VolumeBottomSheet(
                 SheetHeader(
                     icon = Icons.AutoMirrored.Rounded.VolumeUp,
                     title = stringResource(R.string.volume),
+                    modifier = Modifier.weight(1f),
                     tint = accentColor,
                 )
 
