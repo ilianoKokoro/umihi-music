@@ -56,7 +56,7 @@
     <string name="account">Acwount</string>
     <string name="clear_data_message">Remowe aww da downwoaded songs n cache data fwom this dewice OwO</string>
     <string name="clear_login_message">Cweaws aww da saved accounts n w-wogin infowmation</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">This wiw sign you out and pewmanentwy wemove aww saved YouTube accwounts, cookies, and authentication tokens fwom this dewice. You wiw nyed to wog in again to use youw accwount.</string>
     <string name="login_info_cleared">Login Info Cweawed</string>
     <string name="downloads_cleared">Downwoads Cweawed</string>
     <string name="invalid_navkey">Invawid NavKey : %1$s</string>
@@ -105,7 +105,7 @@
     <string name="description">Descwiption</string>
     <string name="create">Cweate</string>
     <string name="create_playlist">Cweate pwaywist</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Wog in to access youw pwaywists</string>
     <string name="privacy_unlisted">Unwisted</string>
     <string name="privacy_public">Pubwic</string>
     <string name="privacy_private">Pwivate</string>
@@ -166,9 +166,9 @@
     <string name="volume">Vowume</string>
     <string name="download_aborted_message">Downwoad abowted due to woss of connyection</string>
     <string name="pause">Pwause</string>
-    <string name="diagnostics">Diagnostics</string>
-    <string name="show_logs">Show logs</string>
-    <string name="view_the_recorded_diagnostics_logs">View the last recorded diagnostics logs</string>
-    <string name="export_logs">Export logs</string>
-    <string name="clear_logs">Clear logs</string>
+    <string name="diagnostics">Diwanyostics</string>
+    <string name="show_logs">Show wogs</string>
+    <string name="view_the_recorded_diagnostics_logs">View da wast wecowded diwagnostics wogs</string>
+    <string name="export_logs">Expowt wogs</string>
+    <string name="clear_logs">Cweaw wogs</string>
 </resources>
