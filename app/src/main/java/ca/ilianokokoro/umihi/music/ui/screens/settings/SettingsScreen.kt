@@ -175,7 +175,9 @@ fun SettingsScreen(
                                 title = stringResource(R.string.clear_login_info),
                                 subtitle = stringResource(R.string.clear_login_message),
                                 leadingIcon = Icons.Outlined.Delete,
-                                onClick = settingsViewModel::clearLogins
+                                onClick = {
+                                    settingsViewModel.updateShowLoginClearConfirm(true)
+                                }
                             )
                         }
 
@@ -383,6 +385,18 @@ fun SettingsScreen(
                                 },
                                 onDismiss = {
                                     settingsViewModel.updateShowCacheClearConfirm(false)
+                                }
+                            )
+                        } else if (uiState.showLoginClearConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.clear_login_info),
+                                text = stringResource(R.string.clear_login_message),
+                                onConfirm = {
+                                    settingsViewModel.clearLogins()
+                                    settingsViewModel.updateShowLoginClearConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowLoginClearConfirm(false)
                                 }
                             )
                         } else if (uiState.showHiddenPlaylistsSheet) {
