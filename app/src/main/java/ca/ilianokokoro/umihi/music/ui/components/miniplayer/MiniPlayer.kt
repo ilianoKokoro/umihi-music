@@ -1,17 +1,10 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.AnchoredDraggableState
-import androidx.compose.foundation.gestures.DraggableAnchors
-import androidx.compose.foundation.gestures.animateToWithDecay
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -30,152 +23,32 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
-import androidx.compose.ui.input.pointer.util.VelocityTracker
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
-import kotlin.math.abs
-import kotlin.math.roundToInt
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-
-private sealed interface MiniPlayerDragEvent {
-    data class Move(val rawOffset: Float) : MiniPlayerDragEvent
-
-    data class End(val velocityY: Float) : MiniPlayerDragEvent
-}
 
 @Composable
 fun MiniPlayer(
     modifier: Modifier = Modifier,
     currentSong: Song,
-    onClick: () -> Unit,
     onPlayPause: () -> Unit,
     onSkipNext: () -> Unit,
     onSkipPrevious: () -> Unit,
-    onClose: () -> Unit,
     isPlaying: Boolean,
     isLoading: Boolean,
 ) {
     val controlsInteractionSources = List(3) { ComposeHelper.rememberInteractionSource() }
 
-    val density = LocalDensity.current
-
-    val dismissOffset = with(density) {
-        Constants.Ui.MiniPlayer.HEIGHT.toPx() * 1.5f
-    }
-
-    val minFlingVelocity = with(density) {
-        125.dp.toPx()
-    }
-
-    val state = remember {
-        AnchoredDraggableState(
-            initialValue = 0f,
-            anchors = DraggableAnchors {
-                0f at 0f
-                dismissOffset at dismissOffset
-            },
-        )
-    }
-
-    LaunchedEffect(state.settledValue) {
-        if (state.settledValue == dismissOffset) {
-            onClose()
-        }
-    }
-
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .offset {
-                IntOffset(
-                    x = 0,
-                    y = state.requireOffset().roundToInt()
-                )
-            }
-            .pointerInput(state, dismissOffset) {
-                val touchSlop = viewConfiguration.touchSlop
-                val dragEvents = Channel<MiniPlayerDragEvent>(Channel.UNLIMITED)
-
-                coroutineScope {
-                    launch {
-                        while (true) {
-                            var releaseVelocity = 0f
-
-                            state.anchoredDrag {
-                                for (event in dragEvents) {
-                                    when (event) {
-                                        is MiniPlayerDragEvent.Move -> {
-                                            dragTo(
-                                                (event.rawOffset - touchSlop).coerceIn(0f, dismissOffset)
-                                            )
-                                        }
-
-                                        is MiniPlayerDragEvent.End -> {
-                                            releaseVelocity = event.velocityY
-                                            break
-                                        }
-                                    }
-                                }
-                            }
-
-                            val target = if (
-                                state.requireOffset() >= dismissOffset / 2f ||
-                                releaseVelocity >= minFlingVelocity
-                            ) {
-                                dismissOffset
-                            } else {
-                                0f
-                            }
-                            state.animateToWithDecay(target, releaseVelocity)
-                        }
-                    }
-
-                    awaitEachGesture {
-                        val down = awaitFirstDown(requireUnconsumed = false)
-                        val pointerId = down.id
-                        val velocityTracker = VelocityTracker().also {
-                            it.addPosition(down.uptimeMillis, down.position)
-                        }
-
-                        var rawOffset = 0f
-
-                        while (true) {
-                            val event = awaitPointerEvent()
-                            val change = event.changes.firstOrNull { it.id == pointerId } ?: break
-                            if (!change.pressed) break
-
-                            velocityTracker.addPosition(change.uptimeMillis, change.position)
-                            rawOffset += change.positionChangeIgnoreConsumed().y
-
-                            if (abs(rawOffset) >= touchSlop) {
-                                dragEvents.trySend(MiniPlayerDragEvent.Move(rawOffset))
-                                change.consume()
-                            }
-                        }
-
-                        dragEvents.trySend(
-                            MiniPlayerDragEvent.End(velocityTracker.calculateVelocity().y)
-                        )
-                    }
-                }
-            }
-            .clickable(onClick = onClick),
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
         ),

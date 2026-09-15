@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
+import android.app.Application
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -7,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -19,19 +19,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toSong
+import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 
 @Composable
 fun MiniPlayerWrapper(
     modifier: Modifier = Modifier,
-    onMiniPlayerPressed: () -> Unit,
     showMiniPlayer: Boolean,
+    expandRequest: Int,
+    bottomPadding: Dp,
+    application: Application,
 ) {
     val player by PlayerManager.controllerState.collectAsStateWithLifecycle()
     var currentSong by remember { mutableStateOf(player?.currentMediaItem?.toSong()) }
@@ -85,13 +87,10 @@ fun MiniPlayerWrapper(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.Transparent)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .height(Constants.Ui.MiniPlayer.HEIGHT)
     ) {
         val song = currentSong ?: return@AnimatedVisibility
-        MiniPlayer(
+        ExpandingPlayer(
             currentSong = song,
-            onClick = onMiniPlayerPressed,
             onPlayPause = {
                 if (player?.isPlaying == true) {
                     player?.pause()
@@ -103,7 +102,12 @@ fun MiniPlayerWrapper(
             onSkipPrevious = { player?.seekToPrevious() },
             isPlaying = songIsPlaying == true,
             isLoading = songIsLoading,
-            onClose = PlayerManager::clearQueue
+            onDismiss = PlayerManager::clearQueue,
+            bottomPadding = bottomPadding,
+            expandRequest = expandRequest,
+            fullPlayer = { collapse ->
+                PlayerScreen(onBack = collapse, application = application)
+            }
         )
     }
 }
