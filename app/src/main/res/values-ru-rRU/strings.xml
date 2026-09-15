@@ -56,7 +56,7 @@
     <string name="account">Аккаунт</string>
     <string name="clear_data_message">Удаляет все скачанные песни и кэш</string>
     <string name="clear_login_message">Очистить все сохраненные аккаунты и данные для входа</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Это приведет к выходу из системы и окончательному удалению всех сохраненных учетных записей YouTube, cookies и токенов аутентификации с этого устройства. Вам нужно войти еще раз, чтобы использовать вашу учетную запись.</string>
     <string name="login_info_cleared">Информация для входа очищена</string>
     <string name="downloads_cleared">Загрузки очищены</string>
     <string name="invalid_navkey">Недопустимый NavKey : %1$s</string>
