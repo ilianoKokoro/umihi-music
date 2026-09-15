@@ -56,6 +56,7 @@
     <string name="account">conta</string>
     <string name="clear_data_message">Remover todas as músicas baixadas e dados armazenados em cache deste dispositivo</string>
     <string name="clear_login_message">Limpa todas as contas salvas e informações de login</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Informações de login limpas</string>
     <string name="downloads_cleared">Downloads limpos</string>
     <string name="invalid_navkey">Chave NavKey Inválida: %1$s</string>
