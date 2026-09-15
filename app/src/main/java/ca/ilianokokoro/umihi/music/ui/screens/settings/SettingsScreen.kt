@@ -389,7 +389,7 @@ fun SettingsScreen(
                         } else if (uiState.showLoginClearConfirm) {
                             ConfirmDialog(
                                 title = stringResource(R.string.clear_login_info),
-                                text = stringResource(R.string.clear_login_message),
+                                text = stringResource(R.string.clear_login_confirm_message),
                                 onConfirm = {
                                     settingsViewModel.clearLogins()
                                     settingsViewModel.updateShowLoginClearConfirm(false)
