@@ -316,6 +316,7 @@ fun PlaylistScreen(
                                             onOpenPlayer()
                                             playlistViewModel.playPlaylist(song)
                                         },
+                                        isCurrentSong = song.youtubeId == uiState.currentSongYoutubeId,
                                         playNext = {
                                             PlayerManager.addNext(song, application)
                                         },

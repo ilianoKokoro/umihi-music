@@ -66,10 +66,19 @@ class PlaylistViewModel(
     init {
         observeSongDownloads()
         observeLoginState()
+        observeCurrentSong()
         viewModelScope.launch {
             getPlaylistInfoAsync()
             downloadPlaylistIfNeeded()
             observerDownloadJob()
+        }
+    }
+
+    private fun observeCurrentSong() {
+        viewModelScope.launch {
+            PlayerManager.currentSong.collect { song ->
+                _uiState.update { it.copy(currentSongYoutubeId = song?.youtubeId) }
+            }
         }
     }
 

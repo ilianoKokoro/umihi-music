@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +25,15 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         observeLoginState()
+        observeCurrentSong()
+    }
+
+    private fun observeCurrentSong() {
+        viewModelScope.launch {
+            PlayerManager.currentSong.collect { song ->
+                _uiState.update { it.copy(currentSongYoutubeId = song?.youtubeId) }
+            }
+        }
     }
 
     private fun observeLoginState() {

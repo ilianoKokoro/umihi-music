@@ -67,6 +67,11 @@ object PlayerManager {
     private val _audioInfo = MutableStateFlow(PlaybackAudioInfo())
     val audioInfo = _audioInfo.asStateFlow()
 
+    private val _currentSong = MutableStateFlow<Song?>(null)
+    val currentSong: StateFlow<Song?> = _currentSong.asStateFlow()
+
+    private var currentSongListener: Player.Listener? = null
+
     private var playbackService: PlaybackService? = null
 
     private val _appVolume = MutableStateFlow(Constants.Player.Volume.DEFAULT_PERCENT)
@@ -134,6 +139,7 @@ object PlayerManager {
                     synchronized(this@PlayerManager) {
                         controller = built
                         _controllerState.value = built
+                        attachCurrentSongListener(built)
                     }
                 } catch (e: CancellationException) {
                     throw e
@@ -523,7 +529,24 @@ object PlayerManager {
 
     @Synchronized
     private fun clearDeadController() {
+        currentSongListener?.let { listener ->
+            controller?.removeListener(listener)
+        }
+        currentSongListener = null
+        _currentSong.value = null
         controller = null
         _controllerState.value = null
+    }
+
+    private fun attachCurrentSongListener(controller: MediaController) {
+        _currentSong.value = controller.currentMediaItem?.toSong()
+
+        val listener = object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                _currentSong.value = mediaItem?.toSong()
+            }
+        }
+        controller.addListener(listener)
+        currentSongListener = listener
     }
 }
