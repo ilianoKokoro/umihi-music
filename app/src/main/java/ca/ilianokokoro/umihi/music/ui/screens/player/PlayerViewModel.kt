@@ -353,7 +353,7 @@ class PlayerViewModel(application: Application) :
     }
 
     fun setAppVolume(volume: Int) {
-        PlayerManager.setAppVolume(volume, getApplication<Application>())
+        PlayerManager.setAppVolume(volume, getApplication())
     }
 
     companion object {

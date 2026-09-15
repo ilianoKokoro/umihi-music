@@ -14,11 +14,8 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -63,8 +60,13 @@ fun CacheSizeInputBottomSheet(
     }
 
     val initialIndex = initialSizeMB.coerceIn(config.minVal, config.maxVal)
-    var sliderValue by remember { mutableFloatStateOf(initialIndex.toFloat()) }
-    val currentValue = ((sliderValue - config.minVal) / config.step).roundToInt()
+    val valueRange = config.minVal.toFloat()..config.maxVal.toFloat()
+    val sliderState = rememberSliderState(
+        value = initialIndex.toFloat(),
+        trackRange = valueRange,
+        steps = ((config.maxVal - config.minVal) / config.step) - 1,
+    )
+    val currentValue = ((sliderState.value - config.minVal) / config.step).roundToInt()
         .coerceIn(0, (config.maxVal - config.minVal) / config.step) * config.step + config.minVal
 
     ModalBottomSheet(
@@ -106,18 +108,16 @@ fun CacheSizeInputBottomSheet(
             val haptic = LocalHapticFeedback.current
 
             Slider(
-                value = sliderValue,
+                state = sliderState,
                 onValueChange = { newValue ->
                     val snapped = newValue.roundToInt()
                         .coerceIn(config.minVal, config.maxVal)
                         .toFloat()
-                    if (snapped != sliderValue) {
+                    if (snapped != sliderState.value) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
-                    sliderValue = snapped
+                    sliderState.value = snapped
                 },
-                valueRange = config.minVal.toFloat()..config.maxVal.toFloat(),
-                steps = ((config.maxVal - config.minVal) / config.step) - 1,
                 modifier = Modifier.fillMaxWidth(),
             )
 

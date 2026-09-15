@@ -15,11 +15,8 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -105,8 +102,16 @@ fun SleepTimerBottomSheet(
                     size = MaterialUButtonSize.Small,
                 )
             } else {
-                var sliderValue by remember { mutableIntStateOf(Constants.Ui.Player.SleepTimer.DEFAULT_VALUE) }
+                val range =
+                    Constants.Ui.Player.SleepTimer.STEP_VALUE.toFloat()..(Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT).toFloat()
 
+                val sliderState = rememberSliderState(
+                    value = Constants.Ui.Player.SleepTimer.DEFAULT_VALUE.toFloat(),
+                    trackRange = range,
+                    steps = Constants.Ui.Player.SleepTimer.STEP_AMOUNT - 2,
+                )
+
+                
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -118,28 +123,21 @@ fun SleepTimerBottomSheet(
                         modifier = Modifier.weight(1f),
                     )
                     Text(
-                        text = stringResource(R.string.minutes, sliderValue),
+                        text = stringResource(R.string.minutes, sliderState.value.roundToInt()),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }
 
-
-                val range =
-                    Constants.Ui.Player.SleepTimer.STEP_VALUE.toFloat()..(Constants.Ui.Player.SleepTimer.STEP_VALUE * Constants.Ui.Player.SleepTimer.STEP_AMOUNT).toFloat()
-
                 Slider(
-                    value = sliderValue.toFloat(),
+                    state = sliderState,
                     onValueChange = { newValue ->
-                        val rounded = newValue.roundToInt()
-                        if (rounded != sliderValue) {
+                        if (sliderState.value != newValue) {
                             haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                         }
-                        sliderValue = rounded
+                        sliderState.value = newValue
                     },
-                    valueRange = range,
-                    steps = Constants.Ui.Player.SleepTimer.STEP_AMOUNT - 2,
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -165,7 +163,7 @@ fun SleepTimerBottomSheet(
 
                 MaterialUButton(
                     onClick = {
-                        onStartTimer(sliderValue)
+                        onStartTimer(sliderState.value.roundToInt())
                         changeVisibility(false)
                     },
                     modifier = Modifier.fillMaxWidth(),

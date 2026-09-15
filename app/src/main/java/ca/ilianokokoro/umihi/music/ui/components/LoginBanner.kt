@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Login
+import androidx.compose.material.icons.automirrored.rounded.Login
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -38,7 +38,7 @@ fun LoginBanner(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Icon(
-                imageVector = Icons.Rounded.Login,
+                imageVector = Icons.AutoMirrored.Rounded.Login,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )

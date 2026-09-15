@@ -1,11 +1,11 @@
 package ca.ilianokokoro.umihi.music.core
 
 import android.content.Context
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import coil3.ImageLoader
-import coil3.PlatformContext
-import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
 import coil3.request.crossfade
+import kotlinx.coroutines.runBlocking
 import okio.Path.Companion.toPath
 import java.io.File
 
@@ -38,9 +38,10 @@ object CoilImageLoader {
 
     private fun getCacheSize(context: Context): Int {
         return try {
-            kotlinx.coroutines.runBlocking {
-                ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository(context).getSettings().thumbnailCacheSizeMB
+            runBlocking {
+                DatastoreRepository(context).getSettings().thumbnailCacheSizeMB
             }
+
         } catch (_: Exception) {
             Constants.Cache.Thumbnail.DEFAULT_SIZE_MB
         }

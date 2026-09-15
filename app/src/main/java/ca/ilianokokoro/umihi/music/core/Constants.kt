@@ -194,7 +194,7 @@ object Constants {
         }
 
         object Thumbnail {
-            const val DEFAULT_SIZE_MB = 50
+            const val DEFAULT_SIZE_MB = 60
             const val MIN_SIZE_MB = 20
             const val MAX_SIZE_MB = 500
             const val STEP_MB = 20
