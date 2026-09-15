@@ -56,7 +56,7 @@
     <string name="account">Účet</string>
     <string name="clear_data_message">Odstranit všechny stažené skladby a data v mezipaměti z tohoto zařízení</string>
     <string name="clear_login_message">Vymaže všechny uložené účty a přihlašovací údaje</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Tímto se odhlásíte a natrvalo odeberete všechny uložené účty YouTube, soubory cookie a ověřovací tokeny z tohoto zařízení. Budete se muset znovu přihlásit, abyste mohli používat svůj účet.</string>
     <string name="login_info_cleared">Přihlašovací údaje vymazány</string>
     <string name="downloads_cleared">Stahování vymazáno</string>
     <string name="invalid_navkey">Neplatný navigační klíč: %1$s</string>
