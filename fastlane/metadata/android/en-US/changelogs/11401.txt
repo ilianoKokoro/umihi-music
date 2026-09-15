@@ -1,0 +1,12 @@
+Features:
+- Added song count on the home screen
+- Changed loading to display playlist load progress
+- Various UI improvements
+- Updated dependencies
+- Updated translations
+- Added a message if logged out
+- Added swipe to dismiss miniplayer
+Bug fixes:
+- Fixed playlist stuck at 100 songs if sorted by most votes
+- Fixed Wear OS controls not showing
+- Fixed spacing on the bottom sheets
