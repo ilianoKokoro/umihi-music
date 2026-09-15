@@ -115,6 +115,7 @@ fun SleepTimerBottomSheet(
                     SheetHeader(
                         icon = Icons.Rounded.Timer,
                         title = stringResource(R.string.sleep_timer),
+                        modifier = Modifier.weight(1f),
                     )
                     Text(
                         text = stringResource(R.string.minutes, sliderValue),

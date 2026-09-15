@@ -70,6 +70,7 @@ fun SpeedSelectorBottomSheet(
                 SheetHeader(
                     icon = Icons.Rounded.Speed,
                     title = stringResource(R.string.playback_speed),
+                    modifier = Modifier.weight(1f),
                 )
                 Text(
                     text = speeds[sliderIndex.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),

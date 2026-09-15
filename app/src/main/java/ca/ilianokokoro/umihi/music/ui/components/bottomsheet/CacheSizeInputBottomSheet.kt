@@ -1,7 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -91,14 +90,11 @@ fun CacheSizeInputBottomSheet(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Box(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    SheetHeader(
-                        icon = Icons.Outlined.Storage,
-                        title = stringResource(config.titleRes),
-                    )
-                }
+                SheetHeader(
+                    icon = Icons.Outlined.Storage,
+                    title = stringResource(config.titleRes),
+                    modifier = Modifier.weight(1f),
+                )
                 Text(
                     text = stringResource(R.string.cache_size_mb, currentValue),
                     style = MaterialTheme.typography.titleLarge,
