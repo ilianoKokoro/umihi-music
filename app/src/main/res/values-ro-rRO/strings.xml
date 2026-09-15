@@ -56,6 +56,7 @@
     <string name="account">Cont</string>
     <string name="clear_data_message">Șterge toate melodiile descărcate și datele din cache de pe acest dispozitiv</string>
     <string name="clear_login_message">Curăță toate conturile salvate și informații de autentificare</string>
+    <string name="clear_login_confirm_message">Acest lucru vă va deconecta și va elimina definitiv toate conturile YouTube salvate, cookie-urile și tokenurile de autentificare de pe acest dispozitiv. Va trebui să te autentifici din nou pentru a-ți folosi contul.</string>
     <string name="login_info_cleared">Informații de conectare șterse</string>
     <string name="downloads_cleared">Descărcări șterse</string>
     <string name="invalid_navkey">Navkey invalid: %1$s</string>

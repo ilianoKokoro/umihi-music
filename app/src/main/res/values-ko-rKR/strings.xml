@@ -56,6 +56,7 @@
     <string name="account">내 계정</string>
     <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
     <string name="clear_login_message">저장된 모든 계정 및 로그인 정보를 삭제합니다</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">로그인 정보 삭제 완료</string>
     <string name="downloads_cleared">다운로드 삭제 완료</string>
     <string name="invalid_navkey">잘못된 NavKey입니다 : %1$s</string>

@@ -56,6 +56,7 @@
     <string name="account">Обліковий запис</string>
     <string name="clear_data_message">Видалити всі завантажені пісні і кешовані дані з цього пристрою</string>
     <string name="clear_login_message">Очищує всі збережені облікові записи та дані входу</string>
+    <string name="clear_login_confirm_message">Це вийде і назавжди видалить всі збережені облікові записи YouTube, файли cookie та токени автентифікації з цього пристрою. Вам потрібно буде увійти знову, щоб використовувати свій обліковий запис.</string>
     <string name="login_info_cleared">Дані для входу очищено</string>
     <string name="downloads_cleared">Завантаження очищено</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>

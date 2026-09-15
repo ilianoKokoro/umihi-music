@@ -56,6 +56,7 @@
     <string name="account">حساب</string>
     <string name="clear_data_message">إزالة جميع الأغاني المحملة والبيانات المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="clear_login_message">مسح جميع الحسابات المحفوظة ومعلومات تسجيل الدخول</string>
+    <string name="clear_login_confirm_message">سيؤدي هذا إلى تسجيل خروجك وإزالة جميع حسابات يوتيوب المحفوظة والكعكات وتوثيقها من هذا الجهاز إزالة دائمة. سوف تحتاج إلى تسجيل الدخول مرة أخرى لاستخدام حسابك.</string>
     <string name="login_info_cleared">مسح معلومات تسجيل الدخول</string>
     <string name="downloads_cleared">تم مسح التنزيلات</string>
     <string name="invalid_navkey">NavKey غير صالح: %1$s</string>
