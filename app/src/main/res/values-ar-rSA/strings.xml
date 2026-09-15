@@ -56,6 +56,7 @@
     <string name="account">حساب</string>
     <string name="clear_data_message">إزالة جميع الأغاني المحملة والبيانات المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="clear_login_message">مسح جميع الحسابات المحفوظة ومعلومات تسجيل الدخول</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">مسح معلومات تسجيل الدخول</string>
     <string name="downloads_cleared">تم مسح التنزيلات</string>
     <string name="invalid_navkey">NavKey غير صالح: %1$s</string>
