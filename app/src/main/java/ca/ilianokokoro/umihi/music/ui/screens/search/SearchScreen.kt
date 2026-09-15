@@ -153,6 +153,7 @@ fun SearchScreenContent(
                                 onPress = {
                                     PlayerManager.playSong(it)
                                 },
+                                isCurrentSong = it.youtubeId == uiState.currentSongYoutubeId,
                                 playNext = {
                                     PlayerManager.addNext(it, context)
                                 },
