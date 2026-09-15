@@ -56,7 +56,7 @@
     <string name="account">Account</string>
     <string name="clear_data_message">Rimuovi tutti i brani scaricati e i dati memorizzati nella cache da questo dispositivo</string>
     <string name="clear_login_message">Cancella tutti gli account salvati e le informazioni di accesso</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Questo ti disconnetterà e rimuoverà permanentemente tutti gli account di YouTube, i cookie e i token di autenticazione salvati da questo dispositivo. È necessario effettuare nuovamente il login per utilizzare il proprio account.</string>
     <string name="login_info_cleared">Informazioni Di Accesso Cancellate</string>
     <string name="downloads_cleared">Scaricamenti Cancellati</string>
     <string name="invalid_navkey">NavKey Non Valida: %1$s</string>
