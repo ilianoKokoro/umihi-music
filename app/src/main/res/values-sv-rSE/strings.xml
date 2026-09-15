@@ -56,7 +56,7 @@
     <string name="account">Konto</string>
     <string name="clear_data_message">Ta bort alla hämtade låtar och cachelagrad data från denna enhet</string>
     <string name="clear_login_message">Rensar alla sparade konton och inloggningsuppgifter</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Detta kommer att logga ut dig och permanent ta bort alla sparade YouTube-konton, cookies och autentiseringstoken från den här enheten. Du måste logga in igen för att använda ditt konto.</string>
     <string name="login_info_cleared">Inloggningsinformation rensad</string>
     <string name="downloads_cleared">Nedladdningar rensade</string>
     <string name="invalid_navkey">Ogiltig NavKey : %1$s</string>
