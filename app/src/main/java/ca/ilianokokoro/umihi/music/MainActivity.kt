@@ -57,10 +57,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val settings by datastoreRepository.settings.collectAsStateWithLifecycle(initialValue = null)
-            val isDarkTheme = when (settings?.themeMode ?: ThemeMode.DARK) {
+            val isDarkTheme = when (settings?.themeMode) {
                 ThemeMode.DARK -> true
                 ThemeMode.LIGHT -> false
-                ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                else -> isSystemInDarkTheme()
             }
 
             UmihiMusicTheme(darkTheme = isDarkTheme) {

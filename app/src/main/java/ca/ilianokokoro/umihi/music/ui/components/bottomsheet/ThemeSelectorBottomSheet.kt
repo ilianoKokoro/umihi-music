@@ -47,7 +47,6 @@ fun ThemeSelectorBottomSheet(
 
     ModalBottomSheet(
         onDismissRequest = {
-            onChange(selected)
             onClose()
         },
         sheetState = rememberBottomSheetState(
@@ -111,7 +110,7 @@ fun ThemeSelectorBottomSheet(
                         Text(
                             text = label,
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 12.dp),
+                            modifier = Modifier.padding(start = 16.dp),
                         )
                     }
                 }

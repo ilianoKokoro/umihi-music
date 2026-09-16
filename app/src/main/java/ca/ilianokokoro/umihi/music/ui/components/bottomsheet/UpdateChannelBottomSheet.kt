@@ -43,7 +43,6 @@ fun UpdateChannelBottomSheet(
 
     ModalBottomSheet(
         onDismissRequest = {
-            onChange(selected)
             onClose()
         },
         sheetState = rememberBottomSheetState(
@@ -76,7 +75,11 @@ fun UpdateChannelBottomSheet(
                             .clip(MaterialTheme.shapes.medium)
                             .selectable(
                                 selected = isSelected,
-                                onClick = { selected = option },
+                                onClick = {
+                                    selected = option
+                                    onChange(option)
+                                    onClose()
+                                },
                                 role = Role.RadioButton
                             )
                             .padding(vertical = 12.dp, horizontal = 8.dp),
