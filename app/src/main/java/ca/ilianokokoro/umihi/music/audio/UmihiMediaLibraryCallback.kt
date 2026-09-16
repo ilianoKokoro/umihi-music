@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.services
+package ca.ilianokokoro.umihi.music.audio
 
 import android.net.Uri
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.services
+package ca.ilianokokoro.umihi.music.audio
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -33,7 +33,6 @@ import androidx.media3.session.MediaSession
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
-import ca.ilianokokoro.umihi.music.core.datasources.YoutubeDataSourceFactory
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
@@ -106,6 +105,10 @@ class PlaybackService : MediaLibraryService() {
             .setDeviceVolumeControlEnabled(true)
             .setMediaSourceFactory(DefaultMediaSourceFactory(resolvingFactory))
             .build()
+
+        player.preloadConfiguration =
+            ExoPlayer.PreloadConfiguration(Constants.Player.PRELOAD_DURATION)
+
         player.addAnalyticsListener(
             object : AnalyticsListener {
                 override fun onAudioInputFormatChanged(

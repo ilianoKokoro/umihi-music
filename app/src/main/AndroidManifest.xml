@@ -78,7 +78,7 @@
         </activity>
 
         <service
-            android:name=".services.PlaybackService"
+            android:name=".audio.PlaybackService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"
             android:stopWithTask="false"

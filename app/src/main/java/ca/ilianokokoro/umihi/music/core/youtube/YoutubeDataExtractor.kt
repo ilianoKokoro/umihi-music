@@ -1063,22 +1063,22 @@ object YoutubeDataExtractor {
 
         if (savedSong != null) {
             if (allowLocal && savedSong.audioFilePath != null) {
-                printd("${song.youtubeId} : Was downloaded")
+                printd("[${song.youtubeId}] Was downloaded")
                 return savedSong.audioFilePath
             }
 
             if (savedSong.streamUrl != null) {
                 if (isYoutubeUrlValid(savedSong.streamUrl)) {
-                    printd("${song.youtubeId} : Got url from saved")
+                    printd("[${song.youtubeId}] Got url from saved")
                     return savedSong.streamUrl
                 }
-                printd("${song.youtubeId} : Saved url was invalid")
+                printd("[${song.youtubeId}] Saved url was invalid")
             }
         }
 
         val newUri = getSongUrlFromYoutube(song)
         localSongRepository.setStreamUrl(songId = song.youtubeId, streamUrl = newUri)
-        printd("${song.youtubeId} : Got url from YouTube and saved song")
+        printd("[${song.youtubeId}] Got url from YouTube and saved song")
         return newUri
     }
 
