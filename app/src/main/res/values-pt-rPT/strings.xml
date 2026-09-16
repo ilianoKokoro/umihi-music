@@ -54,7 +54,6 @@
     <string name="logged_in_message">Você está conectado à sua conta do YouTube</string>
     <string name="logged_out_message">Você não está logado</string>
     <string name="account">conta</string>
-    <string name="clear_data_message">Remover todas as músicas baixadas e dados armazenados em cache deste dispositivo</string>
     <string name="clear_login_message">Limpa todas as contas salvas e informações de login</string>
     <string name="clear_login_confirm_message">Isto irá desconectá-lo e remover permanentemente todas as contas do YouTube, cookies e tokens de autenticação salvos neste dispositivo. Você precisará fazer login novamente para utilizar sua conta.</string>
     <string name="login_info_cleared">Informações de login limpas</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Tamanho do Cache de Áudio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Limpar Cache</string>
     <string name="clear_cache_message">Remover todos os dados em cache de áudio e miniatura deste dispositivo</string>
     <string name="cache_cleared">Cache limpo</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Ver os últimos logs de diagnóstico gravados</string>
     <string name="export_logs">Exportar logs</string>
     <string name="clear_logs">Limpar registros</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>
