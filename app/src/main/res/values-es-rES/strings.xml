@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">Tamaño de caché de audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB usados</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s imágenes</string>
     <string name="clear_cache">Limpiar caché</string>
     <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
     <string name="cache_cleared">Caché limpiada</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Ver los últimos registros de diagnóstico</string>
     <string name="export_logs">Exportar registros</string>
     <string name="clear_logs">Borrar registros</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">Tema de la aplicación</string>
+    <string name="choose_theme">Elegir tema</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_system">Seguir el sistema</string>
 </resources>
