@@ -248,7 +248,7 @@ class PlayerViewModel(application: Application) :
             while (true) {
                 val state = _uiState.value
 
-                if (!state.isSeekBarHeld && !state.isLoading) {
+                if (!state.isSeekBarHeld && !state.isLoading && state.isPlaying) {
                     val controller = PlayerManager.currentController
 
                     val rawPosition = controller?.currentPosition

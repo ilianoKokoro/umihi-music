@@ -55,7 +55,6 @@
     <string name="logged_in_message">You are logged in to your YouTube account</string>
     <string name="logged_out_message">You are currently not logged in</string>
     <string name="account">Account</string>
-    <string name="clear_data_message">Remove all downloaded songs and cached data from this device</string>
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
     <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Login Info Cleared</string>
@@ -165,6 +164,8 @@
     <string name="exoplayer_cache_title">Audio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>

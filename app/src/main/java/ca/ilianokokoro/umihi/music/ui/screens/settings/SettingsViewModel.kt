@@ -12,9 +12,11 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.folderSize
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
@@ -23,10 +25,12 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 
 class SettingsViewModel(
     private val sharedViewModel: SharedViewModel,
@@ -55,6 +59,39 @@ class SettingsViewModel(
             _uiState.update {
                 _uiState.value.copy(
                     screenState = ScreenState.Success(settings = settings)
+                )
+            }
+        }
+        refreshStorageUsage()
+    }
+
+    fun refreshStorageUsage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val audioCacheDir =
+                File(_application.cacheDir, Constants.Cache.Audio.DIRECTORY)
+            val thumbnailCacheDir =
+                File(_application.cacheDir, Constants.Downloads.THUMBNAILS_FOLDER)
+            val audioDownloadsDir = UmihiHelper.getDownloadDirectory(
+                context = _application,
+                directory = Constants.Downloads.AUDIO_FILES_FOLDER
+            )
+            val imageDownloadsDir = UmihiHelper.getDownloadDirectory(
+                context = _application,
+                directory = Constants.Downloads.THUMBNAILS_FOLDER
+            )
+
+            val audioCacheUsed = audioCacheDir.folderSize()
+            val thumbnailCacheUsed = thumbnailCacheDir.folderSize()
+            val downloadsUsage = DownloadsUsage(
+                audioBytes = audioDownloadsDir.folderSize(),
+                imageBytes = imageDownloadsDir.folderSize()
+            )
+
+            _uiState.update {
+                it.copy(
+                    audioCacheUsed = audioCacheUsed,
+                    thumbnailCacheUsed = thumbnailCacheUsed,
+                    downloadsUsage = downloadsUsage
                 )
             }
         }
@@ -117,6 +154,7 @@ class SettingsViewModel(
                 _application.getString(R.string.downloads_cleared),
                 Toast.LENGTH_LONG
             ).show()
+            refreshStorageUsage()
         }
     }
 
@@ -198,6 +236,7 @@ class SettingsViewModel(
                 _application.getString(R.string.cache_cleared),
                 Toast.LENGTH_SHORT
             ).show()
+            refreshStorageUsage()
         }
     }
 

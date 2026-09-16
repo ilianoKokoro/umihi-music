@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import android.text.format.Formatter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.DiagnosticLog
+import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.usedFraction
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
 import ca.ilianokokoro.umihi.music.models.ThemeMode
@@ -268,7 +270,17 @@ fun SettingsScreen(
                             SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
-                                subtitle = stringResource(R.string.clear_data_message),
+                                subtitle = stringResource(
+                                    R.string.downloads_storage_used,
+                                    Formatter.formatShortFileSize(
+                                        application,
+                                        uiState.downloadsUsage.audioBytes
+                                    ),
+                                    Formatter.formatShortFileSize(
+                                        application,
+                                        uiState.downloadsUsage.imageBytes
+                                    )
+                                ),
                                 leadingIcon = Icons.Outlined.Delete,
                                 onClick = {
                                     settingsViewModel.updateShowDownloadDeleteConfirm(true)
@@ -282,10 +294,18 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.exoplayer_cache_title),
                                 subtitle = stringResource(
-                                    R.string.cache_size_mb,
+                                    R.string.cache_used_state,
+                                    Formatter.formatShortFileSize(
+                                        application,
+                                        uiState.audioCacheUsed
+                                    ),
                                     screenState.settings.exoPlayerCacheSizeMB
                                 ),
                                 leadingIcon = Icons.Outlined.Memory,
+                                progress = usedFraction(
+                                    usedBytes = uiState.audioCacheUsed,
+                                    limitMB = screenState.settings.exoPlayerCacheSizeMB
+                                ),
                                 onClick = {
                                     settingsViewModel.updateShowCacheSizeInputSheet(
                                         true,
@@ -297,10 +317,18 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.thumbnail_cache_title),
                                 subtitle = stringResource(
-                                    R.string.cache_size_mb,
+                                    R.string.cache_used_state,
+                                    Formatter.formatShortFileSize(
+                                        application,
+                                        uiState.thumbnailCacheUsed
+                                    ),
                                     screenState.settings.thumbnailCacheSizeMB
                                 ),
                                 leadingIcon = Icons.Outlined.Image,
+                                progress = usedFraction(
+                                    usedBytes = uiState.thumbnailCacheUsed,
+                                    limitMB = screenState.settings.thumbnailCacheSizeMB
+                                ),
                                 onClick = {
                                     settingsViewModel.updateShowCacheSizeInputSheet(
                                         true,

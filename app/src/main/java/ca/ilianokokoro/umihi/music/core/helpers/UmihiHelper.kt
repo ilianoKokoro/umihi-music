@@ -23,6 +23,24 @@ import kotlin.random.Random
 
 object UmihiHelper {
 
+    fun usedFraction(usedBytes: Long, limitMB: Int): Float {
+        if (limitMB <= 0) return 0f
+        val limitBytes = limitMB.toLong() * 1024L * 1024L
+        return (usedBytes.toFloat() / limitBytes).coerceIn(0f, 1f)
+    }
+
+    suspend fun File.folderSize(): Long {
+        return withContext(Dispatchers.IO) {
+            if (!exists()) {
+                0L
+            } else {
+                walkTopDown()
+                    .filter { it.isFile }
+                    .sumOf { it.length() }
+            }
+        }
+    }
+
     fun getDownloadDirectory(context: Context, directory: String? = null): File {
         val dir = File(
             context.filesDir,

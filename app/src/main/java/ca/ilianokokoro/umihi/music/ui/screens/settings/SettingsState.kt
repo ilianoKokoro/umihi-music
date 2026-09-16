@@ -15,6 +15,14 @@ data class SettingsState(
     val hiddenPlaylists: List<Playlist> = emptyList(),
     val showDiagnosticsLogsSheet: Boolean = false,
     val showThemeSelectorSheet: Boolean = false,
+    val audioCacheUsed: Long = 0L,
+    val thumbnailCacheUsed: Long = 0L,
+    val downloadsUsage: DownloadsUsage = DownloadsUsage(),
+)
+
+data class DownloadsUsage(
+    val audioBytes: Long = 0L,
+    val imageBytes: Long = 0L,
 )
 
 enum class CacheType {
