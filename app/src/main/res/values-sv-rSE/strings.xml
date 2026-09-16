@@ -54,7 +54,6 @@
     <string name="logged_in_message">Du är inloggad på ditt YouTube-konto</string>
     <string name="logged_out_message">Du är för närvarande inte inloggad</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Ta bort alla hämtade låtar och cachelagrad data från denna enhet</string>
     <string name="clear_login_message">Rensar alla sparade konton och inloggningsuppgifter</string>
     <string name="clear_login_confirm_message">Detta kommer att logga ut dig och permanent ta bort alla sparade YouTube-konton, cookies och autentiseringstoken från den här enheten. Du måste logga in igen för att använda ditt konto.</string>
     <string name="login_info_cleared">Inloggningsinformation rensad</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Ljudcache storlek</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Visa de senaste inspelade diagnostikloggarna</string>
     <string name="export_logs">Exportera loggar</string>
     <string name="clear_logs">Rensa loggar</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>
