@@ -5,11 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Update
+import androidx.compose.material.icons.outlined.BrightnessAuto
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
@@ -28,15 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
+import ca.ilianokokoro.umihi.music.models.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateChannelBottomSheet(
-    selectedOption: UpdateChannel,
-    onChange: (newChannel: UpdateChannel) -> Unit,
+fun ThemeSelectorBottomSheet(
+    selectedOption: ThemeMode,
+    onChange: (newTheme: ThemeMode) -> Unit,
     onClose: () -> Unit
 ) {
     var selected by remember(selectedOption) { mutableStateOf(selectedOption) }
@@ -58,8 +62,8 @@ fun UpdateChannelBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SheetHeader(
-                icon = Icons.Outlined.Update,
-                title = stringResource(R.string.change_update_channel),
+                icon = Icons.Outlined.Palette,
+                title = stringResource(R.string.choose_theme),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -67,8 +71,14 @@ fun UpdateChannelBottomSheet(
                 modifier = Modifier.selectableGroup(),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                UpdateChannel.entries.forEach { option ->
+                ThemeMode.entries.forEach { option ->
                     val isSelected = option == selected
+                    val (label, icon) = when (option) {
+                        ThemeMode.DARK -> stringResource(R.string.theme_dark) to Icons.Outlined.DarkMode
+                        ThemeMode.LIGHT -> stringResource(R.string.theme_light) to Icons.Outlined.LightMode
+                        ThemeMode.SYSTEM -> stringResource(R.string.theme_system) to Icons.Outlined.BrightnessAuto
+                    }
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -89,8 +99,16 @@ fun UpdateChannelBottomSheet(
                             selected = isSelected,
                             onClick = null,
                         )
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null,
+                            tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .size(22.dp)
+                        )
                         Text(
-                            text = option.toString(),
+                            text = label,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp),
                         )

@@ -14,11 +14,14 @@ import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.automirrored.outlined.TextSnippet
 import androidx.compose.material.icons.outlined.Autorenew
+import androidx.compose.material.icons.outlined.BrightnessAuto
 import androidx.compose.material.icons.outlined.CloudDownload
+import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.StayCurrentPortrait
 import androidx.compose.material.icons.outlined.SystemUpdate
@@ -44,12 +47,14 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.DiagnosticLog
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
+import ca.ilianokokoro.umihi.music.models.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.CacheSizeInputBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.DiagnosticsLogBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.HiddenPlaylistsBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.ThemeSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
@@ -183,6 +188,25 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.general)
                         ) {
+                            SettingsItem(
+                                title = stringResource(R.string.theme),
+                                subtitle = stringResource(
+                                    when (screenState.settings.themeMode) {
+                                        ThemeMode.DARK -> R.string.theme_dark
+                                        ThemeMode.LIGHT -> R.string.theme_light
+                                        ThemeMode.SYSTEM -> R.string.theme_system
+                                    }
+                                ),
+                                leadingIcon = when (screenState.settings.themeMode) {
+                                    ThemeMode.DARK -> Icons.Outlined.DarkMode
+                                    ThemeMode.LIGHT -> Icons.Outlined.LightMode
+                                    ThemeMode.SYSTEM -> Icons.Outlined.BrightnessAuto
+                                },
+                                onClick = {
+                                    settingsViewModel.updateShowThemeSelectorSheet(true)
+                                }
+                            )
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.show_hidden_playlists_title),
                                 subtitle = stringResource(R.string.show_hidden_playlists_description),
@@ -334,7 +358,20 @@ fun SettingsScreen(
                             }
                         }
 
-                        if (uiState.showUpdateChannelSheet) {
+                        if (uiState.showThemeSelectorSheet) {
+                            ThemeSelectorBottomSheet(
+                                selectedOption = screenState.settings.themeMode,
+                                onChange = {
+                                    settingsViewModel.updateSetting(
+                                        PreferenceKeys.THEME_MODE,
+                                        it.name
+                                    )
+                                },
+                                onClose = {
+                                    settingsViewModel.updateShowThemeSelectorSheet(false)
+                                }
+                            )
+                        } else if (uiState.showUpdateChannelSheet) {
                             UpdateChannelBottomSheet(
                                 selectedOption = screenState.settings.updateChannel,
                                 onChange = {
