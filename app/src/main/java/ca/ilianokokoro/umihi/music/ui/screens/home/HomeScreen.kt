@@ -13,9 +13,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,15 +40,18 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.LoginBanner
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HomeScreen(
     sharedViewModel: SharedViewModel,
     onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
+    onLoginPressed: () -> Unit,
     application: Application,
     homeViewModel: HomeViewModel = viewModel(
         factory =
@@ -89,6 +95,8 @@ fun HomeScreen(
                     is ScreenState.LoggedIn -> {
                         val loggedIn = uiState.screenState
                         val playlists = loggedIn.playlistInfos.filter { !it.hidden }
+                        val pullToRefreshState = rememberPullToRefreshState()
+
 
                         if (playlists.isEmpty()) {
                             Text(
@@ -98,6 +106,14 @@ fun HomeScreen(
                         } else {
                             PullToRefreshBox(
                                 isRefreshing = uiState.isRefreshing,
+                                state = pullToRefreshState,
+                                indicator = {
+                                    PullToRefreshDefaults.LoadingIndicator(
+                                        state = pullToRefreshState,
+                                        isRefreshing = uiState.isRefreshing,
+                                        Modifier.align(Alignment.TopCenter)
+                                    )
+                                },
                                 onRefresh = homeViewModel::refreshPlaylists
                             ) {
                                 LazyVerticalGrid(
@@ -113,8 +129,8 @@ fun HomeScreen(
                                     )
 
                                 ) {
-                                    if (loggedIn.isLoggedIn) {
-                                        item(span = { GridItemSpan(maxLineSpan) }) {
+                                    item(span = { GridItemSpan(maxLineSpan) }) {
+                                        if (loggedIn.isLoggedIn) {
                                             Row(horizontalArrangement = Arrangement.End) {
                                                 MaterialUButton(
                                                     onClick = {
@@ -124,6 +140,10 @@ fun HomeScreen(
                                                     text = stringResource(R.string.create_playlist)
                                                 )
                                             }
+                                        } else {
+                                            LoginBanner(
+                                                onLoginPressed = onLoginPressed
+                                            )
                                         }
                                     }
                                     itemsIndexed(

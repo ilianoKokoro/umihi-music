@@ -56,6 +56,7 @@
     <string name="account">Rekening</string>
     <string name="clear_data_message">Verwijder alle gedownloade nummers en gegevens in de cache van dit apparaat</string>
     <string name="clear_login_message">Verwijdert alle opgeslagen accounts en inloggegevens</string>
+    <string name="clear_login_confirm_message">Dit zal u uitloggen en permanent alle opgeslagen YouTube accounts, cookies en authenticatie tokens verwijderen van dit apparaat. Je moet opnieuw inloggen om je account te kunnen gebruiken.</string>
     <string name="login_info_cleared">Inloggegevens gewist</string>
     <string name="downloads_cleared">Downloads gewist</string>
     <string name="invalid_navkey">Ongeldige NavKey : %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Beschrijving</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
     <string name="privacy_public">Openbaar</string>
     <string name="privacy_private">Privé</string>

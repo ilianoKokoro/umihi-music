@@ -14,11 +14,8 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -60,7 +57,11 @@ fun SpeedSelectorBottomSheet(
             val haptic = LocalHapticFeedback.current
             val speeds = Constants.Player.SPEEDS
             val initialIndex = speeds.indexOf(currentSpeed).coerceAtLeast(0)
-            var sliderIndex by remember { mutableFloatStateOf(initialIndex.toFloat()) }
+            val sliderState = rememberSliderState(
+                value = initialIndex.toFloat(),
+                trackRange = 0f..speeds.lastIndex.toFloat(),
+                steps = speeds.size - 2,
+            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -70,9 +71,10 @@ fun SpeedSelectorBottomSheet(
                 SheetHeader(
                     icon = Icons.Rounded.Speed,
                     title = stringResource(R.string.playback_speed),
+                    modifier = Modifier.weight(1f),
                 )
                 Text(
-                    text = speeds[sliderIndex.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),
+                    text = speeds[sliderState.value.roundToInt().coerceIn(0, speeds.lastIndex)].speedLabel(),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary,
@@ -80,18 +82,16 @@ fun SpeedSelectorBottomSheet(
             }
 
             Slider(
-                value = sliderIndex,
+                state = sliderState,
                 onValueChange = { newValue ->
                     val snapped =
                         newValue.roundToInt().toFloat().coerceIn(0f, speeds.lastIndex.toFloat())
-                    if (snapped != sliderIndex) {
+                    if (snapped != sliderState.value) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
-                    sliderIndex = snapped
+                    sliderState.value = snapped
                     onSelectSpeed(speeds[snapped.roundToInt()])
                 },
-                valueRange = 0f..speeds.lastIndex.toFloat(),
-                steps = speeds.size - 2,
                 modifier = Modifier.fillMaxWidth(),
             )
 

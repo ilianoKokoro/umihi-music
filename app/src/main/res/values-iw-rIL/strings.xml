@@ -56,6 +56,7 @@
     <string name="account">חשבון</string>
     <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
     <string name="clear_login_message">Clears all the saved accounts and login information</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Login Info Cleared</string>
     <string name="downloads_cleared">Downloads Cleared</string>
     <string name="invalid_navkey">Invalid NavKey : %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Description</string>
     <string name="create">Create</string>
     <string name="create_playlist">Create playlist</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">לא רשום</string>
     <string name="privacy_public">ציבורי</string>
     <string name="privacy_private">פרטי</string>

@@ -4,10 +4,8 @@ import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -56,11 +54,12 @@ import ca.ilianokokoro.umihi.music.models.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.CacheSizeInputBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.DiagnosticsLogBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.ThemeSelectorBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.HiddenPlaylistsBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
-import ca.ilianokokoro.umihi.music.ui.screens.settings.components.HiddenPlaylistsBottomSheet
+import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingSpacer
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingsSection
 
@@ -121,7 +120,7 @@ fun SettingsScreen(
                                 top = statusBarHeight,
                                 bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING + paddingValues.calculateBottomPadding()
                             ),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.settings),
@@ -175,12 +174,14 @@ fun SettingsScreen(
                                     onClick = openAuthScreen
                                 )
                             }
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.clear_login_info),
                                 subtitle = stringResource(R.string.clear_login_message),
                                 leadingIcon = Icons.Outlined.Delete,
-                                onClick = settingsViewModel::clearLogins
+                                onClick = {
+                                    settingsViewModel.updateShowLoginClearConfirm(true)
+                                }
                             )
                         }
 
@@ -214,7 +215,7 @@ fun SettingsScreen(
                                     settingsViewModel.updateShowHiddenPlaylistsSheet(true)
                                 }
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             BooleanSettingItem(
                                 title = stringResource(R.string.keep_screen_on_title),
                                 subtitle = stringResource(R.string.keep_screen_on_title_description),
@@ -222,7 +223,7 @@ fun SettingsScreen(
                                 value = screenState.settings.keepScreenOn,
                                 onToggle = settingsViewModel::updateKeepScreenOnSetting
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             BooleanSettingItem(
                                 title = stringResource(R.string.send_playback_data_title),
                                 subtitle = stringResource(R.string.send_playback_data_description),
@@ -264,7 +265,7 @@ fun SettingsScreen(
                                     )
                                 }
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
                                 subtitle = stringResource(R.string.clear_data_message),
@@ -292,7 +293,7 @@ fun SettingsScreen(
                                     )
                                 }
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.thumbnail_cache_title),
                                 subtitle = stringResource(
@@ -307,7 +308,7 @@ fun SettingsScreen(
                                     )
                                 }
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.clear_cache),
                                 subtitle = stringResource(R.string.clear_cache_message),
@@ -328,7 +329,7 @@ fun SettingsScreen(
                                     leadingIcon = Icons.Outlined.Update,
                                     onClick = settingsViewModel::checkForUpdates
                                 )
-                                Spacer(modifier = Modifier.height(4.dp))
+                                SettingSpacer()
                                 BooleanSettingItem(
                                     title = stringResource(R.string.auto_update_title),
                                     subtitle = stringResource(R.string.auto_update_subtitle),
@@ -341,7 +342,7 @@ fun SettingsScreen(
                                         )
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(4.dp))
+                                SettingSpacer()
 
                                 SettingsItem(
                                     title = stringResource(R.string.change_update_channel),
@@ -420,6 +421,18 @@ fun SettingsScreen(
                                 },
                                 onDismiss = {
                                     settingsViewModel.updateShowCacheClearConfirm(false)
+                                }
+                            )
+                        } else if (uiState.showLoginClearConfirm) {
+                            ConfirmDialog(
+                                title = stringResource(R.string.clear_login_info),
+                                text = stringResource(R.string.clear_login_confirm_message),
+                                onConfirm = {
+                                    settingsViewModel.clearLogins()
+                                    settingsViewModel.updateShowLoginClearConfirm(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowLoginClearConfirm(false)
                                 }
                             )
                         } else if (uiState.showHiddenPlaylistsSheet) {

@@ -334,7 +334,7 @@ object YoutubeApiClient {
 
         val httpUrl = if (fields != null) {
             url.toHttpUrl().newBuilder()
-                .addQueryParameter("\$fields", fields)
+                .addQueryParameter($$"$fields", fields)
                 .build()
         } else {
             url.toHttpUrl()

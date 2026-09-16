@@ -6,8 +6,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationItemIconPosition
+import androidx.compose.material3.ShortNavigationBar
+import androidx.compose.material3.ShortNavigationBarArrangement
+import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -15,8 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -37,8 +42,26 @@ fun BottomNavigationBar(
     val datastoreRepository = remember { DatastoreRepository(context) }
     val resources = LocalResources.current
 
-    NavigationBar(modifier = modifier) {
-        NavigationBarItem(
+    val containerWidthDp = with(LocalDensity.current) {
+        LocalWindowInfo.current.containerSize.width.toDp()
+    }
+    val isCompactWidth = containerWidthDp < 600.dp
+    val arrangement = if (isCompactWidth) {
+        ShortNavigationBarArrangement.EqualWeight
+    } else {
+        ShortNavigationBarArrangement.Centered
+    }
+    val iconPosition = if (isCompactWidth) {
+        NavigationItemIconPosition.Top
+    } else {
+        NavigationItemIconPosition.Start
+    }
+
+    ShortNavigationBar(
+        modifier = modifier,
+        arrangement = arrangement
+    ) {
+        ShortNavigationBarItem(
             selected = currentTab is HomeScreenKey,
             onClick = {
                 onTabSelected(HomeScreenKey)
@@ -50,9 +73,10 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
+            iconPosition = iconPosition,
             label = { Text(stringResource(R.string.home)) }
         )
-        NavigationBarItem(
+        ShortNavigationBarItem(
             selected = currentTab is SearchScreenKey,
             onClick = {
                 onTabSelected(SearchScreenKey)
@@ -64,9 +88,10 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
+            iconPosition = iconPosition,
             label = { Text(stringResource(R.string.search)) }
         )
-        NavigationBarItem(
+        ShortNavigationBarItem(
             selected = currentTab is SettingsScreenKey,
             onClick = {
                 onTabSelected(SettingsScreenKey)
@@ -99,6 +124,7 @@ fun BottomNavigationBar(
                     contentDescription = null
                 )
             },
+            iconPosition = iconPosition,
             label = { Text(stringResource(R.string.settings)) }
         )
     }

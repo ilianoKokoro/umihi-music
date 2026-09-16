@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -24,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,6 +62,7 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun PlaylistScreen(
     sharedViewModel: SharedViewModel,
@@ -230,9 +234,19 @@ fun PlaylistScreen(
                         }
 
                     } else {
+                        val pullToRefreshState = rememberPullToRefreshState()
+
                         PullToRefreshBox(
                             isRefreshing = uiState.isRefreshing,
+                            state = pullToRefreshState,
                             onRefresh = playlistViewModel::refreshPlaylistInfo,
+                            indicator = {
+                                PullToRefreshDefaults.LoadingIndicator(
+                                    state = pullToRefreshState,
+                                    isRefreshing = uiState.isRefreshing,
+                                    Modifier.align(Alignment.TopCenter)
+                                )
+                            },
                             modifier = modifier
                                 .fillMaxSize()
                         ) {

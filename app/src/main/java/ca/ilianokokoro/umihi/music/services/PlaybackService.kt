@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Format
+import androidx.media3.common.ForwardingPlayer
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
@@ -56,6 +57,7 @@ class PlaybackService : MediaLibraryService() {
     private var mediaLibrarySession: MediaLibrarySession? = null
     private lateinit var exoCache: ExoCache
     private lateinit var player: ExoPlayer
+    private lateinit var sessionPlayer: Player
     private lateinit var datastoreRepository: DatastoreRepository
     private var currentAudioSessionId = C.AUDIO_SESSION_ID_UNSET
     private val songRepository = SongRepository()
@@ -126,6 +128,8 @@ class PlaybackService : MediaLibraryService() {
                 }
             }
         )
+
+        sessionPlayer = AlwaysAvailableSkipCommandsPlayer(player)
 
         player.trackSelectionParameters =
             player.trackSelectionParameters
@@ -241,7 +245,7 @@ class PlaybackService : MediaLibraryService() {
             playlistRepository = playlistRepository
         )
 
-        mediaLibrarySession = MediaLibrarySession.Builder(this, player, callback)
+        mediaLibrarySession = MediaLibrarySession.Builder(this, sessionPlayer, callback)
             .setSessionActivity(pendingIntent)
             .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader.Builder(this).build()))
             .build()
@@ -276,9 +280,9 @@ class PlaybackService : MediaLibraryService() {
             player.volume = 1.0f
             val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
             // Each 1% boost corresponds to 10 mB gain (up to 1000 mB / ~10dB boost at 200%)
-            val gainmB = boostPercent * 10
+            val gainMb = boostPercent * 10
             try {
-                loudnessEnhancer?.setTargetGain(gainmB)
+                loudnessEnhancer?.setTargetGain(gainMb)
                 loudnessEnhancer?.enabled = true
             } catch (e: Exception) {
                 printe(
@@ -414,5 +418,16 @@ class PlaybackService : MediaLibraryService() {
                 )
             }
         }
+    }
+}
+
+@OptIn(UnstableApi::class)
+private class AlwaysAvailableSkipCommandsPlayer(player: Player) : ForwardingPlayer(player) {
+
+    override fun getAvailableCommands(): Player.Commands {
+        return super.getAvailableCommands().buildUpon()
+            .add(COMMAND_SEEK_TO_NEXT)
+            .add(COMMAND_SEEK_TO_PREVIOUS)
+            .build()
     }
 }

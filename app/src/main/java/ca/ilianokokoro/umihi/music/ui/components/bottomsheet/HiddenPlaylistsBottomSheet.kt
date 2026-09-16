@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.ui.screens.settings.components
+package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
 import android.os.Handler
 import android.os.Looper

@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -280,10 +279,10 @@ class PlaylistViewModel(
     }
 
     fun unhidePlaylist() {
-        val playlist = getPlaylist() ?: return
+        val info = getCurrentPlaylistInfo() ?: return
 
         viewModelScope.launch {
-            playlistRepository.unhidePlaylist(playlist.info).collect { result ->
+            playlistRepository.unhidePlaylist(info).collect { result ->
                 if (result is ApiResult.Success) {
                     sharedViewModel.requestPlaylistRefresh()
                     getPlaylistInfoAsync()
@@ -293,10 +292,10 @@ class PlaylistViewModel(
     }
 
     fun hidePlaylist(onBack: () -> Unit) {
-        val playlist = getPlaylist() ?: return
+        val info = getCurrentPlaylistInfo() ?: return
 
         viewModelScope.launch {
-            playlistRepository.hidePlaylist(playlist.info).collect { result ->
+            playlistRepository.hidePlaylist(info).collect { result ->
                 if (result is ApiResult.Success) {
                     onBack()
                     sharedViewModel.requestPlaylistRefresh()
@@ -430,6 +429,14 @@ class PlaylistViewModel(
             return null
         }
         return screenState.playlist
+    }
+
+    private fun getCurrentPlaylistInfo(): PlaylistInfo? {
+        return when (val screenState = _uiState.value.screenState) {
+            is ScreenState.Success -> screenState.playlist.info
+            is ScreenState.Loading -> screenState.playlistInfo
+            is ScreenState.Error -> null
+        }
     }
 
     companion object {

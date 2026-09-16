@@ -88,7 +88,7 @@ data class Song(
         get() = audioFilePath != null && thumbnailPath != null
 
 
-    suspend fun getPlayableMediaItem(): MediaItem {
+    fun getPlayableMediaItem(): MediaItem {
         val base = mediaItem
         val localThumbnailPath = thumbnailPath ?: return base
 

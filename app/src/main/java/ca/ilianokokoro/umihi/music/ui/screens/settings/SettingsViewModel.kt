@@ -60,6 +60,16 @@ class SettingsViewModel(
         }
     }
 
+    fun updateShowLoginClearConfirm(value: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                _uiState.value.copy(
+                    showLoginClearConfirm = value
+                )
+            }
+        }
+    }
+
     fun clearLogins() {
         viewModelScope.launch {
             WebStorage.getInstance().deleteAllData()
@@ -71,7 +81,6 @@ class SettingsViewModel(
                 _application.getString(R.string.login_info_cleared),
                 Toast.LENGTH_LONG
             ).show()
-
         }
     }
 

@@ -33,7 +33,7 @@ fun SettingsItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(2.dp))
             .clickable(onClick = onClick)
     ) {
         Row(

@@ -56,6 +56,7 @@
     <string name="account">Tài khoản</string>
     <string name="clear_data_message">Xoá toàn bộ các bài đã tải và dữ liệu cache trong máy</string>
     <string name="clear_login_message">Xóa tất cả tài khoản đã lưu và thông tin đăng nhập</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Thông tin đăng nhập đã được xóa</string>
     <string name="downloads_cleared">Đã tải xuống đã được xoá</string>
     <string name="invalid_navkey">Khóa điều hướng không hợp lệ: %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Mô tả</string>
     <string name="create">Tạo</string>
     <string name="create_playlist">Tạo danh sách phát</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Không được liệt kê</string>
     <string name="privacy_public">Công khai</string>
     <string name="privacy_private">Riêng tư</string>

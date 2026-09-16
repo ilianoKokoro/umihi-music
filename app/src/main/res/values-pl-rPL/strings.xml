@@ -56,6 +56,7 @@
     <string name="account">Konto</string>
     <string name="clear_data_message">Usuń wszystkie pobrane utwory i dane pamięci podręcznej z tego urządzenia</string>
     <string name="clear_login_message">Czyści wszystkie zapisane konta i dane logowania</string>
+    <string name="clear_login_confirm_message">Spowoduje to wylogowanie i trwałe usunięcie wszystkich zapisanych kont YouTube, ciasteczek i tokenów uwierzytelniania z tego urządzenia. Będziesz musiał zalogować się ponownie, aby używać swojego konta.</string>
     <string name="login_info_cleared">Wyczyszczono dane logowania</string>
     <string name="downloads_cleared">Pobieranie wyczyszczone</string>
     <string name="invalid_navkey">Nieprawidłowy NavKey : %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Opis</string>
     <string name="create">Utwórz</string>
     <string name="create_playlist">Utwórz playlistę</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">Niewymienione</string>
     <string name="privacy_public">Publiczne</string>
     <string name="privacy_private">Prywatny</string>

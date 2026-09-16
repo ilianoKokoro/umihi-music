@@ -18,12 +18,10 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -56,11 +54,13 @@ fun VolumeBottomSheet(
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
 
-    var sliderValue by remember {
-        mutableFloatStateOf(currentVolume.toFloat())
-    }
+    val sliderState = rememberSliderState(
+        value = currentVolume.toFloat(),
+        trackRange = Constants.Player.Volume.MIN_PERCENT.toFloat()..Constants.Player.Volume.MAX_PERCENT.toFloat(),
+        steps = 0,
+    )
 
-    val isBoosted = sliderValue > Constants.Player.Volume.BOOST_THRESHOLD
+    val isBoosted = sliderState.value > Constants.Player.Volume.BOOST_THRESHOLD
 
     val accentColor by animateColorAsState(
         targetValue = if (isBoosted) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
@@ -93,11 +93,12 @@ fun VolumeBottomSheet(
                 SheetHeader(
                     icon = Icons.AutoMirrored.Rounded.VolumeUp,
                     title = stringResource(R.string.volume),
+                    modifier = Modifier.weight(1f),
                     tint = accentColor,
                 )
 
                 Text(
-                    text = "${sliderValue.roundToInt()}%",
+                    text = "${sliderState.value.roundToInt()}%",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
                     color = accentColor
@@ -109,17 +110,15 @@ fun VolumeBottomSheet(
 
             // Slider
             Slider(
-                value = sliderValue,
+                state = sliderState,
                 onValueChange = { newValue ->
                     val rounded = newValue.roundToInt()
-                    if (Constants.Player.Volume.PRESETS.contains(rounded) && sliderValue.roundToInt() != rounded) {
+                    if (Constants.Player.Volume.PRESETS.contains(rounded) && sliderState.value.roundToInt() != rounded) {
                         haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
                     }
-                    sliderValue = newValue
+                    sliderState.value = newValue
                     onVolumeChange(rounded)
                 },
-                valueRange = Constants.Player.Volume.MIN_PERCENT.toFloat()..Constants.Player.Volume.MAX_PERCENT.toFloat(),
-                steps = 0,
                 colors = SliderDefaults.colors(
                     thumbColor = accentColor,
                     activeTrackColor = accentColor,
@@ -139,7 +138,7 @@ fun VolumeBottomSheet(
                 val presets = Constants.Player.Volume.PRESETS.map { it to "$it%" }
 
                 presets.forEach { (percent, label) ->
-                    val isSelected = sliderValue.roundToInt() == percent
+                    val isSelected = sliderState.value.roundToInt() == percent
 
                     MaterialUButton(
                         size = MaterialUButtonSize.ExtraSmall,
@@ -149,7 +148,7 @@ fun VolumeBottomSheet(
                         },
                         onClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                            sliderValue = percent.toFloat()
+                            sliderState.value = percent.toFloat()
                             onVolumeChange(percent)
                         },
                         text = label

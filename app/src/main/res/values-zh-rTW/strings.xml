@@ -56,6 +56,7 @@
     <string name="account">帳號</string>
     <string name="clear_data_message">刪除所有已下載歌曲和裝置上的快取資料</string>
     <string name="clear_login_message">清除所有儲存的帳號和登入資訊</string>
+    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">登入資訊已清除</string>
     <string name="downloads_cleared">已清除下載</string>
     <string name="invalid_navkey">無效的NavKey : %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Description</string>
     <string name="create">建立</string>
     <string name="create_playlist">建立播放清單</string>
+    <string name="login_prompt">Log in to access your playlists</string>
     <string name="privacy_unlisted">已隱藏</string>
     <string name="privacy_public">公開</string>
     <string name="privacy_private">不公開</string>

@@ -154,7 +154,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>671 words</b></sub>
+        <sub><b>679 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -200,7 +200,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Mickael81</b></sub></a>
         <br />
-        <sub><b>933 words</b></sub>
+        <sub><b>1024 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -218,8 +218,18 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(DefinitelyRus)</b></sub></a>
         <br />
-        <sub><b>128 words</b></sub>
+        <sub><b>234 words</b></sub>
         <br /><sub><b><code title="Tagalog">tl</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Akiro9982"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17830919/medium/4accb4df3c6bcde6946ffa9b3f803b1e.png" />
+          <br />
+          <sub><b>Kevin Escobar</b></sub>
+          <br />
+          <sub><b>(Akiro9982)</b></sub></a>
+        <br />
+        <sub><b>119 words</b></sub>
+        <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
@@ -229,6 +239,8 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>66 words</b></sub>
         <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Smashik"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16846271/medium/c9f3394aa690c57089ee523b37b7fdc7.png" />
           <br />
@@ -237,8 +249,6 @@ Thank you to all the people who helped translate Umihi Music
         <sub><b>48 words</b></sub>
         <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/jackgr545"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17760733/medium/5190b04c9be7f16d7d9417fcf00806ab.png" />
           <br />
@@ -246,16 +256,6 @@ Thank you to all the people who helped translate Umihi Music
         <br />
         <sub><b>44 words</b></sub>
         <br /><sub><b><code title="Chinese Traditional">zh-TW</code></b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Akiro9982"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17830919/medium/4accb4df3c6bcde6946ffa9b3f803b1e.png" />
-          <br />
-          <sub><b>Kevin Escobar</b></sub>
-          <br />
-          <sub><b>(Akiro9982)</b></sub></a>
-        <br />
-        <sub><b>34 words</b></sub>
-        <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/GerOriki"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16268376/medium/da00e54b08cd40348231d92873a0cd0a_default.png" />
@@ -273,6 +273,16 @@ Thank you to all the people who helped translate Umihi Music
           <sub><b>corrigo</b></sub></a>
         <br />
         <sub><b>29 words</b></sub>
+        <br /><sub><b><code title="French">fr</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/devbyben"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17895293/medium/e280352f89653b8a3a23c915a7da75eb.png" />
+          <br />
+          <sub><b>Benoît</b></sub>
+          <br />
+          <sub><b>(devbyben)</b></sub></a>
+        <br />
+        <sub><b>6 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
     </tr>

@@ -56,6 +56,7 @@
     <string name="account">Compte</string>
     <string name="clear_data_message">Supprime tous les titres téléchargés et le cache</string>
     <string name="clear_login_message">Efface tous les comptes enregistrés et les informations de connexion</string>
+    <string name="clear_login_confirm_message">Cette action vous déconnectera et supprimera définitivement tous les comptes YouTube enregistrés, les cookies et les jetons d\'authentification de cet appareil. Vous devrez vous reconnecter pour utiliser votre compte.</string>
     <string name="login_info_cleared">Informations de connexion effacées</string>
     <string name="downloads_cleared">Téléchargements effacés</string>
     <string name="invalid_navkey">Clé de navigation invalide : %1$s</string>
@@ -104,6 +105,7 @@
     <string name="description">Description</string>
     <string name="create">Créer</string>
     <string name="create_playlist">Créer une playlist</string>
+    <string name="login_prompt">Connectez-vous pour accéder à vos playlists</string>
     <string name="privacy_unlisted">Non répertorié</string>
     <string name="privacy_public">Publique</string>
     <string name="privacy_private">Privé</string>

@@ -102,7 +102,8 @@ fun MiniPlayerWrapper(
             onSkipNext = { player?.seekToNext() },
             onSkipPrevious = { player?.seekToPrevious() },
             isPlaying = songIsPlaying == true,
-            isLoading = songIsLoading
+            isLoading = songIsLoading,
+            onClose = PlayerManager::clearQueue
         )
     }
 }
