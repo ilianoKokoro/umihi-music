@@ -54,7 +54,6 @@
     <string name="logged_in_message">Είστε συνδεδεμένοι στο λογαριασμό σας στο YouTube</string>
     <string name="logged_out_message">Αυτή τη στιγμή δεν είστε συνδεδεμένοι</string>
     <string name="account">Λογαριασμός</string>
-    <string name="clear_data_message">Αφαίρεση όλων των κατεβασμένων τραγουδιών και δεδομένων της προσωρινής μνήμης από αυτήν τη συσκευή</string>
     <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις πληροφορίες σύνδεσης</string>
     <string name="clear_login_confirm_message">Αυτό θα σας αποσυνδέσει και θα καταργήσει οριστικά όλους τους αποθηκευμένους λογαριασμούς YouTube, τα cookies και τα διακριτικά ελέγχου ταυτότητας από αυτήν τη συσκευή. Θα χρειαστεί να συνδεθείτε ξανά για να χρησιμοποιήσετε το λογαριασμό σας.</string>
     <string name="login_info_cleared">Πληροφορίες Σύνδεσης Εκκαθαρίστηκαν</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Μέγεθος Προσωρινής Μνήμης</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Εκκαθάριση Προσωρινής Αποθήκευσης</string>
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Δείτε τα τελευταία καταγεγραμμένα αρχεία καταγραφής διαγνωστικών</string>
     <string name="export_logs">Εξαγωγή αρχείων καταγραφής</string>
     <string name="clear_logs">Εκκαθάριση αρχείων καταγραφής</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>
