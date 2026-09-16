@@ -54,7 +54,7 @@
     <string name="logged_in_message">Olet kirjautunut sisään YouTube-tilillesi</string>
     <string name="logged_out_message">Et ole tällä hetkellä kirjautunut sisään</string>
     <string name="account">Tili</string>
-    <string name="clear_data_message">Poista kaikki ladatut kappaleet ja välimuistissa olevat tiedot tältä laitteelta</string>
+
     <string name="clear_login_message">Tyhjentää kaikki tallennetut tilit ja kirjautumistiedot</string>
     <string name="clear_login_confirm_message">Tämä kirjautuu ulos ja poistaa pysyvästi kaikki tallennetut YouTube-käyttäjätunnukset, evästeet ja autentikointitunnukset tältä laitteelta. Sinun täytyy kirjautua sisään uudelleen, jotta voit käyttää tiliäsi.</string>
     <string name="login_info_cleared">Kirjautumistiedot Tyhjennetty</string>

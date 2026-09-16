@@ -54,7 +54,7 @@
     <string name="logged_in_message">Je bent ingelogd op je YouTube-account</string>
     <string name="logged_out_message">U bent momenteel niet ingelogd</string>
     <string name="account">Rekening</string>
-    <string name="clear_data_message">Verwijder alle gedownloade nummers en gegevens in de cache van dit apparaat</string>
+
     <string name="clear_login_message">Verwijdert alle opgeslagen accounts en inloggegevens</string>
     <string name="clear_login_confirm_message">Dit zal u uitloggen en permanent alle opgeslagen YouTube accounts, cookies en authenticatie tokens verwijderen van dit apparaat. Je moet opnieuw inloggen om je account te kunnen gebruiken.</string>
     <string name="login_info_cleared">Inloggegevens gewist</string>

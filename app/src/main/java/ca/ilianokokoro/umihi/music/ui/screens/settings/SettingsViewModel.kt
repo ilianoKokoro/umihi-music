@@ -146,9 +146,10 @@ class SettingsViewModel(
         viewModelScope.launch {
             downloadRepository.cancelAllWorks()
             AppDatabase.clearDownloads(_application)
-            ExoCache(_application).clear()
             UmihiHelper.getDownloadDirectory(context = _application)
                 .deleteRecursively()
+            ExoCache(_application).clear()
+            CoilImageLoader.clear(_application)
             Toast.makeText(
                 _application,
                 _application.getString(R.string.downloads_cleared),
@@ -206,7 +207,7 @@ class SettingsViewModel(
     fun updateShowThemeSelectorSheet(show: Boolean) {
         _uiState.update { it.copy(showThemeSelectorSheet = show) }
     }
-    
+
     fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
         viewModelScope.launch {
             when (cacheType) {

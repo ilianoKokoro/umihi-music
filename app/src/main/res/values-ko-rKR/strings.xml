@@ -54,7 +54,7 @@
     <string name="logged_in_message">YouTube 계정에 로그인되어 있습니다</string>
     <string name="logged_out_message">지금 로그인되어 있지 않아요</string>
     <string name="account">내 계정</string>
-    <string name="clear_data_message">Deletes all the downloaded songs and cache</string>
+
     <string name="clear_login_message">저장된 모든 계정 및 로그인 정보를 삭제합니다</string>
     <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">로그인 정보 삭제 완료</string>

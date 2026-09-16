@@ -54,7 +54,7 @@
     <string name="logged_in_message">Du är inloggad på ditt YouTube-konto</string>
     <string name="logged_out_message">Du är för närvarande inte inloggad</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Ta bort alla hämtade låtar och cachelagrad data från denna enhet</string>
+
     <string name="clear_login_message">Rensar alla sparade konton och inloggningsuppgifter</string>
     <string name="clear_login_confirm_message">Detta kommer att logga ut dig och permanent ta bort alla sparade YouTube-konton, cookies och autentiseringstoken från den här enheten. Du måste logga in igen för att använda ditt konto.</string>
     <string name="login_info_cleared">Inloggningsinformation rensad</string>

@@ -54,7 +54,7 @@
     <string name="logged_in_message">Jesteś zalogowany na swoje konto YouTube</string>
     <string name="logged_out_message">Nie jesteś zalogowany</string>
     <string name="account">Konto</string>
-    <string name="clear_data_message">Usuń wszystkie pobrane utwory i dane pamięci podręcznej z tego urządzenia</string>
+
     <string name="clear_login_message">Czyści wszystkie zapisane konta i dane logowania</string>
     <string name="clear_login_confirm_message">Spowoduje to wylogowanie i trwałe usunięcie wszystkich zapisanych kont YouTube, ciasteczek i tokenów uwierzytelniania z tego urządzenia. Będziesz musiał zalogować się ponownie, aby używać swojego konta.</string>
     <string name="login_info_cleared">Wyczyszczono dane logowania</string>
