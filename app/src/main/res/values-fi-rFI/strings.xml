@@ -160,8 +160,8 @@
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d Mt</string>
     <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_audio_used">%1$s audio</string>
-    <string name="downloads_images_used">%1$s images</string>
+    <string name="downloads_audio_used">%1$s ääni</string>
+    <string name="downloads_images_used">%1$s kuvaa</string>
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
