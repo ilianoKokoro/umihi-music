@@ -104,7 +104,7 @@
     <string name="description">Beschrijving</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Log in om je afspeellijsten te bekijken</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
     <string name="privacy_public">Openbaar</string>
     <string name="privacy_private">Privé</string>
@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">Audio cache grootte</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB gebruikt</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s afbeeldingen</string>
     <string name="clear_cache">Cache legen</string>
     <string name="clear_cache_message">Verwijder alle gegevens in de cache en miniatuurafbeelding van dit apparaat</string>
     <string name="cache_cleared">Cache gewist</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Bekijk de laatst opgenomen diagnostische logs</string>
     <string name="export_logs">Logs exporteren</string>
     <string name="clear_logs">Logs wissen</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">App Thema</string>
+    <string name="choose_theme">Thema kiezen</string>
+    <string name="theme_dark">Donker</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_system">Volg systeem</string>
 </resources>

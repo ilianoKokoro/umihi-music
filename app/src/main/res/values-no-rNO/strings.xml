@@ -104,7 +104,7 @@
     <string name="description">Beskrivelse</string>
     <string name="create">Opprett</string>
     <string name="create_playlist">Lag spilleliste</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Logg inn for å få tilgang til spillelistene dine</string>
     <string name="privacy_unlisted">Unotert</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>
@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">Lydhurtiglagerstørrelse for lyd</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB brukt</string>
+    <string name="downloads_storage_used">%1$s lyd • %2$s bilder</string>
     <string name="clear_cache">Tøm hurtiglager</string>
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Se siste registrerte diagnostikk-logger</string>
     <string name="export_logs">Eksporter logger</string>
     <string name="clear_logs">Fjern logger</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">App tema</string>
+    <string name="choose_theme">Velg tema</string>
+    <string name="theme_dark">Mørk</string>
+    <string name="theme_light">Lys</string>
+    <string name="theme_system">Følg system</string>
 </resources>

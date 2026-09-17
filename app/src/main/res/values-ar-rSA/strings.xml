@@ -104,7 +104,7 @@
     <string name="description">الوصف</string>
     <string name="create">إنشاء</string>
     <string name="create_playlist">إنشاء قائمة تشغيل</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">تسجيل الدخول للوصول إلى قوائم التشغيل الخاصة بك</string>
     <string name="privacy_unlisted">غير مدرج</string>
     <string name="privacy_public">عامة</string>
     <string name="privacy_private">خاص</string>
@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">حجم ذاكرة التخزين المؤقت للصوت</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d ميغابايت</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB مستخدم</string>
+    <string name="downloads_storage_used">صوت %1$s • صور %2$s</string>
     <string name="clear_cache">مسح ذاكرة التخزين المؤقت</string>
     <string name="clear_cache_message">إزالة جميع بيانات الصوت والصور المصغرة المخزنة مؤقتاً من هذا الجهاز</string>
     <string name="cache_cleared">مسح ذاكرة التخزين المؤقت</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">عرض آخر سجلات التشخيص المسجلة</string>
     <string name="export_logs">تصدير السجلات</string>
     <string name="clear_logs">مسح السجلات</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">سمة التطبيق</string>
+    <string name="choose_theme">اختر السمة</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_system">اتبع النظام</string>
 </resources>

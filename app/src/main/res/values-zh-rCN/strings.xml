@@ -104,7 +104,7 @@
     <string name="description">描述</string>
     <string name="create">创建</string>
     <string name="create_playlist">创建播放列表</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">登录以访问您的播放列表</string>
     <string name="privacy_unlisted">未上架</string>
     <string name="privacy_public">公开的</string>
     <string name="privacy_private">非公开的</string>
@@ -160,7 +160,7 @@
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
     <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="downloads_storage_used">%1$s 音频 %2$s 图像</string>
     <string name="clear_cache">清除缓存</string>
     <string name="clear_cache_message">从此设备中删除所有缓存的音频和缩略图数据</string>
     <string name="cache_cleared">缓存已清除</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">查看上次记录的诊断日志</string>
     <string name="export_logs">导出日志</string>
     <string name="clear_logs">清除日志</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">应用主题</string>
+    <string name="choose_theme">选择主题</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_light">亮色的</string>
+    <string name="theme_system">跟随系统</string>
 </resources>

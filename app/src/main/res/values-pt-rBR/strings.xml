@@ -104,7 +104,7 @@
     <string name="description">Descrição:</string>
     <string name="create">Crio</string>
     <string name="create_playlist">Criar playlist</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Faça login para acessar suas playlists</string>
     <string name="privacy_unlisted">Não-listado</string>
     <string name="privacy_public">Público</string>
     <string name="privacy_private">Privado</string>
@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">Tamanho do Cache de Áudio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB usados</string>
+    <string name="downloads_storage_used">Áudio %1$s • Imagens %2$s</string>
     <string name="clear_cache">Limpar Cache</string>
     <string name="clear_cache_message">Remover todos os dados em cache de áudio e miniatura deste dispositivo</string>
     <string name="cache_cleared">Cache limpo</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Ver os últimos logs de diagnóstico gravados</string>
     <string name="export_logs">Exportar logs</string>
     <string name="clear_logs">Limpar registros</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">Tema do aplicativo</string>
+    <string name="choose_theme">Escolha o tema</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_light">Fino</string>
+    <string name="theme_system">Seguir sistema</string>
 </resources>
