@@ -160,6 +160,8 @@
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
     <string name="cache_used_state">%1$s / %2$d MB brukt</string>
+    <string name="downloads_audio_used">%1$s audio</string>
+    <string name="downloads_images_used">%1$s images</string>
     <string name="clear_cache">Tøm hurtiglager</string>
     <string name="clear_cache_message">Slett alle bufrede lyd og miniatyrbilder fra denne enheten</string>
     <string name="cache_cleared">Hurtiglager tømt</string>
