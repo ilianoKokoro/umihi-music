@@ -160,8 +160,8 @@
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
     <string name="cache_used_state">%1$s / %2$d MB används</string>
-    <string name="downloads_audio_used">%1$s audio</string>
-    <string name="downloads_images_used">%1$s images</string>
+    <string name="downloads_audio_used">%1$s ljud</string>
+    <string name="downloads_images_used">%1$s bilder</string>
     <string name="clear_cache">Rensa cache</string>
     <string name="clear_cache_message">Ta bort all cachelagrad ljud- och miniatyrdata från denna enhet</string>
     <string name="cache_cleared">Cachen rensad</string>
