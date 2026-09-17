@@ -30,7 +30,7 @@
     <string name="play_next">Putar selanjutnya</string>
     <string name="add_to_queue">Tambah ke antrean</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
-    <string name="no_playlists_found">Tidak ada playlist</string>
+    <string name="no_playlists_found">No playlists found</string>
     <string name="remove_from_playlist">Hapuskan dari playlist</string>
     <string name="remove_song_from_playlist_confirm_text">Hapuskan lagi ini dari playlist?</string>
     <string name="retry">Coba Ulang</string>
