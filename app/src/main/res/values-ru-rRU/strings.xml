@@ -159,8 +159,8 @@
     <string name="exoplayer_cache_title">Размер кэша аудио</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d МБ</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
+    <string name="cache_used_state">%1$s / %2$d МБ использовано</string>
+    <string name="downloads_storage_used">%1$s песен • %2$s изображений</string>
     <string name="clear_cache">Очистить кэш</string>
     <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
     <string name="cache_cleared">Кэш очищен</string>
@@ -172,9 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Просмотреть последние записанные журналы диагностики</string>
     <string name="export_logs">Экспорт журналов</string>
     <string name="clear_logs">Очистить журналы</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">Тема приложения</string>
+    <string name="choose_theme">Выберите тему</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_system">Следовать системе</string>
 </resources>
