@@ -160,8 +160,8 @@
     <string name="thumbnail_cache_title">Taille du cache des miniatures</string>
     <string name="cache_size_mb">%1$d Mo</string>
     <string name="cache_used_state">%1$s / %2$d Mo utilisés</string>
-    <string name="downloads_audio_used">%1$s audio</string>
-    <string name="downloads_images_used">%1$s images</string>
+    <string name="downloads_audio_used">Audio %1$s</string>
+    <string name="downloads_images_used">Images %1$s</string>
     <string name="clear_cache">Vider le cache</string>
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>
