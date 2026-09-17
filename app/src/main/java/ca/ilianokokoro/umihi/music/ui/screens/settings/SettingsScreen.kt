@@ -271,11 +271,13 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
                                 subtitle = stringResource(
-                                    R.string.downloads_storage_used,
+                                    R.string.downloads_audio_used,
                                     Formatter.formatShortFileSize(
                                         application,
                                         uiState.downloadsUsage.audioBytes
-                                    ),
+                                    )
+                                ) + " ${stringResource(R.string.dot)} " + stringResource(
+                                    R.string.downloads_images_used,
                                     Formatter.formatShortFileSize(
                                         application,
                                         uiState.downloadsUsage.imageBytes
