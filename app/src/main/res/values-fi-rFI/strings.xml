@@ -54,7 +54,6 @@
     <string name="logged_in_message">Olet kirjautunut sisään YouTube-tilillesi</string>
     <string name="logged_out_message">Et ole tällä hetkellä kirjautunut sisään</string>
     <string name="account">Tili</string>
-
     <string name="clear_login_message">Tyhjentää kaikki tallennetut tilit ja kirjautumistiedot</string>
     <string name="clear_login_confirm_message">Tämä kirjautuu ulos ja poistaa pysyvästi kaikki tallennetut YouTube-käyttäjätunnukset, evästeet ja autentikointitunnukset tältä laitteelta. Sinun täytyy kirjautua sisään uudelleen, jotta voit käyttää tiliäsi.</string>
     <string name="login_info_cleared">Kirjautumistiedot Tyhjennetty</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Äänen Välimuistin Koko</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d Mt</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Näytä viimeisimmät tallennetut diagnostiikan lokit</string>
     <string name="export_logs">Vie lokit</string>
     <string name="clear_logs">Tyhjennä lokit</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>

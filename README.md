@@ -162,7 +162,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>dsyncronized</b></sub></a>
         <br />
-        <sub><b>670 words</b></sub>
+        <sub><b>676 words</b></sub>
         <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -184,6 +184,16 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="Chinese Simplified">zh-CN</code></b>, <b><code title="Chinese Traditional">zh-TW</code></b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
+          <br />
+          <sub><b>Mickael81</b></sub></a>
+        <br />
+        <sub><b>1056 words</b></sub>
+        <br /><sub><b><code title="French">fr</code></b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f02d53d5d23fc5f2d367c0c319829c6c.jpg" />
           <br />
           <sub><b>Alina Ye-jin</b></sub>
@@ -192,16 +202,6 @@ Thank you to all the people who helped translate Umihi Music
         <br />
         <sub><b>384 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b></sub>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
-          <br />
-          <sub><b>Mickael81</b></sub></a>
-        <br />
-        <sub><b>1024 words</b></sub>
-        <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/j.bosch"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17639020/medium/d7c3db7648b323eeb5e39a3a37f110ec_default.png" />
@@ -222,22 +222,22 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="Tagalog">tl</code></b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
+          <br />
+          <sub><b>Vladik01-11</b></sub></a>
+        <br />
+        <sub><b>165 words</b></sub>
+        <br /><sub><b><code title="Russian">ru</code></b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Akiro9982"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17830919/medium/4accb4df3c6bcde6946ffa9b3f803b1e.png" />
           <br />
           <sub><b>Kevin Escobar</b></sub>
           <br />
           <sub><b>(Akiro9982)</b></sub></a>
         <br />
-        <sub><b>119 words</b></sub>
+        <sub><b>135 words</b></sub>
         <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
-          <br />
-          <sub><b>Vladik01-11</b></sub></a>
-        <br />
-        <sub><b>66 words</b></sub>
-        <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
     </tr>
     <tr>

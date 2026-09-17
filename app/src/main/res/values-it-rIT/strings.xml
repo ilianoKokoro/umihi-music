@@ -54,7 +54,6 @@
     <string name="logged_in_message">Hai effettuato l\'accesso al tuo account YouTube</string>
     <string name="logged_out_message">Al momento non sei connesso</string>
     <string name="account">Account</string>
-
     <string name="clear_login_message">Cancella tutti gli account salvati e le informazioni di accesso</string>
     <string name="clear_login_confirm_message">Questo ti disconnetterà e rimuoverà permanentemente tutti gli account di YouTube, i cookie e i token di autenticazione salvati da questo dispositivo. È necessario effettuare nuovamente il login per utilizzare il proprio account.</string>
     <string name="login_info_cleared">Informazioni Di Accesso Cancellate</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Dimensione Cache Audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Cancella Cache</string>
     <string name="clear_cache_message">Rimuovi tutti i dati audio e miniature nella cache da questo dispositivo</string>
     <string name="cache_cleared">Cache Cancellata</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Visualizza gli ultimi registri diagnostici registrati</string>
     <string name="export_logs">Esporta log</string>
     <string name="clear_logs">Cancella log</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>

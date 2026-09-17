@@ -54,7 +54,6 @@
     <string name="logged_in_message">Ești conectat la contul tău de YouTube</string>
     <string name="logged_out_message">Momentan nu ești conectat</string>
     <string name="account">Cont</string>
-
     <string name="clear_login_message">Curăță toate conturile salvate și informații de autentificare</string>
     <string name="clear_login_confirm_message">Acest lucru vă va deconecta și va elimina definitiv toate conturile YouTube salvate, cookie-urile și tokenurile de autentificare de pe acest dispozitiv. Va trebui să te autentifici din nou pentru a-ți folosi contul.</string>
     <string name="login_info_cleared">Informații de conectare șterse</string>
@@ -160,6 +159,8 @@
     <string name="exoplayer_cache_title">Dimensiune cache audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_storage_used">%1$s audio • %2$s images</string>
     <string name="clear_cache">Curăță Cache</string>
     <string name="clear_cache_message">Elimină toate datele audio şi miniaturi din cache de pe acest dispozitiv</string>
     <string name="cache_cleared">Memoria cache ștearsă</string>
@@ -171,4 +172,9 @@
     <string name="view_the_recorded_diagnostics_logs">Vezi ultimele jurnale de diagnosticare înregistrate</string>
     <string name="export_logs">Exportă jurnalele</string>
     <string name="clear_logs">Șterge jurnalele</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>
