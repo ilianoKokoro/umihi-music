@@ -73,7 +73,7 @@
     <string name="get_song_failed">Не удалось получить информацию о песне</string>
     <string name="queue_empty">Нет песен в очереди</string>
     <string name="cancel_playlist_download">Отмена загрузки плейлиста</string>
-    <string name="cancel_playlist_download_text">Отменить загрузку списка воспроизведения ?</string>
+    <string name="cancel_playlist_download_text">Отменить загрузку плейлиста ?</string>
     <string name="remove_download">Удалить загрузку</string>
     <string name="cancel_download">Отменить загрузку</string>
     <string name="hide_playlist">Скрыть плейлист</string>
@@ -150,7 +150,7 @@
     <string name="failed_get_to_login_cookies">Не удалось войти в cookies</string>
     <string name="failed_delete_playlist">Не удалось удалить плейлист</string>
     <string name="failed_remove_from_library">Не удалось удалить плейлист из вашей библиотеки</string>
-    <string name="failed_remove_song_from_playlist">Не удалось удалить песню из списка воспроизведения</string>
+    <string name="failed_remove_song_from_playlist">Не удалось удалить песню из плейлиста</string>
     <string name="repeat_one">Повторить один</string>
     <string name="repeat_all">Повторить все</string>
     <string name="repeat_off">Повтор выключен</string>
