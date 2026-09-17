@@ -54,7 +54,6 @@
     <string name="logged_in_message">You awe wogged in to youw YouTube account</string>
     <string name="logged_out_message">You awe cuwwentwy nyot wogged in</string>
     <string name="account">Acwount</string>
-
     <string name="clear_login_message">Cweaws aww da saved accounts n w-wogin infowmation</string>
     <string name="clear_login_confirm_message">This wiw sign you out and pewmanentwy wemove aww saved YouTube accwounts, cookies, and authentication tokens fwom this dewice. You wiw nyed to wog in again to use youw accwount.</string>
     <string name="login_info_cleared">Login Info Cweawed</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Awwdio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnaiv Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_audio_used">%1$s audio</string>
+    <string name="downloads_images_used">%1$s images</string>
     <string name="clear_cache">Cweaw Cache</string>
     <string name="clear_cache_message">Wemove aww cached awwdio n thumbnaiv data fwom this dewice</string>
     <string name="cache_cleared">Cache Cweawed</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">View da wast wecowded diwagnostics wogs</string>
     <string name="export_logs">Expowt wogs</string>
     <string name="clear_logs">Cweaw wogs</string>
+    <string name="theme">App Thweme</string>
+    <string name="choose_theme">Chwoose Thweme</string>
+    <string name="theme_dark">Dawk</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Fowwow System</string>
 </resources>

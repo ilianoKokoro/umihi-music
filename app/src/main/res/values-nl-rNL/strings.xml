@@ -54,7 +54,6 @@
     <string name="logged_in_message">Je bent ingelogd op je YouTube-account</string>
     <string name="logged_out_message">U bent momenteel niet ingelogd</string>
     <string name="account">Rekening</string>
-
     <string name="clear_login_message">Verwijdert alle opgeslagen accounts en inloggegevens</string>
     <string name="clear_login_confirm_message">Dit zal u uitloggen en permanent alle opgeslagen YouTube accounts, cookies en authenticatie tokens verwijderen van dit apparaat. Je moet opnieuw inloggen om je account te kunnen gebruiken.</string>
     <string name="login_info_cleared">Inloggegevens gewist</string>
@@ -105,7 +104,7 @@
     <string name="description">Beschrijving</string>
     <string name="create">Aanmaken</string>
     <string name="create_playlist">Afspeellijst maken</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Log in om je afspeellijsten te bekijken</string>
     <string name="privacy_unlisted">Niet-genoteerd</string>
     <string name="privacy_public">Openbaar</string>
     <string name="privacy_private">Privé</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Audio cache grootte</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB gebruikt</string>
+    <string name="downloads_audio_used">%1$s audio</string>
+    <string name="downloads_images_used">%1$s afbeeldingen</string>
     <string name="clear_cache">Cache legen</string>
     <string name="clear_cache_message">Verwijder alle gegevens in de cache en miniatuurafbeelding van dit apparaat</string>
     <string name="cache_cleared">Cache gewist</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Bekijk de laatst opgenomen diagnostische logs</string>
     <string name="export_logs">Logs exporteren</string>
     <string name="clear_logs">Logs wissen</string>
+    <string name="theme">App Thema</string>
+    <string name="choose_theme">Thema kiezen</string>
+    <string name="theme_dark">Donker</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_system">Volg systeem</string>
 </resources>

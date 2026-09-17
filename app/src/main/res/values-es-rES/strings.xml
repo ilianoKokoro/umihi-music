@@ -54,7 +54,6 @@
     <string name="logged_in_message">Ha iniciado sesión en su cuenta de YouTube</string>
     <string name="logged_out_message">Actualmente no has iniciado sesión</string>
     <string name="account">Cuenta</string>
-
     <string name="clear_login_message">Limpia todas las cuentas guardadas e información de acceso</string>
     <string name="clear_login_confirm_message">Esto cerrará tu sesión y eliminará permanentemente de este dispositivo todas las cuentas de YouTube guardadas, las cookies y los tokens de autenticación. Tendrás que iniciar sesión nuevamente para usar tu cuenta.</string>
     <string name="login_info_cleared">Información de inicio de sesión limpiada</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Tamaño de caché de audio</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB usados</string>
+    <string name="downloads_audio_used">Audio %1$s</string>
+    <string name="downloads_images_used">Imágenes %1$s</string>
     <string name="clear_cache">Limpiar caché</string>
     <string name="clear_cache_message">Eliminar todos los datos en caché de audio y miniatura de este dispositivo</string>
     <string name="cache_cleared">Caché limpiada</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Ver los últimos registros de diagnóstico</string>
     <string name="export_logs">Exportar registros</string>
     <string name="clear_logs">Borrar registros</string>
+    <string name="theme">Tema de la aplicación</string>
+    <string name="choose_theme">Elegir tema</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_system">Seguir el sistema</string>
 </resources>

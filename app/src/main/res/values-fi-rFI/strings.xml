@@ -54,7 +54,6 @@
     <string name="logged_in_message">Olet kirjautunut sisään YouTube-tilillesi</string>
     <string name="logged_out_message">Et ole tällä hetkellä kirjautunut sisään</string>
     <string name="account">Tili</string>
-
     <string name="clear_login_message">Tyhjentää kaikki tallennetut tilit ja kirjautumistiedot</string>
     <string name="clear_login_confirm_message">Tämä kirjautuu ulos ja poistaa pysyvästi kaikki tallennetut YouTube-käyttäjätunnukset, evästeet ja autentikointitunnukset tältä laitteelta. Sinun täytyy kirjautua sisään uudelleen, jotta voit käyttää tiliäsi.</string>
     <string name="login_info_cleared">Kirjautumistiedot Tyhjennetty</string>
@@ -105,7 +104,7 @@
     <string name="description">Kuvaus</string>
     <string name="create">Luo</string>
     <string name="create_playlist">Luo soittolista</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Kirjaudu sisään nähdäksesi soittolistat</string>
     <string name="privacy_unlisted">Listaamaton</string>
     <string name="privacy_public">Julkinen</string>
     <string name="privacy_private">Yksityinen</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Äänen Välimuistin Koko</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d Mt</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_audio_used">%1$s ääni</string>
+    <string name="downloads_images_used">%1$s kuvaa</string>
     <string name="clear_cache">Tyhjennä Välimuisti</string>
     <string name="clear_cache_message">Poista kaikki välimuistissa olevat ääni- ja pikkukuvatiedot tästä laitteesta</string>
     <string name="cache_cleared">Välimuisti Tyhjennetty</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Näytä viimeisimmät tallennetut diagnostiikan lokit</string>
     <string name="export_logs">Vie lokit</string>
     <string name="clear_logs">Tyhjennä lokit</string>
+    <string name="theme">Sovelluksen Teema</string>
+    <string name="choose_theme">Valitse Teema</string>
+    <string name="theme_dark">Tumma</string>
+    <string name="theme_light">Vaalea</string>
+    <string name="theme_system">Seuraa Järjestelmää</string>
 </resources>

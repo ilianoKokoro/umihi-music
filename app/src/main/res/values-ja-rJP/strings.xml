@@ -54,7 +54,6 @@
     <string name="logged_in_message">YouTubeアカウントにログインしています</string>
     <string name="logged_out_message">現在ログインしていません</string>
     <string name="account">アカウント</string>
-
     <string name="clear_login_message">保存されたすべてのアカウントとログイン情報を消去します。</string>
     <string name="clear_login_confirm_message">これにより、保存されているすべてのYouTubeアカウント、クッキー、および認証トークンがこのデバイスから完全に削除されます。 アカウントを使用するには再度ログインする必要があります。</string>
     <string name="login_info_cleared">ログイン情報を消去しました</string>
@@ -105,7 +104,7 @@
     <string name="description">説明</string>
     <string name="create">作成</string>
     <string name="create_playlist">プレイリストを作成</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">プレイリストにアクセスするにはログインしてください</string>
     <string name="privacy_unlisted">リストにありません</string>
     <string name="privacy_public">公開</string>
     <string name="privacy_private">非公開</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">オーディオキャッシュサイズ</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB 使用</string>
+    <string name="downloads_audio_used">%1$s オーディオ</string>
+    <string name="downloads_images_used">%1$s 画像</string>
     <string name="clear_cache">キャッシュをクリア</string>
     <string name="clear_cache_message">このデバイスからキャッシュされたオーディオとサムネイルデータをすべて削除します</string>
     <string name="cache_cleared">キャッシュが消去されました</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">最後に記録された診断ログを見る</string>
     <string name="export_logs">ログをエクスポート</string>
     <string name="clear_logs">ログの消去</string>
+    <string name="theme">アプリのテーマ</string>
+    <string name="choose_theme">テーマを選択</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_system">システムをフォロー</string>
 </resources>

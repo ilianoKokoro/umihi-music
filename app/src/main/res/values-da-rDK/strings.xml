@@ -54,7 +54,6 @@
     <string name="logged_in_message">Du er logget på din YouTube-konto</string>
     <string name="logged_out_message">Du er i øjeblikket ikke logget ind</string>
     <string name="account">Konto</string>
-
     <string name="clear_login_message">Rydder alle de gemte konti og loginoplysninger</string>
     <string name="clear_login_confirm_message">Dette vil logge dig ud og permanent fjerne alle gemte YouTube-konti, cookies og godkendelsestokens fra denne enhed. Du skal logge ind igen for at bruge din konto.</string>
     <string name="login_info_cleared">Login Info Ryddet</string>
@@ -105,7 +104,7 @@
     <string name="description">Varebeskrivelse</string>
     <string name="create">Opret</string>
     <string name="create_playlist">Opret afspilningsliste</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Log ind for at få adgang til dine afspilningslister</string>
     <string name="privacy_unlisted">Ulistet</string>
     <string name="privacy_public">Offentlig</string>
     <string name="privacy_private">Privat</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Lyd Cache Størrelse</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB brugt</string>
+    <string name="downloads_audio_used">%1$s lyd</string>
+    <string name="downloads_images_used">%1$s billeder</string>
     <string name="clear_cache">Ryd Cache</string>
     <string name="clear_cache_message">Fjern alle cachede lyd- og miniaturedata fra denne enhed</string>
     <string name="cache_cleared">Cache Ryddet</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Se de sidst optagede diagnoselogger</string>
     <string name="export_logs">Eksporter logs</string>
     <string name="clear_logs">Ryd logs</string>
+    <string name="theme">App Tema</string>
+    <string name="choose_theme">Vælg Tema</string>
+    <string name="theme_dark">Mørk</string>
+    <string name="theme_light">Lys</string>
+    <string name="theme_system">Følg System</string>
 </resources>

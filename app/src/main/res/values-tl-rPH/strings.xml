@@ -29,10 +29,10 @@
     <string name="join_discord_server">Sumali sa Discord server</string>
     <string name="play_next">Sunod na maglaro</string>
     <string name="add_to_queue">Idagdag sa pila</string>
-    <string name="add_to_playlist">Idagdag sa playlist</string>
+    <string name="add_to_playlist">Add to playlist</string>
     <string name="no_playlists_found">Walang nakitang mga playlist</string>
-    <string name="remove_from_playlist">Tanggalin sa playlist</string>
-    <string name="remove_song_from_playlist_confirm_text">Tanggalin ang kanta sa playlist?</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="remove_song_from_playlist_confirm_text">Remove this song from the playlist?</string>
     <string name="retry">Ulitin</string>
     <string name="play_next_toast">Isusunod \'tong kanta</string>
     <string name="added_queue_toast">Nagdagdag ng kanta sa pila</string>
@@ -54,7 +54,6 @@
     <string name="logged_in_message">Naka-log in ka sa iyong YouTube account</string>
     <string name="logged_out_message">Kasalukuyan kang hindi naka-log in</string>
     <string name="account">Akawnt</string>
-
     <string name="clear_login_message">I-clear ang lahat ng naka-save na account at impormasyon sa pag-login</string>
     <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
     <string name="login_info_cleared">Na-clear ang Impormasyon sa Pag-login</string>
@@ -99,10 +98,10 @@
     <string name="keep_screen_on_title">Keep Screen Always On</string>
     <string name="keep_screen_on_title_description">Prevents the display from turning off while the app is open</string>
     <string name="send_playback_data_title">Magpadala ng data pabalik sa Google</string>
-    <string name="send_playback_data_description">Nagpapadala ng mga pinatugtog na kanta pabalik sa YouTube Music para sa history, rekomendasyon, at buod sa dulo ng taon</string>
+    <string name="send_playback_data_description">Sends played songs back to YouTube Music for history, recommendations and year-end recap</string>
     <string name="downloading_update">Dinadownload ang Update…</string>
     <string name="title">Titulo</string>
-    <string name="description">Paglalarawan</string>
+    <string name="description">Description</string>
     <string name="create">Gumawa</string>
     <string name="create_playlist">Gumawa ng playlist</string>
     <string name="login_prompt">Log in to access your playlists</string>
@@ -151,7 +150,7 @@
     <string name="failed_get_to_login_cookies">Failed to get to login cookies</string>
     <string name="failed_delete_playlist">Failed to delete the playlist</string>
     <string name="failed_remove_from_library">Failed to remove the playlist from your library</string>
-    <string name="failed_remove_song_from_playlist">Hindi natanggal ang kanta sa playlist</string>
+    <string name="failed_remove_song_from_playlist">Failed to remove the song from the playlist</string>
     <string name="repeat_one">Repeat One</string>
     <string name="repeat_all">Repeat All</string>
     <string name="repeat_off">Repeat Off</string>
@@ -160,15 +159,23 @@
     <string name="exoplayer_cache_title">Audio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="downloads_audio_used">%1$s audio</string>
+    <string name="downloads_images_used">%1$s images</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
-    <string name="volume">Lakas</string>
-    <string name="download_aborted_message">Natigil ang download dahil sa pagkawala ng koneksyon</string>
-    <string name="pause">Itigil</string>
+    <string name="volume">Volume</string>
+    <string name="download_aborted_message">Download aborted due to loss of connection</string>
+    <string name="pause">Pause</string>
     <string name="diagnostics">Diagnostics</string>
     <string name="show_logs">Show logs</string>
     <string name="view_the_recorded_diagnostics_logs">Tignan ang mga huling mga pagtatala</string>
     <string name="export_logs">I-export ang mga tala</string>
     <string name="clear_logs">Linisin ang mga tala</string>
+    <string name="theme">App Theme</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">Follow System</string>
 </resources>

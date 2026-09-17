@@ -54,7 +54,6 @@
     <string name="logged_in_message">Jesteś zalogowany na swoje konto YouTube</string>
     <string name="logged_out_message">Nie jesteś zalogowany</string>
     <string name="account">Konto</string>
-
     <string name="clear_login_message">Czyści wszystkie zapisane konta i dane logowania</string>
     <string name="clear_login_confirm_message">Spowoduje to wylogowanie i trwałe usunięcie wszystkich zapisanych kont YouTube, ciasteczek i tokenów uwierzytelniania z tego urządzenia. Będziesz musiał zalogować się ponownie, aby używać swojego konta.</string>
     <string name="login_info_cleared">Wyczyszczono dane logowania</string>
@@ -105,7 +104,7 @@
     <string name="description">Opis</string>
     <string name="create">Utwórz</string>
     <string name="create_playlist">Utwórz playlistę</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Zaloguj się, aby uzyskać dostęp do playlist</string>
     <string name="privacy_unlisted">Niewymienione</string>
     <string name="privacy_public">Publiczne</string>
     <string name="privacy_private">Prywatny</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Rozmiar pamięci podręcznej dźwięku</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB użyte</string>
+    <string name="downloads_audio_used">Dźwięk %1$s</string>
+    <string name="downloads_images_used">%1$s obrazów</string>
     <string name="clear_cache">Usuń pamięć podręczną</string>
     <string name="clear_cache_message">Usuń wszystkie dane z pamięci podręcznej dźwięku i miniatur z tego urządzenia</string>
     <string name="cache_cleared">Wyczyszczono pamięć podręczną</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Zobacz ostatnie nagrane dzienniki diagnostyczne</string>
     <string name="export_logs">Eksportuj logi</string>
     <string name="clear_logs">Wyczyść logi</string>
+    <string name="theme">Motyw aplikacji</string>
+    <string name="choose_theme">Wybierz motyw</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_light">Światło</string>
+    <string name="theme_system">Śledź system</string>
 </resources>

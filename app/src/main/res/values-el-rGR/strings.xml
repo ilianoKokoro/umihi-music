@@ -54,7 +54,6 @@
     <string name="logged_in_message">Είστε συνδεδεμένοι στο λογαριασμό σας στο YouTube</string>
     <string name="logged_out_message">Αυτή τη στιγμή δεν είστε συνδεδεμένοι</string>
     <string name="account">Λογαριασμός</string>
-
     <string name="clear_login_message">Καθαρίζει όλους τους αποθηκευμένους λογαριασμούς και τις πληροφορίες σύνδεσης</string>
     <string name="clear_login_confirm_message">Αυτό θα σας αποσυνδέσει και θα καταργήσει οριστικά όλους τους αποθηκευμένους λογαριασμούς YouTube, τα cookies και τα διακριτικά ελέγχου ταυτότητας από αυτήν τη συσκευή. Θα χρειαστεί να συνδεθείτε ξανά για να χρησιμοποιήσετε το λογαριασμό σας.</string>
     <string name="login_info_cleared">Πληροφορίες Σύνδεσης Εκκαθαρίστηκαν</string>
@@ -105,7 +104,7 @@
     <string name="description">Περιγραφή</string>
     <string name="create">Δημιουργία</string>
     <string name="create_playlist">Δημιουργία λίστας αναπαραγωγής</string>
-    <string name="login_prompt">Log in to access your playlists</string>
+    <string name="login_prompt">Συνδεθείτε για να αποκτήσετε πρόσβαση στις λίστες αναπαραγωγής</string>
     <string name="privacy_unlisted">Μη Καταχωρημένο</string>
     <string name="privacy_public">Δημόσιο</string>
     <string name="privacy_private">Ιδιωτικό</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Μέγεθος Προσωρινής Μνήμης</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
+    <string name="cache_used_state">%1$s / %2$d MB χρησιμοποιείται</string>
+    <string name="downloads_audio_used">%1$s audio</string>
+    <string name="downloads_images_used">%1$s εικόνες</string>
     <string name="clear_cache">Εκκαθάριση Προσωρινής Αποθήκευσης</string>
     <string name="clear_cache_message">Αφαίρεση όλων των προσωρινά αποθηκευμένων δεδομένων ήχου και μικρογραφιών από αυτήν τη συσκευή</string>
     <string name="cache_cleared">Η Μνήμη Cache Εκκαθαρίστηκε</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Δείτε τα τελευταία καταγεγραμμένα αρχεία καταγραφής διαγνωστικών</string>
     <string name="export_logs">Εξαγωγή αρχείων καταγραφής</string>
     <string name="clear_logs">Εκκαθάριση αρχείων καταγραφής</string>
+    <string name="theme">Θέμα Εφαρμογής</string>
+    <string name="choose_theme">Επιλογή Θέματος</string>
+    <string name="theme_dark">Σκοτεινό</string>
+    <string name="theme_light">Φωτεινό</string>
+    <string name="theme_system">Ακολουθήστε Το Σύστημα</string>
 </resources>

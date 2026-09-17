@@ -54,7 +54,6 @@
     <string name="logged_in_message">Vous êtes connecté à votre compte YouTube</string>
     <string name="logged_out_message">Vous n\'êtes actuellement pas connecté</string>
     <string name="account">Compte</string>
-
     <string name="clear_login_message">Efface tous les comptes enregistrés et les informations de connexion</string>
     <string name="clear_login_confirm_message">Cette action vous déconnectera et supprimera définitivement tous les comptes YouTube enregistrés, les cookies et les jetons d\'authentification de cet appareil. Vous devrez vous reconnecter pour utiliser votre compte.</string>
     <string name="login_info_cleared">Informations de connexion effacées</string>
@@ -160,6 +159,9 @@
     <string name="exoplayer_cache_title">Taille du cache audio</string>
     <string name="thumbnail_cache_title">Taille du cache des miniatures</string>
     <string name="cache_size_mb">%1$d Mo</string>
+    <string name="cache_used_state">%1$s / %2$d Mo utilisés</string>
+    <string name="downloads_audio_used">Audio %1$s</string>
+    <string name="downloads_images_used">Images %1$s</string>
     <string name="clear_cache">Vider le cache</string>
     <string name="clear_cache_message">Supprimer toutes les données audio et les miniatures mises en cache sur cet appareil</string>
     <string name="cache_cleared">Cache effacé</string>
@@ -171,4 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Consulter les derniers journaux de diagnostic enregistrés</string>
     <string name="export_logs">Exporter les journaux</string>
     <string name="clear_logs">Effacer les journaux</string>
+    <string name="theme">Thème de l\'application</string>
+    <string name="choose_theme">Choisissez un thème</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_system">Suivre le système</string>
 </resources>
