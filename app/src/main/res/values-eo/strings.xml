@@ -175,6 +175,6 @@
     <string name="theme">App Thweme</string>
     <string name="choose_theme">Chwoose Thweme</string>
     <string name="theme_dark">Dawk</string>
-    <string name="theme_light">Wight</string>
+    <string name="theme_light">Light</string>
     <string name="theme_system">Fowwow System</string>
 </resources>
