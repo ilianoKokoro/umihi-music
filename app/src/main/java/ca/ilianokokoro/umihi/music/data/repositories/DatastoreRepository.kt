@@ -21,6 +21,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_ON_METERED
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.OFFLINE_MODE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SEND_PLAYBACK_DATA
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THEME_MODE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE
@@ -49,6 +50,7 @@ class DatastoreRepository(private val context: Context) {
         val AUTO_UPDATE = booleanPreferencesKey(Constants.Datastore.AUTO_UPDATE)
         val SEND_PLAYBACK_DATA = booleanPreferencesKey(Constants.Datastore.SEND_PLAYBACK_DATA)
         val DOWNLOAD_ON_METERED = booleanPreferencesKey(Constants.Datastore.DOWNLOAD_ON_METERED)
+        val OFFLINE_MODE = booleanPreferencesKey(Constants.Datastore.OFFLINE_MODE)
         val EXOPLAYER_CACHE_SIZE = intPreferencesKey(Constants.Datastore.EXOPLAYER_CACHE_SIZE_KEY)
         val THUMBNAIL_CACHE_SIZE = intPreferencesKey(Constants.Datastore.THUMBNAIL_CACHE_SIZE_KEY)
         val APP_VOLUME = intPreferencesKey(Constants.Datastore.APP_VOLUME_KEY)
@@ -76,6 +78,7 @@ class DatastoreRepository(private val context: Context) {
         val updateChecking = it[AUTO_UPDATE] ?: true
         val sendPlaybackData = it[SEND_PLAYBACK_DATA] ?: false
         val downloadOnMetered = it[DOWNLOAD_ON_METERED] ?: false
+        val offlineMode = it[OFFLINE_MODE] ?: false
         val exoPlayerCacheSize =
             it[EXOPLAYER_CACHE_SIZE] ?: Constants.Cache.Audio.DEFAULT_SIZE_MB
         val thumbnailCacheSize =
@@ -100,6 +103,7 @@ class DatastoreRepository(private val context: Context) {
             sendPlaybackData = sendPlaybackData,
             updateChecking = updateChecking,
             downloadOnMetered = downloadOnMetered,
+            offlineMode = offlineMode,
             exoPlayerCacheSizeMB = exoPlayerCacheSize,
             thumbnailCacheSizeMB = thumbnailCacheSize,
             appVolume = appVolume,
