@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.data.repositories
 import android.app.Application
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.extensions.toException
@@ -68,7 +69,17 @@ class PlaylistRepository(application: Application) {
             try {
                 val remotePlaylist = playlistDataSource.retrieveOne(playlist, settings, onProgress)
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
-                emit(ApiResult.Success(mergeWithLocal(remotePlaylist, localPlaylist)))
+                val mergedPlaylist = mergeWithLocal(remotePlaylist, localPlaylist)
+                if (localPlaylist != null && localPlaylist.songs.isNotEmpty()) {
+                    try {
+                        syncLocalPlaylist(mergedPlaylist)
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (e: Exception) {
+                        printe(message = "Error syncing local playlist", exception = e)
+                    }
+                }
+                emit(ApiResult.Success(mergedPlaylist))
             } catch (e: Exception) {
                 if (e is CancellationException) {
                     throw e
@@ -272,5 +283,29 @@ class PlaylistRepository(application: Application) {
             info = remotePlaylist.info.copy(hidden = localPlaylist.info.hidden),
             songs = mergedSongs
         )
+    }
+
+    private suspend fun syncLocalPlaylist(playlist: Playlist) {
+        val mergedSongs = playlist.songs
+        if (mergedSongs.isEmpty()) {
+            localPlaylistDataSource.syncPlaylistWithSongs(playlist)
+            return
+        }
+
+        val savedSongs = localSongDataSource
+            .getSongsByYoutubeIds(mergedSongs.map { it.youtubeId })
+            .associateBy { it.youtubeId }
+
+        val preservedSongs = mergedSongs.map { song ->
+            val saved = savedSongs[song.youtubeId] ?: return@map song
+            song.copy(
+                thumbnailPath = saved.thumbnailPath ?: song.thumbnailPath,
+                audioFilePath = saved.audioFilePath ?: song.audioFilePath,
+                streamUrl = saved.streamUrl ?: song.streamUrl,
+                isLiked = saved.isLiked ?: song.isLiked,
+            )
+        }
+
+        localPlaylistDataSource.syncPlaylistWithSongs(playlist.copy(songs = preservedSongs))
     }
 }

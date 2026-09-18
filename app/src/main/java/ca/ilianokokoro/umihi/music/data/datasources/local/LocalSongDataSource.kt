@@ -54,6 +54,9 @@ interface LocalSongDataSource {
     @Query("SELECT * FROM songs WHERE youtubeId = :songId")
     suspend fun getSong(songId: String): Song?
 
+    @Query("SELECT * FROM songs WHERE youtubeId IN (:songIds)")
+    suspend fun getSongsByYoutubeIds(songIds: List<String>): List<Song>
+
     @Query("DELETE FROM songs")
     suspend fun deleteAll()
 

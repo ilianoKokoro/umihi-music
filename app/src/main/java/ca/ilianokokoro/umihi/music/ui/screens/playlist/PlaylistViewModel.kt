@@ -68,6 +68,7 @@ class PlaylistViewModel(
         observeLoginState()
         viewModelScope.launch {
             getPlaylistInfoAsync()
+            downloadPlaylistIfNeeded()
             observerDownloadJob()
         }
     }
@@ -185,6 +186,18 @@ class PlaylistViewModel(
 
             val settings = datastoreRepository.getSettings()
             downloadRepository.downloadPlaylist(playlist, settings.downloadOnMetered)
+        }
+    }
+
+    private fun downloadPlaylistIfNeeded() {
+        viewModelScope.launch {
+            val isLocallyDownloaded = localPlaylistRepository
+                .getPlaylistById(playlistInfo.id)
+                ?.songs
+                ?.isNotEmpty() == true
+            if (isLocallyDownloaded) {
+                downloadPlaylist()
+            }
         }
     }
 
