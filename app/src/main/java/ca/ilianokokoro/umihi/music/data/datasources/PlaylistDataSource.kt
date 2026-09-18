@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
@@ -8,6 +9,9 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class PlaylistDataSource {
     suspend fun retrieveAll(settings: UmihiSettings): List<PlaylistInfo> {
@@ -76,12 +80,33 @@ class PlaylistDataSource {
     suspend fun retrieveAddToPlaylistOptions(
         videoId: String,
         settings: UmihiSettings
-    ): List<AddToPlaylistOption> {
-        return YoutubeDataExtractor.extractAddToPlaylistOptions(
+    ): List<AddToPlaylistOption> = coroutineScope {
+        val playlistsJson = async {
             YoutubeApiClient.getAddToPlaylists(
                 videoId = videoId,
                 settings = settings
             )
+        }
+
+        val containingPlaylistIds = async {
+            try {
+                YoutubeDataExtractor.extractPlaylistIdsContainingVideo(
+                    YoutubeApiClient.getPlaylistsContainingVideo(
+                        videoId = videoId,
+                        settings = settings
+                    )
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                printd("Failed to resolve playlists containing $videoId: ${e.message}")
+                emptySet()
+            }
+        }
+
+        YoutubeDataExtractor.extractAddToPlaylistOptions(
+            jsonString = playlistsJson.await(),
+            containingPlaylistIds = containingPlaylistIds.await(),
         )
     }
 

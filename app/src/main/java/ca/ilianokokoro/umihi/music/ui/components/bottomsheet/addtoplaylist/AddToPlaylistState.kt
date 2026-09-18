@@ -11,7 +11,7 @@ data class AddToPlaylistState(
         get() = pendingToggles.isNotEmpty()
 
     fun isChecked(option: AddToPlaylistOption): Boolean =
-        option.playlistId in pendingToggles
+        option.isInPlaylist xor (option.playlistId in pendingToggles)
 }
 
 sealed class AddToPlaylistScreenState {

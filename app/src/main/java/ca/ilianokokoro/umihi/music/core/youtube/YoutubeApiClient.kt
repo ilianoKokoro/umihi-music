@@ -286,7 +286,7 @@ object YoutubeApiClient {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
             id = null,
-            settings = settings
+            settings = settings,
         )
 
         val body = buildJsonObject {
@@ -306,7 +306,42 @@ object YoutubeApiClient {
         return requestWithBody(
             url = Constants.YoutubeApi.GetAddToPlaylist.URL,
             body = body,
-            settings = settings
+            settings = settings,
+        )
+    }
+
+    suspend fun getPlaylistsContainingVideo(
+        videoId: String,
+        settings: UmihiSettings
+    ): String {
+        val client = Constants.YoutubeApi.Client.WEB
+
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings,
+            client = client,
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put(
+                "videoIds",
+                buildJsonArray {
+                    add(videoId)
+                }
+            )
+            put("excludeWatchLater", false)
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.GetAddToPlaylistWeb.URL,
+            body = body,
+            settings = settings,
+            client = client,
         )
     }
 

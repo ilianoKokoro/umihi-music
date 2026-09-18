@@ -233,6 +233,8 @@ object Constants {
         const val YOUTUBE_URL_PREFIX = "https://www.youtube.com/watch?v="
         const val ORIGIN = "https://music.youtube.com"
         const val API_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
+        const val WEB_ORIGIN = "https://www.youtube.com"
+        const val WEB_API_KEY = "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
         const val USER_AGENT =
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
 
@@ -269,6 +271,14 @@ object Constants {
                 put("platform", JsonPrimitive("DESKTOP"))
             }
 
+            val WEB = buildJsonObject {
+                put("clientName", JsonPrimitive("WEB"))
+                put("clientVersion", JsonPrimitive("2.20260714.00.00"))
+                put("xClientName", JsonPrimitive("1"))
+                put("userAgent", JsonPrimitive(USER_AGENT))
+                put("platform", JsonPrimitive("DESKTOP"))
+            }
+
             val VISION_OS = buildJsonObject {
                 put("clientName", JsonPrimitive("VISIONOS"))
                 put("clientVersion", JsonPrimitive("0.1"))
@@ -301,6 +311,11 @@ object Constants {
         object GetAddToPlaylist {
             const val URL =
                 "${ORIGIN}/youtubei/v1/playlist/get_add_to_playlist?key=${API_KEY}&prettyPrint=false"
+        }
+
+        object GetAddToPlaylistWeb {
+            const val URL =
+                "${WEB_ORIGIN}/youtubei/v1/playlist/get_add_to_playlist?key=${WEB_API_KEY}&prettyPrint=false"
         }
 
         object Edit {

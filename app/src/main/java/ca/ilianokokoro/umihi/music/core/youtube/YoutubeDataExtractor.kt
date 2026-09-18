@@ -50,81 +50,31 @@ object YoutubeDataExtractor {
         }
     }
 
-    fun getBestThumbnailUrl(thumbnailElement: JsonElement): String {
-        val obj = thumbnailElement.safeObject() ?: return ""
+    private val THUMBNAIL_KEYS = listOf(
+        "musicThumbnailRenderer",
+        "croppedSquareThumbnailRenderer",
+        "thumbnailRenderer",
+        "thumbnail",
+        "thumbnails",
+        "foregroundThumbnail",
+    )
 
-        val fromMusicRenderer = obj["musicThumbnailRenderer"]
-            ?.safeObject()
-            ?.let { it["thumbnail"] ?: it["thumbnails"] }
-            ?.let { getBestThumbnailUrl(it) }
-            ?.takeIf { it.isNotBlank() }
-
-        val fromCroppedSquareRenderer = obj["croppedSquareThumbnailRenderer"]
-            ?.safeObject()
-            ?.let { it["thumbnail"] ?: it["thumbnails"] }
-            ?.let { getBestThumbnailUrl(it) }
-            ?.takeIf { it.isNotBlank() }
-
-        val fromThumbnailRenderer = obj["thumbnailRenderer"]
-            ?.safeObject()
-            ?.let { it["thumbnail"] ?: it["thumbnails"] }
-            ?.let { getBestThumbnailUrl(it) }
-            ?.takeIf { it.isNotBlank() }
-
-        val fromThumbnail = obj["thumbnail"]
-            ?.let { getBestThumbnailUrl(it) }
-            ?.takeIf { it.isNotBlank() }
-
-        val fromDirectThumbnails = obj["thumbnails"]
-            ?.safeArray()?.lastOrNull()
-            ?.safeObject()?.get("url")
-            ?.jsonPrimitive?.contentOrNull
-
-        return fromMusicRenderer
-            ?: fromCroppedSquareRenderer
-            ?: fromThumbnailRenderer
-            ?: fromThumbnail
-            ?: fromDirectThumbnails
-            ?: obj["url"]?.jsonPrimitive?.contentOrNull
-            ?: ""
-    }
-
-    private fun findAnyThumbnailUrl(element: JsonElement?): String? {
+    fun getBestThumbnailUrl(element: JsonElement?): String {
         when (element) {
-            is JsonObject -> {
-                element["url"]?.jsonPrimitive?.contentOrNull
-                    ?.takeIf { it.isNotBlank() }
-                    ?.let { return it }
-
-                val rendererCandidate = element["musicThumbnailRenderer"]
-                    ?: element["croppedSquareThumbnailRenderer"]
-                    ?: element["thumbnailRenderer"]
-                if (rendererCandidate != null) {
-                    getBestThumbnailUrl(rendererCandidate)
-                        .takeIf { it.isNotBlank() }
-                        ?.let { return it }
-                }
-
-                val thumbnail = element["thumbnail"]
-                    ?.let(::getBestThumbnailUrl)
-                    ?.takeIf(String::isNotBlank)
-
-                if (thumbnail != null) {
-                    return thumbnail
-                }
-
-                element.forEach { (_, child) ->
-                    findAnyThumbnailUrl(child)?.let { return it }
-                }
+            is JsonArray -> element.asReversed().forEach { item ->
+                getBestThumbnailUrl(item).takeIf { it.isNotBlank() }?.let { return it }
             }
 
-            is JsonArray -> element.forEach {
-                findAnyThumbnailUrl(it)?.let { url -> return url }
+            is JsonObject -> {
+                THUMBNAIL_KEYS.forEach { key ->
+                    getBestThumbnailUrl(element[key]).takeIf { it.isNotBlank() }?.let { return it }
+                }
+                element["url"]?.jsonPrimitive?.contentOrNull?.let { return it }
             }
 
             else -> Unit
         }
-        return null
+        return ""
     }
 
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
@@ -508,7 +458,10 @@ object YoutubeDataExtractor {
         "musicTwoRowItemRenderer",
     )
 
-    fun extractAddToPlaylistOptions(jsonString: String): List<AddToPlaylistOption> {
+    fun extractAddToPlaylistOptions(
+        jsonString: String,
+        containingPlaylistIds: Set<String> = emptySet(),
+    ): List<AddToPlaylistOption> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val root = json["contents"]
@@ -516,8 +469,11 @@ object YoutubeDataExtractor {
             ?.firstNotNullOfOrNull { it.safeObject()?.get("addToPlaylistRenderer") }
             ?: return emptyList()
 
+        val normalizedContainingIds = containingPlaylistIds
+            .mapTo(mutableSetOf()) { it.normalizedPlaylistId() }
+
         val collected = mutableListOf<AddToPlaylistOption>()
-        collectAddToPlaylistOptions(root, collected)
+        collectAddToPlaylistOptions(root, collected, normalizedContainingIds)
 
         val seen = mutableSetOf<String>()
         return collected
@@ -525,32 +481,82 @@ object YoutubeDataExtractor {
             .filter { seen.add(it.playlistId) }
     }
 
-    private fun isLikedMusicPlaylist(playlistId: String): Boolean {
-        val normalizedId = playlistId.removePrefix("VL")
-        return normalizedId == "LM"
+    fun extractPlaylistIdsContainingVideo(jsonString: String): Set<String> {
+        val json = Json.parseToJsonElement(jsonString).safeObject() ?: return emptySet()
+
+        val containingIds = mutableSetOf<String>()
+        collectPlaylistIdsContainingVideo(json, containingIds)
+        return containingIds
     }
 
-    private fun collectAddToPlaylistOptions(
+    private fun collectPlaylistIdsContainingVideo(
         value: JsonElement?,
-        sink: MutableList<AddToPlaylistOption>
+        sink: MutableSet<String>
     ) {
         when (value) {
             is JsonObject -> {
                 ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
                     value[key]?.safeObject()?.let { renderer ->
-                        parseAddToPlaylistOption(renderer)?.let { sink.add(it) }
+                        val isInPlaylist =
+                            renderer["containsSelectedVideos"]?.jsonPrimitive?.contentOrNull == "ALL"
+                        if (isInPlaylist) {
+                            findAddToPlaylistPlaylistId(renderer)?.let {
+                                sink.add(it.normalizedPlaylistId())
+                            }
+                        }
                     }
                 }
-                value.forEach { (_, child) -> collectAddToPlaylistOptions(child, sink) }
+                value.forEach { (_, child) -> collectPlaylistIdsContainingVideo(child, sink) }
             }
 
-            is JsonArray -> value.forEach { collectAddToPlaylistOptions(it, sink) }
+            is JsonArray -> value.forEach { collectPlaylistIdsContainingVideo(it, sink) }
 
             else -> Unit
         }
     }
 
-    private fun parseAddToPlaylistOption(renderer: JsonObject): AddToPlaylistOption? {
+    private fun String.normalizedPlaylistId(): String = removePrefix("VL")
+
+    private fun isLikedMusicPlaylist(playlistId: String): Boolean {
+        return playlistId.normalizedPlaylistId() == "LM"
+    }
+
+    private fun collectAddToPlaylistOptions(
+        value: JsonElement?,
+        sink: MutableList<AddToPlaylistOption>,
+        containingPlaylistIds: Set<String>,
+    ) {
+        when (value) {
+            is JsonObject -> {
+                ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
+                    value[key]?.safeObject()?.let { renderer ->
+                        parseAddToPlaylistOption(
+                            renderer,
+                            containingPlaylistIds
+                        )?.let { sink.add(it) }
+                    }
+                }
+                value.forEach { (_, child) ->
+                    collectAddToPlaylistOptions(child, sink, containingPlaylistIds)
+                }
+            }
+
+            is JsonArray -> value.forEach {
+                collectAddToPlaylistOptions(
+                    it,
+                    sink,
+                    containingPlaylistIds
+                )
+            }
+
+            else -> Unit
+        }
+    }
+
+    private fun parseAddToPlaylistOption(
+        renderer: JsonObject,
+        containingPlaylistIds: Set<String>,
+    ): AddToPlaylistOption? {
         val playlistId = findAddToPlaylistPlaylistId(renderer) ?: return null
         val title = extractOptionText(
             renderer,
@@ -565,25 +571,16 @@ object YoutubeDataExtractor {
             return null
         }
 
-        val thumbnail = renderer["thumbnail"]
-            ?: renderer["thumbnailRenderer"]
-            ?: renderer["foregroundThumbnail"]
-            ?: renderer["thumbnails"]
+        val thumbnailUrl = getBestThumbnailUrl(renderer).takeIf { it.isNotBlank() }
 
-        val thumbnailUrl = getBestThumbnailUrl(thumbnail ?: JsonObject(emptyMap()))
-            .ifBlank { findAnyThumbnailUrl(renderer).orEmpty() }
-            .takeIf { it.isNotBlank() }
-
-        printd(
-            "add-to-playlist option \"$title\" ($playlistId) " +
-                    "thumbnail=${thumbnailUrl ?: "MISSING"}"
-        )
+        val isInPlaylist = playlistId.normalizedPlaylistId() in containingPlaylistIds
 
         return AddToPlaylistOption(
             playlistId = playlistId,
             title = title,
             subtitle = extractOptionText(renderer, "subtitle", "secondaryText"),
             thumbnailUrl = thumbnailUrl,
+            isInPlaylist = isInPlaylist,
         )
     }
 
@@ -767,7 +764,7 @@ object YoutubeDataExtractor {
             title = title,
             artist = author,
             duration = formatSecondsForYouTubeDisplay(lengthSeconds),
-            thumbnailHref = extractHighQualityThumbnail(jsonString),
+            thumbnailHref = getBestThumbnailUrl(details?.get("thumbnail")),
             isExplicit = isExplicit
         )
     }
@@ -883,18 +880,6 @@ object YoutubeDataExtractor {
         } else {
             String.format(Locale.US, "%d:%02d", minutes, seconds)
         }
-    }
-
-    private fun extractHighQualityThumbnail(jsonString: String): String {
-        val json = Json.parseToJsonElement(jsonString).jsonObject
-        val url = json["videoDetails"]
-            ?.safeObject()?.get("thumbnail")
-            ?.safeObject()?.get("thumbnails")
-            ?.safeArray()?.lastOrNull()
-            ?.safeObject()?.get("url")
-            ?.jsonPrimitive?.contentOrNull
-
-        return url ?: ""
     }
 
     private suspend fun parseSongsFromContents(

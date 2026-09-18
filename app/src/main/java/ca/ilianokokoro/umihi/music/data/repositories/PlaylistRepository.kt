@@ -161,11 +161,12 @@ class PlaylistRepository(application: Application) {
         song: Song,
         settings: UmihiSettings,
         currentlyContains: Boolean,
+        useSongSetVideoId: Boolean = false,
     ): Flow<ApiResult<Unit>> {
         return flow {
             emit(ApiResult.Loading)
             if (currentlyContains) {
-                val setVideoId = song.setVideoId
+                val setVideoId = (if (useSongSetVideoId) song.setVideoId else null)
                     ?: playlistDataSource.findSetVideoId(playlistId, song.youtubeId, settings)
                 playlistDataSource.edit(
                     playlistId = playlistId,
