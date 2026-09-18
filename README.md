@@ -236,7 +236,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Akiro9982)</b></sub></a>
         <br />
-        <sub><b>135 words</b></sub>
+        <sub><b>139 words</b></sub>
         <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
       </td>
     </tr>
