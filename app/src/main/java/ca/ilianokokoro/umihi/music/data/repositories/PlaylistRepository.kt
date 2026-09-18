@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.repositories
 
 import android.app.Application
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlin.uuid.Uuid
 
 class PlaylistRepository(application: Application) {
+    private val context = application
     private val playlistDataSource = PlaylistDataSource()
     private val localPlaylistDataSource = AppDatabase.getInstance(application).playlistRepository()
     private val localSongDataSource = AppDatabase.getInstance(application).songRepository()
@@ -31,6 +33,14 @@ class PlaylistRepository(application: Application) {
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {
             emit(ApiResult.Loading)
+            if (settings.offlineMode) {
+                val localPlaylists = localPlaylistDataSource
+                    .fetchVisiblePlaylists()
+                    .filter { playlist -> playlist.songs.any { it.downloaded } }
+                    .map { it.info }
+                emit(ApiResult.Success(localPlaylists))
+                return@flow
+            }
             try {
                 val remotePlaylists = playlistDataSource.retrieveAll(settings)
                 val hiddenIds = localPlaylistDataSource
@@ -63,6 +73,26 @@ class PlaylistRepository(application: Application) {
             if (playlist.info.id == Constants.Downloads.DOWNLOADED_PLAYLIST_ID) {
                 val downloadedSongs = localSongDataSource.getDownloadedSongs()
                 emit(ApiResult.Success(Playlist(info = playlist.info, songs = downloadedSongs)))
+                return@flow
+            }
+
+            if (settings.offlineMode) {
+                val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
+                if (localPlaylist != null) {
+                    emit(
+                        ApiResult.Success(
+                            localPlaylist.copy(
+                                songs = localPlaylist.songs.filter { it.downloaded }
+                            )
+                        )
+                    )
+                } else {
+                    emit(
+                        ApiResult.Error(
+                            Exception(context.getString(R.string.playlist_not_downloaded))
+                        )
+                    )
+                }
                 return@flow
             }
 

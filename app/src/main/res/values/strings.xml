@@ -145,6 +145,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Download on Mobile Data</string>
     <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
+    <string name="offline_mode_title">Offline Mode</string>
+    <string name="offline_mode_description">Prevents remote fetching. Only downloaded playlists and songs are shown</string>
+    <string name="playlist_not_downloaded">This playlist is not downloaded. Download it while online to access it offline.</string>
     <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
     <string name="remove_library">Remove from library</string>
     <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>

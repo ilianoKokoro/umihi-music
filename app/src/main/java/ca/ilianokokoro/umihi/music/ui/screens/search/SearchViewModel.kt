@@ -20,7 +20,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     val uiState = _uiState.asStateFlow()
 
     private val datastoreRepository = DatastoreRepository(application)
-    val songRepository = SongRepository()
+    val songRepository = SongRepository(application)
 
     init {
         observeLoginState()
