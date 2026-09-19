@@ -30,7 +30,7 @@
     <string name="play_next">Putar selanjutnya</string>
     <string name="add_to_queue">Tambah ke antrean</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
-    <string name="no_playlists_found">No playlists found</string>
+    <string name="no_playlists_found">Tidak ada playlist</string>
     <string name="remove_from_playlist">Hapuskan dari playlist</string>
     <string name="remove_song_from_playlist_confirm_text">Hapuskan lagi ini dari playlist?</string>
     <string name="retry">Coba Ulang</string>
@@ -55,7 +55,7 @@
     <string name="logged_out_message">Anda saat ini belum masuk</string>
     <string name="account">Akun</string>
     <string name="clear_login_message">Hapus semua akun dan informasi login tersimpan</string>
-    <string name="clear_login_confirm_message">This will sign you out and permanently remove all saved YouTube accounts, cookies, and authentication tokens from this device. You will need to log in again to use your account.</string>
+    <string name="clear_login_confirm_message">Proses ini akan mengeluarkan dari akun anda dan menghapus semua akun YouTube tersimpan, cookie, dan token autentikasi dari perangkat ini. Anda akan harus masuk lagi untuk menggunakan akun anda.</string>
     <string name="login_info_cleared">Info Login Terhapus</string>
     <string name="downloads_cleared">Lagu Unduhan Terhapus</string>
     <string name="invalid_navkey">Kunci navigasi tidak valid : %1$s</string>
@@ -159,9 +159,9 @@
     <string name="exoplayer_cache_title">Ukuran Cache Audio</string>
     <string name="thumbnail_cache_title">Ukuran Cache Thumbnail</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
+    <string name="cache_used_state">%1$s / %2$d MB terpakai</string>
     <string name="downloads_audio_used">%1$s audio</string>
-    <string name="downloads_images_used">%1$s images</string>
+    <string name="downloads_images_used">%1$s foto</string>
     <string name="clear_cache">Hapus Cache</string>
     <string name="clear_cache_message">Hapus semua data cache audio dan thumbnail dari perangkat ini</string>
     <string name="cache_cleared">Cache Telah Terhapuskan</string>
@@ -173,9 +173,9 @@
     <string name="view_the_recorded_diagnostics_logs">Perlihatkan log diagnosa terakhir</string>
     <string name="export_logs">Ekspor log</string>
     <string name="clear_logs">Hapus log</string>
-    <string name="theme">App Theme</string>
-    <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme">Tema Aplikasi</string>
+    <string name="choose_theme">Pilih Tema</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_system">Ikuti Sistem</string>
 </resources>
