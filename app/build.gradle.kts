@@ -231,4 +231,6 @@ dependencies {
     // New Pipe Extractor
     implementation(libs.newpipeextractor)
 
+    // Document File API
+    implementation(libs.androidx.documentfile)
 }

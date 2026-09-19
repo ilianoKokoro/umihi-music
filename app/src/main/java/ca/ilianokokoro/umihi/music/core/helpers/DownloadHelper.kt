@@ -88,7 +88,7 @@ object DownloadHelper {
             Constants.Downloads.AUDIO_FILES_FOLDER
         )
 
-        val outputFile = File(audioDir, "${song.youtubeId}.webm")
+        val outputFile = File(audioDir, "${song.title} - ${song.artist} [${song.youtubeId}].webm")
         val tempFile = File(audioDir, "${song.youtubeId}.webm.part")
 
         if (outputFile.exists()) {
