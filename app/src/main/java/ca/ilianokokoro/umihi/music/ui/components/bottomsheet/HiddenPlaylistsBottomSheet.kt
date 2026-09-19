@@ -37,7 +37,7 @@ fun HiddenPlaylistsBottomSheet(
     onDismiss: () -> Unit
 ) {
     val sheetState = rememberBottomSheetState(
-        initialValue = SheetValue.Expanded,
+        initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
     )
     val handler = remember { Handler(Looper.getMainLooper()) }

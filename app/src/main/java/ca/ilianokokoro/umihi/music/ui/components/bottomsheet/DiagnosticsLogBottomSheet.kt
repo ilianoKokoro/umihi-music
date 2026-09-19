@@ -57,7 +57,7 @@ fun DiagnosticsLogBottomSheet(
     }
     val scope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetState(
-        initialValue = SheetValue.Expanded,
+        initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
     )
 

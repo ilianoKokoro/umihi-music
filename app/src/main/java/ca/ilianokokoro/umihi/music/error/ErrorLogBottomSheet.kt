@@ -43,7 +43,7 @@ fun ErrorLogBottomSheet(
     val clipboard = LocalClipboard.current
     val scope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetState(
-        initialValue = SheetValue.Expanded,
+        initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
     )
 
