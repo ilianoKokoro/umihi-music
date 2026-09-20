@@ -178,4 +178,7 @@
     <string name="theme_dark">Ciemny</string>
     <string name="theme_light">Światło</string>
     <string name="theme_system">Śledź system</string>
+    <string name="change_download_location">Zmień lokalizację pobierania</string>
+    <string name="current_location">Bieżąca lokalizacja: %1$s</string>
+    <string name="internal">Wewnętrzne</string>
 </resources>

@@ -178,4 +178,7 @@
     <string name="theme_dark">Scuro</string>
     <string name="theme_light">Chiaro</string>
     <string name="theme_system">Segui Il Sistema</string>
+    <string name="change_download_location">Cambia Posizione Download</string>
+    <string name="current_location">Posizione attuale: %1$s</string>
+    <string name="internal">Interno</string>
 </resources>

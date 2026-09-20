@@ -178,4 +178,7 @@
     <string name="theme_dark">Întunecat</string>
     <string name="theme_light">Lumină</string>
     <string name="theme_system">Urmărește sistemul</string>
+    <string name="change_download_location">Schimbă locația de descărcare</string>
+    <string name="current_location">Locația curentă: %1$s</string>
+    <string name="internal">Intern</string>
 </resources>

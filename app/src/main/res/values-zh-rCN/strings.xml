@@ -178,4 +178,7 @@
     <string name="theme_dark">深色</string>
     <string name="theme_light">亮色的</string>
     <string name="theme_system">跟随系统</string>
+    <string name="change_download_location">更改下载位置</string>
+    <string name="current_location">当前位置: %1$s</string>
+    <string name="internal">内部设置</string>
 </resources>

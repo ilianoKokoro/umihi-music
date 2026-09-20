@@ -178,4 +178,7 @@
     <string name="theme_dark">Mørk</string>
     <string name="theme_light">Lys</string>
     <string name="theme_system">Følg system</string>
+    <string name="change_download_location">Endre nedlastingssted</string>
+    <string name="current_location">Nåværende plassering: %1$s</string>
+    <string name="internal">Intern</string>
 </resources>

@@ -178,4 +178,7 @@
     <string name="theme_dark">Dunkel</string>
     <string name="theme_light">Hell</string>
     <string name="theme_system">System folgen</string>
+    <string name="change_download_location">Download-Verzeichnis ändern</string>
+    <string name="current_location">Aktueller Standort: %1$s</string>
+    <string name="internal">Intern</string>
 </resources>

@@ -178,4 +178,7 @@
     <string name="theme_dark">داكن</string>
     <string name="theme_light">فاتح</string>
     <string name="theme_system">اتبع النظام</string>
+    <string name="change_download_location">تغيير موقع التحميل</string>
+    <string name="current_location">الموقع الحالي: %1$s</string>
+    <string name="internal">داخلي</string>
 </resources>

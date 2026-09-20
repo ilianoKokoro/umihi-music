@@ -178,4 +178,7 @@
     <string name="theme_dark">Escuro</string>
     <string name="theme_light">Fino</string>
     <string name="theme_system">Seguir sistema</string>
+    <string name="change_download_location">Alterar Local do Download</string>
+    <string name="current_location">Localização atual: %1$s</string>
+    <string name="internal">interno</string>
 </resources>

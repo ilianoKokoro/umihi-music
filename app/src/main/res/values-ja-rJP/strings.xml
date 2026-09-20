@@ -178,4 +178,7 @@
     <string name="theme_dark">ダーク</string>
     <string name="theme_light">ライト</string>
     <string name="theme_system">システムをフォロー</string>
+    <string name="change_download_location">ダウンロード場所の変更</string>
+    <string name="current_location">現在地： %1$s</string>
+    <string name="internal">内部</string>
 </resources>

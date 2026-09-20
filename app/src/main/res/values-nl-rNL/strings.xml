@@ -178,4 +178,7 @@
     <string name="theme_dark">Donker</string>
     <string name="theme_light">Licht</string>
     <string name="theme_system">Volg systeem</string>
+    <string name="change_download_location">Downloadlocatie wijzigen</string>
+    <string name="current_location">Huidige locatie: %1$s</string>
+    <string name="internal">Intern</string>
 </resources>
