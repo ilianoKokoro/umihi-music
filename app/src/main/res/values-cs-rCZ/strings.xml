@@ -178,7 +178,7 @@
     <string name="theme_dark">Tmavý</string>
     <string name="theme_light">Světlý</string>
     <string name="theme_system">Sledovat systém</string>
-    <string name="change_download_location">Change Download Location</string>
-    <string name="current_location">Current location : %1$s</string>
-    <string name="internal">Internal</string>
+    <string name="change_download_location">Změnit umístění stahování</string>
+    <string name="current_location">Aktuální poloha : %1$s</string>
+    <string name="internal">Interní</string>
 </resources>
