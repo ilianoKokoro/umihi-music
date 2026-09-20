@@ -183,4 +183,7 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_light">Light</string>
     <string name="theme_system">Follow System</string>
+    <string name="change_download_location">Change Download Location</string>
+    <string name="current_location">Current location : %1$s</string>
+    <string name="internal">Internal</string>
 </resources>
