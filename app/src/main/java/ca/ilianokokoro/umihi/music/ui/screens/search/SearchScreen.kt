@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -143,24 +143,27 @@ fun SearchScreenContent(
                         modifier = Modifier
                             .fillMaxSize()
                     ) {
-                        items(
+                        itemsIndexed(
                             items = songs,
-                            key = { song ->
+                            key = { _, song ->
                                 song.uid
-                            }) {
+                            }) { index, song ->
                             SongListItem(
-                                song = it,
+                                song = song,
                                 onPress = {
-                                    PlayerManager.playSong(it)
+                                    PlayerManager.playQueue(
+                                        mediaItems = songs.map { it.mediaItem },
+                                        startIndex = index
+                                    )
                                 },
                                 playNext = {
-                                    PlayerManager.addNext(it, context)
+                                    PlayerManager.addNext(song, context)
                                 },
                                 addToQueue = {
-                                    PlayerManager.addToQueue(it, context)
+                                    PlayerManager.addToQueue(song, context)
                                 },
                                 addToPlaylist = if (isLoggedIn) {
-                                    { onAddToPlaylist(it) }
+                                    { onAddToPlaylist(song) }
                                 } else {
                                     null
                                 }
