@@ -137,7 +137,7 @@
     <string name="playlist_progress_description">Shows live progress and completion notifications for playlist downloads</string>
     <string name="song_alerts_name">Song Download Alerts</string>
     <string name="song_alerts_description">Notifies about individual song download issues during playlist downloads</string>
-    <string name="short_minutes">%1$d min</string>
+    <string name="short_minutes">%1$d 분</string>
     <string name="download_on_metered_title">Download on Mobile Data</string>
     <string name="download_on_metered_description">Allows downloading songs and playlists using your mobile data plan</string>
     <string name="waiting_for_wifi_to_download">Waiting for Wi-Fi to download %1$s</string>
@@ -159,9 +159,9 @@
     <string name="exoplayer_cache_title">Audio Cache Size</string>
     <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
     <string name="cache_size_mb">%1$d MB</string>
-    <string name="cache_used_state">%1$s / %2$d MB used</string>
-    <string name="downloads_audio_used">%1$s audio</string>
-    <string name="downloads_images_used">%1$s images</string>
+    <string name="cache_used_state">%1$s / %2$d MB 사용됨</string>
+    <string name="downloads_audio_used">%1$s 오디오</string>
+    <string name="downloads_images_used">%1$s 이미지</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_message">Remove all cached audio and thumbnail data from this device</string>
     <string name="cache_cleared">Cache Cleared</string>
@@ -175,7 +175,7 @@
     <string name="clear_logs">Clear logs</string>
     <string name="theme">App Theme</string>
     <string name="choose_theme">Choose Theme</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_system">Follow System</string>
+    <string name="theme_dark">다크 모드</string>
+    <string name="theme_light">라이트 모드</string>
+    <string name="theme_system">팔로우 시스템</string>
 </resources>

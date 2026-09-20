@@ -163,7 +163,7 @@
     <string name="downloads_audio_used">%1$s аудио</string>
     <string name="downloads_images_used">%1$s изображения</string>
     <string name="clear_cache">Очистить кэш</string>
-    <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
+    <string name="clear_cache_message">Удалить все данные аудио и миниатюр из кэша на этом устройстве</string>
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
