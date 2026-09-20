@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -283,10 +284,10 @@ class PlaylistViewModel(
         }
     }
 
-    fun deleteLocalPlaylist() {
+    fun deleteLocalPlaylist(context: Context) {
         val playlist = getPlaylist() ?: return
         viewModelScope.launch {
-            downloadRepository.deletePlaylist(playlist)
+            downloadRepository.deletePlaylist(context, playlist)
             getPlaylistInfoAsync()
         }
     }

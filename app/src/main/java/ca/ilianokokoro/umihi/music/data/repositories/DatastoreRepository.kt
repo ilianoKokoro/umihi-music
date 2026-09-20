@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.repositories
 
 import android.content.Context
+import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -16,6 +17,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.AUTO_UPDATE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.COOKIES
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DATA_SYNC_ID
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.DOWNLOAD_ON_METERED
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
@@ -51,6 +53,7 @@ class DatastoreRepository(private val context: Context) {
         val THUMBNAIL_CACHE_SIZE = intPreferencesKey(Constants.Datastore.THUMBNAIL_CACHE_SIZE_KEY)
         val APP_VOLUME = intPreferencesKey(Constants.Datastore.APP_VOLUME_KEY)
         val THEME_MODE = stringPreferencesKey(Constants.Datastore.THEME_MODE_KEY)
+        val DOWNLOAD_LOCATION = stringPreferencesKey(Constants.Datastore.DOWNLOAD_LOCATION)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -82,6 +85,7 @@ class DatastoreRepository(private val context: Context) {
             it[THEME_MODE]?.let { modeStr -> ThemeMode.fromString(modeStr) } ?: ThemeMode.SYSTEM
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
+        val downloadLocation = runCatching { Uri.parse(it[DOWNLOAD_LOCATION]) }.getOrNull()
 
 
         UmihiSettings(
@@ -97,7 +101,8 @@ class DatastoreRepository(private val context: Context) {
             exoPlayerCacheSizeMB = exoPlayerCacheSize,
             thumbnailCacheSizeMB = thumbnailCacheSize,
             appVolume = appVolume,
-            themeMode = themeMode
+            themeMode = themeMode,
+            downloadLocation = downloadLocation
         )
     }
 

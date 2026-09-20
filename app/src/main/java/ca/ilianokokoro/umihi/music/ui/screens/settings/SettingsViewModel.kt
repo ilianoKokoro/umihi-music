@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.WebStorage
 import android.widget.Toast
@@ -257,6 +258,11 @@ class SettingsViewModel(
 
     fun updateShowDiagnosticsLogsSheet(show: Boolean) {
         _uiState.update { it.copy(showDiagnosticsLogsSheet = show) }
+    }
+
+    fun onDownloadFolderPicked(uri: Uri?) {
+        uri ?: return
+        updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, uri.toString())
     }
 
     fun getHiddenPlaylists() {

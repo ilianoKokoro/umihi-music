@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.models
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
 
@@ -17,7 +18,8 @@ data class UmihiSettings(
     val exoPlayerCacheSizeMB: Int,
     val thumbnailCacheSizeMB: Int,
     val appVolume: Int,
-    val themeMode: ThemeMode
+    val themeMode: ThemeMode,
+    val downloadLocation: Uri?
 ) {
     val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }

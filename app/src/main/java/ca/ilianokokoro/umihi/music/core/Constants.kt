@@ -91,11 +91,12 @@ object Constants {
         const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
         const val APP_VOLUME_KEY = "app-volume"
         const val THEME_MODE_KEY = "theme-mode"
+        const val DOWNLOAD_LOCATION = "download-location"
     }
 
     object Database {
         const val NAME = "umihi-music"
-        const val VERSION = 10
+        const val VERSION = 11
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
         const val VERSIONS_TABLE = "versions"
