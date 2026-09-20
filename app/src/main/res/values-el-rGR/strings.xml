@@ -178,7 +178,7 @@
     <string name="theme_dark">Σκοτεινό</string>
     <string name="theme_light">Φωτεινό</string>
     <string name="theme_system">Ακολουθήστε Το Σύστημα</string>
-    <string name="change_download_location">Change Download Location</string>
-    <string name="current_location">Current location : %1$s</string>
-    <string name="internal">Internal</string>
+    <string name="change_download_location">Αλλαγή Τοποθεσίας Λήψης</string>
+    <string name="current_location">Τρέχουσα τοποθεσία : %1$s</string>
+    <string name="internal">Εσωτερική</string>
 </resources>
