@@ -178,7 +178,7 @@
     <string name="theme_dark">Темна</string>
     <string name="theme_light">Світла</string>
     <string name="theme_system">Слідувати за системою</string>
-    <string name="change_download_location">Change Download Location</string>
+    <string name="change_download_location">Змінити розташування для завантажень</string>
     <string name="current_location">Current location : %1$s</string>
-    <string name="internal">Internal</string>
+    <string name="internal">Внутрішній</string>
 </resources>
