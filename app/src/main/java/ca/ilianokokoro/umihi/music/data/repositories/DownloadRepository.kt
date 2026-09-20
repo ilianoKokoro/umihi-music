@@ -8,19 +8,18 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ConnectivityHelper
+import ca.ilianokokoro.umihi.music.core.helpers.FileHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import ca.ilianokokoro.umihi.music.core.workers.PlaylistDownloadWorker
 import ca.ilianokokoro.umihi.music.core.workers.SongDownloadWorker
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import java.io.File
+import kotlinx.coroutines.withContext
 
 class DownloadRepository(appContext: Context) {
     private val _appContext = appContext
@@ -54,39 +53,26 @@ class DownloadRepository(appContext: Context) {
         }
     }
 
-    suspend fun deletePlaylist(playlist: Playlist) {
-        localPlaylistRepository.deleteFullPlaylist(playlist.info.id)
-        val audioDir =
-            UmihiHelper.getDownloadDirectory(
-                _appContext,
-                Constants.Downloads.AUDIO_FILES_FOLDER
-            )
-        val imageDir =
-            UmihiHelper.getDownloadDirectory(_appContext, Constants.Downloads.THUMBNAILS_FOLDER)
+    suspend fun deletePlaylist(context: Context, playlist: Playlist) = withContext(Dispatchers.IO) {
+        val localPlaylist = localPlaylistRepository.getPlaylistById(playlist.info.id) ?: playlist
 
-        File(
-            imageDir,
-            _appContext.getString(R.string.jpg_extension, playlist.info.id)
-        ).takeIf { it.exists() }?.delete()
+        FileHelper.deleteStoredFile(context, localPlaylist.info.coverPath)
+        localPlaylistRepository.deleteFullPlaylist(localPlaylist.info.id)
 
-        val songIds = playlist.songs.map { it.youtubeId }
-        val stillLinked = localPlaylistRepository.getSongIdsWithPlaylist(songIds).toSet()
-        val songsToClear = mutableListOf<String>()
-        playlist.songs.forEach { song ->
-            if (song.youtubeId in stillLinked) {
-                return@forEach
-            }
-            songsToClear.add(song.youtubeId)
-            File(
-                audioDir,
-                _appContext.getString(R.string.webm_extension, song.youtubeId)
-            ).takeIf { it.exists() }?.delete()
-            File(
-                imageDir,
-                _appContext.getString(R.string.jpg_extension, song.youtubeId)
-            ).takeIf { it.exists() }?.delete()
+        val stillLinked = localPlaylistRepository
+            .getSongIdsWithPlaylist(localPlaylist.songs.map { it.youtubeId })
+            .toSet()
+
+        val orphaned = localPlaylist.songs.filter { it.youtubeId !in stillLinked }
+
+        orphaned.forEach { song ->
+            FileHelper.deleteStoredFile(context, song.audioFilePath)
+            FileHelper.deleteStoredFile(context, song.thumbnailPath)
         }
-        localSongRepository.deleteByIds(songsToClear)
+
+        if (orphaned.isNotEmpty()) {
+            localSongRepository.deleteByIds(orphaned.map { it.youtubeId })
+        }
     }
 
     suspend fun downloadSong(playlist: Playlist, song: Song, useMetered: Boolean = false) {

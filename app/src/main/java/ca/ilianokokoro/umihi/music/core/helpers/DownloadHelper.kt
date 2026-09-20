@@ -25,7 +25,7 @@ object DownloadHelper {
                     Constants.Downloads.THUMBNAILS_FOLDER
                 )
 
-                val imageFile = File(imageDir, "$id.jpg")
+                val imageFile = File(imageDir, "${id}.jpg")
 
                 if (imageFile.exists()) {
                     printd("Song Image $id was already downloaded")
@@ -88,7 +88,7 @@ object DownloadHelper {
             Constants.Downloads.AUDIO_FILES_FOLDER
         )
 
-        val outputFile = File(audioDir, "${song.youtubeId}.webm")
+        val outputFile = File(audioDir, "${song.fileName}.webm")
         val tempFile = File(audioDir, "${song.youtubeId}.webm.part")
 
         if (outputFile.exists()) {

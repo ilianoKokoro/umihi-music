@@ -1,5 +1,5 @@
 [versions]
-agp = "9.4.0"
+agp = "9.4.1"
 kotlin = "2.4.10" # 2.4.10 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 coreKtx = "1.19.0"
 lifecycleRuntimeKtx = "2.11.0"
@@ -26,6 +26,7 @@ workRuntimeKtx = "2.11.2"
 reorderable = "3.1.0"
 newpipeextractor = "v0.26.4"
 junit = "4.13.2"
+documentfile = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,7 @@ androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx"
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 newpipeextractor = { module = "com.github.TeamNewPipe:NewPipeExtractor", version.ref = "newpipeextractor" }
 junit = { module = "junit:junit", version.ref = "junit" }
+androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
 
 
 [plugins]

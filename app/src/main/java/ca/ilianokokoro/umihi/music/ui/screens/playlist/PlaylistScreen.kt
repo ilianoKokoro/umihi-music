@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -87,6 +88,7 @@ fun PlaylistScreen(
     var songToRemove by remember { mutableStateOf<Song?>(null) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
     LaunchedEffect(uiState.showingSearch) {
         if (uiState.showingSearch) {
@@ -193,7 +195,11 @@ fun PlaylistScreen(
                             onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                             onShufflePlaylist = playlistViewModel::shufflePlaylist,
                             onPlayPlaylist = playlistViewModel::playPlaylist,
-                            onDeleteDownloadPlaylist = playlistViewModel::deleteLocalPlaylist,
+                            onDeleteDownloadPlaylist = {
+                                playlistViewModel.deleteLocalPlaylist(
+                                    context
+                                )
+                            },
                             onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                             onRemoveFromLibrary = { playlistViewModel.removeFromLibrary(onBack) },
                             onCancelDownload = playlistViewModel::cancelDownload,
@@ -263,7 +269,11 @@ fun PlaylistScreen(
                                         onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                                         onShufflePlaylist = playlistViewModel::shufflePlaylist,
                                         onPlayPlaylist = playlistViewModel::playPlaylist,
-                                        onDeleteDownloadPlaylist = playlistViewModel::deleteLocalPlaylist,
+                                        onDeleteDownloadPlaylist = {
+                                            playlistViewModel.deleteLocalPlaylist(
+                                                context
+                                            )
+                                        },
                                         onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
                                         onRemoveFromLibrary = {
                                             playlistViewModel.removeFromLibrary(

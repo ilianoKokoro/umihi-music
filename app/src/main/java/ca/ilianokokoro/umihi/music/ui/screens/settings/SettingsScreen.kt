@@ -2,6 +2,8 @@ package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
 import android.text.format.Formatter
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -75,6 +78,7 @@ fun SettingsScreen(
         factory = SettingsViewModel.Factory(sharedViewModel, application)
     )
 ) {
+    val context = LocalContext.current
     val uiState = settingsViewModel.uiState.collectAsStateWithLifecycle().value
 
     // Refresh when returning to the screen
@@ -89,6 +93,10 @@ fun SettingsScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+
+    val folderPicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri -> settingsViewModel.onDownloadFolderPicked(uri) }
 
     FadingStatusBarWrapper { statusBarHeight ->
         Scaffold(
@@ -268,6 +276,22 @@ fun SettingsScreen(
                                 }
                             )
                             SettingSpacer()
+//
+//                            val downloadLocation =
+//                                screenState.settings.downloadLocation?.folderDisplayPath()
+//                                    ?: stringResource(R.string.internal)
+//                            SettingsItem(
+//                                title = stringResource(R.string.change_download_location),
+//                                subtitle = stringResource(
+//                                    R.string.current_location,
+//                                    downloadLocation
+//                                ),
+//                                leadingIcon = Icons.Outlined.Folder,
+//                                onClick = {
+//                                    folderPicker.launch(screenState.settings.downloadLocation)
+//                                }
+//                            )
+//                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
                                 subtitle = stringResource(

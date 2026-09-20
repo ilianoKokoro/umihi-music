@@ -54,7 +54,6 @@ object UmihiHelper {
         return dir
     }
 
-
     suspend fun fetchArtworkBytes(url: String): ByteArray? {
         return withContext(Dispatchers.IO) {
             try {

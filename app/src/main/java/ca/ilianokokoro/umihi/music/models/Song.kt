@@ -15,6 +15,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.FileHelper.sanitizeFilename
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import kotlinx.serialization.Serializable
 import java.io.File
@@ -87,6 +88,11 @@ data class Song(
     val downloaded: Boolean
         get() = audioFilePath != null && thumbnailPath != null
 
+    val fileName: String
+        get() {
+            val template = "$title - $artist [$youtubeId]"
+            return template.sanitizeFilename()
+        }
 
     fun getPlayableMediaItem(): MediaItem {
         val base = mediaItem

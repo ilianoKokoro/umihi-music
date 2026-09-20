@@ -138,8 +138,8 @@
     <string name="song_alerts_name">Оповещения о загрузке песен</string>
     <string name="song_alerts_description">Уведомляет об ошибках загрузки отдельных песен во время загрузки плейлиста</string>
     <string name="short_minutes">%1$d мин</string>
-    <string name="download_on_metered_title">Скачать на мобильные данные</string>
-    <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного плана передачи данных</string>
+    <string name="download_on_metered_title">Скачивание через мобильные данные</string>
+    <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного тарифного плана</string>
     <string name="waiting_for_wifi_to_download">Ожидание загрузки Wi-Fi %1$s</string>
     <string name="remove_library">Удалить из библиотеки</string>
     <string name="remove_library_text">Вы уверены, что хотите удалить этот плейлист из своей библиотеки? Вы можете добавить его снова позже.</string>
@@ -157,13 +157,13 @@
     <string name="no_wifi_for_online_playlist">Не удается загрузить плейлист. Убедитесь, что вы подключены к Интернету.</string>
     <string name="cache_management">Управление кэшем</string>
     <string name="exoplayer_cache_title">Размер кэша аудио</string>
-    <string name="thumbnail_cache_title">Thumbnail Cache Size</string>
+    <string name="thumbnail_cache_title">Размер кеша миниатюр</string>
     <string name="cache_size_mb">%1$d МБ</string>
     <string name="cache_used_state">%1$s / %2$d МБ использовано</string>
     <string name="downloads_audio_used">%1$s аудио</string>
     <string name="downloads_images_used">%1$s изображения</string>
     <string name="clear_cache">Очистить кэш</string>
-    <string name="clear_cache_message">Удалить все кэшированные аудио и эскизы данных с этого устройства</string>
+    <string name="clear_cache_message">Удалить все данные аудио и миниатюр из кэша на этом устройстве</string>
     <string name="cache_cleared">Кэш очищен</string>
     <string name="volume">Объем</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
