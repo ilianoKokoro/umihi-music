@@ -162,8 +162,16 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>679 words</b></sub>
+        <sub><b>739 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
+      </td>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
+          <br />
+          <sub><b>dsyncronized</b></sub></a>
+        <br />
+        <sub><b>726 words</b></sub>
+        <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
@@ -226,7 +234,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Vladik01-11</b></sub></a>
         <br />
-        <sub><b>213 words</b></sub>
+        <sub><b>223 words</b></sub>
         <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
       <td align="center" valign="top">
