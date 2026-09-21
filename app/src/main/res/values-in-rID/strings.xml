@@ -178,7 +178,7 @@
     <string name="theme_dark">Gelap</string>
     <string name="theme_light">Terang</string>
     <string name="theme_system">Ikuti Sistem</string>
-    <string name="change_download_location">Change Download Location</string>
-    <string name="current_location">Current location : %1$s</string>
+    <string name="change_download_location">Ganti Lokasi Perunduhan</string>
+    <string name="current_location">Lokasi Sekarang : %1$s</string>
     <string name="internal">Internal</string>
 </resources>
