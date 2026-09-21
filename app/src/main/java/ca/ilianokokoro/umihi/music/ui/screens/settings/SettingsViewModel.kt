@@ -1,6 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.settings
 
 import android.app.Application
+import android.content.Intent
 import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.WebStorage
@@ -266,7 +267,25 @@ class SettingsViewModel(
 
     fun onDownloadFolderPicked(uri: Uri?) {
         uri ?: return
-        updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, uri.toString())
+
+        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+
+        try {
+            getApplication<Application>()
+                .contentResolver
+                .takePersistableUriPermission(uri, takeFlags)
+
+            updateSetting(
+                DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION,
+                uri.toString()
+            )
+        } catch (e: SecurityException) {
+            printe(
+                message = "Failed to persist permission for SAF directory: $uri",
+                exception = e
+            )
+        }
     }
 
     fun resetDownloadLocation() {

@@ -1,11 +1,13 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
+import androidx.documentfile.provider.DocumentFile
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -83,15 +85,29 @@ object DownloadHelper {
         song: Song,
         retries: Int = Constants.YoutubeApi.RETRY_COUNT
     ): String? = withContext(Dispatchers.IO) {
+        val userFolder = DatastoreRepository(context).getSettings().downloadLocation
+
         val audioDir = UmihiHelper.getDownloadDirectory(
             context,
             Constants.Downloads.AUDIO_FILES_FOLDER
         )
 
-        val outputFile = File(audioDir, "${song.fileName}.webm")
+        val baseName = song.fileName
+        val fileName = "$baseName.webm"
+
+        val outputFile = File(audioDir, fileName)
         val tempFile = File(audioDir, "${song.youtubeId}.webm.part")
 
-        if (outputFile.exists()) {
+        val safDir: DocumentFile? = userFolder
+            ?.let { runCatching { DocumentFile.fromTreeUri(context, it) }.getOrNull() }
+            ?.takeIf { it.exists() && it.canWrite() }
+
+        if (safDir != null) {
+            safDir.findFile(fileName)?.let {
+                printd("Song file ${song.title} was already downloaded")
+                return@withContext it.uri.toString()
+            }
+        } else if (outputFile.exists()) {
             printd("Song file ${song.title} was already downloaded")
             return@withContext outputFile.absolutePath
         }
@@ -129,15 +145,31 @@ object DownloadHelper {
                         }
                     }
 
-                if (outputFile.exists()) {
-                    outputFile.delete()
+                val result: String = if (safDir != null) {
+                    val target = safDir.findFile(fileName)
+                        ?: safDir.createFile("video/webm", baseName)
+                        ?: throw IOException("Failed to create file in download folder")
+                    try {
+                        context.contentResolver.openOutputStream(target.uri, "wt")?.use { out ->
+                            tempFile.inputStream().use { it.copyTo(out) }
+                        } ?: throw IOException("Failed to open output stream")
+                    } catch (e: Exception) {
+                        target.delete()
+                        throw e
+                    }
+                    tempFile.delete()
+                    target.uri.toString()
+                } else {
+                    if (outputFile.exists()) {
+                        outputFile.delete()
+                    }
+                    if (!tempFile.renameTo(outputFile)) {
+                        throw IOException("Failed to rename temp audio file")
+                    }
+                    outputFile.absolutePath
                 }
 
-                if (!tempFile.renameTo(outputFile)) {
-                    throw IOException("Failed to rename temp audio file")
-                }
-
-                return@withContext outputFile.absolutePath
+                return@withContext result
             } catch (e: CancellationException) {
                 tempFile.delete()
                 throw e
@@ -157,7 +189,6 @@ object DownloadHelper {
         )
 
         tempFile.delete()
-        outputFile.delete()
         null
     }
 }
