@@ -85,7 +85,9 @@ class DatastoreRepository(private val context: Context) {
             it[THEME_MODE]?.let { modeStr -> ThemeMode.fromString(modeStr) } ?: ThemeMode.SYSTEM
         val cookies = cookies.first()
         val dataSyncId = dataSyncId.first()
-        val downloadLocation = runCatching { Uri.parse(it[DOWNLOAD_LOCATION]) }.getOrNull()
+        val downloadLocation = it[DOWNLOAD_LOCATION]
+            ?.takeIf { loc -> loc.isNotBlank() }
+            ?.let { loc -> runCatching { Uri.parse(loc) }.getOrNull() }
 
 
         UmihiSettings(

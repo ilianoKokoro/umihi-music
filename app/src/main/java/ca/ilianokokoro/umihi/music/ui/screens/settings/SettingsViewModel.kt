@@ -260,9 +260,17 @@ class SettingsViewModel(
         _uiState.update { it.copy(showDiagnosticsLogsSheet = show) }
     }
 
+    fun updateShowDownloadLocationDialog(show: Boolean) {
+        _uiState.update { it.copy(showDownloadLocationDialog = show) }
+    }
+
     fun onDownloadFolderPicked(uri: Uri?) {
         uri ?: return
         updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, uri.toString())
+    }
+
+    fun resetDownloadLocation() {
+        updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, "")
     }
 
     fun getHiddenPlaylists() {

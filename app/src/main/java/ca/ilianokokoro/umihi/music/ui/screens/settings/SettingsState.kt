@@ -15,6 +15,7 @@ data class SettingsState(
     val hiddenPlaylists: List<Playlist> = emptyList(),
     val showDiagnosticsLogsSheet: Boolean = false,
     val showThemeSelectorSheet: Boolean = false,
+    val showDownloadLocationDialog: Boolean = false,
     val audioCacheUsed: Long = 0L,
     val thumbnailCacheUsed: Long = 0L,
     val downloadsUsage: DownloadsUsage = DownloadsUsage(),

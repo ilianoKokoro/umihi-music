@@ -21,6 +21,7 @@ import androidx.compose.material.icons.outlined.BrightnessAuto
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
@@ -52,6 +53,7 @@ import ca.ilianokokoro.umihi.music.core.DiagnosticLog
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.usedFraction
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
+import ca.ilianokokoro.umihi.music.extensions.folderDisplayPath
 import ca.ilianokokoro.umihi.music.models.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
@@ -62,6 +64,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.HiddenPlaylistsBott
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.ThemeSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
+import ca.ilianokokoro.umihi.music.ui.components.dialog.DownloadLocationDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingSpacer
@@ -276,22 +279,21 @@ fun SettingsScreen(
                                 }
                             )
                             SettingSpacer()
-//
-//                            val downloadLocation =
-//                                screenState.settings.downloadLocation?.folderDisplayPath()
-//                                    ?: stringResource(R.string.internal)
-//                            SettingsItem(
-//                                title = stringResource(R.string.change_download_location),
-//                                subtitle = stringResource(
-//                                    R.string.current_location,
-//                                    downloadLocation
-//                                ),
-//                                leadingIcon = Icons.Outlined.Folder,
-//                                onClick = {
-//                                    folderPicker.launch(screenState.settings.downloadLocation)
-//                                }
-//                            )
-//                            SettingSpacer()
+                            val downloadLocation =
+                                runCatching { screenState.settings.downloadLocation?.folderDisplayPath() }.getOrNull()
+                                    ?: stringResource(R.string.internal)
+                            SettingsItem(
+                                title = stringResource(R.string.change_download_location),
+                                subtitle = stringResource(
+                                    R.string.current_location,
+                                    downloadLocation
+                                ),
+                                leadingIcon = Icons.Outlined.Folder,
+                                onClick = {
+                                    settingsViewModel.updateShowDownloadLocationDialog(true)
+                                }
+                            )
+                            SettingSpacer()
                             SettingsItem(
                                 title = stringResource(R.string.delete_downloads),
                                 subtitle = stringResource(
@@ -501,6 +503,20 @@ fun SettingsScreen(
                                 onClear = { DiagnosticLog.clear() },
                                 onDismiss = {
                                     settingsViewModel.updateShowDiagnosticsLogsSheet(false)
+                                }
+                            )
+                        } else if (uiState.showDownloadLocationDialog) {
+                            DownloadLocationDialog(
+                                onConfirm = {
+                                    folderPicker.launch(screenState.settings.downloadLocation)
+                                    settingsViewModel.updateShowDownloadLocationDialog(false)
+                                },
+                                onReset = {
+                                    settingsViewModel.resetDownloadLocation()
+                                    settingsViewModel.updateShowDownloadLocationDialog(false)
+                                },
+                                onDismiss = {
+                                    settingsViewModel.updateShowDownloadLocationDialog(false)
                                 }
                             )
                         }
