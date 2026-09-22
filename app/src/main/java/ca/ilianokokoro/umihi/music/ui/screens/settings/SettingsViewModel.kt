@@ -16,6 +16,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.folderSize
@@ -268,28 +269,48 @@ class SettingsViewModel(
     fun onDownloadFolderPicked(uri: Uri?) {
         uri ?: return
 
-        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        viewModelScope.launch {
+            val oldLocation = datastoreRepository.getSettings().downloadLocation
 
-        try {
-            getApplication<Application>()
-                .contentResolver
-                .takePersistableUriPermission(uri, takeFlags)
+            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
-            updateSetting(
-                DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION,
-                uri.toString()
-            )
-        } catch (e: SecurityException) {
-            printe(
-                message = "Failed to persist permission for SAF directory: $uri",
-                exception = e
-            )
+            try {
+                getApplication<Application>()
+                    .contentResolver
+                    .takePersistableUriPermission(uri, takeFlags)
+
+                updateSetting(
+                    DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION,
+                    uri.toString()
+                )
+
+                DownloadHelper.moveExistingDownloads(
+                    context = _application,
+                    oldLocation = oldLocation,
+                    newLocation = uri
+                )
+            } catch (e: SecurityException) {
+                printe(
+                    message = "Failed to persist permission for SAF directory: $uri",
+                    exception = e
+                )
+            }
         }
     }
 
     fun resetDownloadLocation() {
-        updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, "")
+        viewModelScope.launch {
+            val oldLocation = datastoreRepository.getSettings().downloadLocation
+
+            updateSetting(DatastoreRepository.PreferenceKeys.DOWNLOAD_LOCATION, "")
+
+            DownloadHelper.moveExistingDownloads(
+                context = _application,
+                oldLocation = oldLocation,
+                newLocation = null
+            )
+        }
     }
 
     fun getHiddenPlaylists() {

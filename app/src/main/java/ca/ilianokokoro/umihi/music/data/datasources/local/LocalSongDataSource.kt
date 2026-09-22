@@ -36,7 +36,7 @@ interface LocalSongDataSource {
 """
     )
     suspend fun countDownloadedSongs(): Int
-    
+
     @Query(
         """
     SELECT *
@@ -74,5 +74,8 @@ interface LocalSongDataSource {
 
     @Delete
     suspend fun delete(song: Song)
+
+    @Query("UPDATE songs SET audioFilePath = :audioPath WHERE youtubeId = :songId")
+    suspend fun updateAudioPath(songId: String, audioPath: String?)
 
 }

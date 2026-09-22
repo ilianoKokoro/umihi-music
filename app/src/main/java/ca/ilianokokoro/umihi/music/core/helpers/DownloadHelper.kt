@@ -1,12 +1,14 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printd
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
+import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.CancellationException
@@ -191,4 +193,43 @@ object DownloadHelper {
         tempFile.delete()
         null
     }
+
+    suspend fun moveExistingDownloads(
+        context: Context,
+        oldLocation: Uri?,
+        newLocation: Uri?
+    ): Unit = withContext(Dispatchers.IO) {
+        if (oldLocation == newLocation) {
+            return@withContext
+        }
+
+        val songRepository = AppDatabase.getInstance(context).songRepository()
+        val downloadedSongs = songRepository.getDownloadedSongs()
+
+        if (downloadedSongs.isNotEmpty()) {
+            val newSafDir: DocumentFile? = newLocation
+                ?.let { runCatching { DocumentFile.fromTreeUri(context, it) }.getOrNull() }
+                ?.takeIf { it.exists() && it.canWrite() }
+
+            for (song in downloadedSongs) {
+                val audioPath = song.audioFilePath ?: continue
+                try {
+                    val newAudioPath =
+                        FileHelper.moveFile(context, audioPath, newSafDir, mimeType = "video/webm")
+                    songRepository.updateAudioPath(song.youtubeId, newAudioPath)
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    printe(
+                        message = "Failed to move audio file for ${song.title}: ${e.message}",
+                        exception = e
+                    )
+                }
+            }
+        }
+
+        FileHelper.releaseOldPermission(context, oldLocation)
+    }
+
+
 }
