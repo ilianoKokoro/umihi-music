@@ -182,5 +182,5 @@
     <string name="current_location">Current location : %1$s</string>
     <string name="internal">Внутрішній</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
+    <string name="download_location_warning_description">Зміна теки звантажень може призвести до втрати треку від завантажених пісень у разі переміщення їх файлів, перейменування або зміни поза додатком. Не забудьте зберегти завантажені файли в оригінальному місці і скасувати зміни.</string>
 </resources>
