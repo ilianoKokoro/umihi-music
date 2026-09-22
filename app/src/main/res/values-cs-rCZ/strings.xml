@@ -182,5 +182,5 @@
     <string name="current_location">Aktuální poloha : %1$s</string>
     <string name="internal">Interní</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Změna složky ke stažení se změní, pokud jsou stažené skladby uloženy. Přesunutí nebo přejmenování stažených souborů způsobí ztrátu jejich skladby.</string>
+
 </resources>

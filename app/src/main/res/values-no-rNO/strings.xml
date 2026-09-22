@@ -182,5 +182,5 @@
     <string name="current_location">Nåværende plassering: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Endring av endringer i nedlastingsmappen hvor nedlastede sanger lagres. Flytting eller endring av nedlastede filer vil føre til at appen mister sporet av dem.</string>
+
 </resources>

@@ -182,5 +182,5 @@
     <string name="current_location">Nykyinen sijainti : %1$s</string>
     <string name="internal">Sisäinen</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Muuttaa latauskansioiden muutoksia, joihin ladatut kappaleet tallennetaan. Ladattujen tiedostojen siirtäminen tai uudelleennimeäminen aiheuttaa sovelluksen menettävän jäljen niistä.</string>
+
 </resources>

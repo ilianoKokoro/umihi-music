@@ -35,7 +35,7 @@ fun DownloadLocationDialog(
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Text(
-                    text = stringResource(R.string.download_location_dialog_description),
+                    text = stringResource(R.string.download_location_warning_description),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

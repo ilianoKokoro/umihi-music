@@ -182,5 +182,5 @@
     <string name="current_location">الموقع الحالي: %1$s</string>
     <string name="internal">داخلي</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">تغيير تغييرات مجلد التنزيل حيث يتم تخزين الأغاني التي تم تنزيلها. نقل أو إعادة تسمية الملفات التي تم تنزيلها سيؤدي إلى فقدان التطبيق لتتبعها.</string>
+
 </resources>

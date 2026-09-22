@@ -182,5 +182,5 @@
     <string name="current_location">Nuvarande plats: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Ändra nedladdningsmappen ändringar där hämtade låtar lagras. Flytta eller byta namn på hämtade filer kommer att orsaka att appen förlorar spår av dem.</string>
+
 </resources>
