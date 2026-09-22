@@ -17,8 +17,8 @@ import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
+import ca.ilianokokoro.umihi.music.core.helpers.FileHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
-import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.folderSize
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
@@ -74,20 +74,13 @@ class SettingsViewModel(
                 File(_application.cacheDir, Constants.Cache.Audio.DIRECTORY)
             val thumbnailCacheDir =
                 File(_application.cacheDir, Constants.Downloads.THUMBNAILS_FOLDER)
-            val audioDownloadsDir = UmihiHelper.getDownloadDirectory(
-                context = _application,
-                directory = Constants.Downloads.AUDIO_FILES_FOLDER
-            )
-            val imageDownloadsDir = UmihiHelper.getDownloadDirectory(
-                context = _application,
-                directory = Constants.Downloads.THUMBNAILS_FOLDER
-            )
+            val downloadLocation = datastoreRepository.getSettings().downloadLocation
 
             val audioCacheUsed = audioCacheDir.folderSize()
             val thumbnailCacheUsed = thumbnailCacheDir.folderSize()
             val downloadsUsage = DownloadsUsage(
-                audioBytes = audioDownloadsDir.folderSize(),
-                imageBytes = imageDownloadsDir.folderSize()
+                audioBytes = FileHelper.getDownloadFolderSize(_application, downloadLocation),
+                imageBytes = 0L
             )
 
             _uiState.update {
@@ -148,20 +141,23 @@ class SettingsViewModel(
     fun clearDownloads() {
         viewModelScope.launch {
             downloadRepository.cancelAllWorks()
+            val downloadLocation = datastoreRepository.getSettings().downloadLocation
+
+            FileHelper.clearDownloadFolder(_application, downloadLocation)
             AppDatabase.clearDownloads(_application)
-            UmihiHelper.getDownloadDirectory(context = _application)
-                .deleteRecursively()
+
             ExoCache(_application).clear()
             CoilImageLoader.clear(_application)
+
             Toast.makeText(
                 _application,
                 _application.getString(R.string.downloads_cleared),
                 Toast.LENGTH_LONG
             ).show()
+
             refreshStorageUsage()
         }
     }
-
 
     fun updateAudioOffloadSetting(value: Boolean) {
         PlayerManager.setAudioOffloadEnabled(value)
@@ -290,6 +286,8 @@ class SettingsViewModel(
                     oldLocation = oldLocation,
                     newLocation = uri
                 )
+
+                refreshStorageUsage()
             } catch (e: SecurityException) {
                 printe(
                     message = "Failed to persist permission for SAF directory: $uri",
@@ -310,6 +308,8 @@ class SettingsViewModel(
                 oldLocation = oldLocation,
                 newLocation = null
             )
+
+            refreshStorageUsage()
         }
     }
 
