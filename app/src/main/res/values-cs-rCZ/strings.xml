@@ -182,5 +182,5 @@
     <string name="current_location">Aktuální poloha : %1$s</string>
     <string name="internal">Interní</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Změna složky pro stahování může způsobit, že aplikace ztratí skladbu stažených skladeb, pokud jsou jejich soubory přesunuty, přejmenovány nebo upraveny mimo aplikaci. Ujistěte se, že máte stažené soubory v původní poloze a nezměňte je.</string>
 </resources>

@@ -182,5 +182,5 @@
     <string name="current_location">現在地： %1$s</string>
     <string name="internal">内部</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">ダウンロードフォルダを変更すると、ファイルが移動、名前変更、またはアプリ外で変更された場合、ダウンロードした曲を追跡できなくなる可能性があります。 ダウンロードしたファイルは元の場所に保管し、変更されないようにしてください。</string>
 </resources>

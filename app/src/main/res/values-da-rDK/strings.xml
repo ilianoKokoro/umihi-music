@@ -182,5 +182,5 @@
     <string name="current_location">Nuværende placering : %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Ændring af download-mappen kan få appen til at miste spor af downloadede sange, hvis deres filer flyttes, omdøbes eller ændres uden for appen. Sørg for at holde dine downloadede filer i deres oprindelige placering og uændret.</string>
 </resources>

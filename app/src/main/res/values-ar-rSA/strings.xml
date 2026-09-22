@@ -182,5 +182,5 @@
     <string name="current_location">الموقع الحالي: %1$s</string>
     <string name="internal">داخلي</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">تغيير مجلد التنزيل قد يؤدي إلى فقدان التطبيق لتتبع الأغاني التي تم تنزيلها إذا تم نقل ملفاتها، أو إعادة تسميتها، أو تعديلها خارج التطبيق. تأكد من الحفاظ على الملفات التي قمت بتنزيلها في موقعها الأصلي ودون تغيير.</string>
 </resources>

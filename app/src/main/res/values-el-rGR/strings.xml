@@ -182,5 +182,5 @@
     <string name="current_location">Τρέχουσα τοποθεσία : %1$s</string>
     <string name="internal">Εσωτερική</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Αλλάζοντας το φάκελο λήψεων μπορεί η εφαρμογή να χάσει το κομμάτι των κατεβασμένων τραγουδιών αν τα αρχεία τους μετακινηθούν, μετονομαστούν ή τροποποιηθούν έξω από την εφαρμογή. Βεβαιωθείτε ότι κρατάτε τα κατεβασμένα αρχεία σας στην αρχική τους τοποθεσία και αμετάβλητα.</string>
 </resources>

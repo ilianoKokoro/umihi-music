@@ -182,5 +182,5 @@
     <string name="current_location">Cuwwent wocation : %1$s</string>
     <string name="internal">Intewnal</string>
     <string name="reset">Weset</string>
-
+    <string name="download_location_warning_description">Changin da downwoad fowdew may cause da app to wose twack of downwoaded swongs if theiw fiwes awe moved, wenamed, ow modified outside da app. Make suwe to keep youw downwoaded fiwes in theiw owiginal wocation and unchanged.</string>
 </resources>

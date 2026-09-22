@@ -182,5 +182,5 @@
     <string name="current_location">Bieżąca lokalizacja: %1$s</string>
     <string name="internal">Wewnętrzne</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Zmiana folderu pobierania może spowodować, że aplikacja straci ślad pobranych utworów, jeśli ich pliki są przenoszone, zmieniane lub modyfikowane poza aplikacją. Upewnij się, że pobrane pliki są przechowywane w oryginalnej lokalizacji i nie ulegają zmianie.</string>
 </resources>

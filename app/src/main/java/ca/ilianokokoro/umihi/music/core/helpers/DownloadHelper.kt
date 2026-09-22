@@ -149,8 +149,9 @@ object DownloadHelper {
 
                 val result: String = if (safDir != null) {
                     val target = safDir.findFile(fileName)
-                        ?: safDir.createFile("video/webm", baseName)
+                        ?: safDir.createFile("audio/webm", fileName)
                         ?: throw IOException("Failed to create file in download folder")
+
                     try {
                         context.contentResolver.openOutputStream(target.uri, "wt")?.use { out ->
                             tempFile.inputStream().use { it.copyTo(out) }
@@ -159,6 +160,7 @@ object DownloadHelper {
                         target.delete()
                         throw e
                     }
+
                     tempFile.delete()
                     target.uri.toString()
                 } else {

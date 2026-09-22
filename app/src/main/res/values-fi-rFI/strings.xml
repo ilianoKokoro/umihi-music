@@ -182,5 +182,5 @@
     <string name="current_location">Nykyinen sijainti : %1$s</string>
     <string name="internal">Sisäinen</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Latauskansion vaihtaminen voi aiheuttaa sen, että sovellus menettää jälkensä ladatuista kappaleista, jos sen tiedostoja siirretään, nimetään uudelleen tai muokataan sovelluksen ulkopuolella. Varmista, että lataamasi tiedostot pysyvät alkuperäisessä sijainnissa ja muuttumattomina.</string>
 </resources>

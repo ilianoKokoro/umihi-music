@@ -182,5 +182,5 @@
     <string name="current_location">Huidige locatie: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Door het wijzigen van de downloadmap kan de app het nummer van de gedownloade nummers verliezen als hun bestanden worden verplaatst, hernoemd, of gewijzigd buiten de app. Zorg ervoor dat je gedownloade bestanden op hun oorspronkelijke locatie en ongewijzigd blijven.</string>
 </resources>

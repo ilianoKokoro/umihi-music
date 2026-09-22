@@ -182,5 +182,5 @@
     <string name="current_location">Nåværende plassering: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Endring av nedlastingsmappen kan føre til at appen mister spor etter nedlastede sanger dersom de har flyttet til mappen, gis nytt eller endret utenfor appen. Sørg for å beholde de nedlastede filene dine på originalstedet og uendret.</string>
 </resources>

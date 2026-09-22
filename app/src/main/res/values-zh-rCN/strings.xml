@@ -182,5 +182,5 @@
     <string name="current_location">当前位置: %1$s</string>
     <string name="internal">内部设置</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">更改下载文件夹可能会导致应用程序丢失已下载歌曲的轨迹，如果他们的文件被移动、重命名或修改到应用之外。 请确保您已下载的文件保持在原始位置并保持不变。</string>
 </resources>
