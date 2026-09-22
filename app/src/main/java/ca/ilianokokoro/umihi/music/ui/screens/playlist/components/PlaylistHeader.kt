@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +16,8 @@ import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistInfo
 @Composable
 fun PlaylistHeader(
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     isDownloading: Boolean,
     onOpenPlayer: () -> Unit,
     onDownloadPlaylist: () -> Unit,
@@ -40,6 +44,8 @@ fun PlaylistHeader(
         Column(modifier = modifier.padding(vertical = 8.dp, horizontal = 12.dp)) {
             PlaylistInfo(
                 playlist = playlist,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope,
                 isDownloading = isDownloading,
                 onDownloadPressed = onDownloadPlaylist,
                 onDeleteDownloadPressed = onDeleteDownloadPlaylist,

@@ -1,5 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.components.playlist
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BookmarkRemove
 import androidx.compose.material.icons.rounded.Cancel
@@ -61,6 +64,8 @@ fun PlaylistInfo(
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     isLoading: Boolean = false,
     optionsExtended: Boolean = false,
     onOptionsExtendedChange: (Boolean) -> Unit = {},
@@ -74,6 +79,9 @@ fun PlaylistInfo(
     val showHideDialog = remember { mutableStateOf(false) }
     val showUnhideDialog = remember { mutableStateOf(false) }
     val showRemoveFromLibraryDialog = remember { mutableStateOf(false) }
+    val coverState = sharedTransitionScope.rememberSharedContentState("playlist_cover_${playlist.info.id}")
+    val titleState = sharedTransitionScope.rememberSharedContentState("playlist_title_${playlist.info.id}")
+    val countState = sharedTransitionScope.rememberSharedContentState("playlist_count_${playlist.info.id}")
 
     LaunchedEffect(songsCount) {
         animatedCount = songsCount
@@ -87,19 +95,41 @@ fun PlaylistInfo(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (!playlist.info.isDownloadedPlaylist) {
-            SquareImage(uri = playlist.info.coverPath ?: playlist.info.coverHref)
+            SquareImage(
+                uri = playlist.info.coverPath ?: playlist.info.coverHref,
+                modifier = with(sharedTransitionScope) {
+                    Modifier.sharedElement(
+                        sharedContentState = coverState,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        clipInOverlayDuringTransition = OverlayClip(RoundedCornerShape(12.dp)),
+                    )
+                }
+            )
         } else {
             Icon(
                 imageVector = Icons.Rounded.Download,
                 contentDescription = null,
-                modifier = Modifier.size(150.dp)
+                modifier = with(sharedTransitionScope) {
+                    Modifier
+                        .size(150.dp)
+                        .sharedElement(
+                            sharedContentState = coverState,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                        )
+                }
             )
         }
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 Text(
-                    modifier = modifier
-                        .fillMaxWidth(),
+                    modifier = with(sharedTransitionScope) {
+                        modifier
+                            .fillMaxWidth()
+                            .sharedBounds(
+                                sharedContentState = titleState,
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            )
+                    },
                     text = playlist.info.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -121,7 +151,14 @@ fun PlaylistInfo(
                     } else {
                         ""
                     },
-                    modifier = Modifier.alpha(alpha)
+                    modifier = with(sharedTransitionScope) {
+                        Modifier
+                            .sharedBounds(
+                                sharedContentState = countState,
+                                animatedVisibilityScope = animatedVisibilityScope,
+                            )
+                            .alpha(alpha)
+                    }
                 )
 
 

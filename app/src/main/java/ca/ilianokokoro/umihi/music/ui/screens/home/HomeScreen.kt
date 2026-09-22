@@ -1,6 +1,8 @@
 package ca.ilianokokoro.umihi.music.ui.screens.home
 
 import android.app.Application
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -50,6 +52,8 @@ import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 @Composable
 fun HomeScreen(
     sharedViewModel: SharedViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onPlaylistPressed: (playlistInfo: PlaylistInfo) -> Unit,
     onLoginPressed: () -> Unit,
     application: Application,
@@ -158,6 +162,8 @@ fun HomeScreen(
                                     ) { _, playlist ->
                                         PlaylistCard(
                                             playlistInfo = playlist,
+                                            sharedTransitionScope = sharedTransitionScope,
+                                            animatedVisibilityScope = animatedVisibilityScope,
                                             onClicked = { onPlaylistPressed(playlist) }
                                         )
                                     }
