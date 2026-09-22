@@ -182,5 +182,5 @@
     <string name="current_location">Nykyinen sijainti : %1$s</string>
     <string name="internal">Sisäinen</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
+    <string name="download_location_warning_description">Latauskansion vaihtaminen voi aiheuttaa sen, että sovellus menettää jälkensä ladatuista kappaleista, jos sen tiedostoja siirretään, nimetään uudelleen tai muokataan sovelluksen ulkopuolella. Varmista, että lataamasi tiedostot pysyvät alkuperäisessä sijainnissa ja muuttumattomina.</string>
 </resources>
