@@ -182,5 +182,5 @@
     <string name="current_location">Locația curentă: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Changing the download folder changes where downloaded songs are stored. Moving or renaming downloaded files will cause the app to lose track of them.</string>
+    <string name="download_location_dialog_description">Schimbarea dosarului de descărcare se schimbă unde sunt stocate melodiile descărcate. Mutarea sau redenumirea fișierelor descărcate va face ca aplicația să piardă evidența lor.</string>
 </resources>
