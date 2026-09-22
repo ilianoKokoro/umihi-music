@@ -182,5 +182,5 @@
     <string name="current_location">Aktuální poloha : %1$s</string>
     <string name="internal">Interní</string>
     <string name="reset">Reset</string>
-
+    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
 </resources>
