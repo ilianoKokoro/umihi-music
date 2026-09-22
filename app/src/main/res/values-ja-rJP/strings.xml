@@ -182,5 +182,5 @@
     <string name="current_location">現在地： %1$s</string>
     <string name="internal">内部</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Changing the download folder changes where downloaded songs are stored. Moving or renaming downloaded files will cause the app to lose track of them.</string>
+    <string name="download_location_dialog_description">ダウンロードした曲が保存されているダウンロードフォルダの変更を変更します。ダウンロードしたファイルを移動または名前を変更すると、ダウンロードしたファイルが追跡されなくなります。</string>
 </resources>
