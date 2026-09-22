@@ -21,7 +21,7 @@
     <string name="close">Закрыть</string>
     <string name="copy_logs">Копировать журналы</string>
     <string name="copied">Скопировано</string>
-    <string name="view_details">Детали</string>
+    <string name="view_details">Посмотреть подробности</string>
     <string name="error_log">Журнал ошибок</string>
     <string name="login_success">Успешный вход</string>
     <string name="download">Скачать</string>
@@ -38,9 +38,9 @@
     <string name="added_queue_toast">Песня добавлена в очередь</string>
     <string name="shuffled_queue_toast">Очередь перемешана</string>
     <string name="playing_now">Играет сейчас</string>
-    <string name="up_to_date_message">Приложение актуальное !</string>
+    <string name="up_to_date_message">Приложение актуально !</string>
     <string name="update_check_failed">Не удалось проверить обновления</string>
-    <string name="github_rate_limit_retry">Скорость GitHub API ограничена. Повторите попытку в %1$s.</string>
+    <string name="github_rate_limit_retry">Скорость GitHub API ограничена. Повторите попытку через %1$s.</string>
     <string name="minutes">%1$d минут</string>
     <string name="seconds">%1$d секунд</string>
     <string name="update_available">Доступно обновление</string>
@@ -51,8 +51,8 @@
     <string name="check_for_updates">Проверить обновления</string>
     <string name="delete_downloads">Удалить все загрузки</string>
     <string name="clear_login_info">Очистить данные для входа</string>
-    <string name="logged_in_message">Вы вошли в свой аккаунт YouTube</string>
-    <string name="logged_out_message">Вы не вошли в систему</string>
+    <string name="logged_in_message">Вы вошли в свою учетную запись YouTube</string>
+    <string name="logged_out_message">В данный момент вы не вошли в систему</string>
     <string name="account">Аккаунт</string>
     <string name="clear_login_message">Очистить все сохраненные аккаунты и данные для входа</string>
     <string name="clear_login_confirm_message">Это приведет к выходу из системы и окончательному удалению всех сохраненных учетных записей YouTube, cookies и токенов аутентификации с этого устройства. Вам нужно войти еще раз, чтобы использовать вашу учетную запись.</string>
@@ -62,7 +62,7 @@
     <string name="confirm">Подтвердить</string>
     <string name="cancel">Отмена</string>
     <string name="remove_local_playlist">Удалить локальный плейлист</string>
-    <string name="remove_local_confirm_text">Удалить загруженные файлы для этого плейлиста? Плейлист останется доступным в сети.</string>
+    <string name="remove_local_confirm_text">Удалить загруженные файлы для этого плейлиста? Плейлист будет доступен онлайн.</string>
     <string name="ignore">Пропустить</string>
     <string name="change_update_channel">Изменить канал обновления</string>
     <string name="current_update_channel_body">Текущий канал обновлений: %1$s</string>
@@ -73,8 +73,8 @@
     <string name="get_song_failed">Не удалось получить информацию о песне</string>
     <string name="queue_empty">Нет песен в очереди</string>
     <string name="cancel_playlist_download">Отмена загрузки плейлиста</string>
-    <string name="cancel_playlist_download_text">Отменить загрузку плейлиста ?</string>
-    <string name="remove_download">Удалить загрузку</string>
+    <string name="cancel_playlist_download_text">Отменить текущую загрузку плейлиста ?</string>
+    <string name="remove_download">Удалить загруженные</string>
     <string name="cancel_download">Отменить загрузку</string>
     <string name="hide_playlist">Скрыть плейлист</string>
     <string name="unhide_playlist">Показать плейлист</string>
