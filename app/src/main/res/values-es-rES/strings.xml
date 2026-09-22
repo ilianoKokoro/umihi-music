@@ -182,5 +182,5 @@
     <string name="current_location">Ubicación actual: %1$s</string>
     <string name="internal">Interno</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Cambiar la carpeta de descarga puede hacer que la aplicación pierda el seguimiento de las canciones descargadas si sus archivos son movidos, renombrados o modificados fuera de la aplicación. Asegúrese de mantener sus archivos descargados en su ubicación original y sin cambios.</string>
+    <string name="download_location_warning_description">Cambiar la carpeta de descargas puede hacer que la aplicación deje de reconocer las canciones descargadas si sus archivos se mueven, renombran o modifican fuera de la aplicación. Asegúrate de mantener los archivos descargados en su ubicación original y sin modificaciones.</string>
 </resources>
