@@ -182,5 +182,5 @@
     <string name="current_location">Τρέχουσα τοποθεσία : %1$s</string>
     <string name="internal">Εσωτερική</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
+    <string name="download_location_warning_description">Αλλάζοντας το φάκελο λήψεων μπορεί η εφαρμογή να χάσει το κομμάτι των κατεβασμένων τραγουδιών αν τα αρχεία τους μετακινηθούν, μετονομαστούν ή τροποποιηθούν έξω από την εφαρμογή. Βεβαιωθείτε ότι κρατάτε τα κατεβασμένα αρχεία σας στην αρχική τους τοποθεσία και αμετάβλητα.</string>
 </resources>
