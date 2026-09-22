@@ -26,7 +26,9 @@ fun PlaylistHeader(
     onHidePlaylist: () -> Unit,
     onShufflePlaylist: () -> Unit,
     isLoading: Boolean = false,
-    playlist: Playlist
+    playlist: Playlist,
+    optionsExtended: Boolean = false,
+    onOptionsExtendedChange: (Boolean) -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -47,6 +49,8 @@ fun PlaylistHeader(
                 onUnhidePlaylist = onUnhidePlaylist,
                 onHidePlaylist = onHidePlaylist,
                 isLoading = isLoading,
+                optionsExtended = optionsExtended,
+                onOptionsExtendedChange = onOptionsExtendedChange,
             )
             ActionButtons(
                 buttonEnabled = !playlist.songs.isEmpty(),

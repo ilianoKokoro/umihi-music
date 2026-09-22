@@ -59,6 +59,10 @@ class PlaylistViewModel(
         _uiState.update { it.copy(showingSearch = false, searchQuery = "") }
     }
 
+    fun setOptionsExtended(extended: Boolean) {
+        _uiState.update { it.copy(optionsExtended = extended) }
+    }
+
     private val playlistRepository = PlaylistRepository(application)
     private val localPlaylistRepository = AppDatabase.getInstance(application).playlistRepository()
     private val datastoreRepository = DatastoreRepository(application)
@@ -431,8 +435,19 @@ class PlaylistViewModel(
         }
         val localMap = updatedPlaylist.songs.associateBy { it.youtubeId }
         val mergedSongs = oldPlaylist.songs.map { remoteSong ->
-            localMap[remoteSong.youtubeId]?.copy(uid = Uuid.random().toString())
-                ?: remoteSong
+            localMap[remoteSong.youtubeId]?.let { localSong ->
+                val merged = remoteSong.copy(
+                    audioFilePath = localSong.audioFilePath,
+                    thumbnailPath = localSong.thumbnailPath
+                )
+                if (merged.audioFilePath == remoteSong.audioFilePath &&
+                    merged.thumbnailPath == remoteSong.thumbnailPath
+                ) {
+                    remoteSong
+                } else {
+                    merged.copy(uid = Uuid.random().toString())
+                }
+            } ?: remoteSong
         }
         return oldPlaylist.copy(songs = mergedSongs)
     }

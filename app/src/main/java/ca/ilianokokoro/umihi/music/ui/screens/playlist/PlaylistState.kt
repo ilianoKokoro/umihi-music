@@ -11,7 +11,8 @@ data class PlaylistState(
     val loadedSongsCount: Int = 0,
     val searchQuery: String = "",
     val showingSearch: Boolean = false,
-    val isLoggedIn: Boolean = false
+    val isLoggedIn: Boolean = false,
+    val optionsExtended: Boolean = false
 )
 
 sealed class ScreenState {

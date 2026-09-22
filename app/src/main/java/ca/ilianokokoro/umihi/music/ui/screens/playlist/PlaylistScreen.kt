@@ -3,7 +3,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.playlist
 import android.app.Application
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -185,63 +185,12 @@ fun PlaylistScreen(
                     }
                     val songs = playlistInfo.songs
 
-                    if (uiState.screenState is ScreenState.Loading || songs.isEmpty()) {
+                    val pullToRefreshState = rememberPullToRefreshState()
 
-                        Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding()))
-
-                        PlaylistHeader(
-                            onOpenPlayer = onOpenPlayer,
-                            isDownloading = uiState.isDownloading,
-                            onDownloadPlaylist = playlistViewModel::downloadPlaylist,
-                            onShufflePlaylist = playlistViewModel::shufflePlaylist,
-                            onPlayPlaylist = playlistViewModel::playPlaylist,
-                            onDeleteDownloadPlaylist = {
-                                playlistViewModel.deleteLocalPlaylist(
-                                    context
-                                )
-                            },
-                            onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
-                            onRemoveFromLibrary = { playlistViewModel.removeFromLibrary(onBack) },
-                            onCancelDownload = playlistViewModel::cancelDownload,
-                            onUnhidePlaylist = playlistViewModel::unhidePlaylist,
-                            onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
-                            isLoading = uiState.screenState is ScreenState.Loading,
-                            playlist = playlistInfo
-                        )
-
-                        if (uiState.screenState is ScreenState.Loading) {
-                            val totalCount = playlistInfo.info.songCount
-                            val targetFraction =
-                                if (totalCount != null && totalCount > 0) {
-                                    (uiState.loadedSongsCount.toFloat() / totalCount)
-                                        .coerceIn(0f, 1f)
-                                } else {
-                                    null
-                                }
-                            val animatedFraction by animateFloatAsState(
-                                targetValue = targetFraction ?: 0f,
-                                animationSpec = tween(durationMillis = 600)
-                            )
-                            LoadingAnimation(
-                                progress = targetFraction?.let { { animatedFraction } }
-                            )
-                        } else {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = modifier
-                                    .fillMaxSize()
-                            ) {
-                                Text(
-                                    stringResource(R.string.empty_playlist),
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
-                        }
-
-                    } else {
-                        val pullToRefreshState = rememberPullToRefreshState()
-
+                    Box(
+                        modifier = modifier
+                            .fillMaxSize()
+                    ) {
                         PullToRefreshBox(
                             isRefreshing = uiState.isRefreshing,
                             state = pullToRefreshState,
@@ -256,37 +205,43 @@ fun PlaylistScreen(
                             modifier = modifier
                                 .fillMaxSize()
                         ) {
-                            LazyColumn(
-                                modifier = modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
-                            ) {
-                                item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
+                        LazyColumn(
+                            modifier = modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
+                        ) {
+                            item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
 
-                                item {
-                                    PlaylistHeader(
-                                        onOpenPlayer = onOpenPlayer,
-                                        isDownloading = uiState.isDownloading,
-                                        onDownloadPlaylist = playlistViewModel::downloadPlaylist,
-                                        onShufflePlaylist = playlistViewModel::shufflePlaylist,
-                                        onPlayPlaylist = playlistViewModel::playPlaylist,
-                                        onDeleteDownloadPlaylist = {
-                                            playlistViewModel.deleteLocalPlaylist(
-                                                context
-                                            )
-                                        },
-                                        onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
-                                        onRemoveFromLibrary = {
-                                            playlistViewModel.removeFromLibrary(
-                                                onBack
-                                            )
-                                        },
-                                        onCancelDownload = playlistViewModel::cancelDownload,
-                                        onUnhidePlaylist = playlistViewModel::unhidePlaylist,
-                                        onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
-                                        playlist = playlistInfo
-                                    )
-                                }
+                            item {
+                                PlaylistHeader(
+                                    onOpenPlayer = onOpenPlayer,
+                                    isDownloading = uiState.isDownloading,
+                                    onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                                    onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                                    onPlayPlaylist = playlistViewModel::playPlaylist,
+                                    onDeleteDownloadPlaylist = {
+                                        playlistViewModel.deleteLocalPlaylist(
+                                            context
+                                        )
+                                    },
+                                    onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
+                                    onRemoveFromLibrary = {
+                                        playlistViewModel.removeFromLibrary(
+                                            onBack
+                                        )
+                                    },
+                                    onCancelDownload = playlistViewModel::cancelDownload,
+                                    onUnhidePlaylist = playlistViewModel::unhidePlaylist,
+                                    onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
+                                    isLoading = uiState.screenState is ScreenState.Loading,
+                                    playlist = playlistInfo,
+                                    optionsExtended = uiState.optionsExtended,
+                                    onOptionsExtendedChange = playlistViewModel::setOptionsExtended
+                                )
+                            }
 
+                            if (uiState.screenState is ScreenState.Loading) {
+                                Unit
+                            } else if (playlistInfo.songs.isNotEmpty()) {
                                 val filteredSongs = if (uiState.searchQuery.isBlank()) {
                                     songs
                                 } else {
@@ -349,8 +304,39 @@ fun PlaylistScreen(
                                             null
                                         })
                                 }
+                            } else {
+                                item {
+                                    Box(
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            stringResource(R.string.empty_playlist),
+                                            textAlign = TextAlign.Center,
+                                        )
+                                    }
+                                }
                             }
                         }
+                    }
+
+                    if (uiState.screenState is ScreenState.Loading) {
+                        val totalCount = playlistInfo.info.songCount
+                        val targetFraction =
+                            if (totalCount != null && totalCount > 0) {
+                                (uiState.loadedSongsCount.toFloat() / totalCount)
+                                    .coerceIn(0f, 1f)
+                            } else {
+                                null
+                            }
+                        val animatedFraction by animateFloatAsState(
+                            targetValue = targetFraction ?: 0f,
+                            animationSpec = tween(durationMillis = 600)
+                        )
+                        LoadingAnimation(
+                            progress = targetFraction?.let { { animatedFraction } }
+                        )
+                    }
                     }
                 }
             }

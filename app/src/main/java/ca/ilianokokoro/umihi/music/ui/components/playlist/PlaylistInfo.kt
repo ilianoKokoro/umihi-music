@@ -62,6 +62,8 @@ fun PlaylistInfo(
     onHidePlaylist: () -> Unit,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
+    optionsExtended: Boolean = false,
+    onOptionsExtendedChange: (Boolean) -> Unit = {},
 ) {
     val totalCount = playlist.info.songCount
     val songsCount = if (isLoading) totalCount ?: 0 else playlist.songs.count()
@@ -72,7 +74,6 @@ fun PlaylistInfo(
     val showHideDialog = remember { mutableStateOf(false) }
     val showUnhideDialog = remember { mutableStateOf(false) }
     val showRemoveFromLibraryDialog = remember { mutableStateOf(false) }
-    var optionsExtended by remember { mutableStateOf(false) }
 
     LaunchedEffect(songsCount) {
         animatedCount = songsCount
@@ -165,7 +166,7 @@ fun PlaylistInfo(
 
                         IconButton(
                             onClick = {
-                                optionsExtended = true
+                                onOptionsExtendedChange(true)
                             },
                             shapes = IconButtonDefaults.shapes(),
                         ) {
@@ -176,7 +177,7 @@ fun PlaylistInfo(
 
                             MaterialUDropdown(
                                 expanded = optionsExtended,
-                                onDismissRequest = { optionsExtended = false },
+                                onDismissRequest = { onOptionsExtendedChange(false) },
                             ) {
                                 if (isDownloading) {
                                     MaterialUDropdownItem(
@@ -184,7 +185,7 @@ fun PlaylistInfo(
                                         text = stringResource(R.string.cancel_download),
                                         onClick = {
                                             showCancelDialog.value = true
-                                            optionsExtended = false
+                                            onOptionsExtendedChange(false)
                                         }
                                     )
                                 } else if (!playlist.downloaded) {
@@ -193,7 +194,7 @@ fun PlaylistInfo(
                                         text = stringResource(R.string.download),
                                         onClick = {
                                             onDownloadPressed()
-                                            optionsExtended = false
+                                            onOptionsExtendedChange(false)
                                         }
                                     )
                                 }
@@ -203,7 +204,7 @@ fun PlaylistInfo(
                                     text = stringResource(R.string.remove_download),
                                     onClick = {
                                         showDeleteDownloadDialog.value = true
-                                        optionsExtended = false
+                                        onOptionsExtendedChange(false)
                                     }
                                 )
 
@@ -213,7 +214,7 @@ fun PlaylistInfo(
                                         text = stringResource(R.string.unhide_playlist),
                                         onClick = {
                                             showUnhideDialog.value = true
-                                            optionsExtended = false
+                                            onOptionsExtendedChange(false)
                                         }
                                     )
                                 } else if (!playlist.info.hidden) {
@@ -222,7 +223,7 @@ fun PlaylistInfo(
                                         text = stringResource(R.string.hide_playlist),
                                         onClick = {
                                             showHideDialog.value = true
-                                            optionsExtended = false
+                                            onOptionsExtendedChange(false)
                                         }
                                     )
                                 }
@@ -234,7 +235,7 @@ fun PlaylistInfo(
                                             text = stringResource(R.string.delete_playlist),
                                             onClick = {
                                                 showDeleteDialog.value = true
-                                                optionsExtended = false
+                                                onOptionsExtendedChange(false)
                                             }
                                         )
                                     }
@@ -245,7 +246,7 @@ fun PlaylistInfo(
                                             text = stringResource(R.string.remove_library),
                                             onClick = {
                                                 showRemoveFromLibraryDialog.value = true
-                                                optionsExtended = false
+                                                onOptionsExtendedChange(false)
                                             }
                                         )
                                     }
