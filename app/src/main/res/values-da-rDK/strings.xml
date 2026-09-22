@@ -182,5 +182,5 @@
     <string name="current_location">Nuværende placering : %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-    <string name="download_location_dialog_description">Changing the download folder changes where downloaded songs are stored. Moving or renaming downloaded files will cause the app to lose track of them.</string>
+    <string name="download_location_dialog_description">Ændring af download-mappen ændringer, hvor downloadede sange gemmes. Flytning eller omdøbning af downloadede filer vil få appen til at miste styr på dem.</string>
 </resources>
