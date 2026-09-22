@@ -178,9 +178,9 @@
     <string name="theme_dark">Dawk</string>
     <string name="theme_light">Wight</string>
     <string name="theme_system">Fowwow System</string>
-    <string name="change_download_location">Change Download Location</string>
-    <string name="current_location">Current location : %1$s</string>
-    <string name="internal">Internal</string>
-    <string name="reset">Reset</string>
+    <string name="change_download_location">Change Downwoad Wocation</string>
+    <string name="current_location">Cuwwent wocation : %1$s</string>
+    <string name="internal">Intewnal</string>
+    <string name="reset">Weset</string>
     <string name="download_location_dialog_description">Changing the download folder changes where downloaded songs are stored. Moving or renaming downloaded files will cause the app to lose track of them.</string>
 </resources>
