@@ -10,12 +10,16 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.withContext
+import java.util.concurrent.Executors
 import kotlin.math.abs
 import android.app.NotificationManager as AndroidNotificationManager
 
 object NotificationManager {
     private lateinit var androidNotificationManager: AndroidNotificationManager
     private lateinit var pendingIntent: PendingIntent
+    private val notifyDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     fun init(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
@@ -45,7 +49,13 @@ object NotificationManager {
         }
     }
 
-    fun showPlaylistDownloadWaitingForWifi(
+    private suspend fun postNotification(id: Int, notification: android.app.Notification) {
+        withContext(notifyDispatcher) {
+            androidNotificationManager.notify(id, notification)
+        }
+    }
+
+    suspend fun showPlaylistDownloadWaitingForWifi(
         context: Context,
         playlist: Playlist,
     ) {
@@ -64,11 +74,11 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        postNotification(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
-    fun showPlaylistDownloadProgress(
+    suspend fun showPlaylistDownloadProgress(
         context: Context,
         playlist: Playlist,
         currentSong: Int,
@@ -87,16 +97,17 @@ object NotificationManager {
             .setSmallIcon(android.R.drawable.stat_sys_download)
             .setProgress(totalSongs, currentSong, false)
             .setOngoing(true)
+            .setOnlyAlertOnce(true)
             .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
             .setCategory(NotificationCompat.CATEGORY_PROGRESS)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        postNotification(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
-    fun showPlaylistDownloadSuccess(
+    suspend fun showPlaylistDownloadSuccess(
         context: Context,
         playlist: Playlist,
     ) {
@@ -110,11 +121,11 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        postNotification(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
-    fun showPlaylistDownloadFailure(
+    suspend fun showPlaylistDownloadFailure(
         context: Context,
         playlist: Playlist,
     ) {
@@ -133,11 +144,11 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        postNotification(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
-    fun showPlaylistDownloadCanceled(
+    suspend fun showPlaylistDownloadCanceled(
         context: Context,
         playlist: Playlist
     ) {
@@ -153,11 +164,11 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(playlist.info.id), notification)
+        postNotification(getNotificationID(playlist.info.id), notification)
         updateGroupSummary(context)
     }
 
-    private fun updateGroupSummary(context: Context) {
+    private suspend fun updateGroupSummary(context: Context) {
         val summaryNotification =
             getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
                 .setContentTitle(context.getString(R.string.download_finished))
@@ -169,11 +180,11 @@ object NotificationManager {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
 
-        androidNotificationManager.notify(0, summaryNotification)
+        postNotification(0, summaryNotification)
     }
 
 
-    fun showSongDownloadWaitingForWifi(
+    suspend fun showSongDownloadWaitingForWifi(
         context: Context,
         song: Song,
     ) {
@@ -187,10 +198,10 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
+        postNotification(getNotificationID(song.youtubeId), notification)
     }
 
-    fun showSongDownloadFailed(
+    suspend fun showSongDownloadFailed(
         context: Context,
         song: Song,
     ) {
@@ -210,7 +221,7 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
+        postNotification(getNotificationID(song.youtubeId), notification)
     }
 
     suspend fun showSongDownloadSuccess(
@@ -228,7 +239,7 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        androidNotificationManager.notify(getNotificationID(song.youtubeId), notification)
+        postNotification(getNotificationID(song.youtubeId), notification)
     }
 
     private fun getBaseNotification(

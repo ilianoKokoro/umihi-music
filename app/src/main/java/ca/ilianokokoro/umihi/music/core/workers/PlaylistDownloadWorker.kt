@@ -68,7 +68,6 @@ class PlaylistDownloadWorker(
             )
 
             val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
-
             coroutineScope {
                 playlist.songs.map { song ->
                     async {
@@ -94,29 +93,22 @@ class PlaylistDownloadWorker(
                                 )
 
                                 localSongRepository.create(updatedSong)
-
-                                val downloaded = downloadedSongs.incrementAndFetch()
-                                if (downloaded < totalSongs) {
-                                    NotificationManager.showPlaylistDownloadProgress(
-                                        appContext,
-                                        playlist,
-                                        downloaded,
-                                        totalSongs
-                                    )
-                                }
                             } catch (e: CancellationException) {
                                 printd("Song download canceled ${song.title}")
                                 throw e
                             } catch (e: Exception) {
-                                NotificationManager.showSongDownloadFailed(
-                                    appContext,
-                                    song
-                                )
-
+                                NotificationManager.showSongDownloadFailed(appContext, song)
                                 printe(
                                     message = "Error downloading song: ${song.title}",
                                     exception = e
                                 )
+                            } finally {
+                                val downloaded = downloadedSongs.incrementAndFetch()
+                                if (downloaded < totalSongs) {
+                                    NotificationManager.showPlaylistDownloadProgress(
+                                        appContext, playlist, downloaded, totalSongs
+                                    )
+                                }
                             }
                         }
                     }
