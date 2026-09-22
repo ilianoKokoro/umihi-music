@@ -181,4 +181,6 @@
     <string name="change_download_location">Modifier l\'emplacement de téléchargement</string>
     <string name="current_location">Emplacement actuel : %1$s</string>
     <string name="internal">Interne</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Changer le dossier de téléchargement change où les chansons téléchargées sont stockées. Déplacer ou renommer les fichiers téléchargés fera perdre la trace de l\'application.</string>
 </resources>

@@ -181,4 +181,6 @@
     <string name="change_download_location">Αλλαγή Τοποθεσίας Λήψης</string>
     <string name="current_location">Τρέχουσα τοποθεσία : %1$s</string>
     <string name="internal">Εσωτερική</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Αλλάζοντας τις αλλαγές του φακέλου λήψεων όπου αποθηκεύονται τα ληφθέντα τραγούδια. Η μετακίνηση ή η μετονομασία ληφθέντων αρχείων θα έχει ως αποτέλεσμα η εφαρμογή να χάσει το ίχνος τους.</string>
 </resources>

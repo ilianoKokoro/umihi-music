@@ -181,4 +181,6 @@
     <string name="change_download_location">Cambia Posizione Download</string>
     <string name="current_location">Posizione attuale: %1$s</string>
     <string name="internal">Interno</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Cambiare la cartella di download cambia dove vengono memorizzati i brani scaricati. Spostare o rinominare i file scaricati causerà la perdita di traccia dell\'applicazione.</string>
 </resources>

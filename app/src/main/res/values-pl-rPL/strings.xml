@@ -181,4 +181,6 @@
     <string name="change_download_location">Zmień lokalizację pobierania</string>
     <string name="current_location">Bieżąca lokalizacja: %1$s</string>
     <string name="internal">Wewnętrzne</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Zmiana folderu pobierania, w którym przechowywane są pobrane utwory. Przenoszenie lub zmiana nazwy pobranych plików spowoduje utratę ich śledzenia.</string>
 </resources>

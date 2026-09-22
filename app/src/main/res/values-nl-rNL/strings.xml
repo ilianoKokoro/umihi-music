@@ -181,4 +181,6 @@
     <string name="change_download_location">Downloadlocatie wijzigen</string>
     <string name="current_location">Huidige locatie: %1$s</string>
     <string name="internal">Intern</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Wijzigen van de download map verandert daar waar gedownloade nummers zijn opgeslagen. Verplaatsen of hernoemen van gedownloade bestanden zal ervoor zorgen dat de app het nummer verliest.</string>
 </resources>

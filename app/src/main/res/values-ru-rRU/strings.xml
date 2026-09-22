@@ -180,5 +180,7 @@
     <string name="theme_system">Следовать системе</string>
     <string name="change_download_location">Изменить местоположение загрузки</string>
     <string name="current_location">Текущее местоположение : %1$s</string>
-    <string name="internal">Внутренний</string>
+    <string name="internal">Внутреннее</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Изменение папки загрузок, в которой хранятся скачанные песни. Перемещение или переименование загруженных файлов приведет к потере приложения.</string>
 </resources>

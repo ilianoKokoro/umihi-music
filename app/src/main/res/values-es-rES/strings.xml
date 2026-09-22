@@ -181,4 +181,6 @@
     <string name="change_download_location">Cambiar ubicación de descarga</string>
     <string name="current_location">Ubicación actual: %1$s</string>
     <string name="internal">Interno</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Cambiando la carpeta de descarga los cambios donde se almacenan las canciones descargadas. Moviendo o renombrando los archivos descargados, la aplicación perderá el rastro de ellos.</string>
 </resources>

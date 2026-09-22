@@ -181,4 +181,6 @@
     <string name="change_download_location">Schimbă locația de descărcare</string>
     <string name="current_location">Locația curentă: %1$s</string>
     <string name="internal">Intern</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Schimbarea dosarului de descărcare se schimbă unde sunt stocate melodiile descărcate. Mutarea sau redenumirea fișierelor descărcate va face ca aplicația să piardă evidența lor.</string>
 </resources>

@@ -181,4 +181,6 @@
     <string name="change_download_location">Змінити розташування для завантажень</string>
     <string name="current_location">Current location : %1$s</string>
     <string name="internal">Внутрішній</string>
+    <string name="reset">Reset</string>
+    <string name="download_location_dialog_description">Зміна каталогу завантажень при збереженні завантажених пісень. Переміщення або перейменування завантажених файлів призведе до втрати треку в цьому додатку.</string>
 </resources>

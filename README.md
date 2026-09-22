@@ -162,7 +162,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>dsyncronized</b></sub></a>
         <br />
-        <sub><b>726 words</b></sub>
+        <sub><b>733 words</b></sub>
         <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
@@ -226,7 +226,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Vladik01-11</b></sub></a>
         <br />
-        <sub><b>223 words</b></sub>
+        <sub><b>230 words</b></sub>
         <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
       <td align="center" valign="top">
