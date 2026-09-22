@@ -18,7 +18,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import kotlin.concurrent.atomics.AtomicInt
@@ -35,6 +37,8 @@ class PlaylistDownloadWorker(
     private val playlistRepository = AppDatabase.getInstance(appContext).playlistRepository()
     private val localSongRepository = AppDatabase.getInstance(appContext).songRepository()
     private val songRepository = SongRepository()
+
+    private val progressUpdate = Mutex()
 
     @OptIn(ExperimentalAtomicApi::class)
     override suspend fun doWork(): Result {
@@ -103,8 +107,8 @@ class PlaylistDownloadWorker(
                                     exception = e
                                 )
                             } finally {
-                                val downloaded = downloadedSongs.incrementAndFetch()
-                                if (downloaded < totalSongs) {
+                                progressUpdate.withLock {
+                                    val downloaded = downloadedSongs.incrementAndFetch()
                                     NotificationManager.showPlaylistDownloadProgress(
                                         appContext, playlist, downloaded, totalSongs
                                     )
