@@ -220,7 +220,10 @@ class PlaylistRepository(application: Application) {
             emit(ApiResult.Loading)
 
             localPlaylistDataSource.insertPlaylist(
-                playlist.copy(hidden = true)
+                playlist.copy(
+                    hidden = true,
+                    coverPath = playlist.coverPath ?: getStoredCoverPath(playlist.id)
+                )
             )
 
             emit(ApiResult.Success(Unit))
@@ -232,12 +235,18 @@ class PlaylistRepository(application: Application) {
             emit(ApiResult.Loading)
 
             localPlaylistDataSource.insertPlaylist(
-                playlist.copy(hidden = false)
+                playlist.copy(
+                    hidden = false,
+                    coverPath = playlist.coverPath ?: getStoredCoverPath(playlist.id)
+                )
             )
 
             emit(ApiResult.Success(Unit))
         }.flowOn(Dispatchers.IO)
     }
+
+    private suspend fun getStoredCoverPath(playlistId: String): String? =
+        localPlaylistDataSource.getPlaylistById(playlistId)?.info?.coverPath
 
     fun edit(
         playlistId: String,
@@ -280,7 +289,10 @@ class PlaylistRepository(application: Application) {
             }
         }
         return remotePlaylist.copy(
-            info = remotePlaylist.info.copy(hidden = localPlaylist.info.hidden),
+            info = remotePlaylist.info.copy(
+                hidden = localPlaylist.info.hidden,
+                coverPath = localPlaylist.info.coverPath ?: remotePlaylist.info.coverPath
+            ),
             songs = mergedSongs
         )
     }

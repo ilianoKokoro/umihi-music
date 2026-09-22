@@ -88,8 +88,17 @@ interface LocalPlaylistDataSource {
         insertCrossRefs(refs)
     }
 
-    @Query("DELETE FROM playlists")
-    suspend fun deleteAll()
+    @Query("DELETE FROM playlists WHERE hidden = 0")
+    suspend fun deleteVisiblePlaylists()
+
+    @Query("UPDATE playlists SET coverPath = NULL WHERE hidden = 1")
+    suspend fun clearHiddenDownloadedData()
+
+    @Transaction
+    suspend fun deleteAll() {
+        deleteVisiblePlaylists()
+        clearHiddenDownloadedData()
+    }
 
     @Query("DELETE FROM playlists WHERE id = :playlistId")
     suspend fun deletePlaylistById(playlistId: String)
