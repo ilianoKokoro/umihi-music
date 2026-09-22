@@ -182,5 +182,5 @@
     <string name="current_location">Ubicación actual: %1$s</string>
     <string name="internal">Interno</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
+    <string name="download_location_warning_description">Cambiar la carpeta de descarga puede hacer que la aplicación pierda el seguimiento de las canciones descargadas si sus archivos son movidos, renombrados o modificados fuera de la aplicación. Asegúrese de mantener sus archivos descargados en su ubicación original y sin cambios.</string>
 </resources>
