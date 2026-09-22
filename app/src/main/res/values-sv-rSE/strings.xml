@@ -182,5 +182,5 @@
     <string name="current_location">Nuvarande plats: %1$s</string>
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
-    <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
+    <string name="download_location_warning_description">Ändring av nedladdningsmappen kan leda till att appen förlorar spår av hämtade låtar om deras filer flyttas, byts namn eller ändras utanför appen. Se till att hålla dina nedladdade filer på sin ursprungliga plats och oförändrade.</string>
 </resources>
