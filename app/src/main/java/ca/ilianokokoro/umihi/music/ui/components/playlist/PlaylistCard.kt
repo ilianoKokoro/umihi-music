@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -14,8 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
@@ -93,18 +93,19 @@ fun PlaylistCard(
                 text = playlistInfo.title,
                 modifier = with(sharedTransitionScope) {
                     Modifier
-                        .fillMaxWidth()
                         .padding(top = 8.dp)
                         .sharedBounds(
                             sharedContentState = titleState,
                             animatedVisibilityScope = animatedVisibilityScope,
                         )
+                        .graphicsLayer {
+                            compositingStrategy = CompositingStrategy.Offscreen
+                        }
                 },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center
             )
 
             Text(
@@ -113,18 +114,19 @@ fun PlaylistCard(
                 }.orEmpty(),
                 modifier = with(sharedTransitionScope) {
                     Modifier
-                        .fillMaxWidth()
                         .padding(top = 2.dp)
                         .sharedBounds(
                             sharedContentState = countState,
                             animatedVisibilityScope = animatedVisibilityScope,
                         )
+                        .graphicsLayer {
+                            compositingStrategy = CompositingStrategy.Offscreen
+                        }
                 },
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
             )
         }
     }
