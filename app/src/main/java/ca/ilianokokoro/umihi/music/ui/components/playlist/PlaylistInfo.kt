@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
@@ -79,9 +80,15 @@ fun PlaylistInfo(
     val showHideDialog = remember { mutableStateOf(false) }
     val showUnhideDialog = remember { mutableStateOf(false) }
     val showRemoveFromLibraryDialog = remember { mutableStateOf(false) }
-    val coverState = sharedTransitionScope.rememberSharedContentState("playlist_cover_${playlist.info.id}")
-    val titleState = sharedTransitionScope.rememberSharedContentState("playlist_title_${playlist.info.id}")
-    val countState = sharedTransitionScope.rememberSharedContentState("playlist_count_${playlist.info.id}")
+    val coverState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_COVER_KEY}${playlist.info.id}"
+    )
+    val titleState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_TITLE_KEY}${playlist.info.id}"
+    )
+    val countState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_COUNT_KEY}${playlist.info.id}"
+    )
 
     LaunchedEffect(songsCount) {
         animatedCount = songsCount

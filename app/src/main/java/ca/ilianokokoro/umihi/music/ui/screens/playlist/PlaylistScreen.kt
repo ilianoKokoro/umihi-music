@@ -93,7 +93,9 @@ fun PlaylistScreen(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
-    val screenState = sharedTransitionScope.rememberSharedContentState("playlist_screen_${playlistInfo.id}")
+    val screenState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_SCREEN_KEY}${playlistInfo.id}"
+    )
 
     LaunchedEffect(uiState.showingSearch) {
         if (uiState.showingSearch) {

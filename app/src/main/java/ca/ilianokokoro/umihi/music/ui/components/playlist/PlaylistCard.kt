@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 
@@ -30,10 +31,18 @@ fun PlaylistCard(
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val screenState = sharedTransitionScope.rememberSharedContentState("playlist_screen_${playlistInfo.id}")
-    val coverState = sharedTransitionScope.rememberSharedContentState("playlist_cover_${playlistInfo.id}")
-    val titleState = sharedTransitionScope.rememberSharedContentState("playlist_title_${playlistInfo.id}")
-    val countState = sharedTransitionScope.rememberSharedContentState("playlist_count_${playlistInfo.id}")
+    val screenState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_SCREEN_KEY}${playlistInfo.id}"
+    )
+    val coverState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_COVER_KEY}${playlistInfo.id}"
+    )
+    val titleState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_TITLE_KEY}${playlistInfo.id}"
+    )
+    val countState = sharedTransitionScope.rememberSharedContentState(
+        "${Constants.SharedTransition.PLAYLIST_COUNT_KEY}${playlistInfo.id}"
+    )
 
     Card(
         onClick = onClicked,
