@@ -70,7 +70,7 @@ class PlaylistRepository(application: Application) {
                 val remotePlaylist = playlistDataSource.retrieveOne(playlist, settings, onProgress)
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
                 val mergedPlaylist = mergeWithLocal(remotePlaylist, localPlaylist)
-                if (localPlaylist != null && localPlaylist.songs.isNotEmpty()) {
+                if (localPlaylist != null && localPlaylist.info.shouldBeDownloaded) {
                     try {
                         syncLocalPlaylist(mergedPlaylist)
                     } catch (e: CancellationException) {
@@ -291,6 +291,7 @@ class PlaylistRepository(application: Application) {
         return remotePlaylist.copy(
             info = remotePlaylist.info.copy(
                 hidden = localPlaylist.info.hidden,
+                shouldBeDownloaded = localPlaylist.info.shouldBeDownloaded,
                 coverPath = localPlaylist.info.coverPath ?: remotePlaylist.info.coverPath
             ),
             songs = mergedSongs

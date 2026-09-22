@@ -192,11 +192,10 @@ class PlaylistViewModel(
 
     private fun downloadPlaylistIfNeeded() {
         viewModelScope.launch {
-            val isLocallyDownloaded = localPlaylistRepository
+            val localPlaylist = localPlaylistRepository
                 .getPlaylistById(playlistInfo.id)
-                ?.songs
-                ?.isNotEmpty() == true
-            if (isLocallyDownloaded) {
+                ?: return@launch
+            if (localPlaylist.info.shouldBeDownloaded && localPlaylist.songs.any { !it.downloaded }) {
                 downloadPlaylist()
             }
         }

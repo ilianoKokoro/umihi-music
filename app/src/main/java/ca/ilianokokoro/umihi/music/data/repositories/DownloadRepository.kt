@@ -33,7 +33,11 @@ class DownloadRepository(appContext: Context) {
             printd("Download is already ongoing for playlist ${playlist.info.title}")
             return
         }
-        localPlaylistRepository.insertPlaylistWithSongs(playlist)
+        localPlaylistRepository.insertPlaylistWithSongs(
+            playlist.copy(
+                info = playlist.info.copy(shouldBeDownloaded = true)
+            )
+        )
         val request = OneTimeWorkRequestBuilder<PlaylistDownloadWorker>().setInputData(
             workDataOf(
                 PlaylistDownloadWorker.PLAYLIST_KEY to playlist.info.id
@@ -108,9 +112,15 @@ class DownloadRepository(appContext: Context) {
         }
     }
 
-    fun cancelPlaylistDownload(playlist: Playlist) {
+    suspend fun cancelPlaylistDownload(playlist: Playlist) {
         printd("stopping work ${playlist.info.title}")
         workManager.cancelUniqueWork(playlist.info.id)
+        
+        localPlaylistRepository.getPlaylistById(playlist.info.id)?.let { stored ->
+            localPlaylistRepository.insertPlaylist(
+                stored.info.copy(shouldBeDownloaded = false)
+            )
+        }
     }
 
     fun cancelAllWorks() {
