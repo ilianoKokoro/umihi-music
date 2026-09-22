@@ -73,7 +73,7 @@
     <string name="get_song_failed">Не удалось получить информацию о песне</string>
     <string name="queue_empty">Нет песен в очереди</string>
     <string name="cancel_playlist_download">Отменить загрузку плейлиста</string>
-    <string name="cancel_playlist_download_text">Отменить текущую загрузку плейлиста ?</string>
+    <string name="cancel_playlist_download_text">Отменить текущую загрузку плейлиста?</string>
     <string name="remove_download">Удалить загруженные</string>
     <string name="cancel_download">Отменить загрузку</string>
     <string name="hide_playlist">Скрыть плейлист</string>
