@@ -165,7 +165,7 @@
     <string name="clear_cache">Очистить кэш</string>
     <string name="clear_cache_message">Удалить все данные аудио и миниатюр из кэша на этом устройстве</string>
     <string name="cache_cleared">Кэш очищен</string>
-    <string name="volume">Звук</string>
+    <string name="volume">Громкость</string>
     <string name="download_aborted_message">Загрузка прервана из-за потери соединения</string>
     <string name="pause">Пауза</string>
     <string name="diagnostics">Диагностика</string>
