@@ -118,7 +118,7 @@
     <string name="auto_update_subtitle">Включает проверку обновлений автоматически при запуске приложения</string>
     <string name="sleep_timer">Таймер сна</string>
     <string name="sleep_timer_active">Таймер сна активен</string>
-    <string name="sleep_timer_remaining">remaining</string>
+    <string name="sleep_timer_remaining">осталось</string>
     <string name="cancel_timer">Отменить таймер</string>
     <string name="sleep_timer_end_of_song_btn">Конец песни</string>
     <string name="sleep_timer_start">Запустить таймер</string>
