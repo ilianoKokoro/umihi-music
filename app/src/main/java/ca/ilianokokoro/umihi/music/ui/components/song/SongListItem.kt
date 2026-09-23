@@ -1,11 +1,11 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
@@ -27,10 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
@@ -50,12 +52,17 @@ fun SongListItem(
     var expanded by remember { mutableStateOf(false) }
 
     ListItem(
+        contentPadding = Constants.Ui.SongItems.PADDING,
         modifier = modifier
+            .height(Constants.Ui.SongItems.ITEM_HEIGHT)
+            .clip(
+                Constants.Ui.SongItems.CORNER_RADIUS
+            )
             .combinedClickable(onClick = onPress, onLongClick = { expanded = true }),
         leadingContent = {
             Box(
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(Constants.Ui.SongItems.IMAGE_SIZE)
                     .aspectRatio(1f)
             ) {
                 SquareImage(
@@ -145,7 +152,6 @@ fun SongListItem(
                     text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
                 )
             }
         },
@@ -154,9 +160,9 @@ fun SongListItem(
         content = {
             Text(
                 text = song.title,
-                maxLines = 1,
+                maxLines = 2,
+                lineHeight = Constants.Ui.SongItems.TITLE_LINE_HEIGHT,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.basicMarquee()
             )
         },
     )

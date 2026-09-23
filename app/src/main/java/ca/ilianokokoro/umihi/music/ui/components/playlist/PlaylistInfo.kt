@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -128,8 +129,17 @@ fun PlaylistInfo(
                 }
             )
         }
-        Column(verticalArrangement = Arrangement.SpaceEvenly) {
-            Column {
+        Column(verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxHeight()) {
+            val alpha by animateFloatAsState(
+                targetValue = if (animatedCount == null || animatedCount == 0) {
+                    0f
+                } else {
+                    1f
+                },
+                animationSpec = tween()
+            )
+
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
                     modifier = with(sharedTransitionScope) {
                         modifier
@@ -147,14 +157,6 @@ fun PlaylistInfo(
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
 
-                val alpha by animateFloatAsState(
-                    targetValue = if (animatedCount == null || animatedCount == 0) {
-                        0f
-                    } else {
-                        1f
-                    },
-                    animationSpec = tween()
-                )
 
                 Text(
                     text = if (songsCount > 0) {
@@ -175,143 +177,144 @@ fun PlaylistInfo(
                     }
                 )
 
+            }
 
-                if (!playlist.info.isDownloadedPlaylist) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
+            if (!playlist.info.isDownloadedPlaylist) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
 
-                        FilledIconButton(
-                            onClick = {
-                                if (playlist.downloaded) {
-                                    showDeleteDownloadDialog.value = true
-                                } else if (isDownloading) {
-                                    showCancelDialog.value = true
-                                } else {
-                                    onDownloadPressed()
-                                }
-                            },
-                            shapes = IconButtonDefaults.shapes(),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ),
-                            enabled = !isLoading && alpha != 0F
-                        ) {
+                    FilledIconButton(
+                        onClick = {
                             if (playlist.downloaded) {
-                                Icon(
-                                    imageVector = Icons.Rounded.DownloadDone,
-                                    contentDescription = null,
-                                )
+                                showDeleteDownloadDialog.value = true
                             } else if (isDownloading) {
-                                CircularWavyProgressIndicator(modifier = Modifier.size(25.dp))
+                                showCancelDialog.value = true
                             } else {
-                                Icon(
-                                    imageVector = Icons.Rounded.Download,
-                                    contentDescription = stringResource(R.string.download),
-                                )
+                                onDownloadPressed()
                             }
-                        }
-
-
-                        IconButton(
-                            onClick = {
-                                onOptionsExtendedChange(true)
-                            },
-                            shapes = IconButtonDefaults.shapes(),
-                        ) {
+                        },
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        enabled = !isLoading && alpha != 0F
+                    ) {
+                        if (playlist.downloaded) {
                             Icon(
-                                imageVector = Icons.Rounded.MoreVert,
-                                contentDescription = stringResource(R.string.actions)
+                                imageVector = Icons.Rounded.DownloadDone,
+                                contentDescription = null,
                             )
+                        } else if (isDownloading) {
+                            CircularWavyProgressIndicator(modifier = Modifier.size(25.dp))
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.Download,
+                                contentDescription = stringResource(R.string.download),
+                            )
+                        }
+                    }
 
-                            MaterialUDropdown(
-                                expanded = optionsExtended,
-                                onDismissRequest = { onOptionsExtendedChange(false) },
-                            ) {
-                                if (isDownloading) {
-                                    MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.Cancel,
-                                        text = stringResource(R.string.cancel_download),
-                                        onClick = {
-                                            showCancelDialog.value = true
-                                            onOptionsExtendedChange(false)
-                                        }
-                                    )
-                                } else if (!playlist.downloaded) {
-                                    MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.Download,
-                                        text = stringResource(R.string.download),
-                                        onClick = {
-                                            onDownloadPressed()
-                                            onOptionsExtendedChange(false)
-                                        }
-                                    )
-                                }
 
+                    IconButton(
+                        onClick = {
+                            onOptionsExtendedChange(true)
+                        },
+                        shapes = IconButtonDefaults.shapes(),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.MoreVert,
+                            contentDescription = stringResource(R.string.actions)
+                        )
+
+                        MaterialUDropdown(
+                            expanded = optionsExtended,
+                            onDismissRequest = { onOptionsExtendedChange(false) },
+                        ) {
+                            if (isDownloading) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.FileDownloadOff,
-                                    text = stringResource(R.string.remove_download),
+                                    leadingIcon = Icons.Rounded.Cancel,
+                                    text = stringResource(R.string.cancel_download),
                                     onClick = {
-                                        showDeleteDownloadDialog.value = true
+                                        showCancelDialog.value = true
                                         onOptionsExtendedChange(false)
                                     }
                                 )
+                            } else if (!playlist.downloaded) {
+                                MaterialUDropdownItem(
+                                    leadingIcon = Icons.Rounded.Download,
+                                    text = stringResource(R.string.download),
+                                    onClick = {
+                                        onDownloadPressed()
+                                        onOptionsExtendedChange(false)
+                                    }
+                                )
+                            }
 
-                                if (playlist.info.hidden) {
+                            MaterialUDropdownItem(
+                                leadingIcon = Icons.Rounded.FileDownloadOff,
+                                text = stringResource(R.string.remove_download),
+                                onClick = {
+                                    showDeleteDownloadDialog.value = true
+                                    onOptionsExtendedChange(false)
+                                }
+                            )
+
+                            if (playlist.info.hidden) {
+                                MaterialUDropdownItem(
+                                    leadingIcon = Icons.Rounded.Visibility,
+                                    text = stringResource(R.string.unhide_playlist),
+                                    onClick = {
+                                        showUnhideDialog.value = true
+                                        onOptionsExtendedChange(false)
+                                    }
+                                )
+                            } else if (!playlist.info.hidden) {
+                                MaterialUDropdownItem(
+                                    leadingIcon = Icons.Rounded.VisibilityOff,
+                                    text = stringResource(R.string.hide_playlist),
+                                    onClick = {
+                                        showHideDialog.value = true
+                                        onOptionsExtendedChange(false)
+                                    }
+                                )
+                            }
+
+                            when (playlist.info.type) {
+                                PlaylistType.CREATED_BY_USER -> {
                                     MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.Visibility,
-                                        text = stringResource(R.string.unhide_playlist),
+                                        leadingIcon = Icons.Rounded.Delete,
+                                        text = stringResource(R.string.delete_playlist),
                                         onClick = {
-                                            showUnhideDialog.value = true
-                                            onOptionsExtendedChange(false)
-                                        }
-                                    )
-                                } else if (!playlist.info.hidden) {
-                                    MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.VisibilityOff,
-                                        text = stringResource(R.string.hide_playlist),
-                                        onClick = {
-                                            showHideDialog.value = true
+                                            showDeleteDialog.value = true
                                             onOptionsExtendedChange(false)
                                         }
                                     )
                                 }
 
-                                when (playlist.info.type) {
-                                    PlaylistType.CREATED_BY_USER -> {
-                                        MaterialUDropdownItem(
-                                            leadingIcon = Icons.Rounded.Delete,
-                                            text = stringResource(R.string.delete_playlist),
-                                            onClick = {
-                                                showDeleteDialog.value = true
-                                                onOptionsExtendedChange(false)
-                                            }
-                                        )
-                                    }
-
-                                    PlaylistType.SAVED -> {
-                                        MaterialUDropdownItem(
-                                            leadingIcon = Icons.Rounded.BookmarkRemove,
-                                            text = stringResource(R.string.remove_library),
-                                            onClick = {
-                                                showRemoveFromLibraryDialog.value = true
-                                                onOptionsExtendedChange(false)
-                                            }
-                                        )
-                                    }
-
-                                    else -> {}
-
+                                PlaylistType.SAVED -> {
+                                    MaterialUDropdownItem(
+                                        leadingIcon = Icons.Rounded.BookmarkRemove,
+                                        text = stringResource(R.string.remove_library),
+                                        onClick = {
+                                            showRemoveFromLibraryDialog.value = true
+                                            onOptionsExtendedChange(false)
+                                        }
+                                    )
                                 }
+
+                                else -> {}
 
                             }
+
                         }
                     }
                 }
             }
         }
+
     }
 
     if (showDeleteDownloadDialog.value) {

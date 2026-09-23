@@ -1,6 +1,9 @@
 package ca.ilianokokoro.umihi.music.core
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
@@ -61,6 +64,14 @@ object Constants {
                 const val STEP_AMOUNT = 40
 
             }
+        }
+
+        object SongItems {
+            val IMAGE_SIZE = 60.dp
+            val ITEM_HEIGHT = 74.dp
+            val CORNER_RADIUS = RoundedCornerShape(16.dp)
+            val TITLE_LINE_HEIGHT = 1.1.em
+            val PADDING = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
         }
     }
 

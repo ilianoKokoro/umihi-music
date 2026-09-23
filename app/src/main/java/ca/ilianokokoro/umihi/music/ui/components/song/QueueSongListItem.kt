@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.MoreVert
@@ -31,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
@@ -49,16 +48,17 @@ fun QueueSongListItem(
     onDragStopped: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val innerHeight = 60.dp
 
     ListItem(
+        contentPadding = Constants.Ui.SongItems.PADDING,
         modifier = Modifier
-            .clip(RoundedCornerShape(18.dp))
+            .height(Constants.Ui.SongItems.ITEM_HEIGHT)
+            .clip(Constants.Ui.SongItems.CORNER_RADIUS)
             .clickable(onClick = onPress),
         leadingContent = {
             Box(
                 modifier = Modifier
-                    .size(innerHeight)
+                    .size(Constants.Ui.SongItems.IMAGE_SIZE)
                     .aspectRatio(1f)
             ) {
                 SquareImage(
@@ -105,7 +105,7 @@ fun QueueSongListItem(
                     modifier =
                         with(scope) {
                             Modifier
-                                .height(innerHeight)
+                                .height(Constants.Ui.SongItems.ITEM_HEIGHT)
                                 .draggableHandle(
                                     onDragStarted = { onDragStarted() },
                                     onDragStopped =
@@ -128,7 +128,6 @@ fun QueueSongListItem(
                     "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.basicMarquee()
                 )
             }
         },
@@ -138,7 +137,14 @@ fun QueueSongListItem(
             ListItemDefaults.colors()
         },
         verticalAlignment = Alignment.CenterVertically,
-        content = { Text(song.title, modifier = Modifier.basicMarquee()) },
+        content = {
+            Text(
+                song.title,
+                maxLines = 2,
+                lineHeight = Constants.Ui.SongItems.TITLE_LINE_HEIGHT,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
     )
 
 }

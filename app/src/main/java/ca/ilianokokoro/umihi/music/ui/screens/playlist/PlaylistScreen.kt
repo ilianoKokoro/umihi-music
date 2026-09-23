@@ -115,278 +115,282 @@ fun PlaylistScreen(
         }
     ) {
         FadingStatusBarWrapper {
-        Scaffold(topBar = {
-            if (uiState.showingSearch) {
-                TopAppBar(
-                    modifier = modifier,
-                    navigationIcon = {
-                        BackButton(onBack = onBack)
-                    },
-                    actions = {
-                        FilledIconButton(
-                            onClick = playlistViewModel::hideSearch,
-                            shapes = IconButtonDefaults.shapes(),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = stringResource(R.string.close)
+            Scaffold(topBar = {
+                if (uiState.showingSearch) {
+                    TopAppBar(
+                        modifier = modifier,
+                        navigationIcon = {
+                            BackButton(onBack = onBack)
+                        },
+                        actions = {
+                            FilledIconButton(
+                                onClick = playlistViewModel::hideSearch,
+                                shapes = IconButtonDefaults.shapes(),
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Close,
+                                    contentDescription = stringResource(R.string.close)
+                                )
+                            }
+                        },
+                        title = {
+                            SearchBar(
+                                modifier = Modifier
+                                    .focusRequester(focusRequester),
+                                value = uiState.searchQuery,
+                                onValueChange = playlistViewModel::onSearchQueryChange,
+                                onSearch = {
+                                    focusRequester.freeFocus()
+                                },
+                                focusManager = focusManager,
+                                focusRequester = focusRequester,
                             )
                         }
-                    },
-                    title = {
-                        SearchBar(
-                            modifier = Modifier
-                                .focusRequester(focusRequester),
-                            value = uiState.searchQuery,
-                            onValueChange = playlistViewModel::onSearchQueryChange,
-                            onSearch = {
-                                focusRequester.freeFocus()
-                            },
-                            focusManager = focusManager,
-                            focusRequester = focusRequester,
-                        )
-                    }
-                )
-            } else {
-                TopAppBar(
-                    title = {
-                        Text(
-                            playlistInfo.title,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    navigationIcon = {
-                        BackButton(onBack = onBack)
-                    },
-                    actions = {
-                        FilledIconButton(
-                            onClick = playlistViewModel::showSearch,
-                            shapes = IconButtonDefaults.shapes(),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = stringResource(R.string.search)
-                            )
-                        }
-                    }
-                )
-            }
-        }) { paddingValues ->
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-            ) {
-
-                if (uiState.screenState is ScreenState.Error) {
-                    ErrorMessage(
-                        ex = uiState.screenState.exception,
-                        onRetry = playlistViewModel::getPlaylistInfo
                     )
                 } else {
-                    val playlistInfo: Playlist = when (uiState.screenState) {
-                        is ScreenState.Loading -> {
-                            Playlist(uiState.screenState.playlistInfo)
-                        }
-
-                        is ScreenState.Success -> {
-                            uiState.screenState.playlist
-                        }
-                    }
-                    val songs = playlistInfo.songs
-
-                    val pullToRefreshState = rememberPullToRefreshState()
-
-                    Box(
-                        modifier = modifier
-                            .fillMaxSize()
-                    ) {
-                        PullToRefreshBox(
-                            isRefreshing = uiState.isRefreshing,
-                            state = pullToRefreshState,
-                            onRefresh = playlistViewModel::refreshPlaylistInfo,
-                            indicator = {
-                                PullToRefreshDefaults.LoadingIndicator(
-                                    state = pullToRefreshState,
-                                    isRefreshing = uiState.isRefreshing,
-                                    Modifier.align(Alignment.TopCenter)
+                    TopAppBar(
+                        title = {
+                            Text(
+                                playlistInfo.title,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        },
+                        navigationIcon = {
+                            BackButton(onBack = onBack)
+                        },
+                        actions = {
+                            FilledIconButton(
+                                onClick = playlistViewModel::showSearch,
+                                shapes = IconButtonDefaults.shapes(),
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = stringResource(R.string.search)
                                 )
-                            },
+                            }
+                        }
+                    )
+                }
+            }) { paddingValues ->
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                ) {
+
+                    if (uiState.screenState is ScreenState.Error) {
+                        ErrorMessage(
+                            ex = uiState.screenState.exception,
+                            onRetry = playlistViewModel::getPlaylistInfo
+                        )
+                    } else {
+                        val playlistInfo: Playlist = when (uiState.screenState) {
+                            is ScreenState.Loading -> {
+                                Playlist(uiState.screenState.playlistInfo)
+                            }
+
+                            is ScreenState.Success -> {
+                                uiState.screenState.playlist
+                            }
+                        }
+                        val songs = playlistInfo.songs
+
+                        val pullToRefreshState = rememberPullToRefreshState()
+
+                        Box(
                             modifier = modifier
                                 .fillMaxSize()
                         ) {
-                        LazyColumn(
-                            modifier = modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING)
-                        ) {
-                            item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
+                            PullToRefreshBox(
+                                isRefreshing = uiState.isRefreshing,
+                                state = pullToRefreshState,
+                                onRefresh = playlistViewModel::refreshPlaylistInfo,
+                                indicator = {
+                                    PullToRefreshDefaults.LoadingIndicator(
+                                        state = pullToRefreshState,
+                                        isRefreshing = uiState.isRefreshing,
+                                        Modifier.align(Alignment.TopCenter)
+                                    )
+                                },
+                                modifier = modifier
+                                    .fillMaxSize()
+                            ) {
+                                LazyColumn(
+                                    modifier = modifier.fillMaxSize(),
+                                    contentPadding = PaddingValues(bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING),
+                                ) {
+                                    item { Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding())) }
 
-                            item {
-                                PlaylistHeader(
-                                    sharedTransitionScope = sharedTransitionScope,
-                                    animatedVisibilityScope = animatedVisibilityScope,
-                                    onOpenPlayer = onOpenPlayer,
-                                    isDownloading = uiState.isDownloading,
-                                    onDownloadPlaylist = playlistViewModel::downloadPlaylist,
-                                    onShufflePlaylist = playlistViewModel::shufflePlaylist,
-                                    onPlayPlaylist = playlistViewModel::playPlaylist,
-                                    onDeleteDownloadPlaylist = {
-                                        playlistViewModel.deleteLocalPlaylist(
-                                            context
+                                    item {
+                                        PlaylistHeader(
+                                            sharedTransitionScope = sharedTransitionScope,
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            onOpenPlayer = onOpenPlayer,
+                                            isDownloading = uiState.isDownloading,
+                                            onDownloadPlaylist = playlistViewModel::downloadPlaylist,
+                                            onShufflePlaylist = playlistViewModel::shufflePlaylist,
+                                            onPlayPlaylist = playlistViewModel::playPlaylist,
+                                            onDeleteDownloadPlaylist = {
+                                                playlistViewModel.deleteLocalPlaylist(
+                                                    context
+                                                )
+                                            },
+                                            onDeletePlaylist = {
+                                                playlistViewModel.deletePlaylist(
+                                                    onBack
+                                                )
+                                            },
+                                            onRemoveFromLibrary = {
+                                                playlistViewModel.removeFromLibrary(
+                                                    onBack
+                                                )
+                                            },
+                                            onCancelDownload = playlistViewModel::cancelDownload,
+                                            onUnhidePlaylist = playlistViewModel::unhidePlaylist,
+                                            onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
+                                            isLoading = uiState.screenState is ScreenState.Loading,
+                                            playlist = playlistInfo,
+                                            optionsExtended = uiState.optionsExtended,
+                                            onOptionsExtendedChange = playlistViewModel::setOptionsExtended
                                         )
-                                    },
-                                    onDeletePlaylist = { playlistViewModel.deletePlaylist(onBack) },
-                                    onRemoveFromLibrary = {
-                                        playlistViewModel.removeFromLibrary(
-                                            onBack
-                                        )
-                                    },
-                                    onCancelDownload = playlistViewModel::cancelDownload,
-                                    onUnhidePlaylist = playlistViewModel::unhidePlaylist,
-                                    onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
-                                    isLoading = uiState.screenState is ScreenState.Loading,
-                                    playlist = playlistInfo,
-                                    optionsExtended = uiState.optionsExtended,
-                                    onOptionsExtendedChange = playlistViewModel::setOptionsExtended
-                                )
+                                    }
+
+                                    if (uiState.screenState is ScreenState.Loading) {
+                                        Unit
+                                    } else if (playlistInfo.songs.isNotEmpty()) {
+                                        val filteredSongs = if (uiState.searchQuery.isBlank()) {
+                                            songs
+                                        } else {
+                                            songs.filter { song ->
+                                                song.title.contains(
+                                                    uiState.searchQuery,
+                                                    ignoreCase = true
+                                                ) ||
+                                                        song.artist.contains(
+                                                            uiState.searchQuery,
+                                                            ignoreCase = true
+                                                        )
+                                            }
+                                        }
+
+                                        if (uiState.searchQuery.isNotBlank() && filteredSongs.isEmpty()) {
+                                            item {
+                                                Text(
+                                                    text = stringResource(R.string.no_results),
+                                                    textAlign = TextAlign.Center,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(32.dp)
+                                                )
+                                            }
+                                        }
+
+                                        items(
+                                            items = filteredSongs,
+                                            key = { song ->
+                                                song.uid
+                                            }
+                                        ) { song ->
+                                            SongListItem(
+                                                song,
+                                                onPress = {
+                                                    onOpenPlayer()
+                                                    playlistViewModel.playPlaylist(song)
+                                                },
+                                                playNext = {
+                                                    PlayerManager.addNext(song, application)
+                                                },
+                                                addToQueue = {
+                                                    PlayerManager.addToQueue(
+                                                        song,
+                                                        application
+                                                    )
+                                                },
+                                                download = {
+                                                    playlistViewModel.downloadSong(song)
+                                                },
+                                                addToPlaylist = if (isLoggedIn) {
+                                                    { addToPlaylistSong = song }
+                                                } else {
+                                                    null
+                                                },
+                                                removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
+                                                    { songToRemove = song }
+                                                } else {
+                                                    null
+                                                })
+                                        }
+                                    } else {
+                                        item {
+                                            Box(
+                                                modifier = Modifier.fillParentMaxSize(),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(
+                                                    stringResource(R.string.empty_playlist),
+                                                    textAlign = TextAlign.Center,
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             if (uiState.screenState is ScreenState.Loading) {
-                                Unit
-                            } else if (playlistInfo.songs.isNotEmpty()) {
-                                val filteredSongs = if (uiState.searchQuery.isBlank()) {
-                                    songs
-                                } else {
-                                    songs.filter { song ->
-                                        song.title.contains(
-                                            uiState.searchQuery,
-                                            ignoreCase = true
-                                        ) ||
-                                                song.artist.contains(
-                                                    uiState.searchQuery,
-                                                    ignoreCase = true
-                                                )
+                                val totalCount = playlistInfo.info.songCount
+                                val targetFraction =
+                                    if (totalCount != null && totalCount > 0) {
+                                        (uiState.loadedSongsCount.toFloat() / totalCount)
+                                            .coerceIn(0f, 1f)
+                                    } else {
+                                        null
                                     }
-                                }
-
-                                if (uiState.searchQuery.isNotBlank() && filteredSongs.isEmpty()) {
-                                    item {
-                                        Text(
-                                            text = stringResource(R.string.no_results),
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(32.dp)
-                                        )
-                                    }
-                                }
-
-                                items(
-                                    items = filteredSongs,
-                                    key = { song ->
-                                        song.uid
-                                    }
-                                ) { song ->
-                                    SongListItem(
-                                        song,
-                                        onPress = {
-                                            onOpenPlayer()
-                                            playlistViewModel.playPlaylist(song)
-                                        },
-                                        playNext = {
-                                            PlayerManager.addNext(song, application)
-                                        },
-                                        addToQueue = {
-                                            PlayerManager.addToQueue(
-                                                song,
-                                                application
-                                            )
-                                        },
-                                        download = {
-                                            playlistViewModel.downloadSong(song)
-                                        },
-                                        addToPlaylist = if (isLoggedIn) {
-                                            { addToPlaylistSong = song }
-                                        } else {
-                                            null
-                                        },
-                                        removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
-                                            { songToRemove = song }
-                                        } else {
-                                            null
-                                        })
-                                }
-                            } else {
-                                item {
-                                    Box(
-                                        modifier = Modifier.fillParentMaxSize(),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(
-                                            stringResource(R.string.empty_playlist),
-                                            textAlign = TextAlign.Center,
-                                        )
-                                    }
-                                }
+                                val animatedFraction by animateFloatAsState(
+                                    targetValue = targetFraction ?: 0f,
+                                    animationSpec = tween(durationMillis = 600)
+                                )
+                                LoadingAnimation(
+                                    progress = targetFraction?.let { { animatedFraction } }
+                                )
                             }
                         }
                     }
-
-                    if (uiState.screenState is ScreenState.Loading) {
-                        val totalCount = playlistInfo.info.songCount
-                        val targetFraction =
-                            if (totalCount != null && totalCount > 0) {
-                                (uiState.loadedSongsCount.toFloat() / totalCount)
-                                    .coerceIn(0f, 1f)
-                            } else {
-                                null
-                            }
-                        val animatedFraction by animateFloatAsState(
-                            targetValue = targetFraction ?: 0f,
-                            animationSpec = tween(durationMillis = 600)
-                        )
-                        LoadingAnimation(
-                            progress = targetFraction?.let { { animatedFraction } }
-                        )
-                    }
-                    }
                 }
             }
+
         }
 
-    }
+        addToPlaylistSong?.let { song ->
+            AddToPlaylistBottomSheet(
+                song = song,
+                application = application,
+                onClose = { addToPlaylistSong = null },
+                onStateChanged = {
+                    playlistViewModel.refreshPlaylistInfo()
+                    sharedViewModel.requestPlaylistRefresh()
+                },
+            )
+        }
 
-    addToPlaylistSong?.let { song ->
-        AddToPlaylistBottomSheet(
-            song = song,
-            application = application,
-            onClose = { addToPlaylistSong = null },
-            onStateChanged = {
-                playlistViewModel.refreshPlaylistInfo()
-                sharedViewModel.requestPlaylistRefresh()
-            },
-        )
-    }
-
-    songToRemove?.let { song ->
-        ConfirmDialog(
-            title = stringResource(R.string.remove_from_playlist),
-            text = stringResource(R.string.remove_song_from_playlist_confirm_text),
-            onConfirm = {
-                playlistViewModel.removeSongFromPlaylist(song)
-                songToRemove = null
-            },
-            onDismiss = { songToRemove = null }
-        )
-    }
+        songToRemove?.let { song ->
+            ConfirmDialog(
+                title = stringResource(R.string.remove_from_playlist),
+                text = stringResource(R.string.remove_song_from_playlist_confirm_text),
+                onConfirm = {
+                    playlistViewModel.removeSongFromPlaylist(song)
+                    songToRemove = null
+                },
+                onDismiss = { songToRemove = null }
+            )
+        }
     }
 }
 

@@ -73,7 +73,7 @@ class PlaylistViewModel(
         observeLoginState()
         viewModelScope.launch {
             getPlaylistInfoAsync()
-            downloadPlaylistIfNeeded()
+            // downloadPlaylistIfNeeded() Disabled for now (TODO : just make it silent)
             observerDownloadJob()
         }
     }

@@ -36,7 +36,7 @@ fun PlaylistHeader(
 ) {
     Surface(
         modifier = modifier
-            .padding(horizontal = 12.dp)
+            .padding(horizontal = 6.dp)
             .padding(bottom = 12.dp),
         color = MaterialTheme.colorScheme.surfaceContainer,
         shape = RoundedCornerShape(16.dp),
