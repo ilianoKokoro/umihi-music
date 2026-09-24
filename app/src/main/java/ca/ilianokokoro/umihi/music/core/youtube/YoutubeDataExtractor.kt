@@ -951,6 +951,8 @@ object YoutubeDataExtractor {
             json.safeObject()?.get("musicResponsiveListItemRenderer")?.safeObject() ?: return null
         val thumbnailUrl = getBestThumbnailUrl(songContent["thumbnail"] ?: return null)
 
+        val unavailable =
+            songContent["musicItemRendererDisplayPolicy"]?.jsonPrimitive?.contentOrNull == "MUSIC_ITEM_RENDERER_DISPLAY_POLICY_GREY_OUT"
         val title = getSongInfo(songContent, SongInfoType.TITLE)
         val artist = getSongInfo(songContent, SongInfoType.ARTIST)
         val videoId = songContent["playlistItemData"]
@@ -1000,6 +1002,7 @@ object YoutubeDataExtractor {
             thumbnailHref = thumbnailUrl,
             isExplicit = isExplicit,
             isLiked = isLiked,
+            isAvailable = !unavailable
         ).also { song ->
             song.setVideoId = setVideoId
         }

@@ -38,6 +38,7 @@ data class Song(
     val uid: String = Uuid.random().toString(),
     val isExplicit: Boolean = false,
     val isLiked: Boolean? = null,
+    val isAvailable: Boolean = true,
 ) {
     @Ignore
     var setVideoId: String? = null
@@ -46,6 +47,7 @@ data class Song(
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, Uuid.random().toString())
+            extras.putBoolean(Constants.ExoPlayer.SongMetadata.PLAYABLE, isAvailable)
             if (isExplicit) {
                 extras.putLong(
                     MediaConstants.EXTRAS_KEY_IS_EXPLICIT,

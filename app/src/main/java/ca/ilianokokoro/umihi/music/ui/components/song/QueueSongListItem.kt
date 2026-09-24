@@ -1,6 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -50,11 +49,12 @@ fun QueueSongListItem(
     var expanded by remember { mutableStateOf(false) }
 
     ListItem(
+        enabled = song.isAvailable,
+        onClick = onPress,
         contentPadding = Constants.Ui.SongItems.PADDING,
         modifier = Modifier
             .height(Constants.Ui.SongItems.ITEM_HEIGHT)
-            .clip(Constants.Ui.SongItems.CORNER_RADIUS)
-            .clickable(onClick = onPress),
+            .clip(Constants.Ui.SongItems.CORNER_RADIUS),
         leadingContent = {
             Box(
                 modifier = Modifier

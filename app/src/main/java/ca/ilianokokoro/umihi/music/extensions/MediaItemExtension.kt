@@ -23,6 +23,7 @@ fun MediaItem?.toSong(): Song {
         thumbnailHref = this?.mediaMetadata?.artworkUri.toString(), // TODO handle if not href
         duration = extras?.getString(Constants.ExoPlayer.SongMetadata.DURATION).toStringOrEmpty(),
         isExplicit = extras?.getLong(MediaConstants.EXTRAS_KEY_IS_EXPLICIT) == MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT,
-        isLiked = this?.mediaMetadata?.isLiked
+        isLiked = this?.mediaMetadata?.isLiked,
+        isAvailable = extras?.getBoolean(Constants.ExoPlayer.SongMetadata.PLAYABLE) ?: true
     )
 }

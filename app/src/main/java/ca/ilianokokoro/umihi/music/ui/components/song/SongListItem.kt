@@ -52,13 +52,15 @@ fun SongListItem(
     var expanded by remember { mutableStateOf(false) }
 
     ListItem(
+        enabled = song.isAvailable,
+        onClick = onPress,
         contentPadding = Constants.Ui.SongItems.PADDING,
         modifier = modifier
             .height(Constants.Ui.SongItems.ITEM_HEIGHT)
             .clip(
                 Constants.Ui.SongItems.CORNER_RADIUS
             )
-            .combinedClickable(onClick = onPress, onLongClick = { expanded = true }),
+            .combinedClickable(onClick = {}, onLongClick = { expanded = true }),
         leadingContent = {
             Box(
                 modifier = Modifier
