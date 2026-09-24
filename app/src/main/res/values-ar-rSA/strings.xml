@@ -183,7 +183,7 @@
     <string name="internal">داخلي</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">تغيير مجلد التنزيل قد يؤدي إلى فقدان التطبيق لتتبع الأغاني التي تم تنزيلها إذا تم نقل ملفاتها، أو إعادة تسميتها، أو تعديلها خارج التطبيق. تأكد من الحفاظ على الملفات التي قمت بتنزيلها في موقعها الأصلي ودون تغيير.</string>
-    <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="ok">حسناً</string>
+    <string name="database_desctruction_title">يجب استعادة التحميلات</string>
+    <string name="database_desctruction_text">غيّر هذا التحديث كيفية تخزين بعض البيانات، لذلك تم إعادة تعيين بيانات التحميل المحلية. الملفات التي تم تنزيلها لا تزال على جهازك.\n\nاضغط على زر التحميل في قوائم التشغيل التي قمت بتحميلها لاستعادتها. سيتم الكشف عن الملفات الموجودة وإعادة استخدامها، لذلك لن يتم تحميل أي شيء مرة أخرى.</string>
 </resources>
