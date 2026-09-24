@@ -36,6 +36,8 @@ class PlayerViewModel(application: Application) :
 
     private val datastoreRepository = DatastoreRepository(application)
 
+    private var lastUuid: String? = null
+
     init {
         PlayerManager.currentController?.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -55,8 +57,15 @@ class PlayerViewModel(application: Application) :
             }
 
             override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
-
                 val artworkUri = mediaMetadata.artworkUri ?: return
+                val currentSong = PlayerManager.getCurrentSong()
+                val currentUid = currentSong?.uid
+
+                if (currentUid == lastUuid) {
+                    return
+                }
+
+                lastUuid = currentUid
                 updateThumbnail(artworkUri)
             }
         })
@@ -201,7 +210,13 @@ class PlayerViewModel(application: Application) :
         val index = PlayerManager.getCurrentIndex()
         val freshQueue = PlayerManager.getQueue()
 
-        _playbackProgress.value = PlaybackProgress()
+        val currentSong = freshQueue.getOrNull(index)
+
+        val songChanged = lastUuid != currentSong?.uid
+
+        if (songChanged) {
+            _playbackProgress.value = PlaybackProgress()
+        }
 
         _uiState.update { state ->
             val mergedQueue = freshQueue.map { freshSong ->
@@ -221,6 +236,8 @@ class PlayerViewModel(application: Application) :
                 isLiked = mergedQueue.getOrNull(index)?.isLiked ?: false
             )
         }
+
+        lastUuid = currentSong?.uid
     }
 
     private fun updateQueue() {
