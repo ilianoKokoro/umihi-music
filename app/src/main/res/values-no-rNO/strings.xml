@@ -183,7 +183,7 @@
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Endring av nedlastingsmappen kan føre til at appen mister spor etter nedlastede sanger dersom de har flyttet til mappen, gis nytt eller endret utenfor appen. Sørg for å beholde de nedlastede filene dine på originalstedet og uendret.</string>
-    <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Nedlastinger må gjenopprettes</string>
+    <string name="database_desctruction_text">Denne oppdateringen endret hvordan noen data er lagret, så dine lokale nedlastingsdata ble tilbakestilt. Dine nedlastede filer er fortsatt på enheten.\n\nTrykk på nedlastingsknappen på dine nedlastede spillelister for å gjenopprette dem. De eksisterende filene vil bli oppdaget og brukt på nytt, så ingenting vil bli lastet ned igjen.</string>
 </resources>
