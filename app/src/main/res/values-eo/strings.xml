@@ -183,4 +183,7 @@
     <string name="internal">Intewnal</string>
     <string name="reset">Weset</string>
     <string name="download_location_warning_description">Changin da downwoad fowdew may cause da app to wose twack of downwoaded swongs if theiw fiwes awe moved, wenamed, ow modified outside da app. Make suwe to keep youw downwoaded fiwes in theiw owiginal wocation and unchanged.</string>
+    <string name="ok">OK</string>
+    <string name="database_desctruction_title">Downloads need to be restored</string>
+    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
 </resources>
