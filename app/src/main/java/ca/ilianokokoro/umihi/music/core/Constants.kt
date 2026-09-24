@@ -105,6 +105,7 @@ object Constants {
         const val AUTO_UPDATE = "auto-update"
         const val SEND_PLAYBACK_DATA = "send-playback-data"
         const val DOWNLOAD_ON_METERED = "download-on-metered"
+        const val OFFLINE_MODE = "offline-mode"
         const val EXOPLAYER_CACHE_SIZE_KEY = "exoplayer-cache-size"
         const val THUMBNAIL_CACHE_SIZE_KEY = "thumbnail-cache-size"
         const val APP_VOLUME_KEY = "app-volume"

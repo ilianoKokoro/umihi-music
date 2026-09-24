@@ -72,7 +72,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
     private suspend fun refreshPlaylistsOnce() {
         val settings = datastoreRepository.getSettings()
 
-        if (settings.cookies.isEmpty()) {
+        if (settings.cookies.isEmpty() && !settings.offlineMode) {
             applyPlaylistFiltersAndUpdateState(
                 playlists = emptyList(),
                 settings = settings
@@ -101,7 +101,7 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         try {
             val settings = datastoreRepository.getSettings()
 
-            if (settings.cookies.isEmpty()) {
+            if (settings.cookies.isEmpty() && !settings.offlineMode) {
                 applyPlaylistFiltersAndUpdateState(
                     playlists = emptyList(),
                     settings = settings

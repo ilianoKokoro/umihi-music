@@ -183,4 +183,7 @@
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Ændring af download-mappen kan få appen til at miste spor af downloadede sange, hvis deres filer flyttes, omdøbes eller ændres uden for appen. Sørg for at holde dine downloadede filer i deres oprindelige placering og uændret.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Download skal gendannes</string>
+    <string name="database_desctruction_text">Denne opdatering ændrede, hvordan nogle data gemmes, så dine lokale download data blev nulstillet. Dine downloadede filer er stadig på din enhed.\n\nTryk på download-knappen på dine downloadede afspilningslister for at gendanne dem. De eksisterende filer vil blive opdaget og genbrugt, så intet vil blive hentet igen.</string>
 </resources>
