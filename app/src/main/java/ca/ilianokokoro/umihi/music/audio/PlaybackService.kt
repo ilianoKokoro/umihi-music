@@ -54,7 +54,6 @@ import kotlin.uuid.Uuid
 @OptIn(UnstableApi::class)
 class PlaybackService : MediaLibraryService() {
     private var mediaLibrarySession: MediaLibrarySession? = null
-    private lateinit var exoCache: ExoCache
     private lateinit var player: ExoPlayer
     private lateinit var sessionPlayer: Player
     private lateinit var datastoreRepository: DatastoreRepository
@@ -73,7 +72,6 @@ class PlaybackService : MediaLibraryService() {
 
         datastoreRepository = DatastoreRepository(applicationContext)
         playlistRepository = PlaylistRepository(application)
-        exoCache = ExoCache(application)
 
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setUserAgent(Util.getUserAgent(this, packageName))
@@ -81,7 +79,7 @@ class PlaybackService : MediaLibraryService() {
         val defaultDataSourceFactory = DefaultDataSource.Factory(this, httpDataSourceFactory)
 
         val cacheDataSourceFactory = CacheDataSource.Factory()
-            .setCache(exoCache.cache)
+            .setCache(ExoCache.getInstance(applicationContext).cache)
             .setUpstreamDataSourceFactory(defaultDataSourceFactory)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
         val resolvingFactory = YoutubeDataSourceFactory(application, cacheDataSourceFactory)
@@ -324,7 +322,7 @@ class PlaybackService : MediaLibraryService() {
                 )
             }
             player.release()
-            exoCache.release()
+            ExoCache.getInstance(applicationContext).release()
             release()
             mediaLibrarySession = null
         }

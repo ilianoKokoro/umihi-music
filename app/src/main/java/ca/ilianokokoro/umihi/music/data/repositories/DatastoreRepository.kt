@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music.data.repositories
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -87,7 +87,7 @@ class DatastoreRepository(private val context: Context) {
         val dataSyncId = dataSyncId.first()
         val downloadLocation = it[DOWNLOAD_LOCATION]
             ?.takeIf { loc -> loc.isNotBlank() }
-            ?.let { loc -> runCatching { Uri.parse(loc) }.getOrNull() }
+            ?.let { loc -> runCatching { loc.toUri() }.getOrNull() }
 
 
         UmihiSettings(

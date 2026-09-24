@@ -16,6 +16,7 @@ import java.io.IOException
 
 object FileHelper {
     private val INVALID_CHARS = setOf('<', '>', ':', '"', '/', '\\', '|', '*', '?')
+    
 
     fun deleteStoredFile(context: Context, stored: String?) {
         if (stored.isNullOrBlank()) {

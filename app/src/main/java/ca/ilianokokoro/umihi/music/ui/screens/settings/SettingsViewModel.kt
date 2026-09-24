@@ -6,12 +6,14 @@ import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.WebStorage
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -33,6 +35,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class SettingsViewModel(
@@ -68,16 +71,15 @@ class SettingsViewModel(
         refreshStorageUsage()
     }
 
+    @OptIn(UnstableApi::class)
     fun refreshStorageUsage() {
         viewModelScope.launch(Dispatchers.IO) {
-            val audioCacheDir =
-                File(_application.cacheDir, Constants.Cache.Audio.DIRECTORY)
             val thumbnailCacheDir =
                 File(_application.cacheDir, Constants.Downloads.THUMBNAILS_FOLDER)
             val downloadLocation = datastoreRepository.getSettings().downloadLocation
-
-            val audioCacheUsed = audioCacheDir.folderSize()
+            val audioCacheUsed = ExoCache.getInstance(_application).cache.cacheSpace
             val thumbnailCacheUsed = thumbnailCacheDir.folderSize()
+
             val downloadsUsage = DownloadsUsage(
                 audioBytes = FileHelper.getDownloadFolderSize(_application, downloadLocation),
                 imageBytes = 0L
@@ -146,7 +148,7 @@ class SettingsViewModel(
             FileHelper.clearDownloadFolder(_application, downloadLocation)
             AppDatabase.clearDownloads(_application)
 
-            ExoCache(_application).clear()
+            ExoCache.getInstance(_application).clear()
             CoilImageLoader.clear(_application)
 
             Toast.makeText(
@@ -210,27 +212,31 @@ class SettingsViewModel(
     fun saveCacheSize(sizeMB: Int, cacheType: CacheType) {
         viewModelScope.launch {
             when (cacheType) {
-                CacheType.AUDIO -> updateSetting(
-                    DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE,
-                    sizeMB
-                )
+                CacheType.AUDIO -> {
+                    updateSetting(
+                        DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE,
+                        sizeMB
+                    )
+                }
 
                 CacheType.THUMBNAIL -> {
                     updateSetting(
                         DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE,
                         sizeMB
                     )
-                    CoilImageLoader.reset(_application)
                 }
             }
             updateShowCacheSizeInputSheet(false)
+            refreshStorageUsage()
         }
     }
 
     fun clearCache() {
         viewModelScope.launch {
-            ExoCache(_application).clear()
-            CoilImageLoader.clear(_application)
+            ExoCache.getInstance(_application).clear()
+            withContext(Dispatchers.IO) {
+                CoilImageLoader.clear(_application)
+            }
             Toast.makeText(
                 _application,
                 _application.getString(R.string.cache_cleared),

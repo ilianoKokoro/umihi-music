@@ -23,8 +23,9 @@ object CoilImageLoader {
 
     private fun buildImageLoader(context: Context): ImageLoader {
         val cacheDir = File(context.cacheDir, IMAGE_CACHE_FOLDER)
-        val cacheSizeBytes = getCacheSize(context) * 1024L * 1024L
+        val cacheSizeMb = getCacheSize(context)
 
+        val cacheSizeBytes = cacheSizeMb * 1024L * 1024L
         val diskCache = DiskCache.Builder()
             .directory(cacheDir.absolutePath.toPath())
             .maxSizeBytes(cacheSizeBytes)
@@ -37,13 +38,8 @@ object CoilImageLoader {
     }
 
     private fun getCacheSize(context: Context): Int {
-        return try {
-            runBlocking {
-                DatastoreRepository(context).getSettings().thumbnailCacheSizeMB
-            }
-
-        } catch (_: Exception) {
-            Constants.Cache.Thumbnail.DEFAULT_SIZE_MB
+        return runBlocking {
+            DatastoreRepository(context).getSettings().thumbnailCacheSizeMB
         }
     }
 
@@ -51,8 +47,8 @@ object CoilImageLoader {
         synchronized(this) {
             imageLoader?.shutdown()
             imageLoader = null
-            File(context.cacheDir, IMAGE_CACHE_FOLDER).deleteRecursively()
         }
+        File(context.cacheDir, IMAGE_CACHE_FOLDER).deleteRecursively()
     }
 
     fun reset(context: Context) {

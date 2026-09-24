@@ -71,7 +71,7 @@ object Constants {
             val ITEM_HEIGHT = 74.dp
             val CORNER_RADIUS = RoundedCornerShape(16.dp)
             val TITLE_LINE_HEIGHT = 1.1.em
-            val PADDING = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
+            val PADDING = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
         }
     }
 

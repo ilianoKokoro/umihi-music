@@ -342,6 +342,7 @@ fun SettingsScreen(
                                 }
                             )
                             SettingSpacer()
+
                             SettingsItem(
                                 title = stringResource(R.string.thumbnail_cache_title),
                                 subtitle = stringResource(

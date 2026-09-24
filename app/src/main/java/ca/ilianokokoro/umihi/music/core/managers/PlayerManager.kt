@@ -337,7 +337,6 @@ object PlayerManager {
 
         val trailing = (1 until controller.mediaItemCount)
             .map(controller::getMediaItemAt)
-            .shuffled()
 
         controller.removeMediaItems(1, controller.mediaItemCount)
         controller.addMediaItems(trailing.shuffled())
