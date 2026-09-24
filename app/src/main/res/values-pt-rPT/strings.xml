@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Baixar em dados móveis</string>
     <string name="download_on_metered_description">Permite o download de músicas e playlists usando seu plano de dados móveis</string>
+    <string name="offline_mode_title">Modo offline</string>
+    <string name="offline_mode_description">Impede busca remota. Apenas listas de reprodução e músicas baixadas são mostradas</string>
+    <string name="playlist_not_downloaded">Esta playlist não foi baixada. Faça o download online para acessá-la offline.</string>
     <string name="waiting_for_wifi_to_download">Esperando que o Wi-Fi baixe %1$s</string>
     <string name="remove_library">Remover da biblioteca</string>
     <string name="remove_library_text">Tem certeza de que deseja remover esta playlist da sua biblioteca? Você pode adicioná-la novamente mais tarde.</string>

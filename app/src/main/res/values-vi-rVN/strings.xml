@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d phút</string>
     <string name="download_on_metered_title">Tải xuống bằng dữ liệu di động</string>
     <string name="download_on_metered_description">Cho phép tải xuống các bài hát và danh sách phát bằng dữ liệu di động</string>
+    <string name="offline_mode_title">Offline Mode</string>
+    <string name="offline_mode_description">Prevents remote fetching. Only downloaded playlists and songs are shown</string>
+    <string name="playlist_not_downloaded">This playlist is not downloaded. Download it while online to access it offline.</string>
     <string name="waiting_for_wifi_to_download">Đợi kết nối Wi-Fi để tải xuống %1$s</string>
     <string name="remove_library">Xóa khỏi thư viện</string>
     <string name="remove_library_text">Bạn có chắc chắn xoá danh sách này khỏi thư viện không? Bạn có thể thêm lại nó vào lần sau.</string>

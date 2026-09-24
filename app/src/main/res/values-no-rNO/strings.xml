@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Last ned på mobildata</string>
     <string name="download_on_metered_description">Tillater nedlasting av sanger og spillelister ved hjelp av mobildataplanen din</string>
+    <string name="offline_mode_title">Frakoblet modus</string>
+    <string name="offline_mode_description">Hindrer ekstern henting. Kun nedlastede spillelister og sanger vises</string>
+    <string name="playlist_not_downloaded">Denne spillelisten er ikke lastet ned. Last den ned mens den er på nett for å få tilgang til den frakoblet.</string>
     <string name="waiting_for_wifi_to_download">Venter på Wi-Fi nedlasting av %1$s</string>
     <string name="remove_library">Fjern fra bibliotek</string>
     <string name="remove_library_text">Er du sikker på at du vil fjerne denne spillelisten fra biblioteket ditt? Du kan legge den til på nytt senere.</string>

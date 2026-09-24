@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d mnt</string>
     <string name="download_on_metered_title">Unduh melalui Data Seluler</string>
     <string name="download_on_metered_description">Mengizinkan pengunduhan lagu dan playlist melalui data seluler</string>
+    <string name="offline_mode_title">Offline Mode</string>
+    <string name="offline_mode_description">Prevents remote fetching. Only downloaded playlists and songs are shown</string>
+    <string name="playlist_not_downloaded">This playlist is not downloaded. Download it while online to access it offline.</string>
     <string name="waiting_for_wifi_to_download">Menunggu untuk koneksi Wi-Fi untuk mengunduh %1$s</string>
     <string name="remove_library">Hapus dari koleksi</string>
     <string name="remove_library_text">Apakah anda yakin untuk menghapus playlist ini dari koleksi? Anda dapat menambahkannya lagi.</string>

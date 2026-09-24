@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d λεπτά</string>
     <string name="download_on_metered_title">Λήψη δεδομένων κινητής τηλεφωνίας</string>
     <string name="download_on_metered_description">Επιτρέπει τη λήψη τραγουδιών και λιστών αναπαραγωγής χρησιμοποιώντας το πλάνο δεδομένων κινητής τηλεφωνίας</string>
+    <string name="offline_mode_title">Λειτουργία Χωρίς Σύνδεση</string>
+    <string name="offline_mode_description">Αποτρέπει την απομακρυσμένη ανάκτηση. Εμφανίζονται μόνο οι ληφθείσες λίστες αναπαραγωγής και τα τραγούδια</string>
+    <string name="playlist_not_downloaded">Αυτή η λίστα αναπαραγωγής δεν έχει ληφθεί. Κατεβάστε την ενώ είστε συνδεδεμένοι για να αποκτήσετε πρόσβαση σε αυτήν εκτός σύνδεσης.</string>
     <string name="waiting_for_wifi_to_download">Αναμονή για λήψη του Wi-Fi %1$s</string>
     <string name="remove_library">Αφαίρεση από τη βιβλιοθήκη</string>
     <string name="remove_library_text">Are you sure you want to remove this playlist from your library ? You can add it again later.</string>

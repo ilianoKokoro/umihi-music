@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min.</string>
     <string name="download_on_metered_title">Descarcă datele mobile</string>
     <string name="download_on_metered_description">Permite descărcarea de melodii și liste de redare folosind planul de date mobile</string>
+    <string name="offline_mode_title">Mod offline</string>
+    <string name="offline_mode_description">Previne preluarea la distanță. Sunt afișate numai listele de redare descărcate și melodiile</string>
+    <string name="playlist_not_downloaded">Această listă de redare nu este descărcată. Descărcați-o cât timp este online pentru a o accesa offline.</string>
     <string name="waiting_for_wifi_to_download">Se așteaptă ca Wi-Fi să descarce %1$s</string>
     <string name="remove_library">Elimină din bibliotecă</string>
     <string name="remove_library_text">Ești sigur că vrei să ștergi această listă de redare din bibliotecă? Poți să o adaugi din nou mai târziu.</string>

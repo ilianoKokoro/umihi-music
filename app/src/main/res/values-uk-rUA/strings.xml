@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d хв</string>
     <string name="download_on_metered_title">Завантажити з мобільного інтернету</string>
     <string name="download_on_metered_description">Дозволяє завантажувати пісні та списки відтворення за допомогою плану мобільного інтернету</string>
+    <string name="offline_mode_title">Автономний режим</string>
+    <string name="offline_mode_description">Попередня дистанційна вибірка. Відображаються лише завантажені списки відтворення та пісні</string>
+    <string name="playlist_not_downloaded">Цей список відтворення не завантажено. Завантажуйте його, щоб отримати доступ до нього в автономному режимі.</string>
     <string name="waiting_for_wifi_to_download">Очікування завантаження Wi-Fi %1$s</string>
     <string name="remove_library">Видалити з бібліотеки</string>
     <string name="remove_library_text">Ви впевнені, що хочете видалити цей список відтворення з бібліотеки? Додаєте його ще раз пізніше.</string>

@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Auf Mobile Daten herunterladen</string>
     <string name="download_on_metered_description">Ermöglicht das Herunterladen von Liedern und Wiedergabelisten mit Ihrem mobilen Datenplan</string>
+    <string name="offline_mode_title">Offline-Modus</string>
+    <string name="offline_mode_description">Verhindert Fernabruf. Nur heruntergeladene Wiedergabelisten und Lieder werden angezeigt</string>
+    <string name="playlist_not_downloaded">Diese Playlist wurde nicht heruntergeladen. Laden Sie sie online herunter um offline auf sie zuzugreifen.</string>
     <string name="waiting_for_wifi_to_download">Warte auf Wi-Fi um %1$s herunterzuladen</string>
     <string name="remove_library">Aus der Bibliothek entfernen</string>
     <string name="remove_library_text">Bist du sicher, dass du diese Wiedergabeliste aus deiner Bibliothek entfernen möchtest? Du kannst sie später erneut hinzufügen.</string>

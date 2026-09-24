@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">تحميل على بيانات الجوال</string>
     <string name="download_on_metered_description">يسمح بتحميل الأغاني وقوائم التشغيل باستخدام خطة بيانات الجوال الخاصة بك</string>
+    <string name="offline_mode_title">وضع غير متصل</string>
+    <string name="offline_mode_description">يمنع جلب عن بعد. يتم عرض قوائم التشغيل والأغاني التي تم تنزيلها فقط</string>
+    <string name="playlist_not_downloaded">لم يتم تحميل قائمة التشغيل هذه. قم بتحميلها أثناء الاتصال بالإنترنت للوصول إليها دون اتصال.</string>
     <string name="waiting_for_wifi_to_download">في انتظار شبكة Wi-Fi لتنزيل %1$s</string>
     <string name="remove_library">إزالة من المكتبة</string>
     <string name="remove_library_text">هل أنت متأكد من أنك تريد إزالة قائمة التشغيل هذه من مكتبتك؟ يمكنك إضافتها مرة أخرى لاحقاً.</string>
