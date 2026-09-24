@@ -1,0 +1,60 @@
+name: Merge translation branches into dev
+
+on:
+    workflow_dispatch:
+
+permissions:
+    contents: write
+
+env:
+    BRANCHES_TO_MERGE: "translations,crowdin-readme"
+
+jobs:
+    merge:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout dev
+              uses: actions/checkout@v4
+              with:
+                  ref: dev
+                  fetch-depth: 0
+
+            - name: Configure git
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Squash-merge branches into dev
+              run: |
+                  set -e
+                  IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
+
+                  for BRANCH in "${BRANCHES[@]}"; do
+                    if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+                      echo "Branch $BRANCH exists - squash-merging into dev"
+                      git fetch origin "$BRANCH"
+                      git merge --squash "origin/$BRANCH"
+                      if ! git diff --cached --quiet; then
+                        git commit -m "Merge branch '$BRANCH' into dev (squashed)"
+                      else
+                        echo "No diff between dev and $BRANCH - nothing to commit"
+                      fi
+                    else
+                      echo "Branch $BRANCH does not exist - skipping"
+                    fi
+                  done
+
+            - name: Push dev
+              run: git push origin dev
+
+            - name: Delete merged branches
+              run: |
+                  IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
+                  for BRANCH in "${BRANCHES[@]}"; do
+                    if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+                      echo "Deleting $BRANCH"
+                      git push origin --delete "$BRANCH"
+                    else
+                      echo "Branch $BRANCH already absent - nothing to delete"
+                    fi
+                  done
