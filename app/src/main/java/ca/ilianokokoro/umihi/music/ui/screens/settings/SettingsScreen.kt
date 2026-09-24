@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.outlined.TextSnippet
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.BrightnessAuto
 import androidx.compose.material.icons.outlined.CloudDownload
+import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Folder
@@ -266,6 +267,14 @@ fun SettingsScreen(
                         SettingsSection(
                             title = stringResource(R.string.data_and_storage)
                         ) {
+                            BooleanSettingItem(
+                                title = stringResource(R.string.offline_mode_title),
+                                subtitle = stringResource(R.string.offline_mode_description),
+                                leadingIcon = Icons.Outlined.CloudOff,
+                                value = screenState.settings.offlineMode,
+                                onToggle = settingsViewModel::updateOfflineModeSetting
+                            )
+                            SettingSpacer()
                             BooleanSettingItem(
                                 title = stringResource(R.string.download_on_metered_title),
                                 subtitle = stringResource(R.string.download_on_metered_description),
