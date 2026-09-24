@@ -183,7 +183,7 @@
     <string name="internal">Interno</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Cambiar la carpeta de descargas puede hacer que la aplicación deje de reconocer las canciones descargadas si sus archivos se mueven, renombran o modifican fuera de la aplicación. Asegúrate de mantener los archivos descargados en su ubicación original y sin modificaciones.</string>
-    <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Las descargas deben ser restauradas</string>
     <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
 </resources>
