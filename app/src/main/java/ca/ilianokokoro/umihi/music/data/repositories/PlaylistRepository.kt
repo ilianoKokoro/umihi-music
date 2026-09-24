@@ -37,7 +37,7 @@ class PlaylistRepository(application: Application) {
                 val localPlaylists = localPlaylistDataSource
                     .fetchVisiblePlaylists()
                     .filter { playlist -> playlist.songs.any { it.downloaded } }
-                    .map { it.info }
+                    .map { it.toLocalPlaylistInfo() }
                 emit(ApiResult.Success(localPlaylists))
                 return@flow
             }
@@ -56,7 +56,7 @@ class PlaylistRepository(application: Application) {
                 if (e is CancellationException) {
                     throw e
                 }
-                val localPlaylists = localPlaylistDataSource.fetchVisiblePlaylists().map { it.info }
+                val localPlaylists = localPlaylistDataSource.fetchVisiblePlaylists().map { it.toLocalPlaylistInfo() }
                 emit(ApiResult.Success(localPlaylists))
             }
         }.flowOn(Dispatchers.IO)
@@ -304,6 +304,9 @@ class PlaylistRepository(application: Application) {
             )
         }.flowOn(Dispatchers.IO)
     }
+    private fun Playlist.toLocalPlaylistInfo(): PlaylistInfo =
+        info.apply { songCount = songs.count { it.downloaded } }
+
     private fun mergeWithLocal(remotePlaylist: Playlist, localPlaylist: Playlist?): Playlist {
         if (localPlaylist == null) {
             return remotePlaylist
