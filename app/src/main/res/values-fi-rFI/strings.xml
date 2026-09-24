@@ -183,7 +183,7 @@
     <string name="internal">Sisäinen</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Latauskansion vaihtaminen voi aiheuttaa sen, että sovellus menettää jälkensä ladatuista kappaleista, jos sen tiedostoja siirretään, nimetään uudelleen tai muokataan sovelluksen ulkopuolella. Varmista, että lataamasi tiedostot pysyvät alkuperäisessä sijainnissa ja muuttumattomina.</string>
-    <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Lataukset on palautettava</string>
+    <string name="database_desctruction_text">Tämä päivitys on muuttunut, miten joitakin tietoja tallennetaan, joten paikalliset lataustiedot on nollattu. Ladattu tiedostot ovat edelleen laitteellasi.\n\nPaina ladattavien soittolistojen latauspainiketta palauttaaksesi ne. Olemassa olevat tiedostot havaitaan ja niitä käytetään uudelleen, joten mitään ei enää ladata.</string>
 </resources>
