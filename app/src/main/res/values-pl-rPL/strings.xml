@@ -184,6 +184,6 @@
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Zmiana folderu pobierania może spowodować, że aplikacja straci ślad pobranych utworów, jeśli ich pliki są przenoszone, zmieniane lub modyfikowane poza aplikacją. Upewnij się, że pobrane pliki są przechowywane w oryginalnej lokalizacji i nie ulegają zmianie.</string>
     <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="database_desctruction_title">Pobieranie musi zostać przywrócone</string>
+    <string name="database_desctruction_text">Ta aktualizacja zmieniła sposób przechowywania niektórych danych, więc twoje lokalne dane pobierania zostały zresetowane. Pobrane pliki są nadal na twoim urządzeniu.\n\nNaciśnij przycisk pobierania na pobranych playlistach, aby je przywrócić. Istniejące pliki zostaną wykryte i ponownie użyte, więc nic nie zostanie pobrane ponownie.</string>
 </resources>
