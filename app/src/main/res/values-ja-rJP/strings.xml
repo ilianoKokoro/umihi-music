@@ -183,4 +183,7 @@
     <string name="internal">内部</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">ダウンロードフォルダを変更すると、ファイルが移動、名前変更、またはアプリ外で変更された場合、ダウンロードした曲を追跡できなくなる可能性があります。 ダウンロードしたファイルは元の場所に保管し、変更されないようにしてください。</string>
+    <string name="ok">OK</string>
+    <string name="database_desctruction_title">ダウンロードを復元する必要があります</string>
+    <string name="database_desctruction_text">このアップデートにより、一部のデータの保存方法が変更され、ローカルのダウンロードデータがリセットされました。ダウンロードしたファイルはまだお使いのデバイス上にあります。\n\nダウンロードしたプレイリストのダウンロードボタンを押して復元します。 既存のファイルが検出および再利用されるため、再度ダウンロードすることはありません。</string>
 </resources>

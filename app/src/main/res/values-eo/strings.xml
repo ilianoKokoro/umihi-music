@@ -183,4 +183,7 @@
     <string name="internal">Intewnal</string>
     <string name="reset">Weset</string>
     <string name="download_location_warning_description">Changin da downwoad fowdew may cause da app to wose twack of downwoaded swongs if theiw fiwes awe moved, wenamed, ow modified outside da app. Make suwe to keep youw downwoaded fiwes in theiw owiginal wocation and unchanged.</string>
+    <string name="ok">OKI</string>
+    <string name="database_desctruction_title">Downwoads nyed to be westowed</string>
+    <string name="database_desctruction_text">This upwdate changed how some dwata is stowed, so youw wocaw downwoad dwata was weset ;w;. Youw downwoaded fiwes awe stiww on youw device ^-^\n\nPewss da downwoad button on youw downwoaded pwaywists to westowe dem :3. Da existing fiwes wiww be detected and weused, so nyothing wiww be downwoaded again. &gt;w&lt;</string>
 </resources>

@@ -183,4 +183,7 @@
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Schimbarea dosarului de descărcare poate face ca aplicația să piardă melodiile descărcate în cazul în care fișierele lor sunt mutate, redenumite sau modificate în afara aplicației. Asigurați-vă că păstrați fișierele descărcate în locația lor originală și neschimbate.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Descărcările trebuie restabilite</string>
+    <string name="database_desctruction_text">Această actualizare a schimbat modul în care sunt stocate unele date, astfel încât datele tale locale de descărcare au fost resetate. Fișierele descărcate sunt încă pe dispozitivul tău.\n\nApasă butonul de descărcare din listele tale de redare descărcate pentru a le restaura. Fișierele existente vor fi detectate și reutilizate, așa că nimic nu va fi descărcat din nou.</string>
 </resources>

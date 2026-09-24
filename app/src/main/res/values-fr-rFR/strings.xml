@@ -183,4 +183,7 @@
     <string name="internal">Interne</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">La modification du dossier de téléchargement peut faire perdre à l\'application la trace des morceaux téléchargés si leurs fichiers sont déplacés, renommés ou modifiés en dehors de l\'application. Assurez-vous de garder vos fichiers téléchargés à leur emplacement d\'origine et inchangés.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Les téléchargements doivent être restaurés</string>
+    <string name="database_desctruction_text">Cette mise à jour a modifié la façon dont certaines données sont stockées, de sorte que vos données de téléchargement local ont été réinitialisées. Vos fichiers téléchargés sont toujours sur votre appareil.\n\nAppuyez sur le bouton de téléchargement de vos playlists téléchargées pour les restaurer. Les fichiers existants seront détectés et réutilisés, donc rien ne sera téléchargé à nouveau.</string>
 </resources>

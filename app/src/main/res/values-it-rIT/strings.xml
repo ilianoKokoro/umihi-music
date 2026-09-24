@@ -183,4 +183,7 @@
     <string name="internal">Interno</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Cambiare la cartella di download potrebbe causare la perdita di traccia delle canzoni scaricate se i loro file vengono spostati, rinominati o modificati al di fuori dell\'app. Assicurati di mantenere i file scaricati nella loro posizione originale e invariati.</string>
+    <string name="ok">OK</string>
+    <string name="database_desctruction_title">I download devono essere ripristinati</string>
+    <string name="database_desctruction_text">Questo aggiornamento ha cambiato il modo in cui alcuni dati vengono memorizzati, quindi i dati di download locali sono stati ripristinati. I file scaricati sono ancora sul tuo dispositivo.\n\nPremi il pulsante di download sulle playlist scaricate per ripristinarle. I file esistenti verranno rilevati e riutilizzati, quindi nulla verrà scaricato di nuovo.</string>
 </resources>

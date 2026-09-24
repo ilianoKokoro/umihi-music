@@ -183,4 +183,7 @@
     <string name="internal">interno</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Alterar a pasta de download pode fazer com que o app perca as músicas baixadas se os arquivos forem movidos, renomeados ou modificados fora do app. Certifique-se de manter seus arquivos baixados no local original e inalterados.</string>
+    <string name="ok">Certo</string>
+    <string name="database_desctruction_title">Os downloads precisam ser restaurados</string>
+    <string name="database_desctruction_text">Esta atualização mudou a forma como alguns dados são armazenados, então seus dados de download local foram redefinidos. Seus arquivos baixados ainda estão no seu dispositivo.\n\nPressione o botão de download em suas playlists baixadas para restaurá-las. Os arquivos existentes serão detectados e reutilizados, portanto nada será baixado novamente.</string>
 </resources>

@@ -183,4 +183,7 @@
     <string name="internal">Interní</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Změna složky pro stahování může způsobit, že aplikace ztratí skladbu stažených skladeb, pokud jsou jejich soubory přesunuty, přejmenovány nebo upraveny mimo aplikaci. Ujistěte se, že máte stažené soubory v původní poloze a nezměňte je.</string>
+    <string name="ok">OK</string>
+    <string name="database_desctruction_title">Stahování musí být obnoveno</string>
+    <string name="database_desctruction_text">Tato aktualizace se změnila, jak jsou uložena některá data, takže data o stahování byla obnovena. Stažené soubory jsou stále na vašem zařízení.\n\nStiskněte tlačítko ke stažení na stažených seznamech skladeb pro jejich obnovení. Stávající soubory budou rozpoznány a znovu použity, takže nic nebude znovu staženo.</string>
 </resources>

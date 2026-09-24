@@ -58,7 +58,7 @@
     <string name="clear_login_confirm_message">Это приведет к выходу из системы и окончательному удалению всех сохраненных учетных записей YouTube, cookies и токенов аутентификации с этого устройства. Вам нужно войти еще раз, чтобы использовать вашу учетную запись.</string>
     <string name="login_info_cleared">Информация для входа очищена</string>
     <string name="downloads_cleared">Загрузки очищены</string>
-    <string name="invalid_navkey">Недопустимый NavKey : %1$s</string>
+    <string name="invalid_navkey">Недопустимый NavKey: %1$s</string>
     <string name="confirm">Подтвердить</string>
     <string name="cancel">Отмена</string>
     <string name="remove_local_playlist">Удалить локальный плейлист</string>
@@ -183,4 +183,7 @@
     <string name="internal">Внутренняя память</string>
     <string name="reset">Сброс</string>
     <string name="download_location_warning_description">Изменение папки загрузок может привести к потере приложения трека загруженных песен, если их файлы перемещаются, переименованы или изменены вне приложения. Убедитесь, что загруженные файлы сохраняются в исходном месте и сохраняются без изменений.</string>
+    <string name="ok">ОК</string>
+    <string name="database_desctruction_title">Загрузки должны быть восстановлены</string>
+    <string name="database_desctruction_text">Это обновление изменилось, как хранятся некоторые данные, так что ваши локальные данные были сброшены. Ваши загруженные файлы все еще находятся на вашем устройстве.\n\nНажмите кнопку загрузки на скачанных плейлистах, чтобы восстановить их. Существующие файлы будут обнаружены и повторно использованы, так что ничего не будет загружено снова.</string>
 </resources>

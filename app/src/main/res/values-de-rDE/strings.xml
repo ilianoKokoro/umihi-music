@@ -183,4 +183,7 @@
     <string name="internal">Intern</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Das Ändern des Download-Ordners kann dazu führen, dass die App den Track der heruntergeladenen Songs verliert, wenn ihre Dateien außerhalb der App verschoben, umbenannt oder geändert werden. Vergewissern Sie sich, dass Ihre heruntergeladenen Dateien in ihrem ursprünglichen Speicherort bleiben und unverändert bleiben.</string>
+    <string name="ok">Ok</string>
+    <string name="database_desctruction_title">Downloads müssen wiederhergestellt werden</string>
+    <string name="database_desctruction_text">Dieses Update hat die Speicherung einiger Daten geändert, so dass Ihre lokalen Download-Daten zurückgesetzt wurden. Ihre heruntergeladenen Dateien sind immer noch auf Ihrem Gerät.\n\nDrücken Sie den Download-Button auf den heruntergeladenen Playlisten, um sie wiederherzustellen. Die vorhandenen Dateien werden erkannt und wiederverwendet, so dass nichts erneut heruntergeladen wird.</string>
 </resources>
