@@ -1,10 +1,13 @@
 package ca.ilianokokoro.umihi.music.data.database
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.events.DatabaseEvents
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalPlaylistDataSource
 import ca.ilianokokoro.umihi.music.data.datasources.local.LocalSongDataSource
 import ca.ilianokokoro.umihi.music.data.datasources.local.VersionDataSource
@@ -46,6 +49,14 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java, Constants.Database.NAME
             )
                 .fallbackToDestructiveMigration(dropAllTables = true)
+                .addCallback(object : Callback() {
+                    override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
+                        super.onDestructiveMigration(db)
+                        ContextCompat.getMainExecutor(context).execute {
+                            DatabaseEvents.notifyDestructiveMigration()
+                        }
+                    }
+                })
                 .build()
 
         /**
