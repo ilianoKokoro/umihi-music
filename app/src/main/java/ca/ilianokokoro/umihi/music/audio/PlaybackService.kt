@@ -212,9 +212,11 @@ class PlaybackService : MediaLibraryService() {
                 if (audioSessionId > 0) {
                     try {
                         loudnessEnhancer?.release()
+                        loudnessEnhancer = null
                         loudnessEnhancer = LoudnessEnhancer(audioSessionId)
                         applyAppVolume(currentVolumePercent)
                     } catch (e: Exception) {
+                        loudnessEnhancer = null
                         printe(
                             message = "Failed to initialize LoudnessEnhancer: ${e.message}",
                             exception = e
@@ -274,13 +276,17 @@ class PlaybackService : MediaLibraryService() {
         if (currentVolumePercent <= Constants.Player.Volume.BOOST_THRESHOLD) {
             player.volume = currentVolumePercent / 100f
             try {
-                loudnessEnhancer?.enabled = false
-            } catch (_: Exception) {
+                loudnessEnhancer?.setTargetGain(0)
+                loudnessEnhancer?.enabled = true
+            } catch (e: Exception) {
+                printe(
+                    message = "Failed to reset LoudnessEnhancer target gain: ${e.message}",
+                    exception = e
+                )
             }
         } else {
             player.volume = 1.0f
             val boostPercent = currentVolumePercent - Constants.Player.Volume.BOOST_THRESHOLD
-            // Each 1% boost corresponds to 10 mB gain (up to 1000 mB / ~10dB boost at 200%)
             val gainMb = boostPercent * 10
             try {
                 loudnessEnhancer?.setTargetGain(gainMb)

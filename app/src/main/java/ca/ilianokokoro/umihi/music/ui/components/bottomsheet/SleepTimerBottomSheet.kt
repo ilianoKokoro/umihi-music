@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -30,6 +31,7 @@ import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,15 +45,22 @@ fun SleepTimerBottomSheet(
     onCancelTimer: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
+    val scope = rememberCoroutineScope()
+
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(
+            SheetValue.Hidden, SheetValue.Expanded
+        )
+    )
+
+    fun dismiss() {
+        scope.launch { sheetState.hide() }.invokeOnCompletion { changeVisibility(false) }
+    }
 
     ModalBottomSheet(
-        onDismissRequest = { changeVisibility(false) },
-        sheetState = rememberBottomSheetState(
-            initialValue = SheetValue.Hidden,
-            enabledValues = setOf(
-                SheetValue.Hidden, SheetValue.Expanded
-            )
-        ),
+        onDismissRequest = { dismiss() },
+        sheetState = sheetState,
     ) {
         Column(
             modifier = modifier
@@ -95,7 +104,7 @@ fun SleepTimerBottomSheet(
                 MaterialUButton(
                     onClick = {
                         onCancelTimer()
-                        changeVisibility(false)
+                        dismiss()
                     },
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.cancel_timer),
@@ -111,7 +120,7 @@ fun SleepTimerBottomSheet(
                     steps = Constants.Ui.Player.SleepTimer.STEP_AMOUNT - 2,
                 )
 
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -164,7 +173,7 @@ fun SleepTimerBottomSheet(
                 MaterialUButton(
                     onClick = {
                         onStartTimer(sliderState.value.roundToInt())
-                        changeVisibility(false)
+                        dismiss()
                     },
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.sleep_timer_start),
@@ -174,7 +183,7 @@ fun SleepTimerBottomSheet(
                 MaterialUButton(
                     onClick = {
                         onStartEndOfSong()
-                        changeVisibility(false)
+                        dismiss()
                     },
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.sleep_timer_end_of_song_btn),
