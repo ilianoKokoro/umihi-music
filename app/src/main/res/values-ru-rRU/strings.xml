@@ -183,7 +183,7 @@
     <string name="internal">Внутренняя память</string>
     <string name="reset">Сброс</string>
     <string name="download_location_warning_description">Изменение папки загрузок может привести к потере приложения трека загруженных песен, если их файлы перемещаются, переименованы или изменены вне приложения. Убедитесь, что загруженные файлы сохраняются в исходном месте и сохраняются без изменений.</string>
-    <string name="ok">OK</string>
-    <string name="database_desctruction_title">Downloads need to be restored</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="ok">ОК</string>
+    <string name="database_desctruction_title">Загрузки должны быть восстановлены</string>
+    <string name="database_desctruction_text">Это обновление изменилось, как хранятся некоторые данные, так что ваши локальные данные были сброшены. Ваши загруженные файлы все еще находятся на вашем устройстве.\n\nНажмите кнопку загрузки на скачанных плейлистах, чтобы восстановить их. Существующие файлы будут обнаружены и повторно использованы, так что ничего не будет загружено снова.</string>
 </resources>
