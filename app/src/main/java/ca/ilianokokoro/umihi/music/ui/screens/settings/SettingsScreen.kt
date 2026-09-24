@@ -272,12 +272,7 @@ fun SettingsScreen(
                                 subtitle = stringResource(R.string.offline_mode_description),
                                 leadingIcon = Icons.Outlined.CloudOff,
                                 value = screenState.settings.offlineMode,
-                                onToggle = {
-                                    settingsViewModel.updateSetting(
-                                        PreferenceKeys.OFFLINE_MODE,
-                                        it
-                                    )
-                                }
+                                onToggle = settingsViewModel::updateOfflineModeSetting
                             )
                             SettingSpacer()
                             BooleanSettingItem(

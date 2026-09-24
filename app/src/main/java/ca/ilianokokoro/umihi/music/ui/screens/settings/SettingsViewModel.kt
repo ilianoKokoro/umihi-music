@@ -177,6 +177,17 @@ class SettingsViewModel(
         )
     }
 
+    fun updateOfflineModeSetting(value: Boolean) {
+        viewModelScope.launch {
+            datastoreRepository.save(
+                DatastoreRepository.PreferenceKeys.OFFLINE_MODE,
+                value
+            )
+            getSettings()
+            sharedViewModel.requestPlaylistRefresh()
+        }
+    }
+
 
     fun checkForUpdates() {
         viewModelScope.launch {
