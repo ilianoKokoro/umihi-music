@@ -58,7 +58,7 @@
     <string name="clear_login_confirm_message">Это приведет к выходу из системы и окончательному удалению всех сохраненных учетных записей YouTube, cookies и токенов аутентификации с этого устройства. Вам нужно войти еще раз, чтобы использовать вашу учетную запись.</string>
     <string name="login_info_cleared">Информация для входа очищена</string>
     <string name="downloads_cleared">Загрузки очищены</string>
-    <string name="invalid_navkey">Недопустимый NavKey : %1$s</string>
+    <string name="invalid_navkey">Недопустимый NavKey: %1$s</string>
     <string name="confirm">Подтвердить</string>
     <string name="cancel">Отмена</string>
     <string name="remove_local_playlist">Удалить локальный плейлист</string>
