@@ -28,6 +28,9 @@ class PlaylistRepository(application: Application) {
     suspend fun getDownloadedSongsCount(): Int =
         localSongDataSource.countDownloadedSongs()
 
+    fun getDownloadedSongsCountFlow(): Flow<Int> =
+        localSongDataSource.countDownloadedSongsFlow()
+
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {
             emit(ApiResult.Loading)
