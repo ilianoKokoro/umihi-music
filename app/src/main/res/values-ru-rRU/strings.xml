@@ -140,8 +140,8 @@
     <string name="short_minutes">%1$d мин</string>
     <string name="download_on_metered_title">Скачивание через мобильные данные</string>
     <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного тарифного плана</string>
-    <string name="offline_mode_title">Автономный режим</string>
-    <string name="offline_mode_description">Предотвращает удаленное извлечение. Показаны только загруженные плейлисты и песни</string>
+    <string name="offline_mode_title">Офлайн режим</string>
+    <string name="offline_mode_description">Предотвращает удаленную загрузку. Отображаются только загруженные плейлисты и песни</string>
     <string name="playlist_not_downloaded">Этот плейлист не загружен. Загрузите его, чтобы получить доступ к нему в автономном режиме.</string>
     <string name="waiting_for_wifi_to_download">Ожидание подключения к Wi-Fi для загрузки %1$s</string>
     <string name="remove_library">Удалить из библиотеки</string>
