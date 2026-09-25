@@ -9,7 +9,7 @@ concurrency:
 on:
     push:
         branches:
-            - main
+            - dev
     schedule:
         - cron: "0 */12 * * *"
     workflow_dispatch:
