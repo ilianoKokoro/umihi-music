@@ -164,7 +164,12 @@ fun HomeScreen(
                                             playlistInfo = playlist,
                                             sharedTransitionScope = sharedTransitionScope,
                                             animatedVisibilityScope = animatedVisibilityScope,
-                                            onClicked = { onPlaylistPressed(playlist) }
+                                            onClicked = { onPlaylistPressed(playlist) },
+                                            songCount = if (playlist.isDownloadedPlaylist) {
+                                                uiState.downloadedSongsCount
+                                            } else {
+                                                playlist.songCount
+                                            }
                                         )
                                     }
                                 }

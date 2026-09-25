@@ -30,6 +30,7 @@ fun PlaylistCard(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    songCount: Int? = playlistInfo.songCount,
 ) {
     val screenState = sharedTransitionScope.rememberSharedContentState(
         "${Constants.SharedTransition.PLAYLIST_SCREEN_KEY}${playlistInfo.id}"
@@ -109,8 +110,8 @@ fun PlaylistCard(
             )
 
             Text(
-                text = playlistInfo.songCount?.let { songCount ->
-                    stringResource(R.string.songs, songCount)
+                text = songCount?.let { count ->
+                    stringResource(R.string.songs, count)
                 }.orEmpty(),
                 modifier = with(sharedTransitionScope) {
                     Modifier
