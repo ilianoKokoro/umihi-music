@@ -79,6 +79,7 @@ Join the Discord server to get update pings, know about announcements and get su
   <li>Create and delete playlists in app</li>
   <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>
+  <li>Choose where to store your downloads</li>
   <li>Search and play music without logging in</li>
   <li>Send data back to Google option for recommendations</li>
   <li>Integrated sleep timer, speed controls and volume slider</li>
