@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d 分</string>
     <string name="download_on_metered_title">用行動數據連線下載</string>
     <string name="download_on_metered_description">允許使用行動數據連線的流量來下載歌曲和播放清單</string>
+    <string name="offline_mode_title">Offline Mode</string>
+    <string name="offline_mode_description">Prevents remote fetching. Only downloaded playlists and songs are shown</string>
+    <string name="playlist_not_downloaded">This playlist is not downloaded. Download it while online to access it offline.</string>
     <string name="waiting_for_wifi_to_download">正在等待 Wi-Fi 以下載 %1$s</string>
     <string name="remove_library">從音樂庫中移除</string>
     <string name="remove_library_text">您確定要在音樂庫中移除此播放清單嗎？可以稍後再次新增。</string>

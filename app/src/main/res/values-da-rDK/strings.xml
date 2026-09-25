@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Download på mobildata</string>
     <string name="download_on_metered_description">Tillader at downloade sange og afspilningslister ved hjælp af dit mobildataabonnement</string>
+    <string name="offline_mode_title">Offline Tilstand</string>
+    <string name="offline_mode_description">Forhindrer fjernhentning. Kun downloadede afspilningslister og sange vises</string>
+    <string name="playlist_not_downloaded">Denne afspilningsliste er ikke downloadet. Download den mens den er online for at tilgå den offline.</string>
     <string name="waiting_for_wifi_to_download">Venter på at Wi-Fi downloader %1$s</string>
     <string name="remove_library">Fjern fra bibliotek</string>
     <string name="remove_library_text">Er du sikker på, at du vil fjerne denne afspilningsliste fra dit bibliotek? Du kan tilføje den igen senere.</string>

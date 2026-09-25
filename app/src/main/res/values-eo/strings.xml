@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Downwoad on Mobiwe Data</string>
     <string name="download_on_metered_description">Awwows downwoading swongs and pwaywists using youw mobiwe data pwan</string>
+    <string name="offline_mode_title">Offwine Mode</string>
+    <string name="offline_mode_description">Pwevents wemote fetching. Onwy downwoaded pwaywists and swongs awe shown</string>
+    <string name="playlist_not_downloaded">This pwaywist is nyot downwoaded. Downwoad it whiwe onwine to access it offwine.</string>
     <string name="waiting_for_wifi_to_download">Waitin fow Wi-Fi to downwoad %1$s</string>
     <string name="remove_library">Wemove fwom wibwawy</string>
     <string name="remove_library_text">Awe you suwe you wanna wemove this pwaywist fwom youw wibwawy ? You can add it again watew.</string>

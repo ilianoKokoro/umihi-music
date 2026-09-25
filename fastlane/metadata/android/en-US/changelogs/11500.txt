@@ -1,0 +1,23 @@
+Features:
+- Added better long title view in playlists
+- Added option to choose the download folder
+- Updated some UI components
+- Show cache sizes in the settings
+- Added a manual offline mode
+- Added a message when updating database
+- Added an indicator for unavailable songs
+- Added new transition when opening/closing playlists
+- Playing search results is now a queue
+- Added in app theme switcher
+- Various UI improvements
+- Updated dependencies
+- Updated translations
+Bug fixes:
+- Fixed song menu closing when playlist is downloading
+- Fixed delete all downloads button clears the hidden playlists list
+- Fixed various cache issues
+- Fixed playlist can't be hidden whilst loading
+- Fixed animations on various Bottom Sheets
+- Fixed audio hiccup when changing in app volume
+- Fixed seekbar hiccup when shuffling
+- Fixed downloaded playlists having no song count

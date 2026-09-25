@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Descargar en datos móviles</string>
     <string name="download_on_metered_description">Permite descargar canciones y listas de reproducción usando tu plan de datos móvil</string>
+    <string name="offline_mode_title">Modo sin conexión</string>
+    <string name="offline_mode_description">Evita la búsqueda remota. Sólo se muestran las listas de reproducción y canciones descargadas</string>
+    <string name="playlist_not_downloaded">Esta lista de reproducción no está descargada. Descárgala mientras esté conectado para acceder a ella sin conexión.</string>
     <string name="waiting_for_wifi_to_download">Esperando a que Wi-Fi descargue %1$s</string>
     <string name="remove_library">Eliminar de la biblioteca</string>
     <string name="remove_library_text">¿Está seguro que desea eliminar esta lista de reproducción de su biblioteca? Puede añadirla de nuevo más tarde.</string>

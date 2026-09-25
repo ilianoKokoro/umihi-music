@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Télécharger via les données mobiles</string>
     <string name="download_on_metered_description">Permet de télécharger des titres et des playlists en utilisant votre forfait de données mobiles</string>
+    <string name="offline_mode_title">Mode hors-ligne</string>
+    <string name="offline_mode_description">Empêche la récupération à distance. Seules les listes de lecture téléchargées et les chansons sont affichées</string>
+    <string name="playlist_not_downloaded">Cette playlist n\'est pas téléchargée. Téléchargez-la en ligne pour y accéder hors ligne.</string>
     <string name="waiting_for_wifi_to_download">En attente d\'une connexion Wi-Fi pour télécharger %1$s</string>
     <string name="remove_library">Retirer de la bibliothèque</string>
     <string name="remove_library_text">Êtes-vous sûr de vouloir supprimer cette playlist de votre bibliothèque ? Vous pourrez l\'ajouter plus tard.</string>

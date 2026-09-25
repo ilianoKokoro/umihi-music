@@ -140,6 +140,9 @@
     <string name="short_minutes">%1$d min</string>
     <string name="download_on_metered_title">Ladda ner på mobildata</string>
     <string name="download_on_metered_description">Tillåter nedladdning av låtar och spellistor med din mobildataplan</string>
+    <string name="offline_mode_title">Offline läge</string>
+    <string name="offline_mode_description">Förhindrar fjärråtkomst. Endast nedladdade spellistor och låtar visas</string>
+    <string name="playlist_not_downloaded">Denna spellista laddas inte ner. Ladda ner den när du är online för att komma åt den offline.</string>
     <string name="waiting_for_wifi_to_download">Väntar på Wi-Fi för att ladda ner %1$s</string>
     <string name="remove_library">Ta bort från bibliotek</string>
     <string name="remove_library_text">Är du säker på att du vill ta bort den här spellistan från ditt bibliotek? Du kan lägga till den igen senare.</string>
