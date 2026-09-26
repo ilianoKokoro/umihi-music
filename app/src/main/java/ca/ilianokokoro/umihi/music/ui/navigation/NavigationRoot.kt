@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -41,9 +40,7 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.runtime.metadata
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
-import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.navigation3.ui.NavDisplay
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -97,16 +94,11 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 .padding(paddingValues)
         ) {
 
-            SharedTransitionLayout(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                NavDisplay(
+            NavDisplay(
                 modifier = Modifier
                     .fillMaxSize(),
                 backStack = backStack,
                 onBack = backStack::safePop,
-                sharedTransitionScope = this,
                 entryDecorators = listOf(
                     rememberSaveableStateHolderNavEntryDecorator(),
                     rememberViewModelStoreNavEntryDecorator(),
@@ -151,11 +143,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     when (key) {
 
                         is HomeScreenKey -> NavEntry(key) {
-                            val animatedVisibilityScope = LocalNavAnimatedContentScope.current
                             HomeScreen(
                                 sharedViewModel = sharedViewModel,
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                animatedVisibilityScope = animatedVisibilityScope,
                                 onPlaylistPressed = { playlist ->
                                     backStack.add(PlaylistScreenKey(playlistInfo = playlist))
                                 },
@@ -172,22 +161,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
 
-                        is PlaylistScreenKey -> NavEntry(
-                            key,
-                            metadata = metadata {
-                                val fade =
-                                    fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)) togetherWith
-                                        fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION))
-                                put(NavDisplay.TransitionKey) { fade }
-                                put(NavDisplay.PopTransitionKey) { fade }
-                                put(NavDisplay.PredictivePopTransitionKey) { fade }
-                            }
-                        ) {
-                            val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+                        is PlaylistScreenKey -> NavEntry(key) {
                             PlaylistScreen(
                                 sharedViewModel = sharedViewModel,
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                animatedVisibilityScope = animatedVisibilityScope,
                                 playlistInfo = key.playlistInfo,
                                 onBack = backStack::safePop,
                                 onOpenPlayer = { showFullPlayer = true },
@@ -218,7 +194,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     }
                 }
             )
-            }
 
             MiniPlayerWrapper(
                 showMiniPlayer = screenConfig.showMiniPlayer && !showFullPlayer,

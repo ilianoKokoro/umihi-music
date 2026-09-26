@@ -1,8 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.screens.playlist
 
 import android.app.Application
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -69,8 +67,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 @Composable
 fun PlaylistScreen(
     sharedViewModel: SharedViewModel,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     playlistInfo: PlaylistInfo,
     onOpenPlayer: () -> Unit,
     onBack: () -> Unit,
@@ -93,9 +89,6 @@ fun PlaylistScreen(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
-    val screenState = sharedTransitionScope.rememberSharedContentState(
-        "${Constants.SharedTransition.PLAYLIST_SCREEN_KEY}${playlistInfo.id}"
-    )
 
     LaunchedEffect(uiState.showingSearch) {
         if (uiState.showingSearch) {
@@ -104,15 +97,7 @@ fun PlaylistScreen(
     }
 
     Box(
-        modifier = with(sharedTransitionScope) {
-            Modifier
-                .fillMaxSize()
-                .sharedBounds(
-                    sharedContentState = screenState,
-                    animatedVisibilityScope = animatedVisibilityScope,
-                    zIndexInOverlay = -1f,
-                )
-        }
+        modifier = Modifier.fillMaxSize()
     ) {
         FadingStatusBarWrapper {
             Scaffold(topBar = {
@@ -231,8 +216,6 @@ fun PlaylistScreen(
 
                                     item {
                                         PlaylistHeader(
-                                            sharedTransitionScope = sharedTransitionScope,
-                                            animatedVisibilityScope = animatedVisibilityScope,
                                             onOpenPlayer = onOpenPlayer,
                                             isDownloading = uiState.isDownloading,
                                             onDownloadPlaylist = playlistViewModel::downloadPlaylist,
