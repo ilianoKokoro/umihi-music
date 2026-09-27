@@ -189,6 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Nedladdningar måste återställas</string>
     <string name="database_desctruction_text">Den här uppdateringen ändrade hur viss data lagras, så din lokala data nedladdning återställdes. Dina nedladdade filer är fortfarande på din enhet.\n\nTryck på nedladdningsknappen på dina nedladdade spellistor för att återställa dem. De befintliga filerna kommer att upptäckas och återanvändas, så ingenting kommer att laddas ner igen.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Låttext</string>
+    <string name="no_lyrics_found">Inga låttexter hittades</string>
 </resources>
