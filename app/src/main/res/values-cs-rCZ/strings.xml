@@ -189,6 +189,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">Stahování musí být obnoveno</string>
     <string name="database_desctruction_text">Tato aktualizace se změnila, jak jsou uložena některá data, takže data o stahování byla obnovena. Stažené soubory jsou stále na vašem zařízení.\n\nStiskněte tlačítko ke stažení na stažených seznamech skladeb pro jejich obnovení. Stávající soubory budou rozpoznány a znovu použity, takže nic nebude znovu staženo.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Texty</string>
+    <string name="no_lyrics_found">Nenalezeny žádné texty</string>
 </resources>

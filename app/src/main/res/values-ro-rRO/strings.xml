@@ -189,6 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Descărcările trebuie restabilite</string>
     <string name="database_desctruction_text">Această actualizare a schimbat modul în care sunt stocate unele date, astfel încât datele tale locale de descărcare au fost resetate. Fișierele descărcate sunt încă pe dispozitivul tău.\n\nApasă butonul de descărcare din listele tale de redare descărcate pentru a le restaura. Fișierele existente vor fi detectate și reutilizate, așa că nimic nu va fi descărcat din nou.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Versuri</string>
+    <string name="no_lyrics_found">Nu s-au găsit versuri</string>
 </resources>

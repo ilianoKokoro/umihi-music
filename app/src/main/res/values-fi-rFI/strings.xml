@@ -189,6 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Lataukset on palautettava</string>
     <string name="database_desctruction_text">Tämä päivitys on muuttunut, miten joitakin tietoja tallennetaan, joten paikalliset lataustiedot on nollattu. Ladattu tiedostot ovat edelleen laitteellasi.\n\nPaina ladattavien soittolistojen latauspainiketta palauttaaksesi ne. Olemassa olevat tiedostot havaitaan ja niitä käytetään uudelleen, joten mitään ei enää ladata.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Sanoitukset</string>
+    <string name="no_lyrics_found">Sanoituksia ei löytynyt</string>
 </resources>
