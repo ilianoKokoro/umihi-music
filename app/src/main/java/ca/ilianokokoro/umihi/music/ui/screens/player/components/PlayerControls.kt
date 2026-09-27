@@ -63,6 +63,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun PlayerControls(
     modifier: Modifier = Modifier,
     isPlaying: Boolean,
+    isLyricsShown: Boolean,
     isLoading: Boolean,
     progress: StateFlow<PlaybackProgress>,
     onSeekPlayer: () -> Unit,
@@ -71,7 +72,7 @@ fun PlayerControls(
     onOpenQueue: () -> Unit,
     onOpenVolume: () -> Unit,
     onOpenSleepTimer: () -> Unit,
-    onOpenLyrics: () -> Unit,
+    onToggleLyrics: () -> Unit,
     onOpenSpeedSelector: () -> Unit,
     playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
@@ -443,13 +444,17 @@ fun PlayerControls(
                 // Lyrics — MIDDLE segment
                 customItem(
                     buttonGroupContent = {
-                        FilledIconButton(
-                            onClick = onOpenLyrics,
-                            shapes = IconButtonDefaults.shapes(
+                        FilledIconToggleButton(
+                            checked = isLyricsShown,
+                            onCheckedChange = { onToggleLyrics() },
+                            shapes = IconButtonDefaults.toggleableShapes(
                                 shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                                 pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                             ),
-                            colors = IconButtonDefaults.filledIconButtonColors(
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
@@ -470,7 +475,7 @@ fun PlayerControls(
                             text = stringResource(R.string.lyrics),
                             leadingIcon = Icons.Rounded.Lyrics,
                             onClick = {
-                                onOpenLyrics()
+                                onToggleLyrics()
                                 menuState.dismiss()
                             }
                         )

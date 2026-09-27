@@ -21,6 +21,7 @@ data class PlayerState(
     val isLiking: Boolean = false,
     val showVolumeDialog: Boolean = false,
     val appVolume: Int = 100,
+    val lyricsShown: Boolean = false,
     val lyrics: LyricsState = LyricsState.Unloaded,
 )
 

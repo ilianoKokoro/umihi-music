@@ -53,6 +53,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottom
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.TopPlayer
 
 @Composable
 fun PlayerScreen(
@@ -98,12 +99,15 @@ fun PlayerScreen(
 
             ) {
 
-                Thumbnail(
-                    href = currentSong?.thumbnailHref.toString(),
+                TopPlayer(
+                    currentSong = currentSong,
+                    isLyricsShown = uiState.lyricsShown,
+                    lyricsState = uiState.lyrics,
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
                 )
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -122,6 +126,7 @@ fun PlayerScreen(
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
+                        isLyricsShown = uiState.lyricsShown,
                         progress = playerViewModel.playbackProgress,
                         onSeek = playerViewModel::seek,
                         onSeekPlayer = playerViewModel::seekPlayer,
@@ -139,7 +144,7 @@ fun PlayerScreen(
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
                         playbackSpeed = uiState.playbackSpeed,
-                        onOpenLyrics = playerViewModel::getLyrics,
+                        onToggleLyrics = playerViewModel::toggleLyrics,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
@@ -158,10 +163,12 @@ fun PlayerScreen(
                         .fillMaxHeight()
                         .weight(1f)
                 ) {
-                    Thumbnail(
-                        href = currentSong?.thumbnailHref.toString(),
+                    TopPlayer(
+                        currentSong = currentSong,
+                        isLyricsShown = uiState.lyricsShown,
+                        lyricsState = uiState.lyrics,
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxHeight()
                             .weight(1f)
                     )
                 }
@@ -178,12 +185,14 @@ fun PlayerScreen(
                         isLoggedIn = uiState.isLoggedIn,
                         isLiked = uiState.isLiked,
                         isLiking = uiState.isLiking,
+
                         onToggleLike = playerViewModel::toggleLike,
                     )
 
                     PlayerControls(
                         isPlaying = uiState.isPlaying,
                         isLoading = uiState.isLoading,
+                        isLyricsShown = uiState.lyricsShown,
                         progress = playerViewModel.playbackProgress,
                         onSeek = playerViewModel::seek,
                         onSeekPlayer = playerViewModel::seekPlayer,
@@ -201,7 +210,7 @@ fun PlayerScreen(
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
                         playbackSpeed = uiState.playbackSpeed,
-                        onOpenLyrics = playerViewModel::getLyrics,
+                        onToggleLyrics = playerViewModel::toggleLyrics,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }

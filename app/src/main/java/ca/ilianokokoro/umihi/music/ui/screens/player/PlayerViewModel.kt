@@ -240,6 +240,10 @@ class PlayerViewModel(application: Application) :
             )
         }
 
+        if (uiState.value.lyricsShown) {
+            getLyrics()
+        }
+
         lastUuid = currentSong?.uid
     }
 
@@ -376,7 +380,14 @@ class PlayerViewModel(application: Application) :
         PlayerManager.setAppVolume(volume, getApplication())
     }
 
-    fun getLyrics() {
+    fun toggleLyrics() {
+        _uiState.update { it.copy(lyricsShown = !uiState.value.lyricsShown) }
+        if (uiState.value.lyricsShown && uiState.value.lyrics == LyricsState.Unloaded) {
+            getLyrics()
+        }
+    }
+
+    private fun getLyrics() {
         val song = PlayerManager.getCurrentSong() ?: return
         viewModelScope.launch {
             try {
