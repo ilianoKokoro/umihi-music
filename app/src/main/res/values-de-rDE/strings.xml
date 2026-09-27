@@ -189,6 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Downloads müssen wiederhergestellt werden</string>
     <string name="database_desctruction_text">Dieses Update hat die Speicherung einiger Daten geändert, so dass Ihre lokalen Download-Daten zurückgesetzt wurden. Ihre heruntergeladenen Dateien sind immer noch auf Ihrem Gerät.\n\nDrücken Sie den Download-Button auf den heruntergeladenen Playlisten, um sie wiederherzustellen. Die vorhandenen Dateien werden erkannt und wiederverwendet, so dass nichts erneut heruntergeladen wird.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Songtext</string>
+    <string name="no_lyrics_found">Keine Songtexte gefunden</string>
 </resources>
