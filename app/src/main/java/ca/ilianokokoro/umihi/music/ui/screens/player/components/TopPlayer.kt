@@ -18,6 +18,7 @@ fun TopPlayer(
     currentSong: Song?,
     isLyricsShown: Boolean,
     lyricsState: LyricsState,
+    positionMs: () -> Long,
     modifier: Modifier
 ) {
     if (!isLyricsShown) {
@@ -41,7 +42,7 @@ fun TopPlayer(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     } else {
-                        LyricsDisplay(lyrics)
+                        LyricsDisplay(lyrics = lyrics, positionMs = positionMs)
                     }
 
                 }

@@ -30,6 +30,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -80,6 +82,7 @@ fun PlayerScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+    val playbackProgress by playerViewModel.playbackProgress.collectAsState()
 
     Scaffold(
         modifier = Modifier.padding(
@@ -103,6 +106,7 @@ fun PlayerScreen(
                     currentSong = currentSong,
                     isLyricsShown = uiState.lyricsShown,
                     lyricsState = uiState.lyrics,
+                    positionMs = { playbackProgress.position.toLong() },
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
@@ -167,6 +171,7 @@ fun PlayerScreen(
                         currentSong = currentSong,
                         isLyricsShown = uiState.lyricsShown,
                         lyricsState = uiState.lyrics,
+                        positionMs = { playbackProgress.position.toLong() },
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f)
