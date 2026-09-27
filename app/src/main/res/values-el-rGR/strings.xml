@@ -189,6 +189,6 @@
     <string name="ok">Εντάξει</string>
     <string name="database_desctruction_title">Οι λήψεις πρέπει να αποκατασταθούν</string>
     <string name="database_desctruction_text">Αυτή η ενημέρωση άλλαξε πώς αποθηκεύονται ορισμένα δεδομένα, έτσι ώστε τα τοπικά σας δεδομένα λήψης. Τα ληφθέντα αρχεία σας είναι ακόμα στη συσκευή σας.\n\nΠατήστε το κουμπί λήψης στις κατεβασμένες λίστες αναπαραγωγής σας για να τις επαναφέρετε. Τα υπάρχοντα αρχεία θα ανιχνευθούν και θα επαναχρησιμοποιηθούν, οπότε τίποτα δεν θα κατέβει ξανά.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Στίχοι</string>
+    <string name="no_lyrics_found">Δεν βρέθηκαν στίχοι</string>
 </resources>
