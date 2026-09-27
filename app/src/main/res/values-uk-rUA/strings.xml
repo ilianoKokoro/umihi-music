@@ -189,6 +189,6 @@
     <string name="ok">Гаразд</string>
     <string name="database_desctruction_title">Завантаження необхідно відновити</string>
     <string name="database_desctruction_text">Це оновлення змінилося як деякі дані зберігаються, тому ваші локальні завантаження були скинуті. Ваші завантажені файли все ще на вашому пристрої.\n\nНатисніть на кнопку завантаження у завантажених плейлістах, щоб відновити їх. Існуючі файли будуть виявлені і повторно використані, тому ніщо не буде завантажено ще раз.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Тексти пісень</string>
+    <string name="no_lyrics_found">Слова не знайдені</string>
 </resources>
