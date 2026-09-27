@@ -14,7 +14,6 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
@@ -45,7 +44,6 @@ class PlayerViewModel(application: Application) :
         PlayerManager.currentController?.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
-                getLyrics()
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -237,6 +235,7 @@ class PlayerViewModel(application: Application) :
             state.copy(
                 currentIndex = index,
                 queue = mergedQueue,
+                lyrics = LyricsState.Unloaded,
                 isLiked = mergedQueue.getOrNull(index)?.isLiked ?: false
             )
         }
@@ -380,8 +379,12 @@ class PlayerViewModel(application: Application) :
     fun getLyrics() {
         val song = PlayerManager.getCurrentSong() ?: return
         viewModelScope.launch {
-            val lyrics = lyricsRepository.getLyrics(song)
-            LogHelper.printd(lyrics?.lines.toString())
+            try {
+                val lyrics = lyricsRepository.getLyrics(song)
+                _uiState.update { it.copy(lyrics = LyricsState.Loaded(lyrics)) }
+            } catch (e: Exception) {
+                printe(e.message.toString())
+            }
         }
     }
 

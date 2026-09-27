@@ -139,6 +139,7 @@ fun PlayerScreen(
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
                         playbackSpeed = uiState.playbackSpeed,
+                        onOpenLyrics = playerViewModel::getLyrics,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }
@@ -200,6 +201,7 @@ fun PlayerScreen(
                             playerViewModel.setSpeedSelectorVisibility(true)
                         },
                         playbackSpeed = uiState.playbackSpeed,
+                        onOpenLyrics = playerViewModel::getLyrics,
                         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
                     )
                 }

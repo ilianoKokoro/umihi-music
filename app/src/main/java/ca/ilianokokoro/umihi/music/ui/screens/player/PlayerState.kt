@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 
 import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.models.lyrics.Lyrics
 
 @Immutable
 data class PlayerState(
@@ -20,6 +21,7 @@ data class PlayerState(
     val isLiking: Boolean = false,
     val showVolumeDialog: Boolean = false,
     val appVolume: Int = 100,
+    val lyrics: LyricsState = LyricsState.Unloaded,
 )
 
 @Immutable
@@ -27,3 +29,9 @@ data class PlaybackProgress(
     val position: Float = 0f,
     val duration: Float = 0f,
 )
+
+
+sealed class LyricsState {
+    data object Unloaded : LyricsState()
+    data class Loaded(val data: Lyrics?) : LyricsState()
+}
