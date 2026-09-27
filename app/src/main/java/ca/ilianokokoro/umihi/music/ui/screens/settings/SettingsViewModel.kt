@@ -15,9 +15,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.media3.common.util.UnstableApi
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.cache.CoilImageLoader
+import ca.ilianokokoro.umihi.music.core.cache.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.DownloadHelper
 import ca.ilianokokoro.umihi.music.core.helpers.FileHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe

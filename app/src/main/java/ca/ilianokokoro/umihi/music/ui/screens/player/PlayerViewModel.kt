@@ -14,10 +14,12 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.LyricsRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +37,7 @@ class PlayerViewModel(application: Application) :
     val playbackProgress = _playbackProgress.asStateFlow()
 
     private val datastoreRepository = DatastoreRepository(application)
+    private val lyricsRepository = LyricsRepository()
 
     private var lastUuid: String? = null
 
@@ -42,6 +45,7 @@ class PlayerViewModel(application: Application) :
         PlayerManager.currentController?.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 updateCurrentSong()
+                getLyrics()
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -371,6 +375,14 @@ class PlayerViewModel(application: Application) :
 
     fun setAppVolume(volume: Int) {
         PlayerManager.setAppVolume(volume, getApplication())
+    }
+
+    fun getLyrics() {
+        val song = PlayerManager.getCurrentSong() ?: return
+        viewModelScope.launch {
+            val lyrics = lyricsRepository.getLyrics(song)
+            LogHelper.printd(lyrics?.lines.toString())
+        }
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.core
+package ca.ilianokokoro.umihi.music.core.cache
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,6 +7,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

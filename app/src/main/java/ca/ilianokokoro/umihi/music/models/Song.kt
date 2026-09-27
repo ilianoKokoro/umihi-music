@@ -138,6 +138,16 @@ data class Song(
         return this.youtubeId == other.youtubeId
     }
 
+    val durationSeconds: Int?
+        get() {
+            val parts = duration.split(":").mapNotNull { it.toIntOrNull() }
+            return when (parts.size) {
+                2 -> parts[0] * 60 + parts[1]
+                3 -> parts[0] * 3600 + parts[1] * 60 + parts[2]
+                else -> null
+            }
+        }
+
     companion object {
         fun createFromYoutubeUrl(url: String): Song {
             return Song(youtubeId = url.removePrefix(Constants.YoutubeApi.YOUTUBE_URL_PREFIX))
