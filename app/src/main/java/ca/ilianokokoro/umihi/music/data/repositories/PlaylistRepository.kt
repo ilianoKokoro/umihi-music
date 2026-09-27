@@ -11,9 +11,9 @@ import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
-import ca.ilianokokoro.umihi.music.models.Privacy
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import ca.ilianokokoro.umihi.music.models.enums.Privacy
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -56,7 +56,8 @@ class PlaylistRepository(application: Application) {
                 if (e is CancellationException) {
                     throw e
                 }
-                val localPlaylists = localPlaylistDataSource.fetchVisiblePlaylists().map { it.toLocalPlaylistInfo() }
+                val localPlaylists =
+                    localPlaylistDataSource.fetchVisiblePlaylists().map { it.toLocalPlaylistInfo() }
                 emit(ApiResult.Success(localPlaylists))
             }
         }.flowOn(Dispatchers.IO)
@@ -304,6 +305,7 @@ class PlaylistRepository(application: Application) {
             )
         }.flowOn(Dispatchers.IO)
     }
+
     private fun Playlist.toLocalPlaylistInfo(): PlaylistInfo =
         info.apply { songCount = songs.count { it.downloaded } }
 

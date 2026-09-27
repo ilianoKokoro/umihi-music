@@ -29,7 +29,7 @@ import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
-import ca.ilianokokoro.umihi.music.models.ThemeMode
+import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.dialog.DatabaseDestructionDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.UpdateDialog
 import ca.ilianokokoro.umihi.music.ui.navigation.NavigationRoot

@@ -30,7 +30,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.models.Version
-import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import ca.ilianokokoro.umihi.music.models.github.GithubReleaseResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.SocketException

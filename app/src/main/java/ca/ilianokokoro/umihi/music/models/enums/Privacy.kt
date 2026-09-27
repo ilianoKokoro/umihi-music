@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.models
+package ca.ilianokokoro.umihi.music.models.enums
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
