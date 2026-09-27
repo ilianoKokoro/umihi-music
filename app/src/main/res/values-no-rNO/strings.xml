@@ -189,4 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Nedlastinger må gjenopprettes</string>
     <string name="database_desctruction_text">Denne oppdateringen endret hvordan noen data er lagret, så dine lokale nedlastingsdata ble tilbakestilt. Dine nedlastede filer er fortsatt på enheten.\n\nTrykk på nedlastingsknappen på dine nedlastede spillelister for å gjenopprette dem. De eksisterende filene vil bli oppdaget og brukt på nytt, så ingenting vil bli lastet ned igjen.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>

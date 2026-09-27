@@ -189,4 +189,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">I download devono essere ripristinati</string>
     <string name="database_desctruction_text">Questo aggiornamento ha cambiato il modo in cui alcuni dati vengono memorizzati, quindi i dati di download locali sono stati ripristinati. I file scaricati sono ancora sul tuo dispositivo.\n\nPremi il pulsante di download sulle playlist scaricate per ripristinarle. I file esistenti verranno rilevati e riutilizzati, quindi nulla verrà scaricato di nuovo.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>

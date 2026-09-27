@@ -189,4 +189,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">Pobieranie musi zostać przywrócone</string>
     <string name="database_desctruction_text">Ta aktualizacja zmieniła sposób przechowywania niektórych danych, więc twoje lokalne dane pobierania zostały zresetowane. Pobrane pliki są nadal na twoim urządzeniu.\n\nNaciśnij przycisk pobierania na pobranych playlistach, aby je przywrócić. Istniejące pliki zostaną wykryte i ponownie użyte, więc nic nie zostanie pobrane ponownie.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>

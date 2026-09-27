@@ -189,4 +189,6 @@
     <string name="ok">ОК</string>
     <string name="database_desctruction_title">Загрузки должны быть восстановлены</string>
     <string name="database_desctruction_text">Это обновление изменило способ хранения некоторых данных, поэтому ваши локальные данные о загрузках были сброшены. Загруженные файлы всё еще находятся на вашем устройстве.\n\nНажмите кнопку загрузить в загруженных плейлистах, чтобы восстановить их. Существующие файлы будут обнаружены и использованы повторно, поэтому ничего не будет загружаться снова.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>

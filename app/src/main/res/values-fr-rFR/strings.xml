@@ -189,4 +189,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Les téléchargements doivent être restaurés</string>
     <string name="database_desctruction_text">Cette mise à jour a modifié la façon dont certaines données sont stockées, de sorte que vos données de téléchargement local ont été réinitialisées. Vos fichiers téléchargés sont toujours sur votre appareil.\n\nAppuyez sur le bouton de téléchargement de vos playlists téléchargées pour les restaurer. Les fichiers existants seront détectés et réutilisés, donc rien ne sera téléchargé à nouveau.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>
