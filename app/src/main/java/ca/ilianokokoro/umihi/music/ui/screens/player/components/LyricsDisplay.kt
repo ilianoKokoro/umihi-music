@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.models.lyrics.Lyrics
 import ca.ilianokokoro.umihi.music.models.lyrics.SyncedLine
 
+// TODO REDO THIS WHOLE COMPOSABLE THIS IS A TEMP
 fun List<SyncedLine>.indexOfCurrentLine(positionMs: Long): Int {
     var lo = 0
     var hi = size - 1

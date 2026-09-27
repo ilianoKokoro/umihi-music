@@ -9,6 +9,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -35,7 +37,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -84,12 +89,15 @@ fun PlayerScreen(
     }
     val playbackProgress by playerViewModel.playbackProgress.collectAsState()
 
+
     Scaffold(
-        modifier = Modifier.padding(
-            start = 8.dp,
-            end = 8.dp,
-            bottom = 10.dp
-        )
+        modifier = Modifier
+            .padding(
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 10.dp
+            )
+
     ) { paddingValues ->
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             Column(
@@ -127,30 +135,9 @@ fun PlayerScreen(
                         isLiking = uiState.isLiking,
                         onToggleLike = playerViewModel::toggleLike,
                     )
-                    PlayerControls(
-                        isPlaying = uiState.isPlaying,
-                        isLoading = uiState.isLoading,
-                        isLyricsShown = uiState.lyricsShown,
-                        progress = playerViewModel.playbackProgress,
-                        onSeek = playerViewModel::seek,
-                        onSeekPlayer = playerViewModel::seekPlayer,
-                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                        onOpenQueue = {
-                            playerViewModel.setQueueVisibility(true)
-                        },
-                        onOpenVolume = {
-                            playerViewModel.updateShowVolumeDialog(true)
-                        },
-                        onOpenSleepTimer = {
-                            playerViewModel.setSleepTimerSheetVisibility(true)
-                        },
-                        onOpenSpeedSelector = {
-                            playerViewModel.setSpeedSelectorVisibility(true)
-                        },
-                        playbackSpeed = uiState.playbackSpeed,
-                        onToggleLyrics = playerViewModel::toggleLyrics,
-                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                    )
+
+                    PlayerControlsSection(uiState, playerViewModel)
+                    
                 }
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -194,30 +181,7 @@ fun PlayerScreen(
                         onToggleLike = playerViewModel::toggleLike,
                     )
 
-                    PlayerControls(
-                        isPlaying = uiState.isPlaying,
-                        isLoading = uiState.isLoading,
-                        isLyricsShown = uiState.lyricsShown,
-                        progress = playerViewModel.playbackProgress,
-                        onSeek = playerViewModel::seek,
-                        onSeekPlayer = playerViewModel::seekPlayer,
-                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                        onOpenQueue = {
-                            playerViewModel.setQueueVisibility(true)
-                        },
-                        onOpenVolume = {
-                            playerViewModel.updateShowVolumeDialog(true)
-                        },
-                        onOpenSleepTimer = {
-                            playerViewModel.setSleepTimerSheetVisibility(true)
-                        },
-                        onOpenSpeedSelector = {
-                            playerViewModel.setSpeedSelectorVisibility(true)
-                        },
-                        playbackSpeed = uiState.playbackSpeed,
-                        onToggleLyrics = playerViewModel::toggleLyrics,
-                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                    )
+                    PlayerControlsSection(uiState, playerViewModel)
                 }
             }
 
@@ -283,6 +247,61 @@ fun Thumbnail(
             )
         }
     }
+}
+
+private fun Modifier.swipeUpToOpen(
+    thresholdPx: Float,
+    onTriggered: () -> Unit,
+): Modifier = pointerInput(Unit) {
+    awaitEachGesture {
+        var accumulatedDrag = 0f
+        var triggered = false
+        awaitFirstDown(requireUnconsumed = false)
+        do {
+            val event = awaitPointerEvent(PointerEventPass.Main)
+            val change = event.changes.firstOrNull { it.pressed } ?: break
+            if (triggered) {
+                change.consume()
+            } else {
+                val dy = change.position.y - change.previousPosition.y
+                accumulatedDrag += dy
+                if (accumulatedDrag < -thresholdPx) {
+                    triggered = true
+                    onTriggered()
+                    change.consume()
+                }
+            }
+        } while (event.changes.any { it.pressed })
+    }
+}
+
+@Composable
+private fun PlayerControlsSection(
+    uiState: PlayerState,
+    playerViewModel: PlayerViewModel,
+) {
+    val density = LocalDensity.current
+    val swipeUpThresholdPx = with(density) { 48.dp.toPx() }
+
+    PlayerControls(
+        isPlaying = uiState.isPlaying,
+        isLoading = uiState.isLoading,
+        isLyricsShown = uiState.lyricsShown,
+        progress = playerViewModel.playbackProgress,
+        onSeek = playerViewModel::seek,
+        onSeekPlayer = playerViewModel::seekPlayer,
+        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+        onOpenQueue = { playerViewModel.setQueueVisibility(true) },
+        onOpenVolume = { playerViewModel.updateShowVolumeDialog(true) },
+        onOpenSleepTimer = { playerViewModel.setSleepTimerSheetVisibility(true) },
+        onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
+        playbackSpeed = uiState.playbackSpeed,
+        onToggleLyrics = playerViewModel::toggleLyrics,
+        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+        modifier = Modifier.swipeUpToOpen(swipeUpThresholdPx) {
+            playerViewModel.setQueueVisibility(true)
+        },
+    )
 }
 
 

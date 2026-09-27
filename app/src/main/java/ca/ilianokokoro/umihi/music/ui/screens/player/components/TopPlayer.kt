@@ -2,11 +2,13 @@ package ca.ilianokokoro.umihi.music.ui.screens.player.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
@@ -29,7 +31,7 @@ fun TopPlayer(
     } else {
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = modifier
+            modifier = modifier.padding(16.dp)
         ) {
             when (lyricsState) {
                 is LyricsState.Loaded -> {
