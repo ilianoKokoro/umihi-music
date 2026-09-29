@@ -246,81 +246,81 @@ fun PlaylistScreen(
                                         )
                                     }
 
-                                    if (uiState.screenState is ScreenState.Loading) {
-                                        Unit
-                                    } else if (playlistInfo.songs.isNotEmpty()) {
-                                        val filteredSongs = if (uiState.searchQuery.isBlank()) {
-                                            songs
-                                        } else {
-                                            songs.filter { song ->
-                                                song.title.contains(
-                                                    uiState.searchQuery,
-                                                    ignoreCase = true
-                                                ) ||
-                                                        song.artist.contains(
-                                                            uiState.searchQuery,
-                                                            ignoreCase = true
-                                                        )
+                                    if (uiState.screenState !is ScreenState.Loading) {
+                                        if (playlistInfo.songs.isNotEmpty()) {
+                                            val filteredSongs = if (uiState.searchQuery.isBlank()) {
+                                                songs
+                                            } else {
+                                                songs.filter { song ->
+                                                    song.title.contains(
+                                                        uiState.searchQuery,
+                                                        ignoreCase = true
+                                                    ) ||
+                                                            song.artist.contains(
+                                                                uiState.searchQuery,
+                                                                ignoreCase = true
+                                                            )
+                                                }
                                             }
-                                        }
 
-                                        if (uiState.searchQuery.isNotBlank() && filteredSongs.isEmpty()) {
-                                            item {
-                                                Text(
-                                                    text = stringResource(R.string.no_results),
-                                                    textAlign = TextAlign.Center,
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .padding(32.dp)
-                                                )
-                                            }
-                                        }
-
-                                        items(
-                                            items = filteredSongs,
-                                            key = { song ->
-                                                song.uid
-                                            }
-                                        ) { song ->
-                                            SongListItem(
-                                                song,
-                                                onPress = {
-                                                    onOpenPlayer()
-                                                    playlistViewModel.playPlaylist(song)
-                                                },
-                                                playNext = {
-                                                    PlayerManager.addNext(song, application)
-                                                },
-                                                addToQueue = {
-                                                    PlayerManager.addToQueue(
-                                                        song,
-                                                        application
+                                            if (uiState.searchQuery.isNotBlank() && filteredSongs.isEmpty()) {
+                                                item {
+                                                    Text(
+                                                        text = stringResource(R.string.no_results),
+                                                        textAlign = TextAlign.Center,
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(32.dp)
                                                     )
-                                                },
-                                                download = {
-                                                    playlistViewModel.downloadSong(song)
-                                                },
-                                                addToPlaylist = if (isLoggedIn) {
-                                                    { addToPlaylistSong = song }
-                                                } else {
-                                                    null
-                                                },
-                                                removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
-                                                    { songToRemove = song }
-                                                } else {
-                                                    null
-                                                })
-                                        }
-                                    } else {
-                                        item {
-                                            Box(
-                                                modifier = Modifier.fillParentMaxSize(),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(
-                                                    stringResource(R.string.empty_playlist),
-                                                    textAlign = TextAlign.Center,
-                                                )
+                                                }
+                                            }
+
+                                            items(
+                                                items = filteredSongs,
+                                                key = { song ->
+                                                    song.uid
+                                                }
+                                            ) { song ->
+                                                SongListItem(
+                                                    song,
+                                                    onPress = {
+                                                        onOpenPlayer()
+                                                        playlistViewModel.playPlaylist(song)
+                                                    },
+                                                    playNext = {
+                                                        PlayerManager.addNext(song, application)
+                                                    },
+                                                    addToQueue = {
+                                                        PlayerManager.addToQueue(
+                                                            song,
+                                                            application
+                                                        )
+                                                    },
+                                                    download = {
+                                                        playlistViewModel.downloadSong(song)
+                                                    },
+                                                    addToPlaylist = if (isLoggedIn) {
+                                                        { addToPlaylistSong = song }
+                                                    } else {
+                                                        null
+                                                    },
+                                                    removeFromPlaylist = if (isLoggedIn && playlistViewModel.isUserEditablePlaylist) {
+                                                        { songToRemove = song }
+                                                    } else {
+                                                        null
+                                                    })
+                                            }
+                                        } else {
+                                            item {
+                                                Box(
+                                                    modifier = Modifier.fillParentMaxSize(),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    Text(
+                                                        stringResource(R.string.empty_playlist),
+                                                        textAlign = TextAlign.Center,
+                                                    )
+                                                }
                                             }
                                         }
                                     }
