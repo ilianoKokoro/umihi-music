@@ -2,7 +2,11 @@ package ca.ilianokokoro.umihi.music.models.lyrics
 
 class Lyrics(
     private val lines: List<SyncedLine>,
+    val unsyncedLyrics: String?,
 ) {
+
+    val hasSynced
+        get() = lines.isNotEmpty()
 
     val displayLines = lines.map {
         var cleaned = it.copy(text = it.text.trim())

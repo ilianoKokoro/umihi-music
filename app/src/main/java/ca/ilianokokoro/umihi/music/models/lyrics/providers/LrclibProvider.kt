@@ -34,7 +34,7 @@ class LrcLibProvider(
 
     override suspend fun getLyrics(query: LyricsQuery): Lyrics? =
         withContext(Dispatchers.IO) {
-            fetchExact(query) ?: fetchSearch(query)
+            fetchExact(query)
         }
 
     private fun fetchExact(query: LyricsQuery): Lyrics? =
@@ -88,15 +88,18 @@ class LrcLibProvider(
             .addQueryParameter(PARAM_ARTIST, query.artist)
             .build()
 
-    private fun LrcLibResponse.toLyrics(): Lyrics? {
-        if (this.syncedLyrics.isNullOrBlank()) {
-            return null
-        }
-
-        return Lyrics(lines = parseSyncedLyrics(this.syncedLyrics))
+    private fun LrcLibResponse.toLyrics(): Lyrics {
+        return Lyrics(
+            lines = parseSyncedLyrics(this.syncedLyrics),
+            unsyncedLyrics = this.plainLyrics
+        )
     }
 
-    private fun parseSyncedLyrics(raw: String): List<SyncedLine> {
+    private fun parseSyncedLyrics(raw: String?): List<SyncedLine> {
+        if (raw.isNullOrBlank()) {
+            return listOf()
+        }
+
         return raw.lineSequence()
             .mapNotNull { LRC_LINE_REGEX.matchEntire(it.trim()) }
             .map { match ->

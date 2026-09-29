@@ -5,7 +5,8 @@ import ca.ilianokokoro.umihi.music.models.Song
 data class LyricsQuery(
     val title: String,
     val artist: String,
-    val durationMs: Long
+    val durationMs: Long,
+    val album: String = "",
 ) {
     companion object {
         fun fromSong(song: Song): LyricsQuery {

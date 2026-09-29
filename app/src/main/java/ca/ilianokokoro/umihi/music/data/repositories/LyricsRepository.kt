@@ -2,8 +2,8 @@ package ca.ilianokokoro.umihi.music.data.repositories
 
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.lyrics.Lyrics
-import ca.ilianokokoro.umihi.music.models.lyrics.LyricsProvider
 import ca.ilianokokoro.umihi.music.models.lyrics.LyricsQuery
+import ca.ilianokokoro.umihi.music.models.lyrics.providers.BetterLyricsProvider
 import ca.ilianokokoro.umihi.music.models.lyrics.providers.LrcLibProvider
 
 class LyricsRepository {
@@ -20,6 +20,9 @@ class LyricsRepository {
     }
 
     companion object {
-        private val ORDER = listOf<LyricsProvider>(LrcLibProvider())
+        private val ORDER = listOf(
+            LrcLibProvider(),
+            BetterLyricsProvider(),
+        )
     }
 }
