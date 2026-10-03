@@ -125,6 +125,7 @@
     <string name="playback_speed">سرعة التشغيل</string>
     <string name="unlike">خلافا</string>
     <string name="like">إعجاب</string>
+    <string name="share">مشاركة</string>
     <string name="song_downloaded">تم تنزيل الأغنية</string>
     <string name="download_failed">فشل التحميل</string>
     <string name="failed_to_download_song">فشل تحميل %1$s - %2$s</string>

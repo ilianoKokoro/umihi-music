@@ -125,6 +125,7 @@
     <string name="playback_speed">Uppspelningshastighet</string>
     <string name="unlike">Ogilla</string>
     <string name="like">Gilla</string>
+    <string name="share">Dela</string>
     <string name="song_downloaded">Låten hämtad</string>
     <string name="download_failed">Nedladdning misslyckades</string>
     <string name="failed_to_download_song">Det gick inte att ladda ner %1$s - %2$s</string>

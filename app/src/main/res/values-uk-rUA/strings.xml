@@ -125,6 +125,7 @@
     <string name="playback_speed">Швидкість відтворення</string>
     <string name="unlike">На відміну від</string>
     <string name="like">Подобається</string>
+    <string name="share">Поділитись</string>
     <string name="song_downloaded">Пісню завантажено</string>
     <string name="download_failed">Не вдалося завантажити</string>
     <string name="failed_to_download_song">Не вдалося завантажити %1$s - %2$s</string>

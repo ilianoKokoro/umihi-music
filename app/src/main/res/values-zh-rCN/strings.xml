@@ -125,6 +125,7 @@
     <string name="playback_speed">回放速度</string>
     <string name="unlike">不匹配</string>
     <string name="like">赞</string>
+    <string name="share">分享</string>
     <string name="song_downloaded">歌曲已下载</string>
     <string name="download_failed">下载失败</string>
     <string name="failed_to_download_song">无法下载 %1$s - %2$s</string>

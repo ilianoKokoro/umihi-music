@@ -125,6 +125,7 @@
     <string name="playback_speed">Toiston Nopeus</string>
     <string name="unlike">Toisin</string>
     <string name="like">Tykkää</string>
+    <string name="share">Jaa</string>
     <string name="song_downloaded">Kappale ladattu</string>
     <string name="download_failed">Lataus epäonnistui</string>
     <string name="failed_to_download_song">%1$s lataaminen epäonnistui - %2$s</string>

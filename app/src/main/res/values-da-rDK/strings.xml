@@ -125,6 +125,7 @@
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="unlike">I modsætning</string>
     <string name="like">Ligesom</string>
+    <string name="share">Del</string>
     <string name="song_downloaded">Sang downloadet</string>
     <string name="download_failed">Download mislykkedes</string>
     <string name="failed_to_download_song">Kunne ikke downloade %1$s - %2$s</string>

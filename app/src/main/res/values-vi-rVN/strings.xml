@@ -125,6 +125,7 @@
     <string name="playback_speed">Tốc độ phát</string>
     <string name="unlike">Bỏ thích</string>
     <string name="like">Thích</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Bài hát đã được tải xuống</string>
     <string name="download_failed">Tải xuống thất bại</string>
     <string name="failed_to_download_song">Tải xuống thất bại %1$s - %2$s</string>
