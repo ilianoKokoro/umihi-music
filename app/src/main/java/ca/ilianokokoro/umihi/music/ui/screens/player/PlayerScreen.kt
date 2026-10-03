@@ -24,6 +24,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -40,6 +44,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -52,6 +57,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
@@ -73,6 +79,7 @@ fun PlayerScreen(
     )
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
+    val context = LocalContext.current
     val orientation = LocalConfiguration.current.orientation
     val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
@@ -134,6 +141,7 @@ fun PlayerScreen(
                         isLiked = uiState.isLiked,
                         isLiking = uiState.isLiking,
                         onToggleLike = playerViewModel::toggleLike,
+                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
 
                     PlayerControlsSection(uiState, playerViewModel)
@@ -179,6 +187,7 @@ fun PlayerScreen(
                         isLiking = uiState.isLiking,
 
                         onToggleLike = playerViewModel::toggleLike,
+                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
 
                     PlayerControlsSection(uiState, playerViewModel)
@@ -312,8 +321,11 @@ fun SongInfo(
     isLiked: Boolean = false,
     isLiking: Boolean = false,
     onToggleLike: () -> Unit = {},
+    onShare: () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
+    val actionButtonInteractionSources =
+        List(2) { ComposeHelper.rememberInteractionSource() }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -321,11 +333,7 @@ fun SongInfo(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = if (isLoggedIn) {
-                Modifier.weight(1f)
-            } else {
-                Modifier.fillMaxWidth()
-            },
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -352,39 +360,103 @@ fun SongInfo(
             )
         }
 
-        if (isLoggedIn) {
-            Box(modifier = Modifier.padding(start = 8.dp)) {
-                FilledIconToggleButton(
-                    checked = isLiked,
-                    onCheckedChange = {
-                        if (isLiking) {
-                            return@FilledIconToggleButton
-                        }
+        Box(modifier = Modifier.padding(start = 8.dp)) {
+            if (isLoggedIn) {
+                ButtonGroup(
+                    overflowIndicator = {},
+                    horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
+                ) {
+                    customItem(
+                        buttonGroupContent = {
+                            FilledIconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                    onShare()
+                                },
+                                interactionSource = actionButtonInteractionSources[0],
+                                shapes = IconButtonDefaults.shapes(
+                                    shape = ButtonGroupDefaults.connectedLeadingButtonShape,
+                                    pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
+                                ),
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                                modifier = Modifier
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[0])
+
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Share,
+                                    contentDescription = stringResource(R.string.share)
+                                )
+                            }
+
+                        },
+                        menuContent = {}
+                    )
+                    customItem(
+                        buttonGroupContent = {
+                            FilledIconToggleButton(
+                                checked = isLiked,
+                                onCheckedChange = {
+                                    if (isLiking) {
+                                        return@FilledIconToggleButton
+                                    }
+                                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                    onToggleLike()
+                                },
+                                interactionSource = actionButtonInteractionSources[1],
+                                shapes = IconButtonDefaults.toggleableShapes(
+                                    shape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                    pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
+                                    checkedShape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                ),
+                                colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface,
+                                    checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                    checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                ),
+                                modifier = Modifier
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[1])
+                            ) {
+                                Icon(
+                                    imageVector = if (isLiked) {
+                                        Icons.Rounded.Favorite
+                                    } else {
+                                        Icons.Rounded.FavoriteBorder
+                                    },
+                                    contentDescription = if (isLiked) {
+                                        stringResource(R.string.unlike)
+                                    } else {
+                                        stringResource(R.string.like)
+                                    }
+                                )
+                            }
+                        },
+                        menuContent = {}
+                    )
+                }
+            } else {
+                FilledIconButton(
+                    onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                        onToggleLike()
+                        onShare()
                     },
-                    shapes = IconButtonDefaults.toggleableShapes(),
-                    colors = IconButtonDefaults.filledIconToggleButtonColors(
+                    shapes = IconButtonDefaults.shapes(),
+                    colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        contentColor = MaterialTheme.colorScheme.onSurface,
-                        checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
-                        checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                        contentColor = MaterialTheme.colorScheme.onSurface
                     ),
                 ) {
                     Icon(
-                        imageVector = if (isLiked) {
-                            Icons.Rounded.Favorite
-                        } else {
-                            Icons.Rounded.FavoriteBorder
-                        },
-                        contentDescription = if (isLiked) {
-                            stringResource(R.string.unlike)
-                        } else {
-                            stringResource(R.string.like)
-                        }
+                        imageVector = Icons.Rounded.Share,
+                        contentDescription = stringResource(R.string.share)
                     )
                 }
             }
         }
     }
 }
+

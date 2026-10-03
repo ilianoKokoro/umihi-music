@@ -2,6 +2,8 @@ package ca.ilianokokoro.umihi.music.ui.screens.player
 
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,12 +15,14 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.LyricsRepository
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -206,6 +210,17 @@ class PlayerViewModel(application: Application) :
                 )
             }
         }
+    }
+
+    fun shareSong(context: Context, song: Song) {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "${song.title} - ${song.artists}")
+            putExtra(Intent.EXTRA_TEXT, song.youtubeUrl)
+        }
+        context.startActivity(
+            Intent.createChooser(shareIntent, context.getString(R.string.share))
+        )
     }
 
     private fun updateCurrentSong() {
