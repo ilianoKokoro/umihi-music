@@ -125,6 +125,7 @@
     <string name="playback_speed">Kecepatan Pemutaran</string>
     <string name="unlike">Batal Suka</string>
     <string name="like">Suka</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Lagu terunduh</string>
     <string name="download_failed">Unduh gagal</string>
     <string name="failed_to_download_song">Gagal untuk mengunduh %1$s - %2$s</string>
