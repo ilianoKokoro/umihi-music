@@ -215,7 +215,7 @@ object NotificationManager {
                 context.getString(
                     R.string.failed_to_download_song,
                     song.title,
-                    song.artist
+                    song.artists
                 )
             )
             .setSmallIcon(android.R.drawable.stat_notify_error)

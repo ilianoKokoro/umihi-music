@@ -256,7 +256,7 @@ fun PlaylistScreen(
                                                         uiState.searchQuery,
                                                         ignoreCase = true
                                                     ) ||
-                                                            song.artist.contains(
+                                                            song.artists.contains(
                                                                 uiState.searchQuery,
                                                                 ignoreCase = true
                                                             )

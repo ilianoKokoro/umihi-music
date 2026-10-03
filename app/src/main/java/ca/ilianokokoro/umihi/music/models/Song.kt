@@ -29,7 +29,7 @@ data class Song(
     @PrimaryKey
     val youtubeId: String,
     val title: String = "",
-    val artist: String = "",
+    val artists: String = "",
     val duration: String = "",
     val thumbnailHref: String = "",
     val thumbnailPath: String? = null,
@@ -71,7 +71,7 @@ data class Song(
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(title)
-                        .setArtist(artist)
+                        .setArtist(artists)
                         .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                         .setIsBrowsable(false)
                         .setIsPlayable(true)
@@ -92,7 +92,7 @@ data class Song(
 
     val fileName: String
         get() {
-            val template = "$title - $artist [$youtubeId]"
+            val template = "$title - $artists [$youtubeId]"
             return template.sanitizeFilename()
         }
 

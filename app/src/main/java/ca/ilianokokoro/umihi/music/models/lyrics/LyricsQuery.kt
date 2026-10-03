@@ -13,7 +13,7 @@ data class LyricsQuery(
             val durationSeconds = song.durationSeconds ?: 0
             return LyricsQuery(
                 title = song.title,
-                artist = song.artist,
+                artist = song.artists,
                 durationMs = durationSeconds * 1_000L
             )
         }

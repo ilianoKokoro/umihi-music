@@ -140,7 +140,7 @@ fun MiniPlayer(
                                     }
                                 }
                             }
-                            
+
                             val target = when {
                                 releaseVelocity <= -minFlingVelocity -> MiniPlayerAnchor.Expanded
                                 releaseVelocity >= minFlingVelocity -> MiniPlayerAnchor.Dismissed
@@ -213,7 +213,7 @@ fun MiniPlayer(
                     modifier = Modifier.basicMarquee()
                 )
                 Text(
-                    text = currentSong.artist,
+                    text = currentSong.artists,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

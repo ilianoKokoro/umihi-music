@@ -151,7 +151,7 @@ fun SongListItem(
 
 
                 Text(
-                    text = "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                    text = "${song.artists} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

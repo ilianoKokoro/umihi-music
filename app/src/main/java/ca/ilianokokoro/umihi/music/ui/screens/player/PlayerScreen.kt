@@ -137,7 +137,7 @@ fun PlayerScreen(
                     )
 
                     PlayerControlsSection(uiState, playerViewModel)
-                    
+
                 }
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -343,7 +343,7 @@ fun SongInfo(
                 )
             }
             Text(
-                text = song?.artist ?: "",
+                text = song?.artists ?: "",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Bold

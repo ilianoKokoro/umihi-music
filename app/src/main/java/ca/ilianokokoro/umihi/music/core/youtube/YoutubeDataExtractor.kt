@@ -78,14 +78,20 @@ object YoutubeDataExtractor {
     }
 
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
-        return songMap.safeObject()?.get("flexColumns")
-            ?.safeArray()?.getOrNull(songInfoIndex.index)
-            ?.safeObject()?.get("musicResponsiveListItemFlexColumnRenderer")
-            ?.safeObject()?.get("text")
-            ?.safeObject()?.get("runs")
-            ?.safeArray()?.getOrNull(0)
-            ?.safeObject()?.get("text")
-            ?.jsonPrimitive?.contentOrNull ?: ""
+        return songMap.safeObject()
+            ?.get("flexColumns")
+            ?.safeArray()
+            ?.getOrNull(songInfoIndex.index)
+            ?.safeObject()
+            ?.get("musicResponsiveListItemFlexColumnRenderer")
+            ?.safeObject()
+            ?.get("text")
+            ?.safeObject()
+            ?.get("runs")
+            ?.safeArray()
+            ?.mapNotNull { it.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull }
+            ?.joinToString("")
+            ?: ""
     }
 
     suspend fun extractPlaylists(
@@ -747,7 +753,8 @@ object YoutubeDataExtractor {
 
         val videoId = details?.get("videoId")?.jsonPrimitive?.contentOrNull ?: ""
         val title = details?.get("title")?.jsonPrimitive?.contentOrNull ?: ""
-        val author = details?.get("author")?.jsonPrimitive?.contentOrNull ?: ""
+
+        val artists = details?.get("author")?.jsonPrimitive?.contentOrNull ?: ""
         val lengthSeconds: Int =
             details?.get("lengthSeconds")?.jsonPrimitive?.contentOrNull?.toInt()
                 ?: 0
@@ -762,7 +769,7 @@ object YoutubeDataExtractor {
         return Song(
             youtubeId = videoId,
             title = title,
-            artist = author,
+            artists = artists,
             duration = formatSecondsForYouTubeDisplay(lengthSeconds),
             thumbnailHref = getBestThumbnailUrl(details?.get("thumbnail")),
             isExplicit = isExplicit
@@ -954,7 +961,7 @@ object YoutubeDataExtractor {
         val unavailable =
             songContent["musicItemRendererDisplayPolicy"]?.jsonPrimitive?.contentOrNull == "MUSIC_ITEM_RENDERER_DISPLAY_POLICY_GREY_OUT"
         val title = getSongInfo(songContent, SongInfoType.TITLE)
-        val artist = getSongInfo(songContent, SongInfoType.ARTIST)
+        val artists = getSongInfo(songContent, SongInfoType.ARTISTS)
         val videoId = songContent["playlistItemData"]
             ?.safeObject()?.get("videoId")
             ?.jsonPrimitive?.contentOrNull ?: return null
@@ -997,7 +1004,7 @@ object YoutubeDataExtractor {
         return Song(
             youtubeId = videoId,
             title = title,
-            artist = artist,
+            artists = artists,
             duration = duration,
             thumbnailHref = thumbnailUrl,
             isExplicit = isExplicit,
@@ -1315,5 +1322,5 @@ object YoutubeDataExtractor {
 
 enum class SongInfoType(val index: Int) {
     TITLE(0),
-    ARTIST(1),
+    ARTISTS(1),
 }
