@@ -368,6 +368,10 @@ object Constants {
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
+        object SearchAutocomplete {
+            const val URL =
+                "https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false"
+        }
 
     }
 }

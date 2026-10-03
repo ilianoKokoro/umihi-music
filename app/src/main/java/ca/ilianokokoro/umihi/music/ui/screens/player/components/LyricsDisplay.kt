@@ -31,7 +31,7 @@ fun LyricsDisplay(
 ) {
     val listState = rememberLazyListState()
     val currentLineIndex by remember(lyrics) {
-        derivedStateOf { lyrics.indexOfCurrentLine(positionMs()) ?: 0 }
+        derivedStateOf { lyrics.indexOfCurrentLine(positionMs()) }
     }
     val density = LocalDensity.current
     val scrollOffset = with(density) { 100.dp.toPx().roundToInt() }

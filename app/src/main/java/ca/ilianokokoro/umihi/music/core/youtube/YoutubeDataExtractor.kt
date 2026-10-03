@@ -714,6 +714,39 @@ object YoutubeDataExtractor {
         return playlistInfo
     }
 
+    fun extractSearchAutocompleteResults(jsonString: String): List<String> {
+        val json = Json.parseToJsonElement(jsonString)
+
+        return json.safeObject()
+            ?.get("contents")
+            ?.safeArray()
+            ?.flatMap { section ->
+                section.safeObject()
+                    ?.get("searchSuggestionsSectionRenderer")
+                    ?.safeObject()
+                    ?.get("contents")
+                    ?.safeArray()
+                    ?.mapNotNull { item ->
+                        item.safeObject()
+                            ?.get("searchSuggestionRenderer")
+                            ?.safeObject()
+                            ?.get("suggestion")
+                            ?.safeObject()
+                            ?.get("runs")
+                            ?.safeArray()
+                            ?.mapNotNull { run ->
+                                run.safeObject()
+                                    ?.get("text")
+                                    ?.jsonPrimitive
+                                    ?.contentOrNull
+                            }
+                            ?.joinToString("")
+                    }
+                    ?: emptyList()
+            }
+            ?: emptyList()
+    }
+
     fun extractSearchResults(jsonString: String): List<Song> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 

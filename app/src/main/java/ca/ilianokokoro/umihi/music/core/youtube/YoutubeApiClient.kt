@@ -345,6 +345,15 @@ object YoutubeApiClient {
         )
     }
 
+    suspend fun searchAutoComplete(query: String): String {
+        return requestWithContext(
+            url = Constants.YoutubeApi.SearchAutocomplete.URL,
+            idName = "input",
+            id = query
+        )
+    }
+
+
     suspend fun search(query: String): String {
         return requestWithContext(
             url = Constants.YoutubeApi.Search.URL,

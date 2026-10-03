@@ -17,7 +17,8 @@ class SongRepository(
 ) {
     private val songDataSource = SongDataSource()
     private val datastoreRepository = application?.let { DatastoreRepository(it) }
-    private val localSongDataSource = application?.let { AppDatabase.getInstance(it).songRepository() }
+    private val localSongDataSource =
+        application?.let { AppDatabase.getInstance(it).songRepository() }
 
     fun search(query: String): Flow<ApiResult<List<Song>>> {
         return flow {
@@ -33,6 +34,21 @@ class SongRepository(
             emit(ApiResult.Error(e.toException()))
         }.flowOn(Dispatchers.IO)
     }
+
+    fun searchAutocomplete(query: String): Flow<ApiResult<List<String>>> {
+        return flow {
+            emit(ApiResult.Loading)
+            val offlineMode = datastoreRepository?.getSettings()?.offlineMode == true
+            if (offlineMode) {
+                emit(ApiResult.Success(listOf()))
+            } else {
+                emit(ApiResult.Success(songDataSource.searchAutoComplete(query)))
+            }
+        }.catch { e ->
+            emit(ApiResult.Error(e.toException()))
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     fun getSongInfo(songId: String): Flow<ApiResult<Song>> {
         return flow {
