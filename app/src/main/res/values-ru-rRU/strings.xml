@@ -125,6 +125,7 @@
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="unlike">Не нравится</string>
     <string name="like">Лайк</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Песня загружена</string>
     <string name="download_failed">Ошибка загрузки</string>
     <string name="failed_to_download_song">Не удалось загрузить %1$s - %2$s</string>
