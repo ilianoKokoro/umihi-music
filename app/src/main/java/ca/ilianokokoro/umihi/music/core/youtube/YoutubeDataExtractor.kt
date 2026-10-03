@@ -77,6 +77,21 @@ object YoutubeDataExtractor {
         return ""
     }
 
+    private fun JsonElement.musicPageType(): String? {
+        return safeObject()
+            ?.get("navigationEndpoint")
+            ?.safeObject()
+            ?.get("browseEndpoint")
+            ?.safeObject()
+            ?.get("browseEndpointContextSupportedConfigs")
+            ?.safeObject()
+            ?.get("browseEndpointContextMusicConfig")
+            ?.safeObject()
+            ?.get("pageType")
+            ?.jsonPrimitive
+            ?.contentOrNull
+    }
+
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
         return songMap.safeObject()
             ?.get("flexColumns")
@@ -102,24 +117,11 @@ object YoutubeDataExtractor {
 
                     SongInfoType.ARTISTS -> {
                         val artistIndices = runs.mapIndexedNotNull { index, run ->
-                            val pageType = run
-                                .safeObject()
-                                ?.get("navigationEndpoint")
-                                ?.safeObject()
-                                ?.get("browseEndpoint")
-                                ?.safeObject()
-                                ?.get("browseEndpointContextSupportedConfigs")
-                                ?.safeObject()
-                                ?.get("browseEndpointContextMusicConfig")
-                                ?.safeObject()
-                                ?.get("pageType")
-                                ?.jsonPrimitive
-                                ?.contentOrNull
+                            when (run.musicPageType()) {
+                                "MUSIC_PAGE_TYPE_ARTIST",
+                                "MUSIC_PAGE_TYPE_USER_CHANNEL" -> index
 
-                            if (pageType == "MUSIC_PAGE_TYPE_ARTIST") {
-                                index
-                            } else {
-                                null
+                                else -> null
                             }
                         }
 
