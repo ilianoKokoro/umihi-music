@@ -125,6 +125,7 @@
     <string name="playback_speed">Ταχύτητα Αναπαραγωγής</string>
     <string name="unlike">Σε αντίθεση</string>
     <string name="like">Αρέσει</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Το τραγούδι κατέβηκε</string>
     <string name="download_failed">Αποτυχία λήψης</string>
     <string name="failed_to_download_song">Αποτυχία λήψης %1$s - %2$s</string>
