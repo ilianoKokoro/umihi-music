@@ -125,6 +125,7 @@
     <string name="playback_speed">Bilis ng Pagpatugtog</string>
     <string name="unlike">Hindi Gusto</string>
     <string name="like">Gusto</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Nai-download ang kanta</string>
     <string name="download_failed">Pumalya ang pagdownload</string>
     <string name="failed_to_download_song">Pumalya ang pagdownload ng %1$s-%2$s</string>
