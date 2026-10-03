@@ -125,7 +125,7 @@
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="unlike">Nelíbí se mi</string>
     <string name="like">Líbí se mi</string>
-    <string name="share">Share</string>
+    <string name="share">Sdílet</string>
     <string name="song_downloaded">Skladba stažena</string>
     <string name="download_failed">Stahování se nezdařilo</string>
     <string name="failed_to_download_song">Nepodařilo se stáhnout %1$s - %2$s</string>
