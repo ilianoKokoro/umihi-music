@@ -89,8 +89,59 @@ object YoutubeDataExtractor {
             ?.safeObject()
             ?.get("runs")
             ?.safeArray()
-            ?.mapNotNull { it.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull }
-            ?.joinToString("")
+            ?.let { runs ->
+                when (songInfoIndex) {
+                    SongInfoType.TITLE -> {
+                        runs.mapNotNull { run ->
+                            run.safeObject()
+                                ?.get("text")
+                                ?.jsonPrimitive
+                                ?.contentOrNull
+                        }.joinToString("")
+                    }
+
+                    SongInfoType.ARTISTS -> {
+                        val artistIndices = runs.mapIndexedNotNull { index, run ->
+                            val pageType = run
+                                .safeObject()
+                                ?.get("navigationEndpoint")
+                                ?.safeObject()
+                                ?.get("browseEndpoint")
+                                ?.safeObject()
+                                ?.get("browseEndpointContextSupportedConfigs")
+                                ?.safeObject()
+                                ?.get("browseEndpointContextMusicConfig")
+                                ?.safeObject()
+                                ?.get("pageType")
+                                ?.jsonPrimitive
+                                ?.contentOrNull
+
+                            if (pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+                                index
+                            } else {
+                                null
+                            }
+                        }
+
+                        if (artistIndices.isEmpty()) {
+                            ""
+                        } else {
+                            val firstArtist = artistIndices.first()
+                            val lastArtist = artistIndices.last()
+
+                            runs
+                                .subList(firstArtist, lastArtist + 1)
+                                .mapNotNull { run ->
+                                    run.safeObject()
+                                        ?.get("text")
+                                        ?.jsonPrimitive
+                                        ?.contentOrNull
+                                }
+                                .joinToString("")
+                        }
+                    }
+                }
+            }
             ?: ""
     }
 
