@@ -130,6 +130,7 @@
     <string name="khz" translatable="false">%.1f kHz</string>
     <string name="unlike">Unlike</string>
     <string name="like">Like</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Song downloaded</string>
     <string name="download_failed">Download failed</string>
     <string name="failed_to_download_song">Failed to download %1$s - %2$s</string>
