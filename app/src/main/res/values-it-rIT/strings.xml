@@ -125,6 +125,7 @@
     <string name="playback_speed">Velocità Di Riproduzione</string>
     <string name="unlike">A differenza</string>
     <string name="like">Like</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Brano scaricato</string>
     <string name="download_failed">Download non riuscito</string>
     <string name="failed_to_download_song">Scaricamento di %1$s - %2$s non riuscito</string>
