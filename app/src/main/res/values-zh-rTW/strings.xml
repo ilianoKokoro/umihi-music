@@ -125,6 +125,7 @@
     <string name="playback_speed">播放速度</string>
     <string name="unlike">取消讚</string>
     <string name="like">讚</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">歌曲已下載</string>
     <string name="download_failed">下載失敗</string>
     <string name="failed_to_download_song">%1$s - %2$s 下載失敗</string>
