@@ -125,7 +125,7 @@
     <string name="playback_speed">再生速度</string>
     <string name="unlike">いいね！を解除</string>
     <string name="like">いいね！</string>
-    <string name="share">Share</string>
+    <string name="share">共有</string>
     <string name="song_downloaded">曲をダウンロードしました</string>
     <string name="download_failed">ダウンロードに失敗しました</string>
     <string name="failed_to_download_song">%1$s のダウンロードに失敗しました - %2$s</string>
