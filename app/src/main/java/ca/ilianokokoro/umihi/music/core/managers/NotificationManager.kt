@@ -19,6 +19,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 import kotlin.math.abs
+import kotlin.time.Duration.Companion.milliseconds
 import android.app.NotificationManager as AndroidNotificationManager
 
 object NotificationManager {
@@ -61,13 +62,6 @@ object NotificationManager {
         }
     }
 
-    /**
-     * @param droppable intermediate updates (progress) that may be skipped when posting too fast.
-     * Final states (success, failure, canceled) are never dropped: they wait for their turn instead.
-     *
-     * Runs in [NonCancellable] so that final notifications can still be posted
-     * from a worker that is being cancelled.
-     */
     private suspend fun postNotification(
         id: Int,
         notification: android.app.Notification,
@@ -78,7 +72,7 @@ object NotificationManager {
                 val wait = MIN_POST_INTERVAL_MS - (SystemClock.elapsedRealtime() - lastPostAt)
                 if (wait > 0) {
                     if (droppable) return@withLock
-                    delay(wait)
+                    delay(wait.milliseconds)
                 }
                 withContext(notifyDispatcher) {
                     androidNotificationManager.notify(id, notification)
@@ -172,11 +166,19 @@ object NotificationManager {
         val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle(playlist.info.title)
             .setContentText(
-                context.getString(
-                    R.string.number_of_songs_downloaded,
-                    downloadedSongs,
-                    totalSongs
-                )
+
+                "${
+                    context.getString(
+                        R.string.playlist_downloaded,
+                    )
+                } :  ${
+                    context.getString(
+                        R.string.number_of_songs_downloaded,
+                        downloadedSongs,
+                        totalSongs
+                    )
+                }"
+
             )
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
             .setAutoCancel(true)
