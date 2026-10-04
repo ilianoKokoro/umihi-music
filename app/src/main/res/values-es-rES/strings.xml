@@ -3,7 +3,7 @@
     <string name="playlists">Listas</string>
     <string name="settings">Ajustes</string>
     <string name="back_description">Pantalla anterior</string>
-    <string name="no_playlists">No se encontraron listas</string>
+    <string name="no_playlists">No se encontraron playlists</string>
     <string name="playlist_cover">Portada de la playlist</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="empty_playlist">No hay canciones en la lista</string>
@@ -189,7 +189,7 @@
     <string name="download_location_warning_description">Cambiar la carpeta de descargas puede hacer que la aplicación deje de reconocer las canciones descargadas si sus archivos se mueven, renombran o modifican fuera de la aplicación. Asegúrate de mantener los archivos descargados en su ubicación original y sin modificaciones.</string>
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Las descargas deben ser restauradas</string>
-    <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="database_desctruction_text">Esta actualización cambió la forma en que se almacenan algunos datos, por lo que se restableció la información local de tus descargas. Tus archivos descargados siguen en tu dispositivo.\n\nPulsa el botón de descarga en tus playlists descargadas para restaurarlas. Los archivos existentes se detectarán y reutilizarán, por lo que no tendrás que descargarlos nuevamente.</string>
     <string name="lyrics">Letras</string>
     <string name="no_lyrics_found">No se encontraron letras</string>
 </resources>
