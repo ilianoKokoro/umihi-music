@@ -125,7 +125,7 @@
     <string name="playback_speed">Kecepatan Pemutaran</string>
     <string name="unlike">Batal Suka</string>
     <string name="like">Suka</string>
-    <string name="share">Share</string>
+    <string name="share">Bagikan</string>
     <string name="song_downloaded">Lagu terunduh</string>
     <string name="download_failed">Unduh gagal</string>
     <string name="failed_to_download_song">Gagal untuk mengunduh %1$s - %2$s</string>
@@ -190,6 +190,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">Unduhan perlu dipulihkan</string>
     <string name="database_desctruction_text">Pembaharuan ini mengganti sebagian dari cara data tersimpan. Jadi, data unduhan lokal telah dihapus. File unduhan anda tetap ada di perangkat anda.\n\n tekan tombol unduh di playlist yang sudah terunduh untuk memulihkannya. File yang sudah ada akan terdeteksi dan terpakai ulang, jadi tidak ada file yang akan terunduh ulang.</string>
-    <string name="lyrics">Lyrics</string>
-    <string name="no_lyrics_found">No lyrics found</string>
+    <string name="lyrics">Lirik</string>
+    <string name="no_lyrics_found">Tidak ada lirik</string>
 </resources>
