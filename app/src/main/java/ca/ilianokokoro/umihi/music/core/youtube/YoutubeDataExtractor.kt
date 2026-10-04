@@ -77,21 +77,6 @@ object YoutubeDataExtractor {
         return ""
     }
 
-    private fun JsonElement.musicPageType(): String? {
-        return safeObject()
-            ?.get("navigationEndpoint")
-            ?.safeObject()
-            ?.get("browseEndpoint")
-            ?.safeObject()
-            ?.get("browseEndpointContextSupportedConfigs")
-            ?.safeObject()
-            ?.get("browseEndpointContextMusicConfig")
-            ?.safeObject()
-            ?.get("pageType")
-            ?.jsonPrimitive
-            ?.contentOrNull
-    }
-
     fun getSongInfo(songMap: JsonElement, songInfoIndex: SongInfoType): String {
         return songMap.safeObject()
             ?.get("flexColumns")
@@ -104,44 +89,21 @@ object YoutubeDataExtractor {
             ?.safeObject()
             ?.get("runs")
             ?.safeArray()
+            ?.mapNotNull { run ->
+                run.safeObject()
+                    ?.get("text")
+                    ?.jsonPrimitive
+                    ?.contentOrNull
+            }
             ?.let { runs ->
                 when (songInfoIndex) {
-                    SongInfoType.TITLE -> {
-                        runs.mapNotNull { run ->
-                            run.safeObject()
-                                ?.get("text")
-                                ?.jsonPrimitive
-                                ?.contentOrNull
-                        }.joinToString("")
-                    }
+                    SongInfoType.TITLE ->
+                        runs.joinToString("")
 
-                    SongInfoType.ARTISTS -> {
-                        val artistIndices = runs.mapIndexedNotNull { index, run ->
-                            when (run.musicPageType()) {
-                                "MUSIC_PAGE_TYPE_ARTIST",
-                                "MUSIC_PAGE_TYPE_USER_CHANNEL" -> index
-
-                                else -> null
-                            }
-                        }
-
-                        if (artistIndices.isEmpty()) {
-                            ""
-                        } else {
-                            val firstArtist = artistIndices.first()
-                            val lastArtist = artistIndices.last()
-
-                            runs
-                                .subList(firstArtist, lastArtist + 1)
-                                .mapNotNull { run ->
-                                    run.safeObject()
-                                        ?.get("text")
-                                        ?.jsonPrimitive
-                                        ?.contentOrNull
-                                }
-                                .joinToString("")
-                        }
-                    }
+                    SongInfoType.ARTISTS ->
+                        runs
+                            .takeWhile { !it.contains(" • ") }
+                            .joinToString("")
                 }
             }
             ?: ""
