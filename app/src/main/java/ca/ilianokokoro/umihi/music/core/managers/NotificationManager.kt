@@ -4,13 +4,18 @@ import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
+import android.os.SystemClock
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 import kotlin.math.abs
@@ -20,6 +25,13 @@ object NotificationManager {
     private lateinit var androidNotificationManager: AndroidNotificationManager
     private lateinit var pendingIntent: PendingIntent
     private val notifyDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+
+    // Android sheds notification updates when an app posts more than ~5 per second.
+    // If the last update (success / failure) gets shed, the "ongoing" progress
+    // notification stays on screen forever, so we keep our own rate under that limit.
+    private val postLock = Mutex()
+    private var lastPostAt = 0L
+    private const val MIN_POST_INTERVAL_MS = 250L
 
     fun init(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
@@ -49,9 +61,30 @@ object NotificationManager {
         }
     }
 
-    private suspend fun postNotification(id: Int, notification: android.app.Notification) {
-        withContext(notifyDispatcher) {
-            androidNotificationManager.notify(id, notification)
+    /**
+     * @param droppable intermediate updates (progress) that may be skipped when posting too fast.
+     * Final states (success, failure, canceled) are never dropped: they wait for their turn instead.
+     *
+     * Runs in [NonCancellable] so that final notifications can still be posted
+     * from a worker that is being cancelled.
+     */
+    private suspend fun postNotification(
+        id: Int,
+        notification: android.app.Notification,
+        droppable: Boolean = false
+    ) {
+        withContext(NonCancellable) {
+            postLock.withLock {
+                val wait = MIN_POST_INTERVAL_MS - (SystemClock.elapsedRealtime() - lastPostAt)
+                if (wait > 0) {
+                    if (droppable) return@withLock
+                    delay(wait)
+                }
+                withContext(notifyDispatcher) {
+                    androidNotificationManager.notify(id, notification)
+                }
+                lastPostAt = SystemClock.elapsedRealtime()
+            }
         }
     }
 
@@ -103,8 +136,11 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        postNotification(getNotificationID(playlist.info.id), notification)
-        updateGroupSummary(context)
+        val isStart = currentSong == 0
+        postNotification(getNotificationID(playlist.info.id), notification, droppable = !isStart)
+        if (isStart) {
+            updateGroupSummary(context)
+        }
     }
 
     suspend fun showPlaylistDownloadSuccess(
@@ -114,6 +150,34 @@ object NotificationManager {
         val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle(playlist.info.title)
             .setContentText(context.getString(R.string.playlist_downloaded))
+            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+            .setAutoCancel(true)
+            .setOngoing(false)
+            .setProgress(0, 0, false)
+            .setGroup(NotificationChannels.PLAYLIST_DOWNLOAD.group)
+            .setCategory(NotificationCompat.CATEGORY_STATUS)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        postNotification(getNotificationID(playlist.info.id), notification)
+        updateGroupSummary(context)
+    }
+
+    suspend fun showPlaylistDownloadPartial(
+        context: Context,
+        playlist: Playlist,
+        downloadedSongs: Int,
+        totalSongs: Int
+    ) {
+        val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
+            .setContentTitle(playlist.info.title)
+            .setContentText(
+                context.getString(
+                    R.string.number_of_songs_downloaded,
+                    downloadedSongs,
+                    totalSongs
+                )
+            )
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
             .setAutoCancel(true)
             .setOngoing(false)
