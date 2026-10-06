@@ -163,7 +163,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>739 words</b></sub>
+        <sub><b>870 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
       </td>
       <td align="center" valign="top">
