@@ -125,6 +125,7 @@
     <string name="playback_speed">Viteza de redare</string>
     <string name="unlike">Spre deosebire</string>
     <string name="like">Apreciere</string>
+    <string name="share">Distribuie</string>
     <string name="song_downloaded">Melodie descărcată</string>
     <string name="download_failed">Descărcare eșuată</string>
     <string name="failed_to_download_song">Descărcarea %1$s - %2$s a eșuat</string>
@@ -189,4 +190,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Descărcările trebuie restabilite</string>
     <string name="database_desctruction_text">Această actualizare a schimbat modul în care sunt stocate unele date, astfel încât datele tale locale de descărcare au fost resetate. Fișierele descărcate sunt încă pe dispozitivul tău.\n\nApasă butonul de descărcare din listele tale de redare descărcate pentru a le restaura. Fișierele existente vor fi detectate și reutilizate, așa că nimic nu va fi descărcat din nou.</string>
+    <string name="lyrics">Versuri</string>
+    <string name="no_lyrics_found">Nu s-au găsit versuri</string>
 </resources>

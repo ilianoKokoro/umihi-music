@@ -50,7 +50,8 @@ class PlaylistDownloadWorker(
 
         return try {
             val totalSongs = playlist.songs.size
-            val downloadedSongs = AtomicInt(0)
+            val processedSongs = AtomicInt(0)
+            val failedSongs = AtomicInt(0)
 
             NotificationManager.showPlaylistDownloadProgress(
                 appContext,
@@ -101,6 +102,7 @@ class PlaylistDownloadWorker(
                                 printd("Song download canceled ${song.title}")
                                 throw e
                             } catch (e: Exception) {
+                                failedSongs.incrementAndFetch()
                                 NotificationManager.showSongDownloadFailed(appContext, song)
                                 printe(
                                     message = "Error downloading song: ${song.title}",
@@ -108,9 +110,9 @@ class PlaylistDownloadWorker(
                                 )
                             } finally {
                                 progressUpdate.withLock {
-                                    val downloaded = downloadedSongs.incrementAndFetch()
+                                    val processed = processedSongs.incrementAndFetch()
                                     NotificationManager.showPlaylistDownloadProgress(
-                                        appContext, playlist, downloaded, totalSongs
+                                        appContext, playlist, processed, totalSongs
                                     )
                                 }
                             }
@@ -119,8 +121,19 @@ class PlaylistDownloadWorker(
                 }.awaitAll()
             }
 
-            NotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
-            printd("Playlist download complete")
+            val failed = failedSongs.load()
+            when {
+                failed == 0 ->
+                    NotificationManager.showPlaylistDownloadSuccess(appContext, playlist)
+
+                failed >= totalSongs ->
+                    NotificationManager.showPlaylistDownloadFailure(appContext, playlist)
+
+                else -> NotificationManager.showPlaylistDownloadPartial(
+                    appContext, playlist, totalSongs - failed, totalSongs
+                )
+            }
+            printd("Playlist download complete ($failed/$totalSongs failed)")
 
             Result.success()
         } catch (_: CancellationException) {

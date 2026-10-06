@@ -2,7 +2,7 @@ package ca.ilianokokoro.umihi.music.data.datasources
 
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.exceptions.GithubRateLimitException
-import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import ca.ilianokokoro.umihi.music.models.github.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json

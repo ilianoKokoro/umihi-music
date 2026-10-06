@@ -80,13 +80,6 @@ object Constants {
         const val IMAGE_FADE_DURATION = 200
     }
 
-    object SharedTransition {
-        const val PLAYLIST_SCREEN_KEY = "playlist_screen_"
-        const val PLAYLIST_COVER_KEY = "playlist_cover_"
-        const val PLAYLIST_TITLE_KEY = "playlist_title_"
-        const val PLAYLIST_COUNT_KEY = "playlist_count_"
-    }
-
     object Auth {
         const val START_URL =
             "https://accounts.google.com/ServiceLogin?ltmpl=music&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Den%26next%3Dhttps%253A%252F%252Fmusic.youtube.com%252F%26feature%3D__FEATURE__&hl=en"
@@ -115,7 +108,7 @@ object Constants {
 
     object Database {
         const val NAME = "umihi-music"
-        const val VERSION = 13
+        const val VERSION = 14
         const val SONGS_TABLE = "songs"
         const val PLAYLISTS_TABLE = "playlists"
         const val VERSIONS_TABLE = "versions"
@@ -375,6 +368,10 @@ object Constants {
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
+        object SearchAutocomplete {
+            const val URL =
+                "https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false"
+        }
 
     }
 }

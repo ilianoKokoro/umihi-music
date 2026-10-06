@@ -19,7 +19,7 @@ fun MediaItem?.toSong(): Song {
         uid = extras?.getString(Constants.ExoPlayer.SongMetadata.UID).toStringOrEmpty(),
         youtubeId = this?.mediaId.toStringOrEmpty(),
         title = this?.mediaMetadata?.title.toStringOrEmpty(),
-        artist = this?.mediaMetadata?.artist.toStringOrEmpty(),
+        artists = this?.mediaMetadata?.artist.toStringOrEmpty(),
         thumbnailHref = this?.mediaMetadata?.artworkUri.toString(), // TODO handle if not href
         duration = extras?.getString(Constants.ExoPlayer.SongMetadata.DURATION).toStringOrEmpty(),
         isExplicit = extras?.getLong(MediaConstants.EXTRAS_KEY_IS_EXPLICIT) == MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT,

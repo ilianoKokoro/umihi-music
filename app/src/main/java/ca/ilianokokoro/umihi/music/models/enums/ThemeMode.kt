@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.models
+package ca.ilianokokoro.umihi.music.models.enums
 
 enum class ThemeMode {
     SYSTEM,

@@ -23,7 +23,7 @@ interface LocalSongDataSource {
       AND thumbnailPath IS NOT NULL
       ORDER BY  
         songs.title COLLATE NOCASE ASC,
-        songs.artist COLLATE NOCASE ASC
+        songs.artists COLLATE NOCASE ASC
 """
     )
     suspend fun getDownloadedSongs(): List<Song>
@@ -53,7 +53,7 @@ interface LocalSongDataSource {
     SELECT *
     FROM songs
     WHERE (title LIKE '%' || :query || '%'
-        OR artist LIKE '%' || :query || '%')
+        OR artists LIKE '%' || :query || '%')
       AND audioFilePath IS NOT NULL
       AND thumbnailPath IS NOT NULL
     ORDER BY title COLLATE NOCASE ASC

@@ -125,6 +125,7 @@
     <string name="playback_speed">Bilis ng Pagpatugtog</string>
     <string name="unlike">Hindi Gusto</string>
     <string name="like">Gusto</string>
+    <string name="share">Share</string>
     <string name="song_downloaded">Nai-download ang kanta</string>
     <string name="download_failed">Pumalya ang pagdownload</string>
     <string name="failed_to_download_song">Pumalya ang pagdownload ng %1$s-%2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">Downloads need to be restored</string>
     <string name="database_desctruction_text">This update changed how some data is stored, so your local download data was reset. Your downloaded files are still on your device.\n\nPress the download button on your downloaded playlists to restore them. The existing files will be detected and reused, so nothing will be downloaded again.</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="no_lyrics_found">No lyrics found</string>
 </resources>

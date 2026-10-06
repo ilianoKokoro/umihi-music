@@ -125,6 +125,7 @@
     <string name="playback_speed">سرعة التشغيل</string>
     <string name="unlike">خلافا</string>
     <string name="like">إعجاب</string>
+    <string name="share">مشاركة</string>
     <string name="song_downloaded">تم تنزيل الأغنية</string>
     <string name="download_failed">فشل التحميل</string>
     <string name="failed_to_download_song">فشل تحميل %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">حسناً</string>
     <string name="database_desctruction_title">يجب استعادة التحميلات</string>
     <string name="database_desctruction_text">غيّر هذا التحديث كيفية تخزين بعض البيانات، لذلك تم إعادة تعيين بيانات التحميل المحلية. الملفات التي تم تنزيلها لا تزال على جهازك.\n\nاضغط على زر التحميل في قوائم التشغيل التي قمت بتحميلها لاستعادتها. سيتم الكشف عن الملفات الموجودة وإعادة استخدامها، لذلك لن يتم تحميل أي شيء مرة أخرى.</string>
+    <string name="lyrics">كلمات</string>
+    <string name="no_lyrics_found">لم يتم العثور على كلمات</string>
 </resources>

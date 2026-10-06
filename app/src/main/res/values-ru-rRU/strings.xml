@@ -125,6 +125,7 @@
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="unlike">Не нравится</string>
     <string name="like">Лайк</string>
+    <string name="share">Поделиться</string>
     <string name="song_downloaded">Песня загружена</string>
     <string name="download_failed">Ошибка загрузки</string>
     <string name="failed_to_download_song">Не удалось загрузить %1$s - %2$s</string>
@@ -140,8 +141,8 @@
     <string name="short_minutes">%1$d мин</string>
     <string name="download_on_metered_title">Скачивание через мобильные данные</string>
     <string name="download_on_metered_description">Позволяет загружать песни и плейлисты с помощью вашего мобильного тарифного плана</string>
-    <string name="offline_mode_title">Автономный режим</string>
-    <string name="offline_mode_description">Предотвращает удаленное извлечение. Показаны только загруженные плейлисты и песни</string>
+    <string name="offline_mode_title">Офлайн режим</string>
+    <string name="offline_mode_description">Предотвращает удаленную загрузку. Отображаются только загруженные плейлисты и песни</string>
     <string name="playlist_not_downloaded">Этот плейлист не загружен. Загрузите его, чтобы получить доступ к нему в автономном режиме.</string>
     <string name="waiting_for_wifi_to_download">Ожидание подключения к Wi-Fi для загрузки %1$s</string>
     <string name="remove_library">Удалить из библиотеки</string>
@@ -189,4 +190,6 @@
     <string name="ok">ОК</string>
     <string name="database_desctruction_title">Загрузки должны быть восстановлены</string>
     <string name="database_desctruction_text">Это обновление изменило способ хранения некоторых данных, поэтому ваши локальные данные о загрузках были сброшены. Загруженные файлы всё еще находятся на вашем устройстве.\n\nНажмите кнопку загрузить в загруженных плейлистах, чтобы восстановить их. Существующие файлы будут обнаружены и использованы повторно, поэтому ничего не будет загружаться снова.</string>
+    <string name="lyrics">Текст песни</string>
+    <string name="no_lyrics_found">Текст песни не найден</string>
 </resources>

@@ -1,7 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.playlist
 
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BookmarkRemove
 import androidx.compose.material.icons.rounded.Cancel
@@ -41,15 +38,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
@@ -68,8 +62,6 @@ fun PlaylistInfo(
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
     modifier: Modifier = Modifier,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     isLoading: Boolean = false,
     optionsExtended: Boolean = false,
     onOptionsExtendedChange: (Boolean) -> Unit = {},
@@ -83,15 +75,6 @@ fun PlaylistInfo(
     val showHideDialog = remember { mutableStateOf(false) }
     val showUnhideDialog = remember { mutableStateOf(false) }
     val showRemoveFromLibraryDialog = remember { mutableStateOf(false) }
-    val coverState = sharedTransitionScope.rememberSharedContentState(
-        "${Constants.SharedTransition.PLAYLIST_COVER_KEY}${playlist.info.id}"
-    )
-    val titleState = sharedTransitionScope.rememberSharedContentState(
-        "${Constants.SharedTransition.PLAYLIST_TITLE_KEY}${playlist.info.id}"
-    )
-    val countState = sharedTransitionScope.rememberSharedContentState(
-        "${Constants.SharedTransition.PLAYLIST_COUNT_KEY}${playlist.info.id}"
-    )
 
     LaunchedEffect(songsCount) {
         animatedCount = songsCount
@@ -106,27 +89,13 @@ fun PlaylistInfo(
     ) {
         if (!playlist.info.isDownloadedPlaylist) {
             SquareImage(
-                uri = playlist.info.coverPath ?: playlist.info.coverHref,
-                modifier = with(sharedTransitionScope) {
-                    Modifier.sharedElement(
-                        sharedContentState = coverState,
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        clipInOverlayDuringTransition = OverlayClip(RoundedCornerShape(12.dp)),
-                    )
-                }
+                uri = playlist.info.coverPath ?: playlist.info.coverHref
             )
         } else {
             Icon(
                 imageVector = Icons.Rounded.Download,
                 contentDescription = null,
-                modifier = with(sharedTransitionScope) {
-                    Modifier
-                        .size(150.dp)
-                        .sharedElement(
-                            sharedContentState = coverState,
-                            animatedVisibilityScope = animatedVisibilityScope,
-                        )
-                }
+                modifier = Modifier.size(150.dp)
             )
         }
         Column(verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxHeight()) {
@@ -141,16 +110,6 @@ fun PlaylistInfo(
 
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
-                    modifier = with(sharedTransitionScope) {
-                        modifier
-                            .sharedBounds(
-                                sharedContentState = titleState,
-                                animatedVisibilityScope = animatedVisibilityScope,
-                            )
-                            .graphicsLayer {
-                                compositingStrategy = CompositingStrategy.Offscreen
-                            }
-                    },
                     text = playlist.info.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -164,17 +123,7 @@ fun PlaylistInfo(
                     } else {
                         ""
                     },
-                    modifier = with(sharedTransitionScope) {
-                        Modifier
-                            .sharedBounds(
-                                sharedContentState = countState,
-                                animatedVisibilityScope = animatedVisibilityScope,
-                            )
-                            .graphicsLayer {
-                                compositingStrategy = CompositingStrategy.Offscreen
-                            }
-                            .alpha(alpha)
-                    }
+                    modifier = Modifier.alpha(alpha)
                 )
 
             }

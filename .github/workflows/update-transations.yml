@@ -1,60 +1,66 @@
 name: Merge translation branches into dev
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 permissions:
-    contents: write
+  contents: write
+  pull-requests: write
 
 env:
-    BRANCHES_TO_MERGE: "translations,crowdin-readme"
+  BRANCHES_TO_MERGE: "translations,crowdin-readme"
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
-    merge:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout dev
-              uses: actions/checkout@v4
-              with:
-                  ref: dev
-                  fetch-depth: 0
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v7
+        with:
+          ref: dev
+          fetch-depth: 0
 
-            - name: Configure git
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-            - name: Squash-merge branches into dev
-              run: |
-                  set -e
-                  IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
+      - name: Squash-merge branches into dev
+        run: |
+          set -e
+          IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
+          for BRANCH in "${BRANCHES[@]}"; do
+            if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+              echo "Branch $BRANCH exists - squash-merging into dev"
+              git fetch origin "$BRANCH"
+              git merge --squash "origin/$BRANCH"
+              if ! git diff --cached --quiet; then
+                git commit -m "Merge branch '$BRANCH' into dev (squashed)"
+              else
+                echo "No diff between dev and $BRANCH - nothing to commit"
+              fi
+            else
+              echo "Branch $BRANCH does not exist - skipping"
+            fi
+          done
 
-                  for BRANCH in "${BRANCHES[@]}"; do
-                    if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
-                      echo "Branch $BRANCH exists - squash-merging into dev"
-                      git fetch origin "$BRANCH"
-                      git merge --squash "origin/$BRANCH"
-                      if ! git diff --cached --quiet; then
-                        git commit -m "Merge branch '$BRANCH' into dev (squashed)"
-                      else
-                        echo "No diff between dev and $BRANCH - nothing to commit"
-                      fi
-                    else
-                      echo "Branch $BRANCH does not exist - skipping"
-                    fi
-                  done
+      - name: Push dev
+        run: git push origin dev
 
-            - name: Push dev
-              run: git push origin dev
-
-            - name: Delete merged branches
-              run: |
-                  IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
-                  for BRANCH in "${BRANCHES[@]}"; do
-                    if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
-                      echo "Deleting $BRANCH"
-                      git push origin --delete "$BRANCH"
-                    else
-                      echo "Branch $BRANCH already absent - nothing to delete"
-                    fi
-                  done
+      - name: Close PRs and delete merged branches
+        run: |
+          IFS=',' read -ra BRANCHES <<< "$BRANCHES_TO_MERGE"
+          for BRANCH in "${BRANCHES[@]}"; do
+            if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+              PR_NUMBERS=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')
+              for PR in $PR_NUMBERS; do
+                echo "Closing PR #$PR for $BRANCH"
+                gh pr close "$PR" --comment "Squash-merged into dev by workflow."
+              done
+              echo "Deleting $BRANCH"
+              git push origin --delete "$BRANCH"
+            else
+              echo "Branch $BRANCH already absent - nothing to delete"
+            fi
+          done

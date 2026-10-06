@@ -121,7 +121,7 @@ fun AddToPlaylistBottomSheet(
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        text = song.artist,
+                        text = song.artists,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

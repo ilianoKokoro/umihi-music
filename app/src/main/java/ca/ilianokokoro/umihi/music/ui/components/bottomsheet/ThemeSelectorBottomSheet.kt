@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
-import ca.ilianokokoro.umihi.music.models.ThemeMode
+import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 
 @OptIn(ExperimentalMaterial3Api::class)

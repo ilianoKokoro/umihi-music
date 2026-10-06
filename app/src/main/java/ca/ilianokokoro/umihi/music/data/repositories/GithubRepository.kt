@@ -6,7 +6,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.exceptions.GithubRateLimitException
 import ca.ilianokokoro.umihi.music.data.datasources.GithubDatasource
 import ca.ilianokokoro.umihi.music.extensions.toException
-import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import ca.ilianokokoro.umihi.music.models.github.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

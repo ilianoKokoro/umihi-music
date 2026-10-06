@@ -125,6 +125,7 @@
     <string name="playback_speed">再生速度</string>
     <string name="unlike">いいね！を解除</string>
     <string name="like">いいね！</string>
+    <string name="share">共有</string>
     <string name="song_downloaded">曲をダウンロードしました</string>
     <string name="download_failed">ダウンロードに失敗しました</string>
     <string name="failed_to_download_song">%1$s のダウンロードに失敗しました - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">ダウンロードを復元する必要があります</string>
     <string name="database_desctruction_text">このアップデートにより、一部のデータの保存方法が変更され、ローカルのダウンロードデータがリセットされました。ダウンロードしたファイルはまだお使いのデバイス上にあります。\n\nダウンロードしたプレイリストのダウンロードボタンを押して復元します。 既存のファイルが検出および再利用されるため、再度ダウンロードすることはありません。</string>
+    <string name="lyrics">歌詞</string>
+    <string name="no_lyrics_found">歌詞が見つかりません</string>
 </resources>

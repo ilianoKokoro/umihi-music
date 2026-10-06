@@ -125,6 +125,7 @@
     <string name="playback_speed">Velocità Di Riproduzione</string>
     <string name="unlike">A differenza</string>
     <string name="like">Like</string>
+    <string name="share">Condividi</string>
     <string name="song_downloaded">Brano scaricato</string>
     <string name="download_failed">Download non riuscito</string>
     <string name="failed_to_download_song">Scaricamento di %1$s - %2$s non riuscito</string>
@@ -189,4 +190,6 @@
     <string name="ok">OK</string>
     <string name="database_desctruction_title">I download devono essere ripristinati</string>
     <string name="database_desctruction_text">Questo aggiornamento ha cambiato il modo in cui alcuni dati vengono memorizzati, quindi i dati di download locali sono stati ripristinati. I file scaricati sono ancora sul tuo dispositivo.\n\nPremi il pulsante di download sulle playlist scaricate per ripristinarle. I file esistenti verranno rilevati e riutilizzati, quindi nulla verrà scaricato di nuovo.</string>
+    <string name="lyrics">Testi</string>
+    <string name="no_lyrics_found">Nessun testo trovato</string>
 </resources>

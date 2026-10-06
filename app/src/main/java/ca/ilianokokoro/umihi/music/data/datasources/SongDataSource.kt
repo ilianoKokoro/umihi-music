@@ -14,6 +14,14 @@ class SongDataSource {
         )
     }
 
+    suspend fun searchAutoComplete(query: String): List<String> {
+        return YoutubeDataExtractor.extractSearchAutocompleteResults(
+            YoutubeApiClient.searchAutoComplete(
+                query
+            )
+        )
+    }
+
     suspend fun search(query: String): List<Song> {
         return YoutubeDataExtractor.extractSearchResults(
             YoutubeApiClient.search(

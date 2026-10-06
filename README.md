@@ -59,9 +59,7 @@ effortlessly.
 
 ## FAQ ❓
 
-### What is the difference between the normal APK and the
-
-`store` apk and which one should I download ?
+### What is the difference between the normal APK and the `store` apk and which one should I download ?
 
 _The `store` version is the app version that is hosted on `F-droid` and has the updater removed. If
 you download the app directly from GitHub, download the normal version._
@@ -149,22 +147,22 @@ Thank you to all the people who helped translate Umihi Music
   <tbody>
     <tr>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
+          <br />
+          <sub><b>dsyncronized</b></sub></a>
+        <br />
+        <sub><b>897 words</b></sub>
+        <br /><sub><b><code title="Indonesian">id</code></b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Ngoloc2k4"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14376790/medium/377e386305520b65a52aa16294ad65f0.jpeg" />
           <br />
           <sub><b>Kim Lộc Ngô</b></sub>
           <br />
           <sub><b>(Ngoloc2k4)</b></sub></a>
         <br />
-        <sub><b>739 words</b></sub>
+        <sub><b>870 words</b></sub>
         <br /><sub><b><code title="Korean">ko</code></b>, <b><code title="Vietnamese">vi</code></b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/dsyncronized"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17343406/medium/00dc04ef0d827840a659dbbf90108fb7.png" />
-          <br />
-          <sub><b>dsyncronized</b></sub></a>
-        <br />
-        <sub><b>733 words</b></sub>
-        <br /><sub><b><code title="Indonesian">id</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/frittusk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17619264/medium/e784698c2018599cbae52322b897cd1f.png" />
@@ -185,22 +183,22 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="Chinese Simplified">zh-CN</code></b>, <b><code title="Chinese Traditional">zh-TW</code></b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
+          <br />
+          <sub><b>Vladik01-11</b></sub></a>
+        <br />
+        <sub><b>1205 words</b></sub>
+        <br /><sub><b><code title="Russian">ru</code></b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Mickael81"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16589059/medium/65fcdfc7892c0e034a5b24fcba44b471_default.png" />
           <br />
           <sub><b>Mickael81</b></sub></a>
         <br />
         <sub><b>1056 words</b></sub>
         <br /><sub><b><code title="French">fr</code></b></sub>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Vladik01-11"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16623259/medium/0b581be050429f886660aae12f86ee51.jpeg" />
-          <br />
-          <sub><b>Vladik01-11</b></sub></a>
-        <br />
-        <sub><b>1158 words</b></sub>
-        <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Alinayejin"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14440508/medium/f02d53d5d23fc5f2d367c0c319829c6c.jpg" />
@@ -237,7 +235,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>(Akiro9982)</b></sub></a>
         <br />
-        <sub><b>177 words</b></sub>
+        <sub><b>229 words</b></sub>
         <br /><sub><b><code title="Spanish">es-ES</code></b></sub>
       </td>
     </tr>

@@ -23,7 +23,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateC
 import ca.ilianokokoro.umihi.music.data.repositories.GithubRepository
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import ca.ilianokokoro.umihi.music.models.Version
-import ca.ilianokokoro.umihi.music.models.dto.GithubReleaseResponse
+import ca.ilianokokoro.umihi.music.models.github.GithubReleaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

@@ -32,7 +32,7 @@ import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.core.ExoCache
+import ca.ilianokokoro.umihi.music.core.cache.ExoCache
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager

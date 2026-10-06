@@ -9,6 +9,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -22,6 +24,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -30,10 +36,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,6 +57,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
@@ -53,6 +66,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottom
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.TopPlayer
 
 @Composable
 fun PlayerScreen(
@@ -65,6 +79,7 @@ fun PlayerScreen(
     )
 ) {
     val uiState = playerViewModel.uiState.collectAsStateWithLifecycle().value
+    val context = LocalContext.current
     val orientation = LocalConfiguration.current.orientation
     val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
@@ -79,13 +94,17 @@ fun PlayerScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+    val playbackProgress by playerViewModel.playbackProgress.collectAsState()
+
 
     Scaffold(
-        modifier = Modifier.padding(
-            start = 8.dp,
-            end = 8.dp,
-            bottom = 10.dp
-        )
+        modifier = Modifier
+            .padding(
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 10.dp
+            )
+
     ) { paddingValues ->
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             Column(
@@ -98,12 +117,16 @@ fun PlayerScreen(
 
             ) {
 
-                Thumbnail(
-                    href = currentSong?.thumbnailHref.toString(),
+                TopPlayer(
+                    currentSong = currentSong,
+                    isLyricsShown = uiState.lyricsShown,
+                    lyricsState = uiState.lyrics,
+                    positionMs = { playbackProgress.position.toLong() },
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
                 )
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -118,29 +141,11 @@ fun PlayerScreen(
                         isLiked = uiState.isLiked,
                         isLiking = uiState.isLiking,
                         onToggleLike = playerViewModel::toggleLike,
+                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
-                    PlayerControls(
-                        isPlaying = uiState.isPlaying,
-                        isLoading = uiState.isLoading,
-                        progress = playerViewModel.playbackProgress,
-                        onSeek = playerViewModel::seek,
-                        onSeekPlayer = playerViewModel::seekPlayer,
-                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                        onOpenQueue = {
-                            playerViewModel.setQueueVisibility(true)
-                        },
-                        onOpenVolume = {
-                            playerViewModel.updateShowVolumeDialog(true)
-                        },
-                        onOpenSleepTimer = {
-                            playerViewModel.setSleepTimerSheetVisibility(true)
-                        },
-                        onOpenSpeedSelector = {
-                            playerViewModel.setSpeedSelectorVisibility(true)
-                        },
-                        playbackSpeed = uiState.playbackSpeed,
-                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                    )
+
+                    PlayerControlsSection(uiState, playerViewModel)
+
                 }
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -157,10 +162,13 @@ fun PlayerScreen(
                         .fillMaxHeight()
                         .weight(1f)
                 ) {
-                    Thumbnail(
-                        href = currentSong?.thumbnailHref.toString(),
+                    TopPlayer(
+                        currentSong = currentSong,
+                        isLyricsShown = uiState.lyricsShown,
+                        lyricsState = uiState.lyrics,
+                        positionMs = { playbackProgress.position.toLong() },
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxHeight()
                             .weight(1f)
                     )
                 }
@@ -177,31 +185,12 @@ fun PlayerScreen(
                         isLoggedIn = uiState.isLoggedIn,
                         isLiked = uiState.isLiked,
                         isLiking = uiState.isLiking,
+
                         onToggleLike = playerViewModel::toggleLike,
+                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
 
-                    PlayerControls(
-                        isPlaying = uiState.isPlaying,
-                        isLoading = uiState.isLoading,
-                        progress = playerViewModel.playbackProgress,
-                        onSeek = playerViewModel::seek,
-                        onSeekPlayer = playerViewModel::seekPlayer,
-                        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-                        onOpenQueue = {
-                            playerViewModel.setQueueVisibility(true)
-                        },
-                        onOpenVolume = {
-                            playerViewModel.updateShowVolumeDialog(true)
-                        },
-                        onOpenSleepTimer = {
-                            playerViewModel.setSleepTimerSheetVisibility(true)
-                        },
-                        onOpenSpeedSelector = {
-                            playerViewModel.setSpeedSelectorVisibility(true)
-                        },
-                        playbackSpeed = uiState.playbackSpeed,
-                        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
-                    )
+                    PlayerControlsSection(uiState, playerViewModel)
                 }
             }
 
@@ -269,6 +258,61 @@ fun Thumbnail(
     }
 }
 
+private fun Modifier.swipeUpToOpen(
+    thresholdPx: Float,
+    onTriggered: () -> Unit,
+): Modifier = pointerInput(Unit) {
+    awaitEachGesture {
+        var accumulatedDrag = 0f
+        var triggered = false
+        awaitFirstDown(requireUnconsumed = false)
+        do {
+            val event = awaitPointerEvent(PointerEventPass.Main)
+            val change = event.changes.firstOrNull { it.pressed } ?: break
+            if (triggered) {
+                change.consume()
+            } else {
+                val dy = change.position.y - change.previousPosition.y
+                accumulatedDrag += dy
+                if (accumulatedDrag < -thresholdPx) {
+                    triggered = true
+                    onTriggered()
+                    change.consume()
+                }
+            }
+        } while (event.changes.any { it.pressed })
+    }
+}
+
+@Composable
+private fun PlayerControlsSection(
+    uiState: PlayerState,
+    playerViewModel: PlayerViewModel,
+) {
+    val density = LocalDensity.current
+    val swipeUpThresholdPx = with(density) { 48.dp.toPx() }
+
+    PlayerControls(
+        isPlaying = uiState.isPlaying,
+        isLoading = uiState.isLoading,
+        isLyricsShown = uiState.lyricsShown,
+        progress = playerViewModel.playbackProgress,
+        onSeek = playerViewModel::seek,
+        onSeekPlayer = playerViewModel::seekPlayer,
+        onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
+        onOpenQueue = { playerViewModel.setQueueVisibility(true) },
+        onOpenVolume = { playerViewModel.updateShowVolumeDialog(true) },
+        onOpenSleepTimer = { playerViewModel.setSleepTimerSheetVisibility(true) },
+        onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
+        playbackSpeed = uiState.playbackSpeed,
+        onToggleLyrics = playerViewModel::toggleLyrics,
+        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+        modifier = Modifier.swipeUpToOpen(swipeUpThresholdPx) {
+            playerViewModel.setQueueVisibility(true)
+        },
+    )
+}
+
 
 @Composable
 fun SongInfo(
@@ -277,8 +321,11 @@ fun SongInfo(
     isLiked: Boolean = false,
     isLiking: Boolean = false,
     onToggleLike: () -> Unit = {},
+    onShare: () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
+    val actionButtonInteractionSources =
+        List(2) { ComposeHelper.rememberInteractionSource() }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -286,11 +333,7 @@ fun SongInfo(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = if (isLoggedIn) {
-                Modifier.weight(1f)
-            } else {
-                Modifier.fillMaxWidth()
-            },
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -308,7 +351,7 @@ fun SongInfo(
                 )
             }
             Text(
-                text = song?.artist ?: "",
+                text = song?.artists ?: "",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Bold
@@ -317,39 +360,103 @@ fun SongInfo(
             )
         }
 
-        if (isLoggedIn) {
-            Box(modifier = Modifier.padding(start = 8.dp)) {
-                FilledIconToggleButton(
-                    checked = isLiked,
-                    onCheckedChange = {
-                        if (isLiking) {
-                            return@FilledIconToggleButton
-                        }
+        Box(modifier = Modifier.padding(start = 8.dp)) {
+            if (isLoggedIn) {
+                ButtonGroup(
+                    overflowIndicator = {},
+                    horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
+                ) {
+                    customItem(
+                        buttonGroupContent = {
+                            FilledIconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                    onShare()
+                                },
+                                interactionSource = actionButtonInteractionSources[0],
+                                shapes = IconButtonDefaults.shapes(
+                                    shape = ButtonGroupDefaults.connectedLeadingButtonShape,
+                                    pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
+                                ),
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                                modifier = Modifier
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[0])
+
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Share,
+                                    contentDescription = stringResource(R.string.share)
+                                )
+                            }
+
+                        },
+                        menuContent = {}
+                    )
+                    customItem(
+                        buttonGroupContent = {
+                            FilledIconToggleButton(
+                                checked = isLiked,
+                                onCheckedChange = {
+                                    if (isLiking) {
+                                        return@FilledIconToggleButton
+                                    }
+                                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                    onToggleLike()
+                                },
+                                interactionSource = actionButtonInteractionSources[1],
+                                shapes = IconButtonDefaults.toggleableShapes(
+                                    shape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                    pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
+                                    checkedShape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                ),
+                                colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface,
+                                    checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                    checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                ),
+                                modifier = Modifier
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[1])
+                            ) {
+                                Icon(
+                                    imageVector = if (isLiked) {
+                                        Icons.Rounded.Favorite
+                                    } else {
+                                        Icons.Rounded.FavoriteBorder
+                                    },
+                                    contentDescription = if (isLiked) {
+                                        stringResource(R.string.unlike)
+                                    } else {
+                                        stringResource(R.string.like)
+                                    }
+                                )
+                            }
+                        },
+                        menuContent = {}
+                    )
+                }
+            } else {
+                FilledIconButton(
+                    onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                        onToggleLike()
+                        onShare()
                     },
-                    shapes = IconButtonDefaults.toggleableShapes(),
-                    colors = IconButtonDefaults.filledIconToggleButtonColors(
+                    shapes = IconButtonDefaults.shapes(),
+                    colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        contentColor = MaterialTheme.colorScheme.onSurface,
-                        checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
-                        checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                        contentColor = MaterialTheme.colorScheme.onSurface
                     ),
                 ) {
                     Icon(
-                        imageVector = if (isLiked) {
-                            Icons.Rounded.Favorite
-                        } else {
-                            Icons.Rounded.FavoriteBorder
-                        },
-                        contentDescription = if (isLiked) {
-                            stringResource(R.string.unlike)
-                        } else {
-                            stringResource(R.string.like)
-                        }
+                        imageVector = Icons.Rounded.Share,
+                        contentDescription = stringResource(R.string.share)
                     )
                 }
             }
         }
     }
 }
+

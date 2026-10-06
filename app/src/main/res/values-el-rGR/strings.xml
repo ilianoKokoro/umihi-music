@@ -125,6 +125,7 @@
     <string name="playback_speed">Ταχύτητα Αναπαραγωγής</string>
     <string name="unlike">Σε αντίθεση</string>
     <string name="like">Αρέσει</string>
+    <string name="share">Κοινοποίηση</string>
     <string name="song_downloaded">Το τραγούδι κατέβηκε</string>
     <string name="download_failed">Αποτυχία λήψης</string>
     <string name="failed_to_download_song">Αποτυχία λήψης %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">Εντάξει</string>
     <string name="database_desctruction_title">Οι λήψεις πρέπει να αποκατασταθούν</string>
     <string name="database_desctruction_text">Αυτή η ενημέρωση άλλαξε πώς αποθηκεύονται ορισμένα δεδομένα, έτσι ώστε τα τοπικά σας δεδομένα λήψης. Τα ληφθέντα αρχεία σας είναι ακόμα στη συσκευή σας.\n\nΠατήστε το κουμπί λήψης στις κατεβασμένες λίστες αναπαραγωγής σας για να τις επαναφέρετε. Τα υπάρχοντα αρχεία θα ανιχνευθούν και θα επαναχρησιμοποιηθούν, οπότε τίποτα δεν θα κατέβει ξανά.</string>
+    <string name="lyrics">Στίχοι</string>
+    <string name="no_lyrics_found">Δεν βρέθηκαν στίχοι</string>
 </resources>

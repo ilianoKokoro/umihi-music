@@ -29,7 +29,7 @@ data class Song(
     @PrimaryKey
     val youtubeId: String,
     val title: String = "",
-    val artist: String = "",
+    val artists: String = "",
     val duration: String = "",
     val thumbnailHref: String = "",
     val thumbnailPath: String? = null,
@@ -71,7 +71,7 @@ data class Song(
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(title)
-                        .setArtist(artist)
+                        .setArtist(artists)
                         .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                         .setIsBrowsable(false)
                         .setIsPlayable(true)
@@ -92,7 +92,7 @@ data class Song(
 
     val fileName: String
         get() {
-            val template = "$title - $artist [$youtubeId]"
+            val template = "$title - $artists [$youtubeId]"
             return template.sanitizeFilename()
         }
 
@@ -137,6 +137,16 @@ data class Song(
     fun isSameYoutubeSong(other: Song): Boolean {
         return this.youtubeId == other.youtubeId
     }
+
+    val durationSeconds: Int?
+        get() {
+            val parts = duration.split(":").mapNotNull { it.toIntOrNull() }
+            return when (parts.size) {
+                2 -> parts[0] * 60 + parts[1]
+                3 -> parts[0] * 3600 + parts[1] * 60 + parts[2]
+                else -> null
+            }
+        }
 
     companion object {
         fun createFromYoutubeUrl(url: String): Song {

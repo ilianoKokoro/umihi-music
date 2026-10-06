@@ -125,6 +125,7 @@
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="unlike">I modsætning</string>
     <string name="like">Ligesom</string>
+    <string name="share">Del</string>
     <string name="song_downloaded">Sang downloadet</string>
     <string name="download_failed">Download mislykkedes</string>
     <string name="failed_to_download_song">Kunne ikke downloade %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Download skal gendannes</string>
     <string name="database_desctruction_text">Denne opdatering ændrede, hvordan nogle data gemmes, så dine lokale download data blev nulstillet. Dine downloadede filer er stadig på din enhed.\n\nTryk på download-knappen på dine downloadede afspilningslister for at gendanne dem. De eksisterende filer vil blive opdaget og genbrugt, så intet vil blive hentet igen.</string>
+    <string name="lyrics">Sangtekster</string>
+    <string name="no_lyrics_found">Ingen sangtekster fundet</string>
 </resources>

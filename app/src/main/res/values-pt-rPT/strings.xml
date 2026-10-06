@@ -125,6 +125,7 @@
     <string name="playback_speed">Velocidade de reprodução</string>
     <string name="unlike">Descurtir</string>
     <string name="like">Gostei</string>
+    <string name="share">Compartilhar</string>
     <string name="song_downloaded">Música baixada</string>
     <string name="download_failed">Download falhou</string>
     <string name="failed_to_download_song">Falha ao baixar %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">Certo</string>
     <string name="database_desctruction_title">Os downloads precisam ser restaurados</string>
     <string name="database_desctruction_text">Esta atualização mudou a forma como alguns dados são armazenados, então seus dados de download local foram redefinidos. Seus arquivos baixados ainda estão no seu dispositivo.\n\nPressione o botão de download em suas playlists baixadas para restaurá-las. Os arquivos existentes serão detectados e reutilizados, portanto nada será baixado novamente.</string>
+    <string name="lyrics">Letras</string>
+    <string name="no_lyrics_found">Nenhuma letra encontrada</string>
 </resources>

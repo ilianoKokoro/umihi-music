@@ -125,6 +125,7 @@
     <string name="playback_speed">Avspillingshastighet</string>
     <string name="unlike">Ulikt</string>
     <string name="like">Lik</string>
+    <string name="share">Del</string>
     <string name="song_downloaded">Sang nedlastet</string>
     <string name="download_failed">Nedlasting mislyktes</string>
     <string name="failed_to_download_song">Kunne ikke laste ned %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Nedlastinger må gjenopprettes</string>
     <string name="database_desctruction_text">Denne oppdateringen endret hvordan noen data er lagret, så dine lokale nedlastingsdata ble tilbakestilt. Dine nedlastede filer er fortsatt på enheten.\n\nTrykk på nedlastingsknappen på dine nedlastede spillelister for å gjenopprette dem. De eksisterende filene vil bli oppdaget og brukt på nytt, så ingenting vil bli lastet ned igjen.</string>
+    <string name="lyrics">Tekster</string>
+    <string name="no_lyrics_found">Ingen tekster funnet</string>
 </resources>

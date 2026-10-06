@@ -125,6 +125,7 @@
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="unlike">Je n\'aime pas</string>
     <string name="like">J’aime</string>
+    <string name="share">Partager</string>
     <string name="song_downloaded">Titre téléchargé</string>
     <string name="download_failed">Échec du téléchargement</string>
     <string name="failed_to_download_song">Impossible de télécharger %1$s - %2$s</string>
@@ -189,4 +190,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Les téléchargements doivent être restaurés</string>
     <string name="database_desctruction_text">Cette mise à jour a modifié la façon dont certaines données sont stockées, de sorte que vos données de téléchargement local ont été réinitialisées. Vos fichiers téléchargés sont toujours sur votre appareil.\n\nAppuyez sur le bouton de téléchargement de vos playlists téléchargées pour les restaurer. Les fichiers existants seront détectés et réutilisés, donc rien ne sera téléchargé à nouveau.</string>
+    <string name="lyrics">Paroles</string>
+    <string name="no_lyrics_found">Aucune parole trouvée</string>
 </resources>

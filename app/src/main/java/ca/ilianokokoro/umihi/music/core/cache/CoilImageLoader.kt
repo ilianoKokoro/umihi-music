@@ -1,6 +1,7 @@
-package ca.ilianokokoro.umihi.music.core
+package ca.ilianokokoro.umihi.music.core.cache
 
 import android.content.Context
+import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import coil3.ImageLoader
 import coil3.disk.DiskCache

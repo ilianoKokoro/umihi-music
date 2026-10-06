@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music
 
 import android.app.Application
-import ca.ilianokokoro.umihi.music.core.CoilImageLoader
+import ca.ilianokokoro.umihi.music.core.cache.CoilImageLoader
 import ca.ilianokokoro.umihi.music.core.managers.NotificationManager
 import coil3.ImageLoader
 import coil3.PlatformContext

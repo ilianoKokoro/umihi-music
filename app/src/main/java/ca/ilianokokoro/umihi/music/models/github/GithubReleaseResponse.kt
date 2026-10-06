@@ -1,4 +1,4 @@
-package ca.ilianokokoro.umihi.music.models.dto
+package ca.ilianokokoro.umihi.music.models.github
 
 import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.core.Constants

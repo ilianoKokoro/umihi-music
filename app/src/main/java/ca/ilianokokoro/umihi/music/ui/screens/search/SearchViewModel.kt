@@ -66,8 +66,25 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
 
     fun onSearchFieldChange(newValue: String) {
-        _uiState.update {
-            it.copy(search = newValue)
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(search = newValue)
+            }
+
+            songRepository.searchAutocomplete(newValue).collect { apiResult ->
+                _uiState.update {
+                    _uiState.value.copy(
+                        suggestions = when (apiResult) {
+                            is ApiResult.Success -> {
+                                apiResult.data
+                            }
+
+                            is ApiResult.Error -> listOf()
+                            ApiResult.Loading -> _uiState.value.suggestions
+                        }
+                    )
+                }
+            }
         }
     }
 

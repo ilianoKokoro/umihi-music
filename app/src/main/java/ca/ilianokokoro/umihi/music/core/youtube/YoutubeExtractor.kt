@@ -1,5 +1,6 @@
-package ca.ilianokokoro.umihi.music.core
+package ca.ilianokokoro.umihi.music.core.youtube
 
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeAuthHelper.applyHeaders
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody

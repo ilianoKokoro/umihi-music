@@ -125,6 +125,7 @@
     <string name="playback_speed">Afspeel snelheid</string>
     <string name="unlike">Anders dan</string>
     <string name="like">vind-ik-leuk</string>
+    <string name="share">Delen</string>
     <string name="song_downloaded">Nummer gedownload</string>
     <string name="download_failed">Downloaden mislukt</string>
     <string name="failed_to_download_song">Downloaden van %1$s - %2$s mislukt</string>
@@ -189,4 +190,6 @@
     <string name="ok">Ok</string>
     <string name="database_desctruction_title">Downloads moeten worden hersteld</string>
     <string name="database_desctruction_text">Deze update veranderde hoe sommige gegevens zijn opgeslagen, zodat je lokale downloadgegevens zijn gereset. Je gedownloade bestanden staan nog steeds op je apparaat.\n\nDruk op de downloadknop op uw gedownloade afspeellijsten om ze te herstellen. De bestaande bestanden worden gedetecteerd en hergebruikt, dus niets wordt opnieuw gedownload.</string>
+    <string name="lyrics">Songteksten</string>
+    <string name="no_lyrics_found">Geen songteksten gevonden</string>
 </resources>

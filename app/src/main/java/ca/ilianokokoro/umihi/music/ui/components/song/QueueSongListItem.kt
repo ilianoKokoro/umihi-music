@@ -125,7 +125,7 @@ fun QueueSongListItem(
                 }
 
                 Text(
-                    "${song.artist} ${stringResource(R.string.dot)} ${song.duration}",
+                    "${song.artists} ${stringResource(R.string.dot)} ${song.duration}",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
