@@ -125,7 +125,7 @@
     <string name="playback_speed">Tốc độ phát</string>
     <string name="unlike">Bỏ thích</string>
     <string name="like">Thích</string>
-    <string name="share">Share</string>
+    <string name="share">Chia sẻ</string>
     <string name="song_downloaded">Bài hát đã được tải xuống</string>
     <string name="download_failed">Tải xuống thất bại</string>
     <string name="failed_to_download_song">Tải xuống thất bại %1$s - %2$s</string>
@@ -141,9 +141,9 @@
     <string name="short_minutes">%1$d phút</string>
     <string name="download_on_metered_title">Tải xuống bằng dữ liệu di động</string>
     <string name="download_on_metered_description">Cho phép tải xuống các bài hát và danh sách phát bằng dữ liệu di động</string>
-    <string name="offline_mode_title">Offline Mode</string>
-    <string name="offline_mode_description">Prevents remote fetching. Only downloaded playlists and songs are shown</string>
-    <string name="playlist_not_downloaded">This playlist is not downloaded. Download it while online to access it offline.</string>
+    <string name="offline_mode_title">Chế độ ngoại tuyến</string>
+    <string name="offline_mode_description">Ngăn chặn việc tải xuống từ xa. Chỉ hiển thị danh sách phát và bài hát đã tải xuống</string>
+    <string name="playlist_not_downloaded">Danh sách phát này chưa được tải xuống. Hãy tải xuống khi trực tuyến để truy cập ngoại tuyến.</string>
     <string name="waiting_for_wifi_to_download">Đợi kết nối Wi-Fi để tải xuống %1$s</string>
     <string name="remove_library">Xóa khỏi thư viện</string>
     <string name="remove_library_text">Bạn có chắc chắn xoá danh sách này khỏi thư viện không? Bạn có thể thêm lại nó vào lần sau.</string>
@@ -182,8 +182,8 @@
     <string name="theme_dark">Tối</string>
     <string name="theme_light">Sáng</string>
     <string name="theme_system">Theo hệ thống</string>
-    <string name="change_download_location">Change Download Location</string>
-    <string name="current_location">Current location : %1$s</string>
+    <string name="change_download_location">Thay đổi vị trí tải về</string>
+    <string name="current_location">Vị trí hiện tại : %1$s</string>
     <string name="internal">Internal</string>
     <string name="reset">Reset</string>
     <string name="download_location_warning_description">Changing the download folder may cause the app to lose track of downloaded songs if their files are moved, renamed, or modified outside the app. Make sure to keep your downloaded files in their original location and unchanged.</string>
