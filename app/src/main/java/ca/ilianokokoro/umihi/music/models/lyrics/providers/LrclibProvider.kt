@@ -88,9 +88,15 @@ class LrcLibProvider(
             .addQueryParameter(PARAM_ARTIST, query.artist)
             .build()
 
-    private fun LrcLibResponse.toLyrics(): Lyrics {
+    private fun LrcLibResponse.toLyrics(): Lyrics? {
+        val lines = parseSyncedLyrics(this.syncedLyrics)
+
+        if (lines.isEmpty()) {
+            return null
+        }
+
         return Lyrics(
-            lines = parseSyncedLyrics(this.syncedLyrics),
+            lines = lines,
             unsyncedLyrics = this.plainLyrics
         )
     }
