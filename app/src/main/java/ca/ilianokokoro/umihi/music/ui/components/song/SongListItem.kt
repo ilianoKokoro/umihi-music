@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,6 +49,7 @@ fun SongListItem(
     download: (() -> Unit)? = null,
     addToPlaylist: (() -> Unit)? = null,
     removeFromPlaylist: (() -> Unit)? = null,
+    isCurrentSong: Boolean = false,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -157,7 +159,13 @@ fun SongListItem(
                 )
             }
         },
-        colors = ListItemDefaults.colors(),
+        colors = if (isCurrentSong) {
+            ListItemDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+            )
+        } else {
+            ListItemDefaults.colors()
+        },
         verticalAlignment = Alignment.CenterVertically,
         content = {
             Text(
