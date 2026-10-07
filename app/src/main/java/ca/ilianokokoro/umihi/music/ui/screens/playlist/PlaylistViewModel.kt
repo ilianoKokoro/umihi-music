@@ -356,7 +356,6 @@ class PlaylistViewModel(
                     song = song,
                     settings = settings,
                     currentlyContains = true,
-                    useSongSetVideoId = true,
                 ).firstOrNull { it is ApiResult.Success }
 
                 if (result == null) {
