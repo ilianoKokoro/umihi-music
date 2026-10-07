@@ -312,6 +312,12 @@ object PlayerManager {
                             startIndex = startIndex.takeIf { it >= 0 } ?: 0
                         )
                     }
+
+                    Toast.makeText(
+                        appContext,
+                        appContext.getString(R.string.radio_started_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: CancellationException) {
                 throw e

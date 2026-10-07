@@ -30,6 +30,7 @@
     <string name="play_next">Играть далее</string>
     <string name="add_to_queue">Добавить в очередь</string>
     <string name="radio">Радио</string>
+    <string name="radio_started_toast">Радио запущено</string>
     <string name="radio_failed">Не удалось запустить радио</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="no_playlists_found">Плейлисты не найдены</string>
