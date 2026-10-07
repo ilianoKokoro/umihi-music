@@ -28,29 +28,31 @@ class SongDownloadWorker(
 
     override suspend fun doWork(): Result {
         val playlistId = params.inputData.getString(PLAYLIST_KEY)
-            ?: return Result.failure()
-
         val songId = params.inputData.getString(SONG_KEY)
-            ?: return Result.failure()
-
-        val playlist = playlistRepository.getPlaylistById(playlistId)
             ?: return Result.failure()
 
         val song = localSongRepository.getSong(songId)
             ?: return Result.failure()
 
-        return try {
-            val playlistImage = DownloadHelper.downloadImage(
-                appContext,
-                playlist.info.coverHref,
-                playlist.info.id
-            )
+        val playlist = playlistId?.let { playlistRepository.getPlaylistById(it) }
+        if (playlistId != null && playlist == null) {
+            return Result.failure()
+        }
 
-            playlistRepository.insertPlaylist(
-                playlist.info.copy(
-                    coverPath = playlistImage?.path
+        return try {
+            if (playlist != null) {
+                val playlistImage = DownloadHelper.downloadImage(
+                    appContext,
+                    playlist.info.coverHref,
+                    playlist.info.id
                 )
-            )
+
+                playlistRepository.insertPlaylist(
+                    playlist.info.copy(
+                        coverPath = playlistImage?.path
+                    )
+                )
+            }
 
             val fullSongData = songRepository
                 .getSongInfo(song.youtubeId)

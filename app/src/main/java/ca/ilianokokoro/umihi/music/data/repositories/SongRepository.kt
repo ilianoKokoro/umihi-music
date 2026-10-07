@@ -28,7 +28,23 @@ class SongRepository(
                 val localSongs = localSongDataSource?.searchDownloaded(query) ?: emptyList()
                 emit(ApiResult.Success(localSongs))
             } else {
-                emit(ApiResult.Success(songDataSource.search(query)))
+                val remoteSongs = songDataSource.search(query)
+                val localSongs = localSongDataSource
+                    ?.getSongsByYoutubeIds(remoteSongs.map { it.youtubeId })
+                    .orEmpty()
+                val localById = localSongs.associateBy { it.youtubeId }
+                emit(
+                    ApiResult.Success(
+                        remoteSongs.map { song ->
+                            localById[song.youtubeId]?.let { local ->
+                                song.copy(
+                                    thumbnailPath = local.thumbnailPath,
+                                    audioFilePath = local.audioFilePath
+                                )
+                            } ?: song
+                        }
+                    )
+                )
             }
         }.catch { e ->
             emit(ApiResult.Error(e.toException()))

@@ -9,7 +9,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
+import ca.ilianokokoro.umihi.music.data.repositories.DownloadRepository
 import ca.ilianokokoro.umihi.music.data.repositories.SongRepository
+import ca.ilianokokoro.umihi.music.models.Song
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -21,6 +23,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     private val datastoreRepository = DatastoreRepository(application)
     val songRepository = SongRepository(application)
+    private val downloadRepository = DownloadRepository(application)
 
     init {
         observeLoginState()
@@ -64,6 +67,13 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+
+    fun downloadSong(song: Song) {
+        viewModelScope.launch {
+            val settings = datastoreRepository.getSettings()
+            downloadRepository.downloadSong(song, settings.downloadOnMetered)
+        }
+    }
 
     fun onSearchFieldChange(newValue: String) {
         viewModelScope.launch {

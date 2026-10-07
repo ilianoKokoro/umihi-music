@@ -88,23 +88,55 @@ class DownloadRepository(appContext: Context) {
         }
 
         localPlaylistRepository.insertPlaylistWithSongs(playlist)
-        val request = OneTimeWorkRequestBuilder<SongDownloadWorker>().setInputData(
-            workDataOf(
-                SongDownloadWorker.PLAYLIST_KEY to playlist.info.id,
-                SongDownloadWorker.SONG_KEY to song.youtubeId
-            )
-        ).setConstraints(
+        enqueueSongDownload(song, id, playlist.info.id, useMetered)
+    }
+
+    suspend fun downloadSong(song: Song, useMetered: Boolean = false) {
+        val existingSong = localSongRepository.getSong(song.youtubeId)
+        if (existingSong?.downloaded == true) {
+            printd("Song is already downloaded ${song.youtubeId}")
+            return
+        }
+
+        val existingWork = getExistingJobs(song.youtubeId)
+        if (existingWork.isNotEmpty()) {
+            printd("Download is already ongoing for song ${song.youtubeId}")
+            return
+        }
+
+        if (existingSong == null) {
+            localSongRepository.create(song)
+        }
+        enqueueSongDownload(song, song.youtubeId, null, useMetered)
+    }
+
+    private suspend fun enqueueSongDownload(
+        song: Song,
+        uniqueWorkId: String,
+        playlistId: String?,
+        useMetered: Boolean
+    ) {
+        val builder = OneTimeWorkRequestBuilder<SongDownloadWorker>().setConstraints(
             Constraints(
                 requiredNetworkType = if (useMetered) NetworkType.CONNECTED else NetworkType.UNMETERED,
                 requiresStorageNotLow = true
             )
-        ).build()
+        )
 
+        val data = if (playlistId != null) {
+            workDataOf(
+                SongDownloadWorker.PLAYLIST_KEY to playlistId,
+                SongDownloadWorker.SONG_KEY to song.youtubeId
+            )
+        } else {
+            workDataOf(SongDownloadWorker.SONG_KEY to song.youtubeId)
+        }
+        builder.setInputData(data)
 
         workManager.enqueueUniqueWork(
-            id,
+            uniqueWorkId,
             ExistingWorkPolicy.KEEP,
-            request
+            builder.build()
         )
 
         if (!useMetered && ConnectivityHelper.isMeteredNetwork(_appContext)) {
