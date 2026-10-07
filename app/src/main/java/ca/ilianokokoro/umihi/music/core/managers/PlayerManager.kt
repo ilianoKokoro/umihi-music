@@ -267,6 +267,9 @@ object PlayerManager {
 
     fun playRadio(song: Song, context: Context) {
         val appContext = context.applicationContext
+        val preserveCurrentPlayback =
+            currentController?.currentMediaItem?.mediaId == song.youtubeId
+
         scope.launch {
             try {
                 val settings = DatastoreRepository(appContext).getSettings()
@@ -275,18 +278,40 @@ object PlayerManager {
                 val radioSongs = SongDataSource().getRadio(song.youtubeId, settings)
                 check(radioSongs.isNotEmpty())
 
-                val startIndex = radioSongs.indexOfFirst { it.youtubeId == song.youtubeId }
-                val queue = if (startIndex >= 0) {
-                    radioSongs
-                } else {
-                    listOf(song) + radioSongs
-                }
-
                 withContext(Dispatchers.Main.immediate) {
-                    playQueue(
-                        mediaItems = queue.map { it.mediaItem },
-                        startIndex = startIndex.takeIf { it >= 0 } ?: 0
-                    )
+                    val controller = currentController ?: return@withContext
+                    val currentIndex = controller.currentMediaItemIndex
+                    val shouldPreservePlayback =
+                        preserveCurrentPlayback ||
+                            controller.currentMediaItem?.mediaId == song.youtubeId
+                    if (
+                        shouldPreservePlayback &&
+                        currentIndex in 0 until controller.mediaItemCount
+                    ) {
+                        val currentMediaId = controller.currentMediaItem?.mediaId
+                        val radioItems = radioSongs
+                            .asSequence()
+                            .filterNot {
+                                it.youtubeId == song.youtubeId || it.youtubeId == currentMediaId
+                            }
+                            .distinctBy { it.youtubeId }
+                            .map { it.mediaItem }
+                            .toList()
+                        val nextIndex = currentIndex + 1
+                        if (radioItems.isNotEmpty()) {
+                            if (nextIndex < controller.mediaItemCount) {
+                                controller.removeMediaItems(nextIndex, controller.mediaItemCount)
+                            }
+                            controller.addMediaItems(nextIndex, radioItems)
+                        }
+                    } else {
+                        val startIndex = radioSongs.indexOfFirst { it.youtubeId == song.youtubeId }
+                        val queue = if (startIndex >= 0) radioSongs else listOf(song) + radioSongs
+                        playQueue(
+                            mediaItems = queue.map { it.mediaItem },
+                            startIndex = startIndex.takeIf { it >= 0 } ?: 0
+                        )
+                    }
                 }
             } catch (e: CancellationException) {
                 throw e
