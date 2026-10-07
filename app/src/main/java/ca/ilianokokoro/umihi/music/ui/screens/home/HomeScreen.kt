@@ -158,8 +158,6 @@ fun HomeScreen(
                                     ) { _, playlist ->
                                         PlaylistCard(
                                             playlistInfo = playlist,
-                                            sharedTransitionScope = sharedTransitionScope,
-                                            animatedVisibilityScope = animatedVisibilityScope,
                                             onClicked = { onPlaylistPressed(playlist) },
                                             songCount = if (playlist.isDownloadedPlaylist) {
                                                 uiState.downloadedSongsCount
