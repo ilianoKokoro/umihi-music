@@ -368,6 +368,10 @@ object Constants {
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
         }
 
+        object Next {
+            const val URL = "${ORIGIN}/youtubei/v1/next?key=${API_KEY}&prettyPrint=false"
+        }
+
         object SearchAutocomplete {
             const val URL =
                 "https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false"

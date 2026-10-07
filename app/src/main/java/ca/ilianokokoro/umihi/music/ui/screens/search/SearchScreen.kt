@@ -243,7 +243,8 @@ fun SearchScreenContent(
                                     { onAddToPlaylist(song) }
                                 } else {
                                     null
-                                }
+                                },
+                                startRadio = { PlayerManager.playRadio(song, context) }
                             )
                         }
                     }

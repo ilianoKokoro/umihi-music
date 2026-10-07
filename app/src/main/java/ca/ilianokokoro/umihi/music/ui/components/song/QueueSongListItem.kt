@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,6 +43,7 @@ fun QueueSongListItem(
     isCurrentSong: Boolean,
     onPress: () -> Unit,
     onDelete: () -> Unit,
+    startRadio: () -> Unit,
     scope: ReorderableCollectionItemScope,
     onDragStarted: () -> Unit,
     onDragStopped: () -> Unit
@@ -87,6 +89,15 @@ fun QueueSongListItem(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
                     ) {
+
+                        MaterialUDropdownItem(
+                            leadingIcon = Icons.Rounded.Radio,
+                            text = stringResource(R.string.radio),
+                            onClick = {
+                                startRadio()
+                                expanded = false
+                            }
+                        )
 
                         MaterialUDropdownItem(
                             leadingIcon = Icons.Rounded.Remove,

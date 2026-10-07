@@ -794,6 +794,71 @@ object YoutubeDataExtractor {
         return songRendererList.mapNotNull { extractSong(it) }
     }
 
+    fun extractRadioSongs(jsonString: String): List<Song> {
+        val json = Json.parseToJsonElement(jsonString)
+        val playlistPanel = findObject(json, "playlistPanelRenderer") ?: return emptyList()
+        val contents = playlistPanel["contents"]?.safeArray() ?: return emptyList()
+
+        return contents.mapNotNull { item ->
+            val itemObject = item.safeObject() ?: return@mapNotNull null
+            val renderer = itemObject["playlistPanelVideoRenderer"]?.safeObject()
+                ?: itemObject["playlistPanelVideoWrapperRenderer"]
+                    ?.safeObject()
+                    ?.get("primaryRenderer")
+                    ?.safeObject()
+                    ?.get("playlistPanelVideoRenderer")
+                    ?.safeObject()
+                ?: return@mapNotNull null
+
+            val videoId = renderer["videoId"]?.jsonPrimitive?.contentOrNull
+                ?: return@mapNotNull null
+            val title = renderer["title"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.mapNotNull { run ->
+                    run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+                }
+                ?.joinToString("")
+                .orEmpty()
+            val artists = renderer["longBylineText"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.mapNotNull { run ->
+                    run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+                }
+                ?.joinToString("")
+                ?.substringBefore(" • ")
+                .orEmpty()
+            val duration = renderer["lengthText"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.firstOrNull()
+                ?.safeObject()
+                ?.get("text")
+                ?.jsonPrimitive
+                ?.contentOrNull
+                .orEmpty()
+
+            Song(
+                youtubeId = videoId,
+                title = title,
+                artists = artists,
+                duration = duration,
+                thumbnailHref = getBestThumbnailUrl(renderer["thumbnail"]),
+                isAvailable = renderer["unplayableText"] == null
+            )
+        }
+    }
+
+    private fun findObject(element: JsonElement, key: String): JsonObject? {
+        return when (element) {
+            is JsonObject -> {
+                element[key]?.safeObject()
+                    ?: element.values.firstNotNullOfOrNull { child -> findObject(child, key) }
+            }
+
+            is JsonArray -> element.firstNotNullOfOrNull { child -> findObject(child, key) }
+            else -> null
+        }
+    }
+
 
     fun extractSongInfo(jsonString: String): Song {
         val json = Json.parseToJsonElement(jsonString).jsonObject
