@@ -344,6 +344,7 @@ class PlaylistViewModel(
     }
 
     fun removeSongFromPlaylist(song: Song) {
+        removeSongLocally(song)
         viewModelScope.launch {
             try {
                 val settings = datastoreRepository.getSettings()
@@ -362,13 +363,29 @@ class PlaylistViewModel(
                     throw Exception(application.getString(R.string.failed_remove_song_from_playlist))
                 }
 
-                getPlaylistInfoAsync()
                 sharedViewModel.requestPlaylistRefresh()
             } catch (ex: Exception) {
                 printe(message = ex.toString(), exception = ex)
                 _uiState.update { currentState ->
                     currentState.copy(screenState = ScreenState.Error(ex))
                 }
+            }
+        }
+    }
+
+    private fun removeSongLocally(song: Song) {
+        _uiState.update { currentState ->
+            val screenState = currentState.screenState
+            if (screenState is ScreenState.Success) {
+                currentState.copy(
+                    screenState = screenState.copy(
+                        playlist = screenState.playlist.copy(
+                            songs = screenState.playlist.songs.filterNot { it.uid == song.uid }
+                        )
+                    )
+                )
+            } else {
+                currentState
             }
         }
     }
