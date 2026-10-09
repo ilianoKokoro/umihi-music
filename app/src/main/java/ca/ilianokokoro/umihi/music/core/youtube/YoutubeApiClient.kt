@@ -210,6 +210,33 @@ object YoutubeApiClient {
         )
     }
 
+    suspend fun getRadio(videoId: String, settings: UmihiSettings): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("videoId", videoId)
+            put("playlistId", "RDAMVM$videoId")
+            put("params", "wAEB")
+            put("enablePersistentPlaylistPanel", true)
+            put("isAudioOnly", true)
+            put("tunerSettingValue", "AUTOMIX_SETTING_NORMAL")
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Next.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
     suspend fun setLike(
         videoId: String,
         liked: Boolean,

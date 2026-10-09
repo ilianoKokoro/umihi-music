@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material.icons.rounded.PlaylistRemove
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -48,6 +49,7 @@ fun SongListItem(
     download: (() -> Unit)? = null,
     addToPlaylist: (() -> Unit)? = null,
     removeFromPlaylist: (() -> Unit)? = null,
+    startRadio: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -97,6 +99,14 @@ fun SongListItem(
                     text = stringResource(R.string.add_to_queue),
                     onClick = {
                         addToQueue()
+                        expanded = false
+                    }
+                )
+                MaterialUDropdownItem(
+                    leadingIcon = Icons.Rounded.Radio,
+                    text = stringResource(R.string.radio),
+                    onClick = {
+                        startRadio()
                         expanded = false
                     }
                 )
