@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocalSongDataSource {
@@ -36,6 +37,16 @@ interface LocalSongDataSource {
 """
     )
     suspend fun countDownloadedSongs(): Int
+
+    @Query(
+        """
+    SELECT COUNT(*)
+    FROM songs
+    WHERE audioFilePath IS NOT NULL
+      AND thumbnailPath IS NOT NULL
+"""
+    )
+    fun countDownloadedSongsFlow(): Flow<Int>
 
     @Query(
         """

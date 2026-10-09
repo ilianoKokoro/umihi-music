@@ -30,6 +30,9 @@ class PlaylistRepository(application: Application) {
     suspend fun getDownloadedSongsCount(): Int =
         localSongDataSource.countDownloadedSongs()
 
+    fun getDownloadedSongsCountFlow(): Flow<Int> =
+        localSongDataSource.countDownloadedSongsFlow()
+
     fun retrieveAll(settings: UmihiSettings): Flow<ApiResult<List<PlaylistInfo>>> {
         return flow {
             emit(ApiResult.Loading)
@@ -144,46 +147,7 @@ class PlaylistRepository(application: Application) {
             )
         }.flowOn(Dispatchers.IO)
     }
-
-    fun addSongToPlaylist(
-        playlistId: String,
-        songId: String,
-        settings: UmihiSettings
-    ): Flow<ApiResult<Unit>> {
-        return flow {
-            emit(ApiResult.Loading)
-            emit(
-                ApiResult.Success(
-                    playlistDataSource.edit(
-                        playlistId = playlistId,
-                        settings = settings,
-                        videoIdsToAdd = listOf(songId)
-                    )
-                )
-            )
-        }.flowOn(Dispatchers.IO)
-    }
-
-    fun removeSongFromPlaylist(
-        playlistId: String,
-        videoId: String,
-        setVideoId: String?,
-        settings: UmihiSettings
-    ): Flow<ApiResult<Unit>> {
-        return flow {
-            emit(ApiResult.Loading)
-            emit(
-                ApiResult.Success(
-                    playlistDataSource.edit(
-                        playlistId = playlistId,
-                        settings = settings,
-                        videosToRemove = listOf(videoId to setVideoId)
-                    )
-                )
-            )
-        }.flowOn(Dispatchers.IO)
-    }
-
+    
     fun retrieveAddToPlaylistOptions(
         videoId: String,
         settings: UmihiSettings
@@ -203,12 +167,11 @@ class PlaylistRepository(application: Application) {
         song: Song,
         settings: UmihiSettings,
         currentlyContains: Boolean,
-        useSongSetVideoId: Boolean = false,
     ): Flow<ApiResult<Unit>> {
         return flow {
             emit(ApiResult.Loading)
             if (currentlyContains) {
-                val setVideoId = (if (useSongSetVideoId) song.setVideoId else null)
+                val setVideoId = song.setVideoId
                     ?: playlistDataSource.findSetVideoId(playlistId, song.youtubeId, settings)
                 playlistDataSource.edit(
                     playlistId = playlistId,
