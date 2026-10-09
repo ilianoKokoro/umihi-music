@@ -46,6 +46,16 @@ object PlayerManager {
     private val _controllerState = MutableStateFlow<MediaController?>(null)
     val controllerState: StateFlow<MediaController?> = _controllerState.asStateFlow()
 
+    private val _currentSongId = MutableStateFlow<String?>(null)
+    val currentSongId: StateFlow<String?> = _currentSongId.asStateFlow()
+
+    private var currentSongListenerController: MediaController? = null
+    private val currentSongListener = object : Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            _currentSongId.value = mediaItem?.mediaId
+        }
+    }
+
     val currentController: MediaController?
         get() = controller?.takeIf { it.isConnected }
 
@@ -106,7 +116,10 @@ object PlayerManager {
     @Synchronized
     fun connectController(context: Context) {
         if (isConnected) {
-            _controllerState.value = controller
+            controller?.let { connectedController ->
+                _controllerState.value = connectedController
+                observeCurrentSong(connectedController)
+            }
             return
         }
 
@@ -134,6 +147,7 @@ object PlayerManager {
                     synchronized(this@PlayerManager) {
                         controller = built
                         _controllerState.value = built
+                        observeCurrentSong(built)
                     }
                 } catch (e: CancellationException) {
                     throw e
@@ -522,7 +536,19 @@ object PlayerManager {
 
     @Synchronized
     private fun clearDeadController() {
+        currentSongListenerController?.removeListener(currentSongListener)
+        currentSongListenerController = null
+        _currentSongId.value = null
         controller = null
         _controllerState.value = null
+    }
+
+    private fun observeCurrentSong(controller: MediaController) {
+        if (currentSongListenerController !== controller) {
+            currentSongListenerController?.removeListener(currentSongListener)
+            currentSongListenerController = controller
+            controller.addListener(currentSongListener)
+        }
+        _currentSongId.value = controller.currentMediaItem?.mediaId
     }
 }
