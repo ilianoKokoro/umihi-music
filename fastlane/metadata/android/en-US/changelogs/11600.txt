@@ -1,0 +1,14 @@
+Features:
+- Add lyrics in the player !
+- Add share button in the player
+- Added downloading from the search without a playlist
+- Add autocompletion in search
+- Add swipe up to open queue
+- Add support for multiple artists display
+- Add refresh download count in the home screen
+- Various UI improvements
+- Updated dependencies
+- Updated translations
+Bug fixes:
+- Removed the shared transition
+- Fixed download notifications sometimes not updating
