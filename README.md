@@ -99,7 +99,8 @@ Join the Discord server to get update pings, know about announcements and get su
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/home.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/playlist.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/search.png" width="200" />
-  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/player.png" width="200" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/player1.png" width="200" />
+  <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/player2.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/queue.png" width="200" />
   <img src="https://raw.githubusercontent.com/ilianoKokoro/umihi-music/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/settings.png" width="200" />
 
