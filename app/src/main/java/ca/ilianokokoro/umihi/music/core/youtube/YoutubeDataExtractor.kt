@@ -479,10 +479,7 @@ object YoutubeDataExtractor {
         "musicTwoRowItemRenderer",
     )
 
-    fun extractAddToPlaylistOptions(
-        jsonString: String,
-        containingPlaylistIds: Set<String> = emptySet(),
-    ): List<AddToPlaylistOption> {
+    fun extractAddToPlaylistOptions(jsonString: String): List<AddToPlaylistOption> {
         val json = Json.parseToJsonElement(jsonString).jsonObject
 
         val root = json["contents"]
@@ -490,11 +487,8 @@ object YoutubeDataExtractor {
             ?.firstNotNullOfOrNull { it.safeObject()?.get("addToPlaylistRenderer") }
             ?: return emptyList()
 
-        val normalizedContainingIds = containingPlaylistIds
-            .mapTo(mutableSetOf()) { it.normalizedPlaylistId() }
-
         val collected = mutableListOf<AddToPlaylistOption>()
-        collectAddToPlaylistOptions(root, collected, normalizedContainingIds)
+        collectAddToPlaylistOptions(root, collected)
 
         val seen = mutableSetOf<String>()
         return collected
@@ -502,82 +496,31 @@ object YoutubeDataExtractor {
             .filter { seen.add(it.playlistId) }
     }
 
-    fun extractPlaylistIdsContainingVideo(jsonString: String): Set<String> {
-        val json = Json.parseToJsonElement(jsonString).safeObject() ?: return emptySet()
-
-        val containingIds = mutableSetOf<String>()
-        collectPlaylistIdsContainingVideo(json, containingIds)
-        return containingIds
-    }
-
-    private fun collectPlaylistIdsContainingVideo(
-        value: JsonElement?,
-        sink: MutableSet<String>
-    ) {
-        when (value) {
-            is JsonObject -> {
-                ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
-                    value[key]?.safeObject()?.let { renderer ->
-                        val isInPlaylist =
-                            renderer["containsSelectedVideos"]?.jsonPrimitive?.contentOrNull == "ALL"
-                        if (isInPlaylist) {
-                            findAddToPlaylistPlaylistId(renderer)?.let {
-                                sink.add(it.normalizedPlaylistId())
-                            }
-                        }
-                    }
-                }
-                value.forEach { (_, child) -> collectPlaylistIdsContainingVideo(child, sink) }
-            }
-
-            is JsonArray -> value.forEach { collectPlaylistIdsContainingVideo(it, sink) }
-
-            else -> Unit
-        }
-    }
-
-    private fun String.normalizedPlaylistId(): String = removePrefix("VL")
-
     private fun isLikedMusicPlaylist(playlistId: String): Boolean {
-        return playlistId.normalizedPlaylistId() == "LM"
+        return playlistId.removePrefix("VL") == "LM"
     }
 
     private fun collectAddToPlaylistOptions(
         value: JsonElement?,
-        sink: MutableList<AddToPlaylistOption>,
-        containingPlaylistIds: Set<String>,
+        sink: MutableList<AddToPlaylistOption>
     ) {
         when (value) {
             is JsonObject -> {
                 ADD_TO_PLAYLIST_RENDERER_KEYS.forEach { key ->
                     value[key]?.safeObject()?.let { renderer ->
-                        parseAddToPlaylistOption(
-                            renderer,
-                            containingPlaylistIds
-                        )?.let { sink.add(it) }
+                        parseAddToPlaylistOption(renderer)?.let { sink.add(it) }
                     }
                 }
-                value.forEach { (_, child) ->
-                    collectAddToPlaylistOptions(child, sink, containingPlaylistIds)
-                }
+                value.forEach { (_, child) -> collectAddToPlaylistOptions(child, sink) }
             }
 
-            is JsonArray -> value.forEach {
-                collectAddToPlaylistOptions(
-                    it,
-                    sink,
-                    containingPlaylistIds
-                )
-            }
+            is JsonArray -> value.forEach { collectAddToPlaylistOptions(it, sink) }
 
             else -> Unit
         }
     }
 
-    private fun parseAddToPlaylistOption(
-        renderer: JsonObject,
-        containingPlaylistIds: Set<String>,
-    ): AddToPlaylistOption? {
+    private fun parseAddToPlaylistOption(renderer: JsonObject): AddToPlaylistOption? {
         val playlistId = findAddToPlaylistPlaylistId(renderer) ?: return null
         val title = extractOptionText(
             renderer,
@@ -594,14 +537,11 @@ object YoutubeDataExtractor {
 
         val thumbnailUrl = getBestThumbnailUrl(renderer).takeIf { it.isNotBlank() }
 
-        val isInPlaylist = playlistId.normalizedPlaylistId() in containingPlaylistIds
-
         return AddToPlaylistOption(
             playlistId = playlistId,
             title = title,
             subtitle = extractOptionText(renderer, "subtitle", "secondaryText"),
             thumbnailUrl = thumbnailUrl,
-            isInPlaylist = isInPlaylist,
         )
     }
 

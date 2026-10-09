@@ -188,13 +188,12 @@ class AddToPlaylistViewModel(
                     throw Exception(application.getString(R.string.failed_get_to_login_cookies))
                 }
 
-                val optionById = success.options.associateBy { it.playlistId }
                 current.pendingToggles.forEach { playlistId ->
                     playlistRepository.toggleSongInPlaylist(
                         playlistId = playlistId,
                         song = song,
                         settings = settings,
-                        currentlyContains = optionById[playlistId]?.isInPlaylist == true,
+                        currentlyContains = false,
                     ).collect { apiResult ->
                         if (apiResult is ApiResult.Error) {
                             throw apiResult.exception

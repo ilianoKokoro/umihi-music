@@ -22,6 +22,7 @@ fun PlaylistCard(
     playlistInfo: PlaylistInfo,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    songCount: Int? = playlistInfo.songCount,
 ) {
     Card(
         onClick = onClicked,
@@ -56,8 +57,8 @@ fun PlaylistCard(
             )
 
             Text(
-                text = playlistInfo.songCount?.let { songCount ->
-                    stringResource(R.string.songs, songCount)
+                text = songCount?.let { count ->
+                    stringResource(R.string.songs, count)
                 }.orEmpty(),
                 modifier = Modifier.padding(top = 2.dp),
                 maxLines = 1,

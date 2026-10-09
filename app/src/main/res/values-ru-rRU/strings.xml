@@ -27,7 +27,7 @@
     <string name="download">Скачать</string>
     <string name="more">больше</string>
     <string name="join_discord_server">Присоединиться к серверу Discord</string>
-    <string name="play_next">Играть далее</string>
+    <string name="play_next">Играть следующим</string>
     <string name="add_to_queue">Добавить в очередь</string>
     <string name="radio">Радио</string>
     <string name="radio_started_toast">Радио запущено</string>
@@ -187,7 +187,7 @@
     <string name="theme_system">Следовать системе</string>
     <string name="change_download_location">Изменить местоположение загрузки</string>
     <string name="current_location">Текущее местоположение: %1$s</string>
-    <string name="internal">Внутренняя память</string>
+    <string name="internal">Внутреннее</string>
     <string name="reset">Сброс</string>
     <string name="download_location_warning_description">Изменение папки загрузок может привести к потере приложения трека загруженных песен, если их файлы перемещаются, переименованы или изменены вне приложения. Убедитесь, что загруженные файлы сохраняются в исходном месте и сохраняются без изменений.</string>
     <string name="ok">ОК</string>

@@ -114,5 +114,4 @@ data class AddToPlaylistOption(
     val title: String,
     val subtitle: String? = null,
     val thumbnailUrl: String? = null,
-    val isInPlaylist: Boolean = false,
 )

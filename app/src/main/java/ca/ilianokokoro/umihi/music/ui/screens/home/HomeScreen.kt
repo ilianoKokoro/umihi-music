@@ -158,7 +158,12 @@ fun HomeScreen(
                                     ) { _, playlist ->
                                         PlaylistCard(
                                             playlistInfo = playlist,
-                                            onClicked = { onPlaylistPressed(playlist) }
+                                            onClicked = { onPlaylistPressed(playlist) },
+                                            songCount = if (playlist.isDownloadedPlaylist) {
+                                                uiState.downloadedSongsCount
+                                            } else {
+                                                playlist.songCount
+                                            }
                                         )
                                     }
                                 }

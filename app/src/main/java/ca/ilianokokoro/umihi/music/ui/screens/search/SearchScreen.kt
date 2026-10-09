@@ -239,6 +239,9 @@ fun SearchScreenContent(
                                 addToQueue = {
                                     PlayerManager.addToQueue(song, context)
                                 },
+                                download = {
+                                    searchViewModel.downloadSong(song)
+                                },
                                 addToPlaylist = if (isLoggedIn) {
                                     { onAddToPlaylist(song) }
                                 } else {
