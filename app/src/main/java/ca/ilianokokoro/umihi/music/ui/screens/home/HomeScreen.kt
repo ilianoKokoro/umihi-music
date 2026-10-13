@@ -162,6 +162,17 @@ fun HomeScreen(
                                                 uiState.downloadedSongsCount
                                             } else {
                                                 playlist.songCount
+                                            },
+                                            onPlay = {
+                                                homeViewModel.playPlaylist(playlist, shuffle = false)
+                                            },
+                                            onShuffle = {
+                                                homeViewModel.playPlaylist(playlist, shuffle = true)
+                                            },
+                                            onHide = { homeViewModel.hidePlaylist(playlist) },
+                                            onDelete = { homeViewModel.deletePlaylist(playlist) },
+                                            onRemoveFromLibrary = {
+                                                homeViewModel.removeFromLibrary(playlist)
                                             }
                                         )
                                     }
