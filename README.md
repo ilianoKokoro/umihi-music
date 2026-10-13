@@ -59,7 +59,9 @@ effortlessly.
 
 ## FAQ ❓
 
-### What is the difference between the normal APK and the `store` apk and which one should I download ?
+### What is the difference between the normal APK and the
+
+`store` apk and which one should I download ?
 
 _The `store` version is the app version that is hosted on `F-droid` and has the updater removed. If
 you download the app directly from GitHub, download the normal version._
@@ -74,6 +76,7 @@ Join the Discord server to get update pings, know about announcements and get su
 
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
+  <li>Lyrics in the player</li>
   <li>Create and delete playlists in app</li>
   <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>
@@ -91,7 +94,8 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ### Future features (In development)
 
-- [ ] Lyrics in the player
+- [ ] Radio/Recommendation
+- [ ] Play age restricted/private songs
 
 ## Screenshots 🖼️
 

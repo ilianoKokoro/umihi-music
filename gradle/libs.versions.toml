@@ -1,6 +1,6 @@
 [versions]
 agp = "9.4.1"
-kotlin = "2.4.10" # 2.4.10 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
+kotlin = "2.4.20" # 2.4.20 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 coreKtx = "1.19.1"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
@@ -11,7 +11,7 @@ coreSplashscreen = "1.2.0"
 desugar_jdk_libs_nio = "2.1.5"
 nav3Core = "1.2.0"
 nav3Lifecycle = "2.11.0"
-kotlinSerialization = "2.4.20"
+kotlinSerialization = "2.4.21"
 kotlinxSerializationCore = "1.11.0"
 coil = "3.6.3"
 media3Exoplayer = "1.11.1"

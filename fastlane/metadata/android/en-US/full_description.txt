@@ -5,6 +5,7 @@
 <p><br><b>Features:</b></p>
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
+  <li>Lyrics in the player</li>
   <li>Create and delete playlists in app</li>
   <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>
