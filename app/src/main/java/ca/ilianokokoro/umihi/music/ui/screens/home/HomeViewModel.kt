@@ -11,8 +11,10 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
+import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import ca.ilianokokoro.umihi.music.models.enums.Privacy
@@ -202,6 +204,76 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                             )
                         }
                     }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
+        }
+    }
+
+    fun playPlaylist(playlistInfo: PlaylistInfo, shuffle: Boolean = false) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                val result = playlistRepository.retrieveOne(Playlist(playlistInfo), settings)
+                    .first { it is ApiResult.Success || it is ApiResult.Error }
+
+                if (result is ApiResult.Success) {
+                    if (shuffle) {
+                        PlayerManager.shufflePlaylist(result.data)
+                    } else {
+                        PlayerManager.playPlaylist(result.data)
+                    }
+                }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
+        }
+    }
+
+    fun hidePlaylist(playlistInfo: PlaylistInfo) {
+        viewModelScope.launch {
+            try {
+                playlistRepository.hidePlaylist(playlistInfo).collect { result ->
+                    if (result is ApiResult.Success) {
+                        removePlaylistsFromList(setOf(playlistInfo.id))
+                    }
+                }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
+        }
+    }
+
+    fun deletePlaylist(playlistInfo: PlaylistInfo) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    return@launch
+                }
+                playlistRepository.delete(playlistInfo, settings).collect { result ->
+                    if (result is ApiResult.Success) {
+                        removePlaylistsFromList(setOf(playlistInfo.id))
+                    }
+                }
+            } catch (ex: Exception) {
+                printe(message = ex.toString(), exception = ex)
+            }
+        }
+    }
+
+    fun removeFromLibrary(playlistInfo: PlaylistInfo) {
+        viewModelScope.launch {
+            try {
+                val settings = datastoreRepository.getSettings()
+                if (settings.cookies.isEmpty()) {
+                    return@launch
+                }
+                playlistRepository.removeFromLibrary(playlistInfo, settings).collect { result ->
+                    if (result is ApiResult.Success) {
+                        removePlaylistsFromList(setOf(playlistInfo.id))
+                    }
+                }
             } catch (ex: Exception) {
                 printe(message = ex.toString(), exception = ex)
             }
