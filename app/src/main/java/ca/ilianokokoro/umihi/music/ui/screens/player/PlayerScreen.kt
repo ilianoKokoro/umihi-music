@@ -58,6 +58,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
@@ -144,7 +145,13 @@ fun PlayerScreen(
                         onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
 
-                    PlayerControlsSection(uiState, playerViewModel)
+                    PlayerControlsSection(
+                        uiState = uiState,
+                        playerViewModel = playerViewModel,
+                        onStartRadio = {
+                            currentSong?.let { PlayerManager.playRadio(it, application) }
+                        }
+                    )
 
                 }
             }
@@ -190,10 +197,15 @@ fun PlayerScreen(
                         onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
                     )
 
-                    PlayerControlsSection(uiState, playerViewModel)
+                    PlayerControlsSection(
+                        uiState = uiState,
+                        playerViewModel = playerViewModel,
+                        onStartRadio = {
+                            currentSong?.let { PlayerManager.playRadio(it, application) }
+                        }
+                    )
                 }
             }
-
         }
     }
 
@@ -208,7 +220,8 @@ fun PlayerScreen(
         QueueBottomSheet(
             changeVisibility = playerViewModel::setQueueVisibility,
             songs = uiState.queue,
-            currentIndex = uiState.currentIndex
+            currentIndex = uiState.currentIndex,
+            onStartRadio = { song -> PlayerManager.playRadio(song, application) }
         )
     } else if (uiState.isSleepTimerModalShown) {
         SleepTimerBottomSheet(
@@ -288,6 +301,7 @@ private fun Modifier.swipeUpToOpen(
 private fun PlayerControlsSection(
     uiState: PlayerState,
     playerViewModel: PlayerViewModel,
+    onStartRadio: () -> Unit,
 ) {
     val density = LocalDensity.current
     val swipeUpThresholdPx = with(density) { 48.dp.toPx() }
@@ -306,6 +320,7 @@ private fun PlayerControlsSection(
         onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
         playbackSpeed = uiState.playbackSpeed,
         onToggleLyrics = playerViewModel::toggleLyrics,
+        onStartRadio = onStartRadio,
         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
         modifier = Modifier.swipeUpToOpen(swipeUpThresholdPx) {
             playerViewModel.setQueueVisibility(true)
@@ -459,4 +474,3 @@ fun SongInfo(
         }
     }
 }
-

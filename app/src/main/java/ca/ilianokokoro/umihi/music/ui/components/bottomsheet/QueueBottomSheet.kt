@@ -45,6 +45,7 @@ fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
     songs: List<Song>,
     currentIndex: Int,
+    onStartRadio: (Song) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -134,6 +135,7 @@ fun QueueBottomSheet(
                                     }
                                     PlayerManager.removeMediaItem(index)
                                 },
+                                startRadio = { onStartRadio(song) },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     PlayerManager.currentController?.moveMediaItem(

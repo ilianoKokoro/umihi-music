@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.data.datasources
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.models.UmihiSettings
 
 class SongDataSource {
     suspend fun getSongInfo(songId: String): Song {
@@ -11,6 +12,12 @@ class SongDataSource {
                 songId,
                 //  fields = Constants.YoutubeApi.PlayerInfo.Fields.SONG_INFO
             )
+        )
+    }
+
+    suspend fun getRadio(videoId: String, settings: UmihiSettings): List<Song> {
+        return YoutubeDataExtractor.extractRadioSongs(
+            YoutubeApiClient.getRadio(videoId, settings)
         )
     }
 

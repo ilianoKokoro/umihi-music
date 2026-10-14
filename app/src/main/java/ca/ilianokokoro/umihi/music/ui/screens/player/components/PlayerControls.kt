@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.Lyrics
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.Shuffle
@@ -74,13 +75,14 @@ fun PlayerControls(
     onOpenSleepTimer: () -> Unit,
     onToggleLyrics: () -> Unit,
     onOpenSpeedSelector: () -> Unit,
+    onStartRadio: () -> Unit,
     playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(7) { ComposeHelper.rememberInteractionSource() }
+        List(8) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -404,6 +406,46 @@ fun PlayerControls(
                     }
                 )
 
+                // Radio — MIDDLE segment
+                customItem(
+                    buttonGroupContent = {
+                        FilledIconButton(
+                            onClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                                onStartRadio()
+                            },
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[3]),
+                            interactionSource = actionButtonsControlsInteractionSources[3],
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Radio,
+                                contentDescription = stringResource(R.string.radio),
+                                modifier = Modifier.size(iconSize)
+                            )
+                        }
+                    },
+                    menuContent = { menuState ->
+                        MaterialUDropdownItem(
+                            text = stringResource(R.string.radio),
+                            leadingIcon = Icons.Rounded.Radio,
+                            onClick = {
+                                onStartRadio()
+                                menuState.dismiss()
+                            }
+                        )
+                    }
+                )
+
                 // Queue — MIDDLE segment
                 customItem(
                     buttonGroupContent = {
@@ -419,8 +461,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[3]),
-                            interactionSource = actionButtonsControlsInteractionSources[3],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[4]),
+                            interactionSource = actionButtonsControlsInteractionSources[4],
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
@@ -460,8 +502,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[4]),
-                            interactionSource = actionButtonsControlsInteractionSources[4],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[5]),
+                            interactionSource = actionButtonsControlsInteractionSources[5],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Lyrics,
@@ -502,8 +544,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[5]),
-                            interactionSource = actionButtonsControlsInteractionSources[5],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[6]),
+                            interactionSource = actionButtonsControlsInteractionSources[6],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Timer,
@@ -544,8 +586,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[6]),
-                            interactionSource = actionButtonsControlsInteractionSources[6],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[7]),
+                            interactionSource = actionButtonsControlsInteractionSources[7],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Speed,

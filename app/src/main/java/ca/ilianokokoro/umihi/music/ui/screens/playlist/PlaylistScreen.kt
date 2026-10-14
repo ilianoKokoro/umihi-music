@@ -308,7 +308,11 @@ fun PlaylistScreen(
                                                         { songToRemove = song }
                                                     } else {
                                                         null
-                                                    })
+                                                    },
+                                                    startRadio = {
+                                                        PlayerManager.playRadio(song, application)
+                                                    }
+                                                )
                                             }
                                         } else {
                                             item {
@@ -376,4 +380,3 @@ fun PlaylistScreen(
         }
     }
 }
-

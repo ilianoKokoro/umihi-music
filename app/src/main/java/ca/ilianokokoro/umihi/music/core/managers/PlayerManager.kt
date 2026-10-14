@@ -14,6 +14,7 @@ import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.audio.PlaybackService
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.data.datasources.SongDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
@@ -262,6 +263,74 @@ object PlayerManager {
         controller.setMediaItem(song.mediaItem)
         controller.prepare()
         controller.play()
+    }
+
+    fun playRadio(song: Song, context: Context) {
+        val appContext = context.applicationContext
+        val preserveCurrentPlayback =
+            currentController?.currentMediaItem?.mediaId == song.youtubeId
+
+        scope.launch {
+            try {
+                val settings = DatastoreRepository(appContext).getSettings()
+                check(!settings.offlineMode)
+
+                val radioSongs = SongDataSource().getRadio(song.youtubeId, settings)
+                check(radioSongs.isNotEmpty())
+
+                withContext(Dispatchers.Main.immediate) {
+                    val controller = currentController ?: return@withContext
+                    val currentIndex = controller.currentMediaItemIndex
+                    val shouldPreservePlayback =
+                        preserveCurrentPlayback ||
+                            controller.currentMediaItem?.mediaId == song.youtubeId
+                    if (
+                        shouldPreservePlayback &&
+                        currentIndex in 0 until controller.mediaItemCount
+                    ) {
+                        val currentMediaId = controller.currentMediaItem?.mediaId
+                        val radioItems = radioSongs
+                            .asSequence()
+                            .filterNot {
+                                it.youtubeId == song.youtubeId || it.youtubeId == currentMediaId
+                            }
+                            .distinctBy { it.youtubeId }
+                            .map { it.mediaItem }
+                            .toList()
+                        val nextIndex = currentIndex + 1
+                        if (radioItems.isNotEmpty()) {
+                            if (nextIndex < controller.mediaItemCount) {
+                                controller.removeMediaItems(nextIndex, controller.mediaItemCount)
+                            }
+                            controller.addMediaItems(nextIndex, radioItems)
+                        }
+                    } else {
+                        val startIndex = radioSongs.indexOfFirst { it.youtubeId == song.youtubeId }
+                        val queue = if (startIndex >= 0) radioSongs else listOf(song) + radioSongs
+                        playQueue(
+                            mediaItems = queue.map { it.mediaItem },
+                            startIndex = startIndex.takeIf { it >= 0 } ?: 0
+                        )
+                    }
+
+                    Toast.makeText(
+                        appContext,
+                        appContext.getString(R.string.radio_started_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                withContext(Dispatchers.Main.immediate) {
+                    Toast.makeText(
+                        appContext,
+                        appContext.getString(R.string.radio_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 
     suspend fun getPlaybackPosition(): Pair<Float, Float>? {
