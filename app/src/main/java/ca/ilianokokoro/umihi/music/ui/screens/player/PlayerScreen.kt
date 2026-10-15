@@ -148,9 +148,6 @@ fun PlayerScreen(
                     PlayerControlsSection(
                         uiState = uiState,
                         playerViewModel = playerViewModel,
-                        onStartRadio = {
-                            currentSong?.let { PlayerManager.playRadio(it, application) }
-                        }
                     )
 
                 }
@@ -200,9 +197,6 @@ fun PlayerScreen(
                     PlayerControlsSection(
                         uiState = uiState,
                         playerViewModel = playerViewModel,
-                        onStartRadio = {
-                            currentSong?.let { PlayerManager.playRadio(it, application) }
-                        }
                     )
                 }
             }
@@ -221,7 +215,11 @@ fun PlayerScreen(
             changeVisibility = playerViewModel::setQueueVisibility,
             songs = uiState.queue,
             currentIndex = uiState.currentIndex,
-            onStartRadio = { song -> PlayerManager.playRadio(song, application) }
+            isMixActive = uiState.isMixActive,
+            isMixLoading = uiState.isMixLoading,
+            isMixLoadingMore = uiState.isMixLoadingMore,
+            onToggleMix = playerViewModel::toggleMix,
+            onStartMix = { song -> PlayerManager.playMix(song, application) }
         )
     } else if (uiState.isSleepTimerModalShown) {
         SleepTimerBottomSheet(
@@ -301,7 +299,6 @@ private fun Modifier.swipeUpToOpen(
 private fun PlayerControlsSection(
     uiState: PlayerState,
     playerViewModel: PlayerViewModel,
-    onStartRadio: () -> Unit,
 ) {
     val density = LocalDensity.current
     val swipeUpThresholdPx = with(density) { 48.dp.toPx() }
@@ -320,7 +317,8 @@ private fun PlayerControlsSection(
         onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
         playbackSpeed = uiState.playbackSpeed,
         onToggleLyrics = playerViewModel::toggleLyrics,
-        onStartRadio = onStartRadio,
+        isMixActive = uiState.isMixActive,
+        onToggleMix = playerViewModel::toggleMix,
         sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
         modifier = Modifier.swipeUpToOpen(swipeUpThresholdPx) {
             playerViewModel.setQueueVisibility(true)

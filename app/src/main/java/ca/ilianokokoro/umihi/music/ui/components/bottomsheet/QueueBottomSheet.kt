@@ -1,18 +1,29 @@
 package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.rounded.Radio
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -22,7 +33,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -45,21 +58,50 @@ fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
     songs: List<Song>,
     currentIndex: Int,
-    onStartRadio: (Song) -> Unit,
+    isMixActive: Boolean,
+    isMixLoading: Boolean,
+    isMixLoadingMore: Boolean,
+    onToggleMix: () -> Unit,
+    onStartMix: (Song) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    var mutableSongList by remember(songs) { mutableStateOf(songs) }
+    val normalSongs = songs.filterNot { it.isMix }
+    val mixSongs = songs.filter { it.isMix }
+
+    var mutableSongList by remember(normalSongs) { mutableStateOf(normalSongs) }
+    var mutableMixList by remember(mixSongs) { mutableStateOf(mixSongs) }
     var startIndex by remember { mutableIntStateOf(0) }
+    var mixStartIndex by remember { mutableIntStateOf(0) }
+
+    fun globalIndex(song: Song): Int = songs.indexOfFirst { it.uid == song.uid }
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-        mutableSongList = mutableSongList.toMutableList().apply {
-            add(to.index, removeAt(from.index))
-        }
+        val normalCount = mutableSongList.size
+        val mixSectionStart = normalCount + 1
+        val fromNormal = from.index < normalCount
+        val toNormal = to.index < normalCount
+        val fromMix = from.index >= mixSectionStart
+        val toMix = to.index >= mixSectionStart
 
-        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        if (fromNormal && toNormal) {
+            val target = to.index.coerceIn(0, mutableSongList.lastIndex)
+            mutableSongList = mutableSongList.toMutableList().apply {
+                add(target, removeAt(from.index))
+            }
+
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        } else if (fromMix && toMix && mutableMixList.isNotEmpty()) {
+            val target = (to.index - mixSectionStart)
+                .coerceIn(0, mutableMixList.lastIndex)
+            mutableMixList = mutableMixList.toMutableList().apply {
+                add(target, removeAt(from.index - mixSectionStart))
+            }
+
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -90,6 +132,47 @@ fun QueueBottomSheet(
                 modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp),
             )
 
+            ListItem(
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Rounded.Radio,
+                        contentDescription = null,
+                    )
+                },
+                trailingContent = {
+                    Switch(
+                        checked = isMixActive,
+                        enabled = !isMixLoading,
+                        onCheckedChange = { onToggleMix() },
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .clip(Constants.Ui.SongItems.CORNER_RADIUS)
+                    .clickable(enabled = !isMixLoading) { onToggleMix() },
+                content = {
+                    Text(stringResource(R.string.mix))
+                },
+            )
+
+            if (isMixLoading) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                ) {
+                    CircularProgressIndicator(
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(20.dp),
+                    )
+                    Text(
+                        text = stringResource(R.string.mix_loading),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            }
+
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
@@ -101,7 +184,9 @@ fun QueueBottomSheet(
                 ),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                if (mutableSongList.isEmpty()) {
+                if (mutableSongList.isEmpty() && mixSongs.isEmpty() &&
+                    !isMixLoading && !isMixLoadingMore
+                ) {
                     item {
                         Text(
                             stringResource(R.string.queue_empty),
@@ -122,7 +207,7 @@ fun QueueBottomSheet(
                                 song = song,
                                 isCurrentSong = song.uid == songs.getOrNull(currentIndex)?.uid,
                                 onPress = {
-                                    PlayerManager.seekToIndex(index)
+                                    PlayerManager.seekToIndex(globalIndex(song))
                                 },
                                 scope = this,
                                 onDragStarted = {
@@ -133,9 +218,9 @@ fun QueueBottomSheet(
                                     mutableSongList = mutableSongList.toMutableList().apply {
                                         removeAt(index)
                                     }
-                                    PlayerManager.removeMediaItem(index)
+                                    PlayerManager.removeMediaItem(globalIndex(song))
                                 },
-                                startRadio = { onStartRadio(song) },
+                                startMix = { onStartMix(song) },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     PlayerManager.currentController?.moveMediaItem(
@@ -144,6 +229,71 @@ fun QueueBottomSheet(
                                     )
                                 }
                             )
+                        }
+                    }
+
+                    if (mixSongs.isNotEmpty()) {
+                        item(key = "mix_header") {
+                            Text(
+                                text = stringResource(R.string.mix_up_next),
+                                style = MaterialTheme.typography.titleSmall,
+                                modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                            )
+                        }
+
+                        items(
+                            items = mutableMixList, key = { song -> song.uid }
+                        ) { song ->
+                            ReorderableItem(
+                                reorderableLazyListState,
+                                key = song.uid
+                            ) { _ ->
+                                QueueSongListItem(
+                                    song = song,
+                                    isCurrentSong = song.uid == songs.getOrNull(currentIndex)?.uid,
+                                    onPress = {
+                                        PlayerManager.seekToIndex(globalIndex(song))
+                                    },
+                                    scope = this,
+                                    onDragStarted = {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                        mixStartIndex = mutableMixList.indexOf(song)
+                                    },
+                                    onDelete = {
+                                        mutableMixList = mutableMixList.toMutableList().apply {
+                                            remove(song)
+                                        }
+                                        PlayerManager.removeMediaItem(globalIndex(song))
+                                    },
+                                    startMix = { onStartMix(song) },
+                                    onDragStopped = {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                        val mixGlobalStart = songs.indexOfFirst { it.isMix }
+                                            .let { index -> if (index == -1) songs.size else index }
+                                        PlayerManager.currentController?.moveMediaItem(
+                                            mixGlobalStart + mixStartIndex,
+                                            mixGlobalStart + mutableMixList.indexOf(song)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    if (isMixLoadingMore) {
+                        item(key = "mix_loading_more") {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                            ) {
+                                CircularProgressIndicator(
+                                    strokeWidth = 2.dp,
+                                    modifier = Modifier.size(20.dp),
+                                )
+                            }
                         }
                     }
                 }

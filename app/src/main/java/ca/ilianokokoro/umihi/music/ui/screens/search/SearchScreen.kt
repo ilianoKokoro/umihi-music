@@ -247,7 +247,7 @@ fun SearchScreenContent(
                                 } else {
                                     null
                                 },
-                                startRadio = { PlayerManager.playRadio(song, context) }
+                                startMix = { PlayerManager.playMix(song, context) }
                             )
                         }
                     }

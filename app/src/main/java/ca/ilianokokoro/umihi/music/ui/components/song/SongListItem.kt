@@ -49,7 +49,7 @@ fun SongListItem(
     download: (() -> Unit)? = null,
     addToPlaylist: (() -> Unit)? = null,
     removeFromPlaylist: (() -> Unit)? = null,
-    startRadio: () -> Unit,
+    startMix: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -104,9 +104,9 @@ fun SongListItem(
                 )
                 MaterialUDropdownItem(
                     leadingIcon = Icons.Rounded.Radio,
-                    text = stringResource(R.string.radio),
+                    text = stringResource(R.string.mix_start),
                     onClick = {
-                        startRadio()
+                        startMix()
                         expanded = false
                     }
                 )

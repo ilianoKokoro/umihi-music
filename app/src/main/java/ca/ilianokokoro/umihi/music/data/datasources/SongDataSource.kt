@@ -1,5 +1,6 @@
 package ca.ilianokokoro.umihi.music.data.datasources
 
+import ca.ilianokokoro.umihi.music.core.youtube.MixPage
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeApiClient
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.models.Song
@@ -15,9 +16,18 @@ class SongDataSource {
         )
     }
 
-    suspend fun getRadio(videoId: String, settings: UmihiSettings): List<Song> {
-        return YoutubeDataExtractor.extractRadioSongs(
-            YoutubeApiClient.getRadio(videoId, settings)
+    suspend fun getMix(videoId: String, settings: UmihiSettings): MixPage {
+        return YoutubeDataExtractor.extractMixSongs(
+            YoutubeApiClient.getMix(videoId, settings)
+        )
+    }
+
+    suspend fun getMixContinuation(
+        continuation: String,
+        settings: UmihiSettings
+    ): MixPage {
+        return YoutubeDataExtractor.extractMixContinuation(
+            YoutubeApiClient.getMixContinuation(continuation, settings)
         )
     }
 

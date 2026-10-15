@@ -100,6 +100,24 @@ class PlayerViewModel(application: Application) :
         }
 
         viewModelScope.launch {
+            PlayerManager.isMixActive.collect { active ->
+                _uiState.update { it.copy(isMixActive = active) }
+            }
+        }
+
+        viewModelScope.launch {
+            PlayerManager.isMixLoading.collect { loading ->
+                _uiState.update { it.copy(isMixLoading = loading) }
+            }
+        }
+
+        viewModelScope.launch {
+            PlayerManager.isMixLoadingMore.collect { loading ->
+                _uiState.update { it.copy(isMixLoadingMore = loading) }
+            }
+        }
+
+        viewModelScope.launch {
             val settings = datastoreRepository.getSettings()
             _uiState.update { it.copy(isLoggedIn = !settings.cookies.isEmpty()) }
         }
@@ -210,6 +228,10 @@ class PlayerViewModel(application: Application) :
                 )
             }
         }
+    }
+
+    fun toggleMix() {
+        PlayerManager.toggleMix(getApplication())
     }
 
     fun shareSong(context: Context, song: Song) {

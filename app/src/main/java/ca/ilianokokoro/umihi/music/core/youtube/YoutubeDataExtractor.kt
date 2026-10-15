@@ -36,6 +36,11 @@ import kotlin.time.Duration.Companion.milliseconds
 
 var visitorData: String? = null
 
+data class MixPage(
+    val songs: List<Song> = emptyList(),
+    val continuation: String? = null,
+)
+
 object YoutubeDataExtractor {
     fun extractYouTubeVideoId(url: String): String? {
         val uri = url.toUri()
@@ -734,10 +739,46 @@ object YoutubeDataExtractor {
         return songRendererList.mapNotNull { extractSong(it) }
     }
 
-    fun extractRadioSongs(jsonString: String): List<Song> {
+    fun extractMixSongs(jsonString: String): MixPage {
         val json = Json.parseToJsonElement(jsonString)
-        val playlistPanel = findObject(json, "playlistPanelRenderer") ?: return emptyList()
-        val contents = playlistPanel["contents"]?.safeArray() ?: return emptyList()
+        val playlistPanel = json.safeObject()
+            ?.get("contents")?.safeObject()
+            ?.get("singleColumnMusicWatchNextResultsRenderer")?.safeObject()
+            ?.get("tabbedRenderer")?.safeObject()
+            ?.get("watchNextTabbedResultsRenderer")?.safeObject()
+            ?.get("tabs")?.safeArray()
+            ?.firstNotNullOfOrNull { tab ->
+                tab.safeObject()?.get("tabRenderer")?.safeObject()
+                    ?.get("content")?.safeObject()
+                    ?.get("musicQueueRenderer")?.safeObject()
+                    ?.get("content")?.safeObject()
+                    ?.get("playlistPanelRenderer")?.safeObject()
+            }
+            ?: return MixPage()
+
+        return MixPage(
+            songs = parseMixPanelContents(playlistPanel["contents"]?.safeArray()),
+            continuation = extractNextMixContinuation(playlistPanel)
+        )
+    }
+
+    fun extractMixContinuation(jsonString: String): MixPage {
+        val json = Json.parseToJsonElement(jsonString)
+        val panel = json.safeObject()
+            ?.get("continuationContents")?.safeObject()
+            ?.get("playlistPanelContinuation")?.safeObject()
+            ?: return MixPage()
+
+        return MixPage(
+            songs = parseMixPanelContents(panel["contents"]?.safeArray()),
+            continuation = extractNextMixContinuation(panel)
+        )
+    }
+
+    private fun parseMixPanelContents(contents: JsonArray?): List<Song> {
+        if (contents == null) {
+            return emptyList()
+        }
 
         return contents.mapNotNull { item ->
             val itemObject = item.safeObject() ?: return@mapNotNull null
@@ -787,18 +828,14 @@ object YoutubeDataExtractor {
         }
     }
 
-    private fun findObject(element: JsonElement, key: String): JsonObject? {
-        return when (element) {
-            is JsonObject -> {
-                element[key]?.safeObject()
-                    ?: element.values.firstNotNullOfOrNull { child -> findObject(child, key) }
+    private fun extractNextMixContinuation(panel: JsonObject): String? {
+        return panel["continuations"]?.safeArray()
+            ?.firstNotNullOfOrNull { continuation ->
+                continuation.safeObject()
+                    ?.get("nextRadioContinuationData")?.safeObject()
+                    ?.get("continuation")?.jsonPrimitive?.contentOrNull
             }
-
-            is JsonArray -> element.firstNotNullOfOrNull { child -> findObject(child, key) }
-            else -> null
-        }
     }
-
 
     fun extractSongInfo(jsonString: String): Song {
         val json = Json.parseToJsonElement(jsonString).jsonObject

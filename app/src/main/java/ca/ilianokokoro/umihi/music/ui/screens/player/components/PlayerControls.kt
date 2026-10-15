@@ -75,7 +75,8 @@ fun PlayerControls(
     onOpenSleepTimer: () -> Unit,
     onToggleLyrics: () -> Unit,
     onOpenSpeedSelector: () -> Unit,
-    onStartRadio: () -> Unit,
+    isMixActive: Boolean,
+    onToggleMix: () -> Unit,
     playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
 ) {
@@ -406,19 +407,23 @@ fun PlayerControls(
                     }
                 )
 
-                // Radio — MIDDLE segment
+                // Mix — MIDDLE segment
                 customItem(
                     buttonGroupContent = {
-                        FilledIconButton(
-                            onClick = {
+                        FilledIconToggleButton(
+                            checked = isMixActive,
+                            onCheckedChange = {
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
-                                onStartRadio()
+                                onToggleMix()
                             },
-                            shapes = IconButtonDefaults.shapes(
+                            shapes = IconButtonDefaults.toggleableShapes(
                                 shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                                 pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                             ),
-                            colors = IconButtonDefaults.filledIconButtonColors(
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 contentColor = MaterialTheme.colorScheme.onSurface
                             ),
@@ -429,17 +434,17 @@ fun PlayerControls(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Radio,
-                                contentDescription = stringResource(R.string.radio),
+                                contentDescription = stringResource(R.string.mix),
                                 modifier = Modifier.size(iconSize)
                             )
                         }
                     },
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
-                            text = stringResource(R.string.radio),
+                            text = stringResource(R.string.mix),
                             leadingIcon = Icons.Rounded.Radio,
                             onClick = {
-                                onStartRadio()
+                                onToggleMix()
                                 menuState.dismiss()
                             }
                         )

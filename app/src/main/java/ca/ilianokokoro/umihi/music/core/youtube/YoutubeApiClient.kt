@@ -210,7 +210,7 @@ object YoutubeApiClient {
         )
     }
 
-    suspend fun getRadio(videoId: String, settings: UmihiSettings): String {
+    suspend fun getMix(videoId: String, settings: UmihiSettings): String {
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
             id = null,
@@ -228,6 +228,28 @@ object YoutubeApiClient {
             put("enablePersistentPlaylistPanel", true)
             put("isAudioOnly", true)
             put("tunerSettingValue", "AUTOMIX_SETTING_NORMAL")
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Next.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
+    suspend fun getMixContinuation(continuation: String, settings: UmihiSettings): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("continuation", continuation)
         }
 
         return requestWithBody(

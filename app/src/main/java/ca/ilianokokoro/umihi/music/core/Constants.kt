@@ -196,6 +196,7 @@ object Constants {
             const val DURATION = "duration"
             const val UID = "uid"
             const val PLAYABLE = "playable"
+            const val IS_MIX = "is_mix"
         }
     }
 

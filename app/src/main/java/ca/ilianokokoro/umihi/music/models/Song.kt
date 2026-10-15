@@ -42,12 +42,16 @@ data class Song(
 ) {
     @Ignore
     var setVideoId: String? = null
+
+    @Ignore
+    var isMix: Boolean = false
     val mediaItem: MediaItem
         get() {
             val extras = Bundle()
             extras.putString(Constants.ExoPlayer.SongMetadata.DURATION, duration)
             extras.putString(Constants.ExoPlayer.SongMetadata.UID, Uuid.random().toString())
             extras.putBoolean(Constants.ExoPlayer.SongMetadata.PLAYABLE, isAvailable)
+            extras.putBoolean(Constants.ExoPlayer.SongMetadata.IS_MIX, isMix)
             if (isExplicit) {
                 extras.putLong(
                     MediaConstants.EXTRAS_KEY_IS_EXPLICIT,

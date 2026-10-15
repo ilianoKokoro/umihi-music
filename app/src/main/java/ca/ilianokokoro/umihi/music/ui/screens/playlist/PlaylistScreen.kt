@@ -309,8 +309,8 @@ fun PlaylistScreen(
                                                     } else {
                                                         null
                                                     },
-                                                    startRadio = {
-                                                        PlayerManager.playRadio(song, application)
+                                                    startMix = {
+                                                        PlayerManager.playMix(song, application)
                                                     }
                                                 )
                                             }
