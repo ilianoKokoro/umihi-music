@@ -83,6 +83,7 @@ fun PlaylistScreen(
 
 ) {
     val uiState = playlistViewModel.uiState.collectAsStateWithLifecycle().value
+    val currentSongId = PlayerManager.currentSongId.collectAsStateWithLifecycle().value
     val isLoggedIn = uiState.isLoggedIn
     var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
     var songToRemove by remember { mutableStateOf<Song?>(null) }
@@ -283,6 +284,7 @@ fun PlaylistScreen(
                                             ) { song ->
                                                 SongListItem(
                                                     song,
+                                                    isCurrentSong = song.youtubeId == currentSongId,
                                                     onPress = {
                                                         onOpenPlayer()
                                                         playlistViewModel.playPlaylist(song)
@@ -376,4 +378,3 @@ fun PlaylistScreen(
         }
     }
 }
-
