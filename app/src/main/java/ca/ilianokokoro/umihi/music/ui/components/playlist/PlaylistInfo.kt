@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -61,6 +62,7 @@ fun PlaylistInfo(
     onCancelDownload: () -> Unit,
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
+    onStartMix: () -> Unit = {},
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     optionsExtended: Boolean = false,
@@ -182,6 +184,17 @@ fun PlaylistInfo(
                             expanded = optionsExtended,
                             onDismissRequest = { onOptionsExtendedChange(false) },
                         ) {
+                            if (playlist.songs.isNotEmpty()) {
+                                MaterialUDropdownItem(
+                                    leadingIcon = Icons.Rounded.Radio,
+                                    text = stringResource(R.string.mix_start),
+                                    onClick = {
+                                        onStartMix()
+                                        onOptionsExtendedChange(false)
+                                    }
+                                )
+                            }
+
                             if (isDownloading) {
                                 MaterialUDropdownItem(
                                     leadingIcon = Icons.Rounded.Cancel,

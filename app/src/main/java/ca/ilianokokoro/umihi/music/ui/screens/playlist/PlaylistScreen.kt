@@ -239,6 +239,11 @@ fun PlaylistScreen(
                                             onCancelDownload = playlistViewModel::cancelDownload,
                                             onUnhidePlaylist = playlistViewModel::unhidePlaylist,
                                             onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
+                                            onStartMix = {
+                                                if (playlistInfo.songs.isNotEmpty()) {
+                                                    PlayerManager.playMix(playlistInfo.songs.first(), application)
+                                                }
+                                            },
                                             isLoading = uiState.screenState is ScreenState.Loading,
                                             playlist = playlistInfo,
                                             optionsExtended = uiState.optionsExtended,
