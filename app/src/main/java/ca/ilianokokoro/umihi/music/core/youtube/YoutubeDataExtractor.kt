@@ -883,57 +883,57 @@ object YoutubeDataExtractor {
         onProgress: (Int) -> Unit,
         songs: MutableList<Song> = mutableListOf()
     ): List<Song> {
-        if (contents == null) {
-            return songs
-        }
+        var currentContents = contents
 
-        for (shelf in contents) {
-            val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
+        while (true) {
+            val page = currentContents ?: break
+            var continuationToken: String? = null
 
-            if (continuationContent != null) {
-                val continuationObject =
-                    continuationContent.safeObject()?.get("continuationEndpoint")
-                        ?.safeObject()
-                val token = continuationObject
-                    ?.get("continuationCommand")
-                    ?.safeObject()
-                    ?.get("token")
-                    ?.jsonPrimitive?.contentOrNull
-                    ?: continuationObject
-                        ?.get("commandExecutorCommand")
-                        ?.safeObject()
-                        ?.get("commands")
-                        ?.safeArray()
-                        ?.firstOrNull { it.safeObject()?.get("continuationCommand") != null }
-                        ?.safeObject()
+            for (shelf in page) {
+                val continuationContent = shelf.safeObject()?.get("continuationItemRenderer")
+
+                if (continuationContent != null) {
+                    val continuationObject =
+                        continuationContent.safeObject()?.get("continuationEndpoint")
+                            ?.safeObject()
+                    continuationToken = continuationObject
                         ?.get("continuationCommand")
                         ?.safeObject()
                         ?.get("token")
                         ?.jsonPrimitive?.contentOrNull
+                        ?: continuationObject
+                            ?.get("commandExecutorCommand")
+                            ?.safeObject()
+                            ?.get("commands")
+                            ?.safeArray()
+                            ?.firstOrNull { it.safeObject()?.get("continuationCommand") != null }
+                            ?.safeObject()
+                            ?.get("continuationCommand")
+                            ?.safeObject()
+                            ?.get("token")
+                            ?.jsonPrimitive?.contentOrNull
 
-                if (token != null) {
-                    parseSongsFromContents(
-                        extractContinuationContents(
-                            YoutubeApiClient.requestContinuation(
-                                continuationToken = token,
-                                settings = settings,
-                            )
-                        ),
-                        settings,
-                        onProgress,
-                        songs
-                    )
+                    continue
                 }
 
-                continue
+
+                val song = extractSong(shelf) ?: continue
+                songs.add(
+                    song
+                )
+                onProgress(songs.size)
             }
 
-
-            val song = extractSong(shelf) ?: continue
-            songs.add(
-                song
-            )
-            onProgress(songs.size)
+            currentContents = if (continuationToken != null) {
+                extractContinuationContents(
+                    YoutubeApiClient.requestContinuation(
+                        continuationToken = continuationToken,
+                        settings = settings,
+                    )
+                )
+            } else {
+                null
+            }
         }
 
         return songs
