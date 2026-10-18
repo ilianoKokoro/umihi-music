@@ -71,7 +71,9 @@ object NotificationManager {
             postLock.withLock {
                 val wait = MIN_POST_INTERVAL_MS - (SystemClock.elapsedRealtime() - lastPostAt)
                 if (wait > 0) {
-                    if (droppable) return@withLock
+                    if (droppable) {
+                        return@withLock
+                    }
                     delay(wait.milliseconds)
                 }
                 withContext(notifyDispatcher) {
@@ -111,15 +113,12 @@ object NotificationManager {
         currentSong: Int,
         totalSongs: Int
     ) {
+        val id = getNotificationID(playlist.info.id)
 
         val notification = getBaseNotification(context, NotificationChannels.PLAYLIST_DOWNLOAD)
             .setContentTitle(playlist.info.title)
             .setContentText(
-                context.getString(
-                    R.string.number_of_songs_downloaded,
-                    currentSong,
-                    totalSongs
-                )
+                context.getString(R.string.number_of_songs_downloaded, currentSong, totalSongs)
             )
             .setSmallIcon(android.R.drawable.stat_sys_download)
             .setProgress(totalSongs, currentSong, false)
@@ -130,8 +129,10 @@ object NotificationManager {
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        val isStart = currentSong == 0
-        postNotification(getNotificationID(playlist.info.id), notification, droppable = !isStart)
+        val isShown = androidNotificationManager.activeNotifications.any { it.id == id }
+        val isStart = !isShown
+
+        postNotification(id, notification, droppable = !isStart)
         if (isStart) {
             updateGroupSummary(context)
         }

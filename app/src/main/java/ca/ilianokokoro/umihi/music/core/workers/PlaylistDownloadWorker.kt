@@ -48,6 +48,10 @@ class PlaylistDownloadWorker(
         val playlist = playlistRepository.getPlaylistById(playlistId)
             ?: return Result.failure()
 
+        printd(
+            message = "Starting playlist download for $playlistId",
+        )
+
         return try {
             val totalSongs = playlist.songs.size
             val processedSongs = AtomicInt(0)
