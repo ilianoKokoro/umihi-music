@@ -159,19 +159,34 @@ object YoutubeStatsTracker {
     private fun extractTrackingUrls(jsonString: String): PlaybackTrackingUrls {
         return try {
             val root = JSONObject(jsonString)
-            val tracking =
-                root.optJSONObject("playbackTracking") ?: return PlaybackTrackingUrls(null, null)
+            val tracking = root.optJSONObject("playbackTracking")
 
-            fun extractBaseUrl(key: String): String? {
-                val obj = tracking.optJSONObject(key) ?: return null
-                val url = obj.optString("baseUrl", "")
-                return url.ifBlank { null }
+            if (tracking == null) {
+                LogHelper.printw(
+                    "Missing playbackTracking; " +
+                            "topLevelKeys=${root.keys().asSequence().toList()}"
+                )
+                return PlaybackTrackingUrls(null, null)
             }
 
-            PlaybackTrackingUrls(
-                playbackUrl = extractBaseUrl("videostatsPlaybackUrl"),
-                watchtimeUrl = extractBaseUrl("videostatsWatchtimeUrl"),
-            )
+            val playback = tracking.optJSONObject("videostatsPlaybackUrl")
+                ?.optString("baseUrl")
+                ?.takeIf { it.isNotBlank() }
+
+            val watchtime = tracking.optJSONObject("videostatsWatchtimeUrl")
+                ?.optString("baseUrl")
+                ?.takeIf { it.isNotBlank() }
+
+            if (playback == null || watchtime == null) {
+                LogHelper.printw(
+                    "Incomplete playbackTracking: " +
+                            "playback=${playback != null}, " +
+                            "watchtime=${watchtime != null}, " +
+                            "keys=${tracking.keys().asSequence().toList()}"
+                )
+            }
+
+            PlaybackTrackingUrls(playback, watchtime)
         } catch (e: Exception) {
             LogHelper.printe(
                 "Failed to parse player response for tracking URLs: ${e.message}",
