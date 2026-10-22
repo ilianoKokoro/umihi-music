@@ -8,15 +8,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 
 @Composable
-fun ExplicitBadge(modifier: Modifier = Modifier) {
+fun ExplicitBadge(size: Dp = 20.dp) {
     Icon(
         imageVector = Icons.Rounded.Explicit,
         contentDescription = stringResource(R.string.explicit),
-        modifier = modifier.size(20.dp),
+        modifier = Modifier.size(size),
         tint = MaterialTheme.colorScheme.onSurfaceVariant
     )
 }

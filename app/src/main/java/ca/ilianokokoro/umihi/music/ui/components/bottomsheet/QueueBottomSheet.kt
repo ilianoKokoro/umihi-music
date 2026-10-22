@@ -111,7 +111,8 @@ fun QueueBottomSheet(
                     }
                 } else {
                     itemsIndexed(
-                        items = mutableSongList, key = { _, song -> song.uid }
+                        items = mutableSongList,
+                        key = { _, song -> song.uid },
                     ) { index, song ->
                         ReorderableItem(
                             reorderableLazyListState,

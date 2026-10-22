@@ -1,9 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.components.song
 
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -11,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material.icons.rounded.PlaylistRemove
@@ -31,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
@@ -138,29 +134,7 @@ fun SongListItem(
             }
         },
         supportingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(3.dp)
-            ) {
-                if (song.downloaded) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = Icons.Rounded.DownloadForOffline,
-                        contentDescription = null
-                    )
-                }
-
-                if (song.isExplicit) {
-                    ExplicitBadge()
-                }
-
-
-                Text(
-                    text = "${song.artists} ${stringResource(R.string.dot)} ${song.duration}",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+            SongSubtitle(song)
         },
         colors = if (isCurrentSong) {
             ListItemDefaults.colors(
