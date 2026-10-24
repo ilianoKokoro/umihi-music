@@ -5,9 +5,9 @@
     <string name="back_description">Schermata precedente</string>
     <string name="no_playlists">Nessuna playlist trovata</string>
     <string name="playlist_cover">Copertina della playlist</string>
-    <string name="log_in">Log In</string>
+    <string name="log_in">Accedi</string>
     <string name="empty_playlist">Nessun brano nella scaletta</string>
-    <string name="play">Gioca</string>
+    <string name="play">Riproduci</string>
     <string name="shuffle">Mischia</string>
     <string name="songs">Canzoni %1$d</string>
     <string name="error">Errore</string>
