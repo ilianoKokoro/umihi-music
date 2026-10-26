@@ -290,6 +290,18 @@ Thank you to all the people who helped translate Umihi Music
         <br /><sub><b><code title="French">fr</code></b></sub>
       </td>
     </tr>
+    <tr>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/mackdk"><img alt="logo" style="width: 48px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17121304/medium/82d398cd399713406c167b9dea32cc7a.png" />
+          <br />
+          <sub><b>Thomas Florio</b></sub>
+          <br />
+          <sub><b>(mackdk)</b></sub></a>
+        <br />
+        <sub><b>3 words</b></sub>
+        <br /><sub><b><code title="Italian">it</code></b></sub>
+      </td>
+    </tr>
   </tbody>
 </table>
 <!-- CROWDIN-CONTRIBUTORS-END -->
