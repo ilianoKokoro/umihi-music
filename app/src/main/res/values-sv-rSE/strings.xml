@@ -29,6 +29,10 @@
     <string name="join_discord_server">Gå med i Discord-servern</string>
     <string name="play_next">Spela nästa</string>
     <string name="add_to_queue">Lägg till i kö</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Lägg till i spellistan</string>
     <string name="no_playlists_found">Inga spellistor hittades</string>
     <string name="remove_from_playlist">Ta bort från spellistan</string>
