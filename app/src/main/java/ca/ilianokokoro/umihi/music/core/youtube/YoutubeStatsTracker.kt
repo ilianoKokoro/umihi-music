@@ -7,6 +7,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.formatDecimal
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeAuthHelper.applyHeaders
+import ca.ilianokokoro.umihi.music.extensions.getClientName
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,6 +24,7 @@ import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Request
 import org.json.JSONObject
+import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.milliseconds
 
 object YoutubeStatsTracker {
@@ -30,6 +32,7 @@ object YoutubeStatsTracker {
     private data class PlaybackTrackingUrls(
         val playbackUrl: String?,
         val watchtimeUrl: String?,
+        val clientName: String,
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -64,29 +67,25 @@ object YoutubeStatsTracker {
 
         resolveJob = scope.launch {
             try {
-                val playerResponse = YoutubeApiClient.getPlayerInfo(
-                    videoId = videoId, visitorData = visitorData, settings = settings,
-                    // fields = Constants.YoutubeApi.PlayerInfo.Fields.TRACKING,
-                )
-
-                if (!isActive) {
+                val trackingUrls = resolveTrackingUrls(videoId, settings) ?: run {
+                    LogHelper.printe("No tracking URLs in player response for $videoId")
                     return@launch
                 }
 
-                val trackingUrls = extractTrackingUrls(playerResponse)
-                val playbackUrl = trackingUrls.playbackUrl
-                val watchtimeUrl = trackingUrls.watchtimeUrl
-
-                if (playbackUrl == null || watchtimeUrl == null) {
-                    LogHelper.printe("No tracking URLs in player response for $videoId")
+                if (!isActive) {
                     return@launch
                 }
 
                 val referrer = "${Constants.YoutubeApi.ORIGIN}/watch?v=$videoId"
 
                 startPlaybackTracking(
-                    videoId = videoId, playbackUrl = playbackUrl, watchtimeUrl = watchtimeUrl,
-                    settings = settings, playlistId = null, referrer = referrer,
+                    videoId = videoId,
+                    playbackUrl = trackingUrls.playbackUrl!!,
+                    watchtimeUrl = trackingUrls.watchtimeUrl!!,
+                    clientName = trackingUrls.clientName,
+                    settings = settings,
+                    playlistId = null,
+                    referrer = referrer,
                 )
             } catch (e: CancellationException) {
                 throw e
@@ -99,11 +98,52 @@ object YoutubeStatsTracker {
         }
     }
 
+    private suspend fun resolveTrackingUrls(
+        videoId: String,
+        settings: UmihiSettings,
+    ): PlaybackTrackingUrls? {
+        for (client in Constants.YoutubeApi.Client.TRACKING_FALLBACK_ORDER) {
+            val clientName = client.getClientName()
+
+            val playerResponse = try {
+                YoutubeApiClient.getPlayerInfo(
+                    videoId = videoId, client = client, visitorData = visitorData,
+                    settings = settings,
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                LogHelper.printw(
+                    "[$clientName] Player request failed for $videoId: ${e.message}; " +
+                            "trying next client"
+                )
+                continue
+            }
+
+            if (!coroutineContext.isActive) {
+                return null
+            }
+
+            val trackingUrls = extractTrackingUrls(playerResponse, clientName)
+            if (trackingUrls.playbackUrl != null && trackingUrls.watchtimeUrl != null) {
+                return trackingUrls
+            }
+
+            LogHelper.printw(
+                "[$clientName] No tracking URLs for $videoId " +
+                        "(playability=${extractPlayability(playerResponse)}); trying next client"
+            )
+        }
+
+        return null
+    }
+
 
     private fun startPlaybackTracking(
         videoId: String,
         playbackUrl: String,
         watchtimeUrl: String,
+        clientName: String,
         settings: UmihiSettings,
         playlistId: String?,
         referrer: String?,
@@ -114,10 +154,10 @@ object YoutubeStatsTracker {
 
         scope.launch {
             sendInitPlayback(
-                baseUrl = playbackUrl, cpn = cpn, settings = settings,
+                baseUrl = playbackUrl, cpn = cpn, clientName = clientName, settings = settings,
                 playlistId = playlistId, referrer = referrer,
             )
-            LogHelper.printd("Playback tracking started for $videoId (cpn=$cpn)")
+            LogHelper.printd("Playback tracking started for $videoId (cpn=$cpn, client=$clientName)")
         }
 
         trackingJob = scope.launch {
@@ -136,7 +176,8 @@ object YoutubeStatsTracker {
                         val et = posSec.formatDecimal()
 
                         sendWatchtimeUpdate(
-                            baseUrl = watchtimeUrl, cpn = cpn, st = st, et = et,
+                            baseUrl = watchtimeUrl, cpn = cpn, clientName = clientName,
+                            st = st, et = et,
                             settings = settings, playlistId = playlistId, referrer = referrer,
                         )
                         LogHelper.printd("Watchtime update: $st → $et ($videoId)")
@@ -144,7 +185,8 @@ object YoutubeStatsTracker {
                         lastReportedPosition = posSec
                     } else {
                         sendWatchtimeComplete(
-                            baseUrl = watchtimeUrl, cpn = cpn, durationSeconds = durSec,
+                            baseUrl = watchtimeUrl, cpn = cpn, clientName = clientName,
+                            durationSeconds = durSec,
                             settings = settings, playlistId = playlistId, referrer = referrer,
                         )
                         LogHelper.printd("Watchtime complete: $durSec ($videoId)")
@@ -156,34 +198,65 @@ object YoutubeStatsTracker {
         }
     }
 
-    private fun extractTrackingUrls(jsonString: String): PlaybackTrackingUrls {
+    private fun extractPlayability(jsonString: String): String {
+        return try {
+            val status =
+                JSONObject(jsonString).optJSONObject("playabilityStatus") ?: return "unknown"
+            val code = status.optString("status").ifBlank { "unknown" }
+            val reason = status.optString("reason").ifBlank { null }
+            if (reason != null) "$code ($reason)" else code
+        } catch (_: Exception) {
+            "unparseable"
+        }
+    }
+
+    private fun extractTrackingUrls(
+        jsonString: String,
+        clientName: String,
+    ): PlaybackTrackingUrls {
         return try {
             val root = JSONObject(jsonString)
-            val tracking =
-                root.optJSONObject("playbackTracking") ?: return PlaybackTrackingUrls(null, null)
+            val tracking = root.optJSONObject("playbackTracking")
 
-            fun extractBaseUrl(key: String): String? {
-                val obj = tracking.optJSONObject(key) ?: return null
-                val url = obj.optString("baseUrl", "")
-                return url.ifBlank { null }
+            if (tracking == null) {
+                LogHelper.printw(
+                    "[$clientName] Missing playbackTracking; " +
+                            "topLevelKeys=${root.keys().asSequence().toList()}"
+                )
+                return PlaybackTrackingUrls(null, null, clientName)
             }
 
-            PlaybackTrackingUrls(
-                playbackUrl = extractBaseUrl("videostatsPlaybackUrl"),
-                watchtimeUrl = extractBaseUrl("videostatsWatchtimeUrl"),
-            )
+            val playback = tracking.optJSONObject("videostatsPlaybackUrl")
+                ?.optString("baseUrl")
+                ?.takeIf { it.isNotBlank() }
+
+            val watchtime = tracking.optJSONObject("videostatsWatchtimeUrl")
+                ?.optString("baseUrl")
+                ?.takeIf { it.isNotBlank() }
+
+            if (playback == null || watchtime == null) {
+                LogHelper.printw(
+                    "[$clientName] Incomplete playbackTracking: " +
+                            "playback=${playback != null}, " +
+                            "watchtime=${watchtime != null}, " +
+                            "keys=${tracking.keys().asSequence().toList()}"
+                )
+            }
+
+            PlaybackTrackingUrls(playback, watchtime, clientName)
         } catch (e: Exception) {
             LogHelper.printe(
                 "Failed to parse player response for tracking URLs: ${e.message}",
                 exception = e
             )
-            PlaybackTrackingUrls(null, null)
+            PlaybackTrackingUrls(null, null, clientName)
         }
     }
 
     private suspend fun sendInitPlayback(
         baseUrl: String,
         cpn: String,
+        clientName: String,
         settings: UmihiSettings,
         playlistId: String? = null,
         referrer: String? = null,
@@ -195,7 +268,8 @@ object YoutubeStatsTracker {
 
         return withContext(Dispatchers.IO) {
             val url =
-                buildUrl(baseUrl, cpn, playlistId, referrer)?.build() ?: return@withContext null
+                buildUrl(baseUrl, cpn, clientName, playlistId, referrer)?.build()
+                    ?: return@withContext null
             val request = Request.Builder()
                 .url(url)
                 .post(FormBody.Builder().build())
@@ -209,6 +283,7 @@ object YoutubeStatsTracker {
     private suspend fun sendWatchtimeUpdate(
         baseUrl: String,
         cpn: String,
+        clientName: String,
         st: String,
         et: String,
         settings: UmihiSettings,
@@ -221,7 +296,7 @@ object YoutubeStatsTracker {
         }
 
         return withContext(Dispatchers.IO) {
-            val url = buildUrl(baseUrl, cpn, playlistId, referrer)
+            val url = buildUrl(baseUrl, cpn, clientName, playlistId, referrer)
                 ?.addEncodedQueryParameter("st", st)
                 ?.addEncodedQueryParameter("et", et)
                 ?.build()
@@ -240,6 +315,7 @@ object YoutubeStatsTracker {
     private suspend fun sendWatchtimeComplete(
         baseUrl: String,
         cpn: String,
+        clientName: String,
         durationSeconds: Float,
         settings: UmihiSettings,
         playlistId: String? = null,
@@ -249,6 +325,7 @@ object YoutubeStatsTracker {
         return sendWatchtimeUpdate(
             baseUrl = baseUrl,
             cpn = cpn,
+            clientName = clientName,
             st = durationStr,
             et = durationStr,
             settings = settings,
@@ -260,6 +337,7 @@ object YoutubeStatsTracker {
     private fun buildUrl(
         baseUrl: String,
         cpn: String,
+        clientName: String,
         playlistId: String?,
         referrer: String?,
     ): HttpUrl.Builder? {
@@ -271,7 +349,7 @@ object YoutubeStatsTracker {
 
         builder.addEncodedQueryParameter("cpn", cpn)
         builder.addEncodedQueryParameter("ver", "2")
-        builder.addEncodedQueryParameter("c", "WEB_REMIX")
+        builder.addEncodedQueryParameter("c", clientName)
 
         playlistId?.let { builder.addEncodedQueryParameter("list", it) }
         referrer?.let { builder.addEncodedQueryParameter("referrer", it) }

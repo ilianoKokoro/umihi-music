@@ -278,10 +278,21 @@ object Constants {
         object Client {
             val WEB_REMIX = buildJsonObject {
                 put("clientName", JsonPrimitive("WEB_REMIX"))
-                put("clientVersion", JsonPrimitive("1.20260707.12.00"))
+                put("clientVersion", JsonPrimitive("1.20261018.16.00"))
                 put("xClientName", JsonPrimitive("67"))
                 put("userAgent", JsonPrimitive(USER_AGENT))
                 put("platform", JsonPrimitive("DESKTOP"))
+            }
+
+            val ANDROID = buildJsonObject {
+                put("clientName", JsonPrimitive("ANDROID"))
+                put("clientVersion", JsonPrimitive("20.10.38"))
+                put("androidSdkVersion", JsonPrimitive(34))
+                put("xClientName", JsonPrimitive("3"))
+                put(
+                    "userAgent",
+                    JsonPrimitive("com.google.android.youtube/20.10.38 (Linux; U; Android 14) gzip")
+                )
             }
 
             val VISION_OS = buildJsonObject {
@@ -301,6 +312,11 @@ object Constants {
 
             val FALLBACK_ORDER = listOf(
                 VISION_OS
+            )
+
+            val TRACKING_FALLBACK_ORDER = listOf(
+                WEB_REMIX,
+                ANDROID,
             )
         }
 
@@ -326,6 +342,7 @@ object Constants {
         object PlayerInfo {
             const val URL =
                 "https://www.youtube.com/youtubei/v1/player?prettyPrint=false"
+
 
             // Disabled as it was causing issues
             //            object Fields {

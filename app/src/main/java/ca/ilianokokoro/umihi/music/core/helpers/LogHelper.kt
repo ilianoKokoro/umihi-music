@@ -11,6 +11,12 @@ object LogHelper {
         DiagnosticLog.write("DEBUG", message)
     }
 
+    fun printw(message: String, tag: String = TAG) {
+        Log.w(tag, message)
+        DiagnosticLog.write("WARN", message)
+    }
+
+
     fun printe(message: String, tag: String = TAG, exception: Exception? = null) {
         Log.e(tag, message, exception)
         DiagnosticLog.write("ERROR", message)

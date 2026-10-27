@@ -1,0 +1,7 @@
+Features:
+- Added a highlight for the current playing song
+- Updated dependencies
+Bug fixes:
+- Fix long press on a song
+- Fix crash when opening large playlist
+- Fix crash when scrolling through songs

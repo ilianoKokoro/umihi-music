@@ -58,6 +58,7 @@ fun SearchScreen(
     )
 ) {
     val uiState = searchViewModel.uiState.collectAsStateWithLifecycle().value
+    val currentSongId = PlayerManager.currentSongId.collectAsStateWithLifecycle().value
     val isLoggedIn = uiState.isLoggedIn
 
     var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
@@ -166,6 +167,7 @@ fun SearchScreen(
             searchViewModel = searchViewModel,
             uiState = uiState,
             isLoggedIn = isLoggedIn,
+            currentSongId = currentSongId,
             onAddToPlaylist = { addToPlaylistSong = it },
             modifier = Modifier.padding(
                 top = paddingValues.calculateTopPadding()
@@ -189,6 +191,7 @@ fun SearchScreenContent(
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onAddToPlaylist: (Song) -> Unit = {},
+    currentSongId: String? = null,
 ) {
     val context = LocalContext.current
     Column(
@@ -227,6 +230,7 @@ fun SearchScreenContent(
                             }) { index, song ->
                             SongListItem(
                                 song = song,
+                                isCurrentSong = song.youtubeId == currentSongId,
                                 onPress = {
                                     PlayerManager.playQueue(
                                         mediaItems = songs.map { it.mediaItem },
