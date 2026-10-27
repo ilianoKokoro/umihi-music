@@ -29,6 +29,10 @@
     <string name="join_discord_server">Deltag i Discord serveren</string>
     <string name="play_next">Afspil næste</string>
     <string name="add_to_queue">Føj til kø</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Føj til afspilningsliste</string>
     <string name="no_playlists_found">Ingen afspilningslister fundet</string>
     <string name="remove_from_playlist">Fjern fra afspilningsliste</string>
