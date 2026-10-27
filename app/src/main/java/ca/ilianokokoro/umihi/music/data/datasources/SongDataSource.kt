@@ -16,9 +16,17 @@ class SongDataSource {
         )
     }
 
-    suspend fun getMix(videoId: String, settings: UmihiSettings): MixPage {
+    suspend fun getMix(
+        settings: UmihiSettings,
+        videoId: String? = null,
+        playlistId: String? = null,
+    ): MixPage {
         return YoutubeDataExtractor.extractMixSongs(
-            YoutubeApiClient.getMix(videoId, settings)
+            YoutubeApiClient.getMix(
+                settings = settings,
+                videoId = videoId,
+                playlistId = playlistId
+            )
         )
     }
 

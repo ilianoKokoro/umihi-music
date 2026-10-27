@@ -241,8 +241,18 @@ fun PlaylistScreen(
                                             onUnhidePlaylist = playlistViewModel::unhidePlaylist,
                                             onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
                                             onStartMix = {
-                                                if (playlistInfo.songs.isNotEmpty()) {
-                                                    PlayerManager.playMix(playlistInfo.songs.first(), application)
+                                                val playlistId = playlistInfo.info.id
+                                                if (playlistId.isNotBlank()) {
+                                                    PlayerManager.playPlaylistMix(
+                                                        playlistId,
+                                                        application
+                                                    )
+                                                } else if (playlistInfo.songs.isNotEmpty()) {
+                                                    PlayerManager.playMix(
+                                                        playlistInfo.songs.first(),
+                                                        application,
+                                                        replaceQueue = true
+                                                    )
                                                 }
                                             },
                                             isLoading = uiState.screenState is ScreenState.Loading,

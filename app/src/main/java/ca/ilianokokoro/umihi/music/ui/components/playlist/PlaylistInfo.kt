@@ -18,7 +18,7 @@ import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Radio
+import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -168,6 +168,20 @@ fun PlaylistInfo(
                         }
                     }
 
+                    FilledIconButton(
+                        onClick = onStartMix,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        enabled = !isLoading && alpha != 0F && playlist.songs.isNotEmpty()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Sensors,
+                            contentDescription = stringResource(R.string.mix_start),
+                        )
+                    }
 
                     IconButton(
                         onClick = {
@@ -186,7 +200,7 @@ fun PlaylistInfo(
                         ) {
                             if (playlist.songs.isNotEmpty()) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.Radio,
+                                    leadingIcon = Icons.Rounded.Sensors,
                                     text = stringResource(R.string.mix_start),
                                     onClick = {
                                         onStartMix()

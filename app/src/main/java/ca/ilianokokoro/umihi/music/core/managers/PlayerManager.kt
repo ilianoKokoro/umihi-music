@@ -324,14 +324,45 @@ object PlayerManager {
         }
     }
 
-    fun playMix(song: Song, context: Context) {
+    fun playMix(song: Song, context: Context, replaceQueue: Boolean = false) {
+        startMix(
+            context = context,
+            videoId = song.youtubeId,
+            playlistId = null,
+            seedSong = song,
+            replaceQueue = replaceQueue
+        )
+    }
+
+    fun playPlaylistMix(playlistId: String, context: Context) {
+        startMix(
+            context = context,
+            videoId = null,
+            playlistId = playlistId,
+            seedSong = null,
+            replaceQueue = true
+        )
+    }
+
+    private fun startMix(
+        context: Context,
+        videoId: String?,
+        playlistId: String?,
+        seedSong: Song?,
+        replaceQueue: Boolean,
+    ) {
         if (_isMixLoading.value) {
+            return
+        }
+
+        if (videoId == null && playlistId == null) {
             return
         }
 
         val appContext = context.applicationContext
         this.appContext = appContext
-        val seedIsCurrent = currentController?.currentMediaItem?.mediaId == song.youtubeId
+        val seedIsCurrent =
+            videoId != null && currentController?.currentMediaItem?.mediaId == videoId
 
         _isMixLoading.value = true
 
@@ -340,32 +371,46 @@ object PlayerManager {
                 val settings = DatastoreRepository(appContext).getSettings()
                 check(!settings.offlineMode)
 
-                val page = SongDataSource().getMix(song.youtubeId, settings)
+                val page = SongDataSource().getMix(
+                    settings = settings,
+                    videoId = videoId,
+                    playlistId = playlistId
+                )
                 check(page.songs.isNotEmpty())
 
                 withContext(Dispatchers.Main.immediate) {
                     val controller = currentController ?: return@withContext
 
-                    removeMixItems(controller)
-
-                    if (!seedIsCurrent) {
-                        controller.setMediaItem(song.mediaItem)
-                        controller.prepare()
-                        controller.play()
-                    }
-
-                    val existingIds = (0 until controller.mediaItemCount)
-                        .mapNotNull { controller.getMediaItemAt(it).mediaId }
-                        .toHashSet()
-
                     val mixItems = page.songs.asSequence()
-                        .filterNot { it.youtubeId == song.youtubeId || it.youtubeId in existingIds }
+                        .filterNot { it.youtubeId == videoId }
                         .distinctBy { it.youtubeId }
                         .map { it.apply { isMix = true }.mediaItem }
                         .toList()
 
-                    if (mixItems.isNotEmpty()) {
-                        controller.addMediaItems(controller.mediaItemCount, mixItems)
+                    if (replaceQueue) {
+                        if (mixItems.isNotEmpty()) {
+                            controller.setMediaItems(mixItems, 0, C.TIME_UNSET)
+                            controller.prepare()
+                            controller.play()
+                        }
+                    } else {
+                        removeMixItems(controller)
+
+                        if (seedSong != null && !seedIsCurrent) {
+                            controller.setMediaItem(seedSong.mediaItem)
+                            controller.prepare()
+                            controller.play()
+                        }
+
+                        val existingIds = (0 until controller.mediaItemCount)
+                            .mapNotNull { controller.getMediaItemAt(it).mediaId }
+                            .toHashSet()
+
+                        val newItems = mixItems.filterNot { it.mediaId in existingIds }
+
+                        if (newItems.isNotEmpty()) {
+                            controller.addMediaItems(controller.mediaItemCount, newItems)
+                        }
                     }
 
                     mixContinuationToken = page.continuation
@@ -764,5 +809,6 @@ object PlayerManager {
         }
         _currentSongId.value = controller.currentMediaItem?.mediaId
     }
+
     private const val MIX_LOAD_MORE_THRESHOLD = 5
 }

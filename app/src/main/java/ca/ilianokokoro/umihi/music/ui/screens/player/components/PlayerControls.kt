@@ -18,7 +18,7 @@ import androidx.compose.material.icons.rounded.Lyrics
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Radio
+import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.Shuffle
@@ -433,7 +433,7 @@ fun PlayerControls(
                             interactionSource = actionButtonsControlsInteractionSources[3],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Radio,
+                                imageVector = Icons.Rounded.Sensors,
                                 contentDescription = stringResource(R.string.mix),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -442,7 +442,7 @@ fun PlayerControls(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.mix),
-                            leadingIcon = Icons.Rounded.Radio,
+                            leadingIcon = Icons.Rounded.Sensors,
                             onClick = {
                                 onToggleMix()
                                 menuState.dismiss()

@@ -210,7 +210,16 @@ object YoutubeApiClient {
         )
     }
 
-    suspend fun getMix(videoId: String, settings: UmihiSettings): String {
+
+    suspend fun getMix(
+        settings: UmihiSettings,
+        videoId: String? = null,
+        playlistId: String? = null,
+    ): String {
+        require(videoId != null || playlistId != null) {
+            "A videoId or a playlistId is required to start a mix"
+        }
+
         val baseBody = YoutubeAuthHelper.buildContextBody(
             idName = null,
             id = null,
@@ -222,12 +231,26 @@ object YoutubeApiClient {
                 put(key, value)
             }
 
-            put("videoId", videoId)
-            put("playlistId", "RDAMVM$videoId")
-            put("params", "wAEB")
             put("enablePersistentPlaylistPanel", true)
-            put("isAudioOnly", true)
             put("tunerSettingValue", "AUTOMIX_SETTING_NORMAL")
+            put("params", "wAEB")
+            put("isAudioOnly", true)
+            put("queueContextParams", "")
+
+            if (videoId != null) {
+                put("videoId", videoId)
+                put("playlistId", "RDAMVM$videoId")
+            } else if (playlistId != null) {
+                val sourceId = playlistId.removePrefix("VL")
+                put(
+                    "playlistId",
+                    if (sourceId.startsWith("RDAMPL")) {
+                        sourceId
+                    } else {
+                        "RDAMPL$sourceId"
+                    }
+                )
+            }
         }
 
         return requestWithBody(
