@@ -96,6 +96,10 @@ object PlayerManager {
     private var mixContinuationToken: String? = null
     private var appContext: Context? = null
 
+    @Volatile
+    private var datastoreRepository: DatastoreRepository? = null
+    private val songDataSource = SongDataSource()
+
     private sealed interface MixSeed {
         val id: String
 
@@ -136,7 +140,7 @@ object PlayerManager {
         _appVolume.value = clamped
         playbackService?.applyAppVolume(clamped)
         scope.launch {
-            DatastoreRepository(context.applicationContext).save(
+            datastore(context).save(
                 DatastoreRepository.PreferenceKeys.APP_VOLUME,
                 clamped
             )
@@ -328,7 +332,7 @@ object PlayerManager {
             return
         }
 
-        // The queue can be empty after disabling a playlist mix, so restart from the last seed.
+        // Nothing is queued yet, so restart from the last seed.
         when (val seed = lastMixSeed) {
             is MixSeed.Playlist -> {
                 playPlaylistMix(seed.id, context)
@@ -351,10 +355,6 @@ object PlayerManager {
     fun disableMix() {
         _isMixActive.value = false
         mixContinuationToken = null
-
-        currentController?.let { controller ->
-            removeMixItems(controller)
-        }
     }
 
     fun playMix(song: Song, context: Context, replaceQueue: Boolean = false) {
@@ -402,10 +402,10 @@ object PlayerManager {
 
         scope.launch {
             try {
-                val settings = DatastoreRepository(appContext).getSettings()
+                val settings = datastore(appContext).getSettings()
                 check(!settings.offlineMode)
 
-                val page = SongDataSource().getMix(
+                val page = songDataSource.getMix(
                     settings = settings,
                     videoId = videoId,
                     playlistId = playlistId
@@ -418,7 +418,7 @@ object PlayerManager {
                     val mixItems = page.songs.asSequence()
                         .filterNot { it.youtubeId == videoId }
                         .distinctBy { it.youtubeId }
-                        .map { it.apply { isMix = true }.mediaItem }
+                        .map { it.mediaItem }
                         .toList()
 
                     if (replaceQueue) {
@@ -428,8 +428,6 @@ object PlayerManager {
                             controller.play()
                         }
                     } else {
-                        removeMixItems(controller)
-
                         if (seedSong != null && !seedIsCurrent) {
                             controller.setMediaItem(seedSong.mediaItem)
                             controller.prepare()
@@ -491,7 +489,7 @@ object PlayerManager {
         }
 
         val remaining = controller.mediaItemCount - 1 - index
-        if (remaining <= MIX_LOAD_MORE_THRESHOLD) {
+        if (remaining <= Constants.Player.MIX_LOAD_MORE_THRESHOLD) {
             loadMoreMix(context, continuation)
         }
     }
@@ -501,12 +499,12 @@ object PlayerManager {
 
         scope.launch {
             try {
-                val settings = DatastoreRepository(context.applicationContext).getSettings()
+                val settings = datastore(context).getSettings()
                 if (settings.offlineMode) {
                     return@launch
                 }
 
-                val page = SongDataSource().getMixContinuation(continuation, settings)
+                val page = songDataSource.getMixContinuation(continuation, settings)
 
                 withContext(Dispatchers.Main.immediate) {
                     if (!_isMixActive.value || mixContinuationToken != continuation) {
@@ -523,7 +521,7 @@ object PlayerManager {
                     val mixItems = page.songs.asSequence()
                         .filterNot { it.youtubeId in existingIds }
                         .distinctBy { it.youtubeId }
-                        .map { it.apply { isMix = true }.mediaItem }
+                        .map { it.mediaItem }
                         .toList()
 
                     if (mixItems.isNotEmpty()) {
@@ -540,19 +538,11 @@ object PlayerManager {
         }
     }
 
-    private fun removeMixItems(controller: MediaController) {
-        val count = controller.mediaItemCount
-        val firstMixIndex = (0 until count).firstOrNull { index ->
-            isMixMediaItem(controller, index)
-        } ?: return
-
-        controller.removeMediaItems(firstMixIndex, count)
-    }
-
-    private fun isMixMediaItem(controller: MediaController, index: Int): Boolean {
-        return controller.getMediaItemAt(index)
-            .mediaMetadata.extras
-            ?.getBoolean(Constants.ExoPlayer.SongMetadata.IS_MIX) == true
+    private fun datastore(context: Context): DatastoreRepository {
+        return datastoreRepository
+            ?: DatastoreRepository(context.applicationContext).also { repository ->
+                datastoreRepository = repository
+            }
     }
 
     private fun observeMix(controller: MediaController) {
@@ -562,7 +552,6 @@ object PlayerManager {
             controller.addListener(mixListener)
         }
     }
-
 
     suspend fun getPlaybackPosition(): Pair<Float, Float>? {
         return withContext(Dispatchers.Main.immediate) {
@@ -843,6 +832,4 @@ object PlayerManager {
         }
         _currentSongId.value = controller.currentMediaItem?.mediaId
     }
-
-    private const val MIX_LOAD_MORE_THRESHOLD = 5
 }

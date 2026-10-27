@@ -25,7 +25,5 @@ fun MediaItem?.toSong(): Song {
         isExplicit = extras?.getLong(MediaConstants.EXTRAS_KEY_IS_EXPLICIT) == MediaConstants.EXTRAS_VALUE_ATTRIBUTE_PRESENT,
         isLiked = this?.mediaMetadata?.isLiked,
         isAvailable = extras?.getBoolean(Constants.ExoPlayer.SongMetadata.PLAYABLE) ?: true
-    ).apply {
-        isMix = extras?.getBoolean(Constants.ExoPlayer.SongMetadata.IS_MIX) ?: false
-    }
+    )
 }

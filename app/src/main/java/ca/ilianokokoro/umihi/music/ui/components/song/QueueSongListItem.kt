@@ -89,16 +89,14 @@ fun QueueSongListItem(
                         onDismissRequest = { expanded = false },
                     ) {
 
-                        if (!song.isMix) {
-                            MaterialUDropdownItem(
-                                leadingIcon = Icons.Rounded.Radio,
-                                text = stringResource(R.string.mix_start),
-                                onClick = {
-                                    startMix()
-                                    expanded = false
-                                }
-                            )
-                        }
+                        MaterialUDropdownItem(
+                            leadingIcon = Icons.Rounded.Radio,
+                            text = stringResource(R.string.mix_start),
+                            onClick = {
+                                startMix()
+                                expanded = false
+                            }
+                        )
 
                         MaterialUDropdownItem(
                             leadingIcon = Icons.Rounded.Remove,
