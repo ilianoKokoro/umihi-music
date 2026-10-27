@@ -1,10 +1,10 @@
 package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,16 +15,16 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
-import androidx.compose.material.icons.rounded.Radio
+import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -132,45 +131,21 @@ fun QueueBottomSheet(
                 modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp),
             )
 
-            ListItem(
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Rounded.Radio,
-                        contentDescription = null,
-                    )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = isMixActive,
-                        enabled = !isMixLoading,
-                        onCheckedChange = { onToggleMix() },
-                    )
-                },
+            ToggleButton(
+                checked = isMixActive,
+                onCheckedChange = { onToggleMix() },
+                enabled = !isMixLoading,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 8.dp)
-                    .clip(Constants.Ui.SongItems.CORNER_RADIUS)
-                    .clickable(enabled = !isMixLoading) { onToggleMix() },
-                content = {
-                    Text(stringResource(R.string.mix))
-                },
-            )
-
-            if (isMixLoading) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                ) {
-                    CircularProgressIndicator(
-                        strokeWidth = 2.dp,
-                        modifier = Modifier.size(20.dp),
-                    )
-                    Text(
-                        text = stringResource(R.string.mix_loading),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+                    .fillMaxWidth(),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Sensors,
+                    contentDescription = null,
+                    modifier = Modifier.size(ToggleButtonDefaults.IconSize),
+                )
+                Spacer(Modifier.size(ToggleButtonDefaults.IconSpacing))
+                Text(stringResource(R.string.mix))
             }
 
             LazyColumn(

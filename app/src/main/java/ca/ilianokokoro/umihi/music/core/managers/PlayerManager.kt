@@ -96,6 +96,15 @@ object PlayerManager {
     private var mixContinuationToken: String? = null
     private var appContext: Context? = null
 
+    private sealed interface MixSeed {
+        val id: String
+
+        data class Song(override val id: String) : MixSeed
+        data class Playlist(override val id: String) : MixSeed
+    }
+
+    private var lastMixSeed: MixSeed? = null
+
     private var mixListenerController: MediaController? = null
     private val mixListener = object : Player.Listener {
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -310,8 +319,32 @@ object PlayerManager {
     fun toggleMix(context: Context) {
         if (_isMixActive.value) {
             disableMix()
-        } else {
-            getCurrentSong()?.let { playMix(it, context) }
+            return
+        }
+
+        val currentSong = getCurrentSong()
+        if (currentSong != null) {
+            playMix(currentSong, context)
+            return
+        }
+
+        // The queue can be empty after disabling a playlist mix, so restart from the last seed.
+        when (val seed = lastMixSeed) {
+            is MixSeed.Playlist -> {
+                playPlaylistMix(seed.id, context)
+            }
+
+            is MixSeed.Song -> {
+                startMix(
+                    context = context,
+                    videoId = seed.id,
+                    playlistId = null,
+                    seedSong = null,
+                    replaceQueue = true
+                )
+            }
+
+            null -> {}
         }
     }
 
@@ -361,6 +394,7 @@ object PlayerManager {
 
         val appContext = context.applicationContext
         this.appContext = appContext
+        lastMixSeed = videoId?.let { MixSeed.Song(it) } ?: playlistId?.let { MixSeed.Playlist(it) }
         val seedIsCurrent =
             videoId != null && currentController?.currentMediaItem?.mediaId == videoId
 

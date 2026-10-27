@@ -58,7 +58,7 @@ fun PlaylistHeader(
                 onOptionsExtendedChange = onOptionsExtendedChange,
             )
             ActionButtons(
-                buttonEnabled = !playlist.songs.isEmpty(),
+                buttonEnabled = playlist.songs.isNotEmpty(),
                 onPlayClicked = {
                     onOpenPlayer()
                     onPlayPlaylist()
