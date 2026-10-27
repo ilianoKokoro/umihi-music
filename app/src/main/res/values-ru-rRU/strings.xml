@@ -29,6 +29,10 @@
     <string name="join_discord_server">Присоединиться к серверу Discord</string>
     <string name="play_next">Играть следующим</string>
     <string name="add_to_queue">Добавить в очередь</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="no_playlists_found">Плейлисты не найдены</string>
     <string name="remove_from_playlist">Удаить из плейлиста</string>
