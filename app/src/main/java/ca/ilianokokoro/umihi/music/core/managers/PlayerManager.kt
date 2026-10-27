@@ -15,6 +15,7 @@ import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.audio.PlaybackService
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import ca.ilianokokoro.umihi.music.data.datasources.SongDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.extensions.toSong
@@ -374,7 +375,8 @@ object PlayerManager {
                 }
             } catch (e: CancellationException) {
                 throw e
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                LogHelper.printe(e.toString())
                 withContext(Dispatchers.Main.immediate) {
                     toast(R.string.mix_failed, Toast.LENGTH_LONG)
                 }
@@ -697,6 +699,7 @@ object PlayerManager {
             }
         }
     }
+
     private fun playIfFirstQueueItem() {
         val controller = currentController ?: return
 

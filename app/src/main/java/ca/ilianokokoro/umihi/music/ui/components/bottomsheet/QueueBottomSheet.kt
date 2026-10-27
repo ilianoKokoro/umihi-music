@@ -178,7 +178,6 @@ fun QueueBottomSheet(
                         }
                     }
 
-                    // TODO improve this UI
                     if (isMixLoading) {
                         item(key = "loading_more") {
                             Row(
@@ -186,11 +185,11 @@ fun QueueBottomSheet(
                                 horizontalArrangement = Arrangement.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 8.dp),
+                                    .padding(vertical = 16.dp),
                             ) {
                                 CircularProgressIndicator(
-                                    strokeWidth = 2.dp,
-                                    modifier = Modifier.size(20.dp),
+                                    strokeWidth = 5.dp,
+                                    modifier = Modifier.size(50.dp),
                                 )
                             }
                         }
