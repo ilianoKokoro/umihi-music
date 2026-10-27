@@ -29,6 +29,10 @@
     <string name="join_discord_server">Join da Discawd sewvew!</string>
     <string name="play_next">Pway nyext</string>
     <string name="add_to_queue">Mowe 2 QwQue pwease</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Add 2 pwaywist</string>
     <string name="no_playlists_found">Nyo pwaywists fwound ^3^</string>
     <string name="remove_from_playlist">Wemove fwom pwaywist</string>
