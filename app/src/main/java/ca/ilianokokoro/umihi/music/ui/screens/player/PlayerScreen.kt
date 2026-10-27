@@ -217,9 +217,8 @@ fun PlayerScreen(
             currentIndex = uiState.currentIndex,
             isMixActive = uiState.isMixActive,
             isMixLoading = uiState.isMixLoading,
-            isMixLoadingMore = uiState.isMixLoadingMore,
             onToggleMix = playerViewModel::toggleMix,
-            onStartMix = { song -> PlayerManager.playMix(song, application) }
+            onStartMix = { song -> PlayerManager.playMix(song) }
         )
     } else if (uiState.isSleepTimerModalShown) {
         SleepTimerBottomSheet(

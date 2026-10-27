@@ -243,16 +243,9 @@ fun PlaylistScreen(
                                             onStartMix = {
                                                 val playlistId = playlistInfo.info.id
                                                 if (playlistId.isNotBlank()) {
-                                                    PlayerManager.playPlaylistMix(
-                                                        playlistId,
-                                                        application
-                                                    )
+                                                    PlayerManager.playPlaylistMix(playlistId)
                                                 } else if (playlistInfo.songs.isNotEmpty()) {
-                                                    PlayerManager.playMix(
-                                                        playlistInfo.songs.first(),
-                                                        application,
-                                                        replaceQueue = true
-                                                    )
+                                                    PlayerManager.playMix(playlistInfo.songs.first())
                                                 }
                                             },
                                             isLoading = uiState.screenState is ScreenState.Loading,
@@ -305,13 +298,10 @@ fun PlaylistScreen(
                                                         playlistViewModel.playPlaylist(song)
                                                     },
                                                     playNext = {
-                                                        PlayerManager.addNext(song, application)
+                                                        PlayerManager.addNext(song)
                                                     },
                                                     addToQueue = {
-                                                        PlayerManager.addToQueue(
-                                                            song,
-                                                            application
-                                                        )
+                                                        PlayerManager.addToQueue(song)
                                                     },
                                                     download = {
                                                         playlistViewModel.downloadSong(song)
@@ -327,7 +317,7 @@ fun PlaylistScreen(
                                                         null
                                                     },
                                                     startMix = {
-                                                        PlayerManager.playMix(song, application)
+                                                        PlayerManager.playMix(song)
                                                     }
                                                 )
                                             }

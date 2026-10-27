@@ -112,12 +112,6 @@ class PlayerViewModel(application: Application) :
         }
 
         viewModelScope.launch {
-            PlayerManager.isMixLoadingMore.collect { loading ->
-                _uiState.update { it.copy(isMixLoadingMore = loading) }
-            }
-        }
-
-        viewModelScope.launch {
             val settings = datastoreRepository.getSettings()
             _uiState.update { it.copy(isLoggedIn = !settings.cookies.isEmpty()) }
         }
@@ -231,7 +225,7 @@ class PlayerViewModel(application: Application) :
     }
 
     fun toggleMix() {
-        PlayerManager.toggleMix(getApplication())
+        PlayerManager.toggleMix()
     }
 
     fun shareSong(context: Context, song: Song) {
@@ -414,7 +408,7 @@ class PlayerViewModel(application: Application) :
     }
 
     fun setAppVolume(volume: Int) {
-        PlayerManager.setAppVolume(volume, getApplication())
+        PlayerManager.setAppVolume(volume)
     }
 
     fun toggleLyrics() {

@@ -45,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -86,7 +85,6 @@ fun PlayerControls(
         List(8) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
-    val context = LocalContext.current
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
     val appVolume by PlayerManager.appVolume.collectAsStateWithLifecycle()
@@ -374,7 +372,7 @@ fun PlayerControls(
                 customItem(
                     buttonGroupContent = {
                         FilledIconButton(
-                            onClick = { PlayerManager.shuffleQueue(context) },
+                            onClick = { PlayerManager.shuffleQueue() },
                             shapes = IconButtonDefaults.shapes(
                                 shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                                 pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
@@ -400,7 +398,7 @@ fun PlayerControls(
                             text = stringResource(R.string.shuffle),
                             leadingIcon = Icons.Rounded.Shuffle,
                             onClick = {
-                                PlayerManager.shuffleQueue(context)
+                                PlayerManager.shuffleQueue()
                                 menuState.dismiss()
                             }
                         )

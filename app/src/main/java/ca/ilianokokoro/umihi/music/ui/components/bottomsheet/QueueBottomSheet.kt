@@ -57,7 +57,6 @@ fun QueueBottomSheet(
     currentIndex: Int,
     isMixActive: Boolean,
     isMixLoading: Boolean,
-    isMixLoadingMore: Boolean,
     onToggleMix: () -> Unit,
     onStartMix: (Song) -> Unit,
     modifier: Modifier = Modifier
@@ -132,7 +131,7 @@ fun QueueBottomSheet(
                 ),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                if (mutableSongList.isEmpty() && !isMixLoading && !isMixLoadingMore) {
+                if (mutableSongList.isEmpty() && !isMixLoading) {
                     item {
                         Text(
                             stringResource(R.string.queue_empty),
@@ -180,7 +179,7 @@ fun QueueBottomSheet(
                     }
 
                     // TODO improve this UI
-                    if (isMixLoadingMore) {
+                    if (isMixLoading) {
                         item(key = "loading_more") {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,

@@ -14,7 +14,6 @@ data class PlayerState(
     val isQueueModalShown: Boolean = false,
     val isMixActive: Boolean = false,
     val isMixLoading: Boolean = false,
-    val isMixLoadingMore: Boolean = false,
     val isSleepTimerModalShown: Boolean = false,
     val sleepTimerRemainingSeconds: Long? = null,
     val isSpeedSelectorShown: Boolean = false,
