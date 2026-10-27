@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.Lyrics
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.RepeatOne
 import androidx.compose.material.icons.rounded.Shuffle
@@ -44,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -74,16 +74,17 @@ fun PlayerControls(
     onOpenSleepTimer: () -> Unit,
     onToggleLyrics: () -> Unit,
     onOpenSpeedSelector: () -> Unit,
+    isMixActive: Boolean,
+    onToggleMix: () -> Unit,
     playbackSpeed: Float,
     sleepTimerRemainingSeconds: Long?,
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
     val actionButtonsControlsInteractionSources =
-        List(7) { ComposeHelper.rememberInteractionSource() }
+        List(8) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
-    val context = LocalContext.current
     val player by PlayerManager.controllerState.collectAsState()
     val repeatMode = ComposeHelper.rememberRepeatMode(player)
     val appVolume by PlayerManager.appVolume.collectAsStateWithLifecycle()
@@ -371,7 +372,7 @@ fun PlayerControls(
                 customItem(
                     buttonGroupContent = {
                         FilledIconButton(
-                            onClick = { PlayerManager.shuffleQueue(context) },
+                            onClick = { PlayerManager.shuffleQueue() },
                             shapes = IconButtonDefaults.shapes(
                                 shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
                                 pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
@@ -397,7 +398,51 @@ fun PlayerControls(
                             text = stringResource(R.string.shuffle),
                             leadingIcon = Icons.Rounded.Shuffle,
                             onClick = {
-                                PlayerManager.shuffleQueue(context)
+                                PlayerManager.shuffleQueue()
+                                menuState.dismiss()
+                            }
+                        )
+                    }
+                )
+
+                // Mix — MIDDLE segment
+                customItem(
+                    buttonGroupContent = {
+                        FilledIconToggleButton(
+                            checked = isMixActive,
+                            onCheckedChange = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                                onToggleMix()
+                            },
+                            shapes = IconButtonDefaults.toggleableShapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
+                            colors = IconButtonDefaults.filledIconToggleButtonColors(
+                                checkedContainerColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContainerColor,
+                                checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            modifier = Modifier
+                                .size(buttonSize)
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[3]),
+                            interactionSource = actionButtonsControlsInteractionSources[3],
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Sensors,
+                                contentDescription = stringResource(R.string.mix),
+                                modifier = Modifier.size(iconSize)
+                            )
+                        }
+                    },
+                    menuContent = { menuState ->
+                        MaterialUDropdownItem(
+                            text = stringResource(R.string.mix),
+                            leadingIcon = Icons.Rounded.Sensors,
+                            onClick = {
+                                onToggleMix()
                                 menuState.dismiss()
                             }
                         )
@@ -419,8 +464,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[3]),
-                            interactionSource = actionButtonsControlsInteractionSources[3],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[4]),
+                            interactionSource = actionButtonsControlsInteractionSources[4],
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
@@ -460,8 +505,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[4]),
-                            interactionSource = actionButtonsControlsInteractionSources[4],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[5]),
+                            interactionSource = actionButtonsControlsInteractionSources[5],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Lyrics,
@@ -502,8 +547,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[5]),
-                            interactionSource = actionButtonsControlsInteractionSources[5],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[6]),
+                            interactionSource = actionButtonsControlsInteractionSources[6],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Timer,
@@ -544,8 +589,8 @@ fun PlayerControls(
                             ),
                             modifier = Modifier
                                 .size(buttonSize)
-                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[6]),
-                            interactionSource = actionButtonsControlsInteractionSources[6],
+                                .animateWidth(interactionSource = actionButtonsControlsInteractionSources[7]),
+                            interactionSource = actionButtonsControlsInteractionSources[7],
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Speed,

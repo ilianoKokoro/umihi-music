@@ -42,6 +42,7 @@ data class Song(
 ) {
     @Ignore
     var setVideoId: String? = null
+
     val mediaItem: MediaItem
         get() {
             val extras = Bundle()

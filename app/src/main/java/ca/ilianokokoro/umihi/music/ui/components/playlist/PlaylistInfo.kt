@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -61,6 +62,7 @@ fun PlaylistInfo(
     onCancelDownload: () -> Unit,
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
+    onStartMix: () -> Unit = {},
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     optionsExtended: Boolean = false,
@@ -134,38 +136,54 @@ fun PlaylistInfo(
                     modifier = Modifier.fillMaxWidth()
                 ) {
 
-                    FilledIconButton(
-                        onClick = {
+                    Row {
+                        FilledIconButton(
+                            onClick = {
+                                if (playlist.downloaded) {
+                                    showDeleteDownloadDialog.value = true
+                                } else if (isDownloading) {
+                                    showCancelDialog.value = true
+                                } else {
+                                    onDownloadPressed()
+                                }
+                            },
+                            shapes = IconButtonDefaults.shapes(),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            enabled = !isLoading && alpha != 0F
+                        ) {
                             if (playlist.downloaded) {
-                                showDeleteDownloadDialog.value = true
+                                Icon(
+                                    imageVector = Icons.Rounded.DownloadDone,
+                                    contentDescription = null,
+                                )
                             } else if (isDownloading) {
-                                showCancelDialog.value = true
+                                CircularWavyProgressIndicator(modifier = Modifier.size(25.dp))
                             } else {
-                                onDownloadPressed()
+                                Icon(
+                                    imageVector = Icons.Rounded.Download,
+                                    contentDescription = stringResource(R.string.download),
+                                )
                             }
-                        },
-                        shapes = IconButtonDefaults.shapes(),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                            contentColor = MaterialTheme.colorScheme.onSurface
-                        ),
-                        enabled = !isLoading && alpha != 0F
-                    ) {
-                        if (playlist.downloaded) {
+                        }
+
+                        FilledIconButton(
+                            onClick = onStartMix,
+                            shapes = IconButtonDefaults.shapes(),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ),
+                            enabled = !isLoading && alpha != 0F && playlist.songs.isNotEmpty()
+                        ) {
                             Icon(
-                                imageVector = Icons.Rounded.DownloadDone,
-                                contentDescription = null,
-                            )
-                        } else if (isDownloading) {
-                            CircularWavyProgressIndicator(modifier = Modifier.size(25.dp))
-                        } else {
-                            Icon(
-                                imageVector = Icons.Rounded.Download,
-                                contentDescription = stringResource(R.string.download),
+                                imageVector = Icons.Rounded.Sensors,
+                                contentDescription = stringResource(R.string.mix_start),
                             )
                         }
                     }
-
 
                     IconButton(
                         onClick = {
@@ -182,6 +200,17 @@ fun PlaylistInfo(
                             expanded = optionsExtended,
                             onDismissRequest = { onOptionsExtendedChange(false) },
                         ) {
+                            if (playlist.songs.isNotEmpty()) {
+                                MaterialUDropdownItem(
+                                    leadingIcon = Icons.Rounded.Sensors,
+                                    text = stringResource(R.string.mix_start),
+                                    onClick = {
+                                        onStartMix()
+                                        onOptionsExtendedChange(false)
+                                    }
+                                )
+                            }
+
                             if (isDownloading) {
                                 MaterialUDropdownItem(
                                     leadingIcon = Icons.Rounded.Cancel,

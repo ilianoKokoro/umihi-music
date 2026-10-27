@@ -17,6 +17,7 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import ca.ilianokokoro.umihi.music.models.youtube.MixPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -734,6 +735,99 @@ object YoutubeDataExtractor {
         return songRendererList.mapNotNull { extractSong(it) }
     }
 
+    fun extractMixPage(jsonString: String): MixPage {
+        val root = Json.parseToJsonElement(jsonString).safeObject() ?: return MixPage()
+        val panel = findMixPanel(root) ?: return MixPage()
+
+        return MixPage(
+            songs = parseMixPanelContents(panel["contents"]?.safeArray()),
+            continuation = extractNextMixContinuation(panel)
+        )
+    }
+
+    private fun findMixPanel(root: JsonObject): JsonObject? {
+        val continuationPanel = root["continuationContents"]?.safeObject()
+            ?.get("playlistPanelContinuation")?.safeObject()
+
+        if (continuationPanel != null) {
+            return continuationPanel
+        }
+
+        return root["contents"]?.safeObject()
+            ?.get("singleColumnMusicWatchNextResultsRenderer")?.safeObject()
+            ?.get("tabbedRenderer")?.safeObject()
+            ?.get("watchNextTabbedResultsRenderer")?.safeObject()
+            ?.get("tabs")?.safeArray()
+            ?.firstNotNullOfOrNull { tab ->
+                tab.safeObject()?.get("tabRenderer")?.safeObject()
+                    ?.get("content")?.safeObject()
+                    ?.get("musicQueueRenderer")?.safeObject()
+                    ?.get("content")?.safeObject()
+                    ?.get("playlistPanelRenderer")?.safeObject()
+            }
+    }
+
+    private fun parseMixPanelContents(contents: JsonArray?): List<Song> {
+        if (contents == null) {
+            return emptyList()
+        }
+
+        return contents.mapNotNull { item ->
+            val itemObject = item.safeObject() ?: return@mapNotNull null
+            val renderer = itemObject["playlistPanelVideoRenderer"]?.safeObject()
+                ?: itemObject["playlistPanelVideoWrapperRenderer"]
+                    ?.safeObject()
+                    ?.get("primaryRenderer")
+                    ?.safeObject()
+                    ?.get("playlistPanelVideoRenderer")
+                    ?.safeObject()
+                ?: return@mapNotNull null
+
+            val videoId = renderer["videoId"]?.jsonPrimitive?.contentOrNull
+                ?: return@mapNotNull null
+            val title = renderer["title"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.mapNotNull { run ->
+                    run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+                }
+                ?.joinToString("")
+                .orEmpty()
+            val artists = renderer["longBylineText"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.mapNotNull { run ->
+                    run.safeObject()?.get("text")?.jsonPrimitive?.contentOrNull
+                }
+                ?.joinToString("")
+                ?.substringBefore(" • ")
+                .orEmpty()
+            val duration = renderer["lengthText"]?.safeObject()
+                ?.get("runs")?.safeArray()
+                ?.firstOrNull()
+                ?.safeObject()
+                ?.get("text")
+                ?.jsonPrimitive
+                ?.contentOrNull
+                .orEmpty()
+
+            Song(
+                youtubeId = videoId,
+                title = title,
+                artists = artists,
+                duration = duration,
+                thumbnailHref = getBestThumbnailUrl(renderer["thumbnail"]),
+                isAvailable = renderer["unplayableText"] == null
+            )
+        }
+    }
+
+    private fun extractNextMixContinuation(panel: JsonObject): String? {
+        return panel["continuations"]?.safeArray()
+            ?.firstNotNullOfOrNull { continuation ->
+                continuation.safeObject()
+                    ?.get("nextRadioContinuationData")?.safeObject()
+                    ?.get("continuation")?.jsonPrimitive?.contentOrNull
+            }
+    }
 
     fun extractSongInfo(jsonString: String): Song {
         val json = Json.parseToJsonElement(jsonString).jsonObject

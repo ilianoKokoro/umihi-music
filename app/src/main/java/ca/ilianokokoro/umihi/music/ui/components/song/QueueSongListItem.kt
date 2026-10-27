@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,9 +42,10 @@ fun QueueSongListItem(
     isCurrentSong: Boolean,
     onPress: () -> Unit,
     onDelete: () -> Unit,
-    scope: ReorderableCollectionItemScope,
-    onDragStarted: () -> Unit,
-    onDragStopped: () -> Unit
+    startMix: () -> Unit,
+    scope: ReorderableCollectionItemScope? = null,
+    onDragStarted: () -> Unit = {},
+    onDragStopped: () -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -88,6 +90,15 @@ fun QueueSongListItem(
                     ) {
 
                         MaterialUDropdownItem(
+                            leadingIcon = Icons.Rounded.Radio,
+                            text = stringResource(R.string.mix_start),
+                            onClick = {
+                                startMix()
+                                expanded = false
+                            }
+                        )
+
+                        MaterialUDropdownItem(
                             leadingIcon = Icons.Rounded.Remove,
                             text = stringResource(R.string.remove_from_queue),
                             onClick = {
@@ -98,20 +109,22 @@ fun QueueSongListItem(
                     }
                 }
 
-                Icon(
-                    imageVector = Icons.Rounded.DragHandle,
-                    contentDescription = stringResource(R.string.reorder),
-                    modifier =
-                        with(scope) {
-                            Modifier
-                                .height(Constants.Ui.SongItems.ITEM_HEIGHT)
-                                .draggableHandle(
-                                    onDragStarted = { onDragStarted() },
-                                    onDragStopped =
-                                        onDragStopped,
-                                )
-                        },
-                )
+                if (scope != null) {
+                    Icon(
+                        imageVector = Icons.Rounded.DragHandle,
+                        contentDescription = stringResource(R.string.reorder),
+                        modifier =
+                            with(scope) {
+                                Modifier
+                                    .height(Constants.Ui.SongItems.ITEM_HEIGHT)
+                                    .draggableHandle(
+                                        onDragStarted = { onDragStarted() },
+                                        onDragStopped =
+                                            onDragStopped,
+                                    )
+                            },
+                    )
+                }
             }
         },
         supportingContent = {

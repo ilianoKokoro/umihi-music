@@ -7,6 +7,7 @@ import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
@@ -14,6 +15,8 @@ import androidx.media3.session.SessionToken
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.audio.PlaybackService
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
+import ca.ilianokokoro.umihi.music.data.datasources.SongDataSource
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.extensions.toSong
 import ca.ilianokokoro.umihi.music.models.PlaybackAudioInfo
@@ -49,10 +52,15 @@ object PlayerManager {
     private val _currentSongId = MutableStateFlow<String?>(null)
     val currentSongId: StateFlow<String?> = _currentSongId.asStateFlow()
 
-    private var currentSongListenerController: MediaController? = null
-    private val currentSongListener = object : Player.Listener {
+    private var listenerController: MediaController? = null
+    private val playerListener = object : Player.Listener {
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
             _currentSongId.value = mediaItem?.mediaId
+            maybeLoadMoreMix()
+        }
+
+        override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+            maybeLoadMoreMix()
         }
     }
 
@@ -61,7 +69,6 @@ object PlayerManager {
 
     private val isConnected: Boolean
         get() = controller?.isConnected == true
-
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -82,6 +89,19 @@ object PlayerManager {
     private val _appVolume = MutableStateFlow(Constants.Player.Volume.DEFAULT_PERCENT)
     val appVolume: StateFlow<Int> = _appVolume.asStateFlow()
 
+    private val _isMixActive = MutableStateFlow(false)
+    val isMixActive: StateFlow<Boolean> = _isMixActive.asStateFlow()
+
+    private val _isMixLoading = MutableStateFlow(false)
+    val isMixLoading: StateFlow<Boolean> = _isMixLoading.asStateFlow()
+
+    private var mixContinuationToken: String? = null
+    private var appContext: Context? = null
+
+    @Volatile
+    private var datastoreRepository: DatastoreRepository? = null
+    private val songDataSource = SongDataSource()
+
     fun registerPlaybackService(service: PlaybackService) {
         playbackService = service
     }
@@ -94,15 +114,18 @@ object PlayerManager {
         _appVolume.value = volume
     }
 
-    fun setAppVolume(volume: Int, context: Context) {
+    fun setAppVolume(volume: Int) {
         val clamped = volume.coerceIn(
             Constants.Player.Volume.MIN_PERCENT,
             Constants.Player.Volume.MAX_PERCENT
         )
         _appVolume.value = clamped
         playbackService?.applyAppVolume(clamped)
+
+        val context = appContext ?: return
+
         scope.launch {
-            DatastoreRepository(context.applicationContext).save(
+            datastore(context).save(
                 DatastoreRepository.PreferenceKeys.APP_VOLUME,
                 clamped
             )
@@ -115,10 +138,13 @@ object PlayerManager {
 
     @Synchronized
     fun connectController(context: Context) {
+        val appContext = context.applicationContext
+        this.appContext = appContext
+
         if (isConnected) {
             controller?.let { connectedController ->
                 _controllerState.value = connectedController
-                observeCurrentSong(connectedController)
+                observePlayer(connectedController)
             }
             return
         }
@@ -128,8 +154,6 @@ object PlayerManager {
         }
 
         clearDeadController()
-
-        val appContext = context.applicationContext
 
         val sessionToken = SessionToken(
             appContext,
@@ -147,7 +171,7 @@ object PlayerManager {
                     synchronized(this@PlayerManager) {
                         controller = built
                         _controllerState.value = built
-                        observeCurrentSong(built)
+                        observePlayer(built)
                     }
                 } catch (e: CancellationException) {
                     throw e
@@ -161,18 +185,6 @@ object PlayerManager {
             },
             MoreExecutors.directExecutor()
         )
-    }
-
-    @Synchronized
-    fun disconnectController() {
-        controllerFuture?.let { future ->
-            MediaController.releaseFuture(future)
-        }
-
-        controllerFuture = null
-
-        controller?.release()
-        clearDeadController()
     }
 
     val playbackState: Int
@@ -213,16 +225,6 @@ object PlayerManager {
         setRepeatMode(nextRepeatMode)
     }
 
-
-    fun playMediaItem(mediaItem: MediaItem) {
-        currentController?.run {
-            setMediaItem(mediaItem)
-            prepare()
-            play()
-        }
-    }
-
-
     fun playPlaylist(playlist: Playlist, index: Int = 0) {
         val controller = currentController ?: return
         val mediaItems = playlist.mediaItems
@@ -248,7 +250,6 @@ object PlayerManager {
 
         playPlaylist(shuffledPlaylist)
     }
-
 
     fun playQueue(
         mediaItems: List<MediaItem>,
@@ -278,6 +279,203 @@ object PlayerManager {
         controller.play()
     }
 
+    fun toggleMix() {
+        if (_isMixActive.value) {
+            disableMix()
+            return
+        }
+
+        val currentSong = getCurrentSong() ?: return
+        startMix(videoId = currentSong.youtubeId, replaceQueue = false)
+    }
+
+    private fun disableMix() {
+        _isMixActive.value = false
+        mixContinuationToken = null
+    }
+
+    fun playMix(song: Song) {
+        startMix(videoId = song.youtubeId, seedSong = song, replaceQueue = true)
+    }
+
+    fun playPlaylistMix(playlistId: String) {
+        startMix(playlistId = playlistId, replaceQueue = true)
+    }
+
+    private fun startMix(
+        videoId: String? = null,
+        playlistId: String? = null,
+        seedSong: Song? = null,
+        replaceQueue: Boolean,
+    ) {
+        if (_isMixLoading.value) {
+            return
+        }
+
+        if (videoId == null && playlistId == null) {
+            return
+        }
+
+        _isMixLoading.value = true
+
+        scope.launch {
+            try {
+                val context = appContext ?: return@launch
+                val settings = datastore(context).getSettings()
+                check(!settings.offlineMode)
+
+                val page = songDataSource.getMix(
+                    settings = settings,
+                    videoId = videoId,
+                    playlistId = playlistId
+                )
+                check(page.songs.isNotEmpty())
+
+                withContext(Dispatchers.Main.immediate) {
+                    val controller = currentController ?: return@withContext
+
+                    val mixItems = page.songs.asSequence()
+                        .filterNot { it.youtubeId == videoId }
+                        .distinctBy { it.youtubeId }
+                        .map { it.mediaItem }
+                        .toList()
+
+                    if (replaceQueue) {
+                        val resumePositionMs = if (
+                            seedSong != null &&
+                            seedSong.youtubeId == controller.currentMediaItem?.mediaId
+                        ) {
+                            controller.currentPosition
+                        } else {
+                            C.TIME_UNSET
+                        }
+
+                        controller.setMediaItems(
+                            listOfNotNull(seedSong?.mediaItem) + mixItems,
+                            0,
+                            resumePositionMs
+                        )
+                        controller.prepare()
+                        controller.play()
+                    } else {
+                        val queuedIds = (0 until controller.mediaItemCount)
+                            .mapNotNull { controller.getMediaItemAt(it).mediaId }
+                            .toHashSet()
+
+                        val newItems = mixItems.filterNot { it.mediaId in queuedIds }
+                        if (newItems.isNotEmpty()) {
+                            controller.addMediaItems(controller.mediaItemCount, newItems)
+                        }
+                    }
+
+                    mixContinuationToken = page.continuation
+                    _isMixActive.value = true
+
+                    toast(R.string.mix_started_toast, Toast.LENGTH_SHORT)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                LogHelper.printe(e.toString())
+                withContext(Dispatchers.Main.immediate) {
+                    toast(R.string.mix_failed, Toast.LENGTH_LONG)
+                }
+            } finally {
+                _isMixLoading.value = false
+            }
+
+            // Runs after the loading flag is released, so the first continuation can start.
+            withContext(Dispatchers.Main.immediate) {
+                maybeLoadMoreMix()
+            }
+        }
+    }
+
+    private fun maybeLoadMoreMix() {
+        if (!_isMixActive.value || _isMixLoading.value) {
+            return
+        }
+
+        val continuation = mixContinuationToken ?: return
+        val controller = currentController ?: return
+        val index = controller.currentMediaItemIndex
+
+        if (index < 0) {
+            return
+        }
+
+        val remaining = controller.mediaItemCount - 1 - index
+        if (remaining <= Constants.Player.MIX_LOAD_MORE_THRESHOLD) {
+            loadMoreMix(continuation)
+        }
+    }
+
+    private fun loadMoreMix(continuation: String) {
+        _isMixLoading.value = true
+
+        scope.launch {
+            try {
+                val context = appContext ?: return@launch
+                val settings = datastore(context).getSettings()
+                if (settings.offlineMode) {
+                    return@launch
+                }
+
+                val page = songDataSource.getMixContinuation(continuation, settings)
+
+                withContext(Dispatchers.Main.immediate) {
+                    if (!_isMixActive.value || mixContinuationToken != continuation) {
+                        return@withContext
+                    }
+
+                    mixContinuationToken = page.continuation
+
+                    val controller = currentController ?: return@withContext
+                    val existingIds = (0 until controller.mediaItemCount)
+                        .mapNotNull { controller.getMediaItemAt(it).mediaId }
+                        .toHashSet()
+
+                    val mixItems = page.songs.asSequence()
+                        .filterNot { it.youtubeId in existingIds }
+                        .distinctBy { it.youtubeId }
+                        .map { it.mediaItem }
+                        .toList()
+
+                    if (mixItems.isNotEmpty()) {
+                        controller.addMediaItems(controller.mediaItemCount, mixItems)
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                // Silent: mix keeps playing; more songs load on next transition.
+            } finally {
+                _isMixLoading.value = false
+            }
+        }
+    }
+
+    private fun toast(messageRes: Int, duration: Int) {
+        val context = appContext ?: return
+        Toast.makeText(context, messageRes, duration).show()
+    }
+
+    private fun datastore(context: Context): DatastoreRepository {
+        return datastoreRepository
+            ?: DatastoreRepository(context.applicationContext).also { repository ->
+                datastoreRepository = repository
+            }
+    }
+
+    private fun observePlayer(controller: MediaController) {
+        if (listenerController !== controller) {
+            listenerController?.removeListener(playerListener)
+            listenerController = controller
+            controller.addListener(playerListener)
+        }
+        _currentSongId.value = controller.currentMediaItem?.mediaId
+    }
+
     suspend fun getPlaybackPosition(): Pair<Float, Float>? {
         return withContext(Dispatchers.Main.immediate) {
             val controller = currentController ?: return@withContext null
@@ -290,7 +488,7 @@ object PlayerManager {
         }
     }
 
-    fun addNext(song: Song, context: Context? = null) {
+    fun addNext(song: Song) {
         val controller = currentController ?: return
 
         val insertIndex = if (controller.mediaItemCount == 0) {
@@ -302,29 +500,17 @@ object PlayerManager {
 
         controller.addMediaItem(insertIndex, song.mediaItem)
 
-        context?.let {
-            Toast.makeText(
-                it,
-                it.getString(R.string.play_next_toast),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        toast(R.string.play_next_toast, Toast.LENGTH_SHORT)
 
         playIfFirstQueueItem()
     }
 
-    fun addToQueue(song: Song, context: Context? = null) {
+    fun addToQueue(song: Song) {
         val controller = currentController ?: return
 
         controller.addMediaItem(controller.mediaItemCount, song.mediaItem)
 
-        context?.let {
-            Toast.makeText(
-                it,
-                it.getString(R.string.added_queue_toast),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        toast(R.string.added_queue_toast, Toast.LENGTH_SHORT)
 
         playIfFirstQueueItem()
     }
@@ -337,7 +523,7 @@ object PlayerManager {
         }
     }
 
-    fun shuffleQueue(context: Context? = null) {
+    fun shuffleQueue() {
         val controller = currentController ?: return
 
         val currentIndex = controller.currentMediaItemIndex
@@ -355,13 +541,7 @@ object PlayerManager {
         controller.removeMediaItems(1, controller.mediaItemCount)
         controller.addMediaItems(trailing.shuffled())
 
-        context?.let {
-            Toast.makeText(
-                it,
-                it.getString(R.string.shuffled_queue_toast),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        toast(R.string.shuffled_queue_toast, Toast.LENGTH_SHORT)
     }
 
     fun clearQueue() {
@@ -374,13 +554,10 @@ object PlayerManager {
     @Synchronized
     fun getQueue(): List<Song> {
         val controller = currentController ?: return emptyList()
-        val queue = mutableListOf<Song>()
 
-        for (i in 0 until controller.mediaItemCount) {
-            queue.add(controller.getMediaItemAt(i).toSong())
+        return List(controller.mediaItemCount) { index ->
+            controller.getMediaItemAt(index).toSong()
         }
-
-        return queue
     }
 
     @Synchronized
@@ -418,7 +595,6 @@ object PlayerManager {
     private fun setRepeatMode(repeatMode: Int) {
         currentController?.repeatMode = repeatMode
     }
-
 
     fun startSleepTimer(minutes: Int) {
         startSleepTimerRemaining(minutes * 60L)
@@ -524,7 +700,6 @@ object PlayerManager {
         }
     }
 
-
     private fun playIfFirstQueueItem() {
         val controller = currentController ?: return
 
@@ -536,19 +711,13 @@ object PlayerManager {
 
     @Synchronized
     private fun clearDeadController() {
-        currentSongListenerController?.removeListener(currentSongListener)
-        currentSongListenerController = null
+        listenerController?.removeListener(playerListener)
+        listenerController = null
         _currentSongId.value = null
+        _isMixLoading.value = false
+        mixContinuationToken = null
+        _isMixActive.value = false
         controller = null
         _controllerState.value = null
-    }
-
-    private fun observeCurrentSong(controller: MediaController) {
-        if (currentSongListenerController !== controller) {
-            currentSongListenerController?.removeListener(currentSongListener)
-            currentSongListenerController = controller
-            controller.addListener(currentSongListener)
-        }
-        _currentSongId.value = controller.currentMediaItem?.mediaId
     }
 }

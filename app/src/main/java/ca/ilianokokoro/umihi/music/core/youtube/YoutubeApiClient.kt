@@ -210,6 +210,78 @@ object YoutubeApiClient {
         )
     }
 
+
+    suspend fun getMix(
+        settings: UmihiSettings,
+        videoId: String? = null,
+        playlistId: String? = null,
+    ): String {
+        require(videoId != null || playlistId != null) {
+            "A videoId or a playlistId is required to start a mix"
+        }
+
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("enablePersistentPlaylistPanel", true)
+            put("tunerSettingValue", "AUTOMIX_SETTING_NORMAL")
+            put("params", "wAEB")
+            put("isAudioOnly", true)
+            put("queueContextParams", "")
+
+            if (videoId != null) {
+                put("videoId", videoId)
+                put("playlistId", "RDAMVM$videoId")
+            } else if (playlistId != null) {
+                val sourceId = playlistId.removePrefix("VL")
+                put(
+                    "playlistId",
+                    if (sourceId.startsWith("RDAMPL")) {
+                        sourceId
+                    } else {
+                        "RDAMPL$sourceId"
+                    }
+                )
+            }
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Next.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
+    suspend fun getMixContinuation(continuation: String, settings: UmihiSettings): String {
+        val baseBody = YoutubeAuthHelper.buildContextBody(
+            idName = null,
+            id = null,
+            settings = settings
+        )
+
+        val body = buildJsonObject {
+            baseBody.forEach { (key, value) ->
+                put(key, value)
+            }
+
+            put("continuation", continuation)
+        }
+
+        return requestWithBody(
+            url = Constants.YoutubeApi.Next.URL,
+            body = body,
+            settings = settings
+        )
+    }
+
     suspend fun setLike(
         videoId: String,
         liked: Boolean,

@@ -3,17 +3,26 @@ package ca.ilianokokoro.umihi.music.ui.components.bottomsheet
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.rounded.Sensors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +31,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -45,6 +55,10 @@ fun QueueBottomSheet(
     changeVisibility: (visible: Boolean) -> Unit,
     songs: List<Song>,
     currentIndex: Int,
+    isMixActive: Boolean,
+    isMixLoading: Boolean,
+    onToggleMix: () -> Unit,
+    onStartMix: (Song) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -89,6 +103,23 @@ fun QueueBottomSheet(
                 modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp),
             )
 
+            ToggleButton(
+                checked = isMixActive,
+                onCheckedChange = { onToggleMix() },
+                enabled = !isMixLoading,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Sensors,
+                    contentDescription = null,
+                    modifier = Modifier.size(ToggleButtonDefaults.IconSize),
+                )
+                Spacer(Modifier.size(ToggleButtonDefaults.IconSpacing))
+                Text(stringResource(R.string.mix))
+            }
+
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
@@ -100,7 +131,7 @@ fun QueueBottomSheet(
                 ),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                if (mutableSongList.isEmpty()) {
+                if (mutableSongList.isEmpty() && !isMixLoading) {
                     item {
                         Text(
                             stringResource(R.string.queue_empty),
@@ -135,6 +166,7 @@ fun QueueBottomSheet(
                                     }
                                     PlayerManager.removeMediaItem(index)
                                 },
+                                startMix = { onStartMix(song) },
                                 onDragStopped = {
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     PlayerManager.currentController?.moveMediaItem(
@@ -143,6 +175,23 @@ fun QueueBottomSheet(
                                     )
                                 }
                             )
+                        }
+                    }
+
+                    if (isMixLoading) {
+                        item(key = "loading_more") {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp),
+                            ) {
+                                CircularProgressIndicator(
+                                    strokeWidth = 5.dp,
+                                    modifier = Modifier.size(50.dp),
+                                )
+                            }
                         }
                     }
                 }

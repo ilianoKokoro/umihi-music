@@ -25,6 +25,7 @@ fun PlaylistHeader(
     onUnhidePlaylist: () -> Unit,
     onHidePlaylist: () -> Unit,
     onShufflePlaylist: () -> Unit,
+    onStartMix: () -> Unit = {},
     isLoading: Boolean = false,
     playlist: Playlist,
     optionsExtended: Boolean = false,
@@ -48,12 +49,16 @@ fun PlaylistHeader(
                 onCancelDownload = onCancelDownload,
                 onUnhidePlaylist = onUnhidePlaylist,
                 onHidePlaylist = onHidePlaylist,
+                onStartMix = {
+                    onOpenPlayer()
+                    onStartMix()
+                },
                 isLoading = isLoading,
                 optionsExtended = optionsExtended,
                 onOptionsExtendedChange = onOptionsExtendedChange,
             )
             ActionButtons(
-                buttonEnabled = !playlist.songs.isEmpty(),
+                buttonEnabled = playlist.songs.isNotEmpty(),
                 onPlayClicked = {
                     onOpenPlayer()
                     onPlayPlaylist()

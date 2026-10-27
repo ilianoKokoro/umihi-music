@@ -220,6 +220,7 @@ object Constants {
         const val PROGRESS_UPDATE_DELAY = 150
         const val IMAGE_TRANSITION_DELAY = 200
         const val PRELOAD_DURATION = 5_000_000L
+        const val MIX_LOAD_MORE_THRESHOLD = 10
         val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)
 
         object Tracking {
@@ -368,6 +369,10 @@ object Constants {
         object Search {
             const val URL = "https://music.youtube.com/youtubei/v1/search?prettyPrint=false"
             const val FILTER = "EgWKAQIIAWoSEAMQBBAQEAUQFRAKEAkQERAO"
+        }
+
+        object Next {
+            const val URL = "${ORIGIN}/youtubei/v1/next?key=${API_KEY}&prettyPrint=false"
         }
 
         object SearchAutocomplete {

@@ -240,6 +240,14 @@ fun PlaylistScreen(
                                             onCancelDownload = playlistViewModel::cancelDownload,
                                             onUnhidePlaylist = playlistViewModel::unhidePlaylist,
                                             onHidePlaylist = { playlistViewModel.hidePlaylist(onBack) },
+                                            onStartMix = {
+                                                val playlistId = playlistInfo.info.id
+                                                if (playlistId.isNotBlank()) {
+                                                    PlayerManager.playPlaylistMix(playlistId)
+                                                } else if (playlistInfo.songs.isNotEmpty()) {
+                                                    PlayerManager.playMix(playlistInfo.songs.first())
+                                                }
+                                            },
                                             isLoading = uiState.screenState is ScreenState.Loading,
                                             playlist = playlistInfo,
                                             optionsExtended = uiState.optionsExtended,
@@ -290,13 +298,10 @@ fun PlaylistScreen(
                                                         playlistViewModel.playPlaylist(song)
                                                     },
                                                     playNext = {
-                                                        PlayerManager.addNext(song, application)
+                                                        PlayerManager.addNext(song)
                                                     },
                                                     addToQueue = {
-                                                        PlayerManager.addToQueue(
-                                                            song,
-                                                            application
-                                                        )
+                                                        PlayerManager.addToQueue(song)
                                                     },
                                                     download = {
                                                         playlistViewModel.downloadSong(song)
@@ -310,7 +315,11 @@ fun PlaylistScreen(
                                                         { songToRemove = song }
                                                     } else {
                                                         null
-                                                    })
+                                                    },
+                                                    startMix = {
+                                                        PlayerManager.playMix(song)
+                                                    }
+                                                )
                                             }
                                         } else {
                                             item {
