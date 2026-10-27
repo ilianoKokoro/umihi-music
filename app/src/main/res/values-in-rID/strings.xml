@@ -29,6 +29,10 @@
     <string name="join_discord_server">Bergabung dalam server Discord</string>
     <string name="play_next">Putar selanjutnya</string>
     <string name="add_to_queue">Tambah ke antrean</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
     <string name="no_playlists_found">Tidak ada playlist</string>
     <string name="remove_from_playlist">Hapuskan dari playlist</string>
