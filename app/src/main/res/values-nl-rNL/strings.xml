@@ -29,6 +29,10 @@
     <string name="join_discord_server">Deelnemen aan de Discord server</string>
     <string name="play_next">Volgende afspelen</string>
     <string name="add_to_queue">Toevoegen aan wachtrij</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Toevoegen aan afspeellijst</string>
     <string name="no_playlists_found">Geen afspeellijsten gevonden</string>
     <string name="remove_from_playlist">Verwijderen uit afspeellijst</string>
