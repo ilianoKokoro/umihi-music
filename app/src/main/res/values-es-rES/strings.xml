@@ -29,10 +29,10 @@
     <string name="join_discord_server">Únete al servidor de Discord</string>
     <string name="play_next">Reproducir Siguiente</string>
     <string name="add_to_queue">Añadir a la cola</string>
-    <string name="mix">Mix</string>
-    <string name="mix_start">Start Mix</string>
-    <string name="mix_started_toast">Mix started</string>
-    <string name="mix_failed">Failed to start mix</string>
+    <string name="mix">Mezcla</string>
+    <string name="mix_start">Iniciar Mix</string>
+    <string name="mix_started_toast">Mix iniciado</string>
+    <string name="mix_failed">Error al iniciar la mezcla</string>
     <string name="add_to_playlist">Añadir a la lista</string>
     <string name="no_playlists_found">No se encontraron listas</string>
     <string name="remove_from_playlist">Eliminar de la lista</string>
