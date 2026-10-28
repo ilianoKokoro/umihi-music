@@ -29,10 +29,10 @@
     <string name="join_discord_server">Alătură-te serverului Discord</string>
     <string name="play_next">Redă următorul</string>
     <string name="add_to_queue">Adaugă în coadă</string>
-    <string name="mix">Mix</string>
-    <string name="mix_start">Start Mix</string>
-    <string name="mix_started_toast">Mix started</string>
-    <string name="mix_failed">Failed to start mix</string>
+    <string name="mix">Amestecă</string>
+    <string name="mix_start">Pornește mixarea</string>
+    <string name="mix_started_toast">Amestecul a început</string>
+    <string name="mix_failed">Pornirea amestecului a eșuat</string>
     <string name="add_to_playlist">Adaugă la playlist</string>
     <string name="no_playlists_found">Nicio listă de redare găsită</string>
     <string name="remove_from_playlist">Elimină din playlist</string>
