@@ -29,6 +29,10 @@
     <string name="join_discord_server">Entra nel server Discord</string>
     <string name="play_next">Riproduci successivo</string>
     <string name="add_to_queue">Aggiungi alla coda</string>
+    <string name="mix">Miscela</string>
+    <string name="mix_start">Inizia Mix</string>
+    <string name="mix_started_toast">Miscela avviata</string>
+    <string name="mix_failed">Impossibile avviare il mix</string>
     <string name="add_to_playlist">Aggiungi alla playlist</string>
     <string name="no_playlists_found">Nessuna playlist trovata</string>
     <string name="remove_from_playlist">Rimuovi dalla playlist</string>

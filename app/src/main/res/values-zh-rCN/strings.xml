@@ -29,6 +29,10 @@
     <string name="join_discord_server">加入 Discord 服务器</string>
     <string name="play_next">播放下一个</string>
     <string name="add_to_queue">添加到队列</string>
+    <string name="mix">混音器</string>
+    <string name="mix_start">开始组合</string>
+    <string name="mix_started_toast">混合已开始</string>
+    <string name="mix_failed">启动混合失败</string>
     <string name="add_to_playlist">添加到播放列表</string>
     <string name="no_playlists_found">未找到播放列表</string>
     <string name="remove_from_playlist">从播放列表删除</string>

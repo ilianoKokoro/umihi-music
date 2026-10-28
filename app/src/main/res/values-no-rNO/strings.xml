@@ -29,6 +29,10 @@
     <string name="join_discord_server">Bli med på Discord-serveren</string>
     <string name="play_next">Spill neste</string>
     <string name="add_to_queue">Legg til i køen</string>
+    <string name="mix">Bland</string>
+    <string name="mix_start">Start Blanding</string>
+    <string name="mix_started_toast">Bland startet</string>
+    <string name="mix_failed">Kunne ikke starte blanding</string>
     <string name="add_to_playlist">Legg til i spilleliste</string>
     <string name="no_playlists_found">Ingen spillelister funnet</string>
     <string name="remove_from_playlist">Fjern fra spillelisten</string>

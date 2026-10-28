@@ -29,6 +29,10 @@
     <string name="join_discord_server">الانضمام إلى خادم ديسكورد</string>
     <string name="play_next">تشغيل التالي</string>
     <string name="add_to_queue">إضافة إلى قائمة الانتظار</string>
+    <string name="mix">خليط</string>
+    <string name="mix_start">بدء الميكس</string>
+    <string name="mix_started_toast">بدأ الميكس</string>
+    <string name="mix_failed">فشل في بدء المزيج</string>
     <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
     <string name="no_playlists_found">لم يتم العثور على قوائم تشغيل</string>
     <string name="remove_from_playlist">إزالة من قائمة التشغيل</string>

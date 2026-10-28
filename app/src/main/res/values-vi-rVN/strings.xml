@@ -29,6 +29,10 @@
     <string name="join_discord_server">Tham gia máy chủ Discord</string>
     <string name="play_next">Phát kế tiếp</string>
     <string name="add_to_queue">Thêm vào hàng chờ</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Start Mix</string>
+    <string name="mix_started_toast">Mix started</string>
+    <string name="mix_failed">Failed to start mix</string>
     <string name="add_to_playlist">Thêm vào danh sách phát</string>
     <string name="no_playlists_found">Không tìm thấy danh sách phát</string>
     <string name="remove_from_playlist">Xóa danh sách phát</string>

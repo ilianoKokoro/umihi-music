@@ -29,6 +29,10 @@
     <string name="join_discord_server">Liity Discord-palvelimeen</string>
     <string name="play_next">Toista seuraava</string>
     <string name="add_to_queue">Lisää jonoon</string>
+    <string name="mix">Sekoita</string>
+    <string name="mix_start">Aloita Sekoitus</string>
+    <string name="mix_started_toast">Sekoitus aloitettu</string>
+    <string name="mix_failed">Sekoituksen käynnistäminen epäonnistui</string>
     <string name="add_to_playlist">Lisää soittolistaan</string>
     <string name="no_playlists_found">Soittolistoja ei löytynyt</string>
     <string name="remove_from_playlist">Poista soittolistalta</string>

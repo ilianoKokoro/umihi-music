@@ -29,6 +29,10 @@
     <string name="join_discord_server">Discordサーバーに参加する</string>
     <string name="play_next">次に再生</string>
     <string name="add_to_queue">キューに追加</string>
+    <string name="mix">ミックス</string>
+    <string name="mix_start">ミックスを開始</string>
+    <string name="mix_started_toast">ミックスを開始しました</string>
+    <string name="mix_failed">ミックスの開始に失敗しました</string>
     <string name="add_to_playlist">プレイリストに追加</string>
     <string name="no_playlists_found">プレイリストが見つかりません</string>
     <string name="remove_from_playlist">プレイリストから削除</string>
