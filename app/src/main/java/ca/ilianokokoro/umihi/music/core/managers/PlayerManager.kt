@@ -398,6 +398,10 @@ object PlayerManager {
 
         val continuation = mixContinuationToken ?: return
         val controller = currentController ?: return
+        if (controller.mediaItemCount == 0) {
+            return
+        }
+
         val index = controller.currentMediaItemIndex
 
         if (index < 0) {
@@ -545,6 +549,8 @@ object PlayerManager {
     }
 
     fun clearQueue() {
+        disableMix()
+
         currentController?.run {
             stop()
             clearMediaItems()
