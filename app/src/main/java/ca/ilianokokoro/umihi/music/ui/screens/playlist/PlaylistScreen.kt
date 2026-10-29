@@ -53,9 +53,9 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.BackButton
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
-import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.SearchBar
+import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
@@ -100,7 +100,7 @@ fun PlaylistScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        FadingStatusBarWrapper {
+        StatusBarWrapper {
             Scaffold(topBar = {
                 if (uiState.showingSearch) {
                     TopAppBar(

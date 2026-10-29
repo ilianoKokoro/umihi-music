@@ -57,8 +57,8 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.extensions.folderDisplayPath
 import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
-import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
+import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.CacheSizeInputBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.DiagnosticsLogBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.HiddenPlaylistsBottomSheet
@@ -102,7 +102,7 @@ fun SettingsScreen(
         ActivityResultContracts.OpenDocumentTree()
     ) { uri -> settingsViewModel.onDownloadFolderPicked(uri) }
 
-    FadingStatusBarWrapper { statusBarHeight ->
+    StatusBarWrapper { statusBarHeight ->
         Scaffold(
             contentWindowInsets = WindowInsets(0.dp)
         ) { paddingValues ->

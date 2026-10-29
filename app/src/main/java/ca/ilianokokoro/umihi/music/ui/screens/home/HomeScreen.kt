@@ -38,9 +38,9 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
-import ca.ilianokokoro.umihi.music.ui.components.FadingStatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.LoginBanner
+import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
@@ -81,7 +81,7 @@ fun HomeScreen(
         }
     }
 
-    FadingStatusBarWrapper { statusBarHeight ->
+    StatusBarWrapper { statusBarHeight ->
         Scaffold(
             contentWindowInsets = WindowInsets(0.dp),
         ) { paddingValues ->

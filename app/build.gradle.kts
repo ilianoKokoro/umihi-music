@@ -30,7 +30,10 @@ kotlinExtension.jvmToolchain {
 android {
     namespace = "ca.ilianokokoro.umihi.music"
     compileSdk {
-        version = release(37)
+        version = release(37) {
+            minorApiLevel = 2
+        }
+
     }
     ndkVersion = "30.0.14904198"
     buildToolsVersion = "37.0.0"
@@ -233,4 +236,8 @@ dependencies {
 
     // Document File API
     implementation(libs.androidx.documentfile)
+
+    // Haze for blur
+    implementation(libs.haze)
+    implementation(libs.haze.blur)
 }
