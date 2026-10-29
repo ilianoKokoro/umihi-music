@@ -219,6 +219,7 @@ object Constants {
     object Player {
         const val PROGRESS_UPDATE_DELAY = 150
         const val IMAGE_TRANSITION_DELAY = 200
+        const val LYRICS_TRANSITION_DURATION = 300
         const val PRELOAD_DURATION = 5_000_000L
         const val MIX_LOAD_MORE_THRESHOLD = 10
         val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)

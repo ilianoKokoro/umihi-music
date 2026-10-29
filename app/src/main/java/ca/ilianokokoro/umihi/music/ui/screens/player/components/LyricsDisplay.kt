@@ -54,9 +54,9 @@ fun LyricsDisplay(
             val isCurrent = index == currentLineIndex
 
             val (color, style) = if (isCurrent) {
-                MaterialTheme.colorScheme.onPrimaryContainer to MaterialTheme.typography.headlineMediumEmphasized
+                MaterialTheme.colorScheme.onSurface to MaterialTheme.typography.headlineMediumEmphasized
             } else {
-                MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f) to MaterialTheme.typography.headlineMedium
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f) to MaterialTheme.typography.headlineMedium
             }
 
             Text(
