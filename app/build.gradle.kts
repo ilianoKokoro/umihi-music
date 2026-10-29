@@ -195,6 +195,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
 
+    // HTTP
+    implementation(libs.okhttp)
+
     // Viewmodel
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -207,6 +210,7 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.datasource)
+    implementation(libs.androidx.media3.database)
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)

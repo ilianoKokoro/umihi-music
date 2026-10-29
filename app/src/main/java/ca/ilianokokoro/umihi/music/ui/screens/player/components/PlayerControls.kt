@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -63,35 +61,20 @@ import kotlinx.coroutines.flow.StateFlow
 fun PlayerControls(
     modifier: Modifier = Modifier,
     isPlaying: Boolean,
-    isLyricsShown: Boolean,
     isLoading: Boolean,
     progress: StateFlow<PlaybackProgress>,
     onSeekPlayer: () -> Unit,
     onUpdateSeekBarHeldState: (isHeld: Boolean) -> Unit,
     onSeek: (location: Float) -> Unit,
-    onOpenQueue: () -> Unit,
-    onOpenVolume: () -> Unit,
-    onOpenSleepTimer: () -> Unit,
-    onToggleLyrics: () -> Unit,
-    onOpenSpeedSelector: () -> Unit,
-    isMixActive: Boolean,
-    onToggleMix: () -> Unit,
-    playbackSpeed: Float,
-    sleepTimerRemainingSeconds: Long?,
 ) {
     val mainButtonsControlsInteractionSources =
         List(3) { ComposeHelper.rememberInteractionSource() }
-    val actionButtonsControlsInteractionSources =
-        List(8) { ComposeHelper.rememberInteractionSource() }
 
     val hapticFeedback = LocalHapticFeedback.current
-    val player by PlayerManager.controllerState.collectAsState()
-    val repeatMode = ComposeHelper.rememberRepeatMode(player)
-    val appVolume by PlayerManager.appVolume.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -223,14 +206,38 @@ fun PlayerControls(
                 )
             }
         }
+    }
+}
 
+@Composable
+fun PlayerActionButtons(
+    modifier: Modifier = Modifier,
+    isLyricsShown: Boolean,
+    isMixActive: Boolean,
+    onToggleMix: () -> Unit,
+    onOpenQueue: () -> Unit,
+    onOpenVolume: () -> Unit,
+    onOpenSleepTimer: () -> Unit,
+    onToggleLyrics: () -> Unit,
+    onOpenSpeedSelector: () -> Unit,
+    playbackSpeed: Float,
+    sleepTimerRemainingSeconds: Long?,
+) {
+    val actionButtonsControlsInteractionSources =
+        List(8) { ComposeHelper.rememberInteractionSource() }
+    val player by PlayerManager.controllerState.collectAsState()
+    val repeatMode = ComposeHelper.rememberRepeatMode(player)
+    val appVolume by PlayerManager.appVolume.collectAsStateWithLifecycle()
+    val hapticFeedback = LocalHapticFeedback.current
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         val buttonSize = 52.dp
         val iconSize = 24.dp
 
-        Row(
-            modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.Bottom,
-        ) {
+        Row {
             ButtonGroup(
                 overflowIndicator = { menuState ->
                     FilledIconButton(

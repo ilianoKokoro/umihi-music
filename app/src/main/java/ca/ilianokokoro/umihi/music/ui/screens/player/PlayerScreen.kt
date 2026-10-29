@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
@@ -66,6 +68,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SleepTimerBottomShe
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
+import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerActionButtons
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.TopPlayer
 
@@ -114,43 +117,56 @@ fun PlayerScreen(
                     .fillMaxSize()
                     .padding(paddingValues),
 
+                verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
 
-                TopPlayer(
-                    currentSong = currentSong,
-                    isLyricsShown = uiState.lyricsShown,
-                    lyricsState = uiState.lyrics,
-                    positionMs = { playbackProgress.position.toLong() },
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                )
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f)
-                        .padding(horizontal = 8.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                        .weight(1f, fill = false)
                 ) {
-                    SongInfo(
-                        song = currentSong,
-                        isLoggedIn = uiState.isLoggedIn,
-                        isLiked = uiState.isLiked,
-                        isLiking = uiState.isLiking,
-                        onToggleLike = playerViewModel::toggleLike,
-                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
+                    TopPlayer(
+                        currentSong = currentSong,
+                        isLyricsShown = uiState.lyricsShown,
+                        lyricsState = uiState.lyrics,
+                        positionMs = { playbackProgress.position.toLong() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f, fill = false)
                     )
 
-                    PlayerControlsSection(
-                        uiState = uiState,
-                        playerViewModel = playerViewModel,
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 8.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        SongInfo(
+                            song = currentSong,
+                            isLoggedIn = uiState.isLoggedIn,
+                            isLiked = uiState.isLiked,
+                            isLiking = uiState.isLiking,
+                            onToggleLike = playerViewModel::toggleLike,
+                            onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
+                        )
 
+                        PlayerControlsSection(
+                            uiState = uiState,
+                            playerViewModel = playerViewModel,
+                        )
+
+                    }
                 }
+
+                PlayerActionButtonsSection(
+                    uiState = uiState,
+                    playerViewModel = playerViewModel,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                )
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Row(
@@ -177,27 +193,37 @@ fun PlayerScreen(
                     )
                 }
 
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(1f)
                         .padding(horizontal = 32.dp),
-                    verticalArrangement = Arrangement.SpaceEvenly
+                    contentAlignment = Alignment.Center
                 ) {
-                    SongInfo(
-                        song = currentSong,
-                        isLoggedIn = uiState.isLoggedIn,
-                        isLiked = uiState.isLiked,
-                        isLiking = uiState.isLiking,
+                    Column(
+                        modifier = Modifier.verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        SongInfo(
+                            song = currentSong,
+                            isLoggedIn = uiState.isLoggedIn,
+                            isLiked = uiState.isLiked,
+                            isLiking = uiState.isLiking,
 
-                        onToggleLike = playerViewModel::toggleLike,
-                        onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
-                    )
+                            onToggleLike = playerViewModel::toggleLike,
+                            onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
+                        )
 
-                    PlayerControlsSection(
-                        uiState = uiState,
-                        playerViewModel = playerViewModel,
-                    )
+                        PlayerControlsSection(
+                            uiState = uiState,
+                            playerViewModel = playerViewModel,
+                        )
+
+                        PlayerActionButtonsSection(
+                            uiState = uiState,
+                            playerViewModel = playerViewModel,
+                        )
+                    }
                 }
             }
         }
@@ -305,23 +331,34 @@ private fun PlayerControlsSection(
     PlayerControls(
         isPlaying = uiState.isPlaying,
         isLoading = uiState.isLoading,
-        isLyricsShown = uiState.lyricsShown,
         progress = playerViewModel.playbackProgress,
         onSeek = playerViewModel::seek,
         onSeekPlayer = playerViewModel::seekPlayer,
         onUpdateSeekBarHeldState = playerViewModel::updateSeekBarHeldState,
-        onOpenQueue = { playerViewModel.setQueueVisibility(true) },
-        onOpenVolume = { playerViewModel.updateShowVolumeDialog(true) },
-        onOpenSleepTimer = { playerViewModel.setSleepTimerSheetVisibility(true) },
-        onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
-        playbackSpeed = uiState.playbackSpeed,
-        onToggleLyrics = playerViewModel::toggleLyrics,
-        isMixActive = uiState.isMixActive,
-        onToggleMix = playerViewModel::toggleMix,
-        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
         modifier = Modifier.swipeUpToOpen(swipeUpThresholdPx) {
             playerViewModel.setQueueVisibility(true)
         },
+    )
+}
+
+@Composable
+private fun PlayerActionButtonsSection(
+    uiState: PlayerState,
+    playerViewModel: PlayerViewModel,
+    modifier: Modifier = Modifier,
+) {
+    PlayerActionButtons(
+        isLyricsShown = uiState.lyricsShown,
+        isMixActive = uiState.isMixActive,
+        onToggleMix = playerViewModel::toggleMix,
+        onOpenQueue = { playerViewModel.setQueueVisibility(true) },
+        onOpenVolume = { playerViewModel.updateShowVolumeDialog(true) },
+        onOpenSleepTimer = { playerViewModel.setSleepTimerSheetVisibility(true) },
+        onToggleLyrics = playerViewModel::toggleLyrics,
+        onOpenSpeedSelector = { playerViewModel.setSpeedSelectorVisibility(true) },
+        playbackSpeed = uiState.playbackSpeed,
+        sleepTimerRemainingSeconds = uiState.sleepTimerRemainingSeconds,
+        modifier = modifier,
     )
 }
 
