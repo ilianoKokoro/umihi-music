@@ -45,8 +45,8 @@ class BetterLyricsProvider(
                 when {
                     response.code == HTTP_UNAUTHORIZED -> null
                     !response.isSuccessful -> null
-                    else -> response.body?.string()
-                        ?.let { json.decodeFromString<BetterLyricsResponse>(it).ttml }
+                    else -> response.body.string()
+                        .let { json.decodeFromString<BetterLyricsResponse>(it).ttml }
                         ?.takeIf { it.isNotBlank() }
                 }
             }

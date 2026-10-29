@@ -55,7 +55,7 @@ object DownloadHelper {
                             throw IOException("HTTP ${response.code}: ${response.message}")
                         }
 
-                        val body = response.body ?: throw IOException("Empty image response body")
+                        val body = response.body
 
                         body.byteStream().use { input ->
                             tempFile.outputStream().use { output ->
@@ -138,7 +138,6 @@ object DownloadHelper {
                         }
 
                         val body = response.body
-                            ?: throw IOException("Empty audio response body")
 
                         body.byteStream().use { input ->
                             FileOutputStream(tempFile).use { output ->

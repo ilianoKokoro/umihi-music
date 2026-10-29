@@ -151,7 +151,14 @@ fun PlayerScreen(
                             isLiked = uiState.isLiked,
                             isLiking = uiState.isLiking,
                             onToggleLike = playerViewModel::toggleLike,
-                            onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
+                            onShare = {
+                                currentSong?.let {
+                                    playerViewModel.shareSong(
+                                        context,
+                                        it
+                                    )
+                                }
+                            },
                         )
 
                         PlayerControlsSection(
@@ -165,7 +172,7 @@ fun PlayerScreen(
                 PlayerActionButtonsSection(
                     uiState = uiState,
                     playerViewModel = playerViewModel,
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(8.dp),
                 )
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -211,7 +218,14 @@ fun PlayerScreen(
                             isLiking = uiState.isLiking,
 
                             onToggleLike = playerViewModel::toggleLike,
-                            onShare = { currentSong?.let { playerViewModel.shareSong(context, it) } },
+                            onShare = {
+                                currentSong?.let {
+                                    playerViewModel.shareSong(
+                                        context,
+                                        it
+                                    )
+                                }
+                            },
                         )
 
                         PlayerControlsSection(

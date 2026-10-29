@@ -52,8 +52,7 @@ class GithubDatasource {
                 throw IOException("HTTP ${response.code}: ${response.message}")
             }
 
-            response.body?.string()
-                ?: throw IOException("GitHub Empty response body")
+            response.body.string()
         }
     }
 }

@@ -71,8 +71,7 @@ object UmihiHelper {
                             )
                         }
 
-                        response.body?.bytes()
-                            ?: throw IllegalStateException("Empty artwork response body")
+                        response.body.bytes()
                     }
 
                 val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)

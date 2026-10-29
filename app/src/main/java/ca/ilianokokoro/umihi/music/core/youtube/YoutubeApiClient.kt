@@ -432,14 +432,13 @@ object YoutubeApiClient {
             .execute()
             .use { response ->
                 if (!response.isSuccessful) {
-                    val bodyPreview = response.body?.string()?.take(500) ?: "null"
+                    val bodyPreview = response.body.string().take(500)
                     throw IOException(
                         "HTTP ${response.code}: ${response.message} — body=$bodyPreview"
                     )
                 }
 
-                response.body?.string()
-                    ?: throw IOException("Empty response body")
+                response.body.string()
             }
     }
 

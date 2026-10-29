@@ -42,7 +42,7 @@ internal class YoutubeExtractor : Downloader() {
                 throw ReCaptchaException("YouTube rate limit / reCAPTCHA challenge", url.toString())
             }
 
-            val responseBody = response.body?.string()
+            val responseBody = response.body.string()
             val latestUrl = response.request.url.toString()
 
             return Response(

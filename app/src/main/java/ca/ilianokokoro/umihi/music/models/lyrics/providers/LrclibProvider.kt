@@ -47,8 +47,8 @@ class LrcLibProvider(
                     response.code == HTTP_NOT_FOUND -> null
                     !response.isSuccessful -> null
                     else -> {
-                        response.body?.string()
-                            ?.let { json.decodeFromString<LrcLibResponse>(it).toLyrics() }
+                        response.body.string()
+                            .let { json.decodeFromString<LrcLibResponse>(it).toLyrics() }
                     }
                 }
             }
@@ -66,7 +66,7 @@ class LrcLibProvider(
                 if (!response.isSuccessful) {
                     return@use null
                 }
-                val body = response.body?.string() ?: return@use null
+                val body = response.body.string()
                 json.decodeFromString<List<LrcLibResponse>>(body)
                     .firstNotNullOfOrNull { it.toLyrics() }
             }
