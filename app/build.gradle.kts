@@ -134,10 +134,6 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
-
 androidComponents {
     val commitHash: String =
         (project.findProperty("gitHash") as String?) ?: "N/A"
@@ -167,8 +163,8 @@ androidComponents {
 
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -181,7 +177,7 @@ dependencies {
     testImplementation(libs.junit)
 
     // Desugaring
-    coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // Navigation 3
     implementation(libs.nav3.runtime)
@@ -194,6 +190,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
 
     // HTTP
     implementation(libs.okhttp)
@@ -223,14 +222,13 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
     // Custom Activity On Crash
     implementation(libs.customactivityoncrash)
 
     // Workers
-    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.work.runtime)
 
     // Reorderable list
     implementation(libs.reorderable)

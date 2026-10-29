@@ -16,7 +16,6 @@ import kotlinx.serialization.json.jsonObject
 import okhttp3.Request
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.nio.file.Paths
 import java.util.Locale
 import kotlin.random.Random
 
@@ -44,11 +43,11 @@ object UmihiHelper {
     fun getDownloadDirectory(context: Context, directory: String? = null): File {
         val dir = File(
             context.filesDir,
-            if (directory == null)
+            if (directory == null) {
                 Constants.Downloads.DIRECTORY
-            else
-                Paths.get(Constants.Downloads.DIRECTORY, directory)
-                    .toString()
+            } else {
+                File(Constants.Downloads.DIRECTORY, directory).path
+            }
         )
         dir.mkdirs()
         return dir
