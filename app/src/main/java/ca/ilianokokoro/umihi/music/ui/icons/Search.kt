@@ -11,14 +11,14 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 @Suppress("CheckReturnValue")
-public val Search: ImageVector
+public val search: ImageVector
   get() {
     if (_search != null) {
       return _search!!
     }
     _search =
       ImageVector.Builder(
-          name = "Search",
+          name = "search",
           defaultWidth = 24.dp,
           defaultHeight = 24.dp,
           viewportWidth = 24f,

@@ -3,8 +3,6 @@ package ca.ilianokokoro.umihi.music.ui.components.song
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.ui.icons.download_for_offline
 
 
 private const val DOWNLOADED_ID = "downloaded"
@@ -36,7 +35,7 @@ private val songInlineContent = mapOf(
         )
     ) {
         Icon(
-            imageVector = Icons.Rounded.DownloadForOffline,
+            imageVector = download_for_offline,
             contentDescription = null,
             modifier = Modifier.size(DOWNLOADED_SIZE.dp)
         )

@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -31,6 +29,7 @@ import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import ca.ilianokokoro.umihi.music.ui.icons.timer
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -73,7 +72,7 @@ fun SleepTimerBottomSheet(
                 val seconds = activeRemainingSeconds % 60
 
                 SheetHeader(
-                    icon = Icons.Rounded.Timer,
+                    icon = timer,
                     title = stringResource(R.string.sleep_timer_active),
                 )
 
@@ -127,7 +126,7 @@ fun SleepTimerBottomSheet(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     SheetHeader(
-                        icon = Icons.Rounded.Timer,
+                        icon = timer,
                         title = stringResource(R.string.sleep_timer),
                         modifier = Modifier.weight(1f),
                     )

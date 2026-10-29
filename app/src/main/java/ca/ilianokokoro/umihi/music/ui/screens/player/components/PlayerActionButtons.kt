@@ -5,19 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.QueueMusic
-import androidx.compose.material.icons.automirrored.rounded.VolumeDown
-import androidx.compose.material.icons.automirrored.rounded.VolumeMute
-import androidx.compose.material.icons.automirrored.rounded.VolumeUp
-import androidx.compose.material.icons.rounded.Lyrics
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Repeat
-import androidx.compose.material.icons.rounded.RepeatOne
-import androidx.compose.material.icons.rounded.Sensors
-import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material.icons.rounded.Speed
-import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.FilledIconButton
@@ -40,6 +27,18 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
+import ca.ilianokokoro.umihi.music.ui.icons.lyrics
+import ca.ilianokokoro.umihi.music.ui.icons.more_vert
+import ca.ilianokokoro.umihi.music.ui.icons.queue_music
+import ca.ilianokokoro.umihi.music.ui.icons.repeat
+import ca.ilianokokoro.umihi.music.ui.icons.repeat_one
+import ca.ilianokokoro.umihi.music.ui.icons.sensors
+import ca.ilianokokoro.umihi.music.ui.icons.shuffle
+import ca.ilianokokoro.umihi.music.ui.icons.speed
+import ca.ilianokokoro.umihi.music.ui.icons.timer
+import ca.ilianokokoro.umihi.music.ui.icons.volume_down
+import ca.ilianokokoro.umihi.music.ui.icons.volume_mute
+import ca.ilianokokoro.umihi.music.ui.icons.volume_up
 
 
 @Composable
@@ -88,7 +87,7 @@ fun PlayerActionButtons(
                         modifier = Modifier.size(buttonSize),
                     ) {
                         Icon(
-                            Icons.Rounded.MoreVert,
+                            more_vert,
                             contentDescription = stringResource(R.string.more),
                             modifier = Modifier.size(iconSize)
                         )
@@ -103,9 +102,9 @@ fun PlayerActionButtons(
                         val isMuted = appVolume <= 0
                         val activeColors = IconButtonDefaults.filledIconToggleButtonColors()
                         val volumeIcon = when {
-                            isMuted -> Icons.AutoMirrored.Rounded.VolumeMute
-                            appVolume <= 50 -> Icons.AutoMirrored.Rounded.VolumeDown
-                            else -> Icons.AutoMirrored.Rounded.VolumeUp
+                            isMuted -> volume_mute
+                            appVolume <= 50 -> volume_down
+                            else -> volume_up
                         }
 
                         FilledIconButton(
@@ -133,9 +132,9 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         val isMuted = appVolume <= 0
                         val volumeIcon = when {
-                            isMuted -> Icons.AutoMirrored.Rounded.VolumeMute
-                            appVolume <= 50 -> Icons.AutoMirrored.Rounded.VolumeDown
-                            else -> Icons.AutoMirrored.Rounded.VolumeUp
+                            isMuted -> volume_mute
+                            appVolume <= 50 -> volume_down
+                            else -> volume_up
                         }
                         MaterialUDropdownItem(
                             text = stringResource(R.string.volume),
@@ -179,8 +178,8 @@ fun PlayerActionButtons(
                             )
                             Icon(
                                 imageVector = when (repeatMode) {
-                                    Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
-                                    else -> Icons.Rounded.Repeat
+                                    Player.REPEAT_MODE_ONE -> repeat_one
+                                    else -> repeat
                                 },
                                 contentDescription = repeatDescription,
                                 modifier = Modifier.size(iconSize)
@@ -197,8 +196,8 @@ fun PlayerActionButtons(
                                 }
                             ),
                             leadingIcon = when (repeatMode) {
-                                Player.REPEAT_MODE_ONE -> Icons.Rounded.RepeatOne
-                                else -> Icons.Rounded.Repeat
+                                Player.REPEAT_MODE_ONE -> repeat_one
+                                else -> repeat
                             },
                             onClick = {
                                 PlayerManager.cycleRepeatMode()
@@ -227,7 +226,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[2],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Shuffle,
+                                imageVector = shuffle,
                                 contentDescription = stringResource(R.string.shuffle),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -236,7 +235,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.shuffle),
-                            leadingIcon = Icons.Rounded.Shuffle,
+                            leadingIcon = shuffle,
                             onClick = {
                                 PlayerManager.shuffleQueue()
                                 menuState.dismiss()
@@ -271,7 +270,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[3],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Sensors,
+                                imageVector = sensors,
                                 contentDescription = stringResource(R.string.mix),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -280,7 +279,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.mix),
-                            leadingIcon = Icons.Rounded.Sensors,
+                            leadingIcon = sensors,
                             onClick = {
                                 onToggleMix()
                                 menuState.dismiss()
@@ -308,7 +307,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[4],
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                                imageVector = queue_music,
                                 contentDescription = stringResource(R.string.queue),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -317,7 +316,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.queue),
-                            leadingIcon = Icons.AutoMirrored.Rounded.QueueMusic,
+                            leadingIcon = queue_music,
                             onClick = {
                                 onOpenQueue()
                                 menuState.dismiss()
@@ -349,7 +348,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[5],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Lyrics,
+                                imageVector = lyrics,
                                 contentDescription = stringResource(R.string.lyrics),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -358,7 +357,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.lyrics),
-                            leadingIcon = Icons.Rounded.Lyrics,
+                            leadingIcon = lyrics,
                             onClick = {
                                 onToggleLyrics()
                                 menuState.dismiss()
@@ -391,7 +390,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[6],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Timer,
+                                imageVector = timer,
                                 contentDescription = stringResource(R.string.sleep_timer),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -400,7 +399,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.sleep_timer),
-                            leadingIcon = Icons.Rounded.Timer,
+                            leadingIcon = timer,
                             onClick = {
                                 onOpenSleepTimer()
                                 menuState.dismiss()
@@ -433,7 +432,7 @@ fun PlayerActionButtons(
                             interactionSource = actionButtonsControlsInteractionSources[7],
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Speed,
+                                imageVector = speed,
                                 contentDescription = stringResource(R.string.playback_speed),
                                 modifier = Modifier.size(iconSize)
                             )
@@ -442,7 +441,7 @@ fun PlayerActionButtons(
                     menuContent = { menuState ->
                         MaterialUDropdownItem(
                             text = stringResource(R.string.playback_speed),
-                            leadingIcon = Icons.Rounded.Speed,
+                            leadingIcon = speed,
                             onClick = {
                                 onOpenSpeedSelector()
                                 menuState.dismiss()

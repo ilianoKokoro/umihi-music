@@ -8,11 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BrightnessAuto
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +30,10 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.icons.brightness_auto
+import ca.ilianokokoro.umihi.music.ui.icons.dark_mode
+import ca.ilianokokoro.umihi.music.ui.icons.light_mode
+import ca.ilianokokoro.umihi.music.ui.icons.palette
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,7 +61,7 @@ fun ThemeSelectorBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SheetHeader(
-                icon = Icons.Outlined.Palette,
+                icon = palette,
                 title = stringResource(R.string.choose_theme),
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -74,9 +73,9 @@ fun ThemeSelectorBottomSheet(
                 ThemeMode.entries.forEach { option ->
                     val isSelected = option == selected
                     val (label, icon) = when (option) {
-                        ThemeMode.DARK -> stringResource(R.string.theme_dark) to Icons.Outlined.DarkMode
-                        ThemeMode.LIGHT -> stringResource(R.string.theme_light) to Icons.Outlined.LightMode
-                        ThemeMode.SYSTEM -> stringResource(R.string.theme_system) to Icons.Outlined.BrightnessAuto
+                        ThemeMode.DARK -> stringResource(R.string.theme_dark) to dark_mode
+                        ThemeMode.LIGHT -> stringResource(R.string.theme_light) to light_mode
+                        ThemeMode.SYSTEM -> stringResource(R.string.theme_system) to brightness_auto
                     }
 
                     Row(

@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -59,6 +56,8 @@ import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
+import ca.ilianokokoro.umihi.music.ui.icons.close
+import ca.ilianokokoro.umihi.music.ui.icons.search
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 
@@ -118,7 +117,7 @@ fun PlaylistScreen(
                                 ),
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Close,
+                                    imageVector = close,
                                     contentDescription = stringResource(R.string.close)
                                 )
                             }
@@ -159,7 +158,7 @@ fun PlaylistScreen(
                                 ),
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Search,
+                                    imageVector = search,
                                     contentDescription = stringResource(R.string.search)
                                 )
                             }

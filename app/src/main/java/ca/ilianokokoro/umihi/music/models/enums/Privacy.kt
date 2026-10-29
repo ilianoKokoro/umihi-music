@@ -1,13 +1,12 @@
 package ca.ilianokokoro.umihi.music.models.enums
 
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Link
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.Public
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.ui.icons.link
+import ca.ilianokokoro.umihi.music.ui.icons.lock
+import ca.ilianokokoro.umihi.music.ui.icons.public
 
 @Immutable
 enum class Privacy(
@@ -21,16 +20,16 @@ enum class Privacy(
     PUBLIC(
         value = "PUBLIC",
         labelRes = R.string.privacy_public,
-        icon = Icons.Rounded.Public
+        icon = public
     ),
     UNLISTED(
         value = "UNLISTED",
         labelRes = R.string.privacy_unlisted,
-        icon = Icons.Rounded.Link
+        icon = link
     ),
     PRIVATE(
         value = "PRIVATE",
         labelRes = R.string.privacy_private,
-        icon = Icons.Rounded.Lock
+        icon = lock
     );
 }

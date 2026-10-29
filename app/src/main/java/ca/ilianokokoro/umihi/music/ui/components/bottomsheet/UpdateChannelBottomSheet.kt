@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -30,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.icons.update
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +57,7 @@ fun UpdateChannelBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SheetHeader(
-                icon = Icons.Outlined.Update,
+                icon = update,
                 title = stringResource(R.string.change_update_channel),
                 modifier = Modifier.fillMaxWidth(),
             )

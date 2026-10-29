@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -27,6 +25,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
+import ca.ilianokokoro.umihi.music.ui.icons.visibility
 
 @Composable
 fun PlaylistListItem(
@@ -53,7 +52,7 @@ fun PlaylistListItem(
         trailingContent = {
             IconButton(onClick = { showUnhideDialog = true }) {
                 Icon(
-                    Icons.Rounded.Visibility,
+                    visibility,
                     contentDescription = stringResource(R.string.unhide_playlist)
                 )
             }

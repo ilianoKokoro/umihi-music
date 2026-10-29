@@ -1,8 +1,6 @@
 package ca.ilianokokoro.umihi.music.ui.components
 
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBarDefaults
@@ -17,6 +15,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.ui.icons.search
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +60,7 @@ fun SearchBar(
         },
         leadingIcon = {
             Icon(
-                Icons.Rounded.Search,
+                search,
                 contentDescription = null
             )
         },

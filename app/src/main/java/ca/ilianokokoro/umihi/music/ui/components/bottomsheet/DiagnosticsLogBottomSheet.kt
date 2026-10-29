@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.TextSnippet
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -38,6 +34,9 @@ import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import ca.ilianokokoro.umihi.music.ui.icons.delete
+import ca.ilianokokoro.umihi.music.ui.icons.share
+import ca.ilianokokoro.umihi.music.ui.icons.text_snippet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -72,7 +71,7 @@ fun DiagnosticsLogBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             SheetHeader(
-                icon = Icons.AutoMirrored.Outlined.TextSnippet,
+                icon = text_snippet,
                 title = stringResource(R.string.show_logs),
             )
 
@@ -113,14 +112,14 @@ fun DiagnosticsLogBottomSheet(
                         }
                     },
                     text = stringResource(R.string.clear_logs),
-                    icon = Icons.Outlined.Delete,
+                    icon = delete,
                     size = MaterialUButtonSize.Small,
                     variant = MaterialUButtonVariant.Outlined,
                 )
                 MaterialUButton(
                     onClick = onExport,
                     text = stringResource(R.string.export_logs),
-                    icon = Icons.Outlined.Share,
+                    icon = share,
                     size = MaterialUButtonSize.Small,
                     variant = MaterialUButtonVariant.Filled,
                 )

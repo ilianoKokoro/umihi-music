@@ -3,8 +3,6 @@ package ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -14,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
+import ca.ilianokokoro.umihi.music.ui.icons.keyboard_arrow_down
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +41,7 @@ fun MaterialUComboBox(
                 readOnly = true,
                 label = label,
                 leadingIcon = leadingIcon,
-                trailingIcon = Icons.Rounded.KeyboardArrowDown,
+                trailingIcon = keyboard_arrow_down,
             )
         }
 

@@ -23,10 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.FilledIconButton
@@ -68,6 +64,9 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SleepTimerBottomShe
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
+import ca.ilianokokoro.umihi.music.ui.icons.favorite
+import ca.ilianokokoro.umihi.music.ui.icons.favorite_border
+import ca.ilianokokoro.umihi.music.ui.icons.share
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerActionButtons
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.TopPlayer
@@ -450,7 +449,7 @@ fun SongInfo(
 
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Share,
+                                    imageVector = share,
                                     contentDescription = stringResource(R.string.share)
                                 )
                             }
@@ -486,9 +485,9 @@ fun SongInfo(
                             ) {
                                 Icon(
                                     imageVector = if (isLiked) {
-                                        Icons.Rounded.Favorite
+                                        favorite
                                     } else {
-                                        Icons.Rounded.FavoriteBorder
+                                        favorite_border
                                     },
                                     contentDescription = if (isLiked) {
                                         stringResource(R.string.unlike)
@@ -514,7 +513,7 @@ fun SongInfo(
                     ),
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Share,
+                        imageVector = share,
                         contentDescription = stringResource(R.string.share)
                     )
                 }

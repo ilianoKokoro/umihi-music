@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.QueueMusic
-import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,6 +41,8 @@ import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import ca.ilianokokoro.umihi.music.ui.components.song.QueueSongListItem
+import ca.ilianokokoro.umihi.music.ui.icons.queue_music
+import ca.ilianokokoro.umihi.music.ui.icons.sensors
 import kotlinx.coroutines.launch
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -98,7 +97,7 @@ fun QueueBottomSheet(
                 .fillMaxSize()
         ) {
             SheetHeader(
-                icon = Icons.AutoMirrored.Rounded.QueueMusic,
+                icon = queue_music,
                 title = stringResource(R.string.playing_now),
                 modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp),
             )
@@ -112,7 +111,7 @@ fun QueueBottomSheet(
                     .fillMaxWidth(),
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Sensors,
+                    imageVector = sensors,
                     contentDescription = null,
                     modifier = Modifier.size(ToggleButtonDefaults.IconSize),
                 )

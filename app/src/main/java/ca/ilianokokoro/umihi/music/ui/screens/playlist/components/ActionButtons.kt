@@ -3,9 +3,6 @@ package ca.ilianokokoro.umihi.music.ui.screens.playlist.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -16,6 +13,8 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import ca.ilianokokoro.umihi.music.ui.icons.play_arrow
+import ca.ilianokokoro.umihi.music.ui.icons.shuffle
 
 
 @Composable
@@ -37,7 +36,7 @@ fun ActionButtons(
                 onPlayClicked()
             },
             modifier = Modifier.weight(1f),
-            icon = Icons.Rounded.PlayArrow,
+            icon = play_arrow,
             text = stringResource(R.string.play),
             size = MaterialUButtonSize.Small,
             variant = MaterialUButtonVariant.Tonal,
@@ -50,7 +49,7 @@ fun ActionButtons(
                 onShuffleClicked()
             },
             modifier = Modifier.weight(1f),
-            icon = Icons.Rounded.Shuffle,
+            icon = shuffle,
             text = stringResource(R.string.shuffle),
             size = MaterialUButtonSize.Small,
             variant = MaterialUButtonVariant.Tonal,

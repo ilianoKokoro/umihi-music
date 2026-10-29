@@ -1,7 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -10,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ca.ilianokokoro.umihi.music.R
+import ca.ilianokokoro.umihi.music.ui.icons.arrow_back
 
 @Composable
 fun BackButton(
@@ -26,7 +25,7 @@ fun BackButton(
         ),
     ) {
         Icon(
-            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+            imageVector = arrow_back,
             contentDescription = stringResource(R.string.back_description),
         )
     }

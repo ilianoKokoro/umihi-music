@@ -10,17 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BookmarkRemove
-import androidx.compose.material.icons.rounded.Cancel
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.DownloadDone
-import androidx.compose.material.icons.rounded.FileDownloadOff
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Sensors
-import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.FilledIconButton
@@ -50,6 +39,16 @@ import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
+import ca.ilianokokoro.umihi.music.ui.icons.bookmark_remove
+import ca.ilianokokoro.umihi.music.ui.icons.cancel
+import ca.ilianokokoro.umihi.music.ui.icons.delete
+import ca.ilianokokoro.umihi.music.ui.icons.download
+import ca.ilianokokoro.umihi.music.ui.icons.download_done
+import ca.ilianokokoro.umihi.music.ui.icons.file_download_off
+import ca.ilianokokoro.umihi.music.ui.icons.more_vert
+import ca.ilianokokoro.umihi.music.ui.icons.sensors
+import ca.ilianokokoro.umihi.music.ui.icons.visibility
+import ca.ilianokokoro.umihi.music.ui.icons.visibility_off
 
 @Composable
 fun PlaylistInfo(
@@ -95,7 +94,7 @@ fun PlaylistInfo(
             )
         } else {
             Icon(
-                imageVector = Icons.Rounded.Download,
+                imageVector = download,
                 contentDescription = null,
                 modifier = Modifier.size(150.dp)
             )
@@ -156,14 +155,14 @@ fun PlaylistInfo(
                         ) {
                             if (playlist.downloaded) {
                                 Icon(
-                                    imageVector = Icons.Rounded.DownloadDone,
+                                    imageVector = download_done,
                                     contentDescription = null,
                                 )
                             } else if (isDownloading) {
                                 CircularWavyProgressIndicator(modifier = Modifier.size(25.dp))
                             } else {
                                 Icon(
-                                    imageVector = Icons.Rounded.Download,
+                                    imageVector = download,
                                     contentDescription = stringResource(R.string.download),
                                 )
                             }
@@ -179,7 +178,7 @@ fun PlaylistInfo(
                             enabled = !isLoading && alpha != 0F && playlist.songs.isNotEmpty()
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.Sensors,
+                                imageVector = sensors,
                                 contentDescription = stringResource(R.string.mix_start),
                             )
                         }
@@ -192,7 +191,7 @@ fun PlaylistInfo(
                         shapes = IconButtonDefaults.shapes(),
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.MoreVert,
+                            imageVector = more_vert,
                             contentDescription = stringResource(R.string.actions)
                         )
 
@@ -202,7 +201,7 @@ fun PlaylistInfo(
                         ) {
                             if (playlist.songs.isNotEmpty()) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.Sensors,
+                                    leadingIcon = sensors,
                                     text = stringResource(R.string.mix_start),
                                     onClick = {
                                         onStartMix()
@@ -213,7 +212,7 @@ fun PlaylistInfo(
 
                             if (isDownloading) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.Cancel,
+                                    leadingIcon = cancel,
                                     text = stringResource(R.string.cancel_download),
                                     onClick = {
                                         showCancelDialog.value = true
@@ -222,7 +221,7 @@ fun PlaylistInfo(
                                 )
                             } else if (!playlist.downloaded) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.Download,
+                                    leadingIcon = download,
                                     text = stringResource(R.string.download),
                                     onClick = {
                                         onDownloadPressed()
@@ -232,7 +231,7 @@ fun PlaylistInfo(
                             }
 
                             MaterialUDropdownItem(
-                                leadingIcon = Icons.Rounded.FileDownloadOff,
+                                leadingIcon = file_download_off,
                                 text = stringResource(R.string.remove_download),
                                 onClick = {
                                     showDeleteDownloadDialog.value = true
@@ -242,7 +241,7 @@ fun PlaylistInfo(
 
                             if (playlist.info.hidden) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.Visibility,
+                                    leadingIcon = visibility,
                                     text = stringResource(R.string.unhide_playlist),
                                     onClick = {
                                         showUnhideDialog.value = true
@@ -251,7 +250,7 @@ fun PlaylistInfo(
                                 )
                             } else if (!playlist.info.hidden) {
                                 MaterialUDropdownItem(
-                                    leadingIcon = Icons.Rounded.VisibilityOff,
+                                    leadingIcon = visibility_off,
                                     text = stringResource(R.string.hide_playlist),
                                     onClick = {
                                         showHideDialog.value = true
@@ -263,7 +262,7 @@ fun PlaylistInfo(
                             when (playlist.info.type) {
                                 PlaylistType.CREATED_BY_USER -> {
                                     MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.Delete,
+                                        leadingIcon = delete,
                                         text = stringResource(R.string.delete_playlist),
                                         onClick = {
                                             showDeleteDialog.value = true
@@ -274,7 +273,7 @@ fun PlaylistInfo(
 
                                 PlaylistType.SAVED -> {
                                     MaterialUDropdownItem(
-                                        leadingIcon = Icons.Rounded.BookmarkRemove,
+                                        leadingIcon = bookmark_remove,
                                         text = stringResource(R.string.remove_library),
                                         onClick = {
                                             showRemoveFromLibraryDialog.value = true

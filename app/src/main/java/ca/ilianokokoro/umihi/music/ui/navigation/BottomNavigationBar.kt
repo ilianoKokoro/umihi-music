@@ -2,10 +2,6 @@ package ca.ilianokokoro.umihi.music.ui.navigation
 
 import android.app.Activity
 import android.widget.Toast
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.NavigationItemIconPosition
 import androidx.compose.material3.ShortNavigationBar
 import androidx.compose.material3.ShortNavigationBarArrangement
@@ -27,6 +23,9 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys
+import ca.ilianokokoro.umihi.music.ui.icons.home
+import ca.ilianokokoro.umihi.music.ui.icons.search
+import ca.ilianokokoro.umihi.music.ui.icons.settings
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -69,7 +68,7 @@ fun BottomNavigationBar(
             },
             icon = {
                 androidx.compose.material3.Icon(
-                    Icons.Default.Home,
+                    home,
                     contentDescription = null
                 )
             },
@@ -84,7 +83,7 @@ fun BottomNavigationBar(
             },
             icon = {
                 androidx.compose.material3.Icon(
-                    Icons.Default.Search,
+                    search,
                     contentDescription = null
                 )
             },
@@ -120,7 +119,7 @@ fun BottomNavigationBar(
             },
             icon = {
                 androidx.compose.material3.Icon(
-                    Icons.Default.Settings,
+                    settings,
                     contentDescription = null
                 )
             },

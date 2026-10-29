@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
@@ -34,6 +32,7 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVarian
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUComboBox
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUComboBoxItem
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +68,7 @@ fun PlaylistCreationBottomSheet(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             SheetHeader(
-                icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                icon = playlist_add,
                 title = stringResource(R.string.create_playlist),
             )
 

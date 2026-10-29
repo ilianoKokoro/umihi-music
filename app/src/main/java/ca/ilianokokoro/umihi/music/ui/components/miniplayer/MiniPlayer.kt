@@ -14,11 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Pause
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.SkipNext
-import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,6 +42,10 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.icons.pause
+import ca.ilianokokoro.umihi.music.ui.icons.play_arrow
+import ca.ilianokokoro.umihi.music.ui.icons.skip_next
+import ca.ilianokokoro.umihi.music.ui.icons.skip_previous
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -237,7 +236,7 @@ fun MiniPlayer(
                             )
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.SkipPrevious,
+                                imageVector = skip_previous,
                                 contentDescription = stringResource(R.string.previous),
                             )
                         }
@@ -268,9 +267,9 @@ fun MiniPlayer(
                                 )
                             } else {
                                 val icon = if (isPlaying) {
-                                    Icons.Rounded.Pause
+                                    pause
                                 } else {
-                                    Icons.Rounded.PlayArrow
+                                    play_arrow
                                 }
 
                                 val text = if (isPlaying) {
@@ -301,7 +300,7 @@ fun MiniPlayer(
                             )
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.SkipNext,
+                                imageVector = skip_next,
                                 contentDescription = stringResource(R.string.next)
                             )
                         }

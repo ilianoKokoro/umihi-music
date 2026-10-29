@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,6 +50,7 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBot
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import ca.ilianokokoro.umihi.music.ui.icons.add
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -308,7 +307,7 @@ private fun AddToPlaylistCreateRow(
             .clickable(onClick = onClick),
         leadingContent = {
             Icon(
-                imageVector = Icons.Rounded.Add,
+                imageVector = add,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
             )
