@@ -12,26 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Login
-import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.automirrored.outlined.TextSnippet
-import androidx.compose.material.icons.outlined.Autorenew
-import androidx.compose.material.icons.outlined.BrightnessAuto
-import androidx.compose.material.icons.outlined.CloudDownload
-import androidx.compose.material.icons.outlined.CloudOff
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.Memory
-import androidx.compose.material.icons.outlined.StayCurrentPortrait
-import androidx.compose.material.icons.outlined.SystemUpdate
-import androidx.compose.material.icons.outlined.Update
-import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,6 +46,25 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.ThemeSelectorBottom
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.UpdateChannelBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.dialog.DownloadLocationDialog
+import ca.ilianokokoro.umihi.music.ui.icons.autorenew
+import ca.ilianokokoro.umihi.music.ui.icons.brightness_auto
+import ca.ilianokokoro.umihi.music.ui.icons.cloud_download
+import ca.ilianokokoro.umihi.music.ui.icons.cloud_off
+import ca.ilianokokoro.umihi.music.ui.icons.dark_mode
+import ca.ilianokokoro.umihi.music.ui.icons.delete
+import ca.ilianokokoro.umihi.music.ui.icons.folder
+import ca.ilianokokoro.umihi.music.ui.icons.history
+import ca.ilianokokoro.umihi.music.ui.icons.image
+import ca.ilianokokoro.umihi.music.ui.icons.info
+import ca.ilianokokoro.umihi.music.ui.icons.light_mode
+import ca.ilianokokoro.umihi.music.ui.icons.login
+import ca.ilianokokoro.umihi.music.ui.icons.logout
+import ca.ilianokokoro.umihi.music.ui.icons.memory
+import ca.ilianokokoro.umihi.music.ui.icons.mobile
+import ca.ilianokokoro.umihi.music.ui.icons.system_update
+import ca.ilianokokoro.umihi.music.ui.icons.text_snippet
+import ca.ilianokokoro.umihi.music.ui.icons.update
+import ca.ilianokokoro.umihi.music.ui.icons.visibility
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.BooleanSettingItem
 import ca.ilianokokoro.umihi.music.ui.screens.settings.components.SettingSpacer
@@ -149,7 +148,7 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.current_version),
                                 subtitle = VersionManager.getVersionName(),
-                                leadingIcon = Icons.Outlined.Info,
+                                leadingIcon = info,
                                 onClick = { }
                             )
                         }
@@ -161,7 +160,7 @@ fun SettingsScreen(
                                 SettingsItem(
                                     title = stringResource(R.string.show_logs),
                                     subtitle = stringResource(R.string.view_the_recorded_diagnostics_logs),
-                                    leadingIcon = Icons.AutoMirrored.Outlined.TextSnippet,
+                                    leadingIcon = text_snippet,
                                     onClick = {
                                         settingsViewModel.updateShowDiagnosticsLogsSheet(true)
                                     }
@@ -177,14 +176,14 @@ fun SettingsScreen(
                                 SettingsItem(
                                     title = stringResource(R.string.log_out),
                                     subtitle = stringResource(R.string.logged_in_message),
-                                    leadingIcon = Icons.AutoMirrored.Outlined.Logout,
+                                    leadingIcon = logout,
                                     onClick = settingsViewModel::logOut
                                 )
                             } else {
                                 SettingsItem(
                                     title = stringResource(R.string.log_in),
                                     subtitle = stringResource(R.string.logged_out_message),
-                                    leadingIcon = Icons.AutoMirrored.Outlined.Login,
+                                    leadingIcon = login,
                                     onClick = openAuthScreen
                                 )
                             }
@@ -192,7 +191,7 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.clear_login_info),
                                 subtitle = stringResource(R.string.clear_login_message),
-                                leadingIcon = Icons.Outlined.Delete,
+                                leadingIcon = delete,
                                 onClick = {
                                     settingsViewModel.updateShowLoginClearConfirm(true)
                                 }
@@ -212,9 +211,9 @@ fun SettingsScreen(
                                     }
                                 ),
                                 leadingIcon = when (screenState.settings.themeMode) {
-                                    ThemeMode.DARK -> Icons.Outlined.DarkMode
-                                    ThemeMode.LIGHT -> Icons.Outlined.LightMode
-                                    ThemeMode.SYSTEM -> Icons.Outlined.BrightnessAuto
+                                    ThemeMode.DARK -> dark_mode
+                                    ThemeMode.LIGHT -> light_mode
+                                    ThemeMode.SYSTEM -> brightness_auto
                                 },
                                 onClick = {
                                     settingsViewModel.updateShowThemeSelectorSheet(true)
@@ -224,7 +223,7 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.show_hidden_playlists_title),
                                 subtitle = stringResource(R.string.show_hidden_playlists_description),
-                                leadingIcon = Icons.Outlined.Visibility,
+                                leadingIcon = visibility,
                                 onClick = {
                                     settingsViewModel.updateShowHiddenPlaylistsSheet(true)
                                 }
@@ -233,7 +232,7 @@ fun SettingsScreen(
                             BooleanSettingItem(
                                 title = stringResource(R.string.keep_screen_on_title),
                                 subtitle = stringResource(R.string.keep_screen_on_title_description),
-                                leadingIcon = Icons.Outlined.StayCurrentPortrait,
+                                leadingIcon = mobile,
                                 value = screenState.settings.keepScreenOn,
                                 onToggle = settingsViewModel::updateKeepScreenOnSetting
                             )
@@ -241,7 +240,7 @@ fun SettingsScreen(
                             BooleanSettingItem(
                                 title = stringResource(R.string.send_playback_data_title),
                                 subtitle = stringResource(R.string.send_playback_data_description),
-                                leadingIcon = Icons.Outlined.History,
+                                leadingIcon = history,
                                 value = screenState.settings.sendPlaybackData,
                                 onToggle = {
                                     settingsViewModel.updateSetting(
@@ -258,7 +257,7 @@ fun SettingsScreen(
                             BooleanSettingItem(
                                 title = stringResource(R.string.enable_audio_offload),
                                 subtitle = stringResource(R.string.audio_offload_subtitle),
-                                leadingIcon = Icons.Outlined.Memory,
+                                leadingIcon = memory,
                                 value = screenState.settings.useAudioOffload,
                                 onToggle = settingsViewModel::updateAudioOffloadSetting
                             )
@@ -270,7 +269,7 @@ fun SettingsScreen(
                             BooleanSettingItem(
                                 title = stringResource(R.string.offline_mode_title),
                                 subtitle = stringResource(R.string.offline_mode_description),
-                                leadingIcon = Icons.Outlined.CloudOff,
+                                leadingIcon = cloud_off,
                                 value = screenState.settings.offlineMode,
                                 onToggle = settingsViewModel::updateOfflineModeSetting
                             )
@@ -278,7 +277,7 @@ fun SettingsScreen(
                             BooleanSettingItem(
                                 title = stringResource(R.string.download_on_metered_title),
                                 subtitle = stringResource(R.string.download_on_metered_description),
-                                leadingIcon = Icons.Outlined.CloudDownload,
+                                leadingIcon = cloud_download,
                                 value = screenState.settings.downloadOnMetered,
                                 onToggle = {
                                     settingsViewModel.updateSetting(
@@ -297,7 +296,7 @@ fun SettingsScreen(
                                     R.string.current_location,
                                     downloadLocation
                                 ),
-                                leadingIcon = Icons.Outlined.Folder,
+                                leadingIcon = folder,
                                 onClick = {
                                     settingsViewModel.updateShowDownloadLocationDialog(true)
                                 }
@@ -318,7 +317,7 @@ fun SettingsScreen(
                                         uiState.downloadsUsage.imageBytes
                                     )
                                 ),
-                                leadingIcon = Icons.Outlined.Delete,
+                                leadingIcon = delete,
                                 onClick = {
                                     settingsViewModel.updateShowDownloadDeleteConfirm(true)
                                 }
@@ -338,7 +337,7 @@ fun SettingsScreen(
                                     ),
                                     screenState.settings.exoPlayerCacheSizeMB
                                 ),
-                                leadingIcon = Icons.Outlined.Memory,
+                                leadingIcon = memory,
                                 progress = usedFraction(
                                     usedBytes = uiState.audioCacheUsed,
                                     limitMB = screenState.settings.exoPlayerCacheSizeMB
@@ -362,7 +361,7 @@ fun SettingsScreen(
                                     ),
                                     screenState.settings.thumbnailCacheSizeMB
                                 ),
-                                leadingIcon = Icons.Outlined.Image,
+                                leadingIcon = image,
                                 progress = usedFraction(
                                     usedBytes = uiState.thumbnailCacheUsed,
                                     limitMB = screenState.settings.thumbnailCacheSizeMB
@@ -378,7 +377,7 @@ fun SettingsScreen(
                             SettingsItem(
                                 title = stringResource(R.string.clear_cache),
                                 subtitle = stringResource(R.string.clear_cache_message),
-                                leadingIcon = Icons.Outlined.Delete,
+                                leadingIcon = delete,
                                 onClick = {
                                     settingsViewModel.updateShowCacheClearConfirm(true)
                                 }
@@ -392,14 +391,14 @@ fun SettingsScreen(
                                 SettingsItem(
                                     title = stringResource(R.string.check_for_updates),
                                     subtitle = stringResource(R.string.check_update_setting_description),
-                                    leadingIcon = Icons.Outlined.Update,
+                                    leadingIcon = update,
                                     onClick = settingsViewModel::checkForUpdates
                                 )
                                 SettingSpacer()
                                 BooleanSettingItem(
                                     title = stringResource(R.string.auto_update_title),
                                     subtitle = stringResource(R.string.auto_update_subtitle),
-                                    leadingIcon = Icons.Outlined.Autorenew,
+                                    leadingIcon = autorenew,
                                     value = screenState.settings.updateChecking,
                                     onToggle = {
                                         settingsViewModel.updateSetting(
@@ -416,7 +415,7 @@ fun SettingsScreen(
                                         R.string.current_update_channel_body,
                                         screenState.settings.updateChannel
                                     ),
-                                    leadingIcon = Icons.Outlined.SystemUpdate,
+                                    leadingIcon = system_update,
                                     onClick = {
                                         settingsViewModel.updateShowUpdateChannelSheet(true)
                                     }

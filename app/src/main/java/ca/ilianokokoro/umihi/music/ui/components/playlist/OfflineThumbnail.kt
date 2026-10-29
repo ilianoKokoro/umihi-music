@@ -4,12 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import ca.ilianokokoro.umihi.music.ui.icons.download
 
 @Composable
 fun OfflineThumbnail(
@@ -22,7 +21,7 @@ fun OfflineThumbnail(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Rounded.Download,
+            imageVector = download,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(0.7f)
         )

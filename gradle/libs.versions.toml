@@ -59,7 +59,6 @@ androidx-media3-datasource = { module = "androidx.media3:media3-datasource", ver
 androidx-media3-database = { module = "androidx.media3:media3-database", version.ref = "media3Exoplayer" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

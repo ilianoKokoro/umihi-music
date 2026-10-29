@@ -11,8 +11,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,6 +42,7 @@ import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -136,7 +135,7 @@ fun HomeScreen(
                                                     onClick = {
                                                         createPlaylistOpen = true
                                                     },
-                                                    icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                                                    icon = playlist_add,
                                                     text = stringResource(R.string.create_playlist)
                                                 )
                                             }

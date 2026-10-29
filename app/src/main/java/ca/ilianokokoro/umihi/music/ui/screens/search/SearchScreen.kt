@@ -10,9 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.ExpandedDockedSearchBarWithGap
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,6 +43,8 @@ import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
+import ca.ilianokokoro.umihi.music.ui.icons.close
+import ca.ilianokokoro.umihi.music.ui.icons.search
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +100,7 @@ fun SearchScreen(
             },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Rounded.Search,
+                    imageVector = search,
                     contentDescription = null
                 )
             },
@@ -118,7 +117,7 @@ fun SearchScreen(
                         }, shapes = IconButtonDefaults.shapes()
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Close,
+                            imageVector = close,
                             contentDescription = stringResource(R.string.close)
                         )
                     }
@@ -156,7 +155,7 @@ fun SearchScreen(
                             searchViewModel.search()
                         },
                         text = suggestion,
-                        leadingIcon = Icons.Rounded.Search
+                        leadingIcon = search
                     )
                 }
             }

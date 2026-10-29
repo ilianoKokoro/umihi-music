@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Storage
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -27,6 +25,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.ui.screens.settings.CacheType
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.icons.storage
 import kotlin.math.roundToInt
 
 private data class CacheSizeConfig(
@@ -93,7 +92,7 @@ fun CacheSizeInputBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 SheetHeader(
-                    icon = Icons.Outlined.Storage,
+                    icon = storage,
                     title = stringResource(config.titleRes),
                     modifier = Modifier.weight(1f),
                 )

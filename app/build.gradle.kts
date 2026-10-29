@@ -216,10 +216,7 @@ dependencies {
 
     // WebKit
     implementation(libs.androidx.webkit)
-
-    // Icons
-    implementation(libs.androidx.material.icons.extended)
-
+    
     // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

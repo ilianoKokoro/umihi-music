@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -20,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.extensions.isNetworkError
+import ca.ilianokokoro.umihi.music.ui.icons.error_outline
 
 @Composable
 fun ErrorMessage(
@@ -45,7 +44,7 @@ fun ErrorMessage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            imageVector = Icons.Default.ErrorOutline,
+            imageVector = error_outline,
             contentDescription = stringResource(R.string.error),
             tint = MaterialTheme.colorScheme.error,
             modifier = Modifier.size(64.dp)

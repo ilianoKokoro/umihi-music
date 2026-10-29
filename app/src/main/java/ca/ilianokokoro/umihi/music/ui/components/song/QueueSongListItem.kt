@@ -6,11 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DragHandle
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Radio
-import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -33,6 +28,10 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
+import ca.ilianokokoro.umihi.music.ui.icons.drag_handle
+import ca.ilianokokoro.umihi.music.ui.icons.more_vert
+import ca.ilianokokoro.umihi.music.ui.icons.radio
+import ca.ilianokokoro.umihi.music.ui.icons.remove
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 
 
@@ -79,7 +78,7 @@ fun QueueSongListItem(
 
                 IconButton(onClick = { expanded = true }) {
                     Icon(
-                        Icons.Rounded.MoreVert, contentDescription = stringResource(
+                        more_vert, contentDescription = stringResource(
                             R.string.more
                         )
                     )
@@ -90,7 +89,7 @@ fun QueueSongListItem(
                     ) {
 
                         MaterialUDropdownItem(
-                            leadingIcon = Icons.Rounded.Radio,
+                            leadingIcon = radio,
                             text = stringResource(R.string.mix_start),
                             onClick = {
                                 startMix()
@@ -99,7 +98,7 @@ fun QueueSongListItem(
                         )
 
                         MaterialUDropdownItem(
-                            leadingIcon = Icons.Rounded.Remove,
+                            leadingIcon = remove,
                             text = stringResource(R.string.remove_from_queue),
                             onClick = {
                                 onDelete()
@@ -111,7 +110,7 @@ fun QueueSongListItem(
 
                 if (scope != null) {
                     Icon(
-                        imageVector = Icons.Rounded.DragHandle,
+                        imageVector = drag_handle,
                         contentDescription = stringResource(R.string.reorder),
                         modifier =
                             with(scope) {

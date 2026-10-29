@@ -197,10 +197,7 @@ class SettingsViewModel(
 
     fun isLoggedIn(): Boolean {
         val state = _uiState.value.screenState
-        if (state !is ScreenState.Success) {
-            return false
-        }
-        return !state.settings.cookies.isEmpty()
+        return state is ScreenState.Success && !state.settings.cookies.isEmpty()
     }
 
     fun updateShowCacheSizeInputSheet(show: Boolean, cacheType: CacheType = CacheType.AUDIO) {

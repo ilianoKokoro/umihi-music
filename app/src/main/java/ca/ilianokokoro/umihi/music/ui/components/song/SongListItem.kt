@@ -5,14 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
-import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.PlayCircleOutline
-import androidx.compose.material.icons.rounded.PlaylistRemove
-import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -35,6 +27,13 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
+import ca.ilianokokoro.umihi.music.ui.icons.download as downloadIcon
+import ca.ilianokokoro.umihi.music.ui.icons.more_vert
+import ca.ilianokokoro.umihi.music.ui.icons.play_circle_outline
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_play
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_remove
+import ca.ilianokokoro.umihi.music.ui.icons.radio
 
 @Composable
 fun SongListItem(
@@ -79,7 +78,7 @@ fun SongListItem(
         trailingContent = {
             IconButton(onClick = { expanded = true }) {
                 Icon(
-                    Icons.Rounded.MoreVert,
+                    more_vert,
                     contentDescription = stringResource(R.string.more)
                 )
             }
@@ -88,7 +87,7 @@ fun SongListItem(
                 onDismissRequest = { expanded = false },
             ) {
                 MaterialUDropdownItem(
-                    leadingIcon = Icons.Rounded.PlayCircleOutline,
+                    leadingIcon = play_circle_outline,
                     text = stringResource(R.string.play_next),
                     onClick = {
                         playNext()
@@ -96,7 +95,7 @@ fun SongListItem(
                     }
                 )
                 MaterialUDropdownItem(
-                    leadingIcon = Icons.AutoMirrored.Rounded.PlaylistPlay,
+                    leadingIcon = playlist_play,
                     text = stringResource(R.string.add_to_queue),
                     onClick = {
                         addToQueue()
@@ -104,7 +103,7 @@ fun SongListItem(
                     }
                 )
                 MaterialUDropdownItem(
-                    leadingIcon = Icons.Rounded.Radio,
+                    leadingIcon = radio,
                     text = stringResource(R.string.mix_start),
                     onClick = {
                         startMix()
@@ -113,7 +112,7 @@ fun SongListItem(
                 )
                 if (addToPlaylist != null) {
                     MaterialUDropdownItem(
-                        leadingIcon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+                        leadingIcon = playlist_add,
                         text = stringResource(R.string.add_to_playlist),
                         onClick = {
                             addToPlaylist()
@@ -123,7 +122,7 @@ fun SongListItem(
                 }
                 if (removeFromPlaylist != null) {
                     MaterialUDropdownItem(
-                        leadingIcon = Icons.Rounded.PlaylistRemove,
+                        leadingIcon = playlist_remove,
                         text = stringResource(R.string.remove_from_playlist),
                         onClick = {
                             removeFromPlaylist()
@@ -133,7 +132,7 @@ fun SongListItem(
                 }
                 if (download != null && !song.downloaded) {
                     MaterialUDropdownItem(
-                        leadingIcon = Icons.Rounded.Download,
+                        leadingIcon = downloadIcon,
                         text = stringResource(R.string.download),
                         onClick = {
                             download()

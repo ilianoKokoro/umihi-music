@@ -7,11 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Pause
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.SkipNext
-import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.FilledIconButton
@@ -38,6 +33,10 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.toTimeString
+import ca.ilianokokoro.umihi.music.ui.icons.pause
+import ca.ilianokokoro.umihi.music.ui.icons.play_arrow
+import ca.ilianokokoro.umihi.music.ui.icons.skip_next
+import ca.ilianokokoro.umihi.music.ui.icons.skip_previous
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlaybackProgress
 import kotlinx.coroutines.flow.StateFlow
 
@@ -62,7 +61,7 @@ fun PlayerControls(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        
+
         SeekBar(
             progress = progress,
             onSeek = onSeek,
@@ -97,7 +96,7 @@ fun PlayerControls(
                                 .animateWidth(interactionSource = mainButtonsControlsInteractionSources[0])
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.SkipPrevious,
+                                imageVector = skip_previous,
                                 contentDescription = stringResource(R.string.previous),
                                 modifier = Modifier.size(30.dp)
                             )
@@ -138,9 +137,9 @@ fun PlayerControls(
                                 )
                             } else {
                                 val icon = if (isPlaying) {
-                                    Icons.Rounded.Pause
+                                    pause
                                 } else {
-                                    Icons.Rounded.PlayArrow
+                                    play_arrow
                                 }
 
                                 val text = if (isPlaying) {
@@ -178,7 +177,7 @@ fun PlayerControls(
                                 .animateWidth(interactionSource = mainButtonsControlsInteractionSources[2])
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.SkipNext,
+                                imageVector = skip_next,
                                 contentDescription = stringResource(R.string.next),
                                 modifier = Modifier.size(30.dp)
 

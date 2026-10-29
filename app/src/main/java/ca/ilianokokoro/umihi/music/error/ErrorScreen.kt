@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +32,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper.getShortErrorFromL
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
+import ca.ilianokokoro.umihi.music.ui.icons.error_outline
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 
 @Composable
@@ -75,7 +74,7 @@ fun ErrorScreen() {
                 color = MaterialTheme.colorScheme.errorContainer
             ) {
                 Icon(
-                    imageVector = Icons.Default.ErrorOutline,
+                    imageVector = error_outline,
                     tint = MaterialTheme.colorScheme.onErrorContainer,
                     contentDescription = stringResource(R.string.error),
                     modifier = Modifier
