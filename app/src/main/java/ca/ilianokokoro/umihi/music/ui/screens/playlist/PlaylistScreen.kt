@@ -322,15 +322,14 @@ fun PlaylistScreen(
                                             }
                                         } else {
                                             item {
-                                                Box(
-                                                    modifier = Modifier.fillParentMaxSize(),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    Text(
-                                                        stringResource(R.string.empty_playlist),
-                                                        textAlign = TextAlign.Center,
-                                                    )
-                                                }
+
+                                                Text(
+                                                    stringResource(R.string.empty_playlist),
+                                                    textAlign = TextAlign.Center,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(32.dp)
+                                                )
                                             }
                                         }
                                     }

@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.ui.navigation
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationItemIconPosition
 import androidx.compose.material3.ShortNavigationBar
 import androidx.compose.material3.ShortNavigationBarArrangement
@@ -67,7 +68,7 @@ fun BottomNavigationBar(
                 clickCount.intValue = 0
             },
             icon = {
-                androidx.compose.material3.Icon(
+                Icon(
                     home,
                     contentDescription = null
                 )
@@ -82,7 +83,7 @@ fun BottomNavigationBar(
                 clickCount.intValue = 0
             },
             icon = {
-                androidx.compose.material3.Icon(
+                Icon(
                     search,
                     contentDescription = null
                 )
@@ -118,7 +119,7 @@ fun BottomNavigationBar(
                 }
             },
             icon = {
-                androidx.compose.material3.Icon(
+                Icon(
                     settings,
                     contentDescription = null
                 )
