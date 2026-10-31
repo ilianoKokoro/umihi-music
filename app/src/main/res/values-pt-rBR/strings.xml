@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="playlists">Playlists</string>
-    <string name="settings">Confirgurações</string>
+    <string name="settings">Configurações</string>
     <string name="back_description">Tela anterior</string>
     <string name="no_playlists">Nenhuma playlist encontrada</string>
     <string name="playlist_cover">Capa da playlist</string>
@@ -10,7 +10,7 @@
     <string name="play">Reproduzir</string>
     <string name="shuffle">Aleatório</string>
     <string name="songs">%1$d músicas</string>
-    <string name="error">ERRO</string>
+    <string name="error">Erro</string>
     <string name="previous">Anterior</string>
     <string name="next">Próximo</string>
     <string name="queue">Fila</string>
@@ -18,21 +18,21 @@
     <string name="restart_application">Reiniciar aplicativo</string>
     <string name="error_details">Detalhes do erro</string>
     <string name="user_error_request">Please report this crash by creating an issue on GitHub or posting in the Umihi Music Discord.\nMake sure to include the logs from the \'Error Details\' button.</string>
-    <string name="close">FECHAR</string>
+    <string name="close">Fechar</string>
     <string name="copy_logs">Copiar logs</string>
     <string name="copied">Copiado</string>
     <string name="view_details">Visualizar Detalhes</string>
     <string name="error_log">Relatório de Erros</string>
     <string name="login_success">Login bem-sucedido</string>
-    <string name="download">BAIXAR</string>
+    <string name="download">Baixar</string>
     <string name="more">Mais</string>
     <string name="join_discord_server">Entre no servidor do Discord</string>
     <string name="play_next">Reproduzir próxima</string>
     <string name="add_to_queue">Adicionar à fila</string>
-    <string name="mix">Mistura</string>
-    <string name="mix_start">Iniciar Mistura</string>
+    <string name="mix">Mix</string>
+    <string name="mix_start">Iniciar Mix</string>
     <string name="mix_started_toast">Mix iniciado</string>
-    <string name="mix_failed">Falha ao iniciar a mistura</string>
+    <string name="mix_failed">Falha ao iniciar o Mix</string>
     <string name="add_to_playlist">Adicionar à playlist</string>
     <string name="no_playlists_found">Nenhuma playlist encontrada</string>
     <string name="remove_from_playlist">Remover da playlist</string>
@@ -42,11 +42,11 @@
     <string name="added_queue_toast">Música adicionada à fila</string>
     <string name="shuffled_queue_toast">Fila embaralhada</string>
     <string name="playing_now">Reproduzindo Agora</string>
-    <string name="up_to_date_message">O aplicativo está atualizado !</string>
+    <string name="up_to_date_message">O aplicativo está atualizado!</string>
     <string name="update_check_failed">Não foi possível verificar se há atualizações</string>
     <string name="github_rate_limit_retry">Taxa limitada da API do GitHub. Tente novamente em %1$s.</string>
-    <string name="minutes">%1$d minutes</string>
-    <string name="seconds">%1$d seconds</string>
+    <string name="minutes">%1$d minutos</string>
+    <string name="seconds">%1$d segundos</string>
     <string name="update_available">Atualização disponível</string>
     <string name="new_version_body">Está disponível uma nova versão (%1$s)</string>
     <string name="log_out">Encerrar Sessão</string>
@@ -57,14 +57,14 @@
     <string name="clear_login_info">Limpar informações de login</string>
     <string name="logged_in_message">Você está conectado à sua conta do YouTube</string>
     <string name="logged_out_message">Você não está logado</string>
-    <string name="account">conta</string>
+    <string name="account">Conta</string>
     <string name="clear_login_message">Limpa todas as contas salvas e informações de login</string>
     <string name="clear_login_confirm_message">Isto irá desconectá-lo e remover permanentemente todas as contas do YouTube, cookies e tokens de autenticação salvos neste dispositivo. Você precisará fazer login novamente para utilizar sua conta.</string>
     <string name="login_info_cleared">Informações de login limpas</string>
     <string name="downloads_cleared">Downloads limpos</string>
     <string name="invalid_navkey">Chave NavKey Inválida: %1$s</string>
     <string name="confirm">Confirmar</string>
-    <string name="cancel">cancelar</string>
+    <string name="cancel">Cancelar</string>
     <string name="remove_local_playlist">Remover playlist local</string>
     <string name="remove_local_confirm_text">Excluir os arquivos baixados para esta playlist? A playlist permanecerá disponível online.</string>
     <string name="ignore">Ignorar</string>
@@ -84,7 +84,7 @@
     <string name="unhide_playlist">Reexibir playlist</string>
     <string name="hide_playlist_confirm_text">Ocultar esta playlist? A playlist não aparecerá na tela inicial</string>
     <string name="unhide_playlist_confirm_text">Reexibir esta playlist? A playlist será exibida na tela inicial</string>
-    <string name="general">Gerais</string>
+    <string name="general">Geral</string>
     <string name="show_hidden_playlists_title">Mostrar playlists ocultas</string>
     <string name="show_hidden_playlists_description">Veja todas as suas playlists ocultas</string>
     <string name="hidden_playlists">Playlists ocultas</string>
@@ -92,7 +92,7 @@
     <string name="special_language_disabled">Idioma especial desativado</string>
     <string name="special_language_enabled">Idioma especial ativado</string>
     <string name="reorder">Reordenar</string>
-    <string name="actions">Ações.</string>
+    <string name="actions">Ações</string>
     <string name="playback">Reprodução</string>
     <string name="enable_audio_offload">Habilitar áudio Offload</string>
     <string name="audio_offload_subtitle">Descarrega a decodificação de áudio para hardware dedicado, melhorando a vida útil da bateria. Pode causar alguns problemas de reprodução em alguns casos.</string>
