@@ -1,5 +1,5 @@
 [versions]
-agp = "9.4.1"
+agp = "9.5.0"
 kotlin = "2.4.20" # 2.4.20 for CodeQL https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/#languages-and-compilers
 core = "1.19.1"
 lifecycle = "2.11.0"
