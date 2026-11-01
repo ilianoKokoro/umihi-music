@@ -105,11 +105,11 @@
     <string name="send_playback_data_description">Envia músicas tocadas de volta para música do YouTube para história, recomendações e recapitulação do ano</string>
     <string name="downloading_update">Baixando Atualização…</string>
     <string name="title">Título</string>
-    <string name="description">Descrição:</string>
-    <string name="create">Crio</string>
+    <string name="description">Descrição</string>
+    <string name="create">Criar</string>
     <string name="create_playlist">Criar playlist</string>
     <string name="login_prompt">Faça login para acessar suas playlists</string>
-    <string name="privacy_unlisted">Não-listado</string>
+    <string name="privacy_unlisted">Não listado</string>
     <string name="privacy_public">Público</string>
     <string name="privacy_private">Privado</string>
     <string name="delete_playlist">Excluir playlist</string>
@@ -131,12 +131,12 @@
     <string name="like">Gostei</string>
     <string name="share">Compartilhar</string>
     <string name="song_downloaded">Música baixada</string>
-    <string name="download_failed">Download falhou</string>
+    <string name="download_failed">O Download falhou</string>
     <string name="failed_to_download_song">Falha ao baixar %1$s - %2$s</string>
     <string name="download_finished">Download finalizado</string>
     <string name="playlist_downloaded">Playlist baixada</string>
     <string name="number_of_songs_downloaded">Baixadas %1$d de %2$d músicas</string>
-    <string name="download_canceled">Download cancelado</string>
+    <string name="download_canceled">O Download foi cancelado</string>
     <string name="failed_to_download_playlist">Falha ao baixar %1$s</string>
     <string name="playlist_progress_name">Progresso do download da playlist</string>
     <string name="playlist_progress_description">Mostra o progresso ao vivo e as notificações de conclusão para downloads de playlist</string>
@@ -153,7 +153,7 @@
     <string name="remove_library_text">Tem certeza de que deseja remover esta playlist da sua biblioteca? Você pode adicioná-la novamente mais tarde.</string>
     <string name="remove_from_queue">Remover da fila</string>
     <string name="downloaded">Baixado</string>
-    <string name="explicit">Explicável</string>
+    <string name="explicit">Explicito</string>
     <string name="failed_get_local_song">Falha ao obter a música do repositório local</string>
     <string name="failed_get_to_login_cookies">Falha ao obter cookies de login</string>
     <string name="failed_delete_playlist">Falha ao excluir a playlist</string>
@@ -172,7 +172,7 @@
     <string name="downloads_images_used">Imagens %1$s</string>
     <string name="clear_cache">Limpar Cache</string>
     <string name="clear_cache_message">Remover todos os dados em cache de áudio e miniatura deste dispositivo</string>
-    <string name="cache_cleared">Cache limpo</string>
+    <string name="cache_cleared">O Cache foi limpo</string>
     <string name="volume">Volume</string>
     <string name="download_aborted_message">Download cancelado devido à perda de conexão</string>
     <string name="pause">Suspender</string>
