@@ -187,7 +187,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
             ExpandablePlayer(
                 onClose = PlayerManager::clearQueue,
-                bottomPadding = miniPlayerBottomPadding
+                bottomPadding = miniPlayerBottomPadding,
+                application = app
             )
 
             AnimatedVisibility(

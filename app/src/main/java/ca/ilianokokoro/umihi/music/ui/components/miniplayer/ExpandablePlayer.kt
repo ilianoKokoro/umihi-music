@@ -21,19 +21,19 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import ca.ilianokokoro.umihi.music.core.Constants
-import ca.ilianokokoro.umihi.music.models.Song
+import ca.ilianokokoro.umihi.music.extensions.placedWhen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.awaitCancellation
@@ -49,9 +49,9 @@ private const val DISMISS_POSITIONAL_THRESHOLD = 0.4f
 fun ExpandablePlayer(
     modifier: Modifier = Modifier,
     bottomPadding: Dp,
+    application: Application,
     onClose: () -> Unit,
 ) {
-    val app = LocalContext.current.applicationContext as Application
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val density = LocalDensity.current
@@ -81,6 +81,13 @@ fun ExpandablePlayer(
 
         fun settle(target: PlayerAnchor, velocity: Float = 0f) {
             scope.launch { state.animateToWithDecay(target, velocity) }
+        }
+
+        val miniActive = remember(state, collapsedPx) {
+            derivedStateOf { state.requireOffset() > collapsedPx * 0.75f } // progress < 0.25
+        }
+        val fullActive = remember(state, collapsedPx) {
+            derivedStateOf { state.requireOffset() < collapsedPx * 0.8f } // progress > 0.2
         }
 
         // Holds the anchoredDrag mutex while the finger is down so a running settle animation is interrupted.
@@ -147,30 +154,23 @@ fun ExpandablePlayer(
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Box(Modifier.fillMaxSize()) {
-                // Mini layer: pinned to the top of the panel, fades out first
                 Box(
                     Modifier
+                        .placedWhen(fullActive.value)
+                        .fillMaxSize()
+                        .graphicsLayer { alpha = ((progress() - 0.2f) / 0.8f).coerceIn(0f, 1f) }
+                ) {
+                    PlayerScreen(onBack = onClose, application = application)
+                }
+
+                Box(
+                    Modifier
+                        .placedWhen(miniActive.value)
                         .fillMaxWidth()
                         .height(Constants.Ui.MiniPlayer.HEIGHT)
                         .graphicsLayer { alpha = (1f - progress() * 4f).coerceIn(0f, 1f) }
                 ) {
-                    MiniPlayer(// TEMP
-                        onPlayPause = {},
-                        onSkipNext = {},
-                        onSkipPrevious = {},
-                        isPlaying = false,
-                        isLoading = false,
-                        currentSong = Song(youtubeId = "")
-                    )
-                }
-
-                // Full layer: fades in late
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .graphicsLayer { alpha = ((progress() - 0.2f) / 0.8f).coerceIn(0f, 1f) }
-                ) {
-                    PlayerScreen(onBack = onClose, application = app)
+                    MiniPlayer()
                 }
             }
         }
