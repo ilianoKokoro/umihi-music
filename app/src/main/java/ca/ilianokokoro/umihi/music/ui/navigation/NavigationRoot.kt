@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,7 +65,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
 
-    var showFullPlayer by remember { mutableStateOf(false) }
+    var showFullPlayer by rememberSaveable { mutableStateOf(false) }
+
     var bottomBarHeightPixels by remember { mutableIntStateOf(0) }
     val bottomBarHeightDp = with(LocalDensity.current) { bottomBarHeightPixels.toDp() }
     val playerSheetState =

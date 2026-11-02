@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularWavyProgressIndicator
@@ -223,13 +224,16 @@ fun MiniPlayer(
 
             ButtonGroup(
                 overflowIndicator = {},
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
             ) {
                 customItem(
                     {
                         FilledIconButton(
                             onClick = onSkipPrevious,
-                            shapes = IconButtonDefaults.shapes(),
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedLeadingButtonShape,
+                                pressedShape = ButtonGroupDefaults.connectedLeadingButtonPressShape,
+                            ),
                             interactionSource = controlsInteractionSources[0],
                             modifier = Modifier.animateWidth(
                                 interactionSource = controlsInteractionSources[0]
@@ -254,8 +258,11 @@ fun MiniPlayer(
                                     onPlayPause()
                                 }
                             },
-                            shapes = IconButtonDefaults.toggleableShapes()
-                                .copy(checkedShape = IconButtonDefaults.shapes().shape),
+                            shapes = IconButtonDefaults.toggleableShapes(
+                                shape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                checkedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                            ),
                             interactionSource = controlsInteractionSources[1],
                             modifier = Modifier.animateWidth(
                                 interactionSource = controlsInteractionSources[1]
@@ -293,7 +300,10 @@ fun MiniPlayer(
                     {
                         FilledIconButton(
                             onClick = onSkipNext,
-                            shapes = IconButtonDefaults.shapes(),
+                            shapes = IconButtonDefaults.shapes(
+                                shape = ButtonGroupDefaults.connectedTrailingButtonShape,
+                                pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
+                            ),
                             interactionSource = controlsInteractionSources[2],
                             modifier = Modifier.animateWidth(
                                 interactionSource = controlsInteractionSources[2]
