@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -78,12 +79,11 @@ class MainActivity : ComponentActivity() {
         VersionManager.initialize(this)
         initNewPipe()
 
-        handleShareIntent(intent)
-        handleViewIntent(intent)
-
         requestNotificationPermission()
 
         if (savedInstanceState == null) {
+            handleShareIntent(intent)
+            handleViewIntent(intent)
             checkForUpdate()
             DiagnosticLog.initialize(this)
         }
@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
         val context = if (useSpecialLanguage) {
             val locale = java.util.Locale.forLanguageTag(Constants.Locale.Special.CODE)
             val config = Configuration(newBase.resources.configuration)
-            config.setLocales(android.os.LocaleList(locale))
+            config.setLocales(LocaleList(locale))
             newBase.createConfigurationContext(config)
         } else {
             newBase
