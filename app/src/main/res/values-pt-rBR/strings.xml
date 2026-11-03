@@ -17,7 +17,7 @@
     <string name="error_screen_title">Ocorreu um erro</string>
     <string name="restart_application">Reiniciar aplicativo</string>
     <string name="error_details">Detalhes do erro</string>
-    <string name="user_error_request">Please report this crash by creating an issue on GitHub or posting in the Umihi Music Discord.\nMake sure to include the logs from the \'Error Details\' button.</string>
+    <string name="user_error_request">Por favor, reporte este erro criando uma issue no Github ou publicando uma mensagem no Discord do Umihi Music.\nCertifique-se de incluir os registros disponíveis no botão \'Detalhes do Erro\'.</string>
     <string name="close">Fechar</string>
     <string name="copy_logs">Copiar logs</string>
     <string name="copied">Copiado</string>
