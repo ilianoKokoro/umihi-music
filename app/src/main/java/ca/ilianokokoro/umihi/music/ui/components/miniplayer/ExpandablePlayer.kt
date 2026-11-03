@@ -2,11 +2,12 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import android.app.Application
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.animateToWithDecay
+import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.snapTo
@@ -57,7 +58,7 @@ private object ExpandablePlayerSpec {
     const val FULL_PLAYER_VISIBLE_FROM_PROGRESS = 0.2f
 
     val FLING_VELOCITY_THRESHOLD = 125.dp
-    val COLLAPSED_CORNER_RADIUS = 12.dp
+    val COLLAPSED_CORNER_RADIUS = 20.dp
     val EXPANDED_CORNER_RADIUS = 0.dp
     val CARD_ELEVATION = 4.dp
 }
@@ -111,15 +112,18 @@ fun ExpandablePlayer(
 
         fun expansionProgress() = (1f - state.requireOffset() / collapsedPx).coerceIn(0f, 1f)
 
-        fun settle(target: PlayerAnchor, velocity: Float = 0f) {
-            scope.launch { state.animateToWithDecay(target, velocity) }
+        val expandSpec = MaterialTheme.motionScheme.defaultSpatialSpec<Float>()
+        val collapseSpec = MaterialTheme.motionScheme.fastSpatialSpec<Float>()
+
+        fun settle(target: PlayerAnchor, spec: AnimationSpec<Float> = expandSpec) {
+            scope.launch { state.animateTo(target, spec) }
         }
 
         val currentState by rememberUpdatedState(state)
 
         LaunchedEffect(Unit) {
             PlayerManager.playerOpenRequests.collect {
-                currentState.animateToWithDecay(PlayerAnchor.Expanded, 0f)
+                currentState.animateTo(PlayerAnchor.Expanded, expandSpec)
             }
         }
 
@@ -152,14 +156,14 @@ fun ExpandablePlayer(
         }
 
         BackHandler(enabled = state.settledValue == PlayerAnchor.Expanded) {
-            settle(PlayerAnchor.Collapsed)
+            settle(PlayerAnchor.Collapsed, collapseSpec)
         }
 
         if (isVisible) {
             Card(
                 modifier = Modifier
                     .fillMaxSize()
-                    .offset { IntOffset(0, state.requireOffset().roundToInt()) }
+                    .offset { IntOffset(0, state.requireOffset().coerceAtLeast(0f).roundToInt()) }
                     .draggable(
                         state = dragState,
                         orientation = Orientation.Vertical,
@@ -189,7 +193,7 @@ fun ExpandablePlayer(
                                     if (offset <= collapsedPx * ExpandablePlayerSpec.EXPAND_POSITION_THRESHOLD)
                                         PlayerAnchor.Expanded else PlayerAnchor.Collapsed
                             }
-                            settle(target, velocity)
+                            settle(target)
                         }
                     )
                     .clickable(enabled = state.settledValue == PlayerAnchor.Collapsed) {
