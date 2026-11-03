@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
+import ca.ilianokokoro.umihi.music.ui.screens.settings.DownloadsUsage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -16,7 +17,7 @@ import java.io.IOException
 
 object FileHelper {
     private val INVALID_CHARS = setOf('<', '>', ':', '"', '/', '\\', '|', '*', '?')
-    
+
 
     fun deleteStoredFile(context: Context, stored: String?) {
         if (stored.isNullOrBlank()) {
@@ -130,7 +131,7 @@ object FileHelper {
         }
     }
 
-    suspend fun getDownloadFolderSize(context: Context, downloadLocation: Uri?): Long =
+    suspend fun getDownloadUsage(context: Context, downloadLocation: Uri?): DownloadsUsage =
         withContext(Dispatchers.IO) {
             val imageDir =
                 UmihiHelper.getDownloadDirectory(context, Constants.Downloads.THUMBNAILS_FOLDER)
@@ -143,7 +144,7 @@ object FileHelper {
                     .folderSizeSync()
             }
 
-            audioSize + thumbSize
+            DownloadsUsage(audioSize, thumbSize)
         }
 
     private fun getSAFDirSize(context: Context, treeUri: Uri): Long {

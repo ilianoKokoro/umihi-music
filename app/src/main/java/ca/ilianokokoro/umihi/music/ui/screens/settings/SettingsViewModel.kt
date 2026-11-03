@@ -80,10 +80,7 @@ class SettingsViewModel(
             val audioCacheUsed = ExoCache.getInstance(_application).cache.cacheSpace
             val thumbnailCacheUsed = thumbnailCacheDir.folderSize()
 
-            val downloadsUsage = DownloadsUsage(
-                audioBytes = FileHelper.getDownloadFolderSize(_application, downloadLocation),
-                imageBytes = 0L
-            )
+            val downloadsUsage = FileHelper.getDownloadUsage(_application, downloadLocation)
 
             _uiState.update {
                 it.copy(
