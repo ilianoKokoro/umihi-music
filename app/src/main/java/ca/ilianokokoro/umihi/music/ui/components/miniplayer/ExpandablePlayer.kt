@@ -2,11 +2,6 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import android.app.Application
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
@@ -32,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -119,17 +115,16 @@ fun ExpandablePlayer(
             scope.launch { state.animateToWithDecay(target, velocity) }
         }
 
+        val currentState by rememberUpdatedState(state)
+
         LaunchedEffect(Unit) {
             PlayerManager.playerOpenRequests.collect {
-                settle(PlayerAnchor.Expanded)
+                currentState.animateToWithDecay(PlayerAnchor.Expanded, 0f)
             }
         }
 
-        val visibility = remember { MutableTransitionState(false) }
-        visibility.targetState = isVisible
-
-        LaunchedEffect(visibility.isIdle, visibility.currentState) {
-            if (visibility.isIdle && !visibility.currentState) {
+        LaunchedEffect(isVisible) {
+            if (!isVisible) {
                 state.snapTo(PlayerAnchor.Collapsed)
             }
         }
@@ -160,11 +155,7 @@ fun ExpandablePlayer(
             settle(PlayerAnchor.Collapsed)
         }
 
-        AnimatedVisibility(
-            visibleState = visibility,
-            enter = fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)),
-            exit = fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)),
-        ) {
+        if (isVisible) {
             Card(
                 modifier = Modifier
                     .fillMaxSize()
