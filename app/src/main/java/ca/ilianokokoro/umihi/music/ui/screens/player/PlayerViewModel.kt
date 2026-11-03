@@ -15,6 +15,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.session.MediaController
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
@@ -44,42 +45,50 @@ class PlayerViewModel(application: Application) :
 
     private var lastUuid: String? = null
 
-    init {
-        PlayerManager.currentController?.addListener(object : Player.Listener {
-            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                updateCurrentSong()
+    private var listenerController: MediaController? = null
+
+    private val playerListener = object : Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            updateCurrentSong()
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            updateIsPlayingState()
+        }
+
+        override fun onPlaybackStateChanged(playbackState: Int) {
+            updateIsLoadingState()
+        }
+
+        override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+            updateQueue()
+        }
+
+        override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
+            val artworkUri = mediaMetadata.artworkUri ?: return
+            val currentSong = PlayerManager.getCurrentSong()
+            val currentUid = currentSong?.uid
+
+            if (currentUid == lastUuid) {
+                return
             }
 
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
+            lastUuid = currentUid
+            updateThumbnail(artworkUri)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            PlayerManager.controllerState.collect { controller ->
+                attachListener(controller)
+                updateCurrentSong()
+                updateIsLoadingState()
                 updateIsPlayingState()
             }
-
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                updateIsLoadingState()
-            }
-
-            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                updateQueue()
-            }
-
-            override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
-                val artworkUri = mediaMetadata.artworkUri ?: return
-                val currentSong = PlayerManager.getCurrentSong()
-                val currentUid = currentSong?.uid
-
-                if (currentUid == lastUuid) {
-                    return
-                }
-
-                lastUuid = currentUid
-                updateThumbnail(artworkUri)
-            }
-        })
+        }
 
         startProgressUpdate()
-        updateCurrentSong()
-        updateIsLoadingState()
-        updateIsPlayingState()
 
         viewModelScope.launch {
             PlayerManager.sleepTimerRemainingSeconds.collect { seconds ->
@@ -345,39 +354,24 @@ class PlayerViewModel(application: Application) :
         }
     }
 
-    private fun updateIsLoadingState() {
-        viewModelScope.launch {
-            when (PlayerManager.playbackState) {
-                Player.STATE_BUFFERING -> {
-                    _uiState.update {
-                        _uiState.value.copy(
-                            isLoading = true
-                        )
-                    }
-                }
-
-                Player.STATE_READY -> {
-                    _uiState.update {
-                        _uiState.value.copy(
-                            isLoading = false
-                        )
-                    }
-                }
-
-                else -> {
-                }
-            }
+    private fun attachListener(controller: MediaController?) {
+        if (listenerController === controller) {
+            return
         }
+
+        listenerController?.removeListener(playerListener)
+        listenerController = controller
+        controller?.addListener(playerListener)
+    }
+
+    private fun updateIsLoadingState() {
+        val isLoading = PlayerManager.playbackState == Player.STATE_BUFFERING
+        _uiState.update { it.copy(isLoading = isLoading) }
     }
 
     private fun updateIsPlayingState() {
-        viewModelScope.launch {
-            _uiState.update {
-                _uiState.value.copy(
-                    isPlaying = PlayerManager.isPlaying
-                )
-            }
-        }
+        val isPlaying = PlayerManager.isPlaying
+        _uiState.update { it.copy(isPlaying = isPlaying) }
     }
 
 
@@ -428,6 +422,12 @@ class PlayerViewModel(application: Application) :
                 printe(e.message.toString())
             }
         }
+    }
+
+    override fun onCleared() {
+        listenerController?.removeListener(playerListener)
+        listenerController = null
+        super.onCleared()
     }
 
     companion object {

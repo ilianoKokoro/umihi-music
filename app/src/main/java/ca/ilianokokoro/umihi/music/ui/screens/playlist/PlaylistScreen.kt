@@ -67,7 +67,6 @@ import ca.ilianokokoro.umihi.music.ui.screens.playlist.components.PlaylistHeader
 fun PlaylistScreen(
     sharedViewModel: SharedViewModel,
     playlistInfo: PlaylistInfo,
-    onOpenPlayer: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
     application: Application,
@@ -216,7 +215,6 @@ fun PlaylistScreen(
 
                                     item {
                                         PlaylistHeader(
-                                            onOpenPlayer = onOpenPlayer,
                                             isDownloading = uiState.isDownloading,
                                             onDownloadPlaylist = playlistViewModel::downloadPlaylist,
                                             onShufflePlaylist = playlistViewModel::shufflePlaylist,
@@ -293,7 +291,7 @@ fun PlaylistScreen(
                                                     song,
                                                     isCurrentSong = song.youtubeId == currentSongId,
                                                     onPress = {
-                                                        onOpenPlayer()
+                                                        PlayerManager.requestPlayerOpen()
                                                         playlistViewModel.playPlaylist(song)
                                                     },
                                                     playNext = {
@@ -316,6 +314,7 @@ fun PlaylistScreen(
                                                         null
                                                     },
                                                     startMix = {
+                                                        PlayerManager.requestPlayerOpen()
                                                         PlayerManager.playMix(song)
                                                     }
                                                 )
