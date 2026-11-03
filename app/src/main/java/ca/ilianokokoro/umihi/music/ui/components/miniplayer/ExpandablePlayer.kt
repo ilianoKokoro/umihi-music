@@ -2,6 +2,11 @@ package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import android.app.Application
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
@@ -9,6 +14,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.animateToWithDecay
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,9 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
@@ -32,18 +40,42 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.placedWhen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import androidx.compose.ui.graphics.lerp as lerpColor
 
 private enum class PlayerAnchor { Expanded, Collapsed, Dismissed }
 
-private const val EXPAND_POSITIONAL_THRESHOLD = 0.5f
-private const val DISMISS_POSITIONAL_THRESHOLD = 0.4f
+private object ExpandablePlayerSpec {
+    const val DISMISS_DRAG_TRAVEL_MULTIPLIER = 1.5f
+    const val EXPAND_POSITION_THRESHOLD = 0.5f
+    const val DISMISS_POSITION_THRESHOLD = 0.4f
+    const val MINI_PLAYER_VISIBLE_UNTIL_PROGRESS = 0.25f
+    const val FULL_PLAYER_VISIBLE_FROM_PROGRESS = 0.2f
+
+    val FLING_VELOCITY_THRESHOLD = 125.dp
+    val COLLAPSED_CORNER_RADIUS = 12.dp
+    val EXPANDED_CORNER_RADIUS = 0.dp
+    val CARD_ELEVATION = 4.dp
+}
+
+private fun fullPlayerAlpha(expansionProgress: Float): Float {
+    val fadeStart = ExpandablePlayerSpec.FULL_PLAYER_VISIBLE_FROM_PROGRESS
+    val fadeRange = 1f - fadeStart
+    return ((expansionProgress - fadeStart) / fadeRange).coerceIn(0f, 1f)
+}
+
+private fun miniPlayerAlpha(expansionProgress: Float): Float {
+    return (1f - expansionProgress / ExpandablePlayerSpec.MINI_PLAYER_VISIBLE_UNTIL_PROGRESS)
+        .coerceIn(0f, 1f)
+}
 
 @Composable
 fun ExpandablePlayer(
@@ -51,19 +83,24 @@ fun ExpandablePlayer(
     bottomPadding: Dp,
     application: Application,
     onClose: () -> Unit,
+    bottomBar: @Composable () -> Unit = {},
 ) {
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val density = LocalDensity.current
         val scope = rememberCoroutineScope()
 
+        val currentSongId by PlayerManager.currentSongId.collectAsStateWithLifecycle()
+        val isVisible = currentSongId != null
+
         val miniPx = with(density) { Constants.Ui.MiniPlayer.HEIGHT.toPx() }
 
         val bottomPx = with(density) { bottomPadding.toPx() }
 
         val collapsedPx = constraints.maxHeight - miniPx - bottomPx
-        val dismissedPx = collapsedPx + (miniPx + bottomPx) * 1.5f
-        val flingPx = with(density) { 125.dp.toPx() }
+        val dismissedPx =
+            collapsedPx + (miniPx + bottomPx) * ExpandablePlayerSpec.DISMISS_DRAG_TRAVEL_MULTIPLIER
+        val flingPx = with(density) { ExpandablePlayerSpec.FLING_VELOCITY_THRESHOLD.toPx() }
 
         val state = remember(collapsedPx, dismissedPx) {
             AnchoredDraggableState(
@@ -76,18 +113,36 @@ fun ExpandablePlayer(
             )
         }
 
-        // 0 = mini, 1 = full
-        fun progress() = (1f - state.requireOffset() / collapsedPx).coerceIn(0f, 1f)
+        fun expansionProgress() = (1f - state.requireOffset() / collapsedPx).coerceIn(0f, 1f)
 
         fun settle(target: PlayerAnchor, velocity: Float = 0f) {
             scope.launch { state.animateToWithDecay(target, velocity) }
         }
 
+        LaunchedEffect(Unit) {
+            PlayerManager.playerOpenRequests.collect {
+                settle(PlayerAnchor.Expanded)
+            }
+        }
+
+        val visibility = remember { MutableTransitionState(false) }
+        visibility.targetState = isVisible
+
+        LaunchedEffect(visibility.isIdle, visibility.currentState) {
+            if (visibility.isIdle && !visibility.currentState) {
+                state.snapTo(PlayerAnchor.Collapsed)
+            }
+        }
+
         val miniActive = remember(state, collapsedPx) {
-            derivedStateOf { state.requireOffset() > collapsedPx * 0.75f } // progress < 0.25
+            derivedStateOf {
+                expansionProgress() <= ExpandablePlayerSpec.MINI_PLAYER_VISIBLE_UNTIL_PROGRESS
+            }
         }
         val fullActive = remember(state, collapsedPx) {
-            derivedStateOf { state.requireOffset() < collapsedPx * 0.8f } // progress > 0.2
+            derivedStateOf {
+                expansionProgress() >= ExpandablePlayerSpec.FULL_PLAYER_VISIBLE_FROM_PROGRESS
+            }
         }
 
         // Holds the anchoredDrag mutex while the finger is down so a running settle animation is interrupted.
@@ -105,74 +160,100 @@ fun ExpandablePlayer(
             settle(PlayerAnchor.Collapsed)
         }
 
-        Card(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset { IntOffset(0, state.requireOffset().roundToInt()) }
-                .draggable(
-                    state = dragState,
-                    orientation = Orientation.Vertical,
-                    onDragStarted = {
-                        grab.value = scope.launch { state.anchoredDrag { awaitCancellation() } }
-                    },
-                    onDragStopped = { velocity ->
-                        grab.value?.cancel()
-                        grab.value = null
-
-                        val offset = state.requireOffset()
-                        val target = when {
-                            // Flick up: next anchor above
-                            velocity <= -flingPx ->
-                                if (offset > collapsedPx) PlayerAnchor.Collapsed else PlayerAnchor.Expanded
-
-                            // Flick down: next anchor below
-                            velocity >= flingPx ->
-                                if (offset < collapsedPx) PlayerAnchor.Collapsed else PlayerAnchor.Dismissed
-
-                            // Slow release: position decides
-                            offset >= collapsedPx ->
-                                if (offset - collapsedPx >= (dismissedPx - collapsedPx) * DISMISS_POSITIONAL_THRESHOLD)
-                                    PlayerAnchor.Dismissed else PlayerAnchor.Collapsed
-
-                            else ->
-                                if (offset <= collapsedPx * EXPAND_POSITIONAL_THRESHOLD)
-                                    PlayerAnchor.Expanded else PlayerAnchor.Collapsed
-                        }
-                        settle(target, velocity)
-                    }
-                )
-                .clickable(enabled = state.settledValue == PlayerAnchor.Collapsed) {
-                    settle(PlayerAnchor.Expanded)
-                },
-            shape = RoundedCornerShape(
-                topStart = lerp(12.dp, 0.dp, progress()),
-                topEnd = lerp(12.dp, 0.dp, progress()),
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
-            ),
-            elevation = CardDefaults.cardElevation(4.dp)
+        AnimatedVisibility(
+            visibleState = visibility,
+            enter = fadeIn(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)),
+            exit = fadeOut(animationSpec = tween(Constants.Animation.NAVIGATION_DURATION)),
         ) {
-            Box(Modifier.fillMaxSize()) {
-                Box(
-                    Modifier
-                        .placedWhen(fullActive.value)
-                        .fillMaxSize()
-                        .graphicsLayer { alpha = ((progress() - 0.2f) / 0.8f).coerceIn(0f, 1f) }
-                ) {
-                    PlayerScreen(onBack = onClose, application = application)
-                }
+            Card(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset { IntOffset(0, state.requireOffset().roundToInt()) }
+                    .draggable(
+                        state = dragState,
+                        orientation = Orientation.Vertical,
+                        onDragStarted = {
+                            grab.value = scope.launch { state.anchoredDrag { awaitCancellation() } }
+                        },
+                        onDragStopped = { velocity ->
+                            grab.value?.cancel()
+                            grab.value = null
 
-                Box(
-                    Modifier
-                        .placedWhen(miniActive.value)
-                        .fillMaxWidth()
-                        .height(Constants.Ui.MiniPlayer.HEIGHT)
-                        .graphicsLayer { alpha = (1f - progress() * 4f).coerceIn(0f, 1f) }
-                ) {
-                    MiniPlayer()
+                            val offset = state.requireOffset()
+                            val target = when {
+                                // Flick up: next anchor above
+                                velocity <= -flingPx ->
+                                    if (offset > collapsedPx) PlayerAnchor.Collapsed else PlayerAnchor.Expanded
+
+                                // Flick down: next anchor below
+                                velocity >= flingPx ->
+                                    if (offset < collapsedPx) PlayerAnchor.Collapsed else PlayerAnchor.Dismissed
+
+                                // Slow release: position decides
+                                offset >= collapsedPx ->
+                                    if (offset - collapsedPx >= (dismissedPx - collapsedPx) * ExpandablePlayerSpec.DISMISS_POSITION_THRESHOLD)
+                                        PlayerAnchor.Dismissed else PlayerAnchor.Collapsed
+
+                                else ->
+                                    if (offset <= collapsedPx * ExpandablePlayerSpec.EXPAND_POSITION_THRESHOLD)
+                                        PlayerAnchor.Expanded else PlayerAnchor.Collapsed
+                            }
+                            settle(target, velocity)
+                        }
+                    )
+                    .clickable(enabled = state.settledValue == PlayerAnchor.Collapsed) {
+                        settle(PlayerAnchor.Expanded)
+                    },
+                shape = RoundedCornerShape(
+                    topStart = lerp(
+                        ExpandablePlayerSpec.COLLAPSED_CORNER_RADIUS,
+                        ExpandablePlayerSpec.EXPANDED_CORNER_RADIUS,
+                        expansionProgress()
+                    ),
+                    topEnd = lerp(
+                        ExpandablePlayerSpec.COLLAPSED_CORNER_RADIUS,
+                        ExpandablePlayerSpec.EXPANDED_CORNER_RADIUS,
+                        expansionProgress()
+                    ),
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = lerpColor(
+                        MaterialTheme.colorScheme.surfaceContainerHighest,
+                        MaterialTheme.colorScheme.surface,
+                        expansionProgress()
+                    )
+                ),
+                elevation = CardDefaults.cardElevation(ExpandablePlayerSpec.CARD_ELEVATION)
+            ) {
+                Box(Modifier.fillMaxSize()) {
+                    Box(
+                        Modifier
+                            .placedWhen(fullActive.value)
+                            .fillMaxSize()
+                            .graphicsLayer { alpha = fullPlayerAlpha(expansionProgress()) }
+                    ) {
+                        PlayerScreen(application = application)
+                    }
+
+                    Box(
+                        Modifier
+                            .placedWhen(miniActive.value)
+                            .fillMaxWidth()
+                            .height(Constants.Ui.MiniPlayer.HEIGHT)
+                            .graphicsLayer { alpha = miniPlayerAlpha(expansionProgress()) }
+                    ) {
+                        MiniPlayer()
+                    }
                 }
             }
+        }
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .graphicsLayer { translationY = expansionProgress() * size.height },
+        ) {
+            bottomBar()
         }
     }
 }

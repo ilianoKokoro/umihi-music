@@ -29,8 +29,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -51,6 +54,13 @@ object PlayerManager {
 
     private val _currentSongId = MutableStateFlow<String?>(null)
     val currentSongId: StateFlow<String?> = _currentSongId.asStateFlow()
+
+    private val _playerOpenRequests = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val playerOpenRequests: SharedFlow<Unit> = _playerOpenRequests.asSharedFlow()
+
+    fun requestPlayerOpen() {
+        _playerOpenRequests.tryEmit(Unit)
+    }
 
     private var listenerController: MediaController? = null
     private val playerListener = object : Player.Listener {

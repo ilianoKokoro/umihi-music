@@ -21,11 +21,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
@@ -58,8 +55,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     val app = LocalContext.current.applicationContext as Application
     val currentScreen = backStack.last()
     val screenConfig = rememberScreenUiConfig(currentScreen)
-
-    var showFullPlayer by rememberSaveable { mutableStateOf(false) }
 
     var bottomBarHeightPixels by remember { mutableIntStateOf(0) }
     val bottomBarHeightDp = with(LocalDensity.current) { bottomBarHeightPixels.toDp() }
@@ -156,7 +151,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 sharedViewModel = sharedViewModel,
                                 playlistInfo = key.playlistInfo,
                                 onBack = backStack::safePop,
-                                onOpenPlayer = { showFullPlayer = true },
                                 application = app
                             )
                         }
@@ -188,30 +182,29 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             ExpandablePlayer(
                 onClose = PlayerManager::clearQueue,
                 bottomPadding = miniPlayerBottomPadding,
-                application = app
-            )
-
-            AnimatedVisibility(
-                visible = screenConfig.showBottomBar,
-                enter = slideInVertically(
-                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
-                    initialOffsetY = { it }
-                ),
-                exit = slideOutVertically(
-                    animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
-                    targetOffsetY = { it }
-                ),
-                modifier = Modifier.align(Alignment.BottomCenter)
+                application = app,
             ) {
-                BottomNavigationBar(
-                    currentTab = screenConfig.selectedTab,
-                    onTabSelected = { key ->
-                        if (backStack.last() != key) {
-                            backStack.add(key)
-                        }
-                    },
-                    modifier = Modifier.onSizeChanged { bottomBarHeightPixels = it.height }
-                )
+                AnimatedVisibility(
+                    visible = screenConfig.showBottomBar,
+                    enter = slideInVertically(
+                        animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
+                        initialOffsetY = { it }
+                    ),
+                    exit = slideOutVertically(
+                        animationSpec = tween(Constants.Animation.NAVIGATION_DURATION),
+                        targetOffsetY = { it }
+                    ),
+                ) {
+                    BottomNavigationBar(
+                        currentTab = screenConfig.selectedTab,
+                        onTabSelected = { key ->
+                            if (backStack.last() != key) {
+                                backStack.add(key)
+                            }
+                        },
+                        modifier = Modifier.onSizeChanged { bottomBarHeightPixels = it.height }
+                    )
+                }
             }
         }
 

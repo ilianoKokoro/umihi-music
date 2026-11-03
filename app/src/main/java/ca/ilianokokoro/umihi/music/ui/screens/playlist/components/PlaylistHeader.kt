@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistInfo
 
@@ -15,7 +16,6 @@ import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistInfo
 fun PlaylistHeader(
     modifier: Modifier = Modifier,
     isDownloading: Boolean,
-    onOpenPlayer: () -> Unit,
     onDownloadPlaylist: () -> Unit,
     onDeleteDownloadPlaylist: () -> Unit,
     onDeletePlaylist: () -> Unit,
@@ -50,7 +50,7 @@ fun PlaylistHeader(
                 onUnhidePlaylist = onUnhidePlaylist,
                 onHidePlaylist = onHidePlaylist,
                 onStartMix = {
-                    onOpenPlayer()
+                    PlayerManager.requestPlayerOpen()
                     onStartMix()
                 },
                 isLoading = isLoading,
@@ -60,11 +60,11 @@ fun PlaylistHeader(
             ActionButtons(
                 buttonEnabled = playlist.songs.isNotEmpty(),
                 onPlayClicked = {
-                    onOpenPlayer()
+                    PlayerManager.requestPlayerOpen()
                     onPlayPlaylist()
                 },
                 onShuffleClicked = {
-                    onOpenPlayer()
+                    PlayerManager.requestPlayerOpen()
                     onShufflePlaylist()
                 }
             )

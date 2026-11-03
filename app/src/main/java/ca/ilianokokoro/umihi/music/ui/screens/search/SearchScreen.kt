@@ -229,6 +229,7 @@ fun SearchScreenContent(
                                 song = song,
                                 isCurrentSong = song.youtubeId == currentSongId,
                                 onPress = {
+                                    PlayerManager.requestPlayerOpen()
                                     PlayerManager.playQueue(
                                         mediaItems = songs.map { it.mediaItem },
                                         startIndex = index
@@ -248,7 +249,10 @@ fun SearchScreenContent(
                                 } else {
                                     null
                                 },
-                                startMix = { PlayerManager.playMix(song) }
+                                startMix = {
+                                    PlayerManager.requestPlayerOpen()
+                                    PlayerManager.playMix(song)
+                                }
                             )
                         }
                     }
