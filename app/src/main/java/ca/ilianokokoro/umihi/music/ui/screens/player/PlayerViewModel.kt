@@ -427,7 +427,6 @@ class PlayerViewModel(application: Application) :
     override fun onCleared() {
         listenerController?.removeListener(playerListener)
         listenerController = null
-        super.onCleared()
     }
 
     companion object {

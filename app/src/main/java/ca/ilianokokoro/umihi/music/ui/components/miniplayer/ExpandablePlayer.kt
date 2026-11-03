@@ -1,7 +1,7 @@
 package ca.ilianokokoro.umihi.music.ui.components.miniplayer
 
 import android.app.Application
-import androidx.activity.compose.BackHandler
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
@@ -42,6 +42,7 @@ import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.extensions.placedWhen
 import ca.ilianokokoro.umihi.music.ui.screens.player.PlayerScreen
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
@@ -121,6 +122,8 @@ fun ExpandablePlayer(
 
         val currentState by rememberUpdatedState(state)
 
+
+
         LaunchedEffect(Unit) {
             PlayerManager.playerOpenRequests.collect {
                 currentState.animateTo(PlayerAnchor.Expanded, expandSpec)
@@ -154,11 +157,24 @@ fun ExpandablePlayer(
                 onClose()
             }
         }
+        PredictiveBackHandler(
+            enabled = state.currentValue == PlayerAnchor.Expanded ||
+                    state.targetValue == PlayerAnchor.Expanded
+        ) { events ->
+            try {
+                state.anchoredDrag {
+                    events.collect { event ->
+                        dragTo(collapsedPx * event.progress)
+                    }
+                }
 
-        BackHandler(enabled = state.settledValue == PlayerAnchor.Expanded) {
-            settle(PlayerAnchor.Collapsed, collapseSpec)
+                state.animateTo(PlayerAnchor.Collapsed, collapseSpec)
+
+            } catch (e: CancellationException) {
+                state.animateTo(PlayerAnchor.Expanded, expandSpec)
+                throw e
+            }
         }
-
         if (isVisible) {
             Card(
                 modifier = Modifier
