@@ -225,14 +225,16 @@ object PlayerManager {
     }
 
     fun cycleRepeatMode() {
-        val nextRepeatMode = when (repeatMode) {
+        val controller = currentController ?: return
+
+        val nextRepeatMode = when (controller.repeatMode) {
             Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
             Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
             Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_OFF
             else -> Player.REPEAT_MODE_OFF
         }
 
-        setRepeatMode(nextRepeatMode)
+        controller.repeatMode = nextRepeatMode
     }
 
     fun playPlaylist(playlist: Playlist, index: Int = 0) {
@@ -606,10 +608,6 @@ object PlayerManager {
                         .build()
                 )
                 .build()
-    }
-
-    private fun setRepeatMode(repeatMode: Int) {
-        currentController?.repeatMode = repeatMode
     }
 
     fun startSleepTimer(minutes: Int) {

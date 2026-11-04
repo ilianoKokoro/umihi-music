@@ -2,6 +2,7 @@ package ca.ilianokokoro.umihi.music.audio
 
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -56,6 +57,13 @@ class UmihiMediaLibraryCallback(
 
     override fun onRepeatModeChanged(repeatMode: Int) {
         updateRepeatButton()
+
+        val message = when (repeatMode) {
+            Player.REPEAT_MODE_ONE -> R.string.repeat_one
+            Player.REPEAT_MODE_ALL -> R.string.repeat_all
+            else -> R.string.repeat_off
+        }
+        Toast.makeText(service, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateRepeatButton() {
