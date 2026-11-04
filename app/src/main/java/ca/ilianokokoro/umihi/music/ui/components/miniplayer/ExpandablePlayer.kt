@@ -29,6 +29,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -100,9 +102,15 @@ fun ExpandablePlayer(
             collapsedPx + (miniPx + bottomPx) * ExpandablePlayerSpec.DISMISS_DRAG_TRAVEL_MULTIPLIER
         val flingPx = with(density) { ExpandablePlayerSpec.FLING_VELOCITY_THRESHOLD.toPx() }
 
+        var savedAnchor by rememberSaveable { mutableStateOf(PlayerAnchor.Collapsed) }
+
         val state = remember(collapsedPx, dismissedPx) {
             AnchoredDraggableState(
-                initialValue = PlayerAnchor.Collapsed,
+                initialValue = if (savedAnchor == PlayerAnchor.Dismissed) {
+                    PlayerAnchor.Collapsed
+                } else {
+                    savedAnchor
+                },
                 anchors = DraggableAnchors {
                     PlayerAnchor.Expanded at 0f
                     PlayerAnchor.Collapsed at collapsedPx
@@ -121,8 +129,6 @@ fun ExpandablePlayer(
         }
 
         val currentState by rememberUpdatedState(state)
-
-
 
         LaunchedEffect(Unit) {
             PlayerManager.playerOpenRequests.collect {
@@ -155,6 +161,8 @@ fun ExpandablePlayer(
         LaunchedEffect(state.settledValue) {
             if (state.settledValue == PlayerAnchor.Dismissed) {
                 onClose()
+            } else {
+                savedAnchor = state.settledValue
             }
         }
         PredictiveBackHandler(
