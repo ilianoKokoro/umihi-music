@@ -11,6 +11,7 @@ import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.snapTo
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -220,7 +221,11 @@ fun ExpandablePlayer(
                             settle(target)
                         }
                     )
-                    .clickable(enabled = state.settledValue == PlayerAnchor.Collapsed) {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        enabled = state.settledValue == PlayerAnchor.Collapsed
+                    ) {
                         settle(PlayerAnchor.Expanded)
                     },
                 shape = RoundedCornerShape(

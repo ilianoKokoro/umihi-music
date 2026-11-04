@@ -9,7 +9,7 @@ composeBom = "2026.09.00"
 # Added librairies
 coreSplashscreen = "1.2.0"
 desugarJdkLibs = "2.1.5"
-nav3Core = "1.2.0"
+nav3Core = "1.2.1"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerializationCore = "1.12.0"
 coil = "3.6.3"
@@ -19,7 +19,7 @@ webkit = "1.18.0"
 okhttp = "5.5.1"
 # 1.5.0-betaXX for Material Expressive
 # Remove this pin once the BOM ships 1.5
-material3 = "1.5.0-beta02"
+material3 = "1.5.0-rc01"
 room = "2.8.5"
 ksp = "2.3.12"
 customactivityoncrash = "2.4.0"
