@@ -166,6 +166,7 @@ fun ExpandablePlayer(
                 savedAnchor = state.settledValue
             }
         }
+
         PredictiveBackHandler(
             enabled = state.currentValue == PlayerAnchor.Expanded ||
                     state.targetValue == PlayerAnchor.Expanded
@@ -176,14 +177,14 @@ fun ExpandablePlayer(
                         dragTo(collapsedPx * event.progress)
                     }
                 }
-
-                state.animateTo(PlayerAnchor.Collapsed, collapseSpec)
-
             } catch (e: CancellationException) {
                 state.animateTo(PlayerAnchor.Expanded, expandSpec)
                 throw e
             }
+
+            state.animateTo(PlayerAnchor.Collapsed, collapseSpec)
         }
+
         if (isVisible) {
             Card(
                 modifier = Modifier
