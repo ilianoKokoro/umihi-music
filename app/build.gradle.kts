@@ -98,10 +98,13 @@ android {
 
         create("diagnostic") {
             initWith(getByName("release"))
+
+            applicationIdSuffix = ".diagnostic"
+            versionNameSuffix = "-diagnostic"
+
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            versionNameSuffix = "-diagnostic"
         }
     }
 
