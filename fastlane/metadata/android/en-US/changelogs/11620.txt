@@ -1,0 +1,14 @@
+Features:
+- Added Mix to auto queue recommendations
+- Revamped the miniplayer and its gestures
+- Changed the top bar from fading to blur
+- Added a repeat mode toast
+- Updated all app icons
+- Various UI improvements
+- Updated dependencies
+- Updated translations
+Bug fixes:
+- Fixed player bar hidden on small screens
+- Fixed rotating the screen resetting the player
+- Fixed image size set to 0 in the settings
+- Fixed lyrics colors and transitions

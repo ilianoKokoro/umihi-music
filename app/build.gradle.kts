@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import java.io.FileInputStream
 import java.util.Properties
 
-val appVersionName = "1.16.1"
+val appVersionName = "1.16.2"
 
-val appVersionCode = 11610
+val appVersionCode = 11620
 
 
 val beta: Boolean = (project.findProperty("beta") as String?)?.toBoolean() ?: true
@@ -220,7 +220,7 @@ dependencies {
 
     // WebKit
     implementation(libs.androidx.webkit)
-    
+
     // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
