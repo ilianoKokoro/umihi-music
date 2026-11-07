@@ -136,6 +136,13 @@ android {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
+
+    // Remove Proguard warning
+    packaging {
+        resources {
+            excludes += "META-INF/services/javax.script.ScriptEngineFactory"
+        }
+    }
 }
 
 androidComponents {

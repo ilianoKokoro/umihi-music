@@ -244,7 +244,7 @@ fun ExpandablePlayer(
                 colors = CardDefaults.cardColors(
                     containerColor = lerpColor(
                         MaterialTheme.colorScheme.surfaceContainerHighest,
-                        MaterialTheme.colorScheme.surface,
+                        MaterialTheme.colorScheme.surfaceContainerLow,
                         expansionProgress()
                     )
                 ),

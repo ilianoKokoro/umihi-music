@@ -7,7 +7,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -84,13 +84,13 @@ fun PlayerScreen(
                 start = 8.dp,
                 end = 8.dp,
                 bottom = 10.dp
-            )
-
+            ),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onSurface,
     ) { paddingValues ->
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             Column(
                 modifier = modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .fillMaxSize()
                     .padding(paddingValues),
 
@@ -155,7 +155,6 @@ fun PlayerScreen(
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Row(
                 modifier = modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .fillMaxSize()
                     .padding(paddingValues),
                 verticalAlignment = Alignment.CenterVertically,
