@@ -224,6 +224,7 @@ fun PlaylistScreen(
                                                     context
                                                 )
                                             },
+
                                             onDeletePlaylist = {
                                                 playlistViewModel.deletePlaylist(
                                                     onBack
@@ -303,6 +304,10 @@ fun PlaylistScreen(
                                                     download = {
                                                         playlistViewModel.downloadSong(song)
                                                     },
+                                                    deleteDownload = {
+                                                        playlistViewModel.deleteSongDownload(song)
+                                                        playlistViewModel.refreshPlaylistInfo()
+                                                                     },
                                                     addToPlaylist = if (isLoggedIn) {
                                                         { addToPlaylistSong = song }
                                                     } else {
