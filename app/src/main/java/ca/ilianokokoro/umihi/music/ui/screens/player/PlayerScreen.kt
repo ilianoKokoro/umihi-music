@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -93,63 +95,63 @@ fun PlayerScreen(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
-
             ) {
-
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f, fill = false)
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
                 ) {
-                    TopPlayer(
-                        currentSong = currentSong,
-                        isLyricsShown = uiState.lyricsShown,
-                        lyricsState = uiState.lyrics,
-                        positionMs = { playbackProgress.position.toLong() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f, fill = false)
-                    )
-
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .verticalScroll(rememberScrollState())
-                            .padding(horizontal = 8.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        SongInfo(
-                            song = currentSong,
-                            isLoggedIn = uiState.isLoggedIn,
-                            isLiked = uiState.isLiked,
-                            isLiking = uiState.isLiking,
-                            onToggleLike = playerViewModel::toggleLike,
-                            onShare = {
-                                currentSong?.let {
-                                    playerViewModel.shareSong(
-                                        context,
-                                        it
-                                    )
+                        TopPlayer(
+                            currentSong = currentSong,
+                            isLyricsShown = uiState.lyricsShown,
+                            lyricsState = uiState.lyrics,
+                            positionMs = { playbackProgress.position.toLong() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f, fill = false)
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .verticalScroll(rememberScrollState())
+                                .padding(horizontal = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            SongInfo(
+                                song = currentSong,
+                                isLoggedIn = uiState.isLoggedIn,
+                                isLiked = uiState.isLiked,
+                                isLiking = uiState.isLiking,
+                                onToggleLike = playerViewModel::toggleLike,
+                                onShare = {
+                                    currentSong?.let {
+                                        playerViewModel.shareSong(context, it)
+                                    }
                                 }
-                            },
-                        )
+                            )
 
-                        PlayerControlsSection(
-                            uiState = uiState,
-                            playerViewModel = playerViewModel,
-                        )
-
+                            PlayerControlsSection(
+                                uiState = uiState,
+                                playerViewModel = playerViewModel
+                            )
+                        }
                     }
                 }
 
                 PlayerActionButtonsSection(
                     uiState = uiState,
                     playerViewModel = playerViewModel,
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
@@ -41,11 +42,12 @@ fun TopPlayer(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        val expandedHeight = maxHeight
-        val collapsedHeight = minOf(maxWidth, maxHeight)
+        val availableHeight = maxHeight.takeIf { it != Dp.Infinity } ?: maxWidth
+
+        val collapsedHeight = minOf(maxWidth, availableHeight)
         val height by animateDpAsState(
             targetValue = if (isLyricsShown) {
-                expandedHeight
+                availableHeight
             } else {
                 collapsedHeight
             },
