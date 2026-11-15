@@ -45,6 +45,7 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDro
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.icons.close
 import ca.ilianokokoro.umihi.music.ui.icons.search
+import ca.ilianokokoro.umihi.music.ui.screens.playlist.PlaylistViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -244,6 +245,9 @@ fun SearchScreenContent(
                                 download = {
                                     searchViewModel.downloadSong(song)
                                 },
+                                deleteDownload = {
+                                    searchViewModel.deleteSongDownload(song)
+                                                 },
                                 addToPlaylist = if (isLoggedIn) {
                                     { onAddToPlaylist(song) }
                                 } else {

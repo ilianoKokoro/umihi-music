@@ -246,6 +246,14 @@ class PlaylistViewModel(
         }
     }
 
+    fun deleteSongDownload(song: Song) {
+        if (!song.downloaded) {
+            return
+        }
+        viewModelScope.launch {
+            downloadRepository.deleteSong(song)
+        }
+    }
     fun removeFromLibrary(onBack: () -> Unit) {
         viewModelScope.launch {
             try {

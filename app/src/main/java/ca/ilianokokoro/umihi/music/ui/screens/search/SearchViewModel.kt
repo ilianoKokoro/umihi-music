@@ -74,6 +74,15 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             downloadRepository.downloadSong(song, settings.downloadOnMetered)
         }
     }
+    fun deleteSongDownload(song: Song) {
+        if (!song.downloaded) {
+            return
+        }
+        viewModelScope.launch {
+            downloadRepository.deleteSong(song)
+        }
+    }
+
 
     fun onSearchFieldChange(newValue: String) {
         viewModelScope.launch {
