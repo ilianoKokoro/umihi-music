@@ -27,15 +27,14 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
-import ca.ilianokokoro.umihi.music.ui.icons.delete
 import ca.ilianokokoro.umihi.music.ui.icons.file_download_off
-import ca.ilianokokoro.umihi.music.ui.icons.download as downloadIcon
 import ca.ilianokokoro.umihi.music.ui.icons.more_vert
 import ca.ilianokokoro.umihi.music.ui.icons.play_circle_outline
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_play
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_remove
 import ca.ilianokokoro.umihi.music.ui.icons.radio
+import ca.ilianokokoro.umihi.music.ui.icons.download as downloadIcon
 
 @Composable
 fun SongListItem(
@@ -146,7 +145,7 @@ fun SongListItem(
                 if (deleteDownload != null && song.downloaded) {
                     MaterialUDropdownItem(
                         leadingIcon = file_download_off,
-                        text = stringResource(R.string.remove_library),
+                        text = stringResource(R.string.remove_download),
                         onClick = {
                             deleteDownload()
                             expanded = false

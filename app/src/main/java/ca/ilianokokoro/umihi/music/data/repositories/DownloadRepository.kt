@@ -78,13 +78,13 @@ class DownloadRepository(appContext: Context) {
             localSongRepository.deleteByIds(orphaned.map { it.youtubeId })
         }
     }
+
     suspend fun deleteSong(song: Song) = withContext(Dispatchers.IO) {
         workManager.cancelUniqueWork(song.youtubeId)
 
         FileHelper.deleteStoredFile(_appContext, song.audioFilePath)
         FileHelper.deleteStoredFile(_appContext, song.thumbnailPath)
 
-        // 3. Eliminar el registro de la base de datos local
         localSongRepository.deleteByIds(listOf(song.youtubeId))
     }
 
@@ -156,7 +156,7 @@ class DownloadRepository(appContext: Context) {
     suspend fun cancelPlaylistDownload(playlist: Playlist) {
         printd("stopping work ${playlist.info.title}")
         workManager.cancelUniqueWork(playlist.info.id)
-        
+
         localPlaylistRepository.getPlaylistById(playlist.info.id)?.let { stored ->
             localPlaylistRepository.insertPlaylist(
                 stored.info.copy(shouldBeDownloaded = false)
