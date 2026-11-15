@@ -34,6 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,9 +59,11 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.QueueBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SleepTimerBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.SpeedSelectorBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.VolumeBottomSheet
+import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.song.ExplicitBadge
 import ca.ilianokokoro.umihi.music.ui.icons.favorite
 import ca.ilianokokoro.umihi.music.ui.icons.favorite_border
+import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import ca.ilianokokoro.umihi.music.ui.icons.share
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerActionButtons
 import ca.ilianokokoro.umihi.music.ui.screens.player.components.PlayerControls
@@ -79,6 +84,7 @@ fun PlayerScreen(
     val currentSong = uiState.queue.getOrNull(uiState.currentIndex)
 
     val playbackProgress by playerViewModel.playbackProgress.collectAsState()
+    var addToPlaylistSong by remember { mutableStateOf<Song?>(null) }
 
     Scaffold(
         modifier = Modifier
@@ -137,6 +143,9 @@ fun PlayerScreen(
                                     currentSong?.let {
                                         playerViewModel.shareSong(context, it)
                                     }
+                                },
+                                onAddToPlaylist = {
+                                    currentSong?.let { addToPlaylistSong = it }
                                 }
                             )
 
@@ -204,6 +213,9 @@ fun PlayerScreen(
                                     )
                                 }
                             },
+                            onAddToPlaylist = {
+                                currentSong?.let { addToPlaylistSong = it }
+                            },
                         )
 
                         PlayerControlsSection(
@@ -251,6 +263,14 @@ fun PlayerScreen(
             changeVisibility = playerViewModel::updateShowVolumeDialog,
             currentVolume = uiState.appVolume,
             onVolumeChange = playerViewModel::setAppVolume
+        )
+    }
+
+    addToPlaylistSong?.let { song ->
+        AddToPlaylistBottomSheet(
+            song = song,
+            application = application,
+            onClose = { addToPlaylistSong = null },
         )
     }
 }
@@ -331,10 +351,11 @@ fun SongInfo(
     isLiking: Boolean = false,
     onToggleLike: () -> Unit = {},
     onShare: () -> Unit = {},
+    onAddToPlaylist: () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
     val actionButtonInteractionSources =
-        List(2) { ComposeHelper.rememberInteractionSource() }
+        List(3) { ComposeHelper.rememberInteractionSource() }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -406,6 +427,33 @@ fun SongInfo(
                     )
                     customItem(
                         buttonGroupContent = {
+                            FilledIconButton(
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                    onAddToPlaylist()
+                                },
+                                interactionSource = actionButtonInteractionSources[1],
+                                shapes = IconButtonDefaults.shapes(
+                                    shape = MaterialTheme.shapes.small,
+                                    pressedShape = ButtonGroupDefaults.connectedMiddleButtonPressShape,
+                                ),
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                                modifier = Modifier
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[1])
+                            ) {
+                                Icon(
+                                    imageVector = playlist_add,
+                                    contentDescription = stringResource(R.string.add_to_playlist)
+                                )
+                            }
+                        },
+                        menuContent = {}
+                    )
+                    customItem(
+                        buttonGroupContent = {
                             FilledIconToggleButton(
                                 checked = isLiked,
                                 onCheckedChange = {
@@ -415,7 +463,7 @@ fun SongInfo(
                                     haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                                     onToggleLike()
                                 },
-                                interactionSource = actionButtonInteractionSources[1],
+                                interactionSource = actionButtonInteractionSources[2],
                                 shapes = IconButtonDefaults.toggleableShapes(
                                     shape = ButtonGroupDefaults.connectedTrailingButtonShape,
                                     pressedShape = ButtonGroupDefaults.connectedTrailingButtonPressShape,
@@ -428,7 +476,7 @@ fun SongInfo(
                                     checkedContentColor = IconButtonDefaults.filledIconToggleButtonColors().checkedContentColor,
                                 ),
                                 modifier = Modifier
-                                    .animateWidth(interactionSource = actionButtonInteractionSources[1])
+                                    .animateWidth(interactionSource = actionButtonInteractionSources[2])
                             ) {
                                 Icon(
                                     imageVector = if (isLiked) {
