@@ -11,8 +11,7 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.HttpUrl
 import okhttp3.Request
-import java.security.MessageDigest
-import kotlin.text.Charsets.UTF_8
+import okio.ByteString.Companion.encodeUtf8
 import kotlin.time.Clock
 
 object YoutubeAuthHelper {
@@ -142,8 +141,6 @@ object YoutubeAuthHelper {
     }
 
     private fun sha1(input: String): String {
-        val sha1 = MessageDigest.getInstance("SHA-1")
-        val hashBytes = sha1.digest(input.toByteArray(UTF_8))
-        return hashBytes.toHexString()
+        return input.encodeUtf8().sha1().hex()
     }
 }

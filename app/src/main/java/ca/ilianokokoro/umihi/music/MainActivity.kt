@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,13 +20,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.DiagnosticLog
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeDataExtractor
 import ca.ilianokokoro.umihi.music.core.youtube.YoutubeExtractor
@@ -43,7 +46,9 @@ import org.schabi.newpipe.extractor.NewPipe
 
 class MainActivity : ComponentActivity() {
     private val songRepository: SongRepository = SongRepository()
-    private val datastoreRepository: DatastoreRepository by lazy { DatastoreRepository(this) }
+    private val datastoreRepository by lazy {
+        DatastoreRepository(applicationContext)
+    }
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {}
@@ -76,7 +81,7 @@ class MainActivity : ComponentActivity() {
         }
 
 
-        ScreenAwakeManager.registerActivity(this)
+        observeKeepScreenOn()
         VersionManager.initialize(this)
         initNewPipe()
 
@@ -105,7 +110,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        ScreenAwakeManager.unregisterActivity(this)
         super.onDestroy()
     }
 
@@ -116,6 +120,24 @@ class MainActivity : ComponentActivity() {
         handleViewIntent(intent)
     }
 
+    private fun observeKeepScreenOn() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                datastoreRepository.settings.collect { settings ->
+                    window.setKeepScreenOn(settings.keepScreenOn)
+                }
+            }
+        }
+    }
+
+    private fun Window.setKeepScreenOn(enabled: Boolean) {
+        if (enabled) {
+            addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+
     override fun attachBaseContext(newBase: Context) {
         val useSpecialLanguage = runBlocking {
             DatastoreRepository(newBase).settings.first().useSpecialLanguage
@@ -123,6 +145,7 @@ class MainActivity : ComponentActivity() {
 
         val context = if (useSpecialLanguage) {
             val config = Configuration(newBase.resources.configuration)
+            @Suppress("UsePropertyAccessSyntax") // (From the description of setLocales) This is the preferred way for setting up the locales (instead of using the direct accessor or setLocale
             config.setLocales(LocaleList.forLanguageTags(Constants.Locale.Special.CODE))
             newBase.createConfigurationContext(config)
         } else {

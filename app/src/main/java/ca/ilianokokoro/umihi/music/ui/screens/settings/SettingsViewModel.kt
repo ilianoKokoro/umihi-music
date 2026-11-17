@@ -23,7 +23,6 @@ import ca.ilianokokoro.umihi.music.core.helpers.FileHelper
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.folderSize
 import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
-import ca.ilianokokoro.umihi.music.core.managers.ScreenAwakeManager
 import ca.ilianokokoro.umihi.music.core.managers.VersionManager
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
@@ -167,7 +166,6 @@ class SettingsViewModel(
     }
 
     fun updateKeepScreenOnSetting(value: Boolean) {
-        ScreenAwakeManager.setKeepScreenOn(value)
         updateSetting(
             DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON,
             value

@@ -15,8 +15,10 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Request
+import okio.buffer
+import okio.sink
+import okio.source
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 
 object DownloadHelper {
@@ -58,8 +60,8 @@ object DownloadHelper {
                         val body = response.body
 
                         body.byteStream().use { input ->
-                            tempFile.outputStream().use { output ->
-                                input.copyTo(output)
+                            tempFile.sink().buffer().use { output ->
+                                output.writeAll(input.source())
                             }
                         }
                     }
@@ -140,8 +142,8 @@ object DownloadHelper {
                         val body = response.body
 
                         body.byteStream().use { input ->
-                            FileOutputStream(tempFile).use { output ->
-                                input.copyTo(output)
+                            tempFile.sink().buffer().use { output ->
+                                output.writeAll(input.source())
                             }
                         }
                     }
@@ -153,7 +155,9 @@ object DownloadHelper {
 
                     try {
                         context.contentResolver.openOutputStream(target.uri, "wt")?.use { out ->
-                            tempFile.inputStream().use { it.copyTo(out) }
+                            tempFile.source().buffer().use { input ->
+                                out.write(input.readByteArray())
+                            }
                         } ?: throw IOException("Failed to open output stream")
                     } catch (e: Exception) {
                         target.delete()

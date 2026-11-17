@@ -1,8 +1,6 @@
 package ca.ilianokokoro.umihi.music.core.helpers
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.extensions.cappedTo
@@ -14,7 +12,6 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import okhttp3.Request
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.Locale
 import kotlin.random.Random
@@ -61,7 +58,7 @@ object UmihiHelper {
                     .get()
                     .build()
 
-                val bytes = UmihiHttpClient.client
+                UmihiHttpClient.client
                     .newCall(request)
                     .execute()
                     .use { response ->
@@ -71,18 +68,13 @@ object UmihiHelper {
                             )
                         }
 
-                        response.body.bytes()
+                        response.body.bytes().cappedTo()
                     }
-
-                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    ?: return@withContext null
-
-                ByteArrayOutputStream().use { stream ->
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
-                    stream.toByteArray().cappedTo()
-                }
             } catch (e: Exception) {
-                LogHelper.printe("Failed to fetch artwork: ${e.message}", exception = e)
+                LogHelper.printe(
+                    "Failed to fetch artwork: ${e.message}",
+                    exception = e
+                )
                 null
             }
         }
