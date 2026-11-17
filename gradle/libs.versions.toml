@@ -29,6 +29,8 @@ newpipeextractor = "v0.27.0"
 junit = "4.13.2"
 documentfile = "1.1.0"
 haze = "2.1.0"
+okio = "3.18.2"
+kotlinxDatetime = "0.8.0"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "core" }
@@ -71,6 +73,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 
 [plugins]

@@ -12,6 +12,7 @@ import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeArray
 import ca.ilianokokoro.umihi.music.core.helpers.UmihiHelper.safeObject
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
 import ca.ilianokokoro.umihi.music.extensions.getClientName
+import ca.ilianokokoro.umihi.music.extensions.toTimeString
 import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistType
@@ -32,7 +33,6 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.Request
 import org.schabi.newpipe.extractor.ServiceList
-import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
 
 var visitorData: String? = null
@@ -852,7 +852,7 @@ object YoutubeDataExtractor {
             youtubeId = videoId,
             title = title,
             artists = artists,
-            duration = formatSecondsForYouTubeDisplay(lengthSeconds),
+            duration = lengthSeconds.toTimeString(),
             thumbnailHref = getBestThumbnailUrl(details?.get("thumbnail")),
             isExplicit = isExplicit
         )
@@ -958,18 +958,6 @@ object YoutubeDataExtractor {
         return null
     }
 
-
-    private fun formatSecondsForYouTubeDisplay(totalSeconds: Int): String {
-        val hours = totalSeconds / 3600
-        val minutes = (totalSeconds % 3600) / 60
-        val seconds = totalSeconds % 60
-
-        return if (hours > 0) {
-            String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds)
-        } else {
-            String.format(Locale.US, "%d:%02d", minutes, seconds)
-        }
-    }
 
     private suspend fun parseSongsFromContents(
         contents: JsonArray?,

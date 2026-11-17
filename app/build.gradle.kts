@@ -202,6 +202,12 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
 
+    // Kotlin DateTime
+    implementation(libs.kotlinx.datetime)
+
+    // IO lib
+    implementation(libs.okio)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 

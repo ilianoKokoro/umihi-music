@@ -2,6 +2,8 @@ package ca.ilianokokoro.umihi.music.core.youtube
 
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.offsetAt
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -10,8 +12,8 @@ import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.HttpUrl
 import okhttp3.Request
 import java.security.MessageDigest
-import java.util.TimeZone
 import kotlin.text.Charsets.UTF_8
+import kotlin.time.Clock
 
 object YoutubeAuthHelper {
 
@@ -75,9 +77,10 @@ object YoutubeAuthHelper {
 
         val clientToUse = client ?: Constants.YoutubeApi.Client.WEB_REMIX
 
-        val nowMs = System.currentTimeMillis()
-        val tz = TimeZone.getDefault()
-        val utcOffsetMinutes = tz.getOffset(nowMs) / 60000
+        val now = Clock.System.now()
+        val nowMs = now.toEpochMilliseconds()
+        val tz = TimeZone.currentSystemDefault()
+        val utcOffsetMinutes = tz.offsetAt(now).totalSeconds / 60
 
         val headers = mutableMapOf(
             "Content-Type" to "application/json; charset=utf-8",
@@ -132,7 +135,7 @@ object YoutubeAuthHelper {
     }
 
     private fun generateSapisidHash(sapisidCookie: String, origin: String): String {
-        val currentTime = System.currentTimeMillis() / 1000
+        val currentTime = Clock.System.now().epochSeconds
         val sapisidHash = sha1("$currentTime $sapisidCookie $origin")
         val fullAuthToken = "${currentTime}_$sapisidHash"
         return "SAPISIDHASH $fullAuthToken SAPISID1PHASH $fullAuthToken SAPISID3PHASH $fullAuthToken"
@@ -141,6 +144,6 @@ object YoutubeAuthHelper {
     private fun sha1(input: String): String {
         val sha1 = MessageDigest.getInstance("SHA-1")
         val hashBytes = sha1.digest(input.toByteArray(UTF_8))
-        return hashBytes.joinToString("") { "%02x".format(it) }
+        return hashBytes.toHexString()
     }
 }

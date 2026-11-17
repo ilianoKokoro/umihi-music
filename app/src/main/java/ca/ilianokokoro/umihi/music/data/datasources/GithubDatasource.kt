@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.Request
 import java.io.IOException
+import kotlin.time.Clock
 
 class GithubDatasource {
     private val json = Json {
@@ -34,7 +35,7 @@ class GithubDatasource {
                     val remaining = response.header("X-RateLimit-Remaining")
                     val resetEpoch = response.header("X-RateLimit-Reset")
                     if (remaining == "0" && resetEpoch != null) {
-                        val now = System.currentTimeMillis() / 1000
+                        val now = Clock.System.now().epochSeconds
                         val resetTime = resetEpoch.toLongOrNull()
                         if (resetTime != null && resetTime > now) {
                             seconds = resetTime - now

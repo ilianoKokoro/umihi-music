@@ -15,7 +15,6 @@ import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistSongCrossRef
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.Version
-import java.util.concurrent.Executors
 
 @Database(
     entities = [Song::class, PlaylistInfo::class, PlaylistSongCrossRef::class, Version::class],
@@ -58,13 +57,5 @@ abstract class AppDatabase : RoomDatabase() {
                     }
                 })
                 .build()
-
-        /**
-         * Utility method to run blocks on a dedicated background thread, used for io/database work.
-         */
-        private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
-        fun ioThread(f: () -> Unit) {
-            IO_EXECUTOR.execute(f)
-        }
     }
 }

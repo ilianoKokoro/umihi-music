@@ -11,13 +11,12 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.Song
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
 import android.app.NotificationManager as AndroidNotificationManager
@@ -25,7 +24,6 @@ import android.app.NotificationManager as AndroidNotificationManager
 object NotificationManager {
     private lateinit var androidNotificationManager: AndroidNotificationManager
     private lateinit var pendingIntent: PendingIntent
-    private val notifyDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     // Android sheds notification updates when an app posts more than ~5 per second.
     // If the last update (success / failure) gets shed, the "ongoing" progress
@@ -76,7 +74,7 @@ object NotificationManager {
                     }
                     delay(wait.milliseconds)
                 }
-                withContext(notifyDispatcher) {
+                withContext(Dispatchers.IO) {
                     androidNotificationManager.notify(id, notification)
                 }
                 lastPostAt = SystemClock.elapsedRealtime()

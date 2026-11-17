@@ -40,7 +40,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.schabi.newpipe.extractor.NewPipe
-import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     private val songRepository: SongRepository = SongRepository()
@@ -123,9 +122,8 @@ class MainActivity : ComponentActivity() {
         }
 
         val context = if (useSpecialLanguage) {
-            val locale = Locale.forLanguageTag(Constants.Locale.Special.CODE)
             val config = Configuration(newBase.resources.configuration)
-            config.setLocales(LocaleList(locale))
+            config.setLocales(LocaleList.forLanguageTags(Constants.Locale.Special.CODE))
             newBase.createConfigurationContext(config)
         } else {
             newBase

@@ -8,7 +8,7 @@ import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper
 import java.io.File
-import java.time.Instant
+import kotlin.time.Clock
 
 object DiagnosticLog {
     const val DIAGNOSTIC_BUILD_TYPE = "diagnostic"
@@ -36,7 +36,7 @@ object DiagnosticLog {
             rotateIfNeeded()
 
             logFile.appendText(
-                "${Instant.now()} [$level] $message\n"
+                "${Clock.System.now()} [$level] $message\n"
             )
         } catch (_: Exception) {
         }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.extensions.toTimeString
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
@@ -68,9 +69,6 @@ fun SleepTimerBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             if (activeRemainingSeconds != null) {
-                val minutes = activeRemainingSeconds / 60
-                val seconds = activeRemainingSeconds % 60
-
                 SheetHeader(
                     icon = timer,
                     title = stringResource(R.string.sleep_timer_active),
@@ -87,7 +85,7 @@ fun SleepTimerBottomSheet(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Text(
-                            text = "%d:%02d".format(minutes, seconds),
+                            text = activeRemainingSeconds.toTimeString(),
                             style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,

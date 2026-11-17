@@ -14,6 +14,7 @@ import ca.ilianokokoro.umihi.music.BuildConfig
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.ApiResult
 import ca.ilianokokoro.umihi.music.core.Constants
+import ca.ilianokokoro.umihi.music.core.UmihiHttpClient
 import ca.ilianokokoro.umihi.music.core.exceptions.GithubRateLimitException
 import ca.ilianokokoro.umihi.music.core.helpers.LogHelper.printe
 import ca.ilianokokoro.umihi.music.data.database.AppDatabase
@@ -30,8 +31,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import okhttp3.Request
 import java.io.File
-import java.net.URL
+import kotlin.uuid.Uuid
 
 
 object VersionManager {
@@ -152,29 +154,39 @@ object VersionManager {
 
         val apkFile = File(updateDir, Constants.Downloads.UPDATE_APK)
 
-        val connection = URL(release.downloadUrl).openConnection()
-        val totalBytes = connection.contentLengthLong
+        val request = Request.Builder()
+            .url(release.downloadUrl)
+            .get()
+            .build()
 
-        connection.getInputStream().use { input ->
-            apkFile.outputStream().use { output ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                var downloadedBytes = 0L
+        UmihiHttpClient.downloadClient.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                throw IllegalStateException("Failed to download update: HTTP ${response.code}")
+            }
 
-                while (true) {
-                    val read = input.read(buffer)
+            val totalBytes = response.body.contentLength()
 
-                    if (read == -1) {
-                        break
-                    }
+            response.body.byteStream().use { input ->
+                apkFile.outputStream().use { output ->
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    var downloadedBytes = 0L
 
-                    output.write(buffer, 0, read)
-                    downloadedBytes += read
+                    while (true) {
+                        val read = input.read(buffer)
 
-                    if (totalBytes > 0) {
-                        val progress = downloadedBytes.toFloat() / totalBytes.toFloat()
+                        if (read == -1) {
+                            break
+                        }
 
-                        withContext(Dispatchers.Main) {
-                            onProgress(progress)
+                        output.write(buffer, 0, read)
+                        downloadedBytes += read
+
+                        if (totalBytes > 0) {
+                            val progress = downloadedBytes.toFloat() / totalBytes.toFloat()
+
+                            withContext(Dispatchers.Main) {
+                                onProgress(progress)
+                            }
                         }
                     }
                 }
@@ -227,7 +239,7 @@ object VersionManager {
         var launcher: ActivityResultLauncher<Intent>? = null
 
         launcher = activity.activityResultRegistry.register(
-            "install_permissions_${System.nanoTime()}",
+            "install_permissions_${Uuid.random()}",
             ActivityResultContracts.StartActivityForResult()
         ) {
             launcher?.unregister()

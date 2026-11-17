@@ -39,6 +39,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -686,12 +687,13 @@ object PlayerManager {
     private fun startSleepTimerRemaining(remainingSeconds: Long) {
         cancelSleepTimer()
 
-        val endTimeMillis = System.currentTimeMillis() + (remainingSeconds * 1000)
+        val deadline = Clock.System.now() + remainingSeconds.seconds
 
         sleepTimerJob = scope.launch {
             while (isActive) {
                 val millisRemaining =
-                    (endTimeMillis - System.currentTimeMillis())
+                    (deadline - Clock.System.now())
+                        .inWholeMilliseconds
                         .coerceAtLeast(0)
 
                 val remaining =
