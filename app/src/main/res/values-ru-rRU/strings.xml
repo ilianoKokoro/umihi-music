@@ -30,9 +30,9 @@
     <string name="play_next">Играть следующим</string>
     <string name="add_to_queue">Добавить в очередь</string>
     <string name="mix">Микс</string>
-    <string name="mix_start">Запустить Mix</string>
-    <string name="mix_started_toast">Mix запущен</string>
-    <string name="mix_failed">Не удалось начать микширование</string>
+    <string name="mix_start">Запустить микс</string>
+    <string name="mix_started_toast">Микс запущен</string>
+    <string name="mix_failed">Не удалось запустить микс</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="no_playlists_found">Плейлисты не найдены</string>
     <string name="remove_from_playlist">Удаить из плейлиста</string>
