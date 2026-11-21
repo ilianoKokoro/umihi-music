@@ -192,7 +192,7 @@ Thank you to all the people who helped translate Umihi Music
           <br />
           <sub><b>Vladik01-11</b></sub></a>
         <br />
-        <sub><b>1208 words</b></sub>
+        <sub><b>1225 words</b></sub>
         <br /><sub><b><code title="Russian">ru</code></b></sub>
       </td>
     </tr>
