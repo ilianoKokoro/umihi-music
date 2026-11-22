@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -41,8 +42,9 @@ fun PlaylistCreationBottomSheet(
     onConfirm: (title: String, description: String, privacy: Privacy) -> Unit,
     onClose: () -> Unit
 ) {
-    var title by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
+    val title = rememberTextFieldState()
+    val description = rememberTextFieldState()
+
     var privacy by rememberSaveable { mutableStateOf(Privacy.PRIVATE) }
     var privacyExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -73,15 +75,13 @@ fun PlaylistCreationBottomSheet(
             )
 
             MaterialUInput(
-                value = title,
-                onValueChange = { title = it },
+                state = title,
                 label = stringResource(R.string.title),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             )
 
             MaterialUInput(
-                value = description,
-                onValueChange = { description = it },
+                state = description,
                 label = stringResource(R.string.description),
                 singleLine = false,
                 minLines = 2,
@@ -121,13 +121,14 @@ fun PlaylistCreationBottomSheet(
                 MaterialUButton(
                     onClick = {
                         onConfirm(
-                            title.trim(),
-                            description.trim(),
+                            title.text.toString().trim(),
+                            description.text.toString().trim(),
                             privacy
                         )
+                        dismiss()
                     },
                     text = stringResource(R.string.create),
-                    enabled = title.isNotBlank(),
+                    enabled = title.text.isNotBlank(),
                     size = MaterialUButtonSize.Small,
                     variant = MaterialUButtonVariant.Filled,
                 )
