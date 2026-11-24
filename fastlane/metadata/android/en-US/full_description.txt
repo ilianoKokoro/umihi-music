@@ -6,6 +6,7 @@
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
   <li>Lyrics in the player</li>
+  <li>Automatic queue recommendations</li>
   <li>Create and delete playlists in app</li>
   <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>

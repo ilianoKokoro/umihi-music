@@ -77,6 +77,7 @@ Join the Discord server to get update pings, know about announcements and get su
 <ul>
   <li>Play your YouTube / YT Music playlists</li>
   <li>Lyrics in the player</li>
+  <li>Automatic queue recommendations</li>
   <li>Create and delete playlists in app</li>
   <li>Add and remove songs from your playlists</li>
   <li>Download music for offline playback</li>
@@ -94,7 +95,6 @@ Join the Discord server to get update pings, know about announcements and get su
 
 ### Future features (In development)
 
-- [ ] Radio/Recommendation
 - [ ] Play age restricted/private songs
 
 ## Screenshots 🖼️
