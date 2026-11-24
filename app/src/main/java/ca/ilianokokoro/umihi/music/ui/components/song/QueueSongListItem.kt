@@ -26,8 +26,8 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.DropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import ca.ilianokokoro.umihi.music.ui.icons.drag_handle
 import ca.ilianokokoro.umihi.music.ui.icons.more_vert
 import ca.ilianokokoro.umihi.music.ui.icons.radio
@@ -86,26 +86,19 @@ fun QueueSongListItem(
                     MaterialUDropdown(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
-                    ) {
-
-                        MaterialUDropdownItem(
-                            leadingIcon = radio,
-                            text = stringResource(R.string.mix_start),
-                            onClick = {
-                                startMix()
-                                expanded = false
-                            }
-                        )
-
-                        MaterialUDropdownItem(
-                            leadingIcon = remove,
-                            text = stringResource(R.string.remove_from_queue),
-                            onClick = {
-                                onDelete()
-                                expanded = false
-                            }
-                        )
-                    }
+                        items = listOf(
+                            DropdownItem(
+                                icon = radio,
+                                text = stringResource(R.string.mix_start),
+                                onClick = startMix,
+                            ),
+                            DropdownItem(
+                                icon = remove,
+                                text = stringResource(R.string.remove_from_queue),
+                                onClick = onDelete,
+                            ),
+                        ),
+                    )
                 }
 
                 if (scope != null) {

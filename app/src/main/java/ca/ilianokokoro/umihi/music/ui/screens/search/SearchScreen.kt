@@ -1,21 +1,27 @@
 package ca.ilianokokoro.umihi.music.ui.screens.search
 
 import android.app.Application
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.ExpandedDockedSearchBarWithGap
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -29,9 +35,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.ilianokokoro.umihi.music.R
@@ -41,7 +50,6 @@ import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.addtoplaylist.AddToPlaylistBottomSheet
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.song.SongListItem
 import ca.ilianokokoro.umihi.music.ui.icons.close
 import ca.ilianokokoro.umihi.music.ui.icons.search
@@ -66,17 +74,11 @@ fun SearchScreen(
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    val scrollBehavior =
-        SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
-
-    val searchBarColors =
-        SearchBarDefaults.appBarWithSearchColors()
-
+    val scrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
+    val searchBarColors = SearchBarDefaults.appBarWithSearchColors()
 
     LaunchedEffect(textFieldState.text) {
-        searchViewModel.onSearchFieldChange(
-            textFieldState.text.toString()
-        )
+        searchViewModel.onSearchFieldChange(textFieldState.text.toString())
     }
 
     val inputField: @Composable () -> Unit = {
@@ -87,7 +89,6 @@ fun SearchScreen(
             onSearch = {
                 focusManager.clearFocus()
                 searchViewModel.search()
-
                 scope.launch {
                     searchBarState.animateToCollapsed()
                 }
@@ -95,13 +96,13 @@ fun SearchScreen(
             placeholder = {
                 Text(
                     modifier = Modifier.clearAndSetSemantics {},
-                    text = stringResource(R.string.search)
+                    text = stringResource(R.string.search),
                 )
             },
             leadingIcon = {
                 Icon(
                     imageVector = search,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             },
             trailingIcon = {
@@ -114,11 +115,12 @@ fun SearchScreen(
                             scope.launch {
                                 searchBarState.animateToCollapsed()
                             }
-                        }, shapes = IconButtonDefaults.shapes()
+                        },
+                        shapes = IconButtonDefaults.shapes(),
                     ) {
                         Icon(
                             imageVector = close,
-                            contentDescription = stringResource(R.string.close)
+                            contentDescription = stringResource(R.string.close),
                         )
                     }
                 }
@@ -127,7 +129,7 @@ fun SearchScreen(
     }
 
     Scaffold(
-        modifier = Modifier,
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             AppBarWithSearch(
                 scrollBehavior = scrollBehavior,
@@ -140,26 +142,34 @@ fun SearchScreen(
                 state = searchBarState,
                 inputField = inputField,
             ) {
-                uiState.suggestions.forEach { suggestion ->
-                    MaterialUDropdownItem(
-                        onClick = {
-                            textFieldState.setTextAndPlaceCursorAtEnd(suggestion)
-                            searchViewModel.onSearchFieldChange(suggestion)
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    uiState.suggestions.forEach { suggestion ->
+                        ListItem(
+                            content = { Text(suggestion) },
+                            leadingContent = { Icon(search, contentDescription = null) },
+                            shapes = ListItemDefaults.shapes(),
+                            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                            modifier =
+                                Modifier
+                                    .clickable {
+                                        textFieldState.setTextAndPlaceCursorAtEnd(suggestion)
+                                        searchViewModel.onSearchFieldChange(suggestion)
 
-                            focusManager.clearFocus()
+                                        focusManager.clearFocus()
 
-                            scope.launch {
-                                searchBarState.animateToCollapsed()
-                            }
+                                        scope.launch {
+                                            searchBarState.animateToCollapsed()
+                                        }
 
-                            searchViewModel.search()
-                        },
-                        text = suggestion,
-                        leadingIcon = search
-                    )
+                                        searchViewModel.search()
+                                    }
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 4.dp),
+                        )
+                    }
                 }
             }
-        }
+        },
     ) { paddingValues ->
         SearchScreenContent(
             searchViewModel = searchViewModel,
@@ -167,9 +177,7 @@ fun SearchScreen(
             isLoggedIn = isLoggedIn,
             currentSongId = currentSongId,
             onAddToPlaylist = { addToPlaylistSong = it },
-            modifier = Modifier.padding(
-                top = paddingValues.calculateTopPadding()
-            )
+            modifier = Modifier.padding(paddingValues),
         )
     }
 

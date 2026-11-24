@@ -25,8 +25,8 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.DropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import ca.ilianokokoro.umihi.music.ui.icons.file_download_off
 import ca.ilianokokoro.umihi.music.ui.icons.more_vert
 import ca.ilianokokoro.umihi.music.ui.icons.play_circle_outline
@@ -87,72 +87,48 @@ fun SongListItem(
             MaterialUDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-            ) {
-                MaterialUDropdownItem(
-                    leadingIcon = play_circle_outline,
-                    text = stringResource(R.string.play_next),
-                    onClick = {
-                        playNext()
-                        expanded = false
-                    }
-                )
-                MaterialUDropdownItem(
-                    leadingIcon = playlist_play,
-                    text = stringResource(R.string.add_to_queue),
-                    onClick = {
-                        addToQueue()
-                        expanded = false
-                    }
-                )
-                MaterialUDropdownItem(
-                    leadingIcon = radio,
-                    text = stringResource(R.string.mix_start),
-                    onClick = {
-                        startMix()
-                        expanded = false
-                    }
-                )
-                if (addToPlaylist != null) {
-                    MaterialUDropdownItem(
-                        leadingIcon = playlist_add,
+                items = listOf(
+                    DropdownItem(
+                        icon = play_circle_outline,
+                        text = stringResource(R.string.play_next),
+                        onClick = playNext,
+                    ),
+                    DropdownItem(
+                        icon = playlist_play,
+                        text = stringResource(R.string.add_to_queue),
+                        onClick = addToQueue,
+                    ),
+                    DropdownItem(
+                        icon = radio,
+                        text = stringResource(R.string.mix_start),
+                        onClick = startMix,
+                    ),
+                    DropdownItem(
+                        icon = playlist_add,
                         text = stringResource(R.string.add_to_playlist),
-                        onClick = {
-                            addToPlaylist()
-                            expanded = false
-                        }
-                    )
-                }
-                if (removeFromPlaylist != null) {
-                    MaterialUDropdownItem(
-                        leadingIcon = playlist_remove,
+                        onClick = { addToPlaylist?.invoke() },
+                        visible = addToPlaylist != null,
+                    ),
+                    DropdownItem(
+                        icon = playlist_remove,
                         text = stringResource(R.string.remove_from_playlist),
-                        onClick = {
-                            removeFromPlaylist()
-                            expanded = false
-                        }
-                    )
-                }
-                if (download != null && !song.downloaded) {
-                    MaterialUDropdownItem(
-                        leadingIcon = downloadIcon,
+                        onClick = { removeFromPlaylist?.invoke() },
+                        visible = removeFromPlaylist != null,
+                    ),
+                    DropdownItem(
+                        icon = downloadIcon,
                         text = stringResource(R.string.download),
-                        onClick = {
-                            download()
-                            expanded = false
-                        }
-                    )
-                }
-                if (deleteDownload != null && song.downloaded) {
-                    MaterialUDropdownItem(
-                        leadingIcon = file_download_off,
+                        onClick = { download?.invoke() },
+                        visible = download != null && !song.downloaded,
+                    ),
+                    DropdownItem(
+                        icon = file_download_off,
                         text = stringResource(R.string.remove_download),
-                        onClick = {
-                            deleteDownload()
-                            expanded = false
-                        }
-                    )
-                }
-            }
+                        onClick = { deleteDownload?.invoke() },
+                        visible = deleteDownload != null && song.downloaded,
+                    ),
+                ),
+            )
         },
         supportingContent = {
             SongSubtitle(song)

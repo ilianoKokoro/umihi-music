@@ -37,8 +37,8 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistType
 import ca.ilianokokoro.umihi.music.ui.components.SquareImage
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.DropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
 import ca.ilianokokoro.umihi.music.ui.icons.bookmark_remove
 import ca.ilianokokoro.umihi.music.ui.icons.cancel
 import ca.ilianokokoro.umihi.music.ui.icons.delete
@@ -198,95 +198,56 @@ fun PlaylistInfo(
                         MaterialUDropdown(
                             expanded = optionsExtended,
                             onDismissRequest = { onOptionsExtendedChange(false) },
-                        ) {
-                            if (playlist.songs.isNotEmpty()) {
-                                MaterialUDropdownItem(
-                                    leadingIcon = sensors,
+                            items = listOf(
+                                DropdownItem(
+                                    icon = sensors,
                                     text = stringResource(R.string.mix_start),
-                                    onClick = {
-                                        onStartMix()
-                                        onOptionsExtendedChange(false)
-                                    }
-                                )
-                            }
-
-                            if (isDownloading) {
-                                MaterialUDropdownItem(
-                                    leadingIcon = cancel,
+                                    onClick = onStartMix,
+                                    visible = playlist.songs.isNotEmpty(),
+                                ),
+                                DropdownItem(
+                                    icon = cancel,
                                     text = stringResource(R.string.cancel_download),
-                                    onClick = {
-                                        showCancelDialog.value = true
-                                        onOptionsExtendedChange(false)
-                                    }
-                                )
-                            } else if (!playlist.downloaded) {
-                                MaterialUDropdownItem(
-                                    leadingIcon = download,
+                                    onClick = { showCancelDialog.value = true },
+                                    visible = isDownloading,
+                                ),
+                                DropdownItem(
+                                    icon = download,
                                     text = stringResource(R.string.download),
-                                    onClick = {
-                                        onDownloadPressed()
-                                        onOptionsExtendedChange(false)
-                                    }
-                                )
-                            }
-
-                            MaterialUDropdownItem(
-                                leadingIcon = file_download_off,
-                                text = stringResource(R.string.remove_download),
-                                onClick = {
-                                    showDeleteDownloadDialog.value = true
-                                    onOptionsExtendedChange(false)
-                                }
-                            )
-
-                            if (playlist.info.hidden) {
-                                MaterialUDropdownItem(
-                                    leadingIcon = visibility,
+                                    onClick = onDownloadPressed,
+                                    visible = !isDownloading && !playlist.downloaded,
+                                ),
+                                DropdownItem(
+                                    icon = file_download_off,
+                                    text = stringResource(R.string.remove_download),
+                                    onClick = { showDeleteDownloadDialog.value = true },
+                                ),
+                                DropdownItem(
+                                    icon = visibility,
                                     text = stringResource(R.string.unhide_playlist),
-                                    onClick = {
-                                        showUnhideDialog.value = true
-                                        onOptionsExtendedChange(false)
-                                    }
-                                )
-                            } else if (!playlist.info.hidden) {
-                                MaterialUDropdownItem(
-                                    leadingIcon = visibility_off,
+                                    onClick = { showUnhideDialog.value = true },
+                                    visible = playlist.info.hidden,
+                                ),
+                                DropdownItem(
+                                    icon = visibility_off,
                                     text = stringResource(R.string.hide_playlist),
-                                    onClick = {
-                                        showHideDialog.value = true
-                                        onOptionsExtendedChange(false)
-                                    }
-                                )
-                            }
-
-                            when (playlist.info.type) {
-                                PlaylistType.CREATED_BY_USER -> {
-                                    MaterialUDropdownItem(
-                                        leadingIcon = delete,
-                                        text = stringResource(R.string.delete_playlist),
-                                        onClick = {
-                                            showDeleteDialog.value = true
-                                            onOptionsExtendedChange(false)
-                                        }
-                                    )
-                                }
-
-                                PlaylistType.SAVED -> {
-                                    MaterialUDropdownItem(
-                                        leadingIcon = bookmark_remove,
-                                        text = stringResource(R.string.remove_library),
-                                        onClick = {
-                                            showRemoveFromLibraryDialog.value = true
-                                            onOptionsExtendedChange(false)
-                                        }
-                                    )
-                                }
-
-                                else -> {}
-
-                            }
-
-                        }
+                                    onClick = { showHideDialog.value = true },
+                                    visible = !playlist.info.hidden,
+                                ),
+                                DropdownItem(
+                                    icon = delete,
+                                    text = stringResource(R.string.delete_playlist),
+                                    onClick = { showDeleteDialog.value = true },
+                                    visible = playlist.info.type == PlaylistType.CREATED_BY_USER,
+                                ),
+                                DropdownItem(
+                                    icon = bookmark_remove,
+                                    text = stringResource(R.string.remove_library),
+                                    onClick = { showRemoveFromLibraryDialog.value = true },
+                                    visible = playlist.info.type == PlaylistType.SAVED,
+                                ),
+                            ),
+                        )
                     }
                 }
             }

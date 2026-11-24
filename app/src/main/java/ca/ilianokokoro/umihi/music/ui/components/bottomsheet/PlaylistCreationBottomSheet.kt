@@ -31,8 +31,8 @@ import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonSize
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButtonVariant
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUInput
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.ComboBoxItem
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUComboBox
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUComboBoxItem
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import kotlinx.coroutines.launch
 
@@ -95,19 +95,15 @@ fun PlaylistCreationBottomSheet(
                 onExpandedChange = { privacyExpanded = it },
                 label = stringResource(R.string.visibility),
                 leadingIcon = privacy.icon,
-            ) {
-                Privacy.entries.forEach { option ->
-                    MaterialUComboBoxItem(
+                items = Privacy.entries.map { option ->
+                    ComboBoxItem(
                         text = stringResource(option.labelRes),
-                        leadingIcon = option.icon,
-                        onClick = {
-                            privacy = option
-                            privacyExpanded = false
-                        }
+                        icon = option.icon,
+                        selected = privacy == option,
+                        onClick = { privacy = option },
                     )
-                }
-            }
-
+                },
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End),
