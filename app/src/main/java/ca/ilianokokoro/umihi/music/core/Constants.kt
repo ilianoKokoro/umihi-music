@@ -222,7 +222,7 @@ object Constants {
         const val LYRICS_TRANSITION_DURATION = 300
         const val PRELOAD_DURATION = 5_000_000L
         const val MIX_LOAD_MORE_THRESHOLD = 10
-        val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 2f, 3f, 5f)
+        val SPEEDS = listOf(0.25f, 0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f)
 
         object Tracking {
             const val WATCHTIME_INTERVAL_MS = 15_000L
