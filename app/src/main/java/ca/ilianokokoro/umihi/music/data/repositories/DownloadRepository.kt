@@ -89,6 +89,10 @@ class DownloadRepository(appContext: Context) {
     }
 
     suspend fun downloadSong(playlist: Playlist, song: Song, useMetered: Boolean = false) {
+        if (!song.isAvailable) {
+            printd("Song is unavailable ${song.youtubeId}")
+            return
+        }
         val id = "${playlist.info.id}${song.youtubeId}"
         val existingWork = getExistingJobs(id)
         if (existingWork.isNotEmpty()) {
@@ -101,6 +105,10 @@ class DownloadRepository(appContext: Context) {
     }
 
     suspend fun downloadSong(song: Song, useMetered: Boolean = false) {
+        if (!song.isAvailable) {
+            printd("Song is unavailable ${song.youtubeId}")
+            return
+        }
         val existingSong = localSongRepository.getSong(song.youtubeId)
         if (existingSong?.downloaded == true) {
             printd("Song is already downloaded ${song.youtubeId}")

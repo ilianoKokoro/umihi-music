@@ -50,12 +50,12 @@ data class Playlist(
         }
 
     val downloaded: Boolean
-        get() = songs.all { song -> song.downloaded }
+        get() = songs.all { song -> song.isDownloadedOrUnavailable }
 
     val downloadState: PlaylistDownloadState
         get() = when {
-            songs.none { song -> song.downloaded } -> PlaylistDownloadState.NOT_DOWNLOADED
-            songs.all { song -> song.downloaded } -> PlaylistDownloadState.DOWNLOADED
+            songs.none { it.isDownloadedOrUnavailable } -> PlaylistDownloadState.NOT_DOWNLOADED
+            songs.all { it.isDownloadedOrUnavailable } -> PlaylistDownloadState.DOWNLOADED
             else -> PlaylistDownloadState.PARTIALLY_DOWNLOADED
         }
 

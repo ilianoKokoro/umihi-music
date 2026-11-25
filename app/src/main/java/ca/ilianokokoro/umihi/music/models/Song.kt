@@ -91,6 +91,10 @@ data class Song(
     val downloaded: Boolean
         get() = audioFilePath != null && thumbnailPath != null
 
+
+    val isDownloadedOrUnavailable: Boolean
+        get() = !isAvailable || downloaded
+
     val fileName: String
         get() {
             val template = "$title - $artists [$youtubeId]"

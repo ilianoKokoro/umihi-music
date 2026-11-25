@@ -34,6 +34,11 @@ class SongDownloadWorker(
         val song = localSongRepository.getSong(songId)
             ?: return Result.failure()
 
+        if (!song.isAvailable) {
+            printd("Song is unavailable, skipping download ${song.youtubeId}")
+            return Result.success()
+        }
+
         val playlist = playlistId?.let { playlistRepository.getPlaylistById(it) }
         if (playlistId != null && playlist == null) {
             return Result.failure()

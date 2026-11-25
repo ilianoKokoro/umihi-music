@@ -53,7 +53,8 @@ class PlaylistDownloadWorker(
         )
 
         return try {
-            val totalSongs = playlist.songs.size
+            val songsToDownload = playlist.songs.filter { song -> song.isAvailable }
+            val totalSongs = songsToDownload.size
             val processedSongs = AtomicInt(0)
             val failedSongs = AtomicInt(0)
 
@@ -78,7 +79,7 @@ class PlaylistDownloadWorker(
 
             val semaphore = Semaphore(Constants.Downloads.MAX_CONCURRENT_DOWNLOADS)
             coroutineScope {
-                playlist.songs.map { song ->
+                songsToDownload.map { song ->
                     async {
                         semaphore.withPermit {
                             try {
