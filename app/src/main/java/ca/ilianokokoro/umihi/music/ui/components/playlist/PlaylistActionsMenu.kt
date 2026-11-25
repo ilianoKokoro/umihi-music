@@ -1,11 +1,5 @@
 package ca.ilianokokoro.umihi.music.ui.components.playlist
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BookmarkRemove
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Shuffle
-import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -19,8 +13,13 @@ import androidx.compose.ui.window.DialogProperties
 import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistType
+import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.DropdownItem
 import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdown
-import ca.ilianokokoro.umihi.music.ui.components.materialu.dropdown.MaterialUDropdownItem
+import ca.ilianokokoro.umihi.music.ui.icons.bookmark_remove
+import ca.ilianokokoro.umihi.music.ui.icons.delete
+import ca.ilianokokoro.umihi.music.ui.icons.play_arrow
+import ca.ilianokokoro.umihi.music.ui.icons.shuffle
+import ca.ilianokokoro.umihi.music.ui.icons.visibility_off
 
 @Composable
 fun PlaylistActionsMenu(
@@ -40,61 +39,36 @@ fun PlaylistActionsMenu(
     MaterialUDropdown(
         expanded = expanded,
         onDismissRequest = { onExpandedChange(false) },
-    ) {
-        MaterialUDropdownItem(
-            leadingIcon = Icons.Rounded.PlayArrow,
-            text = stringResource(R.string.play),
-            onClick = {
-                onPlay()
-                onExpandedChange(false)
-            }
-        )
-
-        MaterialUDropdownItem(
-            leadingIcon = Icons.Rounded.Shuffle,
-            text = stringResource(R.string.shuffle),
-            onClick = {
-                onShuffle()
-                onExpandedChange(false)
-            }
-        )
-
-        MaterialUDropdownItem(
-            leadingIcon = Icons.Rounded.VisibilityOff,
-            text = stringResource(R.string.hide_playlist),
-            onClick = {
-                showHideDialog = true
-                onExpandedChange(false)
-            }
-        )
-
-        when (playlistInfo.type) {
-            PlaylistType.CREATED_BY_USER -> {
-                MaterialUDropdownItem(
-                    leadingIcon = Icons.Rounded.Delete,
-                    text = stringResource(R.string.delete_playlist),
-                    onClick = {
-                        showDeleteDialog = true
-                        onExpandedChange(false)
-                    }
-                )
-            }
-
-            PlaylistType.SAVED -> {
-                MaterialUDropdownItem(
-                    leadingIcon = Icons.Rounded.BookmarkRemove,
-                    text = stringResource(R.string.remove_library),
-                    onClick = {
-                        showRemoveFromLibraryDialog = true
-                        onExpandedChange(false)
-                    }
-                )
-            }
-
-            else -> {}
-        }
-    }
-
+        items = listOf(
+            DropdownItem(
+                icon = play_arrow,
+                text = stringResource(R.string.play),
+                onClick = onPlay,
+            ),
+            DropdownItem(
+                icon = shuffle,
+                text = stringResource(R.string.shuffle),
+                onClick = onShuffle,
+            ),
+            DropdownItem(
+                icon = visibility_off,
+                text = stringResource(R.string.hide_playlist),
+                onClick = { showHideDialog = true },
+            ),
+            DropdownItem(
+                icon = delete,
+                text = stringResource(R.string.delete_playlist),
+                onClick = { showDeleteDialog = true },
+                visible = playlistInfo.type == PlaylistType.CREATED_BY_USER,
+            ),
+            DropdownItem(
+                icon = bookmark_remove,
+                text = stringResource(R.string.remove_library),
+                onClick = { showRemoveFromLibraryDialog = true },
+                visible = playlistInfo.type == PlaylistType.SAVED,
+            ),
+        ),
+    )
     if (showHideDialog) {
         ConfirmAlertDialog(
             title = stringResource(R.string.hide_playlist),

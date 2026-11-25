@@ -10,6 +10,7 @@ import ca.ilianokokoro.umihi.music.data.datasources.PlaylistDataSource
 import ca.ilianokokoro.umihi.music.extensions.toException
 import ca.ilianokokoro.umihi.music.models.AddToPlaylistOption
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistDownloadState
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.Song
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
@@ -46,13 +47,22 @@ class PlaylistRepository(application: Application) {
             }
             try {
                 val remotePlaylists = playlistDataSource.retrieveAll(settings)
-                val hiddenIds = localPlaylistDataSource
-                    .fetchHiddenPlaylists()
-                    .map { it.info.id }
+                val localPlaylistInfos = localPlaylistDataSource.fetchPlaylistInfos()
+                val hiddenIds = localPlaylistInfos
+                    .filter { it.hidden }
+                    .map { it.id }
                     .toSet()
+                val downloadStates = localPlaylistInfos.associate { it.id to it.downloadState }
                 emit(
                     ApiResult.Success(
-                        remotePlaylists.filter { it.id !in hiddenIds }
+                        remotePlaylists
+                            .filter { it.id !in hiddenIds }
+                            .map { playlist ->
+                                playlist.copy(
+                                    downloadState = downloadStates[playlist.id]
+                                        ?: PlaylistDownloadState.NOT_DOWNLOADED
+                                )
+                            }
                     )
                 )
             } catch (e: Exception) {
@@ -103,7 +113,10 @@ class PlaylistRepository(application: Application) {
             try {
                 val remotePlaylist = playlistDataSource.retrieveOne(playlist, settings, onProgress)
                 val localPlaylist = localPlaylistDataSource.getPlaylistById(playlist.info.id)
-                val mergedPlaylist = mergeWithLocal(remotePlaylist, localPlaylist)
+                val mergedPlaylist = updateDownloadState(
+                    mergeWithLocal(remotePlaylist, localPlaylist),
+                    localPlaylist
+                )
                 if (localPlaylist != null && localPlaylist.info.shouldBeDownloaded) {
                     try {
                         syncLocalPlaylist(mergedPlaylist)
@@ -147,7 +160,7 @@ class PlaylistRepository(application: Application) {
             )
         }.flowOn(Dispatchers.IO)
     }
-    
+
     fun retrieveAddToPlaylistOptions(
         videoId: String,
         settings: UmihiSettings
@@ -270,7 +283,19 @@ class PlaylistRepository(application: Application) {
     }
 
     private fun Playlist.toLocalPlaylistInfo(): PlaylistInfo =
-        info.apply { songCount = songs.count { it.downloaded } }
+        info.copy(downloadState = downloadState)
+            .apply { songCount = songs.count { it.downloaded } }
+
+    private suspend fun updateDownloadState(
+        playlist: Playlist,
+        localPlaylist: Playlist?
+    ): Playlist {
+        val downloadState = playlist.downloadState
+        if (localPlaylist != null && localPlaylist.info.downloadState != downloadState) {
+            localPlaylistDataSource.updateDownloadState(playlist.info.id, downloadState)
+        }
+        return playlist.copy(info = playlist.info.copy(downloadState = downloadState))
+    }
 
     private fun mergeWithLocal(remotePlaylist: Playlist, localPlaylist: Playlist?): Playlist {
         if (localPlaylist == null) {
@@ -290,6 +315,7 @@ class PlaylistRepository(application: Application) {
             info = remotePlaylist.info.copy(
                 hidden = localPlaylist.info.hidden,
                 shouldBeDownloaded = localPlaylist.info.shouldBeDownloaded,
+                downloadState = localPlaylist.info.downloadState,
                 coverPath = localPlaylist.info.coverPath ?: remotePlaylist.info.coverPath
             ),
             songs = mergedSongs

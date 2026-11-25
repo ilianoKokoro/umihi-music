@@ -5,12 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +36,7 @@ fun PlaylistCard(
     onDelete: () -> Unit = {},
     onRemoveFromLibrary: () -> Unit = {},
 ) {
-    val showMenu = !playlistInfo.isDownloadedPlaylist
+    val showDetails = !playlistInfo.isDownloadedPlaylist
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -50,7 +46,11 @@ fun PlaylistCard(
                 .clip(MaterialTheme.shapes.medium)
                 .combinedClickable(
                     onClick = onClicked,
-                    onLongClick = { if (showMenu) expanded = true }
+                    onLongClick = {
+                        if (showDetails) {
+                            expanded = true
+                        }
+                    }
                 ),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -80,40 +80,23 @@ fun PlaylistCard(
                     color = MaterialTheme.colorScheme.onSurface,
                 )
 
-                Text(
-                    text = songCount?.let { count ->
-                        stringResource(R.string.songs, count)
-                    }.orEmpty(),
-                    modifier = Modifier.padding(top = 2.dp),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                PlaylistSubtitle(playlistInfo)
+
             }
         }
 
-        if (showMenu) {
-            IconButton(
-                onClick = { expanded = true },
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.MoreVert,
-                    contentDescription = stringResource(R.string.actions)
-                )
-
-                PlaylistActionsMenu(
-                    playlistInfo = playlistInfo,
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    onPlay = onPlay,
-                    onShuffle = onShuffle,
-                    onHide = onHide,
-                    onDelete = onDelete,
-                    onRemoveFromLibrary = onRemoveFromLibrary,
-                )
-            }
-        }
+        // Not ready yet
+        //        PlaylistActionsMenu(
+//            playlistInfo = playlistInfo,
+//            expanded = expanded,
+//            onExpandedChange = { expanded = it },
+//            onPlay = onPlay,
+//            onShuffle = onShuffle,
+//            onHide = onHide,
+//            onDelete = onDelete,
+//            onRemoveFromLibrary = onRemoveFromLibrary,
+//        )
     }
+
+
 }

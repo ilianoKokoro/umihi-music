@@ -15,6 +15,7 @@ import ca.ilianokokoro.umihi.music.core.managers.PlayerManager
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository
 import ca.ilianokokoro.umihi.music.data.repositories.PlaylistRepository
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistDownloadState
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
 import ca.ilianokokoro.umihi.music.models.enums.Privacy
@@ -154,7 +155,8 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
         }
         val downloadedPlaylist = PlaylistInfo(
             id = Constants.Downloads.DOWNLOADED_PLAYLIST_ID,
-            title = application.getString(R.string.downloaded)
+            title = application.getString(R.string.downloaded),
+            downloadState = PlaylistDownloadState.DOWNLOADED,
         )
         downloadedPlaylist.songCount = downloadedCount
 

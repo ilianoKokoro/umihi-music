@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import ca.ilianokokoro.umihi.music.models.Playlist
+import ca.ilianokokoro.umihi.music.models.PlaylistDownloadState
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.PlaylistSongCrossRef
 import ca.ilianokokoro.umihi.music.models.Song
@@ -25,6 +26,12 @@ interface LocalPlaylistDataSource {
 
     @Query("SELECT id FROM playlists")
     suspend fun getAllPlaylistIds(): List<String>
+
+    @Query("SELECT * FROM playlists")
+    suspend fun fetchPlaylistInfos(): List<PlaylistInfo>
+
+    @Query("UPDATE playlists SET downloadState = :downloadState WHERE id = :playlistId")
+    suspend fun updateDownloadState(playlistId: String, downloadState: PlaylistDownloadState)
 
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")

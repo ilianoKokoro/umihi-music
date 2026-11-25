@@ -138,6 +138,7 @@ class PlaylistDownloadWorker(
                 )
             }
             printd("Playlist download complete ($failed/$totalSongs failed)")
+            refreshDownloadState(playlistId)
 
             Result.success()
         } catch (_: CancellationException) {
@@ -152,6 +153,10 @@ class PlaylistDownloadWorker(
                 }
             }
 
+            withContext(NonCancellable) {
+                refreshDownloadState(playlistId)
+            }
+
             if (isUserCancelled) {
                 NotificationManager.showPlaylistDownloadCanceled(appContext, playlist)
                 printd("Playlist download canceled ${playlist.info.title}")
@@ -163,7 +168,23 @@ class PlaylistDownloadWorker(
         } catch (e: Exception) {
             NotificationManager.showPlaylistDownloadFailure(appContext, playlist)
             printe(message = e.toString(), exception = e)
+            refreshDownloadState(playlistId)
             Result.failure()
+        }
+    }
+
+    private suspend fun refreshDownloadState(playlistId: String) {
+        try {
+            val playlist = playlistRepository.getPlaylistById(playlistId) ?: return
+            val downloadState = playlist.downloadState
+            if (playlist.info.downloadState == downloadState) {
+                return
+            }
+            playlistRepository.updateDownloadState(playlistId, downloadState)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            printe(message = "Failed to refresh download state of $playlistId", exception = e)
         }
     }
 
