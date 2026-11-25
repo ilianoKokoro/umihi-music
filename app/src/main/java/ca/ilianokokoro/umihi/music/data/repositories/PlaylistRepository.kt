@@ -58,8 +58,8 @@ class PlaylistRepository(application: Application) {
                         remotePlaylists
                             .filter { it.id !in hiddenIds }
                             .map { playlist ->
-                                playlist.copy(
-                                    downloadState = downloadStates[playlist.id]
+                                playlist.withDownloadState(
+                                    downloadStates[playlist.id]
                                         ?: PlaylistDownloadState.NOT_DOWNLOADED
                                 )
                             }
@@ -294,7 +294,15 @@ class PlaylistRepository(application: Application) {
         if (localPlaylist != null && localPlaylist.info.downloadState != downloadState) {
             localPlaylistDataSource.updateDownloadState(playlist.info.id, downloadState)
         }
-        return playlist.copy(info = playlist.info.copy(downloadState = downloadState))
+        return playlist.copy(info = playlist.info.withDownloadState(downloadState))
+    }
+
+    private fun PlaylistInfo.withDownloadState(
+        downloadState: PlaylistDownloadState
+    ): PlaylistInfo {
+        val info = copy(downloadState = downloadState)
+        info.songCount = songCount
+        return info
     }
 
     private fun mergeWithLocal(remotePlaylist: Playlist, localPlaylist: Playlist?): Playlist {
@@ -317,7 +325,7 @@ class PlaylistRepository(application: Application) {
                 shouldBeDownloaded = localPlaylist.info.shouldBeDownloaded,
                 downloadState = localPlaylist.info.downloadState,
                 coverPath = localPlaylist.info.coverPath ?: remotePlaylist.info.coverPath
-            ),
+            ).apply { songCount = remotePlaylist.info.songCount },
             songs = mergedSongs
         )
     }
