@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -62,8 +64,9 @@ private object ExpandablePlayerSpec {
     const val FULL_PLAYER_VISIBLE_FROM_PROGRESS = 0.2f
 
     val FLING_VELOCITY_THRESHOLD = 125.dp
-    val COLLAPSED_CORNER_RADIUS = 20.dp
+    val COLLAPSED_CORNER_RADIUS = 16.dp
     val EXPANDED_CORNER_RADIUS = 0.dp
+    val COLLAPSED_OUTER_PADDING = 4.dp
     val CARD_ELEVATION = 4.dp
 }
 
@@ -90,17 +93,18 @@ fun ExpandablePlayer(
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val density = LocalDensity.current
         val scope = rememberCoroutineScope()
+        val fullHeight = this.maxHeight
 
         val currentSongId by PlayerManager.currentSongId.collectAsStateWithLifecycle()
         val isVisible = currentSongId != null
 
         val miniPx = with(density) { Constants.Ui.MiniPlayer.HEIGHT.toPx() }
-
         val bottomPx = with(density) { bottomPadding.toPx() }
+        val outerPadPx = with(density) { ExpandablePlayerSpec.COLLAPSED_OUTER_PADDING.toPx() }
 
-        val collapsedPx = constraints.maxHeight - miniPx - bottomPx
+        val collapsedPx = constraints.maxHeight - miniPx - bottomPx - outerPadPx
         val dismissedPx =
-            collapsedPx + (miniPx + bottomPx) * ExpandablePlayerSpec.DISMISS_DRAG_TRAVEL_MULTIPLIER
+            collapsedPx + (miniPx + bottomPx + outerPadPx) * ExpandablePlayerSpec.DISMISS_DRAG_TRAVEL_MULTIPLIER
         val flingPx = with(density) { ExpandablePlayerSpec.FLING_VELOCITY_THRESHOLD.toPx() }
 
         var savedAnchor by rememberSaveable { mutableStateOf(PlayerAnchor.Collapsed) }
@@ -120,8 +124,15 @@ fun ExpandablePlayer(
             )
         }
 
-        fun expansionProgress() = (1f - state.requireOffset() / collapsedPx).coerceIn(0f, 1f)
+        val offset by remember(state, collapsedPx) {
+            derivedStateOf { state.requireOffset() }
+        }
 
+        val expansionProgress by remember(state, collapsedPx) {
+            derivedStateOf {
+                (1f - offset / collapsedPx).coerceIn(0f, 1f)
+            }
+        }
         val expandSpec = MaterialTheme.motionScheme.defaultSpatialSpec<Float>()
         val collapseSpec = MaterialTheme.motionScheme.fastSpatialSpec<Float>()
 
@@ -143,17 +154,17 @@ fun ExpandablePlayer(
             }
         }
 
-        val miniActive = remember(state, collapsedPx) {
+        val miniActive by remember(expansionProgress) {
             derivedStateOf {
-                expansionProgress() <= ExpandablePlayerSpec.MINI_PLAYER_VISIBLE_UNTIL_PROGRESS
-            }
-        }
-        val fullActive = remember(state, collapsedPx) {
-            derivedStateOf {
-                expansionProgress() >= ExpandablePlayerSpec.FULL_PLAYER_VISIBLE_FROM_PROGRESS
+                expansionProgress <= ExpandablePlayerSpec.MINI_PLAYER_VISIBLE_UNTIL_PROGRESS
             }
         }
 
+        val fullActive by remember(expansionProgress) {
+            derivedStateOf {
+                expansionProgress >= ExpandablePlayerSpec.FULL_PLAYER_VISIBLE_FROM_PROGRESS
+            }
+        }
         // Holds the anchoredDrag mutex while the finger is down so a running settle animation is interrupted.
         val grab = remember { mutableStateOf<Job?>(null) }
 
@@ -186,10 +197,34 @@ fun ExpandablePlayer(
         }
 
         if (isVisible) {
+            val progress = expansionProgress
+            val offsetPx = offset.coerceAtLeast(0f)
+
+            val cardHeightPx = if (offsetPx >= collapsedPx) {
+                miniPx
+            } else {
+                (constraints.maxHeight - (bottomPx + outerPadPx) * (1f - progress) - offsetPx)
+                    .coerceAtLeast(miniPx)
+            }
+            val cardHeight = with(density) { cardHeightPx.toDp() }
+
+            val sidePadding = lerp(
+                ExpandablePlayerSpec.COLLAPSED_OUTER_PADDING,
+                0.dp,
+                progress
+            )
+            val cornerRadius = lerp(
+                ExpandablePlayerSpec.COLLAPSED_CORNER_RADIUS,
+                ExpandablePlayerSpec.EXPANDED_CORNER_RADIUS,
+                progress
+            )
+
             Card(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .offset { IntOffset(0, state.requireOffset().coerceAtLeast(0f).roundToInt()) }
+                    .fillMaxWidth()
+                    .offset { IntOffset(0, offsetPx.roundToInt()) }
+                    .padding(horizontal = sidePadding)
+                    .height(cardHeight)
                     .draggable(
                         state = dragState,
                         orientation = Orientation.Vertical,
@@ -229,43 +264,37 @@ fun ExpandablePlayer(
                     ) {
                         settle(PlayerAnchor.Expanded)
                     },
-                shape = RoundedCornerShape(
-                    topStart = lerp(
-                        ExpandablePlayerSpec.COLLAPSED_CORNER_RADIUS,
-                        ExpandablePlayerSpec.EXPANDED_CORNER_RADIUS,
-                        expansionProgress()
-                    ),
-                    topEnd = lerp(
-                        ExpandablePlayerSpec.COLLAPSED_CORNER_RADIUS,
-                        ExpandablePlayerSpec.EXPANDED_CORNER_RADIUS,
-                        expansionProgress()
-                    ),
-                ),
+                shape = RoundedCornerShape(cornerRadius),
                 colors = CardDefaults.cardColors(
                     containerColor = lerpColor(
                         MaterialTheme.colorScheme.surfaceContainerHighest,
                         MaterialTheme.colorScheme.surfaceContainerLow,
-                        expansionProgress()
+                        progress
                     )
                 ),
                 elevation = CardDefaults.cardElevation(ExpandablePlayerSpec.CARD_ELEVATION)
             ) {
-                Box(Modifier.fillMaxSize()) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(Alignment.Top, unbounded = true)
+                        .height(fullHeight)
+                ) {
                     Box(
                         Modifier
-                            .placedWhen(fullActive.value)
+                            .placedWhen(fullActive)
                             .fillMaxSize()
-                            .graphicsLayer { alpha = fullPlayerAlpha(expansionProgress()) }
+                            .graphicsLayer { alpha = fullPlayerAlpha(progress) }
                     ) {
                         PlayerScreen(application = application)
                     }
 
                     Box(
                         Modifier
-                            .placedWhen(miniActive.value)
+                            .placedWhen(miniActive)
                             .fillMaxWidth()
                             .height(Constants.Ui.MiniPlayer.HEIGHT)
-                            .graphicsLayer { alpha = miniPlayerAlpha(expansionProgress()) }
+                            .graphicsLayer { alpha = miniPlayerAlpha(progress) }
                     ) {
                         MiniPlayer()
                     }
@@ -276,7 +305,9 @@ fun ExpandablePlayer(
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .graphicsLayer { translationY = expansionProgress() * size.height },
+                .graphicsLayer {
+                    translationY = expansionProgress * size.height
+                },
         ) {
             bottomBar()
         }
