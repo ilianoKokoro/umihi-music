@@ -38,6 +38,7 @@ private val playlistInlineContent = mapOf(
         Icon(
             imageVector = download_for_offline,
             contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(ICON_SIZE.dp),
         )
     },
@@ -51,6 +52,7 @@ private val playlistInlineContent = mapOf(
         Icon(
             imageVector = downloading,
             contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(ICON_SIZE.dp),
         )
     },
