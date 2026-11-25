@@ -52,6 +52,7 @@ fun MaterialUDropdown(
     ) {
         DropdownMenuGroup(
             shapes = MenuDefaults.groupShape(0, 1),
+            containerColor = MenuDefaults.containerColor,
             interactionSource = interactionSource,
         ) {
             visibleItems.forEachIndexed { index, item ->
