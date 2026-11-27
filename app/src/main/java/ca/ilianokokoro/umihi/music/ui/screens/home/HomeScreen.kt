@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,6 +36,7 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.core.helpers.ComposeHelper
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.enums.PlaylistDisplay
 import ca.ilianokokoro.umihi.music.ui.components.ErrorMessage
 import ca.ilianokokoro.umihi.music.ui.components.LoadingAnimation
 import ca.ilianokokoro.umihi.music.ui.components.LoginBanner
@@ -42,6 +44,7 @@ import ca.ilianokokoro.umihi.music.ui.components.StatusBarWrapper
 import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBottomSheet
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
+import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistListItem
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
@@ -115,67 +118,41 @@ fun HomeScreen(
                                 },
                                 onRefresh = homeViewModel::refreshPlaylists
                             ) {
-                                LazyVerticalGrid(
-                                    modifier = Modifier.fillMaxSize(),
-                                    columns = GridCells.Adaptive(minSize = 150.dp),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                    contentPadding = PaddingValues(
-                                        top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
-                                        bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
-                                        end = 8.dp,
-                                        start = 8.dp
-                                    )
-
-                                ) {
-                                    item(span = { GridItemSpan(maxLineSpan) }) {
-                                        if (loggedIn.isLoggedIn) {
-                                            Row(horizontalArrangement = Arrangement.End) {
-                                                MaterialUButton(
-                                                    onClick = {
-                                                        createPlaylistOpen = true
-                                                    },
-                                                    icon = playlist_add,
-                                                    text = stringResource(R.string.create_playlist)
-                                                )
-                                            }
-                                        } else {
-                                            LoginBanner(
-                                                onLoginPressed = onLoginPressed
+                                val topbar: @Composable () -> Unit = {
+                                    if (loggedIn.isLoggedIn) {
+                                        Row(horizontalArrangement = Arrangement.End) {
+                                            MaterialUButton(
+                                                onClick = {
+                                                    createPlaylistOpen = true
+                                                },
+                                                icon = playlist_add,
+                                                text = stringResource(R.string.create_playlist)
                                             )
                                         }
-                                    }
-                                    itemsIndexed(
-                                        items = playlists,
-                                        key = { index, playlist ->
-                                            ComposeHelper.getLazyKey(
-                                                playlist,
-                                                playlist.id,
-                                                index
-                                            )
-                                        }
-                                    ) { _, playlist ->
-                                        PlaylistCard(
-                                            playlistInfo = playlist,
-                                            onClicked = { onPlaylistPressed(playlist) },
-                                            songCount = if (playlist.isDownloadedPlaylist) {
-                                                uiState.downloadedSongsCount
-                                            } else {
-                                                playlist.songCount
-                                            },
-                                            onPlay = {
-                                                homeViewModel.playPlaylist(playlist, shuffle = false)
-                                            },
-                                            onShuffle = {
-                                                homeViewModel.playPlaylist(playlist, shuffle = true)
-                                            },
-                                            onHide = { homeViewModel.hidePlaylist(playlist) },
-                                            onDelete = { homeViewModel.deletePlaylist(playlist) },
-                                            onRemoveFromLibrary = {
-                                                homeViewModel.removeFromLibrary(playlist)
-                                            }
+                                    } else {
+                                        LoginBanner(
+                                            onLoginPressed = onLoginPressed
                                         )
                                     }
+                                }
+                                if (uiState.playlistDisplay == PlaylistDisplay.CARD) {
+                                    GridPlaylistView(
+                                        paddingValues = paddingValues,
+                                        statusBarHeight = statusBarHeight,
+                                        playlists = playlists,
+                                        onPlaylistPressed = onPlaylistPressed,
+                                        homeViewModel = homeViewModel,
+                                        topbar = topbar
+                                    )
+                                } else if (uiState.playlistDisplay == PlaylistDisplay.LIST) {
+                                    ListPlaylistView(
+                                        paddingValues = paddingValues,
+                                        statusBarHeight = statusBarHeight,
+                                        playlists = playlists,
+                                        onPlaylistPressed = onPlaylistPressed,
+                                        homeViewModel = homeViewModel,
+                                        topbar = topbar
+                                    )
                                 }
                             }
                         }
@@ -202,3 +179,109 @@ fun HomeScreen(
     }
 
 }
+
+@Composable
+fun GridPlaylistView(
+    paddingValues: PaddingValues,
+    statusBarHeight: Dp,
+    playlists: List<PlaylistInfo>,
+    onPlaylistPressed: (PlaylistInfo) -> Unit,
+    homeViewModel: HomeViewModel,
+    topbar: @Composable (() -> Unit),
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Adaptive(minSize = 150.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
+            bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
+            end = 8.dp,
+            start = 8.dp
+        )
+
+    ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            topbar()
+        }
+        itemsIndexed(
+            items = playlists,
+            key = { index, playlist ->
+                ComposeHelper.getLazyKey(
+                    playlist,
+                    playlist.id,
+                    index
+                )
+            }
+        ) { _, playlist ->
+            PlaylistCard(
+                playlistInfo = playlist,
+                onClicked = { onPlaylistPressed(playlist) },
+                onPlay = {
+                    homeViewModel.playPlaylist(
+                        playlist,
+                        shuffle = false
+                    )
+                },
+                onShuffle = {
+                    homeViewModel.playPlaylist(
+                        playlist,
+                        shuffle = true
+                    )
+                },
+                onHide = { homeViewModel.hidePlaylist(playlist) },
+                onDelete = { homeViewModel.deletePlaylist(playlist) },
+                onRemoveFromLibrary = {
+                    homeViewModel.removeFromLibrary(playlist)
+                }
+            )
+        }
+    }
+}
+
+
+@Composable
+fun ListPlaylistView(
+    paddingValues: PaddingValues,
+    statusBarHeight: Dp,
+    playlists: List<PlaylistInfo>,
+    onPlaylistPressed: (PlaylistInfo) -> Unit,
+    homeViewModel: HomeViewModel,
+    topbar: @Composable (() -> Unit),
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Adaptive(minSize = 300.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            top = paddingValues.calculateTopPadding() + statusBarHeight + 8.dp,
+            bottom = Constants.Ui.SCROLLABLE_BOTTOM_PADDING,
+            end = 8.dp,
+            start = 8.dp
+        )
+
+    ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            topbar()
+        }
+        itemsIndexed(
+            items = playlists,
+            key = { index, playlist ->
+                ComposeHelper.getLazyKey(
+                    playlist,
+                    playlist.id,
+                    index
+                )
+            }
+        ) { _, playlist ->
+            PlaylistListItem(
+                playlistInfo = playlist,
+                onClick = { onPlaylistPressed(playlist) },
+            )
+        }
+    }
+
+}
+

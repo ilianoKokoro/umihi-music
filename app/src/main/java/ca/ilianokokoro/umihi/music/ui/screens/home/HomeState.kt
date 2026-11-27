@@ -1,12 +1,13 @@
 package ca.ilianokokoro.umihi.music.ui.screens.home
 
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
+import ca.ilianokokoro.umihi.music.models.enums.PlaylistDisplay
 
 
 data class HomeState(
     val screenState: ScreenState = ScreenState.Loading,
     val isRefreshing: Boolean = false,
-    val downloadedSongsCount: Int = 0
+    val playlistDisplay: PlaylistDisplay = PlaylistDisplay.CARD,
 )
 
 sealed class ScreenState {

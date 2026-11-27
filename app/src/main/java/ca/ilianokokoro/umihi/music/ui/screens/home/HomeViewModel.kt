@@ -34,18 +34,11 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
 
 
     init {
-        getPlaylists()
-        observeDownloadedSongsCount()
-    }
-
-    private fun observeDownloadedSongsCount() {
         viewModelScope.launch {
-            playlistRepository.getDownloadedSongsCountFlow().collect { count ->
-                _uiState.update { currentState ->
-                    currentState.copy(downloadedSongsCount = count)
-                }
-            }
+            val playlistDisplay = datastoreRepository.getSettings().playlistDisplay
+            _uiState.update { currentState -> currentState.copy(playlistDisplay = playlistDisplay) }
         }
+        getPlaylists()
     }
 
     fun getPlaylists() {

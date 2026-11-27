@@ -3,6 +3,7 @@ package ca.ilianokokoro.umihi.music.models
 import android.net.Uri
 import androidx.compose.runtime.Immutable
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.UpdateChannel
+import ca.ilianokokoro.umihi.music.models.enums.PlaylistDisplay
 import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 
 @Immutable
@@ -21,7 +22,9 @@ data class UmihiSettings(
     val thumbnailCacheSizeMB: Int,
     val appVolume: Int,
     val themeMode: ThemeMode,
-    val downloadLocation: Uri?
+    val downloadLocation: Uri?,
+    val playlistDisplay: PlaylistDisplay,
 ) {
     val canTrack: Boolean get() = sendPlaybackData && !cookies.isEmpty()
 }
+

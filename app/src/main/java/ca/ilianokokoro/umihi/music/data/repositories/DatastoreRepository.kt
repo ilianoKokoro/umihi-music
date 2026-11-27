@@ -22,6 +22,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.EXOPLAYER_CACHE_SIZE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.KEEP_SCREEN_ON
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.OFFLINE_MODE
+import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.PLAYLIST_DISPLAY
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.SEND_PLAYBACK_DATA
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THEME_MODE
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.THUMBNAIL_CACHE_SIZE
@@ -30,6 +31,7 @@ import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.Prefere
 import ca.ilianokokoro.umihi.music.data.repositories.DatastoreRepository.PreferenceKeys.USE_SPECIAL_LANGUAGE
 import ca.ilianokokoro.umihi.music.models.Cookies
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import ca.ilianokokoro.umihi.music.models.enums.PlaylistDisplay
 import ca.ilianokokoro.umihi.music.models.enums.ThemeMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -56,6 +58,7 @@ class DatastoreRepository(private val context: Context) {
         val APP_VOLUME = intPreferencesKey(Constants.Datastore.APP_VOLUME_KEY)
         val THEME_MODE = stringPreferencesKey(Constants.Datastore.THEME_MODE_KEY)
         val DOWNLOAD_LOCATION = stringPreferencesKey(Constants.Datastore.DOWNLOAD_LOCATION)
+        val PLAYLIST_DISPLAY = stringPreferencesKey(Constants.Datastore.PLAYLIST_DISPLAY)
     }
 
     suspend fun <T> save(key: Preferences.Key<T>, value: T) {
@@ -91,7 +94,9 @@ class DatastoreRepository(private val context: Context) {
         val downloadLocation = it[DOWNLOAD_LOCATION]
             ?.takeIf { loc -> loc.isNotBlank() }
             ?.let { loc -> runCatching { loc.toUri() }.getOrNull() }
-
+        val playlistDisplay =
+            PlaylistDisplay.entries.find { s -> s.name == it[PLAYLIST_DISPLAY] }
+                ?: PlaylistDisplay.CARD
 
         UmihiSettings(
             updateChannel = updateChannel,
@@ -108,7 +113,8 @@ class DatastoreRepository(private val context: Context) {
             thumbnailCacheSizeMB = thumbnailCacheSize,
             appVolume = appVolume,
             themeMode = themeMode,
-            downloadLocation = downloadLocation
+            downloadLocation = downloadLocation,
+            playlistDisplay = playlistDisplay,
         )
     }
 

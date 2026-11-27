@@ -104,6 +104,7 @@ object Constants {
         const val APP_VOLUME_KEY = "app-volume"
         const val THEME_MODE_KEY = "theme-mode"
         const val DOWNLOAD_LOCATION = "download-location"
+        const val PLAYLIST_DISPLAY = "playlist-display"
     }
 
     object Database {

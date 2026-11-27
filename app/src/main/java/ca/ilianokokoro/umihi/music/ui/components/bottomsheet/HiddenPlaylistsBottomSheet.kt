@@ -10,13 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,7 +31,9 @@ import ca.ilianokokoro.umihi.music.R
 import ca.ilianokokoro.umihi.music.core.Constants
 import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.ui.components.SheetHeader
+import ca.ilianokokoro.umihi.music.ui.components.dialog.ConfirmDialog
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistListItem
+import ca.ilianokokoro.umihi.music.ui.icons.visibility
 import ca.ilianokokoro.umihi.music.ui.icons.visibility_off
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,6 +43,9 @@ fun HiddenPlaylistsBottomSheet(
     onUnhidePlaylist: (Playlist) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var showUnhideDialog: Boolean by remember { mutableStateOf(false) }
+    var selectedPlaylist: Playlist? by remember { mutableStateOf(null) }
+
     val sheetState = rememberBottomSheetState(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Hidden, SheetValue.Expanded),
@@ -83,13 +94,41 @@ fun HiddenPlaylistsBottomSheet(
                             key = { it.info.id }
                         ) { playlist ->
                             PlaylistListItem(
-                                playlist = playlist,
-                                onUnhidePlaylist = { onUnhidePlaylist(playlist) }
+                                playlistInfo = playlist.info,
+                                trailingContent = {
+                                    IconButton(
+                                        shapes = IconButtonDefaults.shapes(),
+                                        onClick = {
+                                            showUnhideDialog = true
+                                            selectedPlaylist = playlist
+                                        }
+                                    ) {
+                                        Icon(
+                                            visibility,
+                                            contentDescription = stringResource(R.string.unhide_playlist)
+                                        )
+                                    }
+                                }
                             )
                         }
                     }
                 }
             }
         }
+    }
+
+
+    if (showUnhideDialog) {
+        ConfirmDialog(
+            title = stringResource(R.string.unhide_playlist),
+            text = stringResource(R.string.unhide_playlist_confirm_text),
+            onConfirm = {
+                showUnhideDialog = false
+                selectedPlaylist?.let {
+                    onUnhidePlaylist(it)
+                }
+            },
+            onDismiss = { showUnhideDialog = false }
+        )
     }
 }

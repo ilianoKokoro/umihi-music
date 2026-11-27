@@ -29,7 +29,6 @@ fun PlaylistCard(
     playlistInfo: PlaylistInfo,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    songCount: Int? = playlistInfo.songCount,
     onPlay: () -> Unit = {},
     onShuffle: () -> Unit = {},
     onHide: () -> Unit = {},
