@@ -12,7 +12,11 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
@@ -45,6 +49,8 @@ import ca.ilianokokoro.umihi.music.ui.components.bottomsheet.PlaylistCreationBot
 import ca.ilianokokoro.umihi.music.ui.components.materialu.MaterialUButton
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistCard
 import ca.ilianokokoro.umihi.music.ui.components.playlist.PlaylistListItem
+import ca.ilianokokoro.umihi.music.ui.icons.format_list_bulleted
+import ca.ilianokokoro.umihi.music.ui.icons.grid_view
 import ca.ilianokokoro.umihi.music.ui.icons.playlist_add
 import ca.ilianokokoro.umihi.music.ui.navigation.viewmodels.SharedViewModel
 
@@ -120,7 +126,53 @@ fun HomeScreen(
                             ) {
                                 val topbar: @Composable () -> Unit = {
                                     if (loggedIn.isLoggedIn) {
-                                        Row(horizontalArrangement = Arrangement.End) {
+                                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
+
+                                            val selectedView = uiState.playlistDisplay
+
+                                            // TODO change this to better UI
+                                            SingleChoiceSegmentedButtonRow {
+                                                SegmentedButton(
+                                                    label = { Text("Card") },
+                                                    selected = selectedView == PlaylistDisplay.CARD,
+                                                    onClick = {
+                                                        homeViewModel.setPlaylistDisplay(
+                                                            PlaylistDisplay.CARD
+                                                        )
+                                                    },
+                                                    shape = SegmentedButtonDefaults.itemShape(
+                                                        index = 0,
+                                                        count = 2
+                                                    ),
+                                                    icon = {
+                                                        Icon(
+                                                            imageVector = grid_view,
+                                                            contentDescription = null
+                                                        )
+                                                    }
+                                                )
+
+                                                SegmentedButton(
+                                                    label = { Text("List") },
+                                                    selected = selectedView == PlaylistDisplay.LIST,
+                                                    onClick = {
+                                                        homeViewModel.setPlaylistDisplay(
+                                                            PlaylistDisplay.LIST
+                                                        )
+                                                    },
+                                                    shape = SegmentedButtonDefaults.itemShape(
+                                                        index = 1,
+                                                        count = 2
+                                                    ),
+                                                    icon = {
+                                                        Icon(
+                                                            imageVector = format_list_bulleted,
+                                                            contentDescription = null
+                                                        )
+                                                    }
+                                                )
+                                            }
+
                                             MaterialUButton(
                                                 onClick = {
                                                     createPlaylistOpen = true

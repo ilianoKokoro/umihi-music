@@ -18,6 +18,7 @@ import ca.ilianokokoro.umihi.music.models.Playlist
 import ca.ilianokokoro.umihi.music.models.PlaylistDownloadState
 import ca.ilianokokoro.umihi.music.models.PlaylistInfo
 import ca.ilianokokoro.umihi.music.models.UmihiSettings
+import ca.ilianokokoro.umihi.music.models.enums.PlaylistDisplay
 import ca.ilianokokoro.umihi.music.models.enums.Privacy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -286,6 +287,19 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                         playlist.id in playlistIds
                     }
                 )
+            )
+        }
+    }
+
+    fun setPlaylistDisplay(playlistDisplay: PlaylistDisplay) {
+        _uiState.update { currentState ->
+            currentState.copy(playlistDisplay = playlistDisplay)
+        }
+
+        viewModelScope.launch {
+            datastoreRepository.save(
+                DatastoreRepository.PreferenceKeys.PLAYLIST_DISPLAY,
+                playlistDisplay.name
             )
         }
     }
